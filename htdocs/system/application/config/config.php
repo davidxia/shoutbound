@@ -11,7 +11,9 @@
 |	http://example.com/
 |
 */
-$config['base_url']	= "http://example.com/";
+$path = explode('/',__FILE__);
+$developer = $path[2];
+$config['base_url']	= "http://184.106.129.231/".$developer.'/';
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +25,7 @@ $config['base_url']	= "http://example.com/";
 | variable so that it is blank.
 |
 */
-$config['index_page'] = "index.php";
+$config['index_page'] = "";
 
 /*
 |--------------------------------------------------------------------------
