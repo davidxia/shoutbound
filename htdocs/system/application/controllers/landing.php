@@ -9,8 +9,14 @@ class Landing extends Controller {
         $this->load->view('landing', $view_data);
     }
 
-    function a_new_method() {
-        echo 'bai';
+    function logged_in() {
+        $this->load->library('facebook');
+        $session = $this->facebook->getSession();
+        if(!$session) {
+            echo 'You aren\'t logged in! <a href="'.site_url('').'">Go back!</a>';
+            return;
+        }
+        echo 'You are uid: ', $this->facebook->getUser();
     }
 }
 
