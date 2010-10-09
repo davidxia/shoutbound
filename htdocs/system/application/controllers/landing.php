@@ -17,6 +17,7 @@ class Landing extends Controller {
             return;
         }
         echo 'You are uid: ', $this->facebook->getUser();
+
     }
 }
 
