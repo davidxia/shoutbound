@@ -21,9 +21,12 @@
 
 <h1>LANDING</h1>
 
-<a href="#" id="fb_login_button"><img src="<?=site_url('images/fb-login-button.png');?>" /></a>
+<a href="#" id="fb_login_button">
+    <img src="<?=site_url('images/fb-login-button.png');?>" />
+</a>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"
+        type="text/javascript"></script>
 <script>
 $(document).ready(function () {
     $('#fb_login_button').click(function() {

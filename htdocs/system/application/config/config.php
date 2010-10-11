@@ -13,7 +13,7 @@
 */
 $path = explode('/',__FILE__);
 $developer = $path[2];
-$config['base_url']	= "http://184.106.129.231/".$developer.'/';
+$config['base_url']	= "http://www.noqnok.com/".$developer.'/';
 
 /*
 |--------------------------------------------------------------------------
