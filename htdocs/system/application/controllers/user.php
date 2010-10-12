@@ -1,6 +1,6 @@
 <?php
 
-class UserManip extends Controller {
+class User extends Controller {
 
     function ajax_login() {
         $this->load->library('facebook');
