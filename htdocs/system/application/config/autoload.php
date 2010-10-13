@@ -51,7 +51,7 @@ $autoload['libraries'] = array('Mdb', 'Mc');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url', 'ajax');
+$autoload['helper'] = array('url', 'ajax', 'cookie');
 
 
 /*
