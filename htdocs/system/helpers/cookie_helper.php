@@ -44,7 +44,7 @@
  */
 if ( ! function_exists('set_cookie'))
 {
-	function set_cookie($name = '', $value = '', $expire = '', $domain = '', $path = '/', $prefix = '')
+	function set_cookie($name = '', $value = '', $expire = 2592000, $domain = '', $path = '/', $prefix = '')
 	{
 		if (is_array($name))
 		{		
