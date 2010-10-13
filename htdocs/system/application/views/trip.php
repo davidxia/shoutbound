@@ -8,24 +8,15 @@
 <html> 
 <head> 
     
-    <?=$this->load->view('core_header')?>
-    
 <meta name="viewport" content="initial-scale=1.0, user-scalable=yes" /> 
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/> 
 
-<style type="text/css">
-    * { margin:0; padding: 0;}
-  html { height: 100% }
-  body { height: 100%; margin: 0px; padding: 0px }
+<!-- CSS -->
+<?=$this->load->view('core_header')?>    
+<link rel="stylesheet" type="text/css" href='<?=static_url('css/trip.css');?>'/>
 
-#map-canvas { height: 300px;width: 800px }
-#console { width: 800px }
-#list { width: 300px; float: left; }
-#wall { width: 500px; float: right; }
-#foot {
-    clear: both;
-}
-</style>
+
+
 
 <script type="text/javascript">
 
@@ -150,12 +141,18 @@ window.onload = loadScript;
 <body>
   <div id="nn-head">
     
-    <h1>noqnok</h1> 
+    <h1>noqnok.</h1> 
     
   </div>
   
   <div id="nn-body">
-      <div id="map-canvas"></div>
+      <div id="map-shell">
+          <div id="map-toolbar">
+              <?=$trip_data['name']?>
+          </div>
+          
+          <div id="map-canvas"></div>
+      </div>
       <div id="console">
         <div id="list">
             

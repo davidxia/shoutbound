@@ -30,7 +30,8 @@ class Trip extends Controller {
         
         $view_data = array(
             'list_data' => $list_data,
-            'wall_data' => $wall_data
+            'wall_data' => $wall_data,
+            'trip_data' => array('name'=>'New York 2011')
         );
         
         $this->load->view('trip', $view_data);
