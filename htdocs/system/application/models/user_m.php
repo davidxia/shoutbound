@@ -8,4 +8,11 @@ class User_m extends Model {
         $rows = $this->mdb->select($sql, $v);
         return $rows[0];
     }
+    
+    function get_logged_in_user(){
+        return array(
+            'id'=>'12345',
+            'name'=>'test user'
+        );
+    }
 }
