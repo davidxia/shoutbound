@@ -59,6 +59,7 @@ class User_m extends Model {
     }
 
 
+
     ////////////////////////////////////////////////////////////
     // Getting users/udata
 
@@ -77,5 +78,13 @@ class User_m extends Model {
         $this->mdb->alter($sql, $values);
     }
 
-}
 
+    function get_logged_in_user(){
+        return array(
+            'id'=>'12345',
+            'name'=>'test user'
+        );
+    }
+    
+    
+}
