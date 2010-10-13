@@ -10,13 +10,17 @@ class User extends Controller {
             return;
         }
 
-        $user = $this->User->get_user_by_fid($this->facebook->getUser());
+        $user = $this->User_m->get_user_by_fid($this->facebook->getUser());
         if($user) {
-            echo 'You are a user';
-            print_r($user);
+            json_success(array('redirect' => site_url('trip')));
         } else {
-            echo 'you don\'t exist yet';
+            json_success(array('redirect' => site_url('user/creating')));
         }
+    }
+
+
+    function creating() {
+        echo 'creating user!';
     }
 
 }
