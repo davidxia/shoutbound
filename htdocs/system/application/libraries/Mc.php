@@ -8,7 +8,7 @@ class Mc {
         $this->memcache_servers = array(
             array('host' => 'localhost', 'port' => 11211),
         );
-        $this->prefix = 'a2';
+        $this->prefix = 'a0';
         $this->default_expire = 60*60*24*7;
         
         /* End Customization */
