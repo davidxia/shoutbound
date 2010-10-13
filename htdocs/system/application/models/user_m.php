@@ -21,7 +21,7 @@ class User_m extends Model {
     }
 
 
-    function get_current_logged_in_uid() {
+    function get_logged_in_uid() {
         $uid = get_cookie('uid');
         if(!$uid)
             return False;
