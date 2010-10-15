@@ -33,6 +33,14 @@ class User_m extends Model {
     }
 
 
+    function get_logged_in_user() {
+        $uid = $this->get_logged_in_uid();
+        if($uid)
+            return $this->get_user_by_uid($uid);
+        return null;
+    }
+
+
     function get_sig($uid, $key) {
         return md5($uid . '~nokonmyballz~' . $key);
     }
@@ -48,7 +56,7 @@ class User_m extends Model {
     function get_user_by_fid($fid) {
         $key = 'user_by_fid:'.$fid;
         $val = $this->mc->get($key);
-        if($val === false) {
+        if($val === false || true) {
             $sql = 'SELECT * FROM users WHERE fid = ?';
             $v = array($fid);
             $rows = $this->mdb->select($sql, $v);
@@ -59,9 +67,23 @@ class User_m extends Model {
     }
 
 
+    function get_user_by_uid($uid) {
+        $key = 'user_by_uid:'.$uid;
+        $val = $this->mc->get($key);
+        if($val === false || true) {
+            $sql = 'SELECT * FROM users WHERE uid = ?';
+            $v = array($uid);
+            $rows = $this->mdb->select($sql, $v);
+            $val = $rows[0];
+            $this->mc->set($key, $val);
+        }
+        return $val;
+    }
+
+
 
     ////////////////////////////////////////////////////////////
-    // Getting users/udata
+    // Creating users
 
     function create_user($udata) {
         list($sql, $values) = $this->mdb->insert_string('users', $udata);
@@ -72,19 +94,14 @@ class User_m extends Model {
     }
 
 
-    function add_friendship($uid, $friend_fid, $friend_uid = 0) {
-        $d = array('uid' => $uid, 'friend_fid' => $friend_fid);
+    function add_friendship($uid, $friend_fid, $friend_name, $friend_uid = 0) {
+        $d = array('uid' => $uid,
+                   'friend_fid' => $friend_fid,
+                   'name' => $friend_name);
         list($sql, $values) = $this->mdb->insert_string('friends', $d);
         $this->mdb->alter($sql, $values);
     }
 
 
-    function get_logged_in_user(){
-        return array(
-            'id'=>'12345',
-            'name'=>'test user'
-        );
-    }
-    
-    
 }
+

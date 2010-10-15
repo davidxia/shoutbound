@@ -165,7 +165,16 @@ window.onload = loadScript;
             
         </div>
       </div>
-      <div id="foot"> qwer qwe rq wer qwer qew </div>
+      <div id="foot">
+        <? if($user): ?>
+          Welcome <?=$user['name']?>
+          <img src="http://graph.facebook.com/<?=$user['fid']?>/picture" />
+          <br/>
+          <a href="<?=site_url('user/logout')?>" >Logout</a>
+        <? else: ?>
+          You are not logged in!
+        <? endif; ?>
+      </div>
   </div>
     
    

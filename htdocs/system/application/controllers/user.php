@@ -2,6 +2,12 @@
 
 class User extends Controller {
 
+    function logout() {
+        $this->User_m->log_out();
+        redirect('/');
+    }
+
+
     function ajax_login() {
         $this->load->library('facebook');
         $session = $this->facebook->getSession();
@@ -35,7 +41,7 @@ class User extends Controller {
 
     function ajax_create_user() {
         $this->load->library('facebook');
-        $fbuser = $this->facebook->api('/me?fields=email,hometown,friends');
+        $fbuser = $this->facebook->api('/me?fields=name,email,hometown,friends');
         if(!$fbuser) {
             json_error('We could not get your facebook data!');
         }
@@ -43,7 +49,8 @@ class User extends Controller {
             json_error('You are already a user');
 
 
-        $udata = array('fid' => $fbuser['id']);
+        $udata = array('fid' => $fbuser['id'],
+                       'name' => $fbuser['name']);
 
         if(!$fbuser['email'])
             return json_error('Couldn\'t get your email address');
@@ -55,7 +62,7 @@ class User extends Controller {
         $uid = $this->User_m->create_user($udata);
         $this->User_m->log_in($uid);
         foreach($fbuser['friends']['data'] as $friend) {
-            $this->User_m->add_friendship($uid, $friend['id']);
+            $this->User_m->add_friendship($uid, $friend['id'], $friend['name']);
         }
 
         json_success(array('redirect' => site_url('trip')));

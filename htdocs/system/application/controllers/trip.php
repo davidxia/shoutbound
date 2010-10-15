@@ -17,18 +17,20 @@ class Trip extends Controller {
 		//authentication
 		$logged_in_user = $this->User_m->get_logged_in_user();
 		if(!$logged_in_user){
-		    redirect(site_url('index'),'refresh');
+            redirect('/');
 		}
 	}
 
 
     function index() {
+        $user = $this->User_m->get_logged_in_user();
         
         //getting data for sub-sections
         $list_data = array( 'list_items' => $this->List_m->get_list_for_user('uid'));
         $wall_data = array( 'wall_items' => $this->Wall_m->get_wall_items_for_user('uid'));
         
         $view_data = array(
+            'user'      => $user,
             'list_data' => $list_data,
             'wall_data' => $wall_data,
             'trip_data' => array('name'=>'New York 2011')
