@@ -39,6 +39,11 @@ class Trip extends Controller {
         $this->load->view('trip', $view_data);
     }
     
+    function do_ajax_suggestion(){
+        $foo = $_POST['foo'];
+        echo $foo;
+    }
+    
     
 }
 
