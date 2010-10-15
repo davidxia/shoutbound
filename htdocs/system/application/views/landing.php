@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Noknok - It's in Beta!</title>
+    <title>noqnok - It's in Beta!</title>
 </head>
 
 <body>
