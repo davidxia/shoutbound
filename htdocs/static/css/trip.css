@@ -36,6 +36,44 @@
     width: 500px; float: right;
 }
 
+#trip-wall-control {
+    margin: 10px 0;
+}
+
+#trip-wall-control-comment-edit{
+
+    display: none;
+}
+
+#trip-wall-control-suggest-edit{
+
+    /*display: none;*/
+}
+
+.trip-wall-control-tab {
+    margin-right: 10px;
+    float: left;
+    
+    
+}
+
+#trip-wall-content {
+
+}
+
+.suggestion-input {
+    width: 495px;
+}
+
+.suggestion-input-wrap {
+    height: 30x;
+}
+
+.comment-input {
+    height: 50px;
+    width: 499px;
+}
+
 ul {
     list-style-type: none;
 }
