@@ -90,6 +90,8 @@ class User_m extends Model {
         $uid = $this->mdb->alter($sql, $values);
         $udata['uid'] = $uid;
         $this->dirty_user_cache($udata);
+        $this->Trip_m->create_trip($uid, 'Home',
+            $udata['home_lat'], $udata['home_lon']);
         return $uid;
     }
 

@@ -59,6 +59,9 @@ class User extends Controller {
         if($fbuser['hometown']['name'])
             $udata['hometown'] = $fbuser['hometown']['name'];
 
+        //FUTURENOTE: Allow user to select home on a map OR geocode his/her udata['hometown']
+        $udata['home_lat'] = 40.7144816;
+        $udata['home_lon'] = -73.9909809;
         $uid = $this->User_m->create_user($udata);
         $this->User_m->log_in($uid);
         foreach($fbuser['friends']['data'] as $friend) {
