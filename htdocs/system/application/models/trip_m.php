@@ -9,6 +9,7 @@ class Trip_m extends Model {
                    'lon'  => $lon,
                );
         list($sql, $values) = $this->mdb->insert_string('trips', $d);
+        $this->mc->delete('tripids_by_uid:'.$uid);
         $this->mdb->alter($sql, $values);
     }
 
@@ -49,7 +50,31 @@ class Trip_m extends Model {
     }
 
 
-    function add_item($uid, $tripid, $yelpid, $title, $body, $lat, $lon) {
+    function get_items_by_tripid($tripid) {
+        $key = 'itemids_by_tripid:'.$tripid;
+        $itemids = $this->mc->get($key);
+        if($itemids === false || true) {
+            $sql = 'SELECT itemids FROM items WHERE tripid = ?';
+            $v = array($tripid);
+            $rows = $this->mdb->select($sql, $v);
+            $itemids = array();
+            if($rows) {
+                foreach($rows as $row) {
+                    $itemids[] = $row['itemid'];
+                }
+            }
+            $this->mc->set($key, $itemids);
+        }
+
+        $items = array();
+        foreach($itemids as $itemid) {
+            $items[] = $this->get_item_by_id($itemid);
+        }
+        return $items;
+    }
+
+
+    function create_item($uid, $tripid, $yelpid, $title, $body, $lat, $lon) {
         $d = array('uid' => $uid,
                    'tripid' => $tripid,
                    'yelpid' => $yelpid,
@@ -60,6 +85,11 @@ class Trip_m extends Model {
                );
         list($sql, $values) = $this->mdb->insert_string('trip_items', $d);
         $itemid = $this->mdb->alter($sql, $values);
+
+        $this->mc->delete('item_by_id:'.$itemid);
+        $this->mc->delete('itemids_by_tripid:'.$tripid);
+
+        return $itemid;
     }
 
 
