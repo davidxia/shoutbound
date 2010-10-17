@@ -2,6 +2,20 @@
 
 class Trip_m extends Model {
 
+    function get_trip_by_tripid($tripid) {
+        $key = 'trip_by_tripid:'.$tripid;
+        $val = $this->mc->get($key);
+        if($val === false || true) {
+            $sql = 'SELECT * FROM tripsi WHERE tripid = ?';
+            $v = array($tripid);
+            $rows = $this->mdb->select($sql, $v);
+            $val = $rows[0];
+            $this->mc->set($key, $val);
+        }
+        return $val;
+    }
+
+
     function create_trip($uid, $name, $lat, $lon) {
         $d = array('uid' => $uid,
                    'name' => $name,
