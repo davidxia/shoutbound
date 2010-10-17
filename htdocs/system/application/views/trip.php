@@ -15,25 +15,10 @@
 <?=$this->load->view('core_header')?>    
 <link rel="stylesheet" type="text/css" href='<?=static_url('css/trip.css');?>'/>
 
+
+
 <script type="text/javascript">
 
-    $(document).ready(function(){
-        
-       $("#submit-suggestion").click(function(){
-          
-           var d = {foo: 'wowsa'};
-           
-           $.ajax({
-               type: "POST",
-               url: "trip/do_ajax_suggestion",
-               data: d,
-               success: addComment
-           });
-           
-           return false;
-       });
-        
-    });
 
 function addComment(foo){
     alert(foo);
@@ -42,6 +27,10 @@ function addComment(foo){
 
 </script>
 
+<script>
+    Constants.Trip = {};
+    Constants.Trip['id'] = "<?=$trip_data['id']?>";
+</script>
 
 <script type="text/javascript" src="<?=static_url('js/trip.js');?>"></script> 
 
@@ -50,7 +39,23 @@ function addComment(foo){
 <body>
   <div id="nn-head">
     
-    <h1>noqnok.</h1> 
+    <div id="nn-logo"><h1>noqnok.</h1></div>
+    
+    <div id="nn-fb-banner">
+    <? if($user): ?>
+    <div class="nn-fb-img"><img src="http://graph.facebook.com/<?=$user['fid']?>/picture?type=square" /></div>
+      <div class="nn-fb-text">Welcome, <?=$user['name']?><br/>
+      <a href="<?=site_url('user/logout')?>" >Logout</a></div>
+      
+      
+      
+      
+    <? else: ?>
+      You are not logged in!
+    <? endif; ?>
+    </div>
+    
+    <div class="clear-both"></div>
     
   </div>
   
@@ -74,16 +79,12 @@ function addComment(foo){
             
         </div>
       </div>
-      <div id="foot">
-        <? if($user): ?>
-          Welcome <?=$user['name']?>
-          <img src="http://graph.facebook.com/<?=$user['fid']?>/picture" />
-          <br/>
-          <a href="<?=site_url('user/logout')?>" >Logout</a>
-        <? else: ?>
-          You are not logged in!
-        <? endif; ?>
-      </div>
+      
+        <div id="foot">
+
+        </div>
+      
+      
   </div>
     
    

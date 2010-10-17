@@ -35,3 +35,35 @@ body {
     margin: 0 auto;
     
 }
+
+#nn-logo {
+    float: left;
+}
+
+#nn-fb-banner {
+    float: right;
+    margin-top: 0px;
+    height: 45px;
+}
+
+.nn-fb-text {
+    
+}
+
+.nn-fb-img {
+    float: right;
+    margin-left: 10px;
+}
+
+.nn-fb-text {
+    text-align: right;
+    font: 10px verdana;
+    float: right;
+    line-height: 17px;
+    margin-top: 6px;
+
+}
+
+.clear-both {
+    clear:both;
+}

@@ -77,3 +77,17 @@
 ul {
     list-style-type: none;
 }
+
+/*
+///////////////////////////////////////////////////////////////////////////////
+// YELP
+*/
+#spinner { visibility: hidden; margin-left:3px;}
+
+.marker {font-size: 11px;}
+.marker .businessimage { float: left;}
+.marker .ratingsimage {vertical-align:middle; margin-top:0px;}
+.marker .businessinfo { margin-left: 110px;}
+.marker {
+    font: 10px verdana;
+}

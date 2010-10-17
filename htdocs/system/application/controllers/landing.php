@@ -5,9 +5,11 @@ class Landing extends Controller {
     function index() {
         $user = $this->User_m->get_logged_in_user();
         if($user)
-            redirect('/trip');
+            redirect('/profile');
 
-        $this->load->view('landing', $view_data);
+        else{
+            $this->load->view('landing', $view_data);
+        }
     }
 
 }

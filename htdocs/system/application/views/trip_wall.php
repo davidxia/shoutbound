@@ -13,7 +13,7 @@
             
             <form name="suggestion">
                 
-                <div class="suggestion-input-wrap"><input class="suggestion-input"></div>
+                <div class="suggestion-input-wrap"><input id="term" class="suggestion-input"></div>
                 <button id="submit-suggestion">submit</button>
 
             </form>

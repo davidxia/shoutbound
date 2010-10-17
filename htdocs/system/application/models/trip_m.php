@@ -54,7 +54,7 @@ class Trip_m extends Model {
         $key = 'itemids_by_tripid:'.$tripid;
         $itemids = $this->mc->get($key);
         if($itemids === false || true) {
-            $sql = 'SELECT itemids FROM items WHERE tripid = ?';
+            $sql = 'SELECT itemid FROM trip_items WHERE tripid = ?';
             $v = array($tripid);
             $rows = $this->mdb->select($sql, $v);
             $itemids = array();
