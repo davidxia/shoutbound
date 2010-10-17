@@ -44,6 +44,8 @@ class Mc {
         if($serialize && $val) {
             $val = unserialize($val);
         }
+        //FOR DEBUG
+        return False;
         return $val;
     }
 
