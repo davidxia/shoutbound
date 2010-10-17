@@ -56,7 +56,7 @@ class User_m extends Model {
     function get_user_by_fid($fid) {
         $key = 'user_by_fid:'.$fid;
         $val = $this->mc->get($key);
-        if($val === false || true) {
+        if($val === false) {
             $sql = 'SELECT * FROM users WHERE fid = ?';
             $v = array($fid);
             $rows = $this->mdb->select($sql, $v);
@@ -70,7 +70,7 @@ class User_m extends Model {
     function get_user_by_uid($uid) {
         $key = 'user_by_uid:'.$uid;
         $val = $this->mc->get($key);
-        if($val === false || true) {
+        if($val === false) {
             $sql = 'SELECT * FROM users WHERE uid = ?';
             $v = array($uid);
             $rows = $this->mdb->select($sql, $v);

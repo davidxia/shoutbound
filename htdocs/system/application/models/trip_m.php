@@ -2,6 +2,20 @@
 
 class Trip_m extends Model {
 
+    function get_trip_by_tripid($tripid) {
+        $key = 'trip_by_tripid:'.$tripid;
+        $val = $this->mc->get($key);
+        if($val === false) {
+            $sql = 'SELECT * FROM tripsi WHERE tripid = ?';
+            $v = array($tripid);
+            $rows = $this->mdb->select($sql, $v);
+            $val = $rows[0];
+            $this->mc->set($key, $val);
+        }
+        return $val;
+    }
+
+
     function create_trip($uid, $name, $lat, $lon) {
         $d = array('uid' => $uid,
                    'name' => $name,
@@ -17,7 +31,7 @@ class Trip_m extends Model {
     function get_user_tripids($uid) {
         $key = 'tripids_by_uid:'.$uid;
         $tripids = $this->mc->get($key);
-        if($tripids === false || true) {
+        if($tripids === false) {
             $sql = 'SELECT tripid FROM trips WHERE uid = ?';
             $v = array($uid);
             $rows = $this->mdb->select($sql, $v);
@@ -39,7 +53,7 @@ class Trip_m extends Model {
     function get_item_by_id($itemid) {
         $key = 'item_by_id:'.$itemid;
         $val = $this->mc->get($key);
-        if($val === false || true) {
+        if($val === false) {
             $sql = 'SELECT * FROM trip_items WHERE itemid = ?';
             $v = array($itemid);
             $rows = $this->mdb->select($sql, $v);
@@ -53,8 +67,10 @@ class Trip_m extends Model {
     function get_items_by_tripid($tripid) {
         $key = 'itemids_by_tripid:'.$tripid;
         $itemids = $this->mc->get($key);
-        if($itemids === false || true) {
+
+        if($itemids === false) {
             $sql = 'SELECT itemid FROM trip_items WHERE tripid = ?';
+
             $v = array($tripid);
             $rows = $this->mdb->select($sql, $v);
             $itemids = array();
