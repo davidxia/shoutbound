@@ -69,7 +69,8 @@ class Trip_m extends Model {
         $itemids = $this->mc->get($key);
 
         if($itemids === false) {
-            $sql = 'SELECT itemid FROM trip_items WHERE tripid = ?';
+            $sql = 'SELECT itemid FROM trip_items WHERE tripid = ? '.
+                   'ORDER BY created DESC';
 
             $v = array($tripid);
             $rows = $this->mdb->select($sql, $v);
@@ -90,7 +91,7 @@ class Trip_m extends Model {
     }
 
 
-    function create_item($uid, $tripid, $yelpid, $title, $body, $lat, $lon) {
+    function create_item($uid, $tripid, $yelpid, $title, $body, $lat, $lon, $replyid = 0) {
         $d = array('uid' => $uid,
                    'tripid' => $tripid,
                    'yelpid' => $yelpid,
@@ -98,6 +99,7 @@ class Trip_m extends Model {
                    'body' => $body,
                    'lat' => $lat,
                    'lon' => $lon,
+                   'replyid' => $replyid,
                );
         list($sql, $values) = $this->mdb->insert_string('trip_items', $d);
         $itemid = $this->mdb->alter($sql, $values);
