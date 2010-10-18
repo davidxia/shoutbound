@@ -19,7 +19,7 @@ class User extends Controller {
         $user = $this->User_m->get_user_by_fid($this->facebook->getUser());
         if($user) {
             $this->User_m->log_in($user['uid']);
-            json_success(array('redirect' => site_url('trip')));
+            json_success(array('redirect' => site_url('trip/details/4')));
         } else {
             json_success(array('redirect' => site_url('user/creating')));
         }

@@ -19,7 +19,7 @@
     }());
 </script>
 
-<h1>LANDING</h1>
+<img src="<?=static_url('images/noqnok-logo.jpg')?>"/><br/><br/>
 
 <a href="#" id="fb_login_button">
     <img src="<?=site_url('images/fb-login-button.png');?>" />
