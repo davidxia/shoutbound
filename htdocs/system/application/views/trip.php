@@ -76,7 +76,7 @@ function addComment(foo){
     <div class="nn-fb-img right"><img src="http://graph.facebook.com/<?=$user['fid']?>/picture?type=square" /></div>
       <div class="nn-fb-text right">Welcome, <?=$user['name']?><br/>
       <a href="<?=site_url('user/logout')?>" >Logout</a>
-      <br/><a href="javascript: showInstructions();">Instructions</a>    
+ 
       
     </div>
       
