@@ -33,7 +33,8 @@ Trip = {
             lat: activeTrip.latitude,
             lon: activeTrip.longitude,
             title: activeTrip.name,
-            trip_id: Constants.Trip['id']
+            trip_id: Constants.Trip['id'],
+            yelpjson: $.toJson(activeTrip)
         };
         
         $.ajax({
@@ -53,6 +54,7 @@ Trip = {
 ListUtil = {};
 
 ListUtil.populateListItems = function(){
+    
     var tripItems = Constants.Trip.tripItems;
     for (var i=0, ii=tripItems.length; i<ii; i++){
         var item = tripItems[i];
@@ -66,6 +68,10 @@ ListUtil.populateListItems = function(){
         Trip.listItemMarkers.push(marker);
     }
     
+    //list
+    for (var i=0, ii=tripItems.length; i<ii; i++){
+        //generateListItemHtml
+    }
         
 };
 
@@ -140,7 +146,9 @@ function initialize() {
     
     // Set up Yelp AJAX call
     $("#submit-suggestion").click(function(){
-        return YelpUtil.updateMap("sushi", map);
+        //TODO: jQuery this guy
+        var queryString = document.getElementById("term").value;
+        return YelpUtil.updateMap(queryString, map);
     });
     
     // populate existing trips
@@ -312,6 +320,52 @@ function generateInfoWindowHtml(biz) {
     text += '</div></div>';
     return text;
 }
+
+function generateListItemHtml(biz) {
+    
+    Trip.activeTripItem = biz;
+    
+    var text = '<div class="marker">';
+
+    // image and rating
+    text += '<img class="businessimage" src="'+biz.photo_url+'"/>';
+
+    // div start
+    text += '<div class="businessinfo">';
+    // name/url
+    text += '<a href="'+biz.url+'" target="_blank">'+biz.name+'</a><br/>';
+    // stars
+    text += '<img class="ratingsimage" src="'+biz.rating_img_url_small+'"/>'
+    //&nbsp;based&nbsp;on&nbsp;';
+    // reviews
+    //text += biz.review_count + '&nbsp;reviews<br/><br />';
+    // categories
+    //text += formatCategories(biz.categories);
+    // neighborhoods
+    if(biz.neighborhoods.length)
+    //    text += formatNeighborhoods(biz.neighborhoods);
+    // address
+    text += biz.address1 + '<br/>';
+    // address2
+    if(biz.address2.length) 
+        text += biz.address2+ '<br/>';
+    // city, state and zip
+    text += biz.city + ',&nbsp;' + biz.state + '&nbsp;' + biz.zip + '<br/>';
+    // phone number
+    if(biz.phone.length)
+        text += formatPhoneNumber(biz.phone);
+    // Read the reviews
+    text+='<br>';
+    //text += '<br/><a href="'+biz.url+'" target="_blank">Read the reviews »</a><br/>';
+    // div end
+    
+    text += '<a class="suggest-location-text" href="javascript:Trip.addActiveTripItem();">Suggest this Location »</a>'
+    
+    text += '</div></div>';
+    return text;
+}
+
+
 
 /*
  * Formats the categories HTML

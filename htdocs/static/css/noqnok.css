@@ -40,30 +40,41 @@ body {
     float: left;
 }
 
-#nn-fb-banner {
-    float: right;
-    margin-top: 0px;
+.nn-fb-banner {
+    margin-top: 10px;
     height: 45px;
 }
 
-.nn-fb-text {
-    
+.nn-fb-banner.right {
+    float: right;
 }
 
 .nn-fb-img {
+}
+
+.nn-fb-img.right {
     float: right;
     margin-left: 10px;
 }
 
 .nn-fb-text {
-    text-align: right;
-    font: 10px verdana;
-    float: right;
     line-height: 17px;
-    margin-top: 6px;
+    margin-top: 9px;
+    font: 10px verdana;
+}
 
+.nn-fb-text.right {
+    text-align: right;
+    float: right;
 }
 
 .clear-both {
     clear:both;
+}
+
+
+.panel {
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+    padding-top: 5px;
 }

@@ -41,10 +41,10 @@ function addComment(foo){
     
     <div id="nn-logo"><h1>noqnok.</h1></div>
     
-    <div id="nn-fb-banner">
+    <div class="nn-fb-banner">
     <? if($user): ?>
-    <div class="nn-fb-img"><img src="http://graph.facebook.com/<?=$user['fid']?>/picture?type=square" /></div>
-      <div class="nn-fb-text">Welcome, <?=$user['name']?><br/>
+    <div class="nn-fb-img right"><img src="http://graph.facebook.com/<?=$user['fid']?>/picture?type=square" /></div>
+      <div class="nn-fb-text right">Welcome, <?=$user['name']?><br/>
       <a href="<?=site_url('user/logout')?>" >Logout</a></div>
       
       
@@ -62,7 +62,13 @@ function addComment(foo){
   <div id="nn-body">
       <div id="map-shell">
           <div id="map-toolbar">
-              <?=$trip_data['name']?>
+              
+              <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$trip_data['fid']?>/picture?type=square" /></div>
+                <div class="nn-fb-text left">
+                    <span class="trip-name"><h3><?=$trip_data['name']?></h3></span>
+                    by <?=$trip_data['user_name']?>
+                </div>
+              
           </div>
           
           <div id="map-canvas"></div>

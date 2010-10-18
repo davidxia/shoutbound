@@ -6,7 +6,7 @@ class Trip_m extends Model {
         $key = 'trip_by_tripid:'.$tripid;
         $val = $this->mc->get($key);
         if($val === false) {
-            $sql = 'SELECT * FROM tripsi WHERE tripid = ?';
+            $sql = 'SELECT * FROM trips WHERE tripid = ?';
             $v = array($tripid);
             $rows = $this->mdb->select($sql, $v);
             $val = $rows[0];

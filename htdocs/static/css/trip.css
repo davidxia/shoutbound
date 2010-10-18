@@ -1,5 +1,5 @@
 #map-canvas {
-    height: 300px;
+    height: 320px;
     width: 790px;
     
     margin: 0 auto;
@@ -7,7 +7,7 @@
 
 #map-shell {
     width: 800px;
-    height: 335px;
+    height: 386px;
     background-color: black;
 }
 
@@ -21,6 +21,23 @@
     font: 12px 'Helvetica Neue';
     line-height: 20px;
 }
+.nn-fb-banner.left {
+    float: left;
+}
+.nn-fb-img.left {
+    float: left;
+    margin-right: 10px;
+}
+.nn-fb-text.left {
+    float: left;
+    text-align: left;
+}
+
+.trip-name {
+    font: 12px Helvetica;
+    font-weight: bold;
+}
+
 
 #console {
     margin-top: 5px;
@@ -29,11 +46,12 @@
 
 
 #list {
-    width: 300px; float: left;
+    width: 285px; float: left;
 }
 
 #wall {
     width: 500px; float: right;
+    margin-left: 15px;
 }
 
 #trip-wall-control {
@@ -54,19 +72,38 @@
     margin-right: 10px;
     float: left;
     
-    
+    margin-bottom: 5px;
 }
 
-#trip-wall-content {
+h3 {
+    font: 12px Helvetica;
+    font-weight: bold;
+}
 
+.suggestion-input-wrap button{
+    font: 12px georgia;
+    font-style: italic;
+    
+    margin-top: 5px;
+}
+
+
+#trip-wall-content {
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+    padding-top: 5px;
 }
 
 .suggestion-input {
-    width: 495px;
+    width: 200px;
 }
 
 .suggestion-input-wrap {
     height: 30x;
+}
+
+#trip-list-content {
+
 }
 
 .comment-input {

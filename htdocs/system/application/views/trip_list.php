@@ -1,11 +1,39 @@
 <div id="trip-list-body">
-    <ul>
+    
+    <div class="panel">
+        
+        <h3> Add a Suggestion </h3><br/>
+        
+    </div>
+    
+    
+    <div id="trip-wall-control-suggest-edit">
+        
+        <form name="suggestion">
+            
+            <div class="suggestion-input-wrap">
+                <input id="term" class="suggestion-input">
+                <button id="submit-suggestion">search</button>
+            </div>
+            
+
+        </form>
+        
+        
+    </div>
+    
+    <div id="trip-list-content" class="panel">
+        <h3> Suggested Locations </h3><br/>
+
     <?php foreach($list_items as $item):?>
 
-    <li><?php echo $item['title'];?></li>
+        <div id="trip-item-<?php echo $item['tripid'];?>" class="list-item-wrap">
+            <!-- container for JS to pick up -->
+        </div>
 
     <?php endforeach;?>
-    </ul>
+
+    </div>
     
 </div>
 

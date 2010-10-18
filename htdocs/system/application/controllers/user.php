@@ -33,7 +33,7 @@ class User extends Controller {
             redirect('/landing');
         }
         if($this->User_m->get_user_by_fid($this->facebook->getUser()))
-            redirect('/trip');
+            redirect('/trip/details/4');
 
         $this->load->view('creating_user');
     }

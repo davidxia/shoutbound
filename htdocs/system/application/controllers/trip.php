@@ -32,17 +32,30 @@ class Trip extends Controller {
 
     function details($trip_id){
         
+        $trip = $this->Trip_m->get_trip_by_tripid($trip_id);
+        $trip_user = $this->User_m->get_user_by_uid($trip['uid']);
+        
+        if(!$trip){
+            redirect('/');
+        }
+        
         //getting data for sub-sections
         $list_data = array('list_items' => $this->Trip_m->get_items_by_tripid($trip_id));
-        //array( 'list_items' => $this->List_m->get_list_for_user('uid'));
-        
         $wall_data = array( 'wall_items' => $this->Wall_m->get_wall_items_for_user('uid'));
         
         $view_data = array(
             'user'      => $this->user,
             'list_data' => $list_data,
             'wall_data' => $wall_data,
-            'trip_data' => array('name'=>$trip_id, 'id'=>$trip_id)
+            'trip_data' => array(
+                'name'=>$trip['name'],
+                'id'=>$trip_id,
+                'uid'=>$trip_user['uid'],
+                'fid' => $trip_user['fid'],
+                'lat' => $trip['lat'],
+                'lon' => $trip['lon'],
+                'user_name' => $trip_user['name']
+            )
         );
         
         $this->load->view('trip', $view_data);
