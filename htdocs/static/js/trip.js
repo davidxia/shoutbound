@@ -193,7 +193,7 @@ function initialize() {
 WallUtil = {};
 
 WallUtil.updateWall = function(query){
-    console.log(query);
+    //console.log(query);
     
     var postData = {
         body: query,
