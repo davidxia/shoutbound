@@ -19,7 +19,7 @@ Trip = {
     openInfoWindow: function(marker) {
       var markerLatLng = marker.getPosition();
       Trip.infoWindow.setContent(
-          "YOU ARE HERE!"
+          "Nan and Ben live here!"
       )      
       Trip.infoWindow.open(Trip.map, marker);
     },
@@ -28,13 +28,14 @@ Trip = {
         //alert(Trip.activeTripItem.id);
         var activeTrip = Trip.activeTripItem;
         
-        console.log($.JSON.encode(activeTrip));
+        //console.log($.JSON.encode(activeTrip));
         
         var postData = {
             yelp_id: activeTrip.id,
             lat: activeTrip.latitude,
             lon: activeTrip.longitude,
             title: activeTrip.name,
+            body: "foo",
             trip_id: Constants.Trip['id'],
             yelpjson: $.JSON.encode(activeTrip)
         };
@@ -68,11 +69,20 @@ ListUtil.populateListItems = function(){
         });
         
         Trip.listItemMarkers.push(marker);
-    }
-    
-    //list
-    for (var i=0, ii=tripItems.length; i<ii; i++){
-        //generateListItemHtml
+        
+        
+        //list
+        var itemEl = $("#trip-item-"+item['itemid']);
+        var yelpJson = $.parseJSON(item['yelpjson']);
+        var itemMarkup = generateListItemHtml(yelpJson, item['user']['name']);
+        itemEl.append(itemMarkup);
+        
+        //wall
+        var wallEl = $("#wall-location-name-"+item['itemid']);
+        var wallMarkup = WallUtil.generateWallItemHtml(yelpJson, item['user']['name']);
+        wallEl.append(wallMarkup);
+        
+        
     }
         
 };
@@ -105,7 +115,7 @@ function initialize() {
     // INITIALIZE MAP
     
     var mapOptions = {
-        zoom: 14,
+        zoom: 13,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
@@ -120,7 +130,7 @@ function initialize() {
     Trip.infoWindow = new google.maps.InfoWindow();
     
     // TODO: Initial location hardcoded for right now
-    var initialLocation = new google.maps.LatLng(40.7144816, -73.9909809);
+    var initialLocation = new google.maps.LatLng(40.7338981628418, -73.9925994873047);
     map.setCenter(initialLocation);
         
     var startingMarker = new google.maps.Marker({
@@ -153,6 +163,14 @@ function initialize() {
         return YelpUtil.updateMap(queryString, map);
     });
     
+    // Set up wall comment API call
+    $("#submit-wall").click(function(){
+        //TODO: jQuery this guy
+        var queryString = document.getElementById("wall-comment").value;
+        WallUtil.updateWall(queryString);
+        document.getElementById("wall-comment").value = "";
+    });    
+    
     // populate existing trips
     ListUtil.populateListItems();
     
@@ -168,6 +186,71 @@ function initialize() {
      icon.shadowSize = new GSize(38, 29);
      icon.iconAnchor = new GPoint(15, 29);
      icon.infoWindowAnchor = new GPoint(15, 3);*/ 
+}
+
+///////////////////////////////////////////////////////////////////////////
+// Wall Utils
+WallUtil = {};
+
+WallUtil.updateWall = function(query){
+    console.log(query);
+    
+    var postData = {
+        body: query,
+        title: "wall-poast",
+        trip_id: Constants.Trip['id'],
+        islocation: 0
+    };
+    
+    
+    $.ajax({
+       type:'POST',
+       url: Constants['siteUrl']+'trip/ajax_add_item',
+       data: postData,//Trip.activeTripItem,
+       success: ListUtil.asyncAddActiveTripItem
+    });
+}
+
+WallUtil.generateWallItemHtml = function(biz){
+
+        Trip.activeTripItem = biz;
+        
+        var text = '&nbsp<a href="'+biz.url+'" target="_blank">'+biz.name+'</a>';
+
+        //text += '<div class="marker">';
+
+        // image and rating
+        //text += '<img class="businessimage" src="'+biz.photo_url+'"/>';
+
+        // div start
+        //text += '<div class="businessinfo" style="margin-left:60px; margin-top:2px">';
+        // name/url
+        //text += '<a href="'+biz.url+'" target="_blank">'+biz.name+'</a><br/>';
+        /// stars
+        //text += '<img class="ratingsimage" src="'+biz.rating_img_url_small+'"/><br/>'
+
+        //if(biz.address1.length)
+          //  text += biz.address1 + '<br/>';
+        // address2
+        //if(biz.address2.length) 
+          //  text += biz.address2+ '<br/>';
+        // city, state and zip
+        //text += biz.city + ',&nbsp;' + biz.state + '&nbsp;' + biz.zip + '<br/>';
+        // phone number
+        //if(biz.phone.length)
+          ///  text += formatPhoneNumber(biz.phone);
+        // Read the reviews
+        ///text+='<br>';
+        //text += '<br/><a href="'+biz.url+'" target="_blank">Read the reviews »</a><br/>';
+        // div end
+
+        //text += '</div></div>';
+
+        //text += '<div class="clear-both"></div>';
+
+        return text;
+    
+    
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -293,7 +376,7 @@ function generateInfoWindowHtml(biz) {
     // name/url
     text += '<a href="'+biz.url+'" target="_blank">'+biz.name+'</a><br/>';
     // stars
-    text += '<img class="ratingsimage" src="'+biz.rating_img_url_small+'"/>'
+    text += '<img class="ratingsimage" src="'+biz.rating_img_url_small+'"/><br/>'
     //&nbsp;based&nbsp;on&nbsp;';
     // reviews
     //text += biz.review_count + '&nbsp;reviews<br/><br />';
@@ -317,13 +400,13 @@ function generateInfoWindowHtml(biz) {
     //text += '<br/><a href="'+biz.url+'" target="_blank">Read the reviews »</a><br/>';
     // div end
     
-    text += '<a class="suggest-location-text" href="javascript:Trip.addActiveTripItem();">Suggest this Location »</a>'
+    text += '<a class="suggest-location-text" href="javascript:Trip.addActiveTripItem();">Suggest »</a>'
     
     text += '</div></div>';
     return text;
 }
 
-function generateListItemHtml(biz) {
+function generateListItemHtml(biz, userName) {
     
     Trip.activeTripItem = biz;
     
@@ -337,17 +420,18 @@ function generateListItemHtml(biz) {
     // name/url
     text += '<a href="'+biz.url+'" target="_blank">'+biz.name+'</a><br/>';
     // stars
-    text += '<img class="ratingsimage" src="'+biz.rating_img_url_small+'"/>'
+    text += '<img class="ratingsimage" src="'+biz.rating_img_url_small+'"/><br/>'
     //&nbsp;based&nbsp;on&nbsp;';
     // reviews
     //text += biz.review_count + '&nbsp;reviews<br/><br />';
     // categories
     //text += formatCategories(biz.categories);
     // neighborhoods
-    if(biz.neighborhoods.length)
+    //if(biz.neighborhoods.length)
     //    text += formatNeighborhoods(biz.neighborhoods);
     // address
-    text += biz.address1 + '<br/>';
+    if(biz.address1.length)
+        text += biz.address1 + '<br/>';
     // address2
     if(biz.address2.length) 
         text += biz.address2+ '<br/>';
@@ -361,9 +445,12 @@ function generateListItemHtml(biz) {
     //text += '<br/><a href="'+biz.url+'" target="_blank">Read the reviews »</a><br/>';
     // div end
     
-    text += '<a class="suggest-location-text" href="javascript:Trip.addActiveTripItem();">Suggest this Location »</a>'
+    text += '<span class="item-by">by </span><span class="item-username">'+userName+'</span>';
     
     text += '</div></div>';
+    
+    text += '<div class="clear-both"></div>';
+    
     return text;
 }
 

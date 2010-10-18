@@ -22,8 +22,8 @@ body {
     margin-right: auto;
     
     text-align: left;
-    font: 22px Georgia;
-    font-style: italic;
+    font: 10px verdana;
+
     
     margin-bottom: 5px;
     
@@ -38,6 +38,7 @@ body {
 
 #nn-logo {
     float: left;
+    margin-top: 10px;
 }
 
 .nn-fb-banner {
@@ -59,7 +60,7 @@ body {
 
 .nn-fb-text {
     line-height: 17px;
-    margin-top: 9px;
+    margin-top: 2px;
     font: 10px verdana;
 }
 
@@ -77,4 +78,38 @@ body {
     margin-top: 15px;
     border-top: 1px solid #eee;
     padding-top: 5px;
+}
+
+
+
+/*
+///////////////
+INSTRUCTIONS
+*/
+
+#instructions {
+    text-align: left;
+    font: 10px verdana;
+    line-height: 16px;
+    
+    width: 500px;
+}
+
+#instructions p {
+    margin-top: 10px;
+}
+
+#instructions h3 {
+    font: 16px georgia;
+    font-style: italic;
+    margin-top: 15px;
+}
+
+#instructions ul {
+    margin-top: 10px;
+}
+
+#instructions li {
+    margin-top: 10px;
+    margin-left: 30px;
 }

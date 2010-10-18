@@ -58,8 +58,13 @@ class Trip_m extends Model {
             $v = array($itemid);
             $rows = $this->mdb->select($sql, $v);
             $val = $rows[0];
+            
+            //nan - ummz I need names!
+            $val['user'] = $this->User_m->get_user_by_uid($val['uid']);
+            
             $this->mc->set($key, $val);
         }
+        
         return $val;
     }
 
@@ -91,16 +96,17 @@ class Trip_m extends Model {
     }
 
 
-    function create_item($uid, $tripid, $yelpid, $title, $body, $yelpjson, $lat, $lon, $replyid = 0) {
+    function create_item($uid, $tripid, $yelpid, $title, $body, $yelpjson, $lat, $lon, $replyid = 0, $islocation = true) {
         $d = array('uid' => $uid,
                    'tripid' => $tripid,
                    'yelpid' => $yelpid,
                    'title' => $title,
                    'body' => $body,
-                   'yelpid' => $yelpid,
+                   'yelpjson' => $yelpjson,
                    'lat' => $lat,
                    'lon' => $lon,
                    'replyid' => $replyid,
+                   'islocation' => $islocation
                );
         list($sql, $values) = $this->mdb->insert_string('trip_items', $d);
         $itemid = $this->mdb->alter($sql, $values);

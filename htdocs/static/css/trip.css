@@ -46,12 +46,22 @@
 
 
 #list {
-    width: 285px; float: left;
+    width: 280px; float: left;
+}
+
+.list-item-wrap {
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.item-by {
+    font-style: italic;
 }
 
 #wall {
     width: 500px; float: right;
-    margin-left: 15px;
+    margin-left: 20px;
 }
 
 #trip-wall-control {
@@ -75,9 +85,24 @@
     margin-bottom: 5px;
 }
 
+.wall-textarea-wrap {
+    margin-bottom: 10px;
+}
+
+.wall-textarea {
+    width: 495px;
+    margin-bottom: 5px;
+    height: 40px;
+}
+
+
 h3 {
     font: 12px Helvetica;
     font-weight: bold;
+}
+
+.right {
+    float: right;
 }
 
 .suggestion-input-wrap button{
@@ -87,11 +112,39 @@ h3 {
     margin-top: 5px;
 }
 
+.wall-textarea-wrap button{
+    font: 12px georgia;
+    font-style: italic;
+}
+
 
 #trip-wall-content {
     margin-top: 15px;
     border-top: 1px solid #eee;
     padding-top: 5px;
+}
+
+.wall-text {
+    font: 10px verdana;
+}
+
+.wall-comment-username {
+    font-weight: bold;
+    color: #541F5E;
+    
+    margin-right: 5px;
+}
+
+.wall-comment {
+
+    margin-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.wall-location-text {
+    font: 12px georgia;
+    font-style: italic;
+    color: #777;
 }
 
 .suggestion-input {

@@ -40,8 +40,12 @@ class Trip extends Controller {
         }
         
         //getting data for sub-sections
-        $list_data = array('list_items' => $this->Trip_m->get_items_by_tripid($trip_id));
-        $wall_data = array( 'wall_items' => $this->Wall_m->get_wall_items_for_user('uid'));
+        $complete_data = $this->Trip_m->get_items_by_tripid($trip_id);
+        $wall_data = array('wall_items' => $complete_data);
+        $list_data = array('list_items' => $this->_filter_out_wall_data($complete_data));
+        
+
+        //$wall_data = array( 'wall_items' => $this->Wall_m->get_wall_items_for_user('uid'));
         
         $view_data = array(
             'user'      => $this->user,
@@ -61,6 +65,16 @@ class Trip extends Controller {
         $this->load->view('trip', $view_data);
     }
     
+    function _filter_out_wall_data($in_data){
+        $out_data = array();
+        foreach($in_data as $item){
+            if($item['islocation']){
+                $out_data[] = $item;
+            }
+        }
+        
+        return $out_data;
+    }
     
     function do_ajax_suggestion(){
         $foo = $_POST['foo'];
@@ -78,17 +92,27 @@ class Trip extends Controller {
         $replyid = $_POST['reply_id'];
         if(!$replyid)
             $replyid = 0;
+        
+        $is_location = true;
+        if($_POST['islocation']===null){
+            $is_location = true;
+        } else {
+            $is_location = $_POST['islocation'];
+        }
+
+        //TODO: check for body or content when adding items
 
         $this->Trip_m->create_item(
             $this->User_m->get_logged_in_uid(),
             $_POST['trip_id'],
             $_POST['yelp_id'],
             $title,
-            "default body",
-            $_POST['yelpid'],
+            $_POST['body'],
+            $_POST['yelpjson'],
             $_POST['lat'],
             $_POST['lon'],
-            $replyid
+            $replyid,
+            $is_location
         );
         
         json_success(array());

@@ -2,7 +2,7 @@
     
     <div class="panel">
         
-        <h3> Add a Suggestion </h3><br/>
+        <h3> Make a Suggestion </h3><br/>
         
     </div>
     
@@ -23,11 +23,11 @@
     </div>
     
     <div id="trip-list-content" class="panel">
-        <h3> Suggested Locations </h3><br/>
+        <h3> Suggestions </h3><br/>
 
     <?php foreach($list_items as $item):?>
 
-        <div id="trip-item-<?php echo $item['tripid'];?>" class="list-item-wrap">
+        <div id="trip-item-<?php echo $item['itemid'];?>" class="list-item-wrap">
             <!-- container for JS to pick up -->
         </div>
 
