@@ -91,12 +91,13 @@ class Trip_m extends Model {
     }
 
 
-    function create_item($uid, $tripid, $yelpid, $title, $body, $lat, $lon, $replyid = 0) {
+    function create_item($uid, $tripid, $yelpid, $title, $body, $yelpjson, $lat, $lon, $replyid = 0) {
         $d = array('uid' => $uid,
                    'tripid' => $tripid,
                    'yelpid' => $yelpid,
                    'title' => $title,
                    'body' => $body,
+                   'yelpid' => $yelpid,
                    'lat' => $lat,
                    'lon' => $lon,
                    'replyid' => $replyid,

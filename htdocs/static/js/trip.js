@@ -28,13 +28,15 @@ Trip = {
         //alert(Trip.activeTripItem.id);
         var activeTrip = Trip.activeTripItem;
         
+        console.log($.JSON.encode(activeTrip));
+        
         var postData = {
             yelp_id: activeTrip.id,
             lat: activeTrip.latitude,
             lon: activeTrip.longitude,
             title: activeTrip.name,
             trip_id: Constants.Trip['id'],
-            yelpjson: $.toJson(activeTrip)
+            yelpjson: $.JSON.encode(activeTrip)
         };
         
         $.ajax({

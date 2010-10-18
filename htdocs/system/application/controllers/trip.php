@@ -85,6 +85,7 @@ class Trip extends Controller {
             $_POST['yelp_id'],
             $title,
             "default body",
+            $_POST['yelpid'],
             $_POST['lat'],
             $_POST['lon'],
             $replyid
