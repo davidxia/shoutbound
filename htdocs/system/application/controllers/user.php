@@ -68,7 +68,7 @@ class User extends Controller {
             $this->User_m->add_friendship($uid, $friend['id'], $friend['name']);
         }
 
-        json_success(array('redirect' => site_url('trip')));
+        json_success(array('redirect' => site_url('trip/details/4')));
     }
 
 }
