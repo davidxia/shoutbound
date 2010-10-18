@@ -19,7 +19,7 @@ Trip = {
     openInfoWindow: function(marker) {
       var markerLatLng = marker.getPosition();
       Trip.infoWindow.setContent(
-          "Nan and Ben live here!"
+          "Welcome to the noqnok tech demo."
       )      
       Trip.infoWindow.open(Trip.map, marker);
     },
