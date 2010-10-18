@@ -56,14 +56,26 @@ class Trip extends Controller {
     
     
     function ajax_add_item(){
+        $title = trim($_POST['title']);
+        if(!$title)
+            return json_error('You need a title!');
+        if(!$this->Trip_m->get_trip_by_tripid($_POST['trip_id']))
+            return json_error('That trip doesn\'t exist');
+
+        $replyid = $_POST['reply_id'];
+        if(!$replyid)
+            $replyid = 0;
+
         $this->Trip_m->create_item(
             $this->User_m->get_logged_in_uid(),
             $_POST['trip_id'],
             $_POST['yelp_id'],
-            $_POST['title'],
+            $title,
             "default body",
             $_POST['lat'],
-            $_POST['lon']);
+            $_POST['lon'],
+            $replyid
+        );
         
         json_success(array());
         //echo ($foo);
