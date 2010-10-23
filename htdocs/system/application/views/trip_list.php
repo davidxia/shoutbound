@@ -25,6 +25,7 @@
     <div id="trip-list-content" class="panel">
         <h3> Suggestions </h3><br/>
 
+    <div id="trip-list-items">
     <?php foreach($list_items as $item):?>
 
         <div id="trip-item-<?php echo $item['itemid'];?>" class="list-item-wrap">
@@ -32,6 +33,7 @@
         </div>
 
     <?php endforeach;?>
+    </div>
 
     </div>
     

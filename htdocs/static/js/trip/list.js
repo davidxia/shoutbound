@@ -37,10 +37,19 @@ ListUtil.renderListItems = function(){
     //render on map
 };
 
-ListUtil.asyncAddActiveTripItem = function(response){
+ListUtil.asyncAddActiveTripItem = function(responseText){
     // TODO: display the item in the list
     YelpUtil.destroyAllMarkers();
     Trip.closeInfoWindow();
+    
+    
+    var response = $.parseJSON(responseText);
+    var itemContent = generateListItemHtml($.parseJSON(response.biz), response.name);
+    //var commentItem = document
+    itemContent = '<div class="list-item-wrap" style="display:none">'+itemContent;
+    itemContent += '</div>';
+    
+    $(itemContent).prependTo('#trip-list-items').fadeIn('slow');
 };
 
 ListUtil.rejectItem = function(){

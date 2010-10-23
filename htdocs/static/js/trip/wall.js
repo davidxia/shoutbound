@@ -98,5 +98,4 @@ WallUtil.asyncAddActiveWallItem = function(responseText){
     //var commentItem = document
     
     $(commentContent).prependTo('#trip-wall-items').fadeIn('slow');
-    
 }

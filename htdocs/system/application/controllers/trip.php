@@ -113,14 +113,22 @@ class Trip extends Controller {
             $_POST['lon'],
             $replyid,
             $is_location
-        );
+        ); 
         
-        json_success(array(
-                'fid' => $this->user['fid'],
-                'body'=> $_POST['body'],
-                'name'=> $this->user['name'],
-            )
-        );
+        if($is_location){
+            json_success(array(
+                    'biz' => $_POST['yelpjson'],
+                    'name'=> $this->user['name'],
+                )
+            );
+        } else {
+            json_success(array(
+                    'fid' => $this->user['fid'],
+                    'body'=> $_POST['body'],
+                    'name'=> $this->user['name'],
+                )
+            );
+        }
         //echo ($foo);
     }
     
