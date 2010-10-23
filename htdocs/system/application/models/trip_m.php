@@ -24,7 +24,9 @@ class Trip_m extends Model {
                );
         list($sql, $values) = $this->mdb->insert_string('trips', $d);
         $this->mc->delete('tripids_by_uid:'.$uid);
-        $this->mdb->alter($sql, $values);
+        $tripid = $this->mdb->alter($sql, $values);
+        $this->mc->delete('trip_by_tripid:'.$tripid);
+        return $tripid;
     }
 
 
@@ -32,8 +34,8 @@ class Trip_m extends Model {
         $key = 'tripids_by_uid:'.$uid;
         $tripids = $this->mc->get($key);
         if($tripids === false) {
-            $sql = 'SELECT tripid FROM trips WHERE uid = ?';
-            $v = array($uid);
+            $sql = 'SELECT tripid FROM trips WHERE uid = ? AND active = ?';
+            $v = array($uid, 1);
             $rows = $this->mdb->select($sql, $v);
             $tripids = array();
             if($rows) {
@@ -44,6 +46,22 @@ class Trip_m extends Model {
             $this->mc->set($key, $tripids);
         }
         return $tripids;
+    }
+
+
+    function delete_trip($tripid) {
+        $trip = get_trip_by_tripid($tripid);
+        if(!$trip)
+            return false;
+        if($trip['uid'] != $this->User_m->get_logged_in_uid())
+            return false;
+
+        $sql = 'UPDATE trips SET active = ? WHERE tripid = ?';
+        $v = array(0, $tripid);
+        $this->mdb->alter($sql, $v);
+        $this->mc->delete('tripids_by_uid:'.$trip['uid']);
+        $this->mc->delete('trip_by_tripid:'.$tripid);
+        return true;
     }
 
 
@@ -96,7 +114,8 @@ class Trip_m extends Model {
     }
 
 
-    function create_item($uid, $tripid, $yelpid, $title, $body, $yelpjson, $lat, $lon, $replyid = 0, $islocation = true) {
+    function create_item($uid, $tripid, $yelpid, $title, $body,
+                         $yelpjson, $lat, $lon, $replyid = 0, $islocation = true) {
         $d = array('uid' => $uid,
                    'tripid' => $tripid,
                    'yelpid' => $yelpid,
