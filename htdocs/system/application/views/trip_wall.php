@@ -32,7 +32,9 @@
 
 
         </div>
-
+        
+        <div id="trip-wall-items">
+        
         <?php foreach($wall_items as $item):?>
 
             <div id="wall-item-<?=$item[itemid]?>" class="wall-item">
@@ -73,7 +75,7 @@
             
         <?php endforeach;?>
         
-        
+        </div>
         
 
         

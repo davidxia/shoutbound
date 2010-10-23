@@ -115,7 +115,12 @@ class Trip extends Controller {
             $is_location
         );
         
-        json_success(array());
+        json_success(array(
+                'fid' => $this->user['fid'],
+                'body'=> $_POST['body'],
+                'name'=> $this->user['name'],
+            )
+        );
         //echo ($foo);
     }
     
