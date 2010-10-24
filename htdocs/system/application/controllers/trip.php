@@ -6,19 +6,10 @@ class Trip extends Controller {
 	{
 		parent::Controller();
 		
-		//list
 		$this->load->model('List_m');
-		
-		//TODO: map
-		
-		//TODO: wall
 		$this->load->model('Wall_m');
 		
-		//authentication
         $this->user = $this->User_m->get_logged_in_user();
-        
-        //print_r($this->user);
-        
         if(!$this->user){
             redirect('/');
 		}
@@ -130,6 +121,17 @@ class Trip extends Controller {
             );
         }
         //echo ($foo);
+    }
+
+
+    function ajax_delete_item($itemid) {
+        if(!is_numeric($itemid))
+            return json_error('Invalid itemid');
+        $success = $this->Trip_m->update_item($itemid, 'rejected');
+        if($success)
+            json_success();
+        else
+            json_error('Can\'t delete that');
     }
     
     
