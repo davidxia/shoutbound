@@ -58,7 +58,7 @@ ListUtil.asyncAddActiveTripItem = function(responseText){
     itemContent += '</div>';
     
     $(itemContent).prependTo('#trip-list-items').slideDown('slow', function(){
-        WallUtil.asyncAddActiveWallItem(responseText, true);
+        WallUtil.asyncAddActiveWallItem(responseText, null, null, true);
     });
     
 

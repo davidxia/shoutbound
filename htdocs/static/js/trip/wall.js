@@ -74,7 +74,7 @@ WallUtil.generateNewWallItemHtml = function(fid, name, body, isLocation){
     return text;
 }
 
-WallUtil.asyncAddActiveWallItem = function(responseText, isLocation){
+WallUtil.asyncAddActiveWallItem = function(responseText, isSuccess, request, isLocation){
     var response = $.parseJSON(responseText);
     if(isLocation){
         var commentContent = WallUtil.generateNewWallLocationHtml(response.fid, response.name, $.parseJSON(response.biz));
