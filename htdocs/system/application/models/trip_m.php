@@ -93,7 +93,8 @@ class Trip_m extends Model {
 
         if($itemids === false) {
             $sql = 'SELECT itemid FROM trip_items WHERE tripid = ? '.
-                   'ORDER BY created DESC';
+                'AND (status = "pending" OR status = "approved") '.
+                'ORDER BY created DESC';
 
             $v = array($tripid);
             $rows = $this->mdb->select($sql, $v);
@@ -143,15 +144,18 @@ class Trip_m extends Model {
         if(!$uid || !$item)
             return false;
 
-        // Users can only update items within THEIR trips
+        // If it's not YOUR trip OR it's not YOUR post, die
         $user_trips = $this->get_user_tripids($uid);
-        if(!in_array($item['tripid'], $user_trips)) {
+        if(!in_array($item['tripid'], $user_trips) &&
+            $item['uid'] != $uid) {
             return false;
         }
 
         $sql = 'UPDATE trip_items SET status = ? WHERE itemid = ?';
         $v = array($status, $itemid);
         $this->mdb->alter($sql, $v);
+        $this->mc->delete('item_by_id:'.$itemid);
+        $this->mc->delete('itemids_by_tripid:'.$item['tripid']);
         return true;
     }
 
