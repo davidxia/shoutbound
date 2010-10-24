@@ -97,5 +97,5 @@ WallUtil.asyncAddActiveWallItem = function(responseText){
     var commentContent = WallUtil.generateNewWallItemHtml(response.fid, response.name, response.body);
     //var commentItem = document
     
-    $(commentContent).prependTo('#trip-wall-items').fadeIn('slow');
+    $(commentContent).prependTo('#trip-wall-items').slideDown('slow');
 }

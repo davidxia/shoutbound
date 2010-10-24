@@ -126,6 +126,7 @@ h3 {
 
 .wall-text {
     font: 10px verdana;
+    margin-left: 60px;
 }
 
 .wall-comment-username {

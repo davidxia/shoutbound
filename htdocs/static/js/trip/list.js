@@ -49,7 +49,7 @@ ListUtil.asyncAddActiveTripItem = function(responseText){
     itemContent = '<div class="list-item-wrap" style="display:none">'+itemContent;
     itemContent += '</div>';
     
-    $(itemContent).prependTo('#trip-list-items').fadeIn('slow');
+    $(itemContent).prependTo('#trip-list-items').slideDown('slow');
 };
 
 ListUtil.rejectItem = function(){
