@@ -169,7 +169,17 @@ function generateInfoWindowHtml(biz) {
     // phone number
     if(biz.phone.length)
         text += formatPhoneNumber(biz.phone) + '<br/>';
+        
+    return text;
+}
+
+/*
+ * Formats and returns the Info Window HTML 
+ * (displayed in a balloon when a marker is clicked)
+ */
+function generateSearchInfoWindowHtml(biz) {
     
+    var text = generateInfoWindowHtml(biz);
     text += '<a class="suggest-location-text" href="javascript:Trip.addActiveTripItem();">Suggest</a>'
     
     return text;

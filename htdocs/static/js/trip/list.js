@@ -16,10 +16,18 @@ ListUtil.populateListItems = function(){
         
         Trip.listItemMarkers.push(marker);
         
+        var yelpJson = $.parseJSON(item['yelpjson']);
+        
+        // Register event listeners to each marker to open a shared info
+        // window displaying the marker's position when clicked or dragged.
+        // we are doing the super closure thing here.
+        google.maps.event.addListener(marker, 'click', function(m, b) {
+            return function(){ListUtil.openMarkerWindow(m, b);}
+        }(marker, yelpJson));
+        
         
         //list
         var itemEl = $("#trip-item-"+item['itemid']);
-        var yelpJson = $.parseJSON(item['yelpjson']);
         var itemMarkup = generateListItemHtml(yelpJson, item['user']['name']);
         itemEl.append(itemMarkup);
         
@@ -54,6 +62,14 @@ ListUtil.asyncAddActiveTripItem = function(responseText){
     });
     
 
+};
+
+ListUtil.openMarkerWindow = function(marker, biz){
+    //var markerLatLng = marker.getPosition();
+    Trip.infoWindow.setContent(
+        generateInfoWindowHtml(biz)
+    );
+    Trip.infoWindow.open(Trip.map, marker);
 };
 
 ListUtil.rejectItem = function(){

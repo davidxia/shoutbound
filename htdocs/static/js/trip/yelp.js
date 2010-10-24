@@ -95,7 +95,7 @@ YelpUtil.destroyAllMarkers = function(){
 YelpUtil.openYelpResultWindow = function(marker, biz){
     var markerLatLng = marker.getPosition();
     Trip.infoWindow.setContent(
-        generateInfoWindowHtml(biz)
+        generateSearchInfoWindowHtml(biz)
     );
     Trip.infoWindow.open(Trip.map, marker);
 }
