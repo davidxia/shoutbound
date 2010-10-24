@@ -26,44 +26,20 @@ WallUtil.generateWallItemHtml = function(biz){
         Trip.activeTripItem = biz;
         
         var text = '&nbsp<a href="'+biz.url+'" target="_blank">'+biz.name+'</a>';
-
-        //text += '<div class="marker">';
-
-        // image and rating
-        //text += '<img class="businessimage" src="'+biz.photo_url+'"/>';
-
-        // div start
-        //text += '<div class="businessinfo" style="margin-left:60px; margin-top:2px">';
-        // name/url
-        //text += '<a href="'+biz.url+'" target="_blank">'+biz.name+'</a><br/>';
-        /// stars
-        //text += '<img class="ratingsimage" src="'+biz.rating_img_url_small+'"/><br/>'
-
-        //if(biz.address1.length)
-          //  text += biz.address1 + '<br/>';
-        // address2
-        //if(biz.address2.length) 
-          //  text += biz.address2+ '<br/>';
-        // city, state and zip
-        //text += biz.city + ',&nbsp;' + biz.state + '&nbsp;' + biz.zip + '<br/>';
-        // phone number
-        //if(biz.phone.length)
-          ///  text += formatPhoneNumber(biz.phone);
-        // Read the reviews
-        ///text+='<br>';
-        //text += '<br/><a href="'+biz.url+'" target="_blank">Read the reviews »</a><br/>';
-        // div end
-
-        //text += '</div></div>';
-
-        //text += '<div class="clear-both"></div>';
-
         return text;
     
     
 }
 
-WallUtil.generateNewWallItemHtml = function(fid, name, body){
+WallUtil.generateNewWallLocationHtml = function(fid, name, biz){
+    
+    var bodyText = WallUtil.generateWallItemHtml(biz);
+    bodyText = 'suggested' + '<span class="wall-location-text">'+bodyText+'</span>';
+    
+    return WallUtil.generateNewWallItemHtml(fid, name, bodyText, true);
+}
+
+WallUtil.generateNewWallItemHtml = function(fid, name, body, isLocation){
     var text = '';
     text += '<div class="wall-comment" style="display:none">';
     text += '<div class="nn-fb-img left">';
@@ -80,7 +56,13 @@ WallUtil.generateNewWallItemHtml = function(fid, name, body){
     text += '</span>';
     
     text += '<span class="wall-comment-text">';
-    text += '"'+body+'"';
+    
+    if(isLocation){
+        text += body;
+    } else {
+        text += '"'+body+'"';
+    }
+    
     text += '</span>';
     
     text += '</div>';
@@ -92,10 +74,13 @@ WallUtil.generateNewWallItemHtml = function(fid, name, body){
     return text;
 }
 
-WallUtil.asyncAddActiveWallItem = function(responseText){
+WallUtil.asyncAddActiveWallItem = function(responseText, isLocation){
     var response = $.parseJSON(responseText);
-    var commentContent = WallUtil.generateNewWallItemHtml(response.fid, response.name, response.body);
-    //var commentItem = document
+    if(isLocation){
+        var commentContent = WallUtil.generateNewWallLocationHtml(response.fid, response.name, $.parseJSON(response.biz));
+    } else {
+        var commentContent = WallUtil.generateNewWallItemHtml(response.fid, response.name, response.body);
+    }
     
     $(commentContent).prependTo('#trip-wall-items').slideDown('slow');
 }

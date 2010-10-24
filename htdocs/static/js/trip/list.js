@@ -49,7 +49,11 @@ ListUtil.asyncAddActiveTripItem = function(responseText){
     itemContent = '<div class="list-item-wrap" style="display:none">'+itemContent;
     itemContent += '</div>';
     
-    $(itemContent).prependTo('#trip-list-items').slideDown('slow');
+    $(itemContent).prependTo('#trip-list-items').slideDown('slow', function(){
+        WallUtil.asyncAddActiveWallItem(responseText, true);
+    });
+    
+
 };
 
 ListUtil.rejectItem = function(){
