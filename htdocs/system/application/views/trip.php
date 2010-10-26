@@ -7,7 +7,9 @@ $header_args = array(
         'js/trip/yelp.js',
         'js/trip/wall.js',
     ),
-    'css_paths'=>array('css/trip.css')
+    'css_paths'=>array(
+        'css/trip.css',
+    )
 );
 
 $this->load->view('core_header', $header_args);
@@ -25,35 +27,14 @@ $this->load->view('core_header', $header_args);
 
 <body>
   
-  <div id="nn-head">
-    
-    <div id="nn-logo"><img src="<?=static_url('images/noqnok-logo.jpg')?>"/></div>
-    
-    
-    <div class="nn-fb-banner">
-    <? if($user): ?>
-    <div class="nn-fb-img right"><img src="http://graph.facebook.com/<?=$user['fid']?>/picture?type=square" /></div>
-      <div class="nn-fb-text right">Welcome, <?=$user['name']?><br/>
-      <a href="<?=site_url('user/logout')?>" >Logout</a>
- 
-      
-    </div>
-      
-
-      
-      
-      
-      
-    <? else: ?>
-      You are not logged in!
-    <? endif; ?>
-    </div>
-    
-    <div class="clear-both"></div>
-    
-  </div>
+    <?
+        $banner_args = array('user'=>$user);
+        echo($this->load->view('core_banner',$banner_args));
+    ?>
   
   <div id="nn-body">
+
+
       <div id="map-shell">
           <div id="map-toolbar">
               
@@ -84,7 +65,7 @@ $this->load->view('core_header', $header_args);
 
         </div>
       
-      
+
   </div>
     
    

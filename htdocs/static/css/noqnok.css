@@ -3,6 +3,10 @@
     margin: 0;
 }
 
+a img {
+    border:0;
+}
+
 html {
     height: 100%;
 }
@@ -12,12 +16,25 @@ body {
     text-align: center;
 }
 
+h3 {
+    font: 12px Helvetica;
+    font-weight: bold;
+}
+
+ul {
+    list-style: none;
+}
+
+.right {
+    float: right;
+}
+
 #foot {
     clear: both;
 }
 
 #nn-head {
-    width: 800px;
+    width: 900px;
     margin-left: auto;
     margin-right: auto;
     
@@ -25,12 +42,14 @@ body {
     font: 10px verdana;
 
     
-    margin-bottom: 5px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
     
 }
 
 #nn-body {
-    width: 800px;
+    width: 900px;
     text-align: left;
     margin: 0 auto;
     
@@ -113,3 +132,48 @@ INSTRUCTIONS
     margin-top: 10px;
     margin-left: 30px;
 }
+
+/*
+///////////////
+SIDEBAR
+*/
+
+#nn-sidebar {
+    width: 260px;
+    float: left;
+    padding: 10px;
+
+    
+    background-color: #eee;
+}
+
+.sidebar-item {
+    font: 13px georgia;
+    font-style: italic;
+    border-bottom: 1px solid #fff;
+    padding: 10px;
+}
+
+.sidebar-title {
+    border-bottom: 1px solid #fff;
+}
+
+.sidebar-item-selected {
+    background-color: #fff;
+}
+
+#nn-main {
+    width: 600px;
+    margin-left: 300px;
+}
+
+
+/*
+trip creation
+*/
+
+
+
+
+
+
