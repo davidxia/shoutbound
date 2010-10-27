@@ -100,14 +100,15 @@ class Trip_m extends Model {
     }
 
 
-    function get_items_by_tripid($tripid) {
-        $key = 'itemids_by_tripid:'.$tripid;
+    function get_items_by_tripid($tripid, $order = 'DESC') {
+        $key = 'itemids_by_tripid:'.$tripid.':'.$order;
         $itemids = $this->mc->get($key);
 
         if($itemids === false) {
+            $order = strtoupper($order) == 'DESC' ? 'DESC' : 'ASC';
             $sql = 'SELECT itemid FROM trip_items WHERE tripid = ? '.
                 'AND (status = "pending" OR status = "approved") '.
-                'ORDER BY created DESC';
+                'ORDER BY created '.$order;
 
             $v = array($tripid);
             $rows = $this->mdb->select($sql, $v);
@@ -129,18 +130,31 @@ class Trip_m extends Model {
 
 
     function get_thread_by_tripid($tripid) {
-        $items = $this->get_items_by_tripid($tripid);
+        $items = $this->get_items_by_tripid($tripid, 'ASC');
 
         $thread = array();
-        $post_index = array();
+        $item_index = array();
+        $recent_times = array();
+        $index = 0;
         foreach($items as $k => $item) {
             if($item['replyid']) {
-                $post_index[$item['replyid']]['replies'][] = &$items[$k];
+                $parent = &$item_index[$item['replyid']];
+                if(!$parent['index']){
+                    echo 'WTFWTFWTF';
+                    print_r($parent);
+                }
+                $parent['replies'][] = &$items[$k];
+                $recent_times[$parent['index']] = $item['created'];
             } else {
+                $items[$k]['index'] = $index; 
+                $index += 1;
+
+                $recent_times[] = $item['created'];
                 $thread[] = &$items[$k];
             }
-            $post_index[$item['postid']] = &$items[$k];
+            $item_index[$item['itemid']] = &$items[$k];
         }
+        array_multisort($recent_times, SORT_DESC, $thread);
         return $thread;
 
     }

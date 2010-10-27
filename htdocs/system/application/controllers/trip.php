@@ -135,10 +135,9 @@ class Trip extends Controller {
         //echo ($foo);
     }
     
-    
-    function ajax_get_list_items(){
-        //$trip_items = $this->Trip_m->get_items_by_tripid($_POST['trip_id'])
-        //json_sucess($trip_items);
+    function get_thread($tripid) {
+        print_r($this->Trip_m->get_thread_by_tripid($tripid));
     }
+
 }
 
