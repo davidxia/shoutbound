@@ -115,6 +115,24 @@ class Trip_m extends Model {
     }
 
 
+    function get_thread_by_tripid($tripid) {
+        $items = $this->get_items_by_tripid($tripid);
+
+        $thread = array();
+        $post_index = array();
+        foreach($items as $k => $item) {
+            if($item['replyid']) {
+                $post_index[$item['replyid']]['replies'][] = &$items[$k];
+            } else {
+                $thread[] = &$items[$k];
+            }
+            $post_index[$item['postid']] = &$items[$k];
+        }
+        return $thread;
+
+    }
+
+
     function create_item($uid, $tripid, $yelpid, $title, $body,
                          $yelpjson, $lat, $lon, $replyid = 0, $islocation = true) {
         $d = array('uid' => $uid,
@@ -158,6 +176,7 @@ class Trip_m extends Model {
         $this->mc->delete('itemids_by_tripid:'.$item['tripid']);
         return true;
     }
+
 
 }
 
