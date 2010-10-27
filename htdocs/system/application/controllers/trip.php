@@ -135,6 +135,22 @@ class Trip extends Controller {
         //echo ($foo);
     }
     
+
+    function ajax_create_new_trip(){
+        $trip_user = $this->user;
+
+        if($trip_user['uid'] == $this->user['uid']){
+        
+            $trip_name = $_POST['tripname'];
+            $trip_id = $this->Trip_m->create_trip($trip_user['uid'], $trip_name, $_POST['lat'], $_POST['lon']);
+            
+            json_success(array('tripid'=>$trip_id));
+        } else {
+            
+        }
+    }
+    
+
     function get_thread($tripid) {
         print_r($this->Trip_m->get_thread_by_tripid($tripid));
     }
