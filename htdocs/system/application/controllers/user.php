@@ -73,7 +73,7 @@ class User extends Controller {
     
     function ajax_update_friends() {
         $this->load->library('facebook');
-        $this->User_m->get_logged_in_uid();
+        $uid = $this->User_m->get_logged_in_uid();
         $fbuser = $this->facebook->api('/me?fields=name,email,hometown,friends');
         foreach($fbuser['friends']['data'] as $friend) {
             echo($friend['id']);
