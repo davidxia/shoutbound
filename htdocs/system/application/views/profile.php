@@ -1,5 +1,13 @@
 <?
-    $header_args = array();
+    $header_args = array(
+        'css_paths'=>array(
+            'css/profile.css',
+        ),
+        'js_paths'=>array(
+            'js/profile/profile.js'
+        )
+        
+    );
     echo($this->load->view('core_header',$header_args));
 ?>    
 
@@ -17,20 +25,43 @@
             $sidebar_args = array(
                 'user'=>$user,
                 'trips'=>$trips,
+                'profile_user'=>$profile_user,
             );
             echo($this->load->view('core_sidebar',$header_args));
         ?>
         
         <div id="nn-main">
-        <ul>
-            <?php foreach($trips as $trip):?>
+            
+            <h1>Welcome to noqnok! Start a discussion about a location by creating a trip or select an existing trip on the left.</h1>
 
-                <li>
-                    <a href=<?=site_url("trip/details/".$trip['tripid'])?>>Go to trip <?=$trip['name']?></a>
-                </li>
+            <br/>
+            
+            <div id="profile-content" class="large-panel">
+                <div style="height:131px;">
+                    <button type="button" id="create-trip-button" class="large-button">Create a Trip</button>
+                </div>
+                
+                <div class="panel">
+                    <h3>Friends on noqnok</h3><br/>
+                    
+                </div>
+                
+            </div>
+            
+            <div id="create-trip-window" class="large-panel">
+       
+                <p><LABEL for="tripCity" class="large-label">Choose a city: </LABEL>
+                <input type="text" name="tripCity" id="trip-city" readonly="true" class="large-input" value="New York (fixed for now)"/></p>
+                <br/>
+                <p><LABEL for="tripName" class="large-label"> Give your trip a name: </LABEL>
+                <input name="trip-name" id="tripName" class="large-input"/></p>
+                <br/>
+                <p><button type="button" id="save-trip-button" class="large-button">Save!</button>
+                    <a class="cancel-link">or</a>
+                    <a class="cancel-link" href="javascript:hideCreateTripWindow();">cancel</a><p/>
 
-            <?php endforeach;?>
-        </ul>
+            </div>
+            
         </div>
         
         <div class="clear-both"></div>

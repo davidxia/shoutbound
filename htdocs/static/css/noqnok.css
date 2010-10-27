@@ -21,6 +21,14 @@ h3 {
     font-weight: bold;
 }
 
+h1 {
+    font: 30px "helvetica neue";
+    color: #555;
+    font-style: italic;
+    
+    
+}
+
 ul {
     list-style: none;
 }
@@ -139,19 +147,15 @@ SIDEBAR
 */
 
 #nn-sidebar {
-    width: 260px;
+    width: 220px;
     float: left;
-    padding: 10px;
-
-    
-    background-color: #eee;
 }
 
 .sidebar-item {
     font: 13px georgia;
     font-style: italic;
-    border-bottom: 1px solid #fff;
-    padding: 10px;
+    border-bottom: 1px solid #eee;
+    padding: 10px 10px 10px 20px;
 }
 
 .sidebar-title {
@@ -159,18 +163,14 @@ SIDEBAR
 }
 
 .sidebar-item-selected {
-    background-color: #fff;
+    background-color: #eee;
 }
 
 #nn-main {
-    width: 600px;
-    margin-left: 300px;
+    width: 650px;
+    margin-left: 250px;
 }
 
-
-/*
-trip creation
-*/
 
 
 

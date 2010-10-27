@@ -2,6 +2,16 @@
     <?
         $available_navs = array('home', 'profile');
     ?>
+    <div id="profile-poster">
+        <img src="http://graph.facebook.com/<?=$profile_user['fid']?>/picture?type=large" />
+        
+        <div id="profile-name">
+            <?=$profile_user['name']?> !
+        </div>
+        
+    </div>    
+        
+    <div class="sidebar-list panel">
     <ul>
         <li>
             <div class="sidebar-title"><h3>Trips</h3><br/></div>
@@ -31,7 +41,7 @@
         
         <? } ?>
     </ul>
-    
+    </div>
     
     
     

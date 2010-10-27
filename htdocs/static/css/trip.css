@@ -163,6 +163,10 @@
 
 }
 
+#trip-wall-items {
+    width: 450px;
+}
+
 .wall-timestamp {
     color:#fff;
     font: 11px verdana;
