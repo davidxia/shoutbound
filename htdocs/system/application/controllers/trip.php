@@ -135,6 +135,7 @@ class Trip extends Controller {
         //echo ($foo);
     }
     
+
     function ajax_create_new_trip(){
         $trip_user = $this->user;
 
@@ -149,11 +150,10 @@ class Trip extends Controller {
         }
     }
     
-    function ajax_get_list_items(){
-        //$trip_items = $this->Trip_m->get_items_by_tripid($_POST['trip_id'])
-        //json_sucess($trip_items);
-        
-        json_success();
+
+    function get_thread($tripid) {
+        print_r($this->Trip_m->get_thread_by_tripid($tripid));
     }
+
 }
 
