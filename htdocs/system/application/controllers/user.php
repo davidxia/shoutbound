@@ -19,7 +19,7 @@ class User extends Controller {
         $user = $this->User_m->get_user_by_fid($this->facebook->getUser());
         if($user) {
             $this->User_m->log_in($user['uid']);
-            json_success(array('redirect' => site_url('trip/details/4')));
+            json_success(array('redirect' => site_url('profile/details')));
         } else {
             json_success(array('redirect' => site_url('user/creating')));
         }
@@ -33,7 +33,7 @@ class User extends Controller {
             redirect('/landing');
         }
         if($this->User_m->get_user_by_fid($this->facebook->getUser()))
-            redirect('/trip/details/4');
+            redirect('/profile/details');
 
         $this->load->view('creating_user');
     }
@@ -68,22 +68,28 @@ class User extends Controller {
             $this->User_m->add_friendship($uid, $friend['id'], $friend['name']);
         }
 
-        json_success(array('redirect' => site_url('trip/details/4')));
+        json_success(array('redirect' => site_url('profile/details')));
     }
-
-
-    /* Script to backfill friend_uids
-    function populate_friends() {
-        $sql = 'SELECT * FROM users';
-        $users = $this->mdb->select($sql);
-        foreach($users as $u) {
-            $sql = 'UPDATE friends SET friend_uid = ? WHERE friend_fid = ?';
-            $v = array($u['uid'], $u['fid']);
+    
+    function ajax_update_friends() {
+        $this->load->library('facebook');
+        $this->User_m->get_logged_in_uid();
+        $fbuser = $this->facebook->api('/me?fields=name,email,hometown,friends');
+        foreach($fbuser['friends']['data'] as $friend) {
+            echo($friend['id']);
+            echo($friend['name']);
+            //$this->User_m->add_friendship($uid, $friend['id'], $friend['name']);
+            $sql = 'insert into friends (uid, name, friend_fid, friend_uid) '.
+                    'values (?,?,?,?) ON DUPLICATE KEY UPDATE friend_uid = ?';
+            $friend_uid = 0;
+            if($fri = $this->User_m->get_user_by_fid($friend['id']))
+                $friend_uid = $fri['uid'];
+            $v = array($uid, $friend['name'], $friend['id'], $friend_uid, $friend_uid);
             $this->mdb->alter($sql, $v);
-            echo 'Finished ', $u['name'], '<br/>';
+
+            echo('added friend');
         }
-        echo 'DONE!';
     }
-     */
+
 }
 

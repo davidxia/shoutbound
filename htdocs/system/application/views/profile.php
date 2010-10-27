@@ -32,9 +32,9 @@
         
         <div id="nn-main">
             <? if($profile_user['uid']==$user['uid']){?>
-            <h1>Welcome to noqnok! Start a discussion about a location by creating a trip or select an existing trip on the left.</h1>
+            <h1>Welcome to noqnok! Start a discussion about a location by creating a trip or selecting an existing trip on the left.</h1>
             <? } else { ?>
-            <h1>You are viewing <?=$profile_user['name']?>'s profile. Click on one of his trips to see what he's up to.</h1>    
+            <h1>You are viewing <?=$profile_user['name']?>'s profile. Click on a trip to see what's up!</h1>    
             <? } ?>
             <br/>
             
