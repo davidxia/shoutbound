@@ -43,7 +43,15 @@
                 
                 <div class="panel">
                     <h3>Friends on noqnok</h3><br/>
-                    
+                    <? foreach($profile_user_friends as $friend) { ?>
+                        <div class="friend-capsule">
+                            <a class="nn-link-home" href="<?=site_url('profile/details/'.$friend['uid']);?>">
+                                <img src="http://graph.facebook.com/<?=$friend['fid']?>/picture?type=square" />
+                            </a>
+                            
+                            <div class="friend-capsule-name"><?=$friend['name']?></div>
+                        </div>
+                    <? } ?>
                 </div>
                 
             </div>
@@ -54,7 +62,7 @@
                 <input type="text" name="tripCity" id="trip-city" readonly="true" class="large-input" value="New York (fixed for now)"/></p>
                 <br/>
                 <p><LABEL for="tripName" class="large-label"> Give your trip a name: </LABEL>
-                <input name="trip-name" id="tripName" class="large-input"/></p>
+                <input name="tripName" id="trip-name" class="large-input"/></p>
                 <br/>
                 <p><button type="button" id="save-trip-button" class="large-button">Save!</button>
                     <a class="cancel-link">or</a>

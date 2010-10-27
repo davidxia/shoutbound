@@ -135,10 +135,25 @@ class Trip extends Controller {
         //echo ($foo);
     }
     
+    function ajax_create_new_trip(){
+        $trip_user = $this->user;
+
+        if($trip_user['uid'] == $this->user['uid']){
+        
+            $trip_name = $_POST['tripname'];
+            $trip_id = $this->Trip_m->create_trip($trip_user['uid'], $trip_name, $_POST['lat'], $_POST['lon']);
+            
+            json_success(array('tripid'=>$trip_id));
+        } else {
+            
+        }
+    }
     
     function ajax_get_list_items(){
         //$trip_items = $this->Trip_m->get_items_by_tripid($_POST['trip_id'])
         //json_sucess($trip_items);
+        
+        json_success();
     }
 }
 

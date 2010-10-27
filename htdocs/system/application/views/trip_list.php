@@ -19,7 +19,6 @@
 
         </form>
         
-        
     </div>
     
     <div id="trip-list-content" class="panel">
