@@ -111,8 +111,8 @@ class User_m extends Model {
         $uid = $this->mdb->alter($sql, $v);
         $udata['uid'] = $uid;
         $this->dirty_user_cache($udata);
-        $this->Trip_m->create_trip($uid, 'Home',
-            $udata['home_lat'], $udata['home_lon']);
+        /*$this->Trip_m->create_trip($uid, 'Home',
+            $udata['home_lat'], $udata['home_lon']);*/
 
         $sql = 'UPDATE friends SET friend_uid = ? WHERE friend_fid = ?';
         $v = array($uid, $udata['fid']);
