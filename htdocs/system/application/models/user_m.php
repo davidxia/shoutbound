@@ -81,6 +81,27 @@ class User_m extends Model {
     }
 
 
+    function get_friends_by_uid($uid) {
+        $key = 'friend_uids_by_uid:'.$uid;
+        $uids = $this->mc->get($key);
+        if($uids === false) {
+            $sql = 'SELECT friend_uid FROM friends WHERE '.
+                'uid = ? AND friend_uid != 0';
+            $v = array($uid);
+            $rows = $this->mdb->select($sql, $v);
+
+            $uids = array();
+            foreach($rows as $row)
+                $uids[] = $row['friend_uid'];
+            $this->mc->set($key, $uids);
+        }
+        $friends = array();
+        foreach($uids as $uid) {
+            $friends[] = $this->get_user_by_uid($uid);
+        }
+        return $friends;
+    }
+
 
     ////////////////////////////////////////////////////////////
     // Creating users

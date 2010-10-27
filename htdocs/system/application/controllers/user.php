@@ -71,5 +71,19 @@ class User extends Controller {
         json_success(array('redirect' => site_url('trip/details/4')));
     }
 
+
+    /* Script to backfill friend_uids
+    function populate_friends() {
+        $sql = 'SELECT * FROM users';
+        $users = $this->mdb->select($sql);
+        foreach($users as $u) {
+            $sql = 'UPDATE friends SET friend_uid = ? WHERE friend_fid = ?';
+            $v = array($u['uid'], $u['fid']);
+            $this->mdb->alter($sql, $v);
+            echo 'Finished ', $u['name'], '<br/>';
+        }
+        echo 'DONE!';
+    }
+     */
 }
 
