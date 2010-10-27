@@ -48,6 +48,19 @@ class Trip_m extends Model {
         return $tripids;
     }
 
+    function get_user_trips($uid) {
+        $key = 'trips_by_uid:'.$uid;
+        $trips = $this->mc->get($key);
+        if($trips === false) {
+            $sql = 'SELECT * FROM trips WHERE uid = ? AND active = ?';
+            $v = array($uid, 1);
+            $rows = $this->mdb->select($sql, $v);
+            
+            $trips = $rows;
+            $this->mc->set($key, $rows);
+        }
+        return $trips;
+    }
 
     function delete_trip($tripid) {
         $trip = get_trip_by_tripid($tripid);

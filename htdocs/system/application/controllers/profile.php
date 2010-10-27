@@ -11,13 +11,29 @@ class Profile extends Controller {
         if(!$this->user){
             redirect('/');
 		}
+		
+		//TODO: maybe some friend detection here
 	}
 
     function index() {
-        $view_data = array();
         
+    }
+
+    function details($pid=false) {
+        
+        if($pid === false){
+            $pid = $this->user['uid'];
+        }
+        
+        $view_data = array();
+            
+        // logged in user
         $view_data['user'] = $this->user;
-        $view_data['trip_ids'] = $this->Trip_m->get_user_tripids($this->user['uid']);
+        // profile user
+        $view_data['profile_user'] = $this->User_m->get_user_by_uid($pid);
+        $view_data['trips'] = $this->Trip_m->get_user_trips($pid);
+        $view_data['profile_user_friends'] = array($this->User_m->get_user_by_uid(4));
+        //TODO: get some friends!
         
         
         $this->load->view('profile', $view_data);

@@ -1,12 +1,12 @@
 #map-canvas {
     height: 320px;
-    width: 790px;
+    width: 890px;
     
     margin: 0 auto;
 }
 
 #map-shell {
-    width: 800px;
+    width: 900px;
     height: 386px;
     background-color: black;
 }
@@ -41,7 +41,7 @@
 
 #console {
     margin-top: 5px;
-    width: 800px;
+    width: 900px;
 }
 
 
@@ -60,7 +60,7 @@
 }
 
 #wall {
-    width: 500px; float: right;
+    width: 600px; float: right;
     margin-left: 20px;
 }
 
@@ -90,19 +90,9 @@
 }
 
 .wall-textarea {
-    width: 495px;
+    width: 595px;
     margin-bottom: 5px;
     height: 40px;
-}
-
-
-h3 {
-    font: 12px Helvetica;
-    font-weight: bold;
-}
-
-.right {
-    float: right;
 }
 
 .suggestion-input-wrap button{
@@ -162,7 +152,28 @@ h3 {
 
 .comment-input {
     height: 50px;
-    width: 499px;
+    width: 599px;
+}
+
+.wall-reply-comment {
+
+}
+
+.wall-root-comment {
+
+}
+
+#trip-wall-items {
+    width: 450px;
+}
+
+.wall-timestamp {
+    color:#fff;
+    font: 11px verdana;
+}
+
+.wall-timestamp-hover {
+    color: #555;
 }
 
 ul {

@@ -3,6 +3,10 @@
     margin: 0;
 }
 
+a img {
+    border:0;
+}
+
 html {
     height: 100%;
 }
@@ -12,12 +16,33 @@ body {
     text-align: center;
 }
 
+h3 {
+    font: 12px Helvetica;
+    font-weight: bold;
+}
+
+h1 {
+    font: 30px "helvetica neue";
+    color: #555;
+    font-style: italic;
+    
+    
+}
+
+ul {
+    list-style: none;
+}
+
+.right {
+    float: right;
+}
+
 #foot {
     clear: both;
 }
 
 #nn-head {
-    width: 800px;
+    width: 900px;
     margin-left: auto;
     margin-right: auto;
     
@@ -25,12 +50,14 @@ body {
     font: 10px verdana;
 
     
-    margin-bottom: 5px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
     
 }
 
 #nn-body {
-    width: 800px;
+    width: 900px;
     text-align: left;
     margin: 0 auto;
     
@@ -113,3 +140,40 @@ INSTRUCTIONS
     margin-top: 10px;
     margin-left: 30px;
 }
+
+/*
+///////////////
+SIDEBAR
+*/
+
+#nn-sidebar {
+    width: 220px;
+    float: left;
+}
+
+.sidebar-item {
+    font: 13px georgia;
+    font-style: italic;
+    border-bottom: 1px solid #eee;
+    padding: 10px 10px 10px 20px;
+}
+
+.sidebar-title {
+    border-bottom: 1px solid #fff;
+}
+
+.sidebar-item-selected {
+    background-color: #eee;
+}
+
+#nn-main {
+    width: 650px;
+    margin-left: 250px;
+}
+
+
+
+
+
+
+

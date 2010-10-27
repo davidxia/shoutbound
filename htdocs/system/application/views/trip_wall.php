@@ -6,7 +6,7 @@
             <li class="trip-wall-control-tab"><h3>Search for a Location to Suggest</h3></li>
         </ul>-->
         
-        <div style="clear:both"></div>
+      
         
         
         
@@ -41,12 +41,14 @@
             
             <?php if($item['islocation']){ ?>
                 
-                <div class="wall-comment">
+                <div class="wall-comment wall-root-comment">
                     
                     <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$item['user']['fid']?>/picture?type=square" /></div>
                       <div class="wall-text left">
                           <span class="wall-comment-username"> <?=$item['user']['name']?> </span>
                           <span class="wall-comment-text"> suggested <span id="wall-location-name-<?=$item['itemid'];?>" class="wall-location-text"></span> </span>
+                          <br/>
+                          <span class="wall-timestamp">timestamp</span>
                       </div>
                     
                     
@@ -56,12 +58,14 @@
                 
             <?} else {?>
                 
-                <div class="wall-comment">
+                <div class="wall-comment wall-reply-comment">
                     
                     <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$item['user']['fid']?>/picture?type=square" /></div>
                       <div class="wall-text left">
                           <span class="wall-comment-username"> <?=$item['user']['name']?> </span>
                           <span class="wall-comment-text"> "<?=$item['body'];?>" </span>
+                          <br/>
+                          <span class="wall-timestamp">timestamp</span>
                       </div>
                     
                     

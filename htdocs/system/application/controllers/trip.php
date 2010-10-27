@@ -59,7 +59,9 @@ class Trip extends Controller {
                 'lat' => $trip['lat'],
                 'lon' => $trip['lon'],
                 'user_name' => $trip_user['name']
-            )
+            ),
+            'trips' => $this->Trip_m->get_user_trips($this->user['uid']),
+            'current_trip' => $trip,
         );
         
         $this->load->view('trip', $view_data);
