@@ -14,7 +14,7 @@
     <div class="sidebar-list panel">
     <ul>
         <li>
-            <div class="sidebar-title"><h3>Trips</h3><br/></div>
+            <div class="sidebar-title"><h3><?=first_name($profile_user['name'])?>'s Trips</h3><br/></div>
         </li>
         
         <? 

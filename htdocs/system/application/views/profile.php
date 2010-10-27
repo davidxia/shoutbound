@@ -32,9 +32,10 @@
         
         <div id="nn-main">
             <? if($profile_user['uid']==$user['uid']){?>
-            <h1>Welcome to noqnok! Start a discussion about a location by creating a trip or selecting an existing trip on the left.</h1>
+            <h1>Welcome home, <?=first_name($user['name'])?>. <br/>
+                Create a new trip to start a conversation with your friends.</h1>
             <? } else { ?>
-            <h1>You are viewing <?=$profile_user['name']?>'s profile. Click on a trip to see what's up!</h1>    
+            <h1>You are viewing <?=first_name($profile_user['name'])?>'s profile. Click on a trip to see what's up!</h1>    
             <? } ?>
             <br/>
             
@@ -46,7 +47,7 @@
                 </div>
                 
                 <div class="panel">
-                    <h3>Friends on noqnok</h3><br/>
+                    <h3><?=first_name($profile_user['name'])?>'s Friends on noqnok</h3><br/>
                     <? 
                     $counter = 0;
                     foreach($profile_user_friends as $friend) { 
