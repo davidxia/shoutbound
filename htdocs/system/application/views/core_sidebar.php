@@ -20,6 +20,14 @@
         <? 
         if(!$current_trip) $current_trip = array();
         
+        if(!sizeof($trips)){
+            ?>
+                <li class="sidebar-message">
+                <?=first_name($profile_user['name'])?> doesn't have any trips yet...
+                </li>
+            <?
+        }
+        
         foreach($trips as $trip) { 
         ?>
             

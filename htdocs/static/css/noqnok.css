@@ -175,7 +175,11 @@ SIDEBAR
     color: #559;
 }
 
-
+.sidebar-message {
+    font: 14px georgia;
+    font-style: italic;
+    color: #555;
+}
 
 
 
