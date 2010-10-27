@@ -168,7 +168,7 @@ SIDEBAR
 
 #nn-main {
     width: 650px;
-    margin-left: 250px;
+    float: right;
 }
 
 

@@ -53,7 +53,7 @@
 
 .cancel-link {
     margin-left: 10px;
-    font: 11px verdana;
+    font: 10px verdana;
 }
 
 .large-panel {
@@ -61,16 +61,21 @@
 }
 
 .friend-capsule {
-    width: 60px;
-    padding: 5px;
+    width: 70px;
+    padding: 0px;
     
-    border: 1px solid #ccc;
+
     float: left;
-    margin-right: 10px;
+    margin-right: 15px;
+    height: 100px;
+    
+    padding-bottom: 5px;
+    
+    overflow:hidden;
 }
 
 .friend-capsule img{
-    margin: 5px 5px 0 5px;
+    margin: 10px 10px 0 10px;
     
 }
 

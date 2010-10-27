@@ -31,19 +31,29 @@
         ?>
         
         <div id="nn-main">
-            
+            <? if($profile_user['uid']==$user['uid']){?>
             <h1>Welcome to noqnok! Start a discussion about a location by creating a trip or select an existing trip on the left.</h1>
-
+            <? } else { ?>
+            <h1>You are viewing <?=$profile_user['name']?>'s profile. Click on one of his trips to see what he's up to.</h1>    
+            <? } ?>
             <br/>
             
             <div id="profile-content" class="large-panel">
-                <div style="height:131px;">
+                <div style="height:130px;">
+                    <? if($profile_user['uid']==$user['uid']){?>
                     <button type="button" id="create-trip-button" class="large-button">Create a Trip</button>
+                    <?}?>
                 </div>
                 
                 <div class="panel">
                     <h3>Friends on noqnok</h3><br/>
-                    <? foreach($profile_user_friends as $friend) { ?>
+                    <? 
+                    $counter = 0;
+                    foreach($profile_user_friends as $friend) { 
+                    if($counter && $counter%5 == 0){
+                        echo('<div class="clear-both"></div>');
+                    }    $counter++;
+                    ?>
                         <div class="friend-capsule">
                             <a class="nn-link-home" href="<?=site_url('profile/details/'.$friend['uid']);?>">
                                 <img src="http://graph.facebook.com/<?=$friend['fid']?>/picture?type=square" />

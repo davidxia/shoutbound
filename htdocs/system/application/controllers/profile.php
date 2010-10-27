@@ -32,7 +32,7 @@ class Profile extends Controller {
         // profile user
         $view_data['profile_user'] = $this->User_m->get_user_by_uid($pid);
         $view_data['trips'] = $this->Trip_m->get_user_trips($pid);
-        $view_data['profile_user_friends'] = array($this->User_m->get_user_by_uid('3'),$this->User_m->get_user_by_uid('4'));
+        $view_data['profile_user_friends'] = $this->User_m->get_friends_by_uid($pid);
         //TODO: get some friends!
         
         
