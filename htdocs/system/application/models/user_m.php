@@ -86,20 +86,28 @@ class User_m extends Model {
     // Creating users
 
     function create_user($udata) {
-        list($sql, $values) = $this->mdb->insert_string('users', $udata);
-        $uid = $this->mdb->alter($sql, $values);
+        list($sql, $v) = $this->mdb->insert_string('users', $udata);
+        $uid = $this->mdb->alter($sql, $v);
         $udata['uid'] = $uid;
         $this->dirty_user_cache($udata);
         $this->Trip_m->create_trip($uid, 'Home',
             $udata['home_lat'], $udata['home_lon']);
+
+        $sql = 'UPDATE friends SET friend_uid = ? WHERE friend_fid = ?';
+        $v = array($uid, $udata['fid']);
+        $this->mdb->alter($sql, $v);
+
         return $uid;
     }
 
 
-    function add_friendship($uid, $friend_fid, $friend_name, $friend_uid = 0) {
+    function add_friendship($uid, $friend_fid, $friend_name) {
         $d = array('uid' => $uid,
                    'friend_fid' => $friend_fid,
                    'name' => $friend_name);
+        if($friend_user = $this->get_user_by_fid($friend_fid))
+            $d['friend_uid'] = $friend_user['uid'];
+
         list($sql, $values) = $this->mdb->insert_string('friends', $d);
         $this->mdb->alter($sql, $values);
     }
