@@ -6,14 +6,6 @@ class Trip extends Controller {
 	{
 		parent::Controller();
 		
-		//list
-		$this->load->model('List_m');
-		
-		//TODO: map
-		
-		//TODO: wall
-		$this->load->model('Wall_m');
-		
 		//authentication
         $this->user = $this->User_m->get_logged_in_user();
         
