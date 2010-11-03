@@ -59,9 +59,10 @@
                 </div>
             </div>
 
+
+            <div id="replies_<?=$item['itemid']?>">
             <? foreach($item['replies'] as $reply): ?>
                 <div id="wall-item-<?=$reply[itemid]?>" class="wall-item">
-                
                     <div class="wall-comment wall-reply">
                         <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$reply['user']['fid']?>/picture?type=square" /></div>
                         <div class="wall-text left">
@@ -74,6 +75,8 @@
                     </div>
                 </div>
             <? endforeach; ?>
+            </div>
+
             
         <? endforeach;?>
         

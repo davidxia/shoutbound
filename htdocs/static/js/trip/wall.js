@@ -2,26 +2,6 @@
 
 WallUtil = {};
 
-WallUtil.updateWall = function(query, reply_id){
-    //console.log(query);
-    
-    var postData = {
-        body: query,
-        reply_id: reply_id,
-        title: "wall-poast",
-        trip_id: Constants.Trip['id'],
-        islocation: 0
-    };
-    
-    
-    $.ajax({
-       type:'POST',
-       url: Constants['siteUrl']+'trip/ajax_add_item',
-       data: postData,//Trip.activeTripItem,
-       success: WallUtil.asyncAddActiveWallItem
-    });
-}
-
 WallUtil.generateWallItemHtml = function(biz){
 
         Trip.activeTripItem = biz;
@@ -37,12 +17,15 @@ WallUtil.generateNewWallLocationHtml = function(fid, name, biz){
     var bodyText = WallUtil.generateWallItemHtml(biz);
     bodyText = 'suggested' + '<span class="wall-location-text">'+bodyText+'</span>';
     
-    return WallUtil.generateNewWallItemHtml(fid, name, bodyText, true);
+    return WallUtil.generateNewWallItemHtml(fid, name, bodyText, true, false);
 }
 
-WallUtil.generateNewWallItemHtml = function(fid, name, body, isLocation){
+WallUtil.generateNewWallItemHtml = function(fid, name, body, isLocation, isReply){
     var text = '';
-    text += '<div class="wall-comment" style="display:none">';
+    text += '<div class="wall-comment';
+    if(isReply)
+        text += ' wall-reply';
+    text += '" style="display:none">';
     text += '<div class="nn-fb-img left">';
     
     text += '<img class="square-50" src="http://graph.facebook.com/';
@@ -80,7 +63,7 @@ WallUtil.asyncAddActiveWallItem = function(responseText, isSuccess, request, isL
     if(isLocation){
         var commentContent = WallUtil.generateNewWallLocationHtml(response.fid, response.name, $.parseJSON(response.biz));
     } else {
-        var commentContent = WallUtil.generateNewWallItemHtml(response.fid, response.name, response.body);
+        var commentContent = WallUtil.generateNewWallItemHtml(response.fid, response.name, response.body, false);
     }
     
     $(commentContent).prependTo('#trip-wall-items').slideDown('slow');
