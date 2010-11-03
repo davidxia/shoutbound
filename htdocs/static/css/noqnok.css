@@ -3,6 +3,17 @@
     margin: 0;
 }
 
+ul {
+    list-style-type: none;
+}
+
+.square-50 {
+    height: 50px;
+    width: 50px;
+    
+    background-color: black;
+}
+
 a img {
     border:0;
 }

@@ -2,6 +2,7 @@
     $header_args = array(
         'css_paths'=>array(
             'css/profile.css',
+            //'css/trip.css',
         ),
         'js_paths'=>array(
             'js/profile/profile.js'
@@ -46,18 +47,26 @@
                     <?}?>
                 </div>
                 
-                <div class="panel">
+                <?
+                    $wall_data = array(
+                        'news_feed_data' => $news_feed_data
+                    );
+                ?>
+                
+                <?=$this->load->view('profile_feed', $wall_data, true)?>
+                
+                <div id="profile-friends" class="panel">
                     <h3><?=first_name($profile_user['name'])?>'s Friends on noqnok</h3><br/>
                     <? 
                     $counter = 0;
                     foreach($profile_user_friends as $friend) { 
-                    if($counter && $counter%5 == 0){
+                    if($counter && $counter%3 == 0){
                         echo('<div class="clear-both"></div>');
                     }    $counter++;
                     ?>
                         <div class="friend-capsule">
                             <a class="nn-link-home" href="<?=site_url('profile/details/'.$friend['uid']);?>">
-                                <img src="http://graph.facebook.com/<?=$friend['fid']?>/picture?type=square" />
+                                <img class="square-50" src="http://graph.facebook.com/<?=$friend['fid']?>/picture?type=square" />
                             </a>
                             
                             <div class="friend-capsule-name"><?=$friend['name']?></div>

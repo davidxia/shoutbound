@@ -2,6 +2,7 @@ function initialize(){
     
     $("#create-trip-button").click(showCreateTripWindow);
     $("#save-trip-button").click(saveNewTrip);
+    
 }
 
 function showCreateTripWindow(eventObject) {

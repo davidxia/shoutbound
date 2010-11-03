@@ -12,6 +12,10 @@ class Trip_m extends Model {
             $val = $rows[0];
             $this->mc->set($key, $val);
         }
+        
+        //nan - this is a temporary thing
+        $val['user'] = $this->User_m->get_user_by_uid($val['uid']);
+        
         return $val;
     }
 
@@ -93,6 +97,9 @@ class Trip_m extends Model {
             //nan - ummz I need names!
             $val['user'] = $this->User_m->get_user_by_uid($val['uid']);
             
+            //nan - I need trip names!
+            $val['trip'] = $this->get_trip_by_tripid($val['tripid']);
+            
             $this->mc->set($key, $val);
         }
         
@@ -161,7 +168,8 @@ class Trip_m extends Model {
 
 
     function create_item($uid, $tripid, $yelpid, $title, $body,
-                         $yelpjson, $lat, $lon, $replyid = 0, $islocation = true) {
+                         $yelpjson, $lat, $lon, $trip_owner, $replyid = 0, $islocation = true) {
+                             
         $d = array('uid' => $uid,
                    'tripid' => $tripid,
                    'yelpid' => $yelpid,
@@ -171,8 +179,10 @@ class Trip_m extends Model {
                    'lat' => $lat,
                    'lon' => $lon,
                    'replyid' => $replyid,
-                   'islocation' => $islocation
+                   'islocation' => $islocation,
+                   'tripowner' => $trip_owner,
                );
+        
         list($sql, $values) = $this->mdb->insert_string('trip_items', $d);
         $itemid = $this->mdb->alter($sql, $values);
 
@@ -202,6 +212,34 @@ class Trip_m extends Model {
         $this->mc->delete('item_by_id:'.$itemid);
         $this->mc->delete('itemids_by_tripid:'.$item['tripid']);
         return true;
+    }
+    
+    function get_trip_news_for_user($uid, $order = 'DESC', $limit = 100) {
+        $key = 'get_trip_news_for_user:'.$uid.':'.$order;
+        $itemids = $this->mc->get($key);
+
+        if($itemids === false) {
+            $order = strtoupper($order) == 'DESC' ? 'DESC' : 'ASC';
+            $sql = 'SELECT itemid FROM trip_items WHERE tripowner = ? '.
+                'AND (status = "pending" OR status = "approved") '.
+                'ORDER BY created '.$order;
+
+            $v = array($uid);
+            $rows = $this->mdb->select($sql, $v);
+            $itemids = array();
+            if($rows) {
+                foreach($rows as $row) {
+                    $itemids[] = $row['itemid'];
+                }
+            }
+            $this->mc->set($key, $itemids);
+        }
+
+        $items = array();
+        foreach($itemids as $itemid) {
+            $items[] = $this->get_item_by_id($itemid);
+        }
+        return $items;
     }
 
 

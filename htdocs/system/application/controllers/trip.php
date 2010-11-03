@@ -85,10 +85,11 @@ class Trip extends Controller {
     
     
     function ajax_add_item(){
+        $trip = $this->Trip_m->get_trip_by_tripid($_POST['trip_id']);
         $title = trim($_POST['title']);
         if(!$title)
             return json_error('You need a title!');
-        if(!$this->Trip_m->get_trip_by_tripid($_POST['trip_id']))
+        if(!$trip)
             return json_error('That trip doesn\'t exist');
 
         $replyid = $_POST['reply_id'];
@@ -113,6 +114,7 @@ class Trip extends Controller {
             $_POST['yelpjson'],
             $_POST['lat'],
             $_POST['lon'],
+            $trip['uid'],
             $replyid,
             $is_location
         ); 
