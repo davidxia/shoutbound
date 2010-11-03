@@ -51,9 +51,9 @@
                             <span class="wall-comment-text"> "<?=$item['body'];?>" </span>
                         <? endif;?>
                         <br/>
-                        <span class="wall-timestamp">timestamp</span>
+                        <span class="wall-timestamp"><?=date("m/d/y",strtotime($item['created']))?></span>
                         <br/>
-                        <a href="#" class="show_reply_button" postid="<?=$item['itemid']?>">Reply</a>
+                        
                       </div>
                     <div class="clear-both"></div>
                 </div>
@@ -69,12 +69,17 @@
                             <span class="wall-comment-username"> <?=$reply['user']['name']?> </span>
                             <span class="wall-comment-text"> "<?=$reply['body'];?>" </span>
                             <br/>
-                            <span class="wall-timestamp">timestamp</span>
+                            <span class="wall-timestamp"><?=date("m/d/y",strtotime($item['created']))?></span>
                         </div>
                         <div class="clear-both"></div>
                     </div>
                 </div>
             <? endforeach; ?>
+                        
+            </div>
+            
+            <div class="reply-box">
+                <a href="#" class="show_reply_button" postid="<?=$item['itemid']?>">reply</a>
             </div>
 
             

@@ -117,6 +117,7 @@
 .wall-text {
     font: 10px verdana;
     margin-left: 60px;
+    padding-bottom: 5px;
 }
 
 .wall-comment-username {
@@ -171,15 +172,42 @@
 }
 
 .wall-timestamp {
-    color:#fff;
-    font: 11px verdana;
+    color:#777;
+    font: 10px verdana;
 }
 
 .wall-timestamp-hover {
     color: #555;
 }
 
+.reply_submit {
+    font: 12px georgia;
+    font-style: italic;
+}
 
+.reply_box {
+    margin-bottom: 5px;
+    width: 420px;
+        margin-left: 30px;
+
+}
+
+.reply-container {
+    text-align: right;
+}
+
+.reply-box {
+
+    text-align: left;
+    padding-bottom: 30px;
+
+
+    
+}
+
+.show_reply_button {
+    font: 10px verdana;
+}
 
 /*
 ///////////////////////////////////////////////////////////////////////////////
