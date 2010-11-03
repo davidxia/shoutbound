@@ -61,7 +61,7 @@
                     $counter = 0;
                     foreach($profile_user_friends as $friend) { 
                     if($counter && $counter%3 == 0){
-                        echo('<div class="clear-both"></div>');
+                        //echo('<div class="clear-both"></div>');
                     }    $counter++;
                     ?>
                         <div class="friend-capsule">
