@@ -35,49 +35,50 @@
         
         <div id="trip-wall-items">
         
-        <?php foreach($wall_items as $item):?>
+        <? foreach($wall_items as $item):?>
 
             <div id="wall-item-<?=$item[itemid]?>" class="wall-item">
             
-            <?php if($item['islocation']){ ?>
-                
-                <div class="wall-comment wall-root-comment">
-                    
+                <div class="wall-comment">
                     <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$item['user']['fid']?>/picture?type=square" /></div>
                       <div class="wall-text left">
-                          <span class="wall-comment-username"> <?=$item['user']['name']?> </span>
-                          <span class="wall-comment-text"> suggested <span id="wall-location-name-<?=$item['itemid'];?>" class="wall-location-text"></span> </span>
-                          <br/>
-                          <span class="wall-timestamp">timestamp</span>
+                        <span class="wall-comment-username"> <?=$item['user']['name']?> </span>
+                        <?php if($item['islocation']): ?>
+                            <span class="wall-comment-text">
+                                suggested <span id="wall-location-name-<?=$item['itemid']?>" class="wall-location-text"></span>
+                            </span>
+                        <? else:?>
+                            <span class="wall-comment-text"> "<?=$item['body'];?>" </span>
+                        <? endif;?>
+                        <br/>
+                        <span class="wall-timestamp">timestamp</span>
+                        <br/>
+                        <a href="#" class="show_reply_button" postid="<?=$item['itemid']?>">Reply</a>
                       </div>
-                    
-                    
-                    
                     <div class="clear-both"></div>
                 </div>
-                
-            <?} else {?>
-                
-                <div class="wall-comment wall-reply-comment">
-                    
-                    <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$item['user']['fid']?>/picture?type=square" /></div>
-                      <div class="wall-text left">
-                          <span class="wall-comment-username"> <?=$item['user']['name']?> </span>
-                          <span class="wall-comment-text"> "<?=$item['body'];?>" </span>
-                          <br/>
-                          <span class="wall-timestamp">timestamp</span>
-                      </div>
-                    
-                    
-                    
-                    <div class="clear-both"></div>
+            </div>
+
+
+            <div id="replies_<?=$item['itemid']?>">
+            <? foreach($item['replies'] as $reply): ?>
+                <div id="wall-item-<?=$reply[itemid]?>" class="wall-item">
+                    <div class="wall-comment wall-reply">
+                        <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$reply['user']['fid']?>/picture?type=square" /></div>
+                        <div class="wall-text left">
+                            <span class="wall-comment-username"> <?=$reply['user']['name']?> </span>
+                            <span class="wall-comment-text"> "<?=$reply['body'];?>" </span>
+                            <br/>
+                            <span class="wall-timestamp">timestamp</span>
+                        </div>
+                        <div class="clear-both"></div>
+                    </div>
                 </div>
-                <?
-            }
+            <? endforeach; ?>
+            </div>
+
             
-            ?></div>
-            
-        <?php endforeach;?>
+        <? endforeach;?>
         
         </div>
         

@@ -40,9 +40,9 @@ class Trip extends Controller {
         }
         
         //getting data for sub-sections
-        $complete_data = $this->Trip_m->get_items_by_tripid($trip_id);
-        $wall_data = array('wall_items' => $complete_data);
-        $list_data = array('list_items' => $this->_filter_out_wall_data($complete_data));
+        $items = $this->Trip_m->get_items_by_tripid($trip_id, 'ASC');
+        $wall_data = array('wall_items' => $this->Trip_m->format_items_as_thread($items));
+        $list_data = array('list_items' => array_reverse($this->_filter_out_wall_data($items)));
         
 
         //$wall_data = array( 'wall_items' => $this->Wall_m->get_wall_items_for_user('uid'));
@@ -152,10 +152,6 @@ class Trip extends Controller {
         }
     }
     
-
-    function get_thread($tripid) {
-        print_r($this->Trip_m->get_thread_by_tripid($tripid));
-    }
 
 }
 

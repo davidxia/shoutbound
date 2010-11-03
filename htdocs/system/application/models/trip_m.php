@@ -136,9 +136,7 @@ class Trip_m extends Model {
     }
 
 
-    function get_thread_by_tripid($tripid) {
-        $items = $this->get_items_by_tripid($tripid, 'ASC');
-
+    function format_items_as_thread($items) {
         $thread = array();
         $item_index = array();
         $recent_times = array();
@@ -146,15 +144,12 @@ class Trip_m extends Model {
         foreach($items as $k => $item) {
             if($item['replyid']) {
                 $parent = &$item_index[$item['replyid']];
-                if(!$parent['index']){
-                    echo 'WTFWTFWTF';
-                    print_r($parent);
-                }
                 $parent['replies'][] = &$items[$k];
                 $recent_times[$parent['index']] = $item['created'];
             } else {
                 $items[$k]['index'] = $index; 
                 $index += 1;
+                $items[$k]['replies'] = array();
 
                 $recent_times[] = $item['created'];
                 $thread[] = &$items[$k];

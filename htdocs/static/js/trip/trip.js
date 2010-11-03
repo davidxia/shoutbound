@@ -113,10 +113,54 @@ function initialize() {
     // Set up wall comment API call
     $("#submit-wall").click(function(){
         //TODO: jQuery this guy
-        var queryString = document.getElementById("wall-comment").value;
-        WallUtil.updateWall(queryString);
+        $.ajax({
+            type:'POST',
+            url: Constants['siteUrl']+'trip/ajax_add_item',
+            data: {
+                body: document.getElementById("wall-comment").value,
+                reply_id: 0,
+                title: "wall-poast",
+                trip_id: Constants.Trip['id'],
+                islocation: 0
+            },
+            success: WallUtil.asyncAddActiveWallItem
+        });
+
         document.getElementById("wall-comment").value = "";
-    });    
+    });
+
+    $(".show_reply_button").click(function() {
+        var parentid = $(this).attr('postid');
+        $(this).parent().append('<br/><textarea class="reply_box" id="reply_box_'+parentid+'"></textarea>'+
+            '<button class="reply_submit" parentid="'+parentid+'">Reply</button>');
+        $(this).hide();
+        $('#reply_box_'+parentid).focus();
+
+        $('.reply_submit[parentid="'+parentid+'"]').click(function() {
+            $.ajax({
+                type:'POST',
+                dataType: 'json',
+                url: Constants['siteUrl']+'trip/ajax_add_item',
+                data: {
+                    body: document.getElementById('reply_box_'+parentid).value,
+                    reply_id: parentid,
+                    title: "wall-poast",
+                    trip_id: Constants.Trip['id'],
+                    islocation: 0
+                },
+                success: function(response) {
+                    var commentContent = WallUtil.generateNewWallItemHtml(
+                        response.fid, response.name, response.body, false, true);
+                    $(commentContent).appendTo('#replies_'+parentid).slideDown('slow');
+                }
+            });
+
+            $('.show_reply_button[postid="'+parentid+'"]').show();
+            $('#reply_box_'+parentid).remove();
+            $(this).remove();
+        });
+        return false;
+    });
     
     // populate existing trips
     ListUtil.populateListItems();
