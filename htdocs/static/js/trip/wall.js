@@ -2,11 +2,12 @@
 
 WallUtil = {};
 
-WallUtil.updateWall = function(query){
+WallUtil.updateWall = function(query, reply_id){
     //console.log(query);
     
     var postData = {
         body: query,
+        reply_id: reply_id,
         title: "wall-poast",
         trip_id: Constants.Trip['id'],
         islocation: 0
@@ -49,9 +50,9 @@ WallUtil.generateNewWallItemHtml = function(fid, name, body, isLocation){
     text += '/picture?type=square"';
     text += '/></div>';
     
-    text +='<div class="wall-text left">';
+    text += '<div class="wall-text left">';
     
-    text +='<span class="wall-comment-username">';
+    text += '<span class="wall-comment-username">';
     text += name;
     text += '</span>';
     

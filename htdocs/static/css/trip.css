@@ -127,9 +127,12 @@
 }
 
 .wall-comment {
-
     margin-bottom: 5px;
     border-bottom: 1px solid #eee;
+}
+
+.wall-reply {
+    margin-left:30px;
 }
 
 .wall-location-text {

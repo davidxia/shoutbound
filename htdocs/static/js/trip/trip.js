@@ -114,9 +114,24 @@ function initialize() {
     $("#submit-wall").click(function(){
         //TODO: jQuery this guy
         var queryString = document.getElementById("wall-comment").value;
-        WallUtil.updateWall(queryString);
+        WallUtil.updateWall(queryString, 0);
         document.getElementById("wall-comment").value = "";
-    });    
+    });
+
+    $(".show_reply_button").click(function() {
+        var parentid = $(this).attr('postid');
+        $(this).parent().append('<br/><textarea class="reply_box" id="reply_box_'+parentid+'"></textarea>'+
+            '<button class="reply_submit" parentid="'+parentid+'">Reply</button>');
+        $(this).hide();
+        $('#reply_box_'+parentid).focus();
+        $('.reply_submit[parentid="'+parentid+'"]').click(function() {
+            WallUtil.updateWall(document.getElementById('reply_box_'+parentid).value, parentid);
+            $(this).hide();
+            $('#reply_box_'+parentid).hide();
+            $('.show_reply_button[postid="'+parentid+'"]').show();
+        });
+        return false;
+    });
     
     // populate existing trips
     ListUtil.populateListItems();
