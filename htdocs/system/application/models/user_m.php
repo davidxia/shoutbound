@@ -125,6 +125,18 @@ class User_m extends Model {
         return $settings;
     }
 
+    ////////////////////////////////////////////////////////////
+    // Updating users
+
+    function update_settings($uid, $trip_suggestion, $trip_post, $trip_reply, $replies) {
+        $sql = 'INSERT INTO user_settings (uid, trip_suggestion, trip_post, trip_reply, replies) '.
+            'VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE '.
+            'trip_suggestion = ?, trip_post = ?, trip_reply = ?, replies = ?';
+        $v = array($uid, $trip_suggestion, $trip_post, $trip_reply, $replies,
+            $trip_suggestion, $trip_post, $trip_reply, $replies);
+        $this->mdb->alter($sql, $v);
+        $this->mc->delete('settings_by_uid:'.$uid);
+    }
 
     ////////////////////////////////////////////////////////////
     // Creating users

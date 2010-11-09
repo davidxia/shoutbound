@@ -47,7 +47,18 @@ class Profile extends Controller {
         
         // logged in user
         $view_data['user'] = $this->user;
+        $view_data['user_settings'] = $this->User_m->get_settings($this->user['uid']);
         $this->load->view('user_settings', $view_data);
+    }
+
+
+    function ajax_update_settings() {
+        $this->User_m->update_settings($this->user['uid'],
+            $_POST['trip_suggestion'],
+            $_POST['trip_post'],
+            $_POST['trip_reply'],
+            $_POST['replies']
+        );
     }
 
 }
