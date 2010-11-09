@@ -41,5 +41,14 @@ class Profile extends Controller {
         $this->load->view('profile', $view_data);
     }
 
+    
+    function settings(){
+        $view_data = array();
+        
+        // logged in user
+        $view_data['user'] = $this->user;
+        $this->load->view('user_settings', $view_data);
+    }
+
 }
 

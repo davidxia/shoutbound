@@ -13,7 +13,9 @@
       </a>
   </div>
   <div class="nn-fb-text right">Welcome, <?=$user['name']?><br/>
-      <a href="<?=site_url('user/logout')?>" >Logout</a>  
+      <a href="<?=site_url('profile/settings')?>" >Settings</a><br/>
+      <a href="<?=site_url('user/logout')?>" >Logout</a>
+
   </div>
     
   <? else: ?>
