@@ -222,3 +222,23 @@
 .marker {
     font: 10px verdana;
 }
+
+/*
+///////////////////////////////////////////////////////////////////////////////
+// SEARCH LIST
+*/
+
+#trip-wall-suggest-list {
+
+}
+
+.search-result-li{
+    font: 10px verdana;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: 25px;
+}
+
+.search-result-li:hover{
+    background-color: #eee;
+}

@@ -51,11 +51,12 @@ YelpUtil.handleResults = function(data) {
         }
         
         var myUl = $("#trip-wall-suggest-list");
+        myUl.empty();
         
         for(var i=0, ii=data.businesses.length; i<ii; i++) {
             biz = data.businesses[i];
-            YelpUtil.createYelpResultMarker(biz, new google.maps.LatLng(biz.latitude, biz.longitude), i);
-            myUl.append(YelpUtil.addYelpResultToResultList(biz));
+            var m = YelpUtil.createYelpResultMarker(biz, new google.maps.LatLng(biz.latitude, biz.longitude), i);
+            myUl.append(YelpUtil.addYelpResultToResultList(biz,m));
         }
     }
     else {
@@ -63,9 +64,16 @@ YelpUtil.handleResults = function(data) {
     }
 }
 
-YelpUtil.addYelpResultToResultList = function(biz) {
-    var resultList = document.createElement("li");
-    resultList.innerHTML = biz.name;
+YelpUtil.addYelpResultToResultList = function(biz, linkedMarker) {
+    var resultList = document.createElement('li');
+    var anchor = document.createElement('a');
+    anchor.innerHTML = biz.name;
+    var aa = $(anchor)
+    $(resultList).append(aa);
+    
+    $(resultList).addClass("search-result-li").click(function(){
+        linkedMarker.showInfoWindow();
+    });
     return resultList;
     
     
@@ -78,18 +86,19 @@ YelpUtil.createYelpResultMarker = function(biz, point, markerNum) {
     var marker = new google.maps.Marker({
         map: Trip.map,
         position: point,
-        draggable: false
+        draggable: false,
+        showInfoWindow: function(){
+            YelpUtil.openYelpResultWindow(marker, biz);
+        }
     });
     
     YelpUtil.searchMarkers.push(marker);
     
     // Register event listeners to each marker to open a shared info
     // window displaying the marker's position when clicked or dragged.
-    google.maps.event.addListener(marker, 'click', function() {
-        YelpUtil.openYelpResultWindow(marker, biz);
-    });
+    google.maps.event.addListener(marker, 'click', marker.showInfoWindow);
     
-
+    return marker;
 }
 
 YelpUtil.destroyAllMarkers = function(){
@@ -99,9 +108,15 @@ YelpUtil.destroyAllMarkers = function(){
         //markers[i] = null;
         //TODO: must destroy listener objects too!!!
     }
-    
+        
     //reset markers
     YelpUtil.searchMarkers = [];
+}
+
+YelpUtil.destroyAllSearchListItems = function(){
+    //reset list
+    var myUl = $("#trip-wall-suggest-list");
+    myUl.empty();
 }
 
 YelpUtil.openYelpResultWindow = function(marker, biz){

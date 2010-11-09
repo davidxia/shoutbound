@@ -23,11 +23,14 @@ Trip = {
       Trip.infoWindow.open(Trip.map, marker);
     },
     
-    addActiveTripItem: function(){
+    addActiveTripItem1: function(){
         alert(1);
+        
+        
+        
     },
     
-    addActiveTripItem1: function(){
+    addActiveTripItem: function(){
         //alert(Trip.activeTripItem.id);
         var activeTrip = Trip.activeTripItem;
         //console.log($.JSON.encode(activeTrip));
