@@ -19,6 +19,11 @@
 
         </form>
         
+        <div id="trip-wall-suggest-list-wrapper">
+            <ul id="trip-wall-suggest-list"></ul>
+        </div>
+        
+        
     </div>
     
     <div id="trip-list-content" class="panel">

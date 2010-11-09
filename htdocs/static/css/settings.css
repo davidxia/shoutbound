@@ -1,0 +1,12 @@
+.settings-panel {
+    font: 10px verdana;
+}
+
+.settings-panel input{
+    margin-bottom: 5px;
+}
+
+.settings-panel button{
+    font: 12px georgia;
+    font-style: italic;
+}

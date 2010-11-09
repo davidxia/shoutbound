@@ -24,10 +24,15 @@ Trip = {
     },
     
     addActiveTripItem: function(){
+        alert(1);
+    },
+    
+    addActiveTripItem1: function(){
         //alert(Trip.activeTripItem.id);
         var activeTrip = Trip.activeTripItem;
-        
         //console.log($.JSON.encode(activeTrip));
+        
+        
         
         var postData = {
             yelp_id: activeTrip.id,

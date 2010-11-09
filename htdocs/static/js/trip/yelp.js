@@ -49,14 +49,26 @@ YelpUtil.handleResults = function(data) {
             alert("Error: No businesses were found near that location");
             return;
         }
-        for(var i=0; i<data.businesses.length; i++) {
+        
+        var myUl = $("#trip-wall-suggest-list");
+        
+        for(var i=0, ii=data.businesses.length; i<ii; i++) {
             biz = data.businesses[i];
             YelpUtil.createYelpResultMarker(biz, new google.maps.LatLng(biz.latitude, biz.longitude), i);
+            myUl.append(YelpUtil.addYelpResultToResultList(biz));
         }
     }
     else {
         alert("Error: " + data.message.text);
     }
+}
+
+YelpUtil.addYelpResultToResultList = function(biz) {
+    var resultList = document.createElement("li");
+    resultList.innerHTML = biz.name;
+    return resultList;
+    
+    
 }
 
 YelpUtil.createYelpResultMarker = function(biz, point, markerNum) {
