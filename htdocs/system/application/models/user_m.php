@@ -103,6 +103,29 @@ class User_m extends Model {
     }
 
 
+    function get_settings($uid) {
+        $key = 'settings_by_uid:'.$uid;
+        $settings = $this->mc->get($key);
+        if($settings === false) {
+            $sql = 'SELECT * FROM user_settings WHERE uid = ?';
+            $v = array($uid);
+            $rows = $this->mdb->select($sql, $v);
+
+            $settings = $rows[0];
+            if(!$settings) {
+                $settings = array('trip_suggestion' => 1,
+                                  'trip_post'       => 1,
+                                  'trip_reply'      => 1,
+                                  'replies'         => 2,
+                              );
+            }
+
+            $this->mc->set($key, $settings);
+        }
+        return $settings;
+    }
+
+
     ////////////////////////////////////////////////////////////
     // Creating users
 

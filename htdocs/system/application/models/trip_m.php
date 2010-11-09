@@ -158,12 +158,30 @@ class Trip_m extends Model {
         }
         array_multisort($recent_times, SORT_DESC, $thread);
         return $thread;
+    }
 
+
+    function get_uids_in_thread($orig_item) {
+        $key = 'uids_in_thread:'.$orig_item['itemid'];
+        $uids = $this->mc->get($key);
+        if($uids === false) {
+            $sql = 'SELECT uid FROM trip_items WHERE replyid = ? '.
+                'ORDER BY created ASC';
+            $v = array($orig_item['itemid']);
+            $rows = $this->mdb->select($sql, $v);
+            $uids = array($orig_item['uid']);
+            foreach($rows as $row) {
+                $uids[] = $row['uid'];
+            }
+            $this->mc->set($key, $uids);
+        }
+        return $uids;
     }
 
 
     function create_item($uid, $tripid, $yelpid, $title, $body,
-                         $yelpjson, $lat, $lon, $trip_owner, $replyid = 0, $islocation = true) {
+                         $yelpjson, $lat, $lon, $trip_owner,
+                         $replyid = 0, $islocation = true) {
                              
         $d = array('uid' => $uid,
                    'tripid' => $tripid,
@@ -183,6 +201,9 @@ class Trip_m extends Model {
 
         $this->mc->delete('item_by_id:'.$itemid);
         $this->mc->delete('itemids_by_tripid:'.$tripid);
+        if($replyid) {
+            $this->mc->delete('uids_in_thread:'.$replyid);
+        }
 
         return $itemid;
     }
