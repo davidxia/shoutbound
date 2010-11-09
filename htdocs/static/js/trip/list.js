@@ -48,6 +48,8 @@ ListUtil.renderListItems = function(){
 ListUtil.asyncAddActiveTripItem = function(responseText){
     // TODO: display the item in the list
     YelpUtil.destroyAllMarkers();
+    YelpUtil.destroyAllSearchListItems();
+    
     Trip.closeInfoWindow();
     
     

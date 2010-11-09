@@ -20,7 +20,7 @@
         </form>
         
         <div id="trip-wall-suggest-list-wrapper">
-            <ul id="trip-wall-suggest-list"></ul>
+            <ol id="trip-wall-suggest-list"></ol>
         </div>
         
         
