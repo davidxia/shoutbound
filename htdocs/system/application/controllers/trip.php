@@ -133,7 +133,7 @@ class Trip extends Controller {
                     $this->sendgrid_email->send_mail(
                         array($user['email']),
                         $author['name'].' has commented on '.$owner['name']."'s trip - ".$trip['name'],
-                        $this->_add_link_to_notification('</h4>'.$author['name'].' has commented on '.$owner['name']."'s trip - ".$trip['name'].'</h4>'.$author['name'].' wrote: ',$trip, $_POST['body']),
+                        $this->_add_link_to_notification('<h4>'.$author['name'].' has commented on '.$owner['name']."'s trip - ".$trip['name'].'</h4>'.$author['name'].' wrote: ',$trip, $_POST['body']),
                         $this->_add_link_to_notification($author['name'].' has commented on '.$owner['name']."'s trip - ".$trip['name'],$trip, $_POST['body'])
                     );
                     $has_been_emailed[$uid] = true;
