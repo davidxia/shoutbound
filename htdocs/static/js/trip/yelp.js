@@ -93,7 +93,8 @@ YelpUtil.createYelpResultMarker = function(biz, point, markerNum) {
         }
     });
     
-    if(console) console.log(Constants.staticUrl+'/images/marker_star.png');
+    //if(console) console.log(Constants.staticUrl+'/images/marker_star.png');
+
     
     YelpUtil.searchMarkers.push(marker);
     
