@@ -87,10 +87,13 @@ YelpUtil.createYelpResultMarker = function(biz, point, markerNum) {
         map: Trip.map,
         position: point,
         draggable: false,
+        icon: Constants.staticUrl+'/images/marker_star.png',
         showInfoWindow: function(){
             YelpUtil.openYelpResultWindow(marker, biz);
         }
     });
+    
+    if(console) console.log(Constants.staticUrl+'/images/marker_star.png');
     
     YelpUtil.searchMarkers.push(marker);
     

@@ -140,6 +140,7 @@ class Trip extends Controller {
 
         // Generate email to the owner
         if(!$has_been_emailed[$trip['uid']]) {
+            $author = $this->$user;
             $owner = $this->User_m->get_user_by_uid($trip['uid']);
             $user_settings = $this->User_m->get_settings($trip['uid']);
             if($replyid && $user_settings['trip_reply']) {

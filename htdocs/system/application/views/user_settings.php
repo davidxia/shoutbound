@@ -23,8 +23,8 @@
     <div id="nn-body">
 
     
-        <h1>noqnok respects your privacy. <br/>
-        Choose the settings that are right for you.</h1><br/>
+        <h1>stay in the loop on noqnok! <br/>
+    choose the notification settings that are right for you.</h1><br/>
         
         <form>
         
