@@ -234,6 +234,8 @@
 
 .search-result-li{
     font: 10px verdana;
+    color: #333;
+    text-decoration: underline;
     cursor: pointer;
     padding: 5px;
     margin-left: 25px;
@@ -241,4 +243,5 @@
 
 .search-result-li:hover{
     background-color: #eee;
+    color: black;
 }
