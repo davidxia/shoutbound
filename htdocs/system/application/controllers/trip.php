@@ -116,6 +116,9 @@ class Trip extends Controller {
         $has_been_emailed = array($this->user['uid'] => true);
         $this->load->library('sendgrid_email');
         if($replyid) {
+            $author = $this->user;
+            $owner = $this->User_m->get_user_by_uid($trip['uid']);
+            
             $reply_item = $this->Trip_m->get_item_by_id($replyid);
             $uids = $this->Trip_m->get_uids_in_thread($reply_item);
             for($i = 0; $i < count($uids); $i++) {
@@ -129,9 +132,9 @@ class Trip extends Controller {
                     $user = $this->User_m->get_user_by_uid($uid);
                     $this->sendgrid_email->send_mail(
                         array($user['email']),
-                        'SUBJECT',
-                        'HTMLBODY',
-                        'TEXT BODY'
+                        $author['name'].' has commented on '.$owner['name']."'s trip - ".$trip['name'],
+                        $this->_add_link_to_notification('</h4>'.$author['name'].' has commented on '.$owner['name']."'s trip - ".$trip['name'].'</h4>',$trip, $_POST['body']),
+                        $this->_add_link_to_notification($author['name'].' has commented on '.$owner['name']."'s trip - ".$trip['name'],$trip, $_POST['body'])
                     );
                     $has_been_emailed[$uid] = true;
                 }
@@ -140,26 +143,26 @@ class Trip extends Controller {
 
         // Generate email to the owner
         if(!$has_been_emailed[$trip['uid']]) {
-            $author = $this->$user;
+            $author = $this->user;
             $owner = $this->User_m->get_user_by_uid($trip['uid']);
             $user_settings = $this->User_m->get_settings($trip['uid']);
             if($replyid && $user_settings['trip_reply']) {
                 $this->sendgrid_email->send_mail(array($owner['email']),
                     $author['name'].' has replied to a post on your trip',
-                    '<h4>'.$author['name'].' has replied to a post on your trip '.$trip['name'].'</h4>',
-                    $author['name'].' has replied to a post on your trip '.$trip['name']
+                    $this->_add_link_to_notification('<h4>'.$author['name'].' has replied to a post on your trip - '.$trip['name'].'</h4>',$trip, $_POST['body']),
+                    $this->_add_link_to_notification($author['name'].' has replied to a post on your trip '.$trip['name'],$trip, $_POST['body'])
                 );
             } else if($islocation && $user_settings['trip_suggestion']) {
                 $this->sendgrid_email->send_mail(array($owner['email']),
                     $author['name'].' has made a suggestion on your trip',
-                    '<h4>'.$author['name'].' has made a suggestion on your trip '.$trip['name'].'</h4>',
-                    $author['name'].' has made a suggestion on your trip '.$trip['name']
+                    $this->_add_link_to_notification('<h4>'.$author['name'].' has made a suggestion on your trip - '.$trip['name'].'</h4>',$trip),
+                    $this->_add_link_to_notification($author['name'].' has made a suggestion on your trip '.$trip['name'],$trip)
                 );
             } else if($user_settings['trip_post']) {
                 $this->sendgrid_email->send_mail(array($owner['email']),
-                    $author['name'].' has made a post on your trip',
-                    '<h4>'.$author['name'].' has made a post on your trip '.$trip['name'].'</h4>',
-                    $author['name'].' has made a post on your trip '.$trip['name']
+                    $author['name'].' has made a post on your wall',
+                    $this->_add_link_to_notification('<h4>'.$author['name'].' has made a post on your trip - '.$trip['name'].'</h4>',$trip, $_POST['body']),
+                    $this->_add_link_to_notification($author['name'].' has made a post on your trip '.$trip['name'],$trip, $_POST['body'])
                 );
             }
         }
@@ -179,6 +182,19 @@ class Trip extends Controller {
             ));
         }
         //echo ($foo);
+    }
+
+    function _add_link_to_notification($message, $trip, $body=null){
+        
+        $ret_val = '';
+        
+        if($body) {
+            $ret_val .= '"'.$body.'"'.'<br/>';
+        }
+        
+        $ret_val .= '<a href="'.site_url('trip/details/'.$trip['tripid']).'">To go to the trip, click here.</a>';
+        
+        return $ret_val;
     }
 
 
