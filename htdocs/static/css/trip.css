@@ -38,6 +38,9 @@
     font-weight: bold;
 }
 
+.nn-fb-text a {
+    color: #88f;
+}
 
 #console {
     margin-top: 5px;
