@@ -32,6 +32,13 @@ h3 {
     font-weight: bold;
 }
 
+h2 {
+    font: 14px georgia;
+    font-style: italic;
+    font-weight: bold;
+    color: #777;
+}
+
 h1 {
     font: 30px "helvetica neue";
     color: #555;
@@ -192,5 +199,18 @@ SIDEBAR
     color: #555;
 }
 
+/**
+////////////////////////////////////////////
+POPUP
+**/
 
+#div_to_popup {
+    display: none;
+    background: white;
+}
 
+.nn-success {
+    padding: 10px;
+    border: 10px solid #ccc;
+    cursor: pointer;
+}

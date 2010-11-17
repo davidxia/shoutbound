@@ -41,6 +41,7 @@ class Trip extends Controller {
         
         $view_data = array(
             'user'      => $this->user,
+            'trip_user' => $trip_user,
             'list_data' => $list_data,
             'wall_data' => $wall_data,
             'trip_data' => array(
@@ -211,6 +212,63 @@ class Trip extends Controller {
         } else {
             
         }
+    }
+    
+    function ajax_panel_share_trip() {
+        
+        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
+        $friends = $this->User_m->get_friends_by_uid($this->user['uid']);
+        
+        $view_data = array(
+            'user' => $this->user,
+            'trip' => $trip,
+            'user_friends' => $friends
+        );
+        
+        $render_string = $this->load->view('trip/trip_share_panel', $view_data, true);
+        json_success(array('data'=>$render_string));
+        
+        
+    }
+    
+    function ajax_share_trip() {
+        
+        $author = $this->user;
+        
+        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
+        $uids = json_decode($_POST['uids']);
+        $message = $_POST['message'];
+        
+        $this->load->library('sendgrid_email');
+        
+        for($i = 0; $i < count($uids); $i++) {
+            $uid = $uids[$i];
+
+            //$user_settings = $this->User_m->get_settings($uid);
+            if(true) {
+
+                $user = $this->User_m->get_user_by_uid($uid);
+                $this->sendgrid_email->send_mail(
+                    array($user['email']),
+                    $author['name'].' shared a trip with you on noqnok!',
+                    $this->_add_link_to_notification('<h4>'.$author['name'].' shared a trip with you on noqnok! </h4>'.$author['name'].' says: '.$message,$trip),
+                    $this->_add_link_to_notification($author['name'].' shared a trip with you on noqnok! '.$author['name'].' says: '.$message,$trip)
+                );
+  
+            }
+        }
+        
+        
+        
+        
+        $view_data = array(
+            //'message' => 'this does nothing yet'
+        );
+        
+        $render_string = $this->load->view('core_success', $view_data, true);
+        json_success(array('data'=>$render_string));
+        
+        
     }
     
 
