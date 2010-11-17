@@ -66,7 +66,7 @@ Share.confirmShare = function(){
         }
     });
     
-    console.dir(selectedUids);
+    //console.dir(selectedUids);
     
     Share.sendShareData(selectedUids);
     
