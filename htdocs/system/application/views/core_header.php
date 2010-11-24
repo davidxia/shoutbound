@@ -9,6 +9,7 @@
 <script type="text/javascript" src="<?=static_url('js/jquery/jquery-dev.js');?>"></script>
 <script language="javascript" src="<?=static_url('js/jquery/jquery.json.js');?>"></script>
 <script language="javascript" src="<?=static_url('js/jquery/popup.js');?>"></script>
+<script language="javascript" src="<?=static_url('js/jquery/jquery.tmpl.js');?>"></script>
 
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">

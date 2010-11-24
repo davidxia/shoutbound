@@ -23,14 +23,49 @@ Trip = {
       Trip.infoWindow.open(Trip.map, marker);
     },
     
-    addActiveTripItem1: function(){
-        alert(1);
+    addActiveTripItem: function(){
+        //if(window.console) console.log("adding!");
+        var activeTrip = Trip.activeTripItem;
+        
+        //generate the markup for the next window
+        var myTemplate = '<div id="trip-suggest-comment-content">'
+            + '<h2>You are suggesting the location: </h2>'
+            + '<h2 class="black">#{name}</h2>' 
+            +'<div class="panel">'
+                +'<h3>Add a comment (optional)</h3><br/>'
+                +'<textarea id="trip-suggest-textarea">'
+                +'</textarea><br/>'
+                +'<div class="nn-window-tb">'
+                +'<button id="suggest-confirm" class="nn-window-tb-button">confirm</button>'
+                +'<button id="suggest-cancel" class="nn-window-tb-button">cancel</button>'
+                +'</div>'
+            +'</div>';
         
         
+        var myValues = {
+           name : activeTrip.name
+        };
+        
+        var myResult = $.tmpl(myTemplate, myValues);
+        
+        $("#div_to_popup").empty();
+        $("#div_to_popup").append(myResult);
+        $("#div_to_popup").bPopup();
+        
+        Trip.bindCommentButtons();
         
     },
     
-    addActiveTripItem: function(){
+    bindCommentButtons: function(){
+        $('#suggest-confirm').bind('click', Trip.confirmSuggest);
+        $('#suggest-cancel').bind('click', Trip.hideSuggestDialog);
+    },
+    
+    hideSuggestDialog: function(){
+        $("#div_to_popup").bPopup().close();
+    },
+    
+    confirmSuggest: function(){
         //alert(Trip.activeTripItem.id);
         var activeTrip = Trip.activeTripItem;
         //console.log($.JSON.encode(activeTrip));
@@ -42,7 +77,7 @@ Trip = {
             lat: activeTrip.latitude,
             lon: activeTrip.longitude,
             title: activeTrip.name,
-            body: "foo",
+            body: $('#trip-suggest-textarea').val(),
             trip_id: Constants.Trip['id'],
             yelpjson: $.JSON.encode(activeTrip)
         };
@@ -53,6 +88,8 @@ Trip = {
            data: postData,//Trip.activeTripItem,
            success: ListUtil.asyncAddActiveTripItem
         });
+        
+        Trip.hideSuggestDialog();
     }
     
 

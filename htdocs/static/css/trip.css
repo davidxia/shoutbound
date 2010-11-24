@@ -336,3 +336,29 @@
     font: 10px verdana;
     text-align: center;
 }
+
+
+/************
+SUGGESTION BOX
+**/
+#trip-suggest-comment-content{
+    border:10px solid #CCCCCC;
+    cursor:pointer;
+    padding:10px;
+    
+    width: 300px;
+    text-align: left;
+}
+
+#trip-suggest-textarea {
+    width: 295px;
+}
+
+.black {
+    color: black !important;
+}
+
+.nn-window-tb {
+    text-align: right;
+    padding-top: 10px;
+}

@@ -173,6 +173,7 @@ class Trip extends Controller {
             json_success(array(
                 'biz' => $_POST['yelpjson'],
                 'name'=> $this->user['name'],
+                'body'=> $_POST['body'],
                 'fid' => $this->user['fid'],
             ));
         } else {

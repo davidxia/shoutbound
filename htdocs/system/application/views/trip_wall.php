@@ -46,6 +46,13 @@
                         <?php if($item['islocation']): ?>
                             <span class="wall-comment-text">
                                 suggested <span id="wall-location-name-<?=$item['itemid']?>" class="wall-location-text"></span>
+                                <? if ($item['body']) { ?>
+                                    
+                                    
+                                    <br/><br/>"<?=$item['body']?>"
+                                    
+                                    
+                                <? } ?>
                             </span>
                         <? else:?>
                             <span class="wall-comment-text"> "<?=$item['body'];?>" </span>

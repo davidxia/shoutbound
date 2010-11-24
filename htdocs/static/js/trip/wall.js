@@ -12,10 +12,14 @@ WallUtil.generateWallItemHtml = function(biz){
     
 }
 
-WallUtil.generateNewWallLocationHtml = function(fid, name, biz){
+WallUtil.generateNewWallLocationHtml = function(fid, name, biz, body){
     
     var bodyText = WallUtil.generateWallItemHtml(biz);
     bodyText = 'suggested' + '<span class="wall-location-text">'+bodyText+'</span>';
+    
+    if(body){
+        bodyText +='<br/><br/>'+'"'+body+'"<br/>';
+    }
     
     return WallUtil.generateNewWallItemHtml(fid, name, bodyText, true, false);
 }
@@ -61,7 +65,7 @@ WallUtil.generateNewWallItemHtml = function(fid, name, body, isLocation, isReply
 WallUtil.asyncAddActiveWallItem = function(responseText, isSuccess, request, isLocation){
     var response = $.parseJSON(responseText);
     if(isLocation){
-        var commentContent = WallUtil.generateNewWallLocationHtml(response.fid, response.name, $.parseJSON(response.biz));
+        var commentContent = WallUtil.generateNewWallLocationHtml(response.fid, response.name, $.parseJSON(response.biz), response.body);
     } else {
         var commentContent = WallUtil.generateNewWallItemHtml(response.fid, response.name, response.body, false);
     }
