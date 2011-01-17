@@ -27,8 +27,8 @@ class Trip_m extends Model {
                    'lon'  => $lon,
                );
         list($sql, $values) = $this->mdb->insert_string('trips', $d);
-        $this->mc->delete('tripids_by_uid:'.$uid);
         $tripid = $this->mdb->alter($sql, $values);
+        $this->mc->delete('tripids_by_uid:'.$uid);
         $this->mc->delete('trip_by_tripid:'.$tripid);
         return $tripid;
     }
@@ -94,14 +94,11 @@ class Trip_m extends Model {
             $rows = $this->mdb->select($sql, $v);
             $val = $rows[0];
             
-            //nan - ummz I need names!
-            $val['user'] = $this->User_m->get_user_by_uid($val['uid']);
-            
-            //nan - I need trip names!
-            $val['trip'] = $this->get_trip_by_tripid($val['tripid']);
-            
             $this->mc->set($key, $val);
         }
+        
+        $val['user'] = $this->User_m->get_user_by_uid($val['uid']);
+        $val['trip'] = $this->get_trip_by_tripid($val['tripid']);
         
         return $val;
     }

@@ -16,7 +16,7 @@ class Profile extends Controller {
 	}
 
     function index() {
-        
+        $this->details();
     }
 
     function details($pid=false) {

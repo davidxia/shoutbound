@@ -3,12 +3,12 @@
 class Landing extends Controller {
 
     function index() {
-        $user = $this->User_m->get_logged_in_user();
-        if($user)
+        $uid = $this->User_m->get_logged_in_uid();
+        if($uid)
             redirect('/profile/details');
 
         else{
-            $this->load->view('landing', $view_data);
+            $this->load->view('landing');
         }
     }
 
