@@ -258,6 +258,5 @@ class Trip_m extends Model {
         return $items;
     }
 
-
 }
 
