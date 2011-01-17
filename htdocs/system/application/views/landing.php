@@ -25,6 +25,8 @@
     <img src="<?=site_url('images/fb-login-button.png');?>" />
 </a>
 
+Ben's nonsense
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"
         type="text/javascript"></script>
 <script>
