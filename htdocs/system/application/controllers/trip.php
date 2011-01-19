@@ -290,9 +290,20 @@ class Trip extends Controller {
         
         $render_string = $this->load->view('trip/trip_invite_panel', $view_data, true);
         json_success(array('data'=>$render_string));
-        
-        
     }
 
+    function ajax_invite_trip() {
+                
+        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
+        $uids = json_decode($_POST['uids']);
+
+        $view_data = array(
+            'trip' => $trip,
+            'uids' => $uids
+        );
+        
+        $render_string = $this->load->view('core_success', $view_data, true);
+        json_success(array('data'=>$render_string));
+    }
 }
 

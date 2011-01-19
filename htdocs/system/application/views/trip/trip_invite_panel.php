@@ -22,17 +22,11 @@
                     $counter++;
                     ?>
                         <div uid="<?=$friend['uid']?>" class="friend-capsule">
-                            <!--a class="nn-link-home" href="<?=site_url('profile/details/'.$friend['uid']);?>"-->
-                                <img class="square-50" src="http://graph.facebook.com/<?=$friend['fid']?>/picture?type=square" />
-                            <!--/a-->
+                            <img class="square-50" src="http://graph.facebook.com/<?=$friend['fid']?>/picture?type=square" />
                             
                             <div class="friend-capsule-name"><?=$friend['name']?></div>
                         </div>
                     <? } ?>
-            
-            
-            
-     
             
                 </div>
             
@@ -44,27 +38,17 @@
                 
                 <textarea id="trip-share-textarea">If you don't come with me on <?=$trip['name']?>, I'll never speak with you again!</textarea>
             </div>
-            
-            
-            
-            
-            
         </div>
-        
-        
-        
-        
     </div>
     
     <div id="trip-share-toolbar">
         
         <a id="trip-share-confirm" class="nn-window-tb-button">
-            Confirm
+            Send Invite
         </a>
         
         <a id="trip-share-cancel" class="nn-window-tb-button">
             Cancel
         </a>
     </div>
-    
 </div>

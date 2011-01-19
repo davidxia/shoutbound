@@ -24,7 +24,7 @@ Invite.sendInviteData = function(uids){
     
     $.ajax({
        type:'POST',
-       url: Constants['siteUrl']+'trip/ajax_share_trip',
+       url: Constants['siteUrl']+'trip/ajax_invite_trip',
        data: postData,
        success: Invite.displaySuccessDialog
     });
