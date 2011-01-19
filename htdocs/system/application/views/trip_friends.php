@@ -1,24 +1,11 @@
 <h3>Invited Friends</h3>
 
-<?php
-
-
-//print_r($invited_uids);
-
-//foreach($invited_uids as &$v) {
-//	echo "$v\n";
-//}
-
-
-foreach($invited_users as &$invited_user) {
-	echo $invited_user['name'];
-	?>
-	<br>
-
-<?php
-	
-}
-
-
-
-?>
+    <div id="profile-friends" class="panel">
+        <?foreach($invited_users as $invited_user): ?>
+            <div class="friend-capsule">
+                <a class="nn-link-home" href="<?=site_url('profile/details/'.$invited_user['uid']);?>">
+                    <img class="square-50" src="http://graph.facebook.com/<?=$invited_user['fid']?>/picture?type=square" /><?=$invited_user['name']?>
+                </a>
+            </div>
+        <? endforeach; ?>
+    </div>

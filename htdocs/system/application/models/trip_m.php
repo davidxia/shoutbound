@@ -81,8 +81,8 @@ class Trip_m extends Model {
         return true;
     }
 
-	function get_uids_by_tripid($tripid) {
-		$key = 'uids_by_tripid:'.$tripid;
+	function get_users_by_tripid($tripid) {
+		$key = 'users_by_tripid:'.$tripid;
 	    $uids = $this->mc->get($key);
 	    if($uids === false) {
 	        $sql = 'SELECT uid FROM trips_users WHERE tripid = ? ';
@@ -96,7 +96,11 @@ class Trip_m extends Model {
 	        }
 	        $this->mc->set($key, $uids);
 	    }
-	    return $uids;
+	    $users = array();
+		foreach($uids as &$uid) {
+			$users[] = $this->User_m->get_user_by_uid($uid);
+		}
+	    return $users;
 	}
     /////////////////////////////////////////////////////////////////////////
     // [Trip] Items (Suggestions)

@@ -37,11 +37,8 @@ class Trip extends Controller {
         $list_data = array('list_items' => array_reverse($this->_filter_out_wall_data($items)));
 
 		//David: trying to display friends associated with the trip
-		$invited_uids = $this->Trip_m->get_uids_by_tripid($trip_id);
-        $invited_users = array();
-		foreach($invited_uids as &$invited_uid) {
-			$invited_users[] = $this->User_m->get_user_by_uid($invited_uid);
-		}
+		$invited_users = $this->Trip_m->get_users_by_tripid($trip_id);
+
 
         //$wall_data = array( 'wall_items' => $this->Wall_m->get_wall_items_for_user('uid'));
         
