@@ -36,8 +36,8 @@ class Trip extends Controller {
         $wall_data = array('wall_items' => $this->Trip_m->format_items_as_thread($items));
         $list_data = array('list_items' => array_reverse($this->_filter_out_wall_data($items)));
 
-		//David: trying to display friends associated with the trip
-		$invited_users = $this->Trip_m->get_users_by_tripid($trip_id);
+		//David: display friends invited to the trip who replied yes
+		$in_users = $this->Trip_m->get_users_by_tripid($trip_id, 'yes');
 
 
         //$wall_data = array( 'wall_items' => $this->Wall_m->get_wall_items_for_user('uid'));
@@ -59,7 +59,7 @@ class Trip extends Controller {
             'trips' => $this->Trip_m->get_user_trips($this->user['uid']),
             'current_trip' => $trip,
 			'invited_uids' => $invited_uids,
-			'invited_users' =>$invited_users,
+			'in_users' =>$in_users,
         );
         
         $this->load->view('trip', $view_data);
@@ -277,6 +277,22 @@ class Trip extends Controller {
         
     }
     
+    function ajax_panel_invite_trip() {
+        
+        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
+        $friends = $this->User_m->get_friends_by_uid($this->user['uid']);
+        
+        $view_data = array(
+            'user' => $this->user,
+            'trip' => $trip,
+            'user_friends' => $friends
+        );
+        
+        $render_string = $this->load->view('trip/trip_invite_panel', $view_data, true);
+        json_success(array('data'=>$render_string));
+        
+        
+    }
 
 }
 

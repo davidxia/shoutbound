@@ -7,6 +7,7 @@ $header_args = array(
         'js/trip/yelp.js',
         'js/trip/wall.js',
         'js/trip/share.js',
+        'js/trip/invite.js',
     ),
     'css_paths'=>array(
         'css/trip.css',

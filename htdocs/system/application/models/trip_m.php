@@ -81,12 +81,13 @@ class Trip_m extends Model {
         return true;
     }
 
-	function get_users_by_tripid($tripid) {
+	function get_users_by_tripid($tripid, $rsvp) {
 		$key = 'users_by_tripid:'.$tripid;
 	    $uids = $this->mc->get($key);
 	    if($uids === false) {
-	        $sql = 'SELECT uid FROM trips_users WHERE tripid = ? ';
-	        $v = array($tripid);
+	        $sql = 'SELECT uid FROM trips_users WHERE tripid = ? '.
+				'AND rsvp = ?';
+	        $v = array($tripid, $rsvp);
 	        $rows = $this->mdb->select($sql, $v);
 	        $uids = array();
 	        if($rows) {
