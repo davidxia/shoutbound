@@ -49,13 +49,13 @@
                                 <? if ($item['body']) { ?>
                                     
                                     
-                                    <br/><br/>"<?=$item['body']?>"
+                                    <br/><br/><?=$item['body']?>
                                     
                                     
                                 <? } ?>
                             </span>
                         <? else:?>
-                            <span class="wall-comment-text"> "<?=$item['body'];?>" </span>
+                            <span class="wall-comment-text"> <?=$item['body'];?> </span>
                         <? endif;?>
                         <br/>
                         <span class="wall-timestamp"><?=date("m/d/y",strtotime($item['created']))?></span>
@@ -74,7 +74,7 @@
                         <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$reply['user']['fid']?>/picture?type=square" /></div>
                         <div class="wall-text left">
                             <span class="wall-comment-username"> <?=$reply['user']['name']?> </span>
-                            <span class="wall-comment-text"> "<?=$reply['body'];?>" </span>
+                            <span class="wall-comment-text"> <?=$reply['body'];?> </span>
                             <br/>
                             <span class="wall-timestamp"><?=date("m/d/y",strtotime($item['created']))?></span>
                         </div>

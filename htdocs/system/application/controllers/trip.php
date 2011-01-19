@@ -35,7 +35,13 @@ class Trip extends Controller {
         $items = $this->Trip_m->get_items_by_tripid($trip_id, 'ASC');
         $wall_data = array('wall_items' => $this->Trip_m->format_items_as_thread($items));
         $list_data = array('list_items' => array_reverse($this->_filter_out_wall_data($items)));
-        
+
+		//David: trying to display friends associated with the trip
+		$invited_uids = $this->Trip_m->get_uids_by_tripid($trip_id);
+        $invited_users = array();
+		foreach($invited_uids as &$invited_uid) {
+			$invited_users[] = $this->User_m->get_user_by_uid($invited_uid);
+		}
 
         //$wall_data = array( 'wall_items' => $this->Wall_m->get_wall_items_for_user('uid'));
         
@@ -55,6 +61,8 @@ class Trip extends Controller {
             ),
             'trips' => $this->Trip_m->get_user_trips($this->user['uid']),
             'current_trip' => $trip,
+			'invited_uids' => $invited_uids,
+			'invited_users' =>$invited_users,
         );
         
         $this->load->view('trip', $view_data);

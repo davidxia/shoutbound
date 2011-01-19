@@ -62,6 +62,10 @@ $this->load->view('core_header', $header_args);
           <div id="map-canvas"></div>
       </div>
       <div id="console">
+		<div id="invited-friends">
+			<?=$this->load->view('trip_friends', $invited_uids)?>
+		</div>
+		
         <div id="list">
             
             <?=$this->load->view('trip_list', $list_data, true)?>
