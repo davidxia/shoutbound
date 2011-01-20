@@ -11,6 +11,7 @@ $header_args = array(
     ),
     'css_paths'=>array(
         'css/trip.css',
+        'css/grid.css',
     )
 );
 
@@ -33,34 +34,32 @@ $this->load->view('core_header', $header_args);
         $banner_args = array('user'=>$user);
         echo($this->load->view('core_banner',$banner_args));
     ?>
-
-    <div id="div_to_popup"></div>
   
-    <div id="nn-body">
-        <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$trip_data['fid']?>/picture?type=square" /></div>
-        <div class="nn-fb-text left">
-            <span class="trip-name"><h1><?=$trip_data['user_name']?> is planning</h1></span>
+    <div id="nn-body" class="container_12">
+        <div class="grid_4" id="trip-name" >
             <h1><?=$trip_data['name']?></h1>
-            
-            <? if ($user['uid'] == $trip_user['uid']){ ?>
-                <br/>
-                <a href="javascript: Share.showShareDialog();"> Share this trip </a>
-              <? } ?>
         </div>
-
-      <div id="map-shell">
-          <div id="map-toolbar">
-              
-              
-              
-          </div>
-          
-          <div id="map-canvas"></div>
-      </div>
-      <div id="console">
-		<div id="invited-friends">
+        <div class="grid_4" id="trip-creator">
+            <h2>by <?=$trip_data['user_name']?></h2>
+        </div>
+        <div class="grid_4" id="share-trip">
+            <? if($user['uid'] == $trip_user['uid']) { ?>
+            <br />
+            <a href="javascript: Share.showShareDialog();">Share this trip</a>
+            <? } ?>
+        </div>
+        <div class="clear"></div>
+        
+        <div id="map-shell" class="grid_9">
+            <div id="map-canvas"></div>
+        </div>
+        <div id="invited-friends" class="grid_3">
 			<?=$this->load->view('trip_friends', $invited_uids)?>
 		</div>
+        <div class="clear"></div>
+        
+        <div id="console">
+
 		
         <div id="list">
             

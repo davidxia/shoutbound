@@ -1,14 +1,18 @@
-#map-canvas {
-    height: 320px;
-    width: 710px;
+#map-shell {
+    padding: 5px;
+    background: #F7F7F7;
     
-    margin: 0 auto;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    
+    box-shadow: 5px 5px 3px #888;
+    -moz-box-shadow: 5px 5px 3px #888;
+    -webkit-box-shadow: 5px 5px 3px #888;
 }
 
-#map-shell {
-    width: 720px;
-    height: 386px;
-    /*background-color: black;*/
+#map-canvas {
+    height: 350px;
 }
 
 #map-toolbar {
