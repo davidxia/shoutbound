@@ -288,5 +288,21 @@ class Trip_m extends Model {
         }
         return $rsvp;
     }
-}
+    
+    
+    function invite_uids_by_tripid($tripid, $uids) {
+        //how do I batch alter using mdb
+        foreach($uids as &$uid) {
+            
+            $d = array('tripid' => $tripid,
+                       'uid' => $uid,
+                       'rsvp' => 'awaiting',
+                 );
 
+            list($sql, $values) = $this->mdb->insert_string('trips_users', $d);
+            $this->mdb->alter($sql, $values);
+            //should I delete something from cache here?
+        }
+        return true;
+    }
+}

@@ -322,9 +322,11 @@ class Trip extends Controller {
             'uids' => $uids
         );
         
-        $render_string = $this->load->view('core_success', $view_data, true);
-        json_success(array('data'=>$render_string));
-        
+        $altered = $this->Trip_m->invite_uids_by_tripid($_POST['tripid'], $uids);
+        if($altered) {
+            $render_string = $this->load->view('core_success', $view_data, true);
+            json_success(array('data'=>$render_string));
+        }
     }
 }
 
