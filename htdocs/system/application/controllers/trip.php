@@ -18,7 +18,18 @@ class Trip extends Controller {
 
 
     function index() {
-        echo "you want to go to trip details.";
+        echo "you want to go to trip details.</br></br>";
+        $friends = $this->User_m->get_friends_by_uid($this->user['uid']);
+        $out_users = array();
+        foreach($friends as $friend) {
+            $rsvp = $this->Trip_m->get_rsvp_by_tripid_uid(43, $friend['uid']);
+            if($rsvp['rsvp'] == NULL) {
+                $out_users[] = $friend;
+                print_r($friend);
+                echo "</br></br>";
+            }
+        }
+        print_r($out_users);
     }
 
 
@@ -282,10 +293,19 @@ class Trip extends Controller {
         $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
         $friends = $this->User_m->get_friends_by_uid($this->user['uid']);
         
+        $not_invited_users = array();
+        foreach($friends as $friend) {
+            $rsvp = $this->Trip_m->get_rsvp_by_tripid_uid($_POST['tripid'], $friend['uid']);
+            if($rsvp['rsvp'] == NULL) {
+                $not_invited_users[] = $friend;
+            }
+        }
+        
         $view_data = array(
             'user' => $this->user,
             'trip' => $trip,
-            'user_friends' => $friends
+            'user_friends' => $friends,
+            'not_invited_users' => $not_invited_users,
         );
         
         $render_string = $this->load->view('trip/trip_invite_panel', $view_data, true);
@@ -304,6 +324,7 @@ class Trip extends Controller {
         
         $render_string = $this->load->view('core_success', $view_data, true);
         json_success(array('data'=>$render_string));
+        
     }
 }
 

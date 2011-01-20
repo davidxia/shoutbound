@@ -15,16 +15,16 @@
             
                     <? 
                     $counter = 0;
-                    foreach($user_friends as $friend) { 
+                    foreach($not_invited_users as $not_invited_user) { 
                     if($counter && $counter%6 == 0){
                         echo('<br class="clear-both"/>');
                     }
                     $counter++;
                     ?>
-                        <div uid="<?=$friend['uid']?>" class="friend-capsule">
-                            <img class="square-50" src="http://graph.facebook.com/<?=$friend['fid']?>/picture?type=square" />
+                        <div uid="<?=$not_invited_user['uid']?>" class="friend-capsule">
+                            <img class="square-50" src="http://graph.facebook.com/<?=$not_invited_user['fid']?>/picture?type=square" />
                             
-                            <div class="friend-capsule-name"><?=$friend['name']?></div>
+                            <div class="friend-capsule-name"><?=$not_invited_user['name']?></div>
                         </div>
                     <? } ?>
             

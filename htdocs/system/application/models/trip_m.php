@@ -275,6 +275,18 @@ class Trip_m extends Model {
         }
         return $items;
     }
-
+    
+    function get_rsvp_by_tripid_uid($tripid, $uid) {
+        $key = 'get_rsvp_by_tripid_uid:'.$tripid.':'.$uid;
+        $rsvp = $this->mc->get($key);
+        if($rsvp === false) {
+            $sql = 'SELECT rsvp FROM trips_users WHERE tripid = ? AND uid = ?';
+            $v = array($tripid, $uid);
+            $rows = $this->mdb->select($sql, $v);
+            $rsvp = $rows[0];
+            $this->mc->set($key, $rsvp);
+        }
+        return $rsvp;
+    }
 }
 
