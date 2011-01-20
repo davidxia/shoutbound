@@ -27,7 +27,24 @@
                             <div class="friend-capsule-name"><?=$not_invited_user['name']?></div>
                         </div>
                     <? } ?>
-            
+                </div>
+                <div id="invited">
+                    <h3>You've already invited:</h3>
+                    <br/>
+                    <? 
+                    $counter = 0;
+                    foreach($invited_users as $invited_user) { 
+                    if($counter && $counter%6 == 0){
+                        echo('<br class="clear-both"/>');
+                    }
+                    $counter++;
+                    ?>
+                        <div uid="<?=$invited_user['uid']?>" class="friend-capsule">
+                            <img class="square-50" src="http://graph.facebook.com/<?=$invited_user['fid']?>/picture?type=square" />
+                            
+                            <div class="friend-capsule-name"><?=$invited_user['name']?></div>
+                        </div>
+                    <? } ?>
                 </div>
             
             </div>

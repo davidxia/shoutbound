@@ -40,11 +40,8 @@ h2 {
 }
 
 h1 {
-    font: 30px "helvetica neue";
-    color: #555;
-    font-style: italic;
-    
-    
+    font: Georgia, serif;
+    color: black;
 }
 
 ul {

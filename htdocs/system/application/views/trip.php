@@ -34,29 +34,24 @@ $this->load->view('core_header', $header_args);
         echo($this->load->view('core_banner',$banner_args));
     ?>
 
-  <div id="div_to_popup"></div>
+    <div id="div_to_popup"></div>
   
-  <div id="nn-body">
-
+    <div id="nn-body">
+        <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$trip_data['fid']?>/picture?type=square" /></div>
+        <div class="nn-fb-text left">
+            <span class="trip-name"><h1><?=$trip_data['user_name']?> is planning</h1></span>
+            <h1><?=$trip_data['name']?></h1>
+            
+            <? if ($user['uid'] == $trip_user['uid']){ ?>
+                <br/>
+                <a href="javascript: Share.showShareDialog();"> Share this trip </a>
+              <? } ?>
+        </div>
 
       <div id="map-shell">
           <div id="map-toolbar">
               
-              <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$trip_data['fid']?>/picture?type=square" /></div>
-                <div class="nn-fb-text left">
-                    <span class="trip-name"><h3><?=$trip_data['name']?></h3></span>
-                    by <?=$trip_data['user_name']?>
-                    
-                    
-                    <? if ($user['uid'] == $trip_user['uid']){ ?>
-                    
-                    <br/>
-                    <a href="javascript: Share.showShareDialog();"> Share this trip </a>
-                    
-                    <? } ?>
-       
-                    
-                </div>
+              
               
           </div>
           
