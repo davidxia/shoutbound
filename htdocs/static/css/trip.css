@@ -46,34 +46,43 @@
     color: #88f;
 }
 
+/*
 #console {
     margin-top: 5px;
     width: 900px;
 }
+*/
 
-
+/*
 #list {
-    width: 280px; float: left;
+    width: 280px;
+    float: left;
 }
+*/
 
 .list-item-wrap {
     margin-bottom: 5px;
     padding-bottom: 5px;
     border-bottom: 1px solid #eee;
+    float: left;
 }
 
 .item-by {
     font-style: italic;
 }
 
+/*
 #wall {
-    width: 600px; float: right;
+    width: 600px;
+    float: right;
     margin-left: 20px;
 }
+
 
 #trip-wall-control {
     margin: 10px 0;
 }
+*/
 
 #trip-wall-control-comment-edit{
 
@@ -97,9 +106,18 @@
 }
 
 .wall-textarea {
-    width: 595px;
-    margin-bottom: 5px;
-    height: 40px;
+    font-family: Arial;
+    width: 500px;
+    height: 1em;
+    padding: 7px;
+    /*margin-bottom: 5px;
+    height: 40px;*/
+    font-size: 1.2em;
+    border: 1px solid #8F8F8F;
+    
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 .suggestion-input-wrap button{
@@ -134,10 +152,10 @@
     margin-right: 5px;
 }
 
-.wall-comment {
+/*.wall-comment {
     margin-bottom: 5px;
     border-bottom: 1px solid #eee;
-}
+}*/
 
 .wall-reply {
     margin-left:30px;
@@ -193,10 +211,18 @@
 }
 
 .reply_box {
-    margin-bottom: 5px;
+    margin-left: 30px;
+    
+    font-family: Arial;
     width: 420px;
-        margin-left: 30px;
-
+    /*margin-bottom: 5px;
+    height: 40px;*/
+    font-size: 1.2em;
+    border: 1px solid #8F8F8F;
+    
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 .reply-container {
@@ -306,6 +332,7 @@
     height: 300px;
     overflow-y: scroll;
 }
+
 
 .friend-capsule {
     width: 70px;

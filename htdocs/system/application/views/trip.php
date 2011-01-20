@@ -35,43 +35,42 @@ $this->load->view('core_header', $header_args);
         echo($this->load->view('core_banner',$banner_args));
     ?>
   
-    <div id="nn-body" class="container_12">
-        <div class="grid_4" id="trip-name" >
-            <h1><?=$trip_data['name']?></h1>
+    <div id="div_to_popup"></div>
+  
+    <div id="body" class="container_12">
+        <div class="grid_6 push_3" id="trip-name" >
+            <?=$trip_data['name']?>
+            <div id="trip-creator">
+                Created by <?=$trip_data['user_name']?>
+            </div>
         </div>
-        <div class="grid_4" id="trip-creator">
-            <h2>by <?=$trip_data['user_name']?></h2>
-        </div>
-        <div class="grid_4" id="share-trip">
-            <? if($user['uid'] == $trip_user['uid']) { ?>
-            <br />
-            <a href="javascript: Share.showShareDialog();">Share this trip</a>
-            <? } ?>
-        </div>
-        <div class="clear"></div>
-        
-        <div id="map-shell" class="grid_9">
-            <div id="map-canvas"></div>
-        </div>
-        <div id="invited-friends" class="grid_3">
-			<?=$this->load->view('trip_friends', $invited_uids)?>
-		</div>
-        <div class="clear"></div>
-        
-        <div id="console">
 
-		
-        <div id="list">
-            
-            <?=$this->load->view('trip_list', $list_data, true)?>
-            
+        <? if($user['uid'] == $trip_user['uid']) { ?>
+        <div class="grid_3 push_3" id="share-trip">
+            <br />
+            <a href="javascript: Share.showShareDialog();">share this trip</a>
         </div>
-        <div id="wall">
-            
-            <?=$this->load->view('trip_wall', $wall_data, true)?>
-            
+        <? } ?>
+        <div class="clear"></div>
+
+        <div id="invited-friends" class="grid_3">
+			<?=$this->load->view('trip_friends')?>
+		</div>       
+        <div class="grid_9">
+            <div id="map-shell">
+                <div id="map-canvas"></div>
+            </div>
         </div>
-      </div>
+        <div class="clear"></div>
+        
+        <div id="console" class="grid_12">
+            <div id="list" class="grid_3">
+                <?=$this->load->view('trip_list', $list_data, true)?>
+            </div>
+            <div id="wall" class="grid_8">
+                <?=$this->load->view('trip_wall', $wall_data, true)?>
+            </div>
+        </div>
       
         <div id="foot">
 

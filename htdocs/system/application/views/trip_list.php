@@ -1,11 +1,6 @@
 <div id="trip-list-body">
     
-    <div class="panel">
-        
-        <h3> Make a Suggestion </h3><br/>
-        
-    </div>
-    
+    <div>recommend something</div>
     
     <div id="trip-wall-control-suggest-edit">
         
@@ -27,7 +22,7 @@
     </div>
     
     <div id="trip-list-content" class="panel">
-        <h3> Suggestions </h3><br/>
+        <h3>Recommendations</h3>
 
     <div id="trip-list-items">
     <?php foreach($list_items as $item):?>

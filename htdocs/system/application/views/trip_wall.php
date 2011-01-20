@@ -5,32 +5,15 @@
         <ul id="trip-wall-control-tab-list">
             <li class="trip-wall-control-tab"><h3>Search for a Location to Suggest</h3></li>
         </ul>-->
-        
-      
-        
-        
-        
     </div>
 
     
-    <div id="trip-wall-content">
-        <h3> Wall </h3><br/>
-        
+    <div id="trip-wall-content">        
         <div id="trip-wall-comment">
-
-            
-
-                <div class="wall-textarea-wrap">
-                    <textarea id="wall-comment" class="wall-textarea"></textarea>
-                    <div class="right"><button id="submit-wall">post</button></div>
-                    <div class="clear-both"></div>
-                    
-                </div>
-
-
-            
-
-
+            <div class="wall-textarea-wrap">
+                <input type="text" id="wall-comment" class="wall-textarea" onkeydown="if(event.keyCode==13) { plan_comments_add(); }">
+                <div class="right"><button id="submit-wall">comment</button></div>                    
+            </div>
         </div>
         
         <div id="trip-wall-items">
@@ -45,12 +28,10 @@
                         <span class="wall-comment-username"> <?=$item['user']['name']?> </span>
                         <?php if($item['islocation']): ?>
                             <span class="wall-comment-text">
-                                suggested <span id="wall-location-name-<?=$item['itemid']?>" class="wall-location-text"></span>
-                                <? if ($item['body']) { ?>
-                                    
+                                recommended <span id="wall-location-name-<?=$item['itemid']?>" class="wall-location-text"></span>
+                                <? if($item['body']) { ?>
                                     
                                     <br/><br/><?=$item['body']?>
-                                    
                                     
                                 <? } ?>
                             </span>

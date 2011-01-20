@@ -1,3 +1,47 @@
+/* PUT IN SEPARATE CSS FILE LATER */
+#body {
+    font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+}
+
+#trip-name {
+    font-size: 2em;
+    font-weight: bold;
+    margin: 0px 0px 5px 0px;
+}
+
+#trip-creator {
+    font-size: 0.5em;
+    font-weight: normal;
+}
+
+a.navigation:link, a.navigation:visited {
+    text-decoration: none;
+}
+
+a.navigation:hover {
+    text-decoration: underline;
+}
+
+a:link, a:visited {
+    color: #4B0082;
+}
+
+
+a.user-link:link, a.user-link:visited {
+    font-size: 12px;
+    text-decoration: none;
+}
+
+
+a.user-link:hover {
+    font-size: 12px;
+    text-decoration: underline;
+}
+
+#invite-button {
+    cursor: pointer;
+}
+
 /*
 	Variable Grid System.
 	Learn more ~ http://www.spry-soft.com/grids/

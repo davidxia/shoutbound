@@ -69,7 +69,6 @@ class Trip extends Controller {
             ),
             'trips' => $this->Trip_m->get_user_trips($this->user['uid']),
             'current_trip' => $trip,
-			'invited_uids' => $invited_uids,
 			'in_users' =>$in_users,
         );
         
