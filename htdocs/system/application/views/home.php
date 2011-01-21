@@ -22,16 +22,49 @@
   
     <div id="main" class="container_12">
         
-        <?
-            $sidebar_args = array(
-                'user'=>$user,
-                'trips'=>$trips,
-                'profile_user'=>$profile_user,
-            );
-            echo($this->load->view('col1', $header_args));
-        ?>
-        
-        
+        <div id="col1" class="grid_6">
+
+            <div id="avatar">
+                <img src="http://graph.facebook.com/<?=$user['fid']?>/picture?type=large" />
+            </div>    
+
+            <div id="home-trips">
+                <span>Welcome, <?=first_name($user['name'])?>. Create a trip and share it with your friends.</span>
+                
+                <div id="create-trip">
+                <button type="button" id="create-trip-button" class="large-button">Create trip</button>
+                </div>
+
+                <div id="create-trip-window" class="large-panel">
+                    <table><tbody>
+                        <tr><td><label for="tripwhat" class="large-label">What</label></td>
+                        <td><input type="text" name="tripwhat" id="tripwhat" class="large-input"/></td></tr>
+
+                        <tr><td><label for="tripwhere" class="large-label">Where</label></td>
+                        <td><input type="text" name="tripwhere" id="tripwhere" readonly="true" class="large-input" value="New York (fixed for now)"/></td></tr>
+
+                        <tr><td><button type="button" id="save-trip-button" class="large-button">save</button></td>
+                        <td><a class="cancel-link" href="javascript:hideCreateTripWindow();">cancel</a></td</tr>
+                    </tbody></table>
+                </div>
+
+                Your trips
+                <ul>        
+                    <? if(!sizeof($trips)): ?>
+                    <li>You don't have any trips yet...</li>
+                    <? endif; ?>
+
+                    <? foreach($trips as $trip): ?>
+                    <li>
+                        <div class="home-trip">
+                            <a href="<?=site_url('trip/details/'.$trip['tripid'])?>"><?=$trip['name']?></a>
+                        </div>
+                    </li>
+                    <? endforeach; ?>
+                </ul>
+
+            </div>
+        </div>
         
         
         <div id="col2" class="grid_6">
@@ -58,11 +91,12 @@
                 </div>
                 
                 <div id="friends-trips">
-                    Your friends' trips
+                    <span>Your friends' trips</span>
                     
                     <? foreach($friends_trips as $friends_trip): ?>
                     <div class="friends-trip">
-                        asdf
+                        <a href="<?=site_url('trip/details/'.$friends_trip['tripid']);?>"><?=$friends_trip['name']?></a>
+                        posted by <?=$friends_trip['user']['name']?>
                     </div>
                     <? endforeach; ?>
                 </div>

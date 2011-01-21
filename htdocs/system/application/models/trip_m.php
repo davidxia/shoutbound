@@ -103,6 +103,30 @@ class Trip_m extends Model {
 		}
 	    return $users;
 	}
+	
+	
+	function get_user_friends_trips($uid) {
+        $key = 'friends_trips_by_uid:'.$uid;
+        $trips = $this->mc->get($key);
+        if($trips === false) {
+            $sql = 'SELECT tripid FROM trips_users WHERE uid = ?';
+            $v = array($uid);
+            $rows = $this->mdb->select($sql, $v);
+            $tripids = array();
+            if($rows) {
+                foreach($rows as $row) {
+                    $tripids[] = $row['tripid'];
+                }
+            }
+            $this->mc->set($key, $tripids);
+        }
+        $trips = array();
+        foreach($tripids as &$tripid) {
+            $trips[] = $this->get_trip_by_tripid($tripid);
+        }
+        return $trips;
+    }
+    
     /////////////////////////////////////////////////////////////////////////
     // [Trip] Items (Suggestions)
 
