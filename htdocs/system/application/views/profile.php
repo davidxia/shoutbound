@@ -9,7 +9,7 @@
         )
         
     );
-    echo($this->load->view('core_header',$header_args));
+    echo($this->load->view('core_header', $header_args));
 ?>    
 
 
@@ -17,7 +17,7 @@
 <body>
     <?
         $banner_args = array('user'=>$user);
-        echo($this->load->view('core_banner',$banner_args));
+        echo($this->load->view('core_banner', $banner_args));
     ?>
   
     <div id="nn-body">
@@ -28,7 +28,7 @@
                 'trips'=>$trips,
                 'profile_user'=>$profile_user,
             );
-            echo($this->load->view('core_sidebar',$header_args));
+            echo($this->load->view('core_sidebar', $header_args));
         ?>
         
         <div id="nn-main">

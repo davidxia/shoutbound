@@ -1,4 +1,4 @@
-<div id="head" class="container_12">
+<div id="header" class="container_12">
     <div id="logo" class="grid_2">
         <a class="home" href="<?=site_url('profile/details');?>">
             <img src="<?=static_url('images/noqnok-logo.jpg')?>"/>
@@ -9,7 +9,7 @@
     <? if($user): ?>
         <li><a class="navigation" href="<?=site_url('user/logout')?>">Logout</a></li>
         <li><a class="navigation" href="<?=site_url('profile/settings')?>">Settings</a></li>
-        <li><a class="navigation" href="<?=site_url('profile/details');?>">Home</a></li>
+        <li><a class="navigation" href="<?=site_url('home');?>">Home</a></li>
     <? else: ?>
         You are not logged in!
     <? endif; ?>

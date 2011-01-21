@@ -80,15 +80,6 @@ $this->load->view('core_header', $header_args);
       
 
   </div>
-    
-   
-
-
-
-
-
-
-
 
 
 </body> 
