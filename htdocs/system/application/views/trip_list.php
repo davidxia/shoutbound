@@ -2,38 +2,23 @@
     
     <div>recommend something</div>
     
-    <div id="trip-wall-control-suggest-edit">
+    <div id="trip-wall-control-recommend-edit">
         
-        <form name="suggestion">
+        <form name="recommendation">
             
-            <div class="suggestion-input-wrap">
-                <input id="term" class="suggestion-input">
-                <button id="submit-suggestion">search</button>
+            <div class="recommendation-input-wrap">
+                <input id="term" class="recommendation-input">
+                <button id="submit-recommendation">search</button>
             </div>
             
 
         </form>
         
-        <div id="trip-wall-suggest-list-wrapper">
-            <ol id="trip-wall-suggest-list"></ol>
+        <div id="trip-wall-recommend-list-wrapper">
+            <ol id="trip-wall-recommend-list"></ol>
         </div>
         
         
-    </div>
-    
-    <div id="trip-list-content" class="panel">
-        <h3>Recommendations</h3>
-
-    <div id="trip-list-items">
-    <?php foreach($list_items as $item):?>
-
-        <div id="trip-item-<?php echo $item['itemid'];?>" class="list-item-wrap">
-            <!-- container for JS to pick up -->
-        </div>
-
-    <?php endforeach;?>
-    </div>
-
     </div>
     
 </div>

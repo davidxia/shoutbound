@@ -176,7 +176,7 @@ function initialize() {
 
     $(".show_reply_button").click(function() {
         var parentid = $(this).attr('postid');
-        $(this).parent().append('<textarea class="reply_box" id="reply_box_'+parentid+'"></textarea>'+
+        $(this).parent().append('<input type="text" class="reply_box" id="reply_box_'+parentid+'">'+
             '<div class="reply-container">' +
             '<button class="reply_submit" parentid="'+parentid+'">reply</button>' +
             '</div>');

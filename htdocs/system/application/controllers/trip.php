@@ -273,18 +273,13 @@ class Trip extends Controller {
   
             }
         }
-        
-        
-        
-        
+
         $view_data = array(
             //'message' => 'this does nothing yet'
         );
         
         $render_string = $this->load->view('core_success', $view_data, true);
         json_success(array('data'=>$render_string));
-        
-        
     }
     
     function ajax_panel_invite_trip() {

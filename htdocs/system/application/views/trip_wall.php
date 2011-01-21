@@ -10,9 +10,9 @@
     
     <div id="trip-wall-content">        
         <div id="trip-wall-comment">
-            <div class="wall-textarea-wrap">
-                <input type="text" id="wall-comment" class="wall-textarea" onkeydown="if(event.keyCode==13) { plan_comments_add(); }">
-                <div class="right"><button id="submit-wall">comment</button></div>                    
+            <div class="wall-text-input-wrap">
+                <input type="text" id="wall-text-input" onkeydown="if(event.keyCode==13) { plan_comments_add(); }">
+                <button id="submit-wall">post</button>                
             </div>
         </div>
         
@@ -25,10 +25,9 @@
                 <div class="wall-comment">
                     <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$item['user']['fid']?>/picture?type=square" /></div>
                       <div class="wall-text left">
-                        <span class="wall-comment-username"> <?=$item['user']['name']?> </span>
+                        <span class="wall-comment-username"><?=$item['user']['name']?></span>
                         <?php if($item['islocation']): ?>
-                            <span class="wall-comment-text">
-                                recommended <span id="wall-location-name-<?=$item['itemid']?>" class="wall-location-text"></span>
+                            <span class="wall-comment-text">recommended<span id="wall-location-name-<?=$item['itemid']?>" class="wall-location-text"></span>
                                 <? if($item['body']) { ?>
                                     
                                     <br/><br/><?=$item['body']?>

@@ -40,22 +40,24 @@ $this->load->view('core_header', $header_args);
     <div id="body" class="container_12">
         <div class="grid_6 push_3" id="trip-name" >
             <?=$trip_data['name']?>
-            <div id="trip-creator">
-                Created by <?=$trip_data['user_name']?>
-            </div>
         </div>
-
-        <? if($user['uid'] == $trip_user['uid']) { ?>
-        <div class="grid_3 push_3" id="share-trip">
-            <br />
-            <a href="javascript: Share.showShareDialog();">share this trip</a>
+        
+        <div class="clear"></div>
+        <div id="trip-creator" class="grid_6 push_3">
+            Created by <?=$trip_data['user_name']?>
         </div>
-        <? } ?>
         <div class="clear"></div>
 
-        <div id="invited-friends" class="grid_3">
+        <div class="grid_3">
+        <div id="share-trip">
+            <? if($user['uid'] == $trip_user['uid']) { ?>
+                <a href="javascript: Share.showShareDialog();">share this trip</a>
+            <? } ?>
+        </div>
+        <div id="invite-trip">
 			<?=$this->load->view('trip_friends')?>
-		</div>       
+		</div>
+		</div>     
         <div class="grid_9">
             <div id="map-shell">
                 <div id="map-canvas"></div>
@@ -63,11 +65,11 @@ $this->load->view('core_header', $header_args);
         </div>
         <div class="clear"></div>
         
-        <div id="console" class="grid_12">
+        <div id="console">
             <div id="list" class="grid_3">
                 <?=$this->load->view('trip_list', $list_data, true)?>
             </div>
-            <div id="wall" class="grid_8">
+            <div id="wall" class="grid_9">
                 <?=$this->load->view('trip_wall', $wall_data, true)?>
             </div>
         </div>
