@@ -1,14 +1,66 @@
+#banner {
+	height: 61px;
+}
+
+
+
+#trip-create-popup {
+    height: auto;
+	width: 428px;
+    border: 10px solid #ccc;
+    padding: 20px;
+    
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+#trip-create-header {
+	font-size: 1.5em;
+	font-weight: bold;
+	margin-bottom: 15px;
+}
+
+#trip-create-confirm,
+#trip-create-cancel {
+    margin: 0px 5px 0px 5px;
+}
+
+#trip-create-confirm:hover,
+#trip-create-cancel:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#create-trip-button {
+}
+
+#recent-activity {
+	height: 300px;
+	padding: 10px;
+	border: 1px solid black;
+	overflow-x: hidden;
+}
+
+#recent-activity-header {
+	font-size: 1.5em;
+	margin-bottom: 10px;
+}
+
 #avatar {
     border: 1px solid black;
     display: inline-block;
 }
 
 #home-trips {
-    margin-top: 20px;
-    margin-bottom: 20px;
+	height: 300px;
+	padding: 10px;
+	border: 1px solid black;
 }
 
-#home-trips span {
+#home-trips-header {
+	font-size: 1.5em;
+	margin-bottom: 10px;
 }
 
 .home-trip a:link {
@@ -19,18 +71,17 @@
     text-decoration: underline;
 }
 
-#create-trip {
-    margin-top: 10px;
-    margin-bottom: 10px;
+
+
+#home-friends, #home-friends-trips {
+	height: 300px;
+	padding: 10px;
+	border: 1px solid black;
 }
 
-#create-trip-button {
-}
-
-#home-friends {
-}
-
-#home-friends-title {
+#home-friends-header, #home-friends-trips-header {
+	font-size: 1.5em;
+	margin-bottom: 10px;
 }
 /*------------------*/
 
@@ -52,10 +103,6 @@
     font: 16px helvetica;
     padding: 5px;
     margin-top: 8px;
-}
-
-#create-trip-window {
-    display: none;
 }
 
 .large-button {

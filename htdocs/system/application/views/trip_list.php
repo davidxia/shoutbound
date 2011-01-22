@@ -1,24 +1,24 @@
 <div id="trip-list-body">
     
-    <div>recommend something</div>
-    
-    <div id="trip-wall-control-recommend-edit">
+    <div>suggest something</div>
         
-        <form name="recommendation">
+    
+    
+    <div id="trip-wall-control-suggest-edit">
+        
+        <form name="suggestion">
             
-            <div class="recommendation-input-wrap">
-                <input id="term" class="recommendation-input">
-                <button id="submit-recommendation">search</button>
+            <div class="suggestion-input-wrap">
+                <input id="term" class="suggestion-input">
+                <button id="submit-suggestion">search</button>
             </div>
             
 
         </form>
         
-        <div id="trip-wall-recommend-list-wrapper">
-            <ol id="trip-wall-recommend-list"></ol>
-        </div>
-        
-        
+        <div id="trip-wall-suggest-list-wrapper">
+            <ol id="trip-wall-suggest-list"></ol>
+        </div>        
     </div>
     
 </div>

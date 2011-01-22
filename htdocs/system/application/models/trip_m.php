@@ -20,9 +20,9 @@ class Trip_m extends Model {
     }
 
 
-    function create_trip($uid, $name, $lat, $lon) {
+    function create_trip($uid, $what, $lat, $lon) {
         $d = array('uid' => $uid,
-                   'name' => $name,
+                   'name' => $what,
                    'lat'  => $lat,
                    'lon'  => $lon,
                );
@@ -30,9 +30,12 @@ class Trip_m extends Model {
         $tripid = $this->mdb->alter($sql, $values);
         $this->mc->delete('tripids_by_uid:'.$uid);
         $this->mc->delete('trip_by_tripid:'.$tripid);
+        
+        $uids[] = $uid;
+        $this->invite_uids_by_tripid($tripid, $uids, 'yes');
         return $tripid;
     }
-
+    
 
     function get_user_tripids($uid) {
         $key = 'tripids_by_uid:'.$uid;
@@ -314,13 +317,13 @@ class Trip_m extends Model {
     }
     
     
-    function invite_uids_by_tripid($tripid, $uids) {
-        //how do I batch alter using mdb
+    function invite_uids_by_tripid($tripid, $uids, $rsvp) {
+        //how do I batch alter using mdb??
         foreach($uids as &$uid) {
             
             $d = array('tripid' => $tripid,
                        'uid' => $uid,
-                       'rsvp' => 'awaiting',
+                       'rsvp' => $rsvp,
                  );
 
             list($sql, $values) = $this->mdb->insert_string('trips_users', $d);

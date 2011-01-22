@@ -38,7 +38,7 @@ class Trip extends Controller {
         $trip = $this->Trip_m->get_trip_by_tripid($trip_id);
         $trip_user = $this->User_m->get_user_by_uid($trip['uid']);
         
-        if(!$trip){
+        if(!$trip['tripid']){
             redirect('/');
         }
         
@@ -47,7 +47,7 @@ class Trip extends Controller {
         $wall_data = array('wall_items' => $this->Trip_m->format_items_as_thread($items));
         $list_data = array('list_items' => array_reverse($this->_filter_out_wall_data($items)));
 
-		//David: display friends invited to the trip who replied yes
+		//David: display users who replied yes to going on the trip
 		$in_users = $this->Trip_m->get_users_by_tripid($trip_id, 'yes');
 
 
@@ -216,19 +216,13 @@ class Trip extends Controller {
     }
 
 
-    function ajax_create_new_trip(){
-        $trip_user = $this->user;
-
-        if($trip_user['uid'] == $this->user['uid']){
-        
-            $trip_name = $_POST['tripname'];
-            $trip_id = $this->Trip_m->create_trip($trip_user['uid'], $trip_name, $_POST['lat'], $_POST['lon']);
+    function ajax_create_trip(){
+        $trip_what = $_POST['tripWhat'];
+        $trip_id = $this->Trip_m->create_trip($this->user['uid'], $trip_what, $_POST['lat'], $_POST['lon']);
             
-            json_success(array('tripid'=>$trip_id));
-        } else {
-            
-        }
+        json_success(array('tripid'=>$trip_id));
     }
+    
     
     function ajax_panel_share_trip() {
         
@@ -284,7 +278,6 @@ class Trip extends Controller {
     
     function ajax_panel_invite_trip() {
         
-        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
         $friends = $this->User_m->get_friends_by_uid($this->user['uid']);
         
         $not_invited_users = array();
@@ -331,5 +324,14 @@ class Trip extends Controller {
             json_success(array('data'=>$render_string));
         }
     }
-}
 
+
+    function ajax_panel_create_trip() {
+        
+        $render_string = $this->load->view('trip/trip_create_panel', '', true);
+        json_success(array('data'=>$render_string));
+    }
+    
+
+
+}

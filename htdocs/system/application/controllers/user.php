@@ -19,7 +19,7 @@ class User extends Controller {
         $user = $this->User_m->get_user_by_fid($this->facebook->getUser());
         if($user) {
             $this->User_m->log_in($user['uid']);
-            json_success(array('redirect' => site_url('profile/details')));
+            json_success(array('redirect' => site_url('home')));
         } else {
             json_success(array('redirect' => site_url('user/creating')));
         }
@@ -68,7 +68,7 @@ class User extends Controller {
             $this->User_m->add_friendship($uid, $friend['id'], $friend['name']);
         }
 
-        json_success(array('redirect' => site_url('profile/details')));
+        json_success(array('redirect' => site_url('home')));
     }
     
     function ajax_update_friends() {

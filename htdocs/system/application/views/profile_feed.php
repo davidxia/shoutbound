@@ -1,6 +1,3 @@
-<div id="profile-feed" class="panel">
-    <h3>News Feed</h3><br/>
-    
     <?
     if(!$news_feed_data){
         
@@ -31,11 +28,9 @@
                   <br/>
                   <span class="wall-timestamp">on <?=date("m/d/y",strtotime($item['created']))?></span>
               </div>
-
-
-
             <div class="clear-both"></div>
         </div>
+
 
     <?} else {?>
 
@@ -64,5 +59,3 @@
     ?></div>
         
     <? } ?>
-    <div class="clear-both"></div>
-</div>

@@ -26,7 +26,7 @@ class Home extends Controller {
         $view_data['user_friends'] = $this->User_m->get_friends_by_uid($this->user['uid']);
         $view_data['friends_trips'] = $this->Trip_m->get_user_friends_trips($this->user['uid']);
         
-        //news feed!
+        //recent activity
         $trip_news = $this->Trip_m->get_trip_news_for_user($this->user['uid']);
         $view_data['news_feed_data'] = $trip_news;
         

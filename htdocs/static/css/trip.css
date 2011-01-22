@@ -89,7 +89,7 @@
     display: none;
 }
 
-#trip-wall-control-recommend-edit{
+#trip-wall-control-suggest-edit{
 
     /*display: none;*/
 }
@@ -121,7 +121,7 @@
     -webkit-border-radius: 3px;
 }
 
-.recommendation-input-wrap button{
+.suggestion-input-wrap button{
     font: 12px georgia;
     font-style: italic;
     
@@ -162,11 +162,11 @@
     color: #777;
 }
 
-.recommendation-input {
+.suggestion-input {
     width: 200px;
 }
 
-.recommendation-input-wrap {
+.suggestion-input-wrap {
     height: 30x;
 }
 
@@ -248,7 +248,7 @@
 // SEARCH LIST
 */
 
-#trip-wall-recommendation-list {
+#trip-wall-suggestion-list {
 
 }
 
@@ -366,7 +366,7 @@
 /************
 RECOMMENDATION BOX
 **/
-#trip-recommendation-comment-content{
+#trip-suggestion-comment-content{
     border:10px solid #CCCCCC;
     cursor:pointer;
     padding:10px;
@@ -375,7 +375,7 @@ RECOMMENDATION BOX
     text-align: left;
 }
 
-#trip-recommend-textarea {
+#trip-suggestion-textarea {
     width: 295px;
 }
 

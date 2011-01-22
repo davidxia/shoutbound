@@ -37,7 +37,7 @@ $this->load->view('core_header', $header_args);
   
     <div id="div_to_popup"></div>
   
-    <div id="body" class="container_12">
+    <div id="main" class="container_12">
         <div class="grid_6 push_3" id="trip-name" >
             <?=$trip_data['name']?>
         </div>
