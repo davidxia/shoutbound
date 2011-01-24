@@ -33,9 +33,9 @@ class Trip extends Controller {
     }
 
 
-    function details($trip_id){
+    function details($tripid){
         
-        $trip = $this->Trip_m->get_trip_by_tripid($trip_id);
+        $trip = $this->Trip_m->get_trip_by_tripid($tripid);
         $trip_user = $this->User_m->get_user_by_uid($trip['uid']);
         
         if(!$trip['tripid']){
@@ -43,12 +43,12 @@ class Trip extends Controller {
         }
         
         //getting data for sub-sections
-        $items = $this->Trip_m->get_items_by_tripid($trip_id, 'ASC');
+        $items = $this->Trip_m->get_items_by_tripid($tripid, 'ASC');
         $wall_data = array('wall_items' => $this->Trip_m->format_items_as_thread($items));
         $list_data = array('list_items' => array_reverse($this->_filter_out_wall_data($items)));
 
 		//David: display users who replied yes to going on the trip
-		$in_users = $this->Trip_m->get_users_by_tripid($trip_id, 'yes');
+		$in_users = $this->Trip_m->get_users_by_tripid($tripid, 'yes');
 
 
         //$wall_data = array( 'wall_items' => $this->Wall_m->get_wall_items_for_user('uid'));
@@ -60,7 +60,7 @@ class Trip extends Controller {
             'wall_data' => $wall_data,
             'trip_data' => array(
                 'name'=>$trip['name'],
-                'id'=>$trip_id,
+                'id'=>$tripid,
                 'uid'=>$trip_user['uid'],
                 'fid' => $trip_user['fid'],
                 'lat' => $trip['lat'],

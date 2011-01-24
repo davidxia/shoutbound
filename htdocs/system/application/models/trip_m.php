@@ -11,11 +11,7 @@ class Trip_m extends Model {
             $rows = $this->mdb->select($sql, $v);
             $val = $rows[0];
             $this->mc->set($key, $val);
-        }
-        
-        //nan - this is a temporary thing
-        $val['user'] = $this->User_m->get_user_by_uid($val['uid']);
-        
+        }        
         return $val;
     }
 

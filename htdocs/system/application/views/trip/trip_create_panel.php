@@ -6,8 +6,8 @@
             <tr><td><label for="trip-what" class="large-label">What</label></td>
             <td><input type="text" name="trip-what" id="trip-what" class="large-input"/></td></tr>
 
-            <tr><td><label for="tripwhere" class="large-label">Where</label></td>
-            <td><input type="text" name="tripCity" id="trip-city" readonly="true" class="large-input" value="New York (fixed for now)"/></td></tr>
+            <tr><td><label for="trip-where" class="large-label">Where</label></td>
+            <td><input type="text" name="trip-where" id="trip-where" class="large-input" /></td></tr>
 
         </tbody></table>
     </div>
