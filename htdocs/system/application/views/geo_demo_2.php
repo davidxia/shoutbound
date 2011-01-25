@@ -6,13 +6,13 @@
 	    <link rel="stylesheet" type="text/css" href="http://dev.noqnok.com/david/static/css/trip.css"/>
 		
 		<!--move this to css file later-->
-	    <style type="text/css">
+	    <!--<style type="text/css">
 		    #suggest_list {color: blue; cursor:pointer; position:relative}
 		    .list_item {background-color:white;}
 		    #suggest_list li:hover {background-color: #cccccc;}
-        </style>
+        </style>-->
 		
-            <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
             
             <!--google maps javascript api tutorial told me to include this, do I need to?-->
             <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
@@ -63,7 +63,7 @@
 					geocoder.waitingDelay = setTimeout(function(){
 						geocoder.geocode({'address': query}, geocodeResult);
 					}, 300);
-				} else{
+				} else {
 					document.getElementById("suggest_list").innerHTML =  "";
 					geocoder.resultAddress = "";
 					geocoder.resultBounds = null;

@@ -107,14 +107,11 @@ function initialize() {
     // INITIALIZE MAP
     
     var mapOptions = {
-        zoom: 13,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        zoom: 13
+        ,mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
-    Trip.map = new google.maps.Map(
-        document.getElementById("map-canvas"),
-        mapOptions
-    );
+    Trip.map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
     
     //alias
     var map = Trip.map;
@@ -125,17 +122,17 @@ function initialize() {
     var initialLocation = new google.maps.LatLng(40.7338981628418, -73.9925994873047);
     map.setCenter(initialLocation);
         
-    var startingMarker = new google.maps.Marker({
-        map: map,
-        position: initialLocation,
-        draggable: false
-    });
+    //var startingMarker = new google.maps.Marker({
+        //map: map,
+        //position: initialLocation,
+        //draggable: false
+    //});
 
     // Register event listeners to each marker to open a shared info
     // window displaying the marker's position when clicked or dragged.
-    google.maps.event.addListener(startingMarker, 'click', function() {
-        Trip.openInfoWindow(startingMarker);
-    });
+    //google.maps.event.addListener(startingMarker, 'click', function() {
+        //Trip.openInfoWindow(startingMarker);
+    //});
 
 
     // Make the info window close when clicking anywhere on the map.
@@ -352,4 +349,4 @@ function loadScript() {
     document.body.appendChild(script);
 }
 
-$(document).ready(loadScript);
+//$(document).ready(loadScript);

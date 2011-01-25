@@ -37,7 +37,8 @@ class Trip extends Controller {
                 $yes_users[] = $this->User_m->get_user_by_uid($uid);
             }
  		}
- 		print_r($yes_users);
+ 		//print_r($trip);
+ 		echo $trip['lat'];
  	}
  	
 
@@ -237,9 +238,16 @@ class Trip extends Controller {
     
     
     function ajax_panel_create_trip() {
-        
         $render_string = $this->load->view('trip/trip_create_panel', '', true);
         json_success(array('data'=>$render_string));
+    }
+    
+    function ajax_update_latlngbounds() {
+        $latlngbounds = $_POST['latLngBounds'];
+        $tripid = $_POST['tripid'];
+        $a = $this->Trip_m->update_latlngbounds_by_tripid($latlngbounds, $tripid);
+        
+        json_success(array('success'=>$a));
     }
     
     

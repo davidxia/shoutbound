@@ -182,6 +182,14 @@ class Trip_m extends Model {
     }
     
     
+    function update_latlngbounds_by_tripid($latlngbounds, $tripid) {
+        $sql = 'UPDATE trips SET latlngbounds = ? WHERE tripid = ?';
+        $v = array($latlngbounds, $tripid);
+        $this->mdb->alter($sql, $v);
+        $this->mc->delete('trip_by_tripid:'.$tripid);
+        return true;
+    }
+    /////////////////////////////CLEANUP AFTER THIS LINE//////////////
 	function get_user_friends_trips($uid) {
         $key = 'friends_trips_by_uid:'.$uid;
         $trips = $this->mc->get($key);
