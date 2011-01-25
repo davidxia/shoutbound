@@ -19,43 +19,37 @@ $this->load->view('core_header', $header_args);
 
 ?>
 
+<!--IS THIS JAVASCRIPT??-->
 <script>
     Constants.Trip = {};
-    Constants.Trip['id'] = "<?=$trip_data['id']?>";
+    Constants.Trip['id'] = "<?=$trip['tripid']?>";
 </script>
 
-<?=$this->load->view('core_header_end')?>
+<?php echo $this->load->view('core_header_end'); ?>
 
 
 
 <body>
   
-    <?
-        $banner_args = array('user'=>$user);
-        echo($this->load->view('core_banner',$banner_args));
-    ?>
+    <?php echo $this->load->view('core_banner'); ?>
   
     <div id="div_to_popup"></div>
   
     <div id="main" class="container_12">
         <div class="grid_6 push_3" id="trip-name" >
-            <?=$trip_data['name']?>
+            <?php echo $trip['name']?>
         </div>
         
-        <div class="clear"></div>
-        <div id="trip-creator" class="grid_6 push_3">
-            Created by <?=$trip_data['user_name']?>
-        </div>
         <div class="clear"></div>
 
         <div class="grid_3">
         <div id="share-trip">
-            <? if($user['uid'] == $trip_user['uid']) { ?>
+            <? if($user_type == 'planner'): ?>
                 <a href="javascript: Share.showShareDialog();">share this trip</a>
-            <? } ?>
+            <? endif; ?>
         </div>
         <div id="invite-trip">
-			<?=$this->load->view('trip_friends')?>
+			<?php echo $this->load->view('trip_friends'); ?>
 		</div>
 		</div>     
         <div class="grid_9">
@@ -67,10 +61,10 @@ $this->load->view('core_header', $header_args);
         
         <div id="console">
             <div id="list" class="grid_3">
-                <?=$this->load->view('trip_list', $list_data, true)?>
+                <?php echo $this->load->view('trip_list', $list_data); ?>
             </div>
             <div id="wall" class="grid_9">
-                <?=$this->load->view('trip_wall', $wall_data, true)?>
+                <?php echo $this->load->view('trip_wall', $wall_data); ?>
             </div>
         </div>
       

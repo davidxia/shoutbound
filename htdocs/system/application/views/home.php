@@ -77,7 +77,7 @@
                     <? foreach($friends_trips as $friends_trip): ?>
                     <div class="home-friends-trip">
                         <a href="<?=site_url('trip/details/'.$friends_trip['tripid']);?>"><?=$friends_trip['name']?></a>
-                        posted by <?=$friends_trip['user']['name']?>
+                        posted by <?=$friends_trip['creator']['name']?>
                     </div>
                     <? endforeach; ?>
                 </div>

@@ -1,8 +1,6 @@
 <div id="trip-list-body">
     
     <div>suggest something</div>
-        
-    
     
     <div id="trip-wall-control-suggest-edit">
         

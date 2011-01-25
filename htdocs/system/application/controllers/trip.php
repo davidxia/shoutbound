@@ -2,75 +2,87 @@
 
 class Trip extends Controller {
     
-	function Trip()
-	{
+	function Trip() {
 		parent::Controller();
-		
-		//authentication
+		//check that user is logged in
         $this->user = $this->User_m->get_logged_in_user();
-        
-        //print_r($this->user);
-        
-        if(!$this->user){
-            redirect('/');
-		}
+        if(!$this->user) { redirect('/'); }
 	}
 
 
-    function index() {
-        echo "you want to go to trip details.</br></br>";
-        $friends = $this->User_m->get_friends_by_uid($this->user['uid']);
-        $out_users = array();
-        foreach($friends as $friend) {
-            $rsvp = $this->Trip_m->get_rsvp_by_tripid_uid(43, $friend['uid']);
-            if($rsvp['rsvp'] == NULL) {
-                $out_users[] = $friend;
-                print_r($friend);
-                echo "</br></br>";
-            }
-        }
-        print_r($out_users);
-    }
+    function index($tripid) {
+        //check if trip exists in trips table
+        $trip = $this->Trip_m->get_trip_by_tripid($tripid);
+        if(!$trip) { redirect('/'); }
 
+        //check if user is associated with this trip in trips_users table
+        //redirect to home page if not
+        $trip_uids = $this->Trip_m->get_uids_by_tripid($tripid);
+        for($i = 0; $i < count($trip_uids); $i++) {
+            if($trip_uids[$i] == $this->user['uid']) { break; }
+            if($i == (count($trip_uids)-1)) { redirect('/'); }
+        }
+        
+        //get this user's type for this trip
+        $user_type = $this->Trip_m->get_type_by_tripid_uid($tripid, $this->user['uid']);
+        
+ 		//get users and corresponding rsvps for this trip
+ 		foreach($trip_uids as $i => $uid) {
+ 		    $uids_rsvps[$uid] = $this->Trip_m->get_rsvp_by_tripid_uid($tripid, $uid);
+ 		}
+ 		
+ 		//get users who rsvp yes
+ 		foreach($uids_rsvps as $uid => $rsvp) {
+            if($rsvp == 'yes') {
+                $yes_users[] = $this->User_m->get_user_by_uid($uid);
+            }
+ 		}
+ 		print_r($yes_users);
+ 	}
+ 	
 
     function details($tripid){
-        
+        //check if trip exists in trips table
         $trip = $this->Trip_m->get_trip_by_tripid($tripid);
-        $trip_user = $this->User_m->get_user_by_uid($trip['uid']);
-        
-        if(!$trip['tripid']){
-            redirect('/');
+        if(!$trip) { redirect('/'); }
+
+        //check if user is associated with this trip in trips_users table
+        //redirect to home page if not
+        $trip_uids = $this->Trip_m->get_uids_by_tripid($tripid);
+        for($i = 0; $i < count($trip_uids); $i++) {
+            if($trip_uids[$i] == $this->user['uid']) { break; }
+            if($i == (count($trip_uids)-1)) { redirect('/'); }
         }
+        
+        //get this user's type for this trip
+        $user_type = $this->Trip_m->get_type_by_tripid_uid($tripid, $this->user['uid']);
+        
+ 		//get users and corresponding rsvps for this trip
+ 		foreach($trip_uids as $i => $uid) {
+ 		    $uids_rsvps[$uid] = $this->Trip_m->get_rsvp_by_tripid_uid($tripid, $uid);
+ 		}
+ 		
+ 		//get users who rsvp yes
+ 		foreach($uids_rsvps as $uid => $rsvp) {
+            if($rsvp == 'yes') { $yes_users[] = $this->User_m->get_user_by_uid($uid); }
+ 		}
         
         //getting data for sub-sections
         $items = $this->Trip_m->get_items_by_tripid($tripid, 'ASC');
         $wall_data = array('wall_items' => $this->Trip_m->format_items_as_thread($items));
         $list_data = array('list_items' => array_reverse($this->_filter_out_wall_data($items)));
 
-		//David: display users who replied yes to going on the trip
-		$in_users = $this->Trip_m->get_users_by_tripid($tripid, 'yes');
-
-
-        //$wall_data = array( 'wall_items' => $this->Wall_m->get_wall_items_for_user('uid'));
-        
-        $view_data = array(
-            'user'      => $this->user,
-            'trip_user' => $trip_user,
-            'list_data' => $list_data,
-            'wall_data' => $wall_data,
-            'trip_data' => array(
-                'name'=>$trip['name'],
-                'id'=>$tripid,
-                'uid'=>$trip_user['uid'],
-                'fid' => $trip_user['fid'],
-                'lat' => $trip['lat'],
-                'lon' => $trip['lon'],
-                'user_name' => $trip_user['name']
-            ),
-            'trips' => $this->Trip_m->get_user_trips($this->user['uid']),
-            'current_trip' => $trip,
-			'in_users' =>$in_users,
-        );
+        $view_data = array('user' => $this->user,
+                           'user_type' => $user_type,
+                           //'trip_user' => $trip_user,
+                           'list_data' => $list_data,
+                           'wall_data' => $wall_data,
+                           'trip' => $trip,
+                           //'trips' => $this->Trip_m->get_user_trips($this->user['uid']),
+                           //'current_trip' => $trip,
+ 			               //'in_users' =>$in_users,
+ 			               'yes_users' => $yes_users,
+                           );
         
         $this->load->view('trip', $view_data);
     }
@@ -218,9 +230,16 @@ class Trip extends Controller {
 
     function ajax_create_trip(){
         $trip_what = $_POST['tripWhat'];
-        $trip_id = $this->Trip_m->create_trip($this->user['uid'], $trip_what, $_POST['lat'], $_POST['lon']);
+        $tripid = $this->Trip_m->create_trip($this->user['uid'], $trip_what, $_POST['lat'], $_POST['lon']);
             
-        json_success(array('tripid'=>$trip_id));
+        json_success(array('tripid'=>$tripid));
+    }
+    
+    
+    function ajax_panel_create_trip() {
+        
+        $render_string = $this->load->view('trip/trip_create_panel', '', true);
+        json_success(array('data'=>$render_string));
     }
     
     
@@ -326,11 +345,7 @@ class Trip extends Controller {
     }
 
 
-    function ajax_panel_create_trip() {
-        
-        $render_string = $this->load->view('trip/trip_create_panel', '', true);
-        json_success(array('data'=>$render_string));
-    }
+
     
 
 
