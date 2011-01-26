@@ -102,6 +102,11 @@ $this->load->view('core_header', $header_args);
 		
 		// display world map
 		var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+		// change viewport to saved latlngbounds
+		var sw = new google.maps.LatLng(Constants.Trip['sBound'], Constants.Trip['wBound']);
+		var ne = new google.maps.LatLng(Constants.Trip['nBound'], Constants.Trip['eBound']);
+		var savedLatLngBounds = new google.maps.LatLngBounds (sw, ne);
+		map.fitBounds(savedLatLngBounds);
 		 
 		// create new geocoder to resolve city names into long/lat co-ords
 		var geocoder = new google.maps.Geocoder();
@@ -112,8 +117,6 @@ $this->load->view('core_header', $header_args);
 		
 		//save map viewport settings
 		function save() {
-		    
-		    
             var postData = {
                 latLngBounds: latLngBounds,
                 tripid: Constants.Trip['id']
@@ -184,6 +187,7 @@ $this->load->view('core_header', $header_args);
 				//document.getElementById("trip-where").value = respons.formatted_address;
 				clearListItems();
 				latLngBounds = respons.geometry.viewport.toString();
+                latLngBounds = latLngBounds.replace(/[,()]/g, "");
 				alert(latLngBounds);
 			//}
 			//doIt(respons);
