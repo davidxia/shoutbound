@@ -189,6 +189,15 @@ class Trip_m extends Model {
         $this->mc->delete('trip_by_tripid:'.$tripid);
         return true;
     }
+    
+    
+    function update_mapcenter_by_tripid($mapcenter, $tripid) {
+        $sql = 'UPDATE trips SET map_center = ? WHERE tripid = ?';
+        $v = array($mapcenter, $tripid);
+        $this->mdb->alter($sql, $v);
+        $this->mc->delete('trip_by_tripid:'.$tripid);
+        return true;
+    }
     /////////////////////////////CLEANUP AFTER THIS LINE//////////////
 	function get_user_friends_trips($uid) {
         $key = 'friends_trips_by_uid:'.$uid;

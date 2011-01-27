@@ -21,16 +21,10 @@ YelpUtil.constructYelpURL = function(searchTerm, map){
 }
 
 
-YelpUtil.updateMap = function(searchTerm, map) {
-    // turn on spinner animation
-    //document.getElementById("spinner").style.visibility = 'visible';
-
-    var yelpRequestURL = YelpUtil.constructYelpURL(searchTerm, map);
-
-    /* clear existing markers */
+YelpUtil.updateMap = function(query, map) {
+    var yelpRequestURL = YelpUtil.constructYelpURL(query, map);
     YelpUtil.destroyAllMarkers();
     
-    /* do the api request */
     var script = document.createElement('script');
     script.src = yelpRequestURL;
     script.type = 'text/javascript';
@@ -39,71 +33,6 @@ YelpUtil.updateMap = function(searchTerm, map) {
     return false;
 }
 
-YelpUtil.handleResults = function(data) {
-    // turn off spinner animation
-    //document.getElementById("spinner").style.visibility = 'hidden';
-    if(data.message.text == "OK") {
-        if (data.businesses.length == 0) {
-            
-            //TODO: make a pretty alert
-            alert("Error: No businesses were found near that location");
-            return;
-        }
-        
-        var myUl = $("#trip-wall-suggest-list");
-        myUl.empty();
-        
-        for(var i=0, ii=data.businesses.length; i<ii; i++) {
-            biz = data.businesses[i];
-            var m = YelpUtil.createYelpResultMarker(biz, new google.maps.LatLng(biz.latitude, biz.longitude), i);
-            myUl.append(YelpUtil.addYelpResultToResultList(biz,m));
-        }
-    }
-    else {
-        alert("Error: " + data.message.text);
-    }
-}
-
-YelpUtil.addYelpResultToResultList = function(biz, linkedMarker) {
-    var resultList = document.createElement('li');
-    var anchor = document.createElement('a');
-    anchor.innerHTML = biz.name;
-    var aa = $(anchor)
-    $(resultList).append(aa);
-    
-    $(resultList).addClass("search-result-li").click(function(){
-        linkedMarker.showInfoWindow();
-    });
-    return resultList;
-    
-    
-}
-
-YelpUtil.createYelpResultMarker = function(biz, point, markerNum) {
-    var infoWindowHtml = generateInfoWindowHtml(biz)
-    //var marker = new google.maps.Marker(point);
-    
-    var marker = new google.maps.Marker({
-        map: Trip.map,
-        position: point,
-        draggable: false,
-        icon: Constants.staticUrl+'/images/marker_star.png',
-        showInfoWindow: function(){
-            YelpUtil.openYelpResultWindow(marker, biz);
-        }
-    });
-    
-    //if(console) console.log(Constants.staticUrl+'/images/marker_star.png');
-
-    
-    YelpUtil.searchMarkers.push(marker);
-    
-    // Register event listeners to each marker to open a shared info
-    // window displaying the marker's position when clicked or dragged.
-    google.maps.event.addListener(marker, 'click', marker.showInfoWindow);
-    
-    return marker;
-}
 
 YelpUtil.destroyAllMarkers = function(){
     var markers = YelpUtil.searchMarkers;
@@ -117,16 +46,71 @@ YelpUtil.destroyAllMarkers = function(){
     YelpUtil.searchMarkers = [];
 }
 
+
+YelpUtil.handleResults = function(data) {
+    if(data.message.text == "OK") {
+        if (data.businesses.length == 0) {
+            //TODO: make a pretty alert
+            alert("Error: No businesses were found near that location");
+        }
+        
+        $("#trip-wall-suggest-list").empty();
+        
+        for(var i=0; i<data.businesses.length; i++) {
+            var yelpBiz = data.businesses[i];
+            var yelpPin = YelpUtil.createYelpResultMarker(yelpBiz, new google.maps.LatLng(yelpBiz.latitude, yelpBiz.longitude), i);
+            $("#trip-wall-suggest-list").append(YelpUtil.addYelpResultToResultList(yelpBiz, yelpPin));
+        }
+    } else {
+        alert("Error: " + data.message.text);
+    }
+}
+
+
+YelpUtil.createYelpResultMarker = function(yelpBiz, latLng, markerNum) {
+    var infoWindowHtml = generateInfoWindowHtml(yelpBiz)
+    
+    var marker = new google.maps.Marker({
+        map: map,
+        position: latLng,
+        draggable: false,
+        icon: Constants.staticUrl+'/images/marker_star.png',
+        showInfoWindow: function(){
+            YelpUtil.openYelpResultWindow(marker, yelpBiz);
+        }
+    });
+    
+    YelpUtil.searchMarkers.push(marker);
+    
+    // Register event listeners to each marker to open a shared info
+    // window displaying the marker's position when clicked.
+    google.maps.event.addListener(marker, 'click', marker.showInfoWindow);
+    return marker;
+}
+
+
+YelpUtil.openYelpResultWindow = function(marker, yelpBiz){
+    infoWindow.setContent(generateSearchInfoWindowHtml(yelpBiz));
+    infoWindow.open(map, marker);
+}
+
+
+YelpUtil.addYelpResultToResultList = function(biz, linkedMarker) {
+    var resultList = document.createElement('li');
+    var anchor = document.createElement('a');
+    anchor.innerHTML = biz.name;
+    var aa = $(anchor)
+    $(resultList).append(aa);
+    
+    $(resultList).addClass("search-result-li").click(function(){
+        linkedMarker.showInfoWindow();
+    });
+    return resultList;
+}
+
+
 YelpUtil.destroyAllSearchListItems = function(){
     //reset list
     var myUl = $("#trip-wall-suggest-list");
     myUl.empty();
-}
-
-YelpUtil.openYelpResultWindow = function(marker, biz){
-    var markerLatLng = marker.getPosition();
-    Trip.infoWindow.setContent(
-        generateSearchInfoWindowHtml(biz)
-    );
-    Trip.infoWindow.open(Trip.map, marker);
 }

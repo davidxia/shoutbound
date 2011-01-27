@@ -106,122 +106,11 @@ function initialize() {
     ///////////////////////////////////////////////////////////////////////////
     // INITIALIZE MAP
     
-    var mapOptions = {
-        zoom: 13
-        ,mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-    Trip.map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-    
-    //alias
-    var map = Trip.map;
-    
-    Trip.infoWindow = new google.maps.InfoWindow();
-    
-    // TODO: Initial location hardcoded for right now
-    var initialLocation = new google.maps.LatLng(40.7338981628418, -73.9925994873047);
-    map.setCenter(initialLocation);
-        
-    //var startingMarker = new google.maps.Marker({
-        //map: map,
-        //position: initialLocation,
-        //draggable: false
-    //});
-
-    // Register event listeners to each marker to open a shared info
-    // window displaying the marker's position when clicked or dragged.
-    //google.maps.event.addListener(startingMarker, 'click', function() {
-        //Trip.openInfoWindow(startingMarker);
-    //});
 
 
-    // Make the info window close when clicking anywhere on the map.
-    google.maps.event.addListener(map, 'click', Trip.closeInfoWindow);
-
-    
-    ///////////////////////////////////////////////////////////////////////////
-    // YELP Integration
-    
-    // Yelp API key
-    Trip.YWSID = "6SKv1Kx6OghWFgTo_FQtXQ";
-    
-    // Set up Yelp AJAX call
-    $("#submit-suggestion").click(function(){
-        //TODO: jQuery this guy
-        var queryString = document.getElementById("term").value;
-        return YelpUtil.updateMap(queryString, map);
-    });
-    
-    // Set up wall comment API call
-    $("#submit-wall").click(function(){
-        //TODO: jQuery this guy
-        $.ajax({
-            type:'POST',
-            url: Constants['siteUrl']+'trip/ajax_add_item',
-            data: {
-                body: document.getElementById("wall-comment").value,
-                reply_id: 0,
-                title: "wall-poast",
-                trip_id: Constants.Trip['id'],
-                islocation: 0
-            },
-            success: WallUtil.asyncAddActiveWallItem
-        });
-
-        document.getElementById("wall-comment").value = "";
-    });
-
-    $(".show_reply_button").click(function() {
-        var parentid = $(this).attr('postid');
-        $(this).parent().append('<input type="text" class="reply_box" id="reply_box_'+parentid+'">'+
-            '<div class="reply-container">' +
-            '<button class="reply_submit" parentid="'+parentid+'">reply</button>' +
-            '</div>');
-        $(this).hide();
-        $('#reply_box_'+parentid).focus();
-
-        $('.reply_submit[parentid="'+parentid+'"]').click(function() {
-            $.ajax({
-                type:'POST',
-                dataType: 'json',
-                url: Constants['siteUrl']+'trip/ajax_add_item',
-                data: {
-                    body: document.getElementById('reply_box_'+parentid).value,
-                    reply_id: parentid,
-                    title: "wall-poast",
-                    trip_id: Constants.Trip['id'],
-                    islocation: 0
-                },
-                success: function(response) {
-                    var commentContent = WallUtil.generateNewWallItemHtml(
-                        response.fid, response.name, response.body, false, true);
-                    $(commentContent).appendTo('#replies_'+parentid).slideDown('slow');
-                }
-            });
-
-            $('.show_reply_button[postid="'+parentid+'"]').show();
-            $('#reply_box_'+parentid).remove();
-            $(this).remove();
-        });
-        return false;
-    });
-    
-    // populate existing trips
-    ListUtil.populateListItems();
-    
-     //map.addControl(new GLargeMapControl());
-     //map.addControl(new GMapTypeControl());
-     //map.setMapType(G_HYBRID_MAP);
-     
-     // setup our marker icon
-     /*icon = new GIcon();
-     icon.image = Constants['staticUrl']+"images/marker_star.png";
-     icon.shadow = Constants['staticUrl']+"images/marker_shadow.png";
-     icon.iconSize = new GSize(20, 29);
-     icon.shadowSize = new GSize(38, 29);
-     icon.iconAnchor = new GPoint(15, 29);
-     icon.infoWindowAnchor = new GPoint(15, 3);*/ 
 }
+
+
 
 
 
@@ -246,7 +135,7 @@ function generateInfoWindowHtml(biz) {
     // name/url
     text += '<a href="'+biz.url+'" target="_blank">'+biz.name+'</a><br/>';
     // stars
-    text += '<img class="ratingsimage" src="'+biz.rating_img_url_small+'"/><br/>'
+    text += '<img class="ratingsimage" src="'+biz.rating_img_url_small+'"/><br/>';
     // address
     text += biz.address1 + '<br/>';
     // address2
@@ -266,10 +155,8 @@ function generateInfoWindowHtml(biz) {
  * (displayed in a balloon when a marker is clicked)
  */
 function generateSearchInfoWindowHtml(biz) {
-    
     var text = generateInfoWindowHtml(biz);
-    text += '<a class="suggest-location-text" href="javascript:Trip.addActiveTripItem();">Suggest</a>'
-    
+    text += '<a class="suggest-location-text" href="javascript:Trip.addActiveTripItem();">Suggest</a>';
     return text;
 }
 

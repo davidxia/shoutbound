@@ -242,12 +242,15 @@ class Trip extends Controller {
         json_success(array('data'=>$render_string));
     }
     
-    function ajax_update_latlngbounds() {
+    function ajax_update_map() {
         $latlngbounds = $_POST['latLngBounds'];
+        $mapcenter = $_POST['mapCenter'];
         $tripid = $_POST['tripid'];
         $a = $this->Trip_m->update_latlngbounds_by_tripid($latlngbounds, $tripid);
+        $b = $this->Trip_m->update_mapcenter_by_tripid($mapcenter, $tripid);
+        $c = $a && $b;
         
-        json_success(array('success'=>$a));
+        json_success(array('success'=>$c));
     }
     
     

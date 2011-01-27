@@ -8,6 +8,7 @@ $header_args = array(
         'js/trip/wall.js',
         'js/trip/share.js',
         'js/trip/invite.js',
+        'js/trip/create.js',
     ),
     'css_paths'=>array(
         'css/trip.css',
@@ -19,14 +20,17 @@ $this->load->view('core_header', $header_args);
 
 ?>
 
-<!--IS THIS JAVASCRIPT??-->
+<!--IS THIS JAVASCRIPT??-->
+<?php
+$latlngbounds = explode(" ", $trip['latlngbounds']);
+$mapcenter = explode(" ", $trip['map_center']);
+?>
+
 <script>
     Constants.Trip = {};
     Constants.Trip['id'] = <?php echo $trip['tripid']; ?>;
-    Constants.Trip['zoom'] = 13;
-    Constants.Trip['lat'] = <?php echo $trip['lat']; ?>;
-    Constants.Trip['lng'] = <?php echo $trip['lon']; ?>;
-    <?php $latlngbounds = explode(" ", $trip['latlngbounds']); ?>
+    Constants.Trip['lat'] = <?php echo $mapcenter[0] ?>;
+    Constants.Trip['lng'] = <?php echo $mapcenter[1]; ?>;
     Constants.Trip['sBound'] = <?php echo $latlngbounds[0]; ?>;
     Constants.Trip['wBound'] = <?php echo $latlngbounds[1]; ?>;
     Constants.Trip['nBound'] = <?php echo $latlngbounds[2]; ?>;
@@ -50,13 +54,13 @@ $this->load->view('core_header', $header_args);
         <div class="grid_3">
             <input type="text" size="60" id="trip-where"
             onkeyup="geocode()"
-            <?//onchange="mapFirst()"?>
-            onfocus="this.select()"
+            <?//onchange="mapFirst()"
+            //onfocus="this.select()"?>
             autocomplete="off"
             title="Type placename or address" />
             <button type="button" onclick="save()">save location</button>
 
-    	    <ol id="suggest_list"></ol>
+    	    <ol id="suggest-list"></ol>
         </div>
         <div class="clear"></div>
 
@@ -95,53 +99,49 @@ $this->load->view('core_header', $header_args);
 
   <script type="text/javascript">
 		var mapOptions = {
-			zoom: Constants.Trip['zoom']
+			zoom: 5
 			,center: new google.maps.LatLng(Constants.Trip['lat'], Constants.Trip['lng'])
 			,mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
 		
-		// display world map
-		var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+		// display world map; used get(0) to get DOM element from jQuery selector's returned array
+		var map = new google.maps.Map($('#map-canvas').get(0), mapOptions);
+		
 		// change viewport to saved latlngbounds
 		var sw = new google.maps.LatLng(Constants.Trip['sBound'], Constants.Trip['wBound']);
 		var ne = new google.maps.LatLng(Constants.Trip['nBound'], Constants.Trip['eBound']);
 		var savedLatLngBounds = new google.maps.LatLngBounds (sw, ne);
 		map.fitBounds(savedLatLngBounds);
 		 
-		// create new geocoder to resolve city names into long/lat co-ords
+		// create new geocoder to resolve city names into latlng co-ords
 		var geocoder = new google.maps.Geocoder();
 		geocoder.firstItem = {};
 		
-		//a variable to save viewport's latlngbounds to database
-		var latLngBounds;
-		
-		//save map viewport settings
+		//save map viewport and map center latlng
+		var latLngBounds, mapCenter;
 		function save() {
             var postData = {
                 latLngBounds: latLngBounds,
+                mapCenter: mapCenter,
                 tripid: Constants.Trip['id']
             }
 
-            if(latLngBounds){
+            if(latLngBounds) {
                 $.ajax({
                    type:'POST',
-                   url: Constants['siteUrl']+'trip/ajax_update_latlngbounds',
+                   url: Constants['siteUrl']+'trip/ajax_update_map',
                    data: postData,
-                   success: success
+                   success: function(response){
+                       var r = $.parseJSON(response);
+                       alert(r['success']);
+                   }
                 });
-            } else {
-                alert("something is wrong!");
-            }
+            } else { alert("something is wrong!"); }
 		}
-		
-		function success(response){
-            var r = $.parseJSON(response);
-            //window.location = Constants.siteUrl+"trip/details/"+r['tripid'];
-            alert(r['success']);
-        }
+
 		 
 		function geocode() {
-			var query = document.getElementById("trip-where").value;
+			var query = $('#trip-where').val();
 			if(query && query.trim) { query = query.trim(); }// trim space if browser supports
 			if(query != geocoder.resultAddress && query.length > 1) { // no useless request
 				clearTimeout(geocoder.waitingDelay);
@@ -149,79 +149,65 @@ $this->load->view('core_header', $header_args);
 					geocoder.geocode({'address': query}, geocodeResult);
 				}, 300);
 			} else {
-				document.getElementById("suggest_list").innerHTML =  "";
+				$('#suggest-list').html("");
 				geocoder.resultAddress = "";
 				geocoder.resultBounds = null;
 			}
-			
-			// callback function
-			function geocodeResult(response, status) {
-				if (status == google.maps.GeocoderStatus.OK && response[0]) {
-					geocoder.firstItem = response[0];
-					clearListItems();
-					//var len = response.length;
-					for(var i=0; i<response.length; i++){
-					    //David: we won't limit to only political types for now
-						//for(var j=0; j<response[i].types.length; j++){
-							//if (response[i].types[j] == 'political')
-								addListItem(response[i]);
-						//}
+			//callback function is passed the geocoderResult object
+			function geocodeResult(result, status) {
+				if (status == google.maps.GeocoderStatus.OK && result[0]) {
+					geocoder.firstItem = result[0];
+					$('#suggest-list').empty();
+					for(var i=0; i<result.length; i++) {
+						addListItem(result[i]);
 					}
 				} else if(status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-					document.getElementById("suggest_list").innerHTML =  "?";//how to display retry message for user without going to random place on the map?
+					$('#suggest-list').html("Where the fuck is that?!");
 					geocoder.resultAddress = "";
 					geocoder.resultBounds = null;
 				} else {
-					document.getElementById("suggest_list").innerHTML =  status;
+					$('#suggest-list').html(status);
 					geocoder.resultAddress = "";
 					geocoder.resultBounds = null;
 				}
 			}
 		}
-		// by click on list
-		// function executed twice to override mapFirst()
-		function updateMap(respons){
-		    document.getElementById("trip-where").value = respons.formatted_address;
-			//function doIt(respons){
-				respons.geometry && respons.geometry.viewport && map.fitBounds(respons.geometry.viewport);
-				//document.getElementById("trip-where").value = respons.formatted_address;
-				clearListItems();
-				latLngBounds = respons.geometry.viewport.toString();
-                latLngBounds = latLngBounds.replace(/[,()]/g, "");
-				alert(latLngBounds);
-			//}
-			//doIt(respons);
-			//setTimeout(function(){doIt(respons)},500);
+		
+		
+		// Selectable dropdown list
+		function addListItem(resultItem) {
+			var li = document.createElement("li");
+			li.innerHTML = resultItem.formatted_address;
+			li.className = "list-item";
+			li.onclick = function(){ updateMap(resultItem); }
+			$('#suggest-list').append(li);
 		}
 		
-		// by onchange
-		//function mapFirst(){
-			//geocoder.firstItem.geometry && geocoder.firstItem.geometry.viewport
-				//&& map.fitBounds(geocoder.firstItem.geometry.viewport);
-			//document.getElementById("trip-where").value = geocoder.firstItem.formatted_address;
-			//clearListItems();
-		//}
-	 
 
-		// Selectable dropdown list
-		var listContainer = document.getElementById("suggest_list");
-		function addListItem(resp){
-			var loc = resp || {};
-			var row = document.createElement("li");
-			row.innerHTML = loc.formatted_address;
-			row.className = "list_item";
-			row.onclick = function(){
-				updateMap(loc);
-			}
-			listContainer.appendChild(row);
+		function updateMap(resultItem) {
+		    $('#trip-where').val(resultItem.formatted_address);
+			resultItem.geometry && resultItem.geometry.viewport && map.fitBounds(resultItem.geometry.viewport);
+			$('#suggest-list').empty();
+			latLngBounds = resultItem.geometry.viewport.toString();
+            latLngBounds = latLngBounds.replace(/[,()]/g, "");
+            mapCenter = resultItem.geometry.viewport.getCenter().toString();
+            mapCenter = mapCenter.replace(/[,()]/g, "");
 		}
-		// clear list
-		function clearListItems(){
-			while(listContainer.firstChild){
-				listContainer.removeChild(listContainer.firstChild);
-			}
-		}
-		 
+		
+		
+        ///////////////////////////////////////////////////////////////////////////
+        // YELP Integration
+
+        // Yelp API key
+        Trip.YWSID = "6SKv1Kx6OghWFgTo_FQtXQ";
+
+        // Set up Yelp AJAX call
+        $("#submit-suggestion").click(function(){
+            return YelpUtil.updateMap($('#term').val(), map);
+        });
+        
+        var infoWindow = new google.maps.InfoWindow();
+        
 	</script>
 </body> 
 </html>
