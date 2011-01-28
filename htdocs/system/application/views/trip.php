@@ -98,20 +98,7 @@ $mapcenter = explode(" ", $trip['map_center']);
   </div>
 
   <script type="text/javascript">
-		var mapOptions = {
-			zoom: 5
-			,center: new google.maps.LatLng(Constants.Trip['lat'], Constants.Trip['lng'])
-			,mapTypeId: google.maps.MapTypeId.ROADMAP
-		};
-		
-		// display world map; used get(0) to get DOM element from jQuery selector's returned array
-		var map = new google.maps.Map($('#map-canvas').get(0), mapOptions);
-		
-		// change viewport to saved latlngbounds
-		var sw = new google.maps.LatLng(Constants.Trip['sBound'], Constants.Trip['wBound']);
-		var ne = new google.maps.LatLng(Constants.Trip['nBound'], Constants.Trip['eBound']);
-		var savedLatLngBounds = new google.maps.LatLngBounds (sw, ne);
-		map.fitBounds(savedLatLngBounds);
+
 		 
 		// create new geocoder to resolve city names into latlng co-ords
 		var geocoder = new google.maps.Geocoder();
@@ -198,15 +185,18 @@ $mapcenter = explode(" ", $trip['map_center']);
         ///////////////////////////////////////////////////////////////////////////
         // YELP Integration
 
-        // Yelp API key
-        Trip.YWSID = "6SKv1Kx6OghWFgTo_FQtXQ";
-
         // Set up Yelp AJAX call
         $("#submit-suggestion").click(function(){
-            return YelpUtil.updateMap($('#term').val(), map);
+            return YelpUtil.updateMap($('#term').val(), Map.map);
         });
         
-        var infoWindow = new google.maps.InfoWindow();
+        //var infoWindow = new google.maps.InfoWindow();
+        
+        function addActiveTripItem() {
+
+
+        }
+
         
 	</script>
 </body> 

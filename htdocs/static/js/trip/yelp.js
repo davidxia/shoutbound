@@ -1,11 +1,15 @@
 // YELP Utils
 
-YelpUtil = {};
+YelpUtil = {
+    // Yelp API key
+    YWSID: "6SKv1Kx6OghWFgTo_FQtXQ"
+};
+
 
 // cache for the search results
 YelpUtil.searchMarkers = [];
 
-YelpUtil.constructYelpURL = function(searchTerm, map){
+YelpUtil.constructYelpURL = function(searchTerm, map) {
     var mapBounds = map.getBounds();
     var URL = "http://api.yelp.com/" +
         "business_review_search?"+
@@ -16,7 +20,7 @@ YelpUtil.constructYelpURL = function(searchTerm, map){
         "&tl_long=" + mapBounds.getSouthWest().lng() + 
         "&br_lat=" + mapBounds.getNorthEast().lat() + 
         "&br_long=" + mapBounds.getNorthEast().lng() +
-        "&ywsid=" + Trip.YWSID;
+        "&ywsid=" + YelpUtil.YWSID;
     return encodeURI(URL);
 }
 
@@ -36,12 +40,12 @@ YelpUtil.updateMap = function(query, map) {
 
 YelpUtil.destroyAllMarkers = function(){
     var markers = YelpUtil.searchMarkers;
-    for (var i=0, ii=markers.length; i<ii; i++){
+    for (var i=0, ii=markers.length; i<ii; i++) {
         markers[i].setMap(null);
         //markers[i] = null;
         //TODO: must destroy listener objects too!!!
     }
-        
+    
     //reset markers
     YelpUtil.searchMarkers = [];
 }
@@ -58,7 +62,7 @@ YelpUtil.handleResults = function(data) {
         
         for(var i=0; i<data.businesses.length; i++) {
             var yelpBiz = data.businesses[i];
-            var yelpPin = YelpUtil.createYelpResultMarker(yelpBiz, new google.maps.LatLng(yelpBiz.latitude, yelpBiz.longitude), i);
+            var yelpPin = YelpUtil.createYelpResultMarker(yelpBiz, new google.maps.LatLng(yelpBiz.latitude, yelpBiz.longitude));
             $("#trip-wall-suggest-list").append(YelpUtil.addYelpResultToResultList(yelpBiz, yelpPin));
         }
     } else {
@@ -67,11 +71,11 @@ YelpUtil.handleResults = function(data) {
 }
 
 
-YelpUtil.createYelpResultMarker = function(yelpBiz, latLng, markerNum) {
-    var infoWindowHtml = generateInfoWindowHtml(yelpBiz)
+YelpUtil.createYelpResultMarker = function(yelpBiz, latLng) {
+    var infoWindowHtml = generateInfoWindowHtml(yelpBiz);
     
     var marker = new google.maps.Marker({
-        map: map,
+        map: Map.map,
         position: latLng,
         draggable: false,
         icon: Constants.staticUrl+'/images/marker_star.png',
@@ -90,9 +94,12 @@ YelpUtil.createYelpResultMarker = function(yelpBiz, latLng, markerNum) {
 
 
 YelpUtil.openYelpResultWindow = function(marker, yelpBiz){
-    infoWindow.setContent(generateSearchInfoWindowHtml(yelpBiz));
-    infoWindow.open(map, marker);
+    Map.infoWindow.setContent(generateSearchInfoWindowHtml(yelpBiz));
+    Map.infoWindow.open(Map.map, marker);
+    console.log(marker);
 }
+
+/////////////////////////
 
 
 YelpUtil.addYelpResultToResultList = function(biz, linkedMarker) {
