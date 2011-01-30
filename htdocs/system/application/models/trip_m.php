@@ -1,21 +1,8 @@
 <?php
 
 class Trip_m extends Model {
-
-    function get_trip_by_tripid($tripid) {
-        $key = 'trip_by_tripid:'.$tripid;
-        $val = $this->mc->get($key);
-        if($val === false) {
-            $sql = 'SELECT * FROM trips WHERE tripid = ?';
-            $v = array($tripid);
-            $rows = $this->mdb->select($sql, $v);
-            $val = $rows[0];
-            $this->mc->set($key, $val);
-        }        
-        return $val;
-    }
-
-
+    
+    
     function create_trip($uid, $what, $lat, $lon) {
         //insert into trips table
         $v = array('name' => $what,
@@ -41,12 +28,27 @@ class Trip_m extends Model {
         return $tripid;
     }
     
+
+    function get_trip_by_tripid($tripid) {
+        $key = 'trip_by_tripid:'.$tripid;
+        $val = $this->mc->get($key);
+        if($val === false) {
+            $sql = 'SELECT * FROM trips WHERE tripid = ? AND active = 1';
+            $v = array($tripid);
+            $rows = $this->mdb->select($sql, $v);
+            $val = $rows[0];
+            $this->mc->set($key, $val);
+        }        
+        return $val;
+    }
+
+    
     //Move to trips_users_m later
     function get_tripids_by_uid($uid) {
         $key = 'tripids_by_uid:'.$uid;
         $tripids = $this->mc->get($key);
         if($tripids === false) {
-            $sql = 'SELECT * FROM trips_users WHERE uid = ?';
+            $sql = 'SELECT trips_users.tripid FROM trips_users, trips WHERE trips_users.uid = ? AND trips_users.tripid = trips.tripid AND trips.active = 1';
             $v = array($uid);
             $rows = $this->mdb->select($sql, $v);
             $tripids = array();
@@ -79,79 +81,70 @@ class Trip_m extends Model {
 	    return $uids;
     }
     
-    //THIS IS NOW USELESS??
-    //function get_user_tripids($uid) {
-        //$key = 'tripids_by_uid:'.$uid;
-        //$tripids = $this->mc->get($key);
-        //if($tripids === false) {
-            //$sql = 'SELECT tripid FROM trips WHERE uid = ? AND active = ?';
-            //$v = array($uid, 1);
-            //$rows = $this->mdb->select($sql, $v);
-            //$tripids = array();
-            //if($rows) {
-                //foreach($rows as $row) {
-                    //$tripids[] = $row['tripid'];
-                //}
-            //}
-            //$this->mc->set($key, $tripids);
-        //}
-        //return $tripids;
-    //}
 
-    //DELETE THIS!!!!
-    //function get_user_trips($uid) {
-        //$key = 'trips_by_uid:'.$uid;
-        //$trips = $this->mc->get($key);
-        //if($trips === false) {
-            //$sql = 'SELECT tripid FROM trips_users WHERE uid = ? AND rsvp IN ("awaiting", "yes")';
-            //$v = array($uid);
-            //$rows = $this->mdb->select($sql, $v);
-            
-            //$trips = $rows;
-            //$this->mc->set($key, $rows);
-        //}
-        //return $trips;
-    //}
-
-    //need to fix this now
     function delete_trip($tripid) {
-        $trip = get_trip_by_tripid($tripid);
+        $trip = $this->get_trip_by_tripid($tripid);
         if(!$trip)
             return false;
-        if($trip['uid'] != $this->User_m->get_logged_in_uid())
+        $uid = $this->User_m->get_logged_in_uid();
+        if($this->get_type_by_tripid_uid($tripid, $uid) != 'planner')
             return false;
 
         $sql = 'UPDATE trips SET active = ? WHERE tripid = ?';
         $v = array(0, $tripid);
         $this->mdb->alter($sql, $v);
-        $this->mc->delete('tripids_by_uid:'.$trip['uid']);
+        $this->mc->delete('tripids_by_uid:'.$uid);
         $this->mc->delete('trip_by_tripid:'.$tripid);
+        $this->mc->delete('uids_by_tripid:'.$tripid);
         return true;
     }
 
+
+	function get_friends_trips($uid) {
+        $key = 'friends_trips_by_uid:'.$uid;
+        $trips = $this->mc->get($key);
+        if($trips === false) {
+            $sql = 'SELECT trips_users.tripid FROM trips_users, trips WHERE trips_users.uid = ? AND trips_users.type = "advisor" AND trips_users.tripid = trips.tripid AND trips.active = 1';
+            $v = array($uid);
+            $rows = $this->mdb->select($sql, $v);
+            $tripids = array();
+            if($rows) {
+                foreach($rows as $row) {
+                    $tripids[] = $row['tripid'];
+                }
+            }
+            $this->mc->set($key, $tripids);
+        }
+        $trips = array();
+        foreach($tripids as &$tripid) {
+            $trips[] = $this->get_trip_by_tripid($tripid);
+        }
+        return $trips;
+    }
+    
     //DELETE, ONLY GET USERS BY UID
-	function get_users_by_tripid($tripid, $rsvp) {
-		$key = 'users_by_tripid:'.$tripid;
-	    $uids = $this->mc->get($key);
-	    if($uids === false) {
-	        $sql = 'SELECT uid FROM trips_users WHERE tripid = ? '.
-				'AND rsvp = ?';
-	        $v = array($tripid, $rsvp);
-	        $rows = $this->mdb->select($sql, $v);
-	        $uids = array();
-	        if($rows) {
-	            foreach($rows as $row) {
-	                $uids[] = $row['uid'];
-	            }
-	        }
-	        $this->mc->set($key, $uids);
-	    }
-	    $users = array();
-		foreach($uids as &$uid) {
-			$users[] = $this->User_m->get_user_by_uid($uid);
-		}
-	    return $users;
-	}
+	//function get_users_by_tripid($tripid, $rsvp) {
+		//$key = 'users_by_tripid:'.$tripid;
+	    //$uids = $this->mc->get($key);
+	    //if($uids === false) {
+	        //$sql = 'SELECT uid FROM trips_users WHERE tripid = ? '.
+				//'AND rsvp = ?';
+	        //$v = array($tripid, $rsvp);
+	        //$rows = $this->mdb->select($sql, $v);
+	        //$uids = array();
+	        //if($rows) {
+	            //foreach($rows as $row) {
+	                //$uids[] = $row['uid'];
+	            //}
+	        //}
+	        //$this->mc->set($key, $uids);
+	    //}
+	    //$users = array();
+		//foreach($uids as &$uid) {
+			//$users[] = $this->User_m->get_user_by_uid($uid);
+		//}
+	    //return $users;
+	//}
 	
 	
 	function get_rsvp_by_tripid_uid($tripid, $uid) {
@@ -198,28 +191,10 @@ class Trip_m extends Model {
         $this->mc->delete('trip_by_tripid:'.$tripid);
         return true;
     }
-    /////////////////////////////CLEANUP AFTER THIS LINE//////////////
-	function get_user_friends_trips($uid) {
-        $key = 'friends_trips_by_uid:'.$uid;
-        $trips = $this->mc->get($key);
-        if($trips === false) {
-            $sql = 'SELECT tripid FROM trips_users WHERE uid = ?';
-            $v = array($uid);
-            $rows = $this->mdb->select($sql, $v);
-            $tripids = array();
-            if($rows) {
-                foreach($rows as $row) {
-                    $tripids[] = $row['tripid'];
-                }
-            }
-            $this->mc->set($key, $tripids);
-        }
-        $trips = array();
-        foreach($tripids as &$tripid) {
-            $trips[] = $this->get_trip_by_tripid($tripid);
-        }
-        return $trips;
-    }
+    
+    //CLEANUP AFTER THIS LINE
+    ///////////////////////////////////////////
+
     
     /////////////////////////////////////////////////////////////////////////
     // [Trip] Items (Suggestions)
@@ -248,9 +223,9 @@ class Trip_m extends Model {
         $itemids = $this->mc->get($key);
 
         if($itemids === false) {
-            $order = strtoupper($order) == 'DESC' ? 'DESC' : 'ASC';
+            //$order = strtoupper($order) == 'DESC' ? 'DESC' : 'ASC';
             $sql = 'SELECT itemid FROM trip_items WHERE tripid = ? '.
-                'AND (status = "pending" OR status = "approved") '.
+                'AND status IN ("pending", "approved") '.
                 'ORDER BY created '.$order;
 
             $v = array($tripid);

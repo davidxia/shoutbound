@@ -1,13 +1,4 @@
 <div id="trip-wall-body">
-    
-    <div id="trip-wall-control">
-        <!--
-        <ul id="trip-wall-control-tab-list">
-            <li class="trip-wall-control-tab"><h3>Search for a Location to Suggest</h3></li>
-        </ul>-->
-    </div>
-
-    
     <div id="trip-wall-content">        
         <div id="trip-wall-comment">
             <div class="wall-text-input-wrap">
@@ -20,17 +11,17 @@
         
         <? foreach($wall_items as $item):?>
 
-            <div id="wall-item-<?=$item[itemid]?>" class="wall-item">
+            <div id="wall-item-<?php echo $item[itemid]; ?>" class="wall-item">
             
                 <div class="wall-comment">
-                    <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$item['user']['fid']?>/picture?type=square" /></div>
+                    <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?php echo $item['user']['fid']; ?>/picture?type=square" /></div>
                       <div class="wall-text left">
-                        <span class="wall-comment-username"><?=$item['user']['name']?></span>
+                        <span class="wall-comment-username"><?php echo $item['user']['name']; ?></span>
                         <?php if($item['islocation']): ?>
                             <span class="wall-comment-text">recommended<span id="wall-location-name-<?=$item['itemid']?>" class="wall-location-text"></span>
                                 <? if($item['body']) { ?>
                                     
-                                    <br/><br/><?=$item['body']?>
+                                    <br/><br/><?php echo $item['body']; ?>
                                     
                                 <? } ?>
                             </span>
@@ -38,7 +29,7 @@
                             <span class="wall-comment-text"> <?=$item['body'];?> </span>
                         <? endif;?>
                         <br/>
-                        <span class="wall-timestamp"><?=date("m/d/y",strtotime($item['created']))?></span>
+                        <span class="wall-timestamp"><?php echo date("m/d/y", strtotime($item['created'])); ?></span>
                         <br/>
                         
                       </div>
@@ -53,8 +44,8 @@
                     <div class="wall-comment wall-reply">
                         <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$reply['user']['fid']?>/picture?type=square" /></div>
                         <div class="wall-text left">
-                            <span class="wall-comment-username"> <?=$reply['user']['name']?> </span>
-                            <span class="wall-comment-text"> <?=$reply['body'];?> </span>
+                            <span class="wall-comment-username"> <?php echo $reply['user']['name']; ?> </span>
+                            <span class="wall-comment-text"> <?php echo $reply['body']; ?> </span>
                             <br/>
                             <span class="wall-timestamp"><?=date("m/d/y",strtotime($item['created']))?></span>
                         </div>
@@ -73,9 +64,6 @@
         <? endforeach;?>
         
         </div>
-        
 
-        
-        
     </div>
 </div>

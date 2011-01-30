@@ -1,10 +1,8 @@
 // YELP Utils
-
 YelpUtil = {
     // Yelp API key
     YWSID: "6SKv1Kx6OghWFgTo_FQtXQ"
 };
-
 
 // cache for the search results
 YelpUtil.searchMarkers = [];
@@ -38,14 +36,13 @@ YelpUtil.updateMap = function(query, map) {
 }
 
 
-YelpUtil.destroyAllMarkers = function(){
+YelpUtil.destroyAllMarkers = function() {
     var markers = YelpUtil.searchMarkers;
-    for (var i=0, ii=markers.length; i<ii; i++) {
+    for (var i=0; i<markers.length; i++) {
         markers[i].setMap(null);
         //markers[i] = null;
         //TODO: must destroy listener objects too!!!
     }
-    
     //reset markers
     YelpUtil.searchMarkers = [];
 }
@@ -78,7 +75,7 @@ YelpUtil.createYelpResultMarker = function(yelpBiz, latLng) {
         map: Map.map,
         position: latLng,
         draggable: false,
-        icon: Constants.staticUrl+'/images/marker_star.png',
+        icon: staticUrl + '/images/marker_star.png',
         showInfoWindow: function(){
             YelpUtil.openYelpResultWindow(marker, yelpBiz);
         }
@@ -86,20 +83,16 @@ YelpUtil.createYelpResultMarker = function(yelpBiz, latLng) {
     
     YelpUtil.searchMarkers.push(marker);
     
-    // Register event listeners to each marker to open a shared info
-    // window displaying the marker's position when clicked.
+    // Attach an event listener to each marker to display bubble when clicked.
     google.maps.event.addListener(marker, 'click', marker.showInfoWindow);
     return marker;
 }
 
 
-YelpUtil.openYelpResultWindow = function(marker, yelpBiz){
-    Map.infoWindow.setContent(generateSearchInfoWindowHtml(yelpBiz));
+YelpUtil.openYelpResultWindow = function(marker, yelpBiz) {
+    Map.infoWindow.setContent(generateInfoWindowHtml(yelpBiz));
     Map.infoWindow.open(Map.map, marker);
-    console.log(marker);
 }
-
-/////////////////////////
 
 
 YelpUtil.addYelpResultToResultList = function(biz, linkedMarker) {
@@ -116,8 +109,7 @@ YelpUtil.addYelpResultToResultList = function(biz, linkedMarker) {
 }
 
 
-YelpUtil.destroyAllSearchListItems = function(){
-    //reset list
-    var myUl = $("#trip-wall-suggest-list");
-    myUl.empty();
-}
+//////////////////////////
+//YelpUtil.destroyAllSearchListItems = function(){
+    //$("#trip-wall-suggest-list").empty();
+//}

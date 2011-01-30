@@ -2,7 +2,7 @@ Create = {};
 
 Create.showCreateDialog = function() {
     $.ajax({
-        url: Constants['siteUrl']+'trip/ajax_panel_create_trip',
+        url: baseUrl + 'trip/ajax_panel_create_trip',
         success: Create.displayCreateDialog
     });
 
@@ -36,7 +36,7 @@ Create.confirmCreate = function(){
     if(tripWhat){
         $.ajax({
            type:'POST',
-           url: Constants['siteUrl']+'trip/ajax_create_trip',
+           url: baseUrl + 'trip/ajax_create_trip',
            data: postData,
            success: confirmAddTrip
         });
@@ -48,5 +48,5 @@ Create.confirmCreate = function(){
 
 Create.confirmAddTrip = function (response){
     var r = $.parseJSON(response);
-    window.location = Constants.siteUrl+"trip/details/"+r['tripid'];
+    window.location = baseUrl + "trip/details/"+r['tripid'];
 }

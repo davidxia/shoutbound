@@ -10,40 +10,12 @@ class Trip extends Controller {
 	}
 
 
-    function index($tripid) {
-        //check if trip exists in trips table
-        $trip = $this->Trip_m->get_trip_by_tripid($tripid);
-        if(!$trip) { redirect('/'); }
-
-        //check if user is associated with this trip in trips_users table
-        //redirect to home page if not
-        $trip_uids = $this->Trip_m->get_uids_by_tripid($tripid);
-        for($i = 0; $i < count($trip_uids); $i++) {
-            if($trip_uids[$i] == $this->user['uid']) { break; }
-            if($i == (count($trip_uids)-1)) { redirect('/'); }
-        }
-        
-        //get this user's type for this trip
-        $user_type = $this->Trip_m->get_type_by_tripid_uid($tripid, $this->user['uid']);
-        
- 		//get users and corresponding rsvps for this trip
- 		foreach($trip_uids as $i => $uid) {
- 		    $uids_rsvps[$uid] = $this->Trip_m->get_rsvp_by_tripid_uid($tripid, $uid);
- 		}
- 		
- 		//get users who rsvp yes
- 		foreach($uids_rsvps as $uid => $rsvp) {
-            if($rsvp == 'yes') {
-                $yes_users[] = $this->User_m->get_user_by_uid($uid);
-            }
- 		}
- 		//print_r($trip);
- 		echo $trip['lat'];
+    function index() {
  	}
  	
 
     function details($tripid){
-        //check if trip exists in trips table
+        //check if trip exists in trips table and is active, ie not deleted
         $trip = $this->Trip_m->get_trip_by_tripid($tripid);
         if(!$trip) { redirect('/'); }
 
@@ -87,6 +59,13 @@ class Trip extends Controller {
         
         $this->load->view('trip', $view_data);
     }
+    
+    
+    function delete($tripid) {        
+        $this->Trip_m->delete_trip($tripid);
+        $this->load->view('home');
+    }
+    
     
     function _filter_out_wall_data($in_data){
         $out_data = array();
