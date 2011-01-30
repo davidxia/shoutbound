@@ -1,5 +1,5 @@
-<div class="nn-success">
-<h1>Invites Sent!</h1>
-<p>to uids:<?php print_r($uids); ?></ br> for tripid:<?php print_r($trip); ?><p>
+<div class="success">
+<h1>Shared!</h1>
+<p>You shared <?php echo $trip['name']; ?> with your friends!<?php print_r($uids);?><br/>your message: <?php print_r($message); ?><p>
 <h2>Click anywhere to continue.</h2>
 </div>

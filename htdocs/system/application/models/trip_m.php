@@ -3,11 +3,9 @@
 class Trip_m extends Model {
     
     
-    function create_trip($uid, $what, $lat, $lon) {
+    function create_trip($uid, $what) {
         //insert into trips table
         $v = array('name' => $what,
-                   'lat'  => $lat,
-                   'lon'  => $lon,
                    );
         list($sql, $values) = $this->mdb->insert_string('trips', $v);
         $tripid = $this->mdb->alter($sql, $values);
@@ -16,6 +14,7 @@ class Trip_m extends Model {
         $v = array('uid' => $uid,
                    'tripid' => $tripid,
                    'rsvp' => 'yes',
+                   'type' => 'planner'
                    );
         list($sql, $values) = $this->mdb->insert_string('trips_users', $v);
         $this->mdb->alter($sql, $values);
@@ -146,7 +145,23 @@ class Trip_m extends Model {
 	    //return $users;
 	//}
 	
-	
+	function invite_uids_by_tripid($tripid, $uids) {
+        //how do I batch alter using mdb??
+        foreach($uids as &$uid) {
+            
+            $d = array('tripid' => $tripid,
+                       'uid' => $uid,
+                       'rsvp' => 'awaiting',
+                       );
+
+            list($sql, $values) = $this->mdb->insert_string('trips_users', $d);
+            $this->mdb->alter($sql, $values);
+            //should I delete something from cache here?
+        }
+        return true;
+    }
+    
+    
 	function get_rsvp_by_tripid_uid($tripid, $uid) {
         $key = 'rsvp_by_tripid_uid:'.$tripid.':'.$uid;
         $rsvp = $this->mc->get($key);
@@ -195,7 +210,6 @@ class Trip_m extends Model {
     //CLEANUP AFTER THIS LINE
     ///////////////////////////////////////////
 
-    
     /////////////////////////////////////////////////////////////////////////
     // [Trip] Items (Suggestions)
 
@@ -369,22 +383,4 @@ class Trip_m extends Model {
         return $items;
     }
     
-
-    
-    
-    function invite_uids_by_tripid($tripid, $uids, $rsvp) {
-        //how do I batch alter using mdb??
-        foreach($uids as &$uid) {
-            
-            $d = array('tripid' => $tripid,
-                       'uid' => $uid,
-                       'rsvp' => $rsvp,
-                       );
-
-            list($sql, $values) = $this->mdb->insert_string('trips_users', $d);
-            $this->mdb->alter($sql, $values);
-            //should I delete something from cache here?
-        }
-        return true;
-    }
 }

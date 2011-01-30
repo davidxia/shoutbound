@@ -1,10 +1,7 @@
 <div id="trip-wall-body">
     <div id="trip-wall-content">        
         <div id="trip-wall-comment">
-            <div class="wall-text-input-wrap">
-                <input type="text" id="wall-text-input" onkeydown="if(event.keyCode==13) { plan_comments_add(); }">
-                <button id="submit-wall">post</button>                
-            </div>
+            
         </div>
         
         <div id="trip-wall-items">

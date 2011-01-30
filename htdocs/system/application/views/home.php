@@ -5,7 +5,7 @@
             'css/grid.css',
         ),
         'js_paths'=>array(
-            'js/profile/profile.js',
+            //'js/profile/profile.js',
 			'js/trip/create.js',
         )
         

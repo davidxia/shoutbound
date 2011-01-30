@@ -8,6 +8,7 @@ $header_args = array(
         'js/trip/share.js',
         'js/trip/invite.js',
         'js/trip/create.js',
+        'js/trip/delete.js'
     ),
     'css_paths'=>array(
         'css/trip.css',
@@ -49,21 +50,25 @@ $mapcenter = explode(" ", $trip['map_center']);
             onkeyup="geocode()"
             autocomplete="off"
             title="Type placename or address" />
+            <?php if($user_type == 'planner'): ?>
             <button type="button" onclick="save()">save location</button>
+            <?php endif; ?>
 
     	    <ol id="suggest-list"></ol>
         </div>
         <div class="clear"></div>
 
         <div class="grid_3">
+        
+        <?php if($user_type == 'planner'): ?>
         <div id="share-trip">
-            <? if($user_type == 'planner'): ?>
-                <a href="javascript: Share.showShareDialog();">share this trip</a>
-            <? endif; ?>
-        </div>
+            <a href="javascript: Share.showShareDialog();">share this trip</a>
+        </div>        
         <div>
-            <a href="<?php echo site_url('trip/delete/'.$trip['tripid']); ?>">delete trip</a>
+            <a href="javascript: Delete.deleteTrip(); ">delete trip</a>
         </div>
+        <?php endif; ?>
+        
         <div id="invite-trip">
 			<?php echo $this->load->view('trip_friends'); ?>
 		</div>
@@ -75,28 +80,17 @@ $mapcenter = explode(" ", $trip['map_center']);
         </div>
         <div class="clear"></div>
         
-        <div id="console">
-            <div id="list" class="grid_3">
-                <div id="trip-list-body">
-
-                    <div>suggest something</div>
-                    <div id="trip-wall-control-suggest-edit">
-                        <form name="suggestion">
-
-                            <div class="suggestion-input-wrap">
-                                <input id="term" class="suggestion-input">
-                                <button id="submit-suggestion">search</button>
-                            </div>
-                        </form>
-                        <ol id="trip-wall-suggest-list"></ol>
-                    </div>
-
+        <div id="console">            
+            <div id="wall" class="grid_9 push_3">
+                
+                <div class="wall-text-input-wrap">
+                    <input type="text" id="wall-text-input">
+                    <button id="submit-wall">post</button>
+                    <button id="submit-suggestion">search</button>
                 </div>
-
-            </div>
-            
-            <div id="wall" class="grid_9">
-                <?php echo $this->load->view('trip_wall', $wall_data); ?>
+                
+                <ol id="trip-wall-suggest-list"></ol>
+                <?php //echo $this->load->view('trip_wall', $wall_data); ?>
             </div>
         </div>
       

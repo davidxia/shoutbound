@@ -46,7 +46,7 @@ function initialize() {
     
     // Set up Yelp AJAX call
     $("#submit-suggestion").click(function(){
-        return YelpUtil.updateMap($('#term').val(), Map.map);
+        return YelpUtil.updateMap($('#wall-text-input').val(), Map.map);
     });
     
     // create new geocoder to resolve city names into latlng co-ords

@@ -61,9 +61,129 @@ class Trip extends Controller {
     }
     
     
-    function delete($tripid) {        
-        $this->Trip_m->delete_trip($tripid);
-        $this->load->view('home');
+    function ajax_panel_create_trip() {
+        $render_string = $this->load->view('trip/trip_create_panel', '', true);
+        json_success(array('data'=>$render_string));
+    }
+    
+    
+    function ajax_create_trip(){
+        $tripid = $this->Trip_m->create_trip($this->user['uid'], $_POST['tripWhat']);
+        json_success(array('tripid'=>$tripid));
+    }
+    
+    
+    function delete() {        
+        $this->Trip_m->delete_trip($_POST['tripid']);
+    }
+    
+    
+    function ajax_update_map() {
+        $latlngbounds = $_POST['latLngBounds'];
+        $mapcenter = $_POST['mapCenter'];
+        $tripid = $_POST['tripid'];
+        $a = $this->Trip_m->update_latlngbounds_by_tripid($latlngbounds, $tripid);
+        $b = $this->Trip_m->update_mapcenter_by_tripid($mapcenter, $tripid);
+        $c = $a && $b;
+        
+        json_success(array('success'=>$c));
+    }
+    
+    
+    function ajax_panel_share_trip() {
+        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
+        $friends = $this->User_m->get_friends_by_uid($this->user['uid']);
+        
+        $view_data = array(
+            'user_friends' => $friends
+        );
+        
+        $render_string = $this->load->view('trip/trip_share_panel', $view_data, true);
+        json_success(array('data'=>$render_string));
+    }
+    
+    
+    function ajax_share_trip() {
+        $planner = $this->user;
+        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
+        $uids = json_decode($_POST['uids']);
+        $message = $_POST['message'];
+        
+        //$this->load->library('sendgrid_email');
+        
+        //for($i = 0; $i < count($uids); $i++) {
+            //$uid = $uids[$i];
+
+            //$user_settings = $this->User_m->get_settings($uid);
+            //if(true) {
+
+                //$user = $this->User_m->get_user_by_uid($uid);
+                //$this->sendgrid_email->send_mail(
+                    //array($user['email']),
+                    //$planner['name'].' shared a trip with you on noqnok!',
+                    //$this->_add_link_to_notification('<h4>'.$planner['name'].' shared a trip with you on noqnok! </h4>'.$planner['name'].' says: '.$message,$trip),
+                    //$this->_add_link_to_notification($planner['name'].' shared a trip with you on noqnok! '.$planner['name'].' says: '.$message,$trip)
+                //);
+  
+            //}
+        //}
+
+        $view_data = array(
+            'uids' => $uids,
+            'trip' => $trip,
+            'message' => $message
+        );
+        
+        $render_string = $this->load->view('core_success', $view_data, true);
+        json_success(array('data'=>$render_string));
+    }
+    
+    
+    function ajax_panel_invite_trip() {
+        $friends = $this->User_m->get_friends_by_uid($this->user['uid']);
+        
+        $not_invited_users = array();
+        foreach($friends as $friend) {
+            $rsvp = $this->Trip_m->get_rsvp_by_tripid_uid($_POST['tripid'], $friend['uid']);
+            if($rsvp['rsvp'] == NULL) {
+                $not_invited_users[] = $friend;
+            }
+        }
+        
+        $invited_users = array();
+        foreach($friends as $friend) {
+            $rsvp = $this->Trip_m->get_rsvp_by_tripid_uid($_POST['tripid'], $friend['uid']);
+            if($rsvp['rsvp'] != NULL) {
+                $invited_users[] = $friend;
+            }
+        }
+        
+        $view_data = array(
+            'user' => $this->user,
+            'trip' => $trip,
+            'user_friends' => $friends,
+            'not_invited_users' => $not_invited_users,
+            'invited_users' => $invited_users,
+        );
+        
+        $render_string = $this->load->view('trip/trip_invite_panel', $view_data, true);
+        json_success(array('data'=>$render_string));
+    }
+
+    function ajax_invite_trip() {
+        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
+        $uids = json_decode($_POST['uids']);
+
+        $view_data = array(
+            'trip' => $trip,
+            'uids' => $uids
+        );
+        
+        $altered = $this->Trip_m->invite_uids_by_tripid($_POST['tripid'], $uids);
+        if($altered) {
+            $render_string = $this->load->view('core_success', $view_data, true);
+            json_success(array('data'=>$render_string));
+        }
     }
     
     
@@ -206,133 +326,8 @@ class Trip extends Controller {
         
         return $ret_val;
     }
-
-
-    function ajax_create_trip(){
-        $trip_what = $_POST['tripWhat'];
-        $tripid = $this->Trip_m->create_trip($this->user['uid'], $trip_what, $_POST['lat'], $_POST['lon']);
-            
-        json_success(array('tripid'=>$tripid));
-    }
     
-    
-    function ajax_panel_create_trip() {
-        $render_string = $this->load->view('trip/trip_create_panel', '', true);
-        json_success(array('data'=>$render_string));
-    }
-    
-    function ajax_update_map() {
-        $latlngbounds = $_POST['latLngBounds'];
-        $mapcenter = $_POST['mapCenter'];
-        $tripid = $_POST['tripid'];
-        $a = $this->Trip_m->update_latlngbounds_by_tripid($latlngbounds, $tripid);
-        $b = $this->Trip_m->update_mapcenter_by_tripid($mapcenter, $tripid);
-        $c = $a && $b;
-        
-        json_success(array('success'=>$c));
-    }
-    
-    
-    function ajax_panel_share_trip() {
-        
-        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
-        $friends = $this->User_m->get_friends_by_uid($this->user['uid']);
-        
-        $view_data = array(
-            'user' => $this->user,
-            'trip' => $trip,
-            'user_friends' => $friends
-        );
-        
-        $render_string = $this->load->view('trip/trip_share_panel', $view_data, true);
-        json_success(array('data'=>$render_string));
-        
-        
-    }
-    
-    function ajax_share_trip() {
-        
-        $author = $this->user;
-        
-        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
-        $uids = json_decode($_POST['uids']);
-        $message = $_POST['message'];
-        
-        $this->load->library('sendgrid_email');
-        
-        for($i = 0; $i < count($uids); $i++) {
-            $uid = $uids[$i];
 
-            //$user_settings = $this->User_m->get_settings($uid);
-            if(true) {
-
-                $user = $this->User_m->get_user_by_uid($uid);
-                $this->sendgrid_email->send_mail(
-                    array($user['email']),
-                    $author['name'].' shared a trip with you on noqnok!',
-                    $this->_add_link_to_notification('<h4>'.$author['name'].' shared a trip with you on noqnok! </h4>'.$author['name'].' says: '.$message,$trip),
-                    $this->_add_link_to_notification($author['name'].' shared a trip with you on noqnok! '.$author['name'].' says: '.$message,$trip)
-                );
-  
-            }
-        }
-
-        $view_data = array(
-            //'message' => 'this does nothing yet'
-        );
-        
-        $render_string = $this->load->view('core_success', $view_data, true);
-        json_success(array('data'=>$render_string));
-    }
-    
-    function ajax_panel_invite_trip() {
-        
-        $friends = $this->User_m->get_friends_by_uid($this->user['uid']);
-        
-        $not_invited_users = array();
-        foreach($friends as $friend) {
-            $rsvp = $this->Trip_m->get_rsvp_by_tripid_uid($_POST['tripid'], $friend['uid']);
-            if($rsvp['rsvp'] == NULL) {
-                $not_invited_users[] = $friend;
-            }
-        }
-        
-        $invited_users = array();
-        foreach($friends as $friend) {
-            $rsvp = $this->Trip_m->get_rsvp_by_tripid_uid($_POST['tripid'], $friend['uid']);
-            if($rsvp['rsvp'] != NULL) {
-                $invited_users[] = $friend;
-            }
-        }
-        
-        $view_data = array(
-            'user' => $this->user,
-            'trip' => $trip,
-            'user_friends' => $friends,
-            'not_invited_users' => $not_invited_users,
-            'invited_users' => $invited_users,
-        );
-        
-        $render_string = $this->load->view('trip/trip_invite_panel', $view_data, true);
-        json_success(array('data'=>$render_string));
-    }
-
-    function ajax_invite_trip() {
-                
-        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
-        $uids = json_decode($_POST['uids']);
-
-        $view_data = array(
-            'trip' => $trip,
-            'uids' => $uids
-        );
-        
-        $altered = $this->Trip_m->invite_uids_by_tripid($_POST['tripid'], $uids);
-        if($altered) {
-            $render_string = $this->load->view('core_success', $view_data, true);
-            json_success(array('data'=>$render_string));
-        }
-    }
 
 
 

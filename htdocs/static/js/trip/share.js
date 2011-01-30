@@ -1,83 +1,83 @@
-Share = {};
-
-Share.showShareDialog = function() {
-    var postData = {
-        tripid: Constants.Trip['id'],
-    };
+var Share = {
     
-    $.ajax({
-       type:'POST',
-       url: Constants['siteUrl']+'trip/ajax_panel_share_trip',
-       data: postData,
-       success: Share.displayShareDialog
-    });
-}
-
-Share.displayShareDialog = function(responseString) {
-    var response = $.parseJSON(responseString);
-    $("#div_to_popup").empty();
-    $("#div_to_popup").append(response["data"]);
-    $("#div_to_popup").bPopup();
-    
-    Share.bindButtons();
-}
-
-Share.bindButtons = function(){
-    $('#trip-share-confirm').bind('click', Share.confirmShare);
-    $('#trip-share-cancel').bind('click', Share.hideShareDialog); 
-    
-    $('.friend-capsule').bind('click', function(){
-        
-        var uid = $(this).attr('uid');
-        
-        if($.data(this, 'selected')){
-            $(this).removeClass('share-selected');
-            $.data(this, 'selected', false);
-        } else {
-            $(this).addClass('share-selected');
-            $.data(this, 'selected', true);
+    showShareDialog: function() {
+        var postData = {
+            tripid: tripid
         }
-    })   
-}
+        
+        $.ajax({
+           type: 'POST',
+           url: baseUrl + 'trip/ajax_panel_share_trip',
+           data: postData,
+           success: Share.displayShareDialog
+        });
+    },
+    
+    displayShareDialog: function(responseString) {
+        var response = $.parseJSON(responseString);
+        $("#div_to_popup").empty();
+        $("#div_to_popup").append(response["data"]);
+        $("#div_to_popup").bPopup();
 
-Share.confirmShare = function(){
-    var selectedUids = [];
-    $('.friend-capsule').each(function(){
-        if($.data(this, 'selected')){
-            selectedUids.push($(this).attr('uid'));
-        }
-    });
+        Share.bindButtons();
+    },
     
-    
-    Share.sendShareData(selectedUids);
-    
-    $("#div_to_popup").bPopup().close();
-}
+    bindButtons: function() {
+        $('#trip-share-confirm').bind('click', Share.confirmShare);
+        $('#trip-share-cancel').bind('click', Share.hideShareDialog); 
 
-Share.hideShareDialog = function(){
-    $("#div_to_popup").bPopup().close();
-}
+        $('.friend-capsule').bind('click', function(){
 
-Share.sendShareData = function(uids){
-    var postData = {
-        tripid: Constants.Trip['id'],
-        uids: $.JSON.encode(uids),
-        message: $("#trip-share-textarea").val()
-    };
-    
-    $.ajax({
-       type:'POST',
-       url: Constants['siteUrl']+'trip/ajax_share_trip',
-       data: postData,
-       success: Share.displaySuccessDialog
-    });
-}
+            var uid = $(this).attr('uid');
 
-Share.displaySuccessDialog = function(responseString) {
-    var response = $.parseJSON(responseString);
-    $("#div_to_popup").empty();
-    $("#div_to_popup").append(response["data"]);
-    $("#div_to_popup").bPopup();
+            if($.data(this, 'selected')){
+                $(this).removeClass('share-selected');
+                $.data(this, 'selected', false);
+            } else {
+                $(this).addClass('share-selected');
+                $.data(this, 'selected', true);
+            }
+        })
+    },
     
-    $('.nn-success').bind('click', Share.hideShareDialog); 
-}
+    confirmShare: function() {
+        var selectedUids = [];
+        $('.friend-capsule').each(function(){
+            if($.data(this, 'selected')){
+                selectedUids.push($(this).attr('uid'));
+            }
+        });
+
+        Share.sendShareData(selectedUids);
+
+        $("#div_to_popup").bPopup().close();
+    },
+    
+    hideShareDialog: function(){
+        $("#div_to_popup").bPopup().close();
+    },
+    
+    sendShareData: function(uids){
+        var postData = {
+            tripid: tripid,
+            uids: $.JSON.encode(uids),
+            message: $("#trip-share-textarea").val()
+        };
+
+        $.ajax({
+           type: 'POST',
+           url: baseUrl + 'trip/ajax_share_trip',
+           data: postData,
+           success: Share.displaySuccessDialog
+        });
+    },
+    
+    displaySuccessDialog: function(responseString) {
+        var response = $.parseJSON(responseString);
+        $("#div_to_popup").empty();
+        $("#div_to_popup").append(response["data"]);
+        $("#div_to_popup").bPopup();
+
+        $('.success').bind('click', Share.hideShareDialog); 
+    }
+};

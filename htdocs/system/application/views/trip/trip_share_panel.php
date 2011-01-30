@@ -2,19 +2,19 @@
     <div id="trip-share-header">Share your trip</div>
 
 		<div id="trip-share-friend-panel">
-			<? 
+			<?php
 			$counter = 0;
 			foreach($user_friends as $friend) { 
             	if($counter && $counter%6 == 0){
             		echo('<br class="clear-both"/>');
             	}
-            $counter++;
+                $counter++;
             ?>
 
-			<div uid="<?=$friend['uid']?>" class="friend-capsule">
-				<img class="square-50" src="http://graph.facebook.com/<?=$friend['fid']?>/picture?type=square" />
-				<div class="friend-capsule-name"><?=$friend['name']?></div>
-			</div>
+			    <div uid="<?php echo $friend['uid']; ?>" class="friend-capsule">
+				    <img class="square-50" src="http://graph.facebook.com/<?php echo $friend['fid']; ?>/picture?type=square" />
+				    <div class="friend-capsule-name"><?php echo $friend['name']; ?></div>
+			    </div>
 			<? } ?>
         </div>
                      

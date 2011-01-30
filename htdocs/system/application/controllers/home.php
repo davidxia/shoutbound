@@ -55,7 +55,8 @@ class Home extends Controller {
     }
     
     function test() {
-
+        $view_data['user_friends'] = $this->User_m->get_friends_by_uid($this->user['uid']);
+        print_r($view_data);
 
     }
 }

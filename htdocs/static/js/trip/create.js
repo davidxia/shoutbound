@@ -5,7 +5,6 @@ Create.showCreateDialog = function() {
         url: baseUrl + 'trip/ajax_panel_create_trip',
         success: Create.displayCreateDialog
     });
-
 }
 
 
@@ -28,9 +27,7 @@ Create.confirmCreate = function(){
     var tripWhat = $("#trip-what").val();
         
     var postData = {
-        tripWhat: tripWhat,
-        lat: 40.7144816,
-        lon: -73.9909809,
+        tripWhat: tripWhat
     }
     
     if(tripWhat){
@@ -38,7 +35,7 @@ Create.confirmCreate = function(){
            type:'POST',
            url: baseUrl + 'trip/ajax_create_trip',
            data: postData,
-           success: confirmAddTrip
+           success: Create.confirmAddTrip
         });
     } else {
         alert("Please name your trip! You will be glad you did.")

@@ -37,9 +37,8 @@ YelpUtil.updateMap = function(query, map) {
 
 
 YelpUtil.destroyAllMarkers = function() {
-    var markers = YelpUtil.searchMarkers;
-    for (var i=0; i<markers.length; i++) {
-        markers[i].setMap(null);
+    for (var i=0; i<YelpUtil.searchMarkers.length; i++) {
+        YelpUtil.searchMarkers[i].setMap(null);
         //markers[i] = null;
         //TODO: must destroy listener objects too!!!
     }
