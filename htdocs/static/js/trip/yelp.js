@@ -1,4 +1,3 @@
-// YELP Utils
 YelpUtil = {
     // Yelp API key
     YWSID: "6SKv1Kx6OghWFgTo_FQtXQ"

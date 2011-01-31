@@ -24,12 +24,12 @@ Map = {
 ///////////////////////////////////////////////////////////////////////////
 // INITIALIZE MAP
 function initialize() {
+    // setup google maps with options
 	var mapOptions = {
 		zoom: 5
 		,center: new google.maps.LatLng(Map.lat, Map.lng)
 		,mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
-	
 	// display world map; used get(0) to get DOM element from jQuery selector's returned array
 	Map.map = new google.maps.Map($('#map-canvas').get(0), mapOptions);
 	
@@ -39,19 +39,33 @@ function initialize() {
 	var savedLatLngBounds = new google.maps.LatLngBounds (sw, ne);
 	Map.map.fitBounds(savedLatLngBounds);
 	
-    Map.infoWindow = new google.maps.InfoWindow();
+	// create new geocoder to resolve city names into latlng co-ords
+	Map.geocoder = new google.maps.Geocoder();
     
+    // create infoWindow object for map
+    Map.infoWindow = new google.maps.InfoWindow();
     // Make the info window close when clicking anywhere on the map.
     google.maps.event.addListener(Map.map, 'click', Map.closeInfoWindow);
+    
+    // bind post function to wall post button
+    // bind post function to wall post button
+    $('#submit-wall').click(function() {
+        $.ajax({
+            type: 'POST',
+            url: baseUrl + 'trip/wall_post',
+            data: {
+                body: $('#wall-text-input').val(),
+                tripid: tripid,
+            },
+            success: Wall.asyncAddActiveWallItem
+        });
+        
+    });
     
     // Set up Yelp AJAX call
     $("#submit-suggestion").click(function(){
         return YelpUtil.updateMap($('#wall-text-input').val(), Map.map);
     });
-    
-    // create new geocoder to resolve city names into latlng co-ords
-	Map.geocoder = new google.maps.Geocoder();
-	
 }
 
 

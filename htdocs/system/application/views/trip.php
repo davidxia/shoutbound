@@ -2,7 +2,7 @@
 $header_args = array(
     'js_paths'=>array(
         'js/trip/map.js',
-        'js/trip/list.js',
+        //'js/trip/list.js',
         'js/trip/yelp.js',
         'js/trip/wall.js',
         'js/trip/share.js',
@@ -90,7 +90,7 @@ $mapcenter = explode(" ", $trip['map_center']);
                 </div>
                 
                 <ol id="trip-wall-suggest-list"></ol>
-                <?php //echo $this->load->view('trip_wall', $wall_data); ?>
+                <?php echo $this->load->view('trip_wall', $wall_data); ?>
             </div>
         </div>
       

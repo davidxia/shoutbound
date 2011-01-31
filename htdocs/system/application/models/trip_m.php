@@ -304,21 +304,19 @@ class Trip_m extends Model {
     }
 
 
-    function create_item($uid, $tripid, $yelpid, $title, $body,
-                         $yelpjson, $lat, $lon, $trip_owner,
-                         $replyid = 0, $islocation = true) {
+    function create_item($uid, $tripid, $yelpid, $body,
+                         $yelpjson, $lat, $lon,
+                         $replyid = 0, $islocation = 0) {
                              
         $d = array('uid' => $uid,
                    'tripid' => $tripid,
                    'yelpid' => $yelpid,
-                   'title' => $title,
                    'body' => $body,
                    'yelpjson' => $yelpjson,
                    'lat' => $lat,
                    'lon' => $lon,
                    'replyid' => $replyid,
                    'islocation' => $islocation,
-                   'tripowner' => $trip_owner,
                );
         
         list($sql, $values) = $this->mdb->insert_string('trip_items', $d);
