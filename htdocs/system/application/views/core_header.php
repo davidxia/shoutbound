@@ -4,20 +4,14 @@
         <title>noqnok</title>
 
         <!-- LIBRARIES -->
-        <!--<link rel="stylesheet" type="text/css" href='<?=static_url('css/noqnok.css');?>'/>-->
-        <script type="text/javascript" src="<?=static_url('js/jquery/jquery-dev.js');?>"></script>
-        <script language="javascript" src="<?=static_url('js/jquery/jquery.json.js');?>"></script>
-        <script language="javascript" src="<?=static_url('js/jquery/popup.js');?>"></script>
-        <script language="javascript" src="<?=static_url('js/jquery/jquery.tmpl.js');?>"></script>
-
-        <!-- JAVASCRIPT CONSTANTS --> 
-        <script type="text/javascript">
-            var baseUrl = "<?php echo site_url(""); ?>";
-            var staticUrl = "<?php echo static_url(""); ?>";
-        </script>
+        <link rel="stylesheet" type="text/css" href='http://dev.noqnok.com/david/static/css/main.css'/>
+        <link rel="stylesheet" type="text/css" href="http://dev.noqnok.com/david/static/css/grid.css"/>
+        <script type="text/javascript" src="<?php echo static_url('js/jquery/jquery.js');?>"></script>
+        <script type="text/javascript" src="<?php echo static_url('js/jquery/jquery.json.js');?>"></script>
+        <script type="text/javascript" src="<?php echo static_url('js/jquery/popup.js');?>"></script>
 
         <!-- PAGE CSS and JAVASCRIPT -->
-        <?
+        <?php
         if($css_paths) {
             foreach($css_paths as $css) {
                 $css_tag = '<link rel="stylesheet" type="text/css" href="';

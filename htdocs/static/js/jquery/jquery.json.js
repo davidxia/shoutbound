@@ -1,3 +1,7 @@
+/*
+ * jQuery JSON plugin
+ * Load JSON data using an HTTP GET request
+ */
 jQuery.JSON = {
 useHasOwn : ({}.hasOwnProperty ? true : false),
 pad : function(n) {

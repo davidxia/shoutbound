@@ -1,0 +1,598 @@
+/*might need this for IE to resize text gracefully*/
+html{
+    font-size: 100%;
+}
+
+body {
+    font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+    /*font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
+    font-size: 1em;
+}
+
+a:link, a:visited {
+    color: #4B0082;
+}
+
+ol, ul {
+    list-style: none;
+    -webkit-padding-start: 0px;
+    margin: 0px;
+}
+
+#navigation-buttons li {
+    float: right;
+    margin: 0px 0px 0px 10px;
+}
+
+a.navigation:link, a.navigation:visited {
+    text-decoration: none;
+    font-size: 0.875em;
+    font-weight: bold;
+}
+
+a.navigation:hover {
+    text-decoration: underline;
+}
+
+#trip-name {
+    font-size: 1.5em;
+    font-weight: bold;
+    padding-left: 5px;
+    margin-bottom: 5px;
+}
+
+#trip-creator {
+    font-size: 0.75em;
+    padding-left: 5px;
+    margin-bottom: 3px;
+}
+
+#share-trip {
+    font-size: 1.5em;
+    margin-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #EDEDED;
+}
+
+#share-trip a:link {
+    text-decoration: none;
+}
+
+#yes-users {
+    padding: 10px 0px 10px 0px;
+    border-bottom: 1px solid #EDEDED;
+}
+
+.attending-friend {
+    
+}
+
+a.user-link:link, a.user-link:visited {
+    font-size: 12px;
+    text-decoration: none;
+}
+
+a.user-link:hover {
+    font-size: 12px;
+    text-decoration: underline;
+}
+
+#invite-button {
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#div_to_popup {
+    display: none;
+    background: white;
+}
+
+
+/* Specific to home page
+----------------------------------------------------------------------------------------------------*/
+
+#banner {
+	height: 61px;
+}
+
+
+
+#trip-create-popup {
+    height: auto;
+	width: 428px;
+    border: 10px solid #ccc;
+    padding: 20px;
+    
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+#trip-create-header {
+	font-size: 1.5em;
+	font-weight: bold;
+	margin-bottom: 15px;
+}
+
+#trip-create-confirm,
+#trip-create-cancel {
+    margin: 0px 5px 0px 5px;
+}
+
+#trip-create-confirm:hover,
+#trip-create-cancel:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#create-trip-button {
+}
+
+#recent-activity {
+	height: 300px;
+	padding: 10px;
+	border: 1px solid black;
+	overflow-x: hidden;
+}
+
+#recent-activity-header {
+	font-size: 1.5em;
+	margin-bottom: 10px;
+}
+
+#avatar {
+    border: 1px solid black;
+    display: inline-block;
+}
+
+#home-trips {
+	height: 300px;
+	padding: 10px;
+	border: 1px solid black;
+}
+
+#home-trips-header {
+	font-size: 1.5em;
+	margin-bottom: 10px;
+}
+
+.home-trip a:link {
+    text-decoration: none;
+}
+
+.home-trip a:hover {
+    text-decoration: underline;
+}
+
+
+
+#home-friends, #home-friends-trips {
+	height: 300px;
+	padding: 10px;
+	border: 1px solid black;
+}
+
+#home-friends-header, #home-friends-trips-header {
+	font-size: 1.5em;
+	margin-bottom: 10px;
+}
+/*------------------*/
+
+
+.sidebar-list {
+    padding-bottom: 10px;
+}
+
+.large-label {
+    font-weight: bold;
+
+    text-align: left;
+    
+    display: block;
+}
+
+.large-input {
+    width: 250px;
+    font: 16px helvetica;
+    padding: 5px;
+    margin-top: 8px;
+}
+
+.large-button {
+    padding: 10px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: indigo;
+}
+
+.cancel-link {
+    margin-left: 10px;
+    font: 10px verdana;
+}
+
+.large-panel {
+
+}
+
+.friend-capsule {
+    width: 70px;
+    padding: 0px;
+    
+
+    float: left;
+    margin-right: 15px;
+    height: 100px;
+    
+    padding-bottom: 5px;
+    
+    overflow:hidden;
+}
+
+.friend-capsule img{
+    margin: 10px 10px 0 10px;
+    
+}
+
+.friend-capsule-name {
+    font: 10px verdana;
+    text-align: center;
+}
+
+/**
+NEWS FEED
+**/
+
+
+
+#trip-wall-control {
+    margin: 10px 0;
+}
+
+#trip-wall-control-comment-edit{
+
+    display: none;
+}
+
+#trip-wall-control-suggest-edit{
+
+    /*display: none;*/
+}
+
+.trip-wall-control-tab {
+    margin-right: 10px;
+    float: left;
+    
+    margin-bottom: 5px;
+}
+
+.wall-textarea-wrap {
+    margin-bottom: 10px;
+}
+
+.wall-textarea {
+    width: 295px;
+    margin-bottom: 5px;
+    height: 40px;
+}
+
+.suggestion-input-wrap button{
+    font: 12px georgia;
+    font-style: italic;
+    
+    margin-top: 5px;
+}
+
+.wall-textarea-wrap button{
+    font: 12px georgia;
+    font-style: italic;
+}
+
+
+#trip-wall-content {
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+    padding-top: 5px;
+}
+
+.wall-text {
+    font: 10px verdana;
+    margin-left: 60px;
+}
+
+.wall-comment-username {
+    font-weight: bold;
+    color: #541F5E;
+    
+    margin-right: 5px;
+}
+
+.wall-comment {
+
+    margin-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.wall-location-text {
+    font: 12px georgia;
+    font-style: italic;
+    color: #777;
+}
+
+.suggestion-input-wrap {
+    height: 30x;
+}
+
+#trip-list-content {
+
+}
+
+.wall-reply-comment {
+
+}
+
+.wall-root-comment {
+
+}
+
+#trip-wall-items {
+    width: 250px;
+}
+
+.wall-timestamp {
+    color:#555;
+    font: 10px verdana;
+}
+
+.wall-timestamp-hover {
+    color: #555;
+}
+
+.nn-fb-banner.left {
+    float: left;
+}
+.nn-fb-img.left {
+    float: left;
+    margin-right: 10px;
+}
+.nn-fb-text.left {
+    float: left;
+    text-align: left;
+}
+
+.feed-trip-reference-text {
+    color: #555;
+}
+
+
+#profile-feed {
+    float: left;
+    width: 365px;
+
+    height: 100%;
+}
+
+#profile-friends {
+
+}
+
+
+/* Specific to trip page
+----------------------------------------------------------------------------------------------------*/
+
+#map-shell {
+    padding: 5px;
+    background: #F7F7F7;
+    
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    
+    box-shadow: 5px 5px 3px #888;
+    -moz-box-shadow: 5px 5px 3px #888;
+    -webkit-box-shadow: 5px 5px 3px #888;
+}
+
+#map-canvas {
+    height: 350px;
+}
+
+.wall-text-input-wrap {
+    padding-left: 5px;
+    margin-bottom: 10px;
+}
+
+#wall-text-input {
+    width: 500px;
+    height: 1em;
+    padding: 7px;
+    font-size: 1.2em;
+    float: ;
+    
+    border: 1px solid #8F8F8F;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+
+#trip-wall-content {
+    margin-top: 20px;
+}
+
+
+.wall-comment-username {
+    font-weight: bold;
+    color: #541F5E;
+    
+    margin-right: 5px;
+}
+
+
+.wall-reply {
+    margin-left:30px;
+}
+
+.wall-location-text {
+    color: #777;
+}
+
+.wall-timestamp {
+    color:#777;
+    font-size: 12px;
+}
+
+.show_reply_button {
+    font: 10px verdana;
+}
+
+
+#trip-share-popup, #trip-invite-popup {
+    height: auto;
+	width: 428px;
+    border: 10px solid #ccc;
+    padding: 20px;
+    
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+#trip-share-header, #trip-invite-header {
+	font-size: 1.5em;
+	font-weight: bold;
+	margin-bottom: 15px;
+}
+
+#trip-share-friend-panel, #trip-invite-friend-panel {
+    height: 265px;
+    overflow-x: hidden;
+}
+
+#trip-invited-friends-header {
+	font-size: 1.5em;
+}
+
+#trip-share-toolbar, #trip-invite-toolbar {
+    text-align: right;
+	margin: 15px 0px 0px 0px;
+}
+
+#trip-share-confirm,
+#trip-share-cancel,
+#trip-invite-confirm,
+#trip-invite-cancel {
+    margin: 0px 5px 0px 5px;
+}
+
+#trip-share-confirm:hover,
+#trip-share-cancel:hover,
+#trip-invite-confirm:hover,
+#trip-invite-cancel:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+#trip-share-textarea, #trip-invite-textarea {
+    font-size: 1em;
+    padding: 3px;
+    width: 95%;
+    border: 1px solid #8F8F8F;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+
+.friend-capsule {
+    width: 70px;
+    padding: 0px;
+    
+    float: left;
+    margin-right: 15px;
+    margin-bottom: 5px;
+    height: 100px;
+    
+    padding-bottom: 5px;
+    
+    overflow:hidden;
+    cursor: pointer;
+}
+
+.friend-capsule:hover {
+    background: #eee;
+}
+
+.friend-capsule.share-selected {
+    background: #ccc;
+} 
+
+.friend-capsule img{
+    margin: 10px 10px 0 10px;
+    
+}
+
+.friend-capsule-name {
+    font: 10px verdana;
+    text-align: center;
+}
+
+/*
+///////////////////////////////////////////////////////////////////////////////
+// YELP
+*/
+#spinner { visibility: hidden; margin-left:3px;}
+
+.marker {font-size: 11px;}
+.marker .businessimage { float: left;}
+.marker .ratingsimage {vertical-align:middle; margin-top:0px;}
+.marker .businessinfo { margin-left: 110px;}
+.marker {
+    font: 10px verdana;
+}
+
+/*
+///////////////////////////////////////////////////////////////////////////////
+// SEARCH LIST
+*/
+
+#trip-wall-suggest-list {
+
+}
+
+.search-result-li{
+    font: 10px verdana;
+    color: #333;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: 25px;
+}
+
+.search-result-li:hover{
+    background-color: #eee;
+    color: black;
+}
+
+
+
+/************
+RECOMMENDATION BOX
+**/
+#trip-suggestion-comment-content{
+    border:10px solid #CCCCCC;
+    cursor:pointer;
+    padding:10px;
+    
+    width: 300px;
+    text-align: left;
+}
+
+#trip-suggestion-textarea {
+    width: 295px;
+}
+
+.nn-fb-img.left {
+    float: left;
+    margin-right: 10px;
+}

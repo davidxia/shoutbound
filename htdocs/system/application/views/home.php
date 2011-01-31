@@ -1,11 +1,8 @@
 <?
     $header_args = array(
         'css_paths'=>array(
-            'css/home.css',
-            'css/grid.css',
         ),
         'js_paths'=>array(
-            //'js/profile/profile.js',
 			'js/trip/create.js',
         )
         
@@ -13,6 +10,11 @@
     echo($this->load->view('core_header', $header_args));
 ?>
 
+<!-- JAVASCRIPT CONSTANTS --> 
+<script type="text/javascript">
+    var baseUrl = "<?php echo site_url(""); ?>";
+    var staticUrl = "<?php echo static_url(""); ?>";
+</script>
 
 </head> 
 <body>

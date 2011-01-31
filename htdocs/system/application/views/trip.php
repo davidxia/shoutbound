@@ -11,8 +11,6 @@ $header_args = array(
         'js/trip/delete.js'
     ),
     'css_paths'=>array(
-        'css/trip.css',
-        'css/grid.css',
     )
 );
 
@@ -22,7 +20,11 @@ $latlngbounds = explode(" ", $trip['latlngbounds']);
 $mapcenter = explode(" ", $trip['map_center']);
 ?>
 
+
+<!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
+    var baseUrl = "<?php echo site_url(""); ?>";
+    var staticUrl = "<?php echo static_url(""); ?>";
     var tripid = <?php echo $trip['tripid']; ?>;
     
     Map.lat = <?php echo $mapcenter[0] ?>;
@@ -47,11 +49,11 @@ $mapcenter = explode(" ", $trip['map_center']);
         </div>
         <div class="grid_3">
             <input type="text" size="60" id="trip-where"
-            onkeyup="geocode()"
+            onkeyup="Map.geocode()"
             autocomplete="off"
             title="Type placename or address" />
             <?php if($user_type == 'planner'): ?>
-            <button type="button" onclick="save()">save location</button>
+            <button type="button" onclick="Map.save()">save location</button>
             <?php endif; ?>
 
     	    <ol id="suggest-list"></ol>
