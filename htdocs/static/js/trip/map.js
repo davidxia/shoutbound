@@ -1,7 +1,7 @@
 Map = {
     map: null,
-    latLngBounds: null,
-    mapCenter: null,
+    //latLngBounds: null,
+    //mapCenter: null,
     geocoder: null,
     infoWindow: null,
     
@@ -98,13 +98,13 @@ Map = {
     	
     	// some regex to get google map center and viewport lat lngs
         mapCenter = resultItem.geometry.viewport.getCenter().toString();
-        var r = /\((\d+.?\d*), (\d+.?\d*)\)/;
+        var r = /\((-?\d+.?\d*), (-?\d+.?\d*)\)/;
         mapCenter.match(r);
         Map.lat = RegExp.$1;
         Map.lng = RegExp.$2;
         
     	latLngBounds = resultItem.geometry.viewport.toString();
-    	r = /\(\((\d+.?\d*), (\d+.?\d*)\), \((\d+.?\d*), (\d+.?\d*)\)\)/;
+    	r = /\(\((-?\d+.?\d*), (-?\d+.?\d*)\), \((-?\d+.?\d*), (-?\d+.?\d*)\)\)/;
         latLngBounds.match(r);
         Map.sBound = RegExp.$1;
         Map.wBound = RegExp.$2;
