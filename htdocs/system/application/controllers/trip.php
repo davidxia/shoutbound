@@ -11,23 +11,6 @@ class Trip extends Controller {
 
 
     function index() {
-        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
-        if(!$trip)
-            return json_error('That trip doesn\'t exist');
-            
-        if(isset($_POST['replyid'])) {
-            $replyid = $_POST['replyid'];
-        } else {
-            $replyid = 0;
-        }
-
-        json_success(array(
-            'itemid' => $itemid,
-            'fid' => $this->user['fid'],
-            'name'=> $this->user['name'],
-            'body'=> $_POST['body'],
-            'replyid' => $replyid
-        ));
  	}
  	
 
@@ -96,11 +79,16 @@ class Trip extends Controller {
     
     
     function ajax_update_map() {
-        $latlngbounds = $_POST['latLngBounds'];
-        $mapcenter = $_POST['mapCenter'];
+        $lat = $_POST['lat'];
+        $lng = $_POST['lng'];
+        $sBound = $_POST['sBound'];
+        $wBound = $_POST['wBound'];
+        $nBound = $_POST['nBound'];
+        $eBound = $_POST['eBound'];
         $tripid = $_POST['tripid'];
-        $a = $this->Trip_m->update_latlngbounds_by_tripid($latlngbounds, $tripid);
-        $b = $this->Trip_m->update_mapcenter_by_tripid($mapcenter, $tripid);
+        
+        $a = $this->Trip_m->update_mapcenter_by_tripid($lat, $lng, $tripid);
+        $b = $this->Trip_m->update_latlngbounds_by_tripid($sBound, $wBound, $nBound, $eBound, $tripid);
         $c = $a && $b;
         
         json_success(array('success'=>$c));

@@ -190,22 +190,23 @@ class Trip_m extends Model {
     }
     
     
-    function update_latlngbounds_by_tripid($latlngbounds, $tripid) {
-        $sql = 'UPDATE trips SET latlngbounds = ? WHERE tripid = ?';
-        $v = array($latlngbounds, $tripid);
+    function update_mapcenter_by_tripid($lat, $lng, $tripid) {
+        $sql = 'UPDATE trips SET lat = ?, lng = ? WHERE tripid = ?';
+        $v = array($lat, $lng, $tripid);
         $this->mdb->alter($sql, $v);
         $this->mc->delete('trip_by_tripid:'.$tripid);
         return true;
     }
     
     
-    function update_mapcenter_by_tripid($mapcenter, $tripid) {
-        $sql = 'UPDATE trips SET map_center = ? WHERE tripid = ?';
-        $v = array($mapcenter, $tripid);
+    function update_latlngbounds_by_tripid($sBound, $wBound, $nBound, $eBound, $tripid) {
+        $sql = 'UPDATE trips SET sBound = ?, wBound = ?, nBound = ?, eBound = ? WHERE tripid = ?';
+        $v = array($sBound, $wBound, $nBound, $eBound, $tripid);
         $this->mdb->alter($sql, $v);
         $this->mc->delete('trip_by_tripid:'.$tripid);
         return true;
     }
+
     
     //CLEANUP AFTER THIS LINE
     ///////////////////////////////////////////

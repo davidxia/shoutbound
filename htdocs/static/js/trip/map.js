@@ -11,10 +11,7 @@ Map = {
     wBound: null,
     nBound: null,
     eBound: null,
-    
-    //activeTripItem: null,
-    //listItemMarkers: [],
-    
+        
     closeInfoWindow: function() {
         Map.infoWindow.close();
     },
@@ -98,21 +95,36 @@ Map = {
         $('#trip-where').val(resultItem.formatted_address);
     	resultItem.geometry && resultItem.geometry.viewport && Map.map.fitBounds(resultItem.geometry.viewport);
     	$('#suggest-list').empty();
-    	Map.latLngBounds = resultItem.geometry.viewport.toString();
-        Map.latLngBounds = Map.latLngBounds.replace(/[,()]/g, "");
-        Map.mapCenter = resultItem.geometry.viewport.getCenter().toString();
-        Map.mapCenter = Map.mapCenter.replace(/[,()]/g, "");
+    	
+    	// some regex to get google map center and viewport lat lngs
+        mapCenter = resultItem.geometry.viewport.getCenter().toString();
+        var r = /\((\d+.?\d*), (\d+.?\d*)\)/;
+        mapCenter.match(r);
+        Map.lat = RegExp.$1;
+        Map.lng = RegExp.$2;
+        
+    	latLngBounds = resultItem.geometry.viewport.toString();
+    	r = /\(\((\d+.?\d*), (\d+.?\d*)\), \((\d+.?\d*), (\d+.?\d*)\)\)/;
+        latLngBounds.match(r);
+        Map.sBound = RegExp.$1;
+        Map.wBound = RegExp.$2;
+        Map.nBound = RegExp.$3;
+        Map.eBound = RegExp.$4;
     },
     
     //save map viewport and map center latlng
     save: function() {
         var postData = {
-            latLngBounds: Map.latLngBounds,
-            mapCenter: Map.mapCenter,
+            lat: Map.lat,
+            lng: Map.lng,
+            sBound: Map.sBound,
+            wBound: Map.wBound,
+            nBound: Map.nBound,
+            eBound: Map.eBound,
             tripid: tripid
         }
 
-        if(Map.latLngBounds) {
+        if(Map.lat && Map.lng && Map.sBound && Map.wBound && Map.nBound && Map.eBound) {
             $.ajax({
                type:'POST',
                url: baseUrl + 'trip/ajax_update_map',

@@ -15,9 +15,6 @@ $header_args = array(
 );
 
 $this->load->view('core_header', $header_args);
-
-$latlngbounds = explode(" ", $trip['latlngbounds']);
-$mapcenter = explode(" ", $trip['map_center']);
 ?>
 
 
@@ -27,12 +24,12 @@ $mapcenter = explode(" ", $trip['map_center']);
     var staticUrl = "<?php echo static_url(""); ?>";
     var tripid = <?php echo $trip['tripid']; ?>;
     
-    Map.lat = <?php echo $mapcenter[0] ?>;
-    Map.lng = <?php echo $mapcenter[1]; ?>;
-    Map.sBound = <?php echo $latlngbounds[0]; ?>;
-    Map.wBound = <?php echo $latlngbounds[1]; ?>;
-    Map.nBound = <?php echo $latlngbounds[2]; ?>;
-    Map.eBound = <?php echo $latlngbounds[3]; ?>;
+    Map.lat = <?php echo $trip['lat']; ?>;
+    Map.lng = <?php echo $trip['lng']; ?>;
+    Map.sBound = <?php echo $trip['sbound']; ?>;
+    Map.wBound = <?php echo $trip['wbound']; ?>;
+    Map.nBound = <?php echo $trip['nbound']; ?>;
+    Map.eBound = <?php echo $trip['ebound']; ?>;
 </script>
 
 <?php echo $this->load->view('core_header_end'); ?>
