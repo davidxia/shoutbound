@@ -49,25 +49,6 @@ Map = {
         Map.infoWindow = new google.maps.InfoWindow();
         // Make the info window close when clicking anywhere on the map.
         google.maps.event.addListener(Map.map, 'click', Map.closeInfoWindow);
-
-        // bind post function to wall post button
-        $('#submit-wall').click(function() {
-            $.ajax({
-                type: 'POST',
-                url: baseUrl + 'trip/wall_post',
-                data: {
-                    body: $('#wall-text-input').val(),
-                    tripid: tripid,
-                },
-                success: Wall.asyncAddActiveWallItem
-            });
-
-        });
-
-        // Set up Yelp AJAX call
-        $("#submit-suggestion").click(function(){
-            return YelpUtil.search($('#wall-text-input').val(), Map.map);
-        });
     },
     
     

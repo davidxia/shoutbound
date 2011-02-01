@@ -11,6 +11,23 @@ class Trip extends Controller {
 
 
     function index() {
+        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
+        if(!$trip)
+            return json_error('That trip doesn\'t exist');
+            
+        if(isset($_POST['replyid'])) {
+            $replyid = $_POST['replyid'];
+        } else {
+            $replyid = 0;
+        }
+
+        json_success(array(
+            'itemid' => $itemid,
+            'fid' => $this->user['fid'],
+            'name'=> $this->user['name'],
+            'body'=> $_POST['body'],
+            'replyid' => $replyid
+        ));
  	}
  	
 
@@ -191,16 +208,22 @@ class Trip extends Controller {
         $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
         if(!$trip)
             return json_error('That trip doesn\'t exist');
+            
+        if(isset($_POST['replyid'])) {
+            $replyid = $_POST['replyid'];
+        } else {
+            $replyid = 0;
+        }
 
-        $this->Trip_m->create_item(
+        $itemid = $this->Trip_m->create_item(
             $this->user['uid'],
             $trip['tripid'],
             $_POST['yelp_id'],
             $_POST['body'],
             $_POST['yelpjson'],
             $_POST['lat'],
-            $_POST['lon']
-            //$_POST['reply_id'],
+            $_POST['lon'],
+            $replyid
             //$_POST['islocation']
         );
         
@@ -213,9 +236,11 @@ class Trip extends Controller {
             ));
         } else {
             json_success(array(
+                'itemid' => $itemid,
                 'fid' => $this->user['fid'],
-                'body'=> $_POST['body'],
                 'name'=> $this->user['name'],
+                'body'=> $_POST['body'],
+                'replyid' => $replyid
             ));
         }
     }

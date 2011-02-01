@@ -1,30 +1,37 @@
-YelpUtil = {
+Yelp = {
     
     // Yelp API key
     YWSID: "6SKv1Kx6OghWFgTo_FQtXQ",
     markers: [],
     listeners: [],
     
+    loadYelp: function() {
+        // Set up Yelp AJAX call
+        $("#submit-suggestion").click(function(){
+            return Yelp.search($('#wall-text-input').val(), Map.map);
+        });
+    },
+    
     constructURL: function(searchTerm, map) {
         var mapBounds = map.getBounds();
         var URL = "http://api.yelp.com/" +
             "business_review_search?"+
-            "callback=" + "YelpUtil.handleResults" +
+            "callback=" + "Yelp.handleResults" +
             "&term=" + searchTerm + 
             "&num_biz_requested=10" +
             "&tl_lat=" + mapBounds.getSouthWest().lat() +
             "&tl_long=" + mapBounds.getSouthWest().lng() + 
             "&br_lat=" + mapBounds.getNorthEast().lat() + 
             "&br_long=" + mapBounds.getNorthEast().lng() +
-            "&ywsid=" + YelpUtil.YWSID;
+            "&ywsid=" + Yelp.YWSID;
         return encodeURI(URL);
     },
     
     search: function(query, map) {
-        YelpUtil.resetMap();
+        Yelp.resetMap();
 
         var script = document.createElement('script');
-        script.src = YelpUtil.constructURL(query, map);
+        script.src = Yelp.constructURL(query, map);
         script.type = 'text/javascript';
         var head = document.getElementsByTagName('head').item(0);
         head.appendChild(script);
@@ -33,13 +40,13 @@ YelpUtil = {
     
     resetMap: function() {
         // clear markers and listener objects on the map
-        for (var i=0; i<YelpUtil.markers.length; i++) {
-            YelpUtil.markers[i].setMap(null);
-            google.maps.event.removeListener(YelpUtil.listeners[i]);
+        for (var i=0; i<Yelp.markers.length; i++) {
+            Yelp.markers[i].setMap(null);
+            google.maps.event.removeListener(Yelp.listeners[i]);
         }
         // clear arrays of marker and listener objects 
-        YelpUtil.markers = [];
-        YelpUtil.listeners = [];
+        Yelp.markers = [];
+        Yelp.listeners = [];
         Map.infoWindow.close();
     },
     
@@ -54,8 +61,8 @@ YelpUtil = {
 
             for(var i=0; i<data.businesses.length; i++) {
                 var yelpBiz = data.businesses[i];
-                var marker = YelpUtil.createMarker(yelpBiz, new google.maps.LatLng(yelpBiz.latitude, yelpBiz.longitude));
-                $("#trip-wall-suggest-list").append(YelpUtil.listResult(yelpBiz, marker));
+                var marker = Yelp.createMarker(yelpBiz, new google.maps.LatLng(yelpBiz.latitude, yelpBiz.longitude));
+                $("#trip-wall-suggest-list").append(Yelp.listResult(yelpBiz, marker));
             }
         } else {
             alert("Error: " + data.message.text);
@@ -71,15 +78,15 @@ YelpUtil = {
             draggable: false,
             icon: staticUrl + '/images/marker_star.png',
             showInfoWindow: function(){
-                YelpUtil.openInfoWindow(marker, yelpBiz);
+                Yelp.openInfoWindow(marker, yelpBiz);
             }
         });
 
-        YelpUtil.markers.push(marker);
+        Yelp.markers.push(marker);
 
         // Attach an event listener to each marker to display bubble when clicked.
         // Store the returned listener object in array so we can remove them when we make a new API call.
-        YelpUtil.listeners.push(google.maps.event.addListener(marker, 'click', marker.showInfoWindow));
+        Yelp.listeners.push(google.maps.event.addListener(marker, 'click', marker.showInfoWindow));
         return marker;
     },
     
@@ -102,3 +109,5 @@ YelpUtil = {
     }
     
 };
+
+$(document).ready(Yelp.loadYelp);

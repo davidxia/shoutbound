@@ -1,53 +1,88 @@
 Wall = {
     
-    asyncAddActiveWallItem: function(responseText, isSuccess, request){
-        console.log(responseText);
-        console.log(isSuccess);
-        console.log(request);
+    loadWall: function() {
+        // bind post function to wall post button
+        $('#submit-wall').click(function() {
+            $.ajax({
+                type: 'POST',
+                url: baseUrl + 'trip/wall_post',
+                data: {
+                    tripid: tripid,
+                    body: $('#wall-text-input').val()
+                },
+                success: Wall.showPost
+            });
+        });
         
-        var response = $.parseJSON(responseText);
+        
+        $(".show_reply_button").click(function() {
+            var parentid = $(this).attr('postid');
+            
+            $(this).parent().append('<textarea class="reply_box" id="reply_box_'+parentid+'"></textarea>'+
+                '<div class="reply-container">' +
+                '<button class="reply_submit" parentid="'+parentid+'">reply</button>' +
+                '</div>');
+            $(this).hide();
+            $('#reply_box_'+parentid).focus();
 
-        var commentContent = Wall.generateNewWallItemHtml(response.fid, response.name, response.body, false);
-        console.log(commentContent);
+            $('.reply_submit[parentid="'+parentid+'"]').click(function() {
+                $.ajax({
+                    type: 'POST',
+                    url: baseUrl + 'trip/wall_post',
+                    data: {
+                        tripid: tripid,
+                        body: document.getElementById('reply_box_'+parentid).value,
+                        replyid: parentid
+                    },
+                    success: Wall.showPost
+                });
 
-        $(commentContent).prependTo('#trip-wall-content').slideDown('slow');
-        $('#wall-text-input').val('');
+                $('.show_reply_button[postid="'+parentid+'"]').show();
+                $('#reply_box_'+parentid).remove();
+                $(this).remove();
+            });
+            return false;
+        });        
     },
     
-    generateNewWallItemHtml: function(fid, name, body, isLocation, isReply){
-        var text = '';
-        text += '<div class="wall-comment"';
-        //if(isReply)
-            //text += ' wall-reply';
-        text += ' style="display:none">';// creates sliding effect when comment is posted
-        text += '<div class="nn-fb-img left">';
 
-        text += '<img class="square-50" src="http://graph.facebook.com/';
-        text += fid;
-        text += '/picture?type=square"';
-        text += '/></div>';
+    showPost: function(responseText){
+        var response = $.parseJSON(responseText);
+        console.log(response);
+        
+        // display: none creates sliding effect when comment is posted
+        if(response.replyid == 0) {
+            var commentHTML = '<div id="wall-item-'+response.itemid+'" class="wall-item" style="display:none">';
+        } else {
+            var commentHTML = '<div class="wall-comment wall-reply" style="display:none">';
+        }
+        commentHTML += '<div class="nn-fb-img left">';
+        commentHTML += '<img class="square-50" src="http://graph.facebook.com/'+response.fid+'/picture?type=square"/>';
+        commentHTML += '</div>';
 
-        text += '<span class="wall-comment-username">';
-        text += name;
-        text += '</span>';
+        commentHTML += '<span class="wall-comment-username">'+response.name+'</span>';
+        commentHTML += '<span class="wall-comment-text">'+response.body+'</span>';
+        
+        commentHTML += '<br/><span class="wall-timestamp">show elapsed time</span><br/>';
+        commentHTML += '<div class="clear"></div>';
+        commentHTML += '</div>';
 
-        text += '<span class="wall-comment-text">';
-        text += body;
+        if(response.replyid == 0) {
+            commentHTML += '<div id="replies_'+response.itemid+'"></div>';
+            commentHTML += '<div class="reply-box"><a href="#" class="show_reply_button" postid="'+response.itemid+'" style="display: inline;">this reply button doesnt work!</a>';
+            commentHTML += '<div class="reply-container"></div></div>';
+        }
+        
 
-        text += '</span>';
-
-        text += '<div class="clear"></div>';
-
-        text += '</div>';
-
-        return text;
+        if(response.replyid == 0) {
+            $(commentHTML).prependTo('#trip-wall-content').slideDown('slow');
+        } else {
+            $(commentHTML).appendTo('#replies_'+response.replyid).slideDown('slow');
+        }
+        
+        if(response.replyid == 0)
+            $('#wall-text-input').val('');
     }
-    
-    /*
-    generateWallItemHtml: function(biz){
-        Trip.activeTripItem = biz;
-        var text = '&nbsp<a href="'+biz.url+'" target="_blank">'+biz.name+'</a>';
-        return text;
-    }
-    */
 };
+
+$(document).ready(Wall.loadWall);

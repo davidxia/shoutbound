@@ -237,10 +237,8 @@ class Trip_m extends Model {
         $itemids = $this->mc->get($key);
 
         if($itemids === false) {
-            //$order = strtoupper($order) == 'DESC' ? 'DESC' : 'ASC';
             $sql = 'SELECT itemid FROM trip_items WHERE tripid = ? '.
-                'AND status IN ("pending", "approved") '.
-                'ORDER BY created '.$order;
+                    'ORDER BY created '.$order;
 
             $v = array($tripid);
             $rows = $this->mdb->select($sql, $v);
@@ -306,7 +304,7 @@ class Trip_m extends Model {
 
     function create_item($uid, $tripid, $yelpid, $body,
                          $yelpjson, $lat, $lon,
-                         $replyid = 0, $islocation = 0) {
+                         $replyid, $islocation = 0) {
                              
         $d = array('uid' => $uid,
                    'tripid' => $tripid,
@@ -353,15 +351,15 @@ class Trip_m extends Model {
         return true;
     }
     
+    //fix this, this shows all trips items from every user
     function get_trip_news_for_user($uid, $order = 'DESC', $limit = 100) {
         $key = 'get_trip_news_for_user:'.$uid.':'.$order;
         $itemids = $this->mc->get($key);
 
         if($itemids === false) {
             $order = strtoupper($order) == 'DESC' ? 'DESC' : 'ASC';
-            $sql = 'SELECT itemid FROM trip_items WHERE tripowner = ? '.
-                'AND (status = "pending" OR status = "approved") '.
-                'ORDER BY created '.$order;
+            $sql = 'SELECT itemid FROM trip_items '.
+                    'ORDER BY created '.$order;
 
             $v = array($uid);
             $rows = $this->mdb->select($sql, $v);
