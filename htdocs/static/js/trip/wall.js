@@ -15,31 +15,35 @@ Wall = {
         });
         
         
-        $(".show_reply_button").click(function() {
-            var parentid = $(this).attr('postid');
+        $('.show_reply_button').click(function() {
+            var replyid = $(this).attr('postid');
             
-            $(this).parent().append('<textarea class="reply_box" id="reply_box_'+parentid+'"></textarea>'+
+            $(this).parent().append('<textarea class="reply_box" id="reply_box_'+replyid+'"></textarea>'+
                 '<div class="reply-container">' +
-                '<button class="reply_submit" parentid="'+parentid+'">reply</button>' +
+                '<button class="reply_submit" parentid="'+replyid+'">reply</button>' +
                 '</div>');
             $(this).hide();
-            $('#reply_box_'+parentid).focus();
+            $('#reply_box_'+replyid).focus();
 
-            $('.reply_submit[parentid="'+parentid+'"]').click(function() {
-                $.ajax({
-                    type: 'POST',
-                    url: baseUrl + 'trip/wall_post',
-                    data: {
-                        tripid: tripid,
-                        body: document.getElementById('reply_box_'+parentid).value,
-                        replyid: parentid
-                    },
-                    success: Wall.showPost
-                });
+            $('.reply_submit[parentid="'+replyid+'"]').click(function() {
+                // checks that reply box isn't empty
+                if($('#reply_box_'+replyid).val()){
+                    $.ajax({
+                        type: 'POST',
+                        url: baseUrl + 'trip/wall_post',
+                        data: {
+                            tripid: tripid,
+                            body: $('#reply_box_'+replyid).val(),
+                            replyid: replyid
+                        },
+                        success: Wall.showPost
+                    });
 
-                $('.show_reply_button[postid="'+parentid+'"]').show();
-                $('#reply_box_'+parentid).remove();
+                    $('.show_reply_button[postid="'+replyid+'"]').show();
+                }
+                $('#reply_box_'+replyid).remove();
                 $(this).remove();
+                $('.show_reply_button').show();
             });
             return false;
         });        

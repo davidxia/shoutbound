@@ -1,7 +1,5 @@
-Map = {
+var Map = {
     map: null,
-    //latLngBounds: null,
-    //mapCenter: null,
     geocoder: null,
     infoWindow: null,
     
@@ -122,7 +120,7 @@ Map = {
             nBound: Map.nBound,
             eBound: Map.eBound,
             tripid: tripid
-        }
+        };
 
         if(Map.lat && Map.lng && Map.sBound && Map.wBound && Map.nBound && Map.eBound) {
             $.ajax({

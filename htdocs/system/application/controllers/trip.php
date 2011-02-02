@@ -234,6 +234,17 @@ class Trip extends Controller {
     }
     
     
+    function save_when(){
+        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
+        if(!$trip)
+            return json_error('That trip doesn\'t exist');
+        
+        $a = $this->Trip_m->update_when_by_tripid($_POST['tripid'], $_POST['tripWhen']);
+        json_success(array('success'=>$a));
+    }
+    
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
     function _filter_out_wall_data($in_data){
         $out_data = array();
         foreach($in_data as $item){

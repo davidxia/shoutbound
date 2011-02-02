@@ -2,13 +2,13 @@
 $header_args = array(
     'js_paths'=>array(
         'js/trip/map.js',
-        //'js/trip/list.js',
         'js/trip/yelp.js',
         'js/trip/wall.js',
         'js/trip/share.js',
         'js/trip/invite.js',
         'js/trip/create.js',
-        'js/trip/delete.js'
+        'js/trip/delete.js',
+        'js/trip/extras.js'
     ),
     'css_paths'=>array(
     )
@@ -23,6 +23,7 @@ $this->load->view('core_header', $header_args);
     var baseUrl = "<?php echo site_url(""); ?>";
     var staticUrl = "<?php echo static_url(""); ?>";
     var tripid = <?php echo $trip['tripid']; ?>;
+    var when = "<?php echo $trip['when']; ?>";
     
     Map.lat = <?php echo $trip['lat']; ?>;
     Map.lng = <?php echo $trip['lng']; ?>;
@@ -45,19 +46,60 @@ $this->load->view('core_header', $header_args);
             <?php echo $trip['name']?>
         </div>
         <div class="grid_3">
-            <input type="text" size="60" id="trip-where"
-            onkeyup="Map.geocode()"
-            autocomplete="off"
-            title="Type placename or address" />
-            <?php if($user_type == 'planner'): ?>
-            <button type="button" onclick="Map.save()">save location</button>
-            <?php endif; ?>
 
-    	    <ol id="suggest-list"></ol>
         </div>
         <div class="clear"></div>
 
         <div class="grid_3">
+        When: <?php echo $trip['when']; ?></br></br>
+        Only
+        <span id="years"><script language="javascript">countdown();</script></span>
+        <span id="days"><script language="javascript">countdown();</script></span>
+        <span id="hours"><script language="javascript">countdown();</script></span> 
+        <span id="minutes"><script language="javascript">countdown();</script></span>
+        and <span id="seconds"><script language="javascript">countdown();</script></span>
+        left</br>
+        
+        <?php if($user_type == 'planner'):
+            // date selection dropdowns
+            $months = array("January", "February", "March",
+                             "April", "May", "June", "July",
+                             "August", "September", "October",
+                             "Novemeber", "December");
+            $days = range(1, 31);
+            $years = range(2011, 2020);
+            
+            echo '<select id="trip-when-month">';
+            foreach($months as $month) {
+                echo '<option>'.$month.'</option>';
+            }
+            echo '</select>';
+            
+            echo '<select id="trip-when-day">';
+            foreach($days as $day) {
+                echo '<option>'.$day.'</option>';
+            }
+            echo '</select>';
+            
+            echo '<select id="trip-when-year">';
+            foreach($years as $year) {
+                echo '<option>'.$year.'</option>';
+            }
+            echo '</select>';
+        ?>
+        <button type="button" onclick="saveWhen()">save when</button> 
+        </br></br>
+        <?php endif; ?>
+        
+        Where:
+        <?php if($user_type == 'planner'): ?>
+        <input type="text" size="40" id="trip-where"
+        onkeyup="Map.geocode()"
+        autocomplete="off"
+        title="Type placename or address" />
+        <button type="button" onclick="Map.save()">save where</button>
+        <?php endif; ?>
+	    <ol id="suggest-list"></ol>
         
         <?php if($user_type == 'planner'): ?>
         <div id="share-trip">

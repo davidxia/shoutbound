@@ -121,29 +121,6 @@ class Trip_m extends Model {
         return $trips;
     }
     
-    //DELETE, ONLY GET USERS BY UID
-	//function get_users_by_tripid($tripid, $rsvp) {
-		//$key = 'users_by_tripid:'.$tripid;
-	    //$uids = $this->mc->get($key);
-	    //if($uids === false) {
-	        //$sql = 'SELECT uid FROM trips_users WHERE tripid = ? '.
-				//'AND rsvp = ?';
-	        //$v = array($tripid, $rsvp);
-	        //$rows = $this->mdb->select($sql, $v);
-	        //$uids = array();
-	        //if($rows) {
-	            //foreach($rows as $row) {
-	                //$uids[] = $row['uid'];
-	            //}
-	        //}
-	        //$this->mc->set($key, $uids);
-	    //}
-	    //$users = array();
-		//foreach($uids as &$uid) {
-			//$users[] = $this->User_m->get_user_by_uid($uid);
-		//}
-	    //return $users;
-	//}
 	
 	function invite_uids_by_tripid($tripid, $uids) {
         //how do I batch alter using mdb??
@@ -207,6 +184,15 @@ class Trip_m extends Model {
         return true;
     }
 
+    
+    function update_when_by_tripid($tripid, $when) {
+        $sql = 'UPDATE trips SET `when` = ? WHERE tripid = ?';
+        $v = array($when, $tripid);
+        $this->mdb->alter($sql, $v);
+        $this->mc->delete('trip_by_tripid:'.$tripid);
+        return true;
+    }
+    
     
     //CLEANUP AFTER THIS LINE
     ///////////////////////////////////////////
