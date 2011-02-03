@@ -56,7 +56,7 @@
                 <?=$this->load->view('profile_feed', $wall_data, true)?>
                 
                 <div id="profile-friends" class="panel">
-                    <h3><?=first_name($profile_user['name'])?>'s Friends on noqnok</h3><br/>
+                    <h3><?=first_name($profile_user['name'])?>'s Friends on ShoutBound</h3><br/>
                     <? 
                     $counter = 0;
                     foreach($profile_user_friends as $friend) { 

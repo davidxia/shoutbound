@@ -43,6 +43,7 @@ class Trip_m extends Model {
 
     
     //Move to trips_users_m later
+    // DON't JOIN HERE CALL GET TRIPS BY TRIPID FUNCTION
     function get_tripids_by_uid($uid) {
         $key = 'tripids_by_uid:'.$uid;
         $tripids = $this->mc->get($key);
@@ -185,9 +186,9 @@ class Trip_m extends Model {
     }
 
     
-    function update_when_by_tripid($tripid, $when) {
-        $sql = 'UPDATE trips SET `when` = ? WHERE tripid = ?';
-        $v = array($when, $tripid);
+    function update_startdate_by_tripid($tripid, $trip_startdate) {
+        $sql = 'UPDATE trips SET `trip_startdate` = ? WHERE tripid = ?';
+        $v = array($trip_startdate, $tripid);
         $this->mdb->alter($sql, $v);
         $this->mc->delete('trip_by_tripid:'.$tripid);
         return true;

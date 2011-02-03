@@ -62,7 +62,7 @@
         
         <div id="col2" class="grid_6">            
                 <div id="home-friends">
-                    <div id="home-friends-header">Your noqnok friends</div>
+                    <div id="home-friends-header">Your ShoutBound friends</div>
                     <?php foreach($user_friends as $user_friend): ?>
                         <div class="friend-capsule">
                                 <img class="square-50" src="http://graph.facebook.com/<?=$user_friend['fid']?>/picture?type=square" />

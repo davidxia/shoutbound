@@ -11,7 +11,7 @@ class Mdb {
                 $dbhost = 'localhost';
                 $dbuser = 'web';
                 $dbpass = 'moardatatoday';
-                $dbname = 'noqnok';
+                $dbname = 'shoutbound';
                 break;
             }
 

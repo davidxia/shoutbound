@@ -1,7 +1,7 @@
 <div id="banner" class="container_12">
     <div id="logo" class="grid_2">
         <a class="home" href="<?php echo site_url('home'); ?>">
-            <img src="<?php echo static_url('images/noqnok-logo.jpg'); ?>"/>
+            <h1>ShoutBound</h1>
         </a>
     </div>
 

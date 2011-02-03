@@ -11,6 +11,13 @@ class Trip extends Controller {
 
 
     function index() {
+        $tripid = 27;
+        $trip_datetime = "2012-01-01 00:00:00";
+        $sql = 'UPDATE trips SET `trip_datetime` = ? WHERE tripid = ?';
+        $v = array($trip_datetime, $tripid);
+        $this->mdb->alter($sql, $v);
+        $this->mc->delete('trip_by_tripid:'.$tripid);
+        return true;
  	}
  	
 
@@ -125,9 +132,9 @@ class Trip extends Controller {
                 //$user = $this->User_m->get_user_by_uid($uid);
                 //$this->sendgrid_email->send_mail(
                     //array($user['email']),
-                    //$planner['name'].' shared a trip with you on noqnok!',
-                    //$this->_add_link_to_notification('<h4>'.$planner['name'].' shared a trip with you on noqnok! </h4>'.$planner['name'].' says: '.$message,$trip),
-                    //$this->_add_link_to_notification($planner['name'].' shared a trip with you on noqnok! '.$planner['name'].' says: '.$message,$trip)
+                    //$planner['name'].' shared a trip with you on ShoutBound!',
+                    //$this->_add_link_to_notification('<h4>'.$planner['name'].' shared a trip with you on ShoutBound! </h4>'.$planner['name'].' says: '.$message,$trip),
+                    //$this->_add_link_to_notification($planner['name'].' shared a trip with you on ShoutBound! '.$planner['name'].' says: '.$message,$trip)
                 //);
   
             //}
@@ -234,12 +241,12 @@ class Trip extends Controller {
     }
     
     
-    function save_when(){
+    function save_trip_startdate(){
         $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
         if(!$trip)
             return json_error('That trip doesn\'t exist');
         
-        $a = $this->Trip_m->update_when_by_tripid($_POST['tripid'], $_POST['tripWhen']);
+        $a = $this->Trip_m->update_startdate_by_tripid($_POST['tripid'], $_POST['tripStartDate']);
         json_success(array('success'=>$a));
     }
     
@@ -271,7 +278,7 @@ class Trip extends Controller {
         }
         
         $ret_val .= '<br/><a href="'.site_url('trip/details/'.$trip['tripid']).'">To see the trip, click here.</a>';
-        $ret_val .= '<p><br/> Have fun! </br> Team noqnok</p>';
+        $ret_val .= '<p><br/> Have fun! </br> Team ShoutBound</p>';
         
         return $ret_val;
     }

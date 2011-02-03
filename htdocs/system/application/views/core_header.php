@@ -1,11 +1,11 @@
 <!DOCTYPE html> 
 <html> 
     <head>
-        <title>noqnok</title>
+        <title>ShoutBound</title>
 
         <!-- LIBRARIES -->
-        <link rel="stylesheet" type="text/css" href='http://dev.noqnok.com/david/static/css/main.css'/>
-        <link rel="stylesheet" type="text/css" href="http://dev.noqnok.com/david/static/css/grid.css"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo static_url('css/main.css');?>"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo static_url('css/grid.css');?>"/>
         <script type="text/javascript" src="<?php echo static_url('js/jquery/jquery.js');?>"></script>
         <script type="text/javascript" src="<?php echo static_url('js/jquery/jquery.json.js');?>"></script>
         <script type="text/javascript" src="<?php echo static_url('js/jquery/popup.js');?>"></script>

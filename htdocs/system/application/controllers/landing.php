@@ -13,4 +13,3 @@ class Landing extends Controller {
     }
 
 }
-

@@ -95,19 +95,16 @@ var Map = {
     	$('#suggest-list').empty();
     	
     	// some regex to get google map center and viewport lat lngs
-        mapCenter = resultItem.geometry.viewport.getCenter().toString();
-        var r = /\((-?\d+.?\d*), (-?\d+.?\d*)\)/;
-        mapCenter.match(r);
-        Map.lat = RegExp.$1;
-        Map.lng = RegExp.$2;
+        var mapCenter = resultItem.geometry.viewport.getCenter();
+        Map.lat = mapCenter.lat();
+        Map.lng = mapCenter.lng();
         
-    	latLngBounds = resultItem.geometry.viewport.toString();
-    	r = /\(\((-?\d+.?\d*), (-?\d+.?\d*)\), \((-?\d+.?\d*), (-?\d+.?\d*)\)\)/;
-        latLngBounds.match(r);
-        Map.sBound = RegExp.$1;
-        Map.wBound = RegExp.$2;
-        Map.nBound = RegExp.$3;
-        Map.eBound = RegExp.$4;
+    	var neCorner = resultItem.geometry.viewport.getNorthEast();
+        var swCorner = resultItem.geometry.viewport.getSouthWest();
+        Map.sBound = swCorner.lat();
+        Map.wBound = swCorner.lng();
+        Map.nBound = neCorner.lat();
+        Map.eBound = neCorner.lng();
     },
     
     //save map viewport and map center latlng

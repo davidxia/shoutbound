@@ -23,7 +23,7 @@
     <div id="nn-body">
 
     
-        <h1>stay in the loop on noqnok! <br/>
+        <h1>stay in the loop on ShoutBound! <br/>
     choose the notification settings that are right for you.</h1><br/>
         
         <form>

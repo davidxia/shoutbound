@@ -23,7 +23,9 @@ $this->load->view('core_header', $header_args);
     var baseUrl = "<?php echo site_url(""); ?>";
     var staticUrl = "<?php echo static_url(""); ?>";
     var tripid = <?php echo $trip['tripid']; ?>;
-    var when = "<?php echo $trip['when']; ?>";
+    <?php if($trip['trip_startdate']){ ?>
+        var tripStartDate = <?php echo strtotime($trip['trip_startdate']); ?>;
+    <?php } ?>
     
     Map.lat = <?php echo $trip['lat']; ?>;
     Map.lng = <?php echo $trip['lng']; ?>;
@@ -42,7 +44,7 @@ $this->load->view('core_header', $header_args);
     <div id="div_to_popup"></div>
   
     <div id="main" class="container_12">
-        <div class="grid_6 push_3" id="trip-name" >
+        <div class="grid_6 push_1" id="trip-name" >
             <?php echo $trip['name']?>
         </div>
         <div class="grid_3">
@@ -51,14 +53,19 @@ $this->load->view('core_header', $header_args);
         <div class="clear"></div>
 
         <div class="grid_3">
-        When: <?php echo $trip['when']; ?></br></br>
-        Only
-        <span id="years"><script language="javascript">countdown();</script></span>
-        <span id="days"><script language="javascript">countdown();</script></span>
-        <span id="hours"><script language="javascript">countdown();</script></span> 
-        <span id="minutes"><script language="javascript">countdown();</script></span>
-        and <span id="seconds"><script language="javascript">countdown();</script></span>
-        left</br>
+            
+            <?php if($trip['trip_startdate']){ ?>
+                When: <?php echo $trip['trip_startdate']; ?></br></br>
+                Only
+                <span id="years"><script language="javascript">countdown();</script></span>
+                <span id="days"><script language="javascript">countdown();</script></span>
+                <span id="hours"><script language="javascript">countdown();</script></span> 
+                <span id="minutes"><script language="javascript">countdown();</script></span>
+                and <span id="seconds"><script language="javascript">countdown();</script></span>
+                left</br>
+            <?php } else { ?>
+                When: no date set yet
+            <?php } ?>
         
         <?php if($user_type == 'planner'):
             // date selection dropdowns
@@ -69,25 +76,25 @@ $this->load->view('core_header', $header_args);
             $days = range(1, 31);
             $years = range(2011, 2020);
             
-            echo '<select id="trip-when-month">';
+            echo '<select id="trip-start-month">';
             foreach($months as $month) {
                 echo '<option>'.$month.'</option>';
             }
             echo '</select>';
             
-            echo '<select id="trip-when-day">';
+            echo '<select id="trip-start-day">';
             foreach($days as $day) {
                 echo '<option>'.$day.'</option>';
             }
             echo '</select>';
             
-            echo '<select id="trip-when-year">';
+            echo '<select id="trip-start-year">';
             foreach($years as $year) {
                 echo '<option>'.$year.'</option>';
             }
             echo '</select>';
         ?>
-        <button type="button" onclick="saveWhen()">save when</button> 
+        <button type="button" onclick="saveStartDate()">save when</button> 
         </br></br>
         <?php endif; ?>
         

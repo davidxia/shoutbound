@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Creating your noqnok profile...</title>
+<title>Creating your ShoutBound profile...</title>
 </head>
 
 <body>

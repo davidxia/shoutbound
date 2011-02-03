@@ -12,7 +12,7 @@ class User extends Controller {
         $this->load->library('facebook');
         $session = $this->facebook->getSession();
         if(!$session) {
-            json_error('You must be logged in to Facebook to log in to noqnok');
+            json_error('You must be logged in to Facebook to log in to ShoutBound');
             return;
         }
 

@@ -3,9 +3,9 @@
 class sendgrid_email {
 
     function send_mail($to_array, $subject, $html_body, $text_body,
-                       $from='notifications@noqnok.com') {
+                       $from='notifications@shoutbound.com') {
         $url = 'http://sendgrid.com/';
-        $user = 'james@noqnok.com';
+        $user = 'james@shoutbound.com';
         $pass = 'sqsq001';
 
         $json_string = array(
@@ -18,7 +18,7 @@ class sendgrid_email {
             'api_user'  => $user,
             'api_key'   => $pass,
             'x-smtpapi' => json_encode($json_string),
-            'to'        => 'nan@noqnok.com',
+            'to'        => 'david@shoutbound.com',
             'subject'   => $subject,
             'html'      => $html_body,
             'text'      => $text_body,

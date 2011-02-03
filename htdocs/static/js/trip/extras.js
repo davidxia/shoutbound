@@ -1,36 +1,34 @@
-function saveWhen(){
-    var tripWhenYear = $('#trip-when-year').val();
-    var tripWhenMonth = $('#trip-when-month').val();
-    var tripWhenDay = $('#trip-when-day').val();
+function saveStartDate(){
+    var tripStartYear = $('#trip-start-year').val();
+    var tripStartMonth = $('#trip-start-month').val();
+    var tripStartDay = $('#trip-start-day').val();
     var r = /\d{2}/;
-    if(!tripWhenDay.match(r))
-        tripWhenDay = '0'+tripWhenDay;
+    if(!tripStartDay.match(r))
+        tripStartDay = '0'+tripStartDay;
     
-    switch(tripWhenMonth){
-        case "January": tripWhenMonth = "01"; break;
-        case "February": tripWhenMonth = "02"; break;
-        case "March": tripWhenMonth = "03"; break;
-        case "April": tripWhenMonth = "04"; break;
-        case "May": tripWhenMonth = "05"; break;
-        case "June": tripWhenMonth = "06"; break;
-        case "July": tripWhenMonth = "07"; break;
-        case "August": tripWhenMonth = "08"; break;
-        case "September": tripWhenMonth = "09"; break;
-        case "October": tripWhenMonth = "10"; break;
-        case "Novemeber": tripWhenMonth = "11"; break;
-        case "December": tripWhenMonth = "11"; break;
-        default: tripWhenMonth = "01";
+    switch(tripStartMonth){
+        case "January": tripStartMonth = "01"; break;
+        case "February": tripStartMonth = "02"; break;
+        case "March": tripStartMonth = "03"; break;
+        case "April": tripStartMonth = "04"; break;
+        case "May": tripStartMonth = "05"; break;
+        case "June": tripStartMonth = "06"; break;
+        case "July": tripStartMonth = "07"; break;
+        case "August": tripStartMonth = "08"; break;
+        case "September": tripStartMonth = "09"; break;
+        case "October": tripStartMonth = "10"; break;
+        case "Novemeber": tripStartMonth = "11"; break;
+        case "December": tripStartMonth = "11"; break;
+        default: tripStartMonth = "01";
     }
-    
-    var tripWhen = tripWhenYear+'-'+tripWhenMonth+'-'+tripWhenDay+' 00:00:00';
+    var tripStartDate = tripStartYear+'-'+tripStartMonth+'-'+tripStartDay+' 00:00:00';
     var postData = {
         tripid: tripid,
-        tripWhen: tripWhen
+        tripStartDate: tripStartDate
     };
-    
     $.ajax({
         type: 'POST',
-        url: baseUrl + 'trip/save_when',
+        url: baseUrl + 'trip/save_trip_startdate',
         data: postData,
         success: function(response){
         var r = $.parseJSON(response);
@@ -42,14 +40,13 @@ function saveWhen(){
 function countdown(){
     //Finding difference between the current time and expiration date
     //in seconds after Epoch
-    expire = parseInt(Date.parse(when)/1000); //End Date
     var now = new Date();
     var current = parseInt(now.getTime()/1000);
-    var diff_seconds = expire - current;
-
+    var diff_seconds = tripStartDate - current;
+    
     //Number of years left
-    var diff_years = parseInt(diff_seconds/(60*60*24*365))
-    diff_seconds -= diff_years * 60 * 60 * 24 * 365;
+    var diff_years = parseInt(diff_seconds/(60*60*24*365.25))
+    diff_seconds -= diff_years * 60 * 60 * 24 * 365.25;
     if(diff_years != 0){
         if(diff_years == 1){
             $('#years').html(diff_years+' year');
