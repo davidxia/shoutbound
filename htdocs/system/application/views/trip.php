@@ -24,7 +24,7 @@ $this->load->view('core_header', $header_args);
     var staticUrl = "<?php echo static_url(""); ?>";
     var tripid = <?php echo $trip['tripid']; ?>;
     <?php if($trip['trip_startdate']){ ?>
-        var tripStartDate = <?php echo strtotime($trip['trip_startdate']); ?>;
+        var tripStartDate = <?php echo $trip['trip_startdate']; ?>;
     <?php } ?>
     
     Map.lat = <?php echo $trip['lat']; ?>;
@@ -34,11 +34,56 @@ $this->load->view('core_header', $header_args);
     Map.nBound = <?php echo $trip['nbound']; ?>;
     Map.eBound = <?php echo $trip['ebound']; ?>;
 </script>
-
 <?php echo $this->load->view('core_header_end'); ?>
 
+
+
 <body>
-  
+
+<div id="fb-root"></div>
+<script>
+    FB.init({ appId:'136139119767617', cookie:true, status:true, xfbml:true });
+</script>
+
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: '136139119767617', status: true,
+            cookie: true, xfbml: true
+        });
+    };
+    (function() {
+            var e = document.createElement('script'); e.async = true;
+            e.src = document.location.protocol +
+                '//connect.facebook.net/en_US/all.js';
+            document.getElementById('fb-root').appendChild(e);
+    }());
+
+    function setStatus(){
+        // check if user is logged in:
+    	FB.getLoginStatus(function(response) {
+    	    if (response.session) {
+    			new_status = 'after watching the movie Sanctum, Im going cave diving! Yargh!';
+    			FB.api(
+    		        {
+    				    method: 'status.set',
+    				    status: new_status
+    			    },
+        		    function(response) {
+        		        if (response == 0){
+        					alert('Your facebook status not updated. Give Status Update Permission.');
+        				} else{
+        					alert('Your facebook status updated');
+        				}
+        		    }
+    			);
+    	    } else {
+    			alert('please log in first');
+    	    }
+        });
+    }
+</script>
+
     <?php echo $this->load->view('core_banner'); ?>
   
     <div id="div_to_popup"></div>
@@ -55,14 +100,13 @@ $this->load->view('core_header', $header_args);
         <div class="grid_3">
             
             <?php if($trip['trip_startdate']){ ?>
-                When: <?php echo $trip['trip_startdate']; ?></br></br>
-                Only
-                <span id="years"><script language="javascript">countdown();</script></span>
-                <span id="days"><script language="javascript">countdown();</script></span>
-                <span id="hours"><script language="javascript">countdown();</script></span> 
-                <span id="minutes"><script language="javascript">countdown();</script></span>
-                and <span id="seconds"><script language="javascript">countdown();</script></span>
-                left</br>
+                When: <span id="trip-local-start-date"><script type="text/javascript">convertUnixTime();</script></span></br></br>
+                <span id="years"><script type="text/javascript">countdown();</script></span>
+                <span id="days"><script type="text/javascript">countdown();</script></span>
+                <span id="hours"><script type="text/javascript">countdown();</script></span> 
+                <span id="minutes"><script type="text/javascript">countdown();</script></span>
+                <span id="seconds"><script type="text/javascript">countdown();</script></span>
+                </br>
             <?php } else { ?>
                 When: no date set yet
             <?php } ?>
@@ -72,9 +116,11 @@ $this->load->view('core_header', $header_args);
             $months = array("January", "February", "March",
                              "April", "May", "June", "July",
                              "August", "September", "October",
-                             "Novemeber", "December");
+                             "November", "December");
             $days = range(1, 31);
             $years = range(2011, 2020);
+            $hours = range(0, 60);
+            $minutes = range(0, 60);
             
             echo '<select id="trip-start-month">';
             foreach($months as $month) {
@@ -93,8 +139,20 @@ $this->load->view('core_header', $header_args);
                 echo '<option>'.$year.'</option>';
             }
             echo '</select>';
+            
+            echo '<select id="trip-start-hour">';
+            foreach($hours as $hour) {
+                echo '<option>'.$hour.'</option>';
+            }
+            echo '</select>';
+            
+            echo '<select id="trip-start-minute">';
+            foreach($minutes as $minute) {
+                echo '<option>'.$minute.'</option>';
+            }
+            echo '</select>';
         ?>
-        <button type="button" onclick="saveStartDate()">save when</button> 
+        <button type="button" onclick="saveTripDate()">save when</button> 
         </br></br>
         <?php endif; ?>
         
@@ -111,7 +169,8 @@ $this->load->view('core_header', $header_args);
         <?php if($user_type == 'planner'): ?>
         <div id="share-trip">
             <a href="javascript: Share.showShareDialog();">share this trip</a>
-        </div>        
+        </div>
+            <a href="#" onclick='setStatus(); return false;'>publish to facebook</a>
         <div>
             <a href="javascript: Delete.deleteTrip(); ">delete trip</a>
         </div>
