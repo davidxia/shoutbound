@@ -109,6 +109,7 @@ a.user-link:hover {
 }
 
 #trip-create-header {
+	background-color: white;
 	font-size: 1.5em;
 	font-weight: bold;
 	margin-bottom: 15px;
@@ -536,6 +537,20 @@ NEWS FEED
     font: 10px verdana;
     text-align: center;
 }
+
+/* wall item delete button */
+.remove-wall-item {
+    display: inline-block;
+    background-image: url(../images/delete_button.png);
+    height: 17px;
+    width: 17px;
+    opacity: 0;
+    cursor: pointer;
+}
+.remove-wall-item:hover {
+    opacity: 1;
+}
+
 
 /*
 ///////////////////////////////////////////////////////////////////////////////

@@ -111,7 +111,6 @@ function countdown(){
 
 function convertUnixTime(){
     var datetime = new Date(tripStartDate*1000-new Date().getTimezoneOffset()+1000);
-    console.log(datetime);
     var year = datetime.getFullYear();
     var month = datetime.getMonth()+1;
     var day = datetime.getDate();

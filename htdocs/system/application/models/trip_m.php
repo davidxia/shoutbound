@@ -219,14 +219,33 @@ class Trip_m extends Model {
         return $val;
     }
 
-
+    
+    function get_itemids_by_replyid($replyid){
+        $key = 'itemids_by_replyid:'.$replyid;
+        $itemids = $this->mc->get($key);
+        if($itemids === false){
+            $sql = 'SELECT itemid FROM trip_items WHERE replyid = ?';
+            $v = array($replyid);
+            $rows = $this->mdb->select($sql, $v);
+            $itemids = array();
+            if($rows){
+                foreach($rows as $row){
+                    $itemids[] = $row['itemid'];
+                }
+            }
+            $this->mc->set($key, $itemids);
+        }
+        return $itemids;        
+    }
+    
+    
     function get_items_by_tripid($tripid, $order = 'DESC') {
         $key = 'itemids_by_tripid:'.$tripid.':'.$order;
         $itemids = $this->mc->get($key);
 
         if($itemids === false) {
             $sql = 'SELECT itemid FROM trip_items WHERE tripid = ? '.
-                    'ORDER BY created '.$order;
+                    'AND active = 1 ORDER BY created '.$order;
 
             $v = array($tripid);
             $rows = $this->mdb->select($sql, $v);
@@ -316,6 +335,21 @@ class Trip_m extends Model {
 
         return $itemid;
     }
+    
+    
+    function remove_trip_item_by_itemid($itemid, $tripid){
+        $item = $this->get_item_by_id($itemid);
+        if(!$item)
+            return false;
+
+        $sql = 'UPDATE trip_items SET active = ? WHERE itemid = ?';
+        $v = array(0, $itemid);
+        $this->mdb->alter($sql, $v);
+        $this->mc->delete('item_by_id:'.$itemid);
+        $this->mc->delete('itemids_by_tripid:'.$tripid.':DESC');
+        return $itemid;
+    }
+
 
     //BROKEN BECAUSE I DELETED get_user_tripids
     function update_item($itemid, $status) {
@@ -338,6 +372,7 @@ class Trip_m extends Model {
         $this->mc->delete('itemids_by_tripid:'.$item['tripid']);
         return true;
     }
+    
     
     //fix this, this shows all trips items from every user
     function get_trip_news_for_user($uid, $order = 'DESC', $limit = 100) {

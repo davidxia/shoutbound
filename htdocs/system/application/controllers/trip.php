@@ -10,15 +10,15 @@ class Trip extends Controller {
 	}
 
 
-    function index() {
-        $tripid = 27;
-        $trip_datetime = "2012-01-01 00:00:00";
-        $sql = 'UPDATE trips SET `trip_datetime` = ? WHERE tripid = ?';
-        $v = array($trip_datetime, $tripid);
-        $this->mdb->alter($sql, $v);
-        $this->mc->delete('trip_by_tripid:'.$tripid);
-        return true;
- 	}
+    function index($replyid) {
+        $itemids = $this->Trip_m->get_itemids_by_replyid($replyid);
+        print_r($itemids);
+        echo '</br>';
+        foreach($itemids as $itemid){
+            $deletedids[] = $this->Trip_m->remove_trip_item_by_itemid($itemid, 27);
+        }
+        print_r($deletedids); 
+    }
  	
 
     function details($tripid){
@@ -47,15 +47,15 @@ class Trip extends Controller {
             if($rsvp == 'yes') { $yes_users[] = $this->User_m->get_user_by_uid($uid); }
  		}
         
-        //getting data for sub-sections
+        // getting data for sub-sections
         $items = $this->Trip_m->get_items_by_tripid($tripid, 'ASC');
         $wall_data = array('wall_items' => $this->Trip_m->format_items_as_thread($items));
-        $list_data = array('list_items' => array_reverse($this->_filter_out_wall_data($items)));
+        // $list_data = array('list_items' => array_reverse($this->_filter_out_wall_data($items)));
 
         $view_data = array('user' => $this->user,
                            'user_type' => $user_type,
                            //'trip_user' => $trip_user,
-                           'list_data' => $list_data,
+                           //'list_data' => $list_data,
                            'wall_data' => $wall_data,
                            'trip' => $trip,
                            //'trips' => $this->Trip_m->get_user_trips($this->user['uid']),
@@ -240,6 +240,30 @@ class Trip extends Controller {
         }
     }
     
+    
+    function remove_trip_item(){
+        $item = $this->Trip_m->get_item_by_id($_POST['itemid']);
+        if(!$item)
+            return json_error('That item doesn\'t exist');
+
+        $itemid = $this->Trip_m->remove_trip_item_by_itemid($_POST['itemid'], $_POST['tripid']);
+        
+        json_success(array('itemid' => $itemid));
+    }
+    
+    
+    function remove_wall_replies(){
+        $parent = $this->Trip_m->get_item_by_id($_POST['replyid']);
+        if(!$parent)
+            return json_error('That thread doesn\'t exist');
+            
+        $itemids = $this->Trip_m->get_itemids_by_replyid($_POST['replyid']);
+        foreach($itemids as $itemid){
+            $this->Trip_m->remove_trip_item_by_itemid($itemid, $_POST['tripid']);
+        }
+        
+        //json_success(array('itemid' => $itemid));
+    }
     
     function save_trip_startdate(){
         $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);

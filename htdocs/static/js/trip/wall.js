@@ -26,8 +26,9 @@ Wall = {
             $('#reply_box_'+replyid).focus();
 
             $('.reply_submit[parentid="'+replyid+'"]').click(function() {
-                // checks that reply box isn't empty
+                // if the reply box isn't empty
                 if($('#reply_box_'+replyid).val()){
+                    // then posts the reply
                     $.ajax({
                         type: 'POST',
                         url: baseUrl + 'trip/wall_post',
@@ -46,13 +47,40 @@ Wall = {
                 $('.show_reply_button').show();
             });
             return false;
-        });        
+        });
+        
+        $('.remove-wall-item').click(function(){
+            var itemid = $(this).attr('itemid');
+            
+            $.ajax({
+                type: 'POST',
+                url: baseUrl + 'trip/remove_trip_item',
+                data: {
+                    tripid: tripid,
+                    itemid: itemid
+                },
+                success: function(responseText){
+                    var response = $.parseJSON(responseText);
+                    $('#wall-item-'+response.itemid).remove();
+                    $('#replies_'+response.itemid).next().remove();
+                    $('#replies_'+response.itemid).remove();
+                    //Wall.removeWallReplies(response.itemid);
+                    $.ajax({
+                        type: 'POST',
+                        url: baseUrl + 'trip/remove_wall_replies',
+                        data: {
+                            tripid: tripid,
+                            replyid: response.itemid
+                        }
+                    });
+                }
+            });
+        });
     },
     
 
     showPost: function(responseText){
         var response = $.parseJSON(responseText);
-        console.log(response);
         
         // display: none creates sliding effect when comment is posted
         if(response.replyid == 0) {
@@ -87,6 +115,7 @@ Wall = {
         if(response.replyid == 0)
             $('#wall-text-input').val('');
     }
+    
 };
 
 $(document).ready(Wall.loadWall);

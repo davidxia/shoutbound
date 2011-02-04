@@ -1,11 +1,13 @@
 <div id="trip-wall-content">
-    <?php foreach($wall_items as $item): ?>
+    <?php foreach($wall_data['wall_items'] as $item): ?>
 
         <div id="wall-item-<?php echo $item[itemid]; ?>" class="wall-item">
             
             <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?php echo $item['user']['fid']; ?>/picture?type=square" /></div>
-                    
-                <span class="wall-comment-username"><?php echo $item['user']['name']; ?></span>
+            <?php if($user_type == 'planner'){ ?>
+                <div class="remove-wall-item" itemid="<?php echo $item['itemid']; ?>"></div>
+            <?php } ?>
+            <span class="wall-comment-username"><?php echo $item['user']['name']; ?></span>
                         
                 <?php if($item['islocation']): ?>
                     <span class="wall-comment-text">recommended<span id="wall-location-name-<?php echo $item['itemid']; ?>" class="wall-location-text"></span>

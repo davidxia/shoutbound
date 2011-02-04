@@ -5,7 +5,7 @@
 
         <!-- LIBRARIES -->
         <link rel="stylesheet" type="text/css" href="<?php echo static_url('css/main.css');?>"/>
-        <link rel="stylesheet" type="text/css" href="<?php echo static_url('css/grid.css');?>"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo static_url('css/960grid.css');?>"/>
         <script type="text/javascript" src="<?php echo static_url('js/jquery/jquery.js');?>"></script>
         <script type="text/javascript" src="<?php echo static_url('js/jquery/jquery.json.js');?>"></script>
         <script type="text/javascript" src="<?php echo static_url('js/jquery/popup.js');?>"></script>

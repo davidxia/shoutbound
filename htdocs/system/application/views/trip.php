@@ -119,7 +119,7 @@ $this->load->view('core_header', $header_args);
                              "November", "December");
             $days = range(1, 31);
             $years = range(2011, 2020);
-            $hours = range(0, 60);
+            $hours = range(0, 23);
             $minutes = range(0, 60);
             
             echo '<select id="trip-start-month">';
@@ -197,7 +197,13 @@ $this->load->view('core_header', $header_args);
                 </div>
                 
                 <ol id="trip-wall-suggest-list"></ol>
-                <?php echo $this->load->view('trip_wall', $wall_data); ?>
+                <?php
+                    $wall_view = array('wall_data' => $wall_data,
+                                       'user_type' => $user_type,
+                                      );
+                                      
+                    echo $this->load->view('trip_wall', $wall_view); ?>
+                <?php //print_r($wall_view); ?>
             </div>
         </div>
       
