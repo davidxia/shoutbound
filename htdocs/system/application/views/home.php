@@ -77,14 +77,9 @@
                     <div id="home-friends-trips-header">Your friends' trips</div>
                     
                     <?php foreach($friends_trips as $friends_trip): ?>
-                        <?php foreach($friends_trip['users'] as $user) {
-                            if($user['uid'] != $this->user['uid']) {
-                                $planners[] = $user['name'];
-                            }
-                        } ?>
                     <div class="home-friends-trip">
                         <a href="<?=site_url('trip/details/'.$friends_trip['tripid']);?>"><?php echo $friends_trip['name']; ?></a>
-                        posted by <?php foreach($planners as $planner) {echo $planner.', '; }; ?>
+                        posted by <?php foreach($friends_trip['users'] as $planner) {echo $planner['name']; }; ?>
                     </div>
                     <?php endforeach; ?>
                 </div>

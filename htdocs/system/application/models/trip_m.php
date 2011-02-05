@@ -100,11 +100,36 @@ class Trip_m extends Model {
     }
 
 
-	function get_friends_trips($uid) {
-        $key = 'friends_trips_by_uid:'.$uid;
-        $trips = $this->mc->get($key);
-        if($trips === false) {
-            $sql = 'SELECT trips_users.tripid FROM trips_users, trips WHERE trips_users.uid = ? AND trips_users.type = "advisor" AND trips_users.tripid = trips.tripid AND trips.active = 1';
+	//function get_friends_trips_by_uid($uid) {
+        //$key = 'friends_trips_by_uid:'.$uid;
+        //$trips = $this->mc->get($key);
+        //if($trips === false) {
+            //$sql = 'SELECT trips_users.tripid FROM trips_users, trips WHERE trips_users.uid = ? AND trips_users.type = "advisor" AND trips_users.tripid = trips.tripid AND trips.active = 1';
+            //$v = array($uid);
+            //$rows = $this->mdb->select($sql, $v);
+            //$tripids = array();
+            //if($rows) {
+                //foreach($rows as $row) {
+                    //$tripids[] = $row['tripid'];
+                //}
+            //}
+            //$this->mc->set($key, $tripids);
+        //}
+        //$trips = array();
+        //foreach($tripids as &$tripid) {
+            //$trips[] = $this->get_trip_by_tripid($tripid);
+        //}
+        //return $trips;
+    //}
+    
+    
+    	function get_friends_tripids_by_uid($uid) {
+        $key = 'friends_tripids_by_uid:'.$uid;
+        $tripids = $this->mc->get($key);
+        if($tripids === false) {
+            $sql = 'SELECT trips_users.tripid FROM trips_users, trips '.
+                'WHERE trips_users.uid = ? AND trips_users.type = "advisor" '.
+                'AND trips_users.tripid = trips.tripid AND trips.active = 1';
             $v = array($uid);
             $rows = $this->mdb->select($sql, $v);
             $tripids = array();
@@ -115,11 +140,7 @@ class Trip_m extends Model {
             }
             $this->mc->set($key, $tripids);
         }
-        $trips = array();
-        foreach($tripids as &$tripid) {
-            $trips[] = $this->get_trip_by_tripid($tripid);
-        }
-        return $trips;
+        return $tripids;
     }
     
 	
@@ -213,6 +234,7 @@ class Trip_m extends Model {
             $this->mc->set($key, $val);
         }
         
+        // TODO: CLEAN THIS UP!!!!!!
         $val['user'] = $this->User_m->get_user_by_uid($val['uid']);
         $val['trip'] = $this->get_trip_by_tripid($val['tripid']);
         
@@ -380,7 +402,7 @@ class Trip_m extends Model {
         $itemids = $this->mc->get($key);
 
         if($itemids === false) {
-            $order = strtoupper($order) == 'DESC' ? 'DESC' : 'ASC';
+            //$order = strtoupper($order) == 'DESC' ? 'DESC' : 'ASC';
             $sql = 'SELECT itemid FROM trip_items '.
                     'ORDER BY created '.$order;
 
@@ -401,5 +423,7 @@ class Trip_m extends Model {
         }
         return $items;
     }
+    
+
     
 }
