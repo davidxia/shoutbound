@@ -8,13 +8,11 @@
 <body>
 
 <div id="fb-root"></div>
-<script src="http://connect.facebook.net/en_US/all.js"></script>
 <script>
-    FB.init({ appId:'136139119767617', cookie:true, status:true, xfbml:true });
-</script>
-      
-      
-<script>
+  window.fbAsyncInit = function() {
+    FB.init({appId: '136139119767617', status: true, cookie: true,
+             xfbml: true});
+             
 	FB.getLoginStatus(function(response) {
 		if (response.session) {
 			shoutboundLogin();
@@ -27,6 +25,18 @@
 	FB.Event.subscribe('auth.login', function(response) {
 		shoutboundLogin();
 	});
+	
+  };
+  (function() {
+    var e = document.createElement('script'); e.async = true;
+    e.src = document.location.protocol +
+      '//connect.facebook.net/en_US/all.js';
+    document.getElementById('fb-root').appendChild(e);
+  }());
+</script>      
+      
+<script>
+
     
     
     // if user is not logged into facebook, show facebook login button
