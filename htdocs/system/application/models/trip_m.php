@@ -99,31 +99,8 @@ class Trip_m extends Model {
         return true;
     }
 
-
-	//function get_friends_trips_by_uid($uid) {
-        //$key = 'friends_trips_by_uid:'.$uid;
-        //$trips = $this->mc->get($key);
-        //if($trips === false) {
-            //$sql = 'SELECT trips_users.tripid FROM trips_users, trips WHERE trips_users.uid = ? AND trips_users.type = "advisor" AND trips_users.tripid = trips.tripid AND trips.active = 1';
-            //$v = array($uid);
-            //$rows = $this->mdb->select($sql, $v);
-            //$tripids = array();
-            //if($rows) {
-                //foreach($rows as $row) {
-                    //$tripids[] = $row['tripid'];
-                //}
-            //}
-            //$this->mc->set($key, $tripids);
-        //}
-        //$trips = array();
-        //foreach($tripids as &$tripid) {
-            //$trips[] = $this->get_trip_by_tripid($tripid);
-        //}
-        //return $trips;
-    //}
-    
-    
-    	function get_friends_tripids_by_uid($uid) {
+        
+    function get_friends_tripids_by_uid($uid) {
         $key = 'friends_tripids_by_uid:'.$uid;
         $tripids = $this->mc->get($key);
         if($tripids === false) {
@@ -286,51 +263,8 @@ class Trip_m extends Model {
         }
         return $items;
     }
-
-
-    function format_items_as_thread($items) {
-        $thread = array();
-        $item_index = array();
-        $recent_times = array();
-        $index = 0;
-        foreach($items as $k => $item) {
-            if($item['replyid']) {
-                $parent = &$item_index[$item['replyid']];
-                $parent['replies'][] = &$items[$k];
-                $recent_times[$parent['index']] = $item['created'];
-            } else {
-                $items[$k]['index'] = $index; 
-                $index += 1;
-                $items[$k]['replies'] = array();
-
-                $recent_times[] = $item['created'];
-                $thread[] = &$items[$k];
-            }
-            $item_index[$item['itemid']] = &$items[$k];
-        }
-        array_multisort($recent_times, SORT_DESC, $thread);
-        return $thread;
-    }
-
-
-    function get_uids_in_thread($orig_item) {
-        $key = 'uids_in_thread:'.$orig_item['itemid'];
-        $uids = $this->mc->get($key);
-        if($uids === false) {
-            $sql = 'SELECT uid FROM trip_items WHERE replyid = ? '.
-                'ORDER BY created ASC';
-            $v = array($orig_item['itemid']);
-            $rows = $this->mdb->select($sql, $v);
-            $uids = array($orig_item['uid']);
-            foreach($rows as $row) {
-                $uids[] = $row['uid'];
-            }
-            $this->mc->set($key, $uids);
-        }
-        return $uids;
-    }
-
-
+    
+    
     function create_item($uid, $tripid, $yelpid, $body,
                          $yelpjson, $lat, $lon,
                          $replyid, $islocation = 0) {
@@ -373,57 +307,47 @@ class Trip_m extends Model {
     }
 
 
-    //BROKEN BECAUSE I DELETED get_user_tripids
-    function update_item($itemid, $status) {
-        $uid = $this->User_m->get_logged_in_uid();
-        $item = $this->get_item_by_itemid($itemid);
-        if(!$uid || !$item)
-            return false;
+    function format_items_as_thread($items) {
+        $thread = array();
+        $item_index = array();
+        $recent_times = array();
+        $index = 0;
+        foreach($items as $k => $item) {
+            if($item['replyid']) {
+                $parent = &$item_index[$item['replyid']];
+                $parent['replies'][] = &$items[$k];
+                $recent_times[$parent['index']] = $item['created'];
+            } else {
+                $items[$k]['index'] = $index; 
+                $index += 1;
+                $items[$k]['replies'] = array();
 
-        // If it's not YOUR trip OR it's not YOUR post, die
-        $user_trips = $this->get_user_tripids($uid);
-        if(!in_array($item['tripid'], $user_trips) &&
-            $item['uid'] != $uid) {
-            return false;
-        }
-
-        $sql = 'UPDATE trip_items SET status = ? WHERE itemid = ?';
-        $v = array($status, $itemid);
-        $this->mdb->alter($sql, $v);
-        $this->mc->delete('item_by_itemid:'.$itemid);
-        $this->mc->delete('itemids_by_tripid:'.$item['tripid']);
-        return true;
-    }
-    
-    
-    //fix this, this shows all trips items from every user
-    function get_trip_news_for_user($uid, $order = 'DESC', $limit = 100) {
-        $key = 'get_trip_news_for_user:'.$uid.':'.$order;
-        $itemids = $this->mc->get($key);
-
-        if($itemids === false) {
-            //$order = strtoupper($order) == 'DESC' ? 'DESC' : 'ASC';
-            $sql = 'SELECT itemid FROM trip_items '.
-                    'ORDER BY created '.$order;
-
-            $v = array($uid);
-            $rows = $this->mdb->select($sql, $v);
-            $itemids = array();
-            if($rows) {
-                foreach($rows as $row) {
-                    $itemids[] = $row['itemid'];
-                }
+                $recent_times[] = $item['created'];
+                $thread[] = &$items[$k];
             }
-            $this->mc->set($key, $itemids);
+            $item_index[$item['itemid']] = &$items[$k];
         }
-
-        $items = array();
-        foreach($itemids as $itemid) {
-            $items[] = $this->get_item_by_itemid($itemid);
-        }
-        return $items;
+        array_multisort($recent_times, SORT_DESC, $thread);
+        return $thread;
     }
-    
+
+
+    function get_uids_in_thread($orig_item) {
+        $key = 'uids_in_thread:'.$orig_item['itemid'];
+        $uids = $this->mc->get($key);
+        if($uids === false) {
+            $sql = 'SELECT uid FROM trip_items WHERE replyid = ? '.
+                'ORDER BY created ASC';
+            $v = array($orig_item['itemid']);
+            $rows = $this->mdb->select($sql, $v);
+            $uids = array($orig_item['uid']);
+            foreach($rows as $row) {
+                $uids[] = $row['uid'];
+            }
+            $this->mc->set($key, $uids);
+        }
+        return $uids;
+    } 
 
     
 }

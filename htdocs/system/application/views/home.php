@@ -61,29 +61,27 @@
         
         
         <div id="col2" class="grid_6">            
-                <div id="home-friends">
-                    <div id="home-friends-header">Your ShoutBound friends</div>
-                    <?php foreach($user_friends as $user_friend): ?>
-                        <div class="friend-capsule">
-                                <img class="square-50" src="http://graph.facebook.com/<?=$user_friend['fid']?>/picture?type=square" />
-                            
-                            <div class="friend-capsule-name"><?php echo $user_friend['name']; ?></div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
+            <div id="home-friends">
+                <div id="home-friends-header">Your ShoutBound friends</div>
+                <?php foreach($user_friends as $user_friend): ?>
+                    <div class="friend-capsule">
+                        <img class="square-50" src="http://graph.facebook.com/<?=$user_friend['fid']?>/picture?type=square" />
+                        <div class="friend-capsule-name"><?php echo $user_friend['name']; ?></div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
                 
 
-                <div id="home-friends-trips">
-                    <div id="home-friends-trips-header">Your friends' trips</div>
-                    
-                    <?php foreach($friends_trips as $friends_trip): ?>
-                    <div class="home-friends-trip">
-                        <a href="<?=site_url('trip/details/'.$friends_trip['tripid']);?>"><?php echo $friends_trip['name']; ?></a>
-                        posted by <?php foreach($friends_trip['users'] as $planner) {echo $planner['name']; }; ?>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
+            <div id="home-friends-trips">
+                <div id="home-friends-trips-header">Your friends' trips</div>
                 
+                <?php foreach($friends_trips as $friends_trip): ?>
+                <div class="home-friends-trip">
+                    <a href="<?=site_url('trip/details/'.$friends_trip['tripid']);?>"><?php echo $friends_trip['name']; ?></a>
+                    posted by <?php foreach($friends_trip['users'] as $planner) {echo $planner['name']; }; ?>
+                </div>
+                <?php endforeach; ?>
+            </div>
 
             
         </div>

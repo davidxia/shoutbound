@@ -33,7 +33,7 @@ class User extends Controller {
             redirect('/landing');
         }
         if($this->User_m->get_user_by_fid($this->facebook->getUser()))
-            redirect('/profile/details');
+            redirect('/');
 
         $this->load->view('creating_user');
     }
@@ -41,7 +41,7 @@ class User extends Controller {
 
     function ajax_create_user() {
         $this->load->library('facebook');
-        $fbuser = $this->facebook->api('/me?fields=name,email,hometown,friends');
+        $fbuser = $this->facebook->api('/me?fields=name,email,friends');
         if(!$fbuser) {
             json_error('We could not get your facebook data!');
         }
@@ -56,19 +56,19 @@ class User extends Controller {
             return json_error('Couldn\'t get your email address');
         $udata['email'] = $fbuser['email'];
 
-        if($fbuser['hometown']['name'])
-            $udata['hometown'] = $fbuser['hometown']['name'];
+        /*if($fbuser['hometown']['name'])
+            $udata['hometown'] = $fbuser['hometown']['name'];*/
 
         //FUTURENOTE: Allow user to select home on a map OR geocode his/her udata['hometown']
-        $udata['home_lat'] = 40.7144816;
-        $udata['home_lon'] = -73.9909809;
+        /*$udata['home_lat'] = 40.7144816;
+        $udata['home_lon'] = -73.9909809;*/
         $uid = $this->User_m->create_user($udata);
         $this->User_m->log_in($uid);
         foreach($fbuser['friends']['data'] as $friend) {
             $this->User_m->add_friendship($uid, $friend['id'], $friend['name']);
         }
 
-        json_success(array('redirect' => site_url('home')));
+        json_success(array('redirect' => site_url('/')));
     }
     
     function ajax_update_friends() {
