@@ -61,10 +61,9 @@ Wall = {
                 },
                 success: function(responseText){
                     var response = $.parseJSON(responseText);
-                    $('#wall-item-'+response.itemid).remove();
-                    $('#replies_'+response.itemid).next().remove();
-                    $('#replies_'+response.itemid).remove();
-                    //Wall.removeWallReplies(response.itemid);
+                    $('#wall-item-'+response.itemid).fadeOut(1000);
+                    $('#replies_'+response.itemid).next().fadeOut(1000);
+                    $('#replies_'+response.itemid).fadeOut(1000);
                     $.ajax({
                         type: 'POST',
                         url: baseUrl + 'trip/remove_wall_replies',

@@ -11,13 +11,7 @@ class Trip extends Controller {
 
 
     function index($replyid) {
-        $itemids = $this->Trip_m->get_itemids_by_replyid($replyid);
-        print_r($itemids);
-        echo '</br>';
-        foreach($itemids as $itemid){
-            $deletedids[] = $this->Trip_m->remove_trip_item_by_itemid($itemid, 27);
-        }
-        print_r($deletedids); 
+
     }
  	
 
@@ -242,7 +236,7 @@ class Trip extends Controller {
     
     
     function remove_trip_item(){
-        $item = $this->Trip_m->get_item_by_id($_POST['itemid']);
+        $item = $this->Trip_m->get_item_by_itemid($_POST['itemid']);
         if(!$item)
             return json_error('That item doesn\'t exist');
 
@@ -253,7 +247,7 @@ class Trip extends Controller {
     
     
     function remove_wall_replies(){
-        $parent = $this->Trip_m->get_item_by_id($_POST['replyid']);
+        $parent = $this->Trip_m->get_item_by_itemid($_POST['replyid']);
         if(!$parent)
             return json_error('That thread doesn\'t exist');
             
@@ -261,8 +255,6 @@ class Trip extends Controller {
         foreach($itemids as $itemid){
             $this->Trip_m->remove_trip_item_by_itemid($itemid, $_POST['tripid']);
         }
-        
-        //json_success(array('itemid' => $itemid));
     }
     
     function save_trip_startdate(){

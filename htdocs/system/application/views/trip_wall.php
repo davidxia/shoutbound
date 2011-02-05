@@ -32,6 +32,9 @@
                 <div id="wall-item-<?php echo $reply[itemid]; ?>" class="wall-item">
                     <div class="wall-comment wall-reply">
                         <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?php echo $reply['user']['fid']; ?>/picture?type=square" /></div>
+                        <?php if($user_type == 'planner'){ ?>
+                            <div class="remove-wall-item" itemid="<?php echo $reply[itemid]; ?>"></div>
+                        <?php } ?>
                             <span class="wall-comment-username"> <?php echo $reply['user']['name']; ?> </span>
                             <span class="wall-comment-text"> <?php echo $reply['body']; ?> </span>
                             <br/>

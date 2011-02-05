@@ -201,8 +201,8 @@ class Trip_m extends Model {
     /////////////////////////////////////////////////////////////////////////
     // [Trip] Items (Suggestions)
 
-    function get_item_by_id($itemid) {
-        $key = 'item_by_id:'.$itemid;
+    function get_item_by_itemid($itemid) {
+        $key = 'item_by_itemid:'.$itemid;
         $val = $this->mc->get($key);
         if($val === false) {
             $sql = 'SELECT * FROM trip_items WHERE itemid = ?';
@@ -260,7 +260,7 @@ class Trip_m extends Model {
 
         $items = array();
         foreach($itemids as $itemid) {
-            $items[] = $this->get_item_by_id($itemid);
+            $items[] = $this->get_item_by_itemid($itemid);
         }
         return $items;
     }
@@ -327,7 +327,7 @@ class Trip_m extends Model {
         list($sql, $values) = $this->mdb->insert_string('trip_items', $d);
         $itemid = $this->mdb->alter($sql, $values);
 
-        $this->mc->delete('item_by_id:'.$itemid);
+        $this->mc->delete('item_by_itemid:'.$itemid);
         $this->mc->delete('itemids_by_tripid:'.$tripid);
         if($replyid) {
             $this->mc->delete('uids_in_thread:'.$replyid);
@@ -338,14 +338,14 @@ class Trip_m extends Model {
     
     
     function remove_trip_item_by_itemid($itemid, $tripid){
-        $item = $this->get_item_by_id($itemid);
+        $item = $this->get_item_by_itemid($itemid);
         if(!$item)
             return false;
 
         $sql = 'UPDATE trip_items SET active = ? WHERE itemid = ?';
         $v = array(0, $itemid);
         $this->mdb->alter($sql, $v);
-        $this->mc->delete('item_by_id:'.$itemid);
+        $this->mc->delete('item_by_itemid:'.$itemid);
         $this->mc->delete('itemids_by_tripid:'.$tripid.':DESC');
         return $itemid;
     }
@@ -354,7 +354,7 @@ class Trip_m extends Model {
     //BROKEN BECAUSE I DELETED get_user_tripids
     function update_item($itemid, $status) {
         $uid = $this->User_m->get_logged_in_uid();
-        $item = $this->get_item_by_id($itemid);
+        $item = $this->get_item_by_itemid($itemid);
         if(!$uid || !$item)
             return false;
 
@@ -368,7 +368,7 @@ class Trip_m extends Model {
         $sql = 'UPDATE trip_items SET status = ? WHERE itemid = ?';
         $v = array($status, $itemid);
         $this->mdb->alter($sql, $v);
-        $this->mc->delete('item_by_id:'.$itemid);
+        $this->mc->delete('item_by_itemid:'.$itemid);
         $this->mc->delete('itemids_by_tripid:'.$item['tripid']);
         return true;
     }
@@ -397,7 +397,7 @@ class Trip_m extends Model {
 
         $items = array();
         foreach($itemids as $itemid) {
-            $items[] = $this->get_item_by_id($itemid);
+            $items[] = $this->get_item_by_itemid($itemid);
         }
         return $items;
     }
