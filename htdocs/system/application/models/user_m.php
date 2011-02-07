@@ -119,7 +119,6 @@ class User_m extends Model {
                                   'replies'         => 2,
                               );
             }
-
             $this->mc->set($key, $settings);
         }
         return $settings;
