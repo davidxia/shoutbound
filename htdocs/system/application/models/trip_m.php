@@ -21,7 +21,7 @@ class Trip_m extends Model {
         
         //erase cache        
         $this->mc->delete('trip_by_tripid:'.$tripid);
-        $this->mc->delete('tripids_by_uid:'.$uid);
+        $this->mc->delete('planner_tripids_by_uid:'.$uid);
         $this->mc->delete('uids_by_tripid:'.$tripid);
         
         return $tripid;
@@ -42,13 +42,15 @@ class Trip_m extends Model {
     }
 
     
-    //Move to trips_users_m later
+    // Move to trips_users_m later
     // DON't JOIN HERE CALL GET TRIPS BY TRIPID FUNCTION
-    function get_tripids_by_uid($uid) {
-        $key = 'tripids_by_uid:'.$uid;
+    function get_planner_tripids_by_uid($uid) {
+        $key = 'planner_tripids_by_uid:'.$uid;
         $tripids = $this->mc->get($key);
         if($tripids === false) {
-            $sql = 'SELECT trips_users.tripid FROM trips_users, trips WHERE trips_users.uid = ? AND trips_users.tripid = trips.tripid AND trips.active = 1';
+            $sql = 'SELECT trips_users.tripid FROM trips_users, trips '.
+                'WHERE trips_users.uid = ? AND trips_users.type = "planner" '.
+                'AND trips_users.tripid = trips.tripid AND trips.active = 1';
             $v = array($uid);
             $rows = $this->mdb->select($sql, $v);
             $tripids = array();
@@ -93,7 +95,8 @@ class Trip_m extends Model {
         $sql = 'UPDATE trips SET active = ? WHERE tripid = ?';
         $v = array(0, $tripid);
         $this->mdb->alter($sql, $v);
-        $this->mc->delete('tripids_by_uid:'.$uid);
+        $this->mc->delete('planner_tripids_by_uid:'.$uid);
+        $this->mc->delete('friends_tripids_by_uid:'.$uid);
         $this->mc->delete('trip_by_tripid:'.$tripid);
         $this->mc->delete('uids_by_tripid:'.$tripid);
         return true;
@@ -152,6 +155,15 @@ class Trip_m extends Model {
     }
     
     
+    function update_rsvp_by_tripid_uid($tripid, $uid, $rsvp){
+        $sql = 'UPDATE trips_users SET rsvp = ? WHERE tripid = ? AND uid = ?';
+        $v = array($rsvp, $tripid, $uid);
+        $this->mdb->alter($sql, $v);
+        $this->mc->delete('rsvp_by_tripid_uid:'.$tripid.':'.$uid);
+        return true;
+    }
+    
+    
     function get_type_by_tripid_uid($tripid, $uid) {
         $key = 'type_by_tripid_uid:'.$tripid.':'.$uid;
         $type = $this->mc->get($key);
@@ -165,6 +177,15 @@ class Trip_m extends Model {
         return $type['type'];
     }
     
+    
+    function update_type_by_tripid_uid($tripid, $uid, $type){
+        $sql = 'UPDATE trips_users SET type = ? WHERE tripid = ? AND uid = ?';
+        $v = array($type, $tripid, $uid);
+        $this->mdb->alter($sql, $v);
+        $this->mc->delete('type_by_tripid_uid:'.$tripid.':'.$uid);
+        return true;
+    }
+        
     
     function update_mapcenter_by_tripid($lat, $lng, $tripid) {
         $sql = 'UPDATE trips SET lat = ?, lng = ? WHERE tripid = ?';
@@ -192,10 +213,6 @@ class Trip_m extends Model {
         return true;
     }
     
-    
-    //CLEANUP AFTER THIS LINE
-    ///////////////////////////////////////////
-
     /////////////////////////////////////////////////////////////////////////
     // [Trip] Items (Suggestions)
 

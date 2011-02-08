@@ -11,31 +11,6 @@ class Trip extends Controller {
 
 
     function index() {
-        $planner = $this->user;
-        $trip = $this->Trip_m->get_trip_by_tripid(27);
-        $uids = array(27);
-        $message = 'this is a test from the controller page';
-        
-        $this->load->library('sendgrid_email');
-        
-        // TODO: foreach statement here
-        for($i = 0; $i < count($uids); $i++) {
-            $uid = $uids[$i];
-            
-            // TODO: fix based on user notification settings
-            $user_settings = $this->User_m->get_settings($uid);
-            if(true) {
-                $user = $this->User_m->get_user_by_uid($uid);
-                // TODO: capture response and display success or fail to user
-                // need to parse the returned JSON
-                $this->sendgrid_email->send_mail(
-                    array($user['email']),
-                    $planner['name'].' shared a trip with you on ShoutBound!',
-                    $this->_add_link_to_notification('<h4>'.$planner['name'].' shared a trip with you on ShoutBound!</h4>'.$planner['name'].' says: '.$message,$trip),
-                    $this->_add_link_to_notification($planner['name'].' shared a trip with you on ShoutBound! '.$planner['name'].' says: '.$message,$trip)
-                );
-            }
-        }
 
     }
  	
@@ -53,15 +28,14 @@ class Trip extends Controller {
             if($i == (count($trip_uids)-1)) { redirect('/'); }
         }
         
-        //get this user's type for this trip
-        $user_type = $this->Trip_m->get_type_by_tripid_uid($tripid, $this->user['uid']);
+        // get this user's type for this trip
+        //$user_type = $this->Trip_m->get_type_by_tripid_uid($tripid, $this->user['uid']);
         
- 		//get users and corresponding rsvps for this trip
+ 		// get users and corresponding rsvps for this trip
  		foreach($trip_uids as $i => $uid) {
  		    $uids_rsvps[$uid] = $this->Trip_m->get_rsvp_by_tripid_uid($tripid, $uid);
  		}
- 		
- 		//get users who rsvp yes
+ 		// get users who rsvp yes, ie are going on the trip
  		foreach($uids_rsvps as $uid => $rsvp) {
             if($rsvp == 'yes') { $yes_users[] = $this->User_m->get_user_by_uid($uid); }
  		}
@@ -72,7 +46,8 @@ class Trip extends Controller {
         // $list_data = array('list_items' => array_reverse($this->_filter_out_wall_data($items)));
 
         $view_data = array('user' => $this->user,
-                           'user_type' => $user_type,
+                           'user_type' => $this->Trip_m->get_type_by_tripid_uid($tripid, $this->user['uid']),
+                           'user_rsvp' => $this->Trip_m->get_rsvp_by_tripid_uid($tripid, $this->user['uid']),
                            //'trip_user' => $trip_user,
                            //'list_data' => $list_data,
                            'wall_data' => $wall_data,
@@ -120,6 +95,20 @@ class Trip extends Controller {
         json_success(array('success'=>$c));
     }
     
+    
+    function ajax_join_trip(){
+        $a = $this->Trip_m->update_rsvp_by_tripid_uid($_POST['tripid'], $_POST['uid'], 'yes');
+        
+        json_success(array('success'=>$a));
+    }
+    
+    
+    function ajax_leave_trip(){
+        $a = $this->Trip_m->update_rsvp_by_tripid_uid($_POST['tripid'], $_POST['uid'], 'no');
+        
+        json_success(array('success'=>$a));
+    }
+        
     
     function ajax_panel_share_trip() {
         $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
@@ -226,17 +215,47 @@ class Trip extends Controller {
     }
 
     function ajax_invite_trip() {
+        $planner = $this->user;
         $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
         $uids = json_decode($_POST['uids']);
-
-        $view_data = array(
-            'trip' => $trip,
-            'uids' => $uids
-        );
+        $message = $_POST['message'];
         
-        $altered = $this->Trip_m->invite_uids_by_tripid($_POST['tripid'], $uids);
-        if($altered) {
+        $this->load->library('sendgrid_email');
+        
+        foreach($uids as $uid){
+            // TODO: fix based on user notification settings
+            $user_settings = $this->User_m->get_settings($uid);
+            if(true) {
+                $user = $this->User_m->get_user_by_uid($uid);
+                $response = $this->sendgrid_email->send_mail(
+                    array($user['email']),
+                    $planner['name'].' invited you on a trip on Shoutbound!',
+                    $this->_add_link_to_notification('<h4>'.$planner['name'].' invited you a trip on ShoutBound!</h4>'.$planner['name'].' says: '.$message,$trip),
+                    $this->_add_link_to_notification($planner['name'].' invited you on a trip on ShoutBound! '.$planner['name'].' says: '.$message,$trip)
+                );
+            }
+        }
+        
+        $success = json_decode($response, true);
+        $db_update = $this->Trip_m->invite_uids_by_tripid($_POST['tripid'], $uids);
+
+        
+        // if the JSON response string from Sendgrid is 'success'
+        // tell user it succeeded        
+        if($success['message'] == 'success' && $db_update){
+            $view_data = array(
+                //'uids' => $uids,
+                'trip' => $trip,
+                //'message' => $message
+            );
             $render_string = $this->load->view('core_success', $view_data, true);
+            json_success(array('data'=>$render_string));
+        // otherwise, tell user his share failed
+        } else {
+            $view_data = array(
+                'response' => json_decode($response, true),
+            );
+            $render_string = $this->load->view('core_failure', $view_data, true);
             json_success(array('data'=>$render_string));
         }
     }
@@ -318,20 +337,20 @@ class Trip extends Controller {
     
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
-    function _filter_out_wall_data($in_data){
-        $out_data = array();
-        foreach($in_data as $item){
-            if($item['islocation']){
-                $out_data[] = $item;
-            }
-        }
+    //function _filter_out_wall_data($in_data){
+        //$out_data = array();
+        //foreach($in_data as $item){
+            //if($item['islocation']){
+                //$out_data[] = $item;
+            //}
+        //}
         
-        return $out_data;
-    }
+        //return $out_data;
+    //}
     
-    function do_ajax_suggestion(){
-        $foo = $_POST['foo'];
-        echo $foo;
-    }
+    //function do_ajax_suggestion(){
+        //$foo = $_POST['foo'];
+        //echo $foo;
+    //}
     
 }

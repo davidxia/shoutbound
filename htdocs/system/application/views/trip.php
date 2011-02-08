@@ -34,6 +34,9 @@ $this->load->view('core_header', $header_args);
     Map.nBound = <?php echo $trip['nbound']; ?>;
     Map.eBound = <?php echo $trip['ebound']; ?>;
 </script>
+
+<meta name="title" content="<?php echo $trip['name']; ?>" />
+<meta name="description" content="<?php echo $trip['name']; ?>" />
 <?php echo $this->load->view('core_header_end'); ?>
 
 
@@ -41,11 +44,7 @@ $this->load->view('core_header', $header_args);
 <body>
 
 <div id="fb-root"></div>
-<script>
-    FB.init({ appId:'136139119767617', cookie:true, status:true, xfbml:true });
-</script>
-
-<script>
+<!--<script>
     window.fbAsyncInit = function() {
         FB.init({
             appId: '136139119767617', status: true,
@@ -58,31 +57,7 @@ $this->load->view('core_header', $header_args);
                 '//connect.facebook.net/en_US/all.js';
             document.getElementById('fb-root').appendChild(e);
     }());
-
-    function setStatus(){
-        // check if user is logged in:
-    	FB.getLoginStatus(function(response) {
-    	    if (response.session) {
-    			new_status = 'after watching the movie Sanctum, Im going cave diving! Yargh!';
-    			FB.api(
-    		        {
-    				    method: 'status.set',
-    				    status: new_status
-    			    },
-        		    function(response) {
-        		        if (response == 0){
-        					alert('Your facebook status not updated. Give Status Update Permission.');
-        				} else{
-        					alert('Your facebook status updated');
-        				}
-        		    }
-    			);
-    	    } else {
-    			alert('please log in first');
-    	    }
-        });
-    }
-</script>
+</script>-->
 
     <?php echo $this->load->view('core_banner'); ?>
   
@@ -98,6 +73,12 @@ $this->load->view('core_header', $header_args);
         <div class="clear"></div>
 
         <div class="grid_3">
+        
+        <?php if($user_rsvp != 'yes' && $user_type == 'planner'){ ?>
+            <a href="#" onclick="Invite.joinTrip(<?php echo $user['uid']; ?>);">Count me in</a><br/>
+        <?php } elseif($user_rsvp == 'yes' && $user_type == 'planner'){ ?>
+            <a href="#" onclick="Invite.leaveTrip(<?php echo $user['uid']; ?>);">I'm lame and can't go :(</a><br/>
+        <?php } ?>
             
             <?php if($trip['trip_startdate']){ ?>
                 When: <span id="trip-local-start-date"><script type="text/javascript">convertUnixTime();</script></span></br></br>
@@ -157,20 +138,26 @@ $this->load->view('core_header', $header_args);
         <?php endif; ?>
         
         Where:
-        <?php if($user_type == 'planner'): ?>
-        <input type="text" size="40" id="trip-where"
-        onkeyup="Map.geocode()"
-        autocomplete="off"
-        title="Type placename or address" />
-        <button type="button" onclick="Map.save()">save where</button>
-        <?php endif; ?>
-	    <ol id="suggest-list"></ol>
+            <?php if($user_type == 'planner'): ?>
+            <input type="text" size="40" id="trip-where"
+            onkeyup="Map.geocode()"
+            autocomplete="off"
+            title="Type placename or address" />
+            <button type="button" onclick="Map.save()">save where</button>
+            <?php endif; ?>
+    	    <ol id="suggest-list"></ol>
         
         <?php if($user_type == 'planner'): ?>
         <div id="share-trip">
             <a href="javascript: Share.showShareDialog();">share this trip</a>
         </div>
-            <a href="#" onclick='setStatus(); return false;'>publish to facebook</a>
+        <a href="#" onclick="facebookShare()">Facebook</a>
+        <br/>
+        <a href="#" onclick="twitterShare('Help me plan my <?php echo $trip['name']; ?> trip on #shoutbound <?php echo site_url('trip/details').'/'.$trip['tripid']; ?>')">Twitter</a>
+        <br/>
+        <!--<a href="#" onclick='setFBStatus(); return false;'>publish to facebook</a>
+        <br/>-->
+        <a href="mailto:?subject=<?php echo rawurlencode('Help me plan my '.$trip['name'].' trip'); ?>&body=<?php echo rawurlencode('Hey, I\'m going to '.$trip['name'].' from '.$trip['trip_startdate'].' to... Help me plan my trip here: '.site_url('trip/details').'/'.$trip['tripid']); ?>">Email</a>
         <div>
             <a href="javascript: Delete.deleteTrip(); ">delete trip</a>
         </div>

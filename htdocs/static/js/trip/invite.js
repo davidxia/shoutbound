@@ -79,5 +79,40 @@ Invite = {
         $("#div_to_popup").bPopup();
 
         $('.success').bind('click', Invite.hideInviteDialog); 
+    },
+    
+    joinTrip: function(uid){
+        var postData = {
+            tripid: tripid,
+            uid: uid
+        }
+    
+        $.ajax({
+            type:'POST',
+            url: baseUrl + 'trip/ajax_join_trip',
+            data: postData,
+            success: function(response){
+                var r = $.parseJSON(response);
+                alert(r['success']);
+            }
+        });
+    },
+    
+    leaveTrip: function(uid){
+        var postData = {
+            tripid: tripid,
+            uid: uid
+        }
+    
+        $.ajax({
+            type:'POST',
+            url: baseUrl + 'trip/ajax_leave_trip',
+            data: postData,
+            success: function(response){
+                var r = $.parseJSON(response);
+                alert(r['success']);
+            }
+        });
     }
+    
 };

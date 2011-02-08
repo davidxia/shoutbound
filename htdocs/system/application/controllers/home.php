@@ -21,18 +21,18 @@ class Home extends Controller {
         // get user's data
         $view_data['user'] = $this->user;
         
-        //get user's trips
-        $user_tripids = $this->Trip_m->get_tripids_by_uid($this->user['uid']);
-        // only keep tripids of trips for which user is a planner
-        foreach($user_tripids as $i=>$tripid) {
-            if($this->Trip_m->get_type_by_tripid_uid($tripid, $this->user['uid']) == 'advisor') {
-                unset($user_tripids[$i]);
-            }
-        }
+        // get tripids for which user is a planner
+        $user_tripids = $this->Trip_m->get_planner_tripids_by_uid($this->user['uid']);
+        // trips for which user is a planner and rsvp yes
         foreach($user_tripids as $user_tripid) {
-            $view_data['trips'][] = $this->Trip_m->get_trip_by_tripid($user_tripid);
-        }
-        
+            if($this->Trip_m->get_rsvp_by_tripid_uid($user_tripid, $this->user['uid']) == 'yes'){
+                $view_data['trips_yes'][] = $this->Trip_m->get_trip_by_tripid($user_tripid);
+            } elseif($this->Trip_m->get_rsvp_by_tripid_uid($user_tripid, $this->user['uid']) == 'awaiting'){
+                $view_data['trips_awaiting'][] = $this->Trip_m->get_trip_by_tripid($user_tripid);
+            } elseif($this->Trip_m->get_rsvp_by_tripid_uid($user_tripid, $this->user['uid']) == 'no'){
+                $view_data['trips_no'][] = $this->Trip_m->get_trip_by_tripid($user_tripid);
+            }
+        }        
         
         // get friends' data
         // THIS SHOWS USER'S FRIENDS ON SHOUTBOUND
@@ -82,7 +82,6 @@ class Home extends Controller {
     }
     
     function test() {
-        
     }
 }
 
