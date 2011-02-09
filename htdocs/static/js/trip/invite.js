@@ -92,8 +92,12 @@ Invite = {
             url: baseUrl + 'trip/ajax_join_trip',
             data: postData,
             success: function(response){
-                var r = $.parseJSON(response);
-                alert(r['success']);
+                //var r = $.parseJSON(response);
+                //alert(r['success']);
+                if($.parseJSON(response)){
+                    $('#rsvp_status').html("I'm in");
+                    $('#rsvp_button').html('<a href="#" onclick="Invite.leaveTrip('+uid+');">I\'m lame and can\'t go :(</a><br/>');
+                }
             }
         });
     },
@@ -109,8 +113,12 @@ Invite = {
             url: baseUrl + 'trip/ajax_leave_trip',
             data: postData,
             success: function(response){
-                var r = $.parseJSON(response);
-                alert(r['success']);
+                //var r = $.parseJSON(response);
+                //alert(r['success']);
+                if($.parseJSON(response)){
+                    $('#rsvp_status').html("I'm lame");
+                    $('#rsvp_button').html('<a href="#" onclick="Invite.joinTrip('+uid+');">Count me in</a><br/>');
+                }
             }
         });
     }

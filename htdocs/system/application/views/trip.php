@@ -67,18 +67,25 @@ $this->load->view('core_header', $header_args);
         <div class="grid_6 push_1" id="trip-name" >
             <?php echo $trip['name']?>
         </div>
-        <div class="grid_3">
-
-        </div>
         <div class="clear"></div>
 
         <div class="grid_3">
         
-        <?php if($user_rsvp != 'yes' && $user_type == 'planner'){ ?>
-            <a href="#" onclick="Invite.joinTrip(<?php echo $user['uid']; ?>);">Count me in</a><br/>
-        <?php } elseif($user_rsvp == 'yes' && $user_type == 'planner'){ ?>
-            <a href="#" onclick="Invite.leaveTrip(<?php echo $user['uid']; ?>);">I'm lame and can't go :(</a><br/>
-        <?php } ?>
+            <span id="rsvp_status"><?php 
+                if($user_rsvp == 'yes'){ echo "I'm in"; }
+                elseif($user_rsvp == 'awaiting'){ echo "I still have to decide"; }
+                elseif($user_rsvp == 'no'){ echo "I'm missing out"; }
+            ?></span>
+            <br/>
+            
+            <span id="rsvp_button">
+            <?php if($user_rsvp != 'yes' && $user_type == 'planner'){ ?>
+                <a href="#" onclick="Invite.joinTrip(<?php echo $user['uid']; ?>);">Count me in</a><br/>
+            <?php } elseif($user_rsvp == 'yes' && $user_type == 'planner'){ ?>
+                <a href="#" onclick="Invite.leaveTrip(<?php echo $user['uid']; ?>);">I'm lame and can't go :(</a><br/>
+            <?php } ?>
+            </span>
+            <br/>
             
             <?php if($trip['trip_startdate']){ ?>
                 When: <span id="trip-local-start-date"><script type="text/javascript">convertUnixTime();</script></span></br></br>
