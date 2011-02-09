@@ -280,7 +280,8 @@ class Trip extends Controller {
             $_POST['yelpjson'],
             $_POST['lat'],
             $_POST['lon'],
-            $replyid
+            $replyid,
+            $_POST['created']
             //$_POST['islocation']
         );
         

@@ -284,7 +284,7 @@ class Trip_m extends Model {
     
     function create_item($uid, $tripid, $yelpid, $body,
                          $yelpjson, $lat, $lon,
-                         $replyid, $islocation = 0) {
+                         $replyid, $created, $islocation = 0) {
                              
         $d = array('uid' => $uid,
                    'tripid' => $tripid,
@@ -294,6 +294,7 @@ class Trip_m extends Model {
                    'lat' => $lat,
                    'lon' => $lon,
                    'replyid' => $replyid,
+                   'created' => $created,
                    'islocation' => $islocation,
                );
         

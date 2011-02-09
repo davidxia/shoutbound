@@ -1,6 +1,7 @@
 <div id="trip-wall-content">
     <?php foreach($wall_data['wall_items'] as $item): ?>
 
+
         <div id="wall-item-<?php echo $item[itemid]; ?>" class="wall-item">
             
             <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?php echo $item['user']['fid']; ?>/picture?type=square" /></div>
@@ -21,7 +22,7 @@
                 <span class="wall-comment-text"><?php echo $item['body']; ?></span>
             <?php endif; ?>
             <br/>
-            <span class="wall-timestamp"><?php echo date("m/d/y", strtotime($item['created'])); ?></span>
+            <span class="wall-timestamp"><?php echo $item['created']; ?></span>
             <br/>
                     
             <div class="clear"></div>
@@ -29,7 +30,7 @@
 
 
         <div id="replies_<?php echo $item['itemid']; ?>">
-        <? foreach($item['replies'] as $reply): ?>
+        <?php foreach($item['replies'] as $reply): ?>
             <div id="wall-item-<?php echo $reply[itemid]; ?>" class="wall-item">
                 <div class="wall-comment wall-reply">
                     <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?php echo $reply['user']['fid']; ?>/picture?type=square" /></div>
@@ -39,12 +40,11 @@
                     <span class="wall-comment-username"> <?php echo $reply['user']['name']; ?> </span>
                     <span class="wall-comment-text"> <?php echo $reply['body']; ?> </span>
                     <br/>
-                    <span class="wall-timestamp"><?php echo date("m/d/y", strtotime($item['created'])); ?></span>
+                    <span class="wall-timestamp"><?php echo $item['created']; ?></span>
                     <div class="clear"></div>
                 </div>
             </div>
         <? endforeach; ?>
-                    
         </div>
         
         <div class="reply-box">
@@ -52,6 +52,5 @@
         </div>
 
             
-    <? endforeach;?>
-        
+    <? endforeach; ?>
 </div>

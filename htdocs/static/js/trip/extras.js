@@ -109,7 +109,7 @@ function countdown(){
     }
 }
 
-function convertUnixTime(){
+function convertTripStartTime(){
     var datetime = new Date(tripStartDate*1000-new Date().getTimezoneOffset()+1000);
     var year = datetime.getFullYear();
     var month = datetime.getMonth()+1;

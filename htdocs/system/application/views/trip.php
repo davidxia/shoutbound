@@ -43,8 +43,8 @@ $this->load->view('core_header', $header_args);
 
 <body>
 
-<div id="fb-root"></div>
-<!--<script>
+<!--<div id="fb-root"></div>
+<script>
     window.fbAsyncInit = function() {
         FB.init({
             appId: '136139119767617', status: true,
@@ -88,12 +88,14 @@ $this->load->view('core_header', $header_args);
             <br/>
             
             <?php if($trip['trip_startdate']){ ?>
-                When: <span id="trip-local-start-date"><script type="text/javascript">convertUnixTime();</script></span></br></br>
+                When: <span id="trip-local-start-date">
+                    <script type="text/javascript">convertTripStartTime();</script>
+                    </span></br></br>
                 <span id="years"><script type="text/javascript">countdown();</script></span>
-                <span id="days"><script type="text/javascript">countdown();</script></span>
-                <span id="hours"><script type="text/javascript">countdown();</script></span> 
-                <span id="minutes"><script type="text/javascript">countdown();</script></span>
-                <span id="seconds"><script type="text/javascript">countdown();</script></span>
+                <span id="days"></span>
+                <span id="hours"></span> 
+                <span id="minutes"></span>
+                <span id="seconds"></span>
                 </br>
             <?php } else { ?>
                 When: no date set yet

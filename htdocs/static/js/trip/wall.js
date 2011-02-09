@@ -1,4 +1,16 @@
 Wall = {
+
+    // these global variables help convert post timestamps
+    // current datetime
+    currentDateTime: new Date(),
+    // array to map month numbers to names
+    monthNames: new Array("January", "February", "March",
+        "April", "May", "June", "July", "August", "September",
+        "October", "November", "December"),
+    // array to map day of the week to names
+    dayNames: new Array("Sunday", "Monday", "Tuesday", "Wednesday",
+                        "Thursday", "Friday", "Saturday"),
+
     
     loadWall: function() {
         // bind post function to wall post button
@@ -8,7 +20,8 @@ Wall = {
                 url: baseUrl + 'trip/wall_post',
                 data: {
                     tripid: tripid,
-                    body: $('#wall-text-input').val()
+                    body: $('#wall-text-input').val(),
+                    created: Math.round(new Date().getTime()/1000)
                 },
                 success: Wall.showPost
             });
@@ -35,7 +48,8 @@ Wall = {
                         data: {
                             tripid: tripid,
                             body: $('#reply_box_'+replyid).val(),
-                            replyid: replyid
+                            replyid: replyid,
+                            created: Math.round(new Date().getTime()/1000)
                         },
                         success: Wall.showPost
                     });
@@ -94,7 +108,7 @@ Wall = {
         commentHTML += '<span class="wall-comment-username">'+response.name+'</span>';
         commentHTML += '<span class="wall-comment-text">'+response.body+'</span>';
         
-        commentHTML += '<br/><span class="wall-timestamp">show elapsed time</span><br/>';
+        commentHTML += '<br/><span class="wall-timestamp">a second ago</span><br/>';
         commentHTML += '<div class="clear"></div>';
         commentHTML += '</div>';
 
@@ -113,8 +127,46 @@ Wall = {
         
         if(response.replyid == 0)
             $('#wall-text-input').val('');
+    },
+    
+    
+    convertPostTimes: function(){
+        $('span.wall-timestamp').html(function(){
+            var timestamp = "";
+            var unixTime = $(this).html();
+            
+            var datetime = new Date(unixTime*1000-new Date().getTimezoneOffset()+1000);
+            var year = datetime.getFullYear();
+            var month = datetime.getMonth();
+            var date = datetime.getDate();
+            var day = datetime.getDay();
+            var hour = datetime.getHours();
+            var minute = datetime.getMinutes();
+            var second = datetime.getSeconds();
+                    
+            if((Wall.currentDateTime.getFullYear() - year) > 0){
+                timestamp = Wall.monthNames[month]+' '+date+', '+year+' at '+hour+':'+minute;
+            } else if((Wall.currentDateTime.getMonth() - month) > 0 || (Wall.currentDateTime.getDate() - date) > 7){
+                timestamp = Wall.monthNames[month]+' '+date+' at '+hour+':'+minute;
+            } else if((Wall.currentDateTime.getDate() - date) > 0){
+                timestamp = Wall.dayNames[day]+' at '+hour+':'+minute;
+            } else if((Wall.currentDateTime.getHours() - hour) > 1){
+                timestamp = (Wall.currentDateTime.getHours() - hour)+' hours ago';
+            } else if((Wall.currentDateTime.getHours() - hour) == 1){
+                timestamp = '1 hour ago';
+            } else if((Wall.currentDateTime.getMinutes() - minute) > 1){
+                timestamp = (Wall.currentDateTime.getMinutes() - minute)+' minutes ago';
+            } else if((Wall.currentDateTime.getMinutes() - minute) == 1){
+                timestamp = '1 minute ago';
+            } else {
+                timestamp = (Wall.currentDateTime.getSeconds() - second)+' seconds ago';
+            }
+        
+            return timestamp;
+        });
     }
     
 };
 
 $(document).ready(Wall.loadWall);
+$(document).ready(Wall.convertPostTimes);
