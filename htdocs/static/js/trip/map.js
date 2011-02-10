@@ -1,6 +1,7 @@
 var Map = {
     map: null,
     geocoder: null,
+    marker: null,
     infoWindow: null,
     
     lat: null,
@@ -9,10 +10,14 @@ var Map = {
     wBound: null,
     nBound: null,
     eBound: null,
+    
+    //removeMarker: function(){
+        //Map.marker.setMap(null);
+    //},
         
-    closeInfoWindow: function() {
-        Map.infoWindow.close();
-    },
+    //closeInfoWindow: function() {
+        //Map.infoWindow.close();
+    //},
     
     loadScript: function() {
         var script = document.createElement("script");
@@ -40,10 +45,31 @@ var Map = {
     	// create new geocoder to resolve city names into latlng co-ords
     	Map.geocoder = new google.maps.Geocoder();
 
+        // create marker object for map
+        Map.marker = new google.maps.Marker({
+            map: Map.map,
+            draggable: true
+        });        
+        
         // create infoWindow object for map
-        Map.infoWindow = new google.maps.InfoWindow();
-        // Make the info window close when clicking anywhere on the map.
-        google.maps.event.addListener(Map.map, 'click', Map.closeInfoWindow);
+        Map.infoWindow = new google.maps.InfoWindow({
+            content: "<table>" +
+                 "<tr><td>name:</td> <td><input type='text' id='marker_name'/> </td> </tr>" +
+                 "<tr><td>description:</td> <td><input type='text' id='marker_description'/></td> </tr>" +
+                 "<tr><td></td><td><input type='button' value='save & close' onclick='Map.saveMapMarker()'/></td></tr>"
+        });
+
+
+        // Clicking on map updates marker position and opens infoWindow
+        google.maps.event.addListener(Map.map, "click", function(event){
+            Map.marker.setPosition(event.latLng);
+            Map.infoWindow.open(Map.map, Map.marker);
+        });
+        // Infowindow pops up when marker is clicked
+        google.maps.event.addListener(Map.marker, "click", function() {
+            Map.infoWindow.open(Map.map, Map.marker);
+        });
+
     },
     
     
@@ -107,7 +133,7 @@ var Map = {
         Map.eBound = neCorner.lng();
     },
     
-    //save map viewport and map center latlng
+    // save map viewport and map center latlng
     save: function() {
         var postData = {
             lat: Map.lat,
@@ -130,6 +156,38 @@ var Map = {
                }
             });
         } else { alert("something is wrong!"); }
+    },
+    
+    
+    saveMapMarker: function(){
+        var title = $('input#marker_name').val();
+        var body = $('input#marker_description').val();
+        var lat = Map.marker.getPosition().lat();
+        var lng = Map.marker.getPosition().lat();
+        
+        // TODO: alert user to fill in name if it's missing
+        // or if its > 60 chars 
+        
+        if(lat && lng && title){
+            var postData = {
+                tripid: tripid,
+                title: title,
+                body: body,
+                lat: lat,
+                lng: lng,
+                created: Math.round(new Date().getTime()/1000)
+            }
+            
+            $.ajax({
+               type:'POST',
+               url: baseUrl + 'trip/save_map_marker',
+               data: postData,
+               success: function(response){
+                   Wall.showPost(response);
+                   Map.marker.setMap(null);
+               }
+            });
+        } else { alert("you fucked up somewhere"); }
     },
     
     // Formats and returns the Info Window HTML (displayed in a balloon when a marker is clicked)

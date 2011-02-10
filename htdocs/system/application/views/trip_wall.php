@@ -11,10 +11,9 @@
             <span class="wall-comment-username"><?php echo $item['user']['name']; ?></span>
                         
             <?php if($item['islocation']): ?>
-                <span class="wall-comment-text">recommended
-                    <span id="wall-location-name-<?php echo $item['itemid']; ?>" class="wall-location-text"></span>
+                <span class="wall-comment-text">dropped a pin on <?php echo $item['title']; ?>
                     <?php if($item['body']): ?>
-                        <br/><br/><?php echo $item['body']; ?>
+                        <br/><?php echo $item['body']; ?>
                     <?php endif; ?>
                 </span>
                         

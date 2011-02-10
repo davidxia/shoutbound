@@ -11,7 +11,11 @@ class Trip extends Controller {
 
 
     function index() {
-
+        // getting data for sub-sections
+        $items = $this->Trip_m->get_items_by_tripid(80, 'ASC');
+        $wall_data = array('wall_items' => $this->Trip_m->format_items_as_thread($items));
+        
+        print_r($wall_data);
     }
  	
 
@@ -276,23 +280,17 @@ class Trip extends Controller {
             $this->user['uid'],
             $trip['tripid'],
             $_POST['yelp_id'],
+            null,
             $_POST['body'],
             $_POST['yelpjson'],
             $_POST['lat'],
             $_POST['lon'],
             $replyid,
             $_POST['created']
-            //$_POST['islocation']
         );
-        
-        if($_POST['islocation']) {
-            json_success(array(
-                'biz' => $_POST['yelpjson'],
-                'name'=> $this->user['name'],
-                'body'=> $_POST['body'],
-                'fid' => $this->user['fid'],
-            ));
-        } else {
+
+        // check if row was created in database
+        if($itemid){
             json_success(array(
                 'itemid' => $itemid,
                 'fid' => $this->user['fid'],
@@ -333,6 +331,36 @@ class Trip extends Controller {
         
         $a = $this->Trip_m->update_startdate_by_tripid($_POST['tripid'], $_POST['tripStartDate']);
         json_success(array('success'=>$a));
+    }
+    
+    
+    function save_map_marker(){
+        $itemid = $this->Trip_m->create_item(
+            $this->user['uid'],
+            $tripid = $_POST['tripid'],
+            null,
+            $title = $_POST['title'],
+            $body = $_POST['body'],
+            null,
+            $_POST['lat'],
+            $_POST['lng'],
+            0,
+            $_POST['created'],
+            1
+        );
+
+        // check if row was created in database        
+        if($itemid){
+            json_success(array(
+                'itemid' => $itemid,
+                'fid' => $this->user['fid'],
+                'name' => $this->user['name'],
+                'title' => $title,
+                'body' => $_POST['body'],
+                'islocation' => true,
+                'replyid' => 0
+            ));
+        }
     }
     
     

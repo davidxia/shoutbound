@@ -313,11 +313,6 @@ NEWS FEED
     border-bottom: 1px solid #eee;
 }
 
-.wall-location-text {
-    font: 12px georgia;
-    font-style: italic;
-    color: #777;
-}
 
 .suggestion-input-wrap {
     height: 30x;
@@ -431,10 +426,6 @@ NEWS FEED
 
 .wall-reply {
     margin-left:30px;
-}
-
-.wall-location-text {
-    color: #777;
 }
 
 .wall-timestamp {

@@ -104,9 +104,15 @@ Wall = {
         commentHTML += '<div class="nn-fb-img left">';
         commentHTML += '<img class="square-50" src="http://graph.facebook.com/'+response.fid+'/picture?type=square"/>';
         commentHTML += '</div>';
+        
+        commentHTML += '<div class=remove-wall-item" itemid="'+response.itemid+'"></div>';
 
         commentHTML += '<span class="wall-comment-username">'+response.name+'</span>';
-        commentHTML += '<span class="wall-comment-text">'+response.body+'</span>';
+        commentHTML += '<span class="wall-comment-text">';
+        if(response.islocation){
+            commentHTML += 'dropped a pin on '+response.title+'<br/>';
+        }
+        commentHTML += response.body+'</span>';
         
         commentHTML += '<br/><span class="wall-timestamp">a second ago</span><br/>';
         commentHTML += '<div class="clear"></div>';
@@ -117,7 +123,6 @@ Wall = {
             commentHTML += '<div class="reply-box"><a href="#" class="show_reply_button" postid="'+response.itemid+'" style="display: inline;">this reply button doesnt work!</a>';
             commentHTML += '<div class="reply-container"></div></div>';
         }
-        
 
         if(response.replyid == 0) {
             $(commentHTML).prependTo('#trip-wall-content').slideDown('slow');

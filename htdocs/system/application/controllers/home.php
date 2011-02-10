@@ -40,21 +40,23 @@ class Home extends Controller {
         
         // THIS SHOWS HER FRIENDS' TRIPS FOR WHICH SHE'S AN ADVISOR
         $friends_tripids = $this->Trip_m->get_friends_tripids_by_uid($this->user['uid']);
-        foreach($friends_tripids as $friends_tripid){
-            $view_data['friends_trips'][] = $this->Trip_m->get_trip_by_tripid($friends_tripid);
-        }
-        foreach($view_data['friends_trips'] as &$friends_trip) {
-            // get uids associated with each tripid
-            $uids = $this->Trip_m->get_uids_by_tripid($friends_trip['tripid']);
-            // get users of these uids
-            foreach($uids as $uid) {
-                $friends_trip['users'][] = $this->User_m->get_user_by_uid($uid);
+        if(count($friends_tripids)){
+            foreach($friends_tripids as $friends_tripid){
+                $view_data['friends_trips'][] = $this->Trip_m->get_trip_by_tripid($friends_tripid);
             }
-            // take out users who aren't planners
-            foreach($friends_trip['users'] as $i => $friends_trip_user){
-                if($this->Trip_m->get_type_by_tripid_uid($friends_trip['tripid'],
-                $friends_trip_user['uid']) != 'planner')
-                    unset($friends_trip['users'][$i]);
+            foreach($view_data['friends_trips'] as &$friends_trip) {
+                // get uids associated with each tripid
+                $uids = $this->Trip_m->get_uids_by_tripid($friends_trip['tripid']);
+                // get users of these uids
+                foreach($uids as $uid) {
+                    $friends_trip['users'][] = $this->User_m->get_user_by_uid($uid);
+                }
+                // take out users who aren't planners
+                foreach($friends_trip['users'] as $i => $friends_trip_user){
+                    if($this->Trip_m->get_type_by_tripid_uid($friends_trip['tripid'],
+                    $friends_trip_user['uid']) != 'planner')
+                        unset($friends_trip['users'][$i]);
+                }
             }
         }
                         
@@ -82,6 +84,7 @@ class Home extends Controller {
     }
     
     function test() {
+    print_r($friends_tripids = $this->Trip_m->get_friends_tripids_by_uid(3));
     }
 }
 

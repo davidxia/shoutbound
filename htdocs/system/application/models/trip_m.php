@@ -282,17 +282,18 @@ class Trip_m extends Model {
     }
     
     
-    function create_item($uid, $tripid, $yelpid, $body,
-                         $yelpjson, $lat, $lon,
+    function create_item($uid, $tripid, $yelpid, $title, $body,
+                         $yelpjson, $lat, $lng,
                          $replyid, $created, $islocation = 0) {
                              
         $d = array('uid' => $uid,
                    'tripid' => $tripid,
                    'yelpid' => $yelpid,
+                   'title' => $title,
                    'body' => $body,
                    'yelpjson' => $yelpjson,
                    'lat' => $lat,
-                   'lon' => $lon,
+                   'lng' => $lng,
                    'replyid' => $replyid,
                    'created' => $created,
                    'islocation' => $islocation,

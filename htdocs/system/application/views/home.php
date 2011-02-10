@@ -91,7 +91,7 @@
             <div id="home-friends-trips">
                 <div id="home-friends-trips-header">Your friends' trips</div>
 
-                <?php if(!sizeof($friends_trips)){
+                <?php if(!count($friends_trips)){
                     echo "Tell your friends to share some trips with you";
                 } else {
                     foreach($friends_trips as $friends_trip){ ?>
