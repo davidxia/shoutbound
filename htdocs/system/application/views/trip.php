@@ -154,10 +154,10 @@ $this->load->view('core_header', $header_args);
         <div>
             <a href="javascript: Delete.deleteTrip(); ">delete trip</a>
         </div>
-        <?php endif; ?>
+        <? endif; ?>
         
         <div id="invite-trip">
-			<?=$this->load->view('trip_friends'); ?>
+			<?=$this->load->view('trip_friends')?>
 		</div>
 		</div>     
         <div class="grid_9">
@@ -177,13 +177,11 @@ $this->load->view('core_header', $header_args);
                 </div>
                 
                 <ol id="trip-wall-suggest-list"></ol>
-                <?php
-                    $wall_view = array('wall_data' => $wall_data,
-                                       'user_type' => $user_type,
-                                      );
+                <? $wall_view = array('wall_data' => $wall_data,
+                                      'user_type' => $user_type,
+                                     );
                                       
-                    echo $this->load->view('trip_wall', $wall_view); ?>
-                <?php //print_r($wall_view); ?>
+                   echo $this->load->view('trip_wall', $wall_view); ?>
             </div>
         </div>
       

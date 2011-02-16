@@ -284,7 +284,7 @@ class Trip_m extends Model {
     
     function create_item($uid, $tripid, $yelpid, $title, $body,
                          $yelpjson, $lat, $lng,
-                         $replyid, $created, $islocation = 0) {
+                         $replyid, $islocation = 0) {
                              
         $d = array('uid' => $uid,
                    'tripid' => $tripid,
@@ -295,7 +295,7 @@ class Trip_m extends Model {
                    'lat' => $lat,
                    'lng' => $lng,
                    'replyid' => $replyid,
-                   'created' => $created,
+                   'created' => time() - 72,
                    'islocation' => $islocation,
                );
         
@@ -366,7 +366,7 @@ class Trip_m extends Model {
             $this->mc->set($key, $uids);
         }
         return $uids;
-    } 
+    }
 
     
 }

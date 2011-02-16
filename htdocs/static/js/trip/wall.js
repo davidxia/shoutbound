@@ -20,8 +20,7 @@ Wall = {
                 url: baseUrl + 'trip/wall_post',
                 data: {
                     tripid: tripid,
-                    body: $('#wall-text-input').val(),
-                    created: Math.round(new Date().getTime()/1000)
+                    body: $('#wall-text-input').val()
                 },
                 success: Wall.showPost
             });
@@ -140,7 +139,7 @@ Wall = {
             var timestamp = "";
             var unixTime = $(this).html();
             
-            var datetime = new Date(unixTime*1000-new Date().getTimezoneOffset()+1000);
+            var datetime = new Date(unixTime*1000);
             var year = datetime.getFullYear();
             var month = datetime.getMonth();
             var date = datetime.getDate();
@@ -163,8 +162,10 @@ Wall = {
                 timestamp = (Wall.currentDateTime.getMinutes() - minute)+' minutes ago';
             } else if((Wall.currentDateTime.getMinutes() - minute) == 1){
                 timestamp = '1 minute ago';
-            } else {
+            } else if((Wall.currentDateTime.getSeconds() - second) > 1){
                 timestamp = (Wall.currentDateTime.getSeconds() - second)+' seconds ago';
+            } else {
+                timestamp = '1 second ago';
             }
         
             return timestamp;

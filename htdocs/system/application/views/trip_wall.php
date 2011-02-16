@@ -1,52 +1,52 @@
 <div id="trip-wall-content">
-    <?php foreach($wall_data['wall_items'] as $item): ?>
+    <? foreach($wall_data['wall_items'] as $item): ?>
 
-        <?php if($item['islocation']): ?>
-            <div id="wall-item-<?php echo $item[itemid]; ?>" class="wall-item location_based" lat="<?php echo $item['lat']; ?>" lng="<?php echo $item['lng']; ?>">
-                <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?php echo $item['user']['fid']; ?>/picture?type=square" /></div>
-                <?php if($user_type == 'planner'){ ?>
-                    <div class="remove-wall-item" itemid="<?php echo $item['itemid']; ?>"></div>
-                <?php } ?>
-                <span class="wall-comment-username"><?php echo $item['user']['name']; ?></span>
+        <? if($item['islocation']): ?>
+            <div id="wall-item-<?=$item[itemid]?>" class="wall-item location_based" lat="<?=$item['lat']?>" lng="<?=$item['lng']?>">
+                <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$item['user']['fid']?>/picture?type=square" /></div>
+                <? if($user_type == 'planner'): ?>
+                    <div class="remove-wall-item" itemid="<?=$item['itemid']?>"></div>
+                <? endif; ?>
+                <span class="wall-comment-username"><?=$item['user']['name']?></span>
             
-                <span class="wall-comment-text">dropped a pin on <?php echo $item['title']; ?>
-                    <?php if($item['body']): ?>
-                        <br/><?php echo $item['body']; ?>
-                    <?php endif; ?>
+                <span class="wall-comment-text">dropped a pin on <?=$item['title']?>
+                    <? if($item['body']): ?>
+                        <br/><?=$item['body']?>
+                    <? endif; ?>
                 </span>
             </div>
             
             
-        <?php else: ?>
-            <div id="wall-item-<?php echo $item[itemid]; ?>" class="wall-item">
-                <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?php echo $item['user']['fid']; ?>/picture?type=square" /></div>
-                <?php if($user_type == 'planner'){ ?>
-                    <div class="remove-wall-item" itemid="<?php echo $item['itemid']; ?>"></div>
-                <?php } ?>
-                <span class="wall-comment-username"><?php echo $item['user']['name']; ?></span>
+        <? else: ?>
+            <div id="wall-item-<?=$item[itemid]?>" class="wall-item">
+                <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$item['user']['fid']?>/picture?type=square" /></div>
+                <? if($user_type == 'planner'): ?>
+                    <div class="remove-wall-item" itemid="<?=$item['itemid']?>"></div>
+                <? endif; ?>
+                <span class="wall-comment-username"><?=$item['user']['name']?></span>
             
-                <span class="wall-comment-text"><?php echo $item['body']; ?></span>
+                <span class="wall-comment-text"><?=$item['body']?></span>
             </div>
-        <?php endif; ?>
+        <? endif; ?>
         
         
             <br/>
-            <span class="wall-timestamp"><?php echo $item['created']; ?></span>                    
+            <span class="wall-timestamp"><?=$item['created']?></span>                    
             <div class="clear"></div>
 
 
-        <div id="replies_<?php echo $item['itemid']; ?>">
-        <?php foreach($item['replies'] as $reply): ?>
-            <div id="wall-item-<?php echo $reply[itemid]; ?>" class="wall-item">
+        <div id="replies_<?=$item['itemid']?>">
+        <? foreach($item['replies'] as $reply): ?>
+            <div id="wall-item-<?=$reply[itemid]?>" class="wall-item">
                 <div class="wall-comment wall-reply">
-                    <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?php echo $reply['user']['fid']; ?>/picture?type=square" /></div>
-                    <?php if($user_type == 'planner'){ ?>
-                        <div class="remove-wall-item" itemid="<?php echo $reply[itemid]; ?>"></div>
-                    <?php } ?>
-                    <span class="wall-comment-username"> <?php echo $reply['user']['name']; ?> </span>
-                    <span class="wall-comment-text"> <?php echo $reply['body']; ?> </span>
+                    <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$reply['user']['fid']?>/picture?type=square" /></div>
+                    <? if($user_type == 'planner'): ?>
+                        <div class="remove-wall-item" itemid="<?=$reply[itemid]?>"></div>
+                    <? endif; ?>
+                    <span class="wall-comment-username"> <?=$reply['user']['name']?> </span>
+                    <span class="wall-comment-text"> <?=$reply['body']?></span>
                     <br/>
-                    <span class="wall-timestamp"><?php echo $item['created']; ?></span>
+                    <span class="wall-timestamp"><?=$item['created']?></span>
                     <div class="clear"></div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
         </div>
         
         <div class="reply-box">
-            <a href="#" class="show_reply_button" postid="<?php echo $item['itemid']; ?>">reply</a>
+            <a href="#" class="show_reply_button" postid="<?=$item['itemid']?>">reply</a>
         </div>
 
             

@@ -3,6 +3,7 @@ var Map = {
     geocoder: null,
     marker: null,
     infoWindow: null,
+    wall_markers: null,
     
     lat: null,
     lng: null,
@@ -38,7 +39,8 @@ var Map = {
     	var ne = new google.maps.LatLng(Map.nBound, Map.eBound);
     	var savedLatLngBounds = new google.maps.LatLngBounds (sw, ne);
     	Map.map.fitBounds(savedLatLngBounds);
-
+    	
+    	
     	// create new geocoder to resolve city names into latlng co-ords
     	Map.geocoder = new google.maps.Geocoder();
 
@@ -199,6 +201,15 @@ var Map = {
     
     },
     
+    
+    display_wall_markers: function(){
+        wall_markers = new Array();
+        $('.location_based').each(function(){
+            alert($(this).attr('lng'));
+            //wall_markers.push()
+        });
+    },
+    
     // Formats and returns the Info Window HTML (displayed in a balloon when a marker is clicked)
     generateInfoWindowHtml: function(biz) {
         var text = '<div class="marker">';
@@ -233,8 +244,11 @@ var Map = {
 };
 
 
-$(document).ready(Map.loadScript);
-$(document).ready(Map.loadWallListeners);
+$(document).ready(function(){
+    Map.loadScript();
+    Map.loadWallListeners();
+    Map.display_wall_markers();
+});
 
 
 

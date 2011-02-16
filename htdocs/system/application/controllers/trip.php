@@ -11,11 +11,9 @@ class Trip extends Controller {
 
 
     function index() {
-        // getting data for sub-sections
-        $items = $this->Trip_m->get_items_by_tripid(80, 'ASC');
-        $wall_data = array('wall_items' => $this->Trip_m->format_items_as_thread($items));
-        
-        print_r($wall_data);
+        echo time().'<br/>';
+        $time = time() - 72;
+        echo $time;
     }
  	
 
@@ -289,8 +287,7 @@ class Trip extends Controller {
             $_POST['yelpjson'],
             $_POST['lat'],
             $_POST['lon'],
-            $replyid,
-            $_POST['created']
+            $replyid
         );
 
         // check if row was created in database
@@ -365,8 +362,7 @@ class Trip extends Controller {
                 'replyid' => 0
             ));
         }
-    }
-    
+    }    
     
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
