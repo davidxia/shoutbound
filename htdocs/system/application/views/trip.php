@@ -20,52 +20,36 @@ $this->load->view('core_header', $header_args);
 
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
-    var baseUrl = "<?php echo site_url(""); ?>";
-    var staticUrl = "<?php echo static_url(""); ?>";
-    var tripid = <?php echo $trip['tripid']; ?>;
+    var baseUrl = "<?=site_url("")?>";
+    var staticUrl = "<?=static_url("")?>";
+    var tripid = <?=$trip['tripid']?>;
     <?php if($trip['trip_startdate']){ ?>
-        var tripStartDate = <?php echo $trip['trip_startdate']; ?>;
+        var tripStartDate = <?=$trip['trip_startdate']?>;
     <?php } ?>
     
-    Map.lat = <?php echo $trip['lat']; ?>;
-    Map.lng = <?php echo $trip['lng']; ?>;
-    Map.sBound = <?php echo $trip['sbound']; ?>;
-    Map.wBound = <?php echo $trip['wbound']; ?>;
-    Map.nBound = <?php echo $trip['nbound']; ?>;
-    Map.eBound = <?php echo $trip['ebound']; ?>;
+    Map.lat = <?=$trip['lat']?>;
+    Map.lng = <?=$trip['lng']?>;
+    Map.sBound = <?=$trip['sbound']?>;
+    Map.wBound = <?=$trip['wbound']?>;
+    Map.nBound = <?=$trip['nbound']?>;
+    Map.eBound = <?=$trip['ebound']?>;
 </script>
 
-<meta name="title" content="<?php echo $trip['name']; ?>" />
-<meta name="description" content="<?php echo $trip['name']; ?>" />
-<?php echo $this->load->view('core_header_end'); ?>
+<meta name="title" content="<?=$trip['name']?>" />
+<meta name="description" content="<?=$trip['name']?>" />
+<?=$this->load->view('core_header_end')?>
 
 
 
 <body>
 
-<!--<div id="fb-root"></div>
-<script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId: '136139119767617', status: true,
-            cookie: true, xfbml: true
-        });
-    };
-    (function() {
-            var e = document.createElement('script'); e.async = true;
-            e.src = document.location.protocol +
-                '//connect.facebook.net/en_US/all.js';
-            document.getElementById('fb-root').appendChild(e);
-    }());
-</script>-->
-
-    <?php echo $this->load->view('core_banner'); ?>
+    <?=$this->load->view('core_banner')?>
   
     <div id="div_to_popup"></div>
   
     <div id="main" class="container_12">
         <div class="grid_6 push_1" id="trip-name" >
-            <?php echo $trip['name']?>
+            <?=$trip['name']?>
         </div>
         <div class="clear"></div>
 
@@ -80,9 +64,9 @@ $this->load->view('core_header', $header_args);
             
             <span id="rsvp_button">
             <?php if($user_rsvp != 'yes' && $user_type == 'planner'){ ?>
-                <a href="#" onclick="Invite.joinTrip(<?php echo $user['uid']; ?>);">Count me in</a><br/>
+                <a href="#" onclick="Invite.joinTrip(<?=$user['uid']?>);">Count me in</a><br/>
             <?php } elseif($user_rsvp == 'yes' && $user_type == 'planner'){ ?>
-                <a href="#" onclick="Invite.leaveTrip(<?php echo $user['uid']; ?>);">I'm lame and can't go :(</a><br/>
+                <a href="#" onclick="Invite.leaveTrip(<?=$user['uid']?>);">I'm lame and can't go :(</a><br/>
             <?php } ?>
             </span>
             <br/>
@@ -90,13 +74,13 @@ $this->load->view('core_header', $header_args);
             <?php if($trip['trip_startdate']){ ?>
                 When: <span id="trip-local-start-date">
                     <script type="text/javascript">convertTripStartTime();</script>
-                    </span></br></br>
+                    </span><br/><br/>
                 <span id="years"><script type="text/javascript">countdown();</script></span>
                 <span id="days"></span>
                 <span id="hours"></span> 
                 <span id="minutes"></span>
                 <span id="seconds"></span>
-                </br>
+                <br/>
             <?php } else { ?>
                 When: no date set yet
             <?php } ?>
@@ -143,7 +127,7 @@ $this->load->view('core_header', $header_args);
             echo '</select>';
         ?>
         <button type="button" onclick="saveTripDate()">save when</button> 
-        </br></br>
+        <br/><br/>
         <?php endif; ?>
         
         Where:
@@ -162,18 +146,18 @@ $this->load->view('core_header', $header_args);
         </div>
         <a href="#" onclick="facebookShare()">Facebook</a>
         <br/>
-        <a href="#" onclick="twitterShare('Help me plan my <?php echo $trip['name']; ?> trip on #shoutbound <?php echo site_url('trip/details').'/'.$trip['tripid']; ?>')">Twitter</a>
+        <a href="#" onclick="twitterShare('Help me plan my <?=$trip['name']; ?> trip on #shoutbound <?=site_url('trip/details').'/'.$trip['tripid']; ?>')">Twitter</a>
         <br/>
         <!--<a href="#" onclick='setFBStatus(); return false;'>publish to facebook</a>
         <br/>-->
-        <a href="mailto:?subject=<?php echo rawurlencode('Help me plan my '.$trip['name'].' trip'); ?>&body=<?php echo rawurlencode('Hey, I\'m going to '.$trip['name'].' from '.$trip['trip_startdate'].' to... Help me plan my trip here: '.site_url('trip/details').'/'.$trip['tripid']); ?>">Email</a>
+        <a href="mailto:?subject=<?=rawurlencode('Help me plan my '.$trip['name'].' trip'); ?>&body=<?=rawurlencode('Hey, I\'m going to '.$trip['name'].' from '.$trip['trip_startdate'].' to... Help me plan my trip here: '.site_url('trip/details').'/'.$trip['tripid']); ?>">Email</a>
         <div>
             <a href="javascript: Delete.deleteTrip(); ">delete trip</a>
         </div>
         <?php endif; ?>
         
         <div id="invite-trip">
-			<?php echo $this->load->view('trip_friends'); ?>
+			<?=$this->load->view('trip_friends'); ?>
 		</div>
 		</div>     
         <div class="grid_9">

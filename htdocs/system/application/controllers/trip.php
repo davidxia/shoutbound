@@ -20,6 +20,10 @@ class Trip extends Controller {
  	
 
     function details($tripid){
+        //check that user is logged in
+        $this->user = $this->User_m->get_logged_in_user();
+        if(!$this->user) { redirect('/'); }
+
         //check if trip exists in trips table and is active, ie not deleted
         $trip = $this->Trip_m->get_trip_by_tripid($tripid);
         if(!$trip) { redirect('/'); }
