@@ -11,14 +11,6 @@ var Map = {
     nBound: null,
     eBound: null,
     
-    //removeMarker: function(){
-        //Map.marker.setMap(null);
-    //},
-        
-    //closeInfoWindow: function() {
-        //Map.infoWindow.close();
-    //},
-    
     loadScript: function() {
         var script = document.createElement("script");
         script.type = "text/javascript";
@@ -29,6 +21,11 @@ var Map = {
     loadMap: function() {
         // load google map with options
     	var mapOptions = {
+        	disableDefaultUI: true,
+        	zoomControl: true,
+        	zoomControlOptions: {
+                style: google.maps.ZoomControlStyle.LARGE
+            },
     		zoom: 5,
     		center: new google.maps.LatLng(Map.lat, Map.lng),
     		mapTypeId: google.maps.MapTypeId.ROADMAP
