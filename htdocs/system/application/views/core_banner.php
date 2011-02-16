@@ -5,8 +5,8 @@
         </a>
     </div>
 
-		<div id="create-trip" class="grid_4">
-        	<a href="javascript: Create.showCreateDialog();">Create trip</a>
+		<div class="grid_4">
+        	<a id="create_trip" href="#">Create trip</a>
         </div>
     
     <ul id="navigation-buttons" class="grid_3 push_3">

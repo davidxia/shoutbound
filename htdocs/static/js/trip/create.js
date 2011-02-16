@@ -47,3 +47,10 @@ Create.confirmAddTrip = function (response){
     var r = $.parseJSON(response);
     window.location = baseUrl + "trip/details/"+r['tripid'];
 }
+
+$(document).ready(function(){
+    $('#create_trip').click(function() {
+        Create.showCreateDialog();
+        return false;
+    });
+});
