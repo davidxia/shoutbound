@@ -11,9 +11,12 @@ class Trip extends Controller {
 
 
     function index() {
-        echo time().'<br/>';
-        $time = time() - 72;
-        echo $time;
+        $items = $this->Trip_m->get_items_by_tripid(86);
+        foreach($items as $item){
+            if($item['islocation'] == 1)
+                $location_based_items[] = $item;
+        }
+        print_r($location_based_items);
     }
  	
 
@@ -50,6 +53,11 @@ class Trip extends Controller {
         $items = $this->Trip_m->get_items_by_tripid($tripid, 'ASC');
         $wall_data = array('wall_items' => $this->Trip_m->format_items_as_thread($items));
         // $list_data = array('list_items' => array_reverse($this->_filter_out_wall_data($items)));
+        
+        foreach($items as $item){
+            if($item['islocation'] == 1)
+                $location_based_items[] = $item;
+        }
 
         $view_data = array('user' => $this->user,
                            'user_type' => $this->Trip_m->get_type_by_tripid_uid($tripid, $this->user['uid']),
@@ -57,6 +65,7 @@ class Trip extends Controller {
                            //'trip_user' => $trip_user,
                            //'list_data' => $list_data,
                            'wall_data' => $wall_data,
+                           'location_based_items' => $location_based_items,
                            'trip' => $trip,
                            //'trips' => $this->Trip_m->get_user_trips($this->user['uid']),
                            //'current_trip' => $trip,
@@ -346,7 +355,6 @@ class Trip extends Controller {
             $_POST['lat'],
             $_POST['lng'],
             0,
-            $_POST['created'],
             1
         );
 

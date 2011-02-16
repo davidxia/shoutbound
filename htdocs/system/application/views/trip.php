@@ -23,9 +23,9 @@ $this->load->view('core_header', $header_args);
     var baseUrl = "<?=site_url("")?>";
     var staticUrl = "<?=static_url("")?>";
     var tripid = <?=$trip['tripid']?>;
-    <?php if($trip['trip_startdate']){ ?>
+    <? if($trip['trip_startdate']){ ?>
         var tripStartDate = <?=$trip['trip_startdate']?>;
-    <?php } ?>
+    <? } ?>
     
     Map.lat = <?=$trip['lat']?>;
     Map.lng = <?=$trip['lng']?>;
@@ -55,7 +55,7 @@ $this->load->view('core_header', $header_args);
 
         <div class="grid_3">
         
-            <span id="rsvp_status"><?php 
+            <span id="rsvp_status"><? 
                 if($user_rsvp == 'yes'){ echo "I'm in"; }
                 elseif($user_rsvp == 'awaiting'){ echo "I still have to decide"; }
                 elseif($user_rsvp == 'no'){ echo "I'm missing out"; }
@@ -63,15 +63,15 @@ $this->load->view('core_header', $header_args);
             <br/>
             
             <span id="rsvp_button">
-            <?php if($user_rsvp != 'yes' && $user_type == 'planner'){ ?>
+            <? if($user_rsvp != 'yes' && $user_type == 'planner'){ ?>
                 <a href="#" onclick="Invite.joinTrip(<?=$user['uid']?>);">Count me in</a><br/>
-            <?php } elseif($user_rsvp == 'yes' && $user_type == 'planner'){ ?>
+            <? } elseif($user_rsvp == 'yes' && $user_type == 'planner'){ ?>
                 <a href="#" onclick="Invite.leaveTrip(<?=$user['uid']?>);">I'm lame and can't go :(</a><br/>
-            <?php } ?>
+            <? } ?>
             </span>
             <br/>
             
-            <?php if($trip['trip_startdate']){ ?>
+            <? if($trip['trip_startdate']){ ?>
                 When: <span id="trip-local-start-date">
                     <script type="text/javascript">convertTripStartTime();</script>
                     </span><br/><br/>
@@ -81,11 +81,11 @@ $this->load->view('core_header', $header_args);
                 <span id="minutes"></span>
                 <span id="seconds"></span>
                 <br/>
-            <?php } else { ?>
+            <? } else { ?>
                 When: no date set yet
-            <?php } ?>
+            <? } ?>
         
-        <?php if($user_type == 'planner'):
+        <? if($user_type == 'planner'):
             // date selection dropdowns
             $months = array("January", "February", "March",
                              "April", "May", "June", "July",
@@ -128,19 +128,19 @@ $this->load->view('core_header', $header_args);
         ?>
         <button type="button" onclick="saveTripDate()">save when</button> 
         <br/><br/>
-        <?php endif; ?>
+        <? endif; ?>
         
         Where:
-            <?php if($user_type == 'planner'): ?>
+            <? if($user_type == 'planner'):?>
             <input type="text" size="40" id="trip-where"
             onkeyup="Map.geocode()"
             autocomplete="off"
             title="Type placename or address" />
             <button type="button" onclick="Map.save()">save where</button>
-            <?php endif; ?>
+            <? endif; ?>
     	    <ol id="suggest-list"></ol>
         
-        <?php if($user_type == 'planner'): ?>
+        <? if($user_type == 'planner'): ?>
         <div id="share-trip">
             <a href="javascript: Share.showShareDialog();">share this trip</a>
         </div>
@@ -189,5 +189,17 @@ $this->load->view('core_header', $header_args);
 
         </div>
     </div>
+
+
+<script type="text/javascript">
+    Wall.wall_markers = [
+        <? for($i=0, $count=count($location_based_items); $i<$count; $i++): ?>
+            {"lat": <?=$location_based_items[$i]['lat']?>, "lng": <?=$location_based_items[$i]['lng']?>}
+            <? if($i < $count-1): ?>
+                ,
+            <? endif; ?>
+        <? endfor; ?>
+    ];
+</script>
 </body> 
 </html>

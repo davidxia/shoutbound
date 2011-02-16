@@ -3,7 +3,6 @@ var Map = {
     geocoder: null,
     marker: null,
     infoWindow: null,
-    wall_markers: null,
     
     lat: null,
     lng: null,
@@ -37,7 +36,7 @@ var Map = {
     	// change viewport to saved latlngbounds
     	var sw = new google.maps.LatLng(Map.sBound, Map.wBound);
     	var ne = new google.maps.LatLng(Map.nBound, Map.eBound);
-    	var savedLatLngBounds = new google.maps.LatLngBounds (sw, ne);
+    	var savedLatLngBounds = new google.maps.LatLngBounds(sw, ne);
     	Map.map.fitBounds(savedLatLngBounds);
     	
     	
@@ -68,7 +67,9 @@ var Map = {
         google.maps.event.addListener(Map.marker, "click", function() {
             Map.infoWindow.open(Map.map, Map.marker);
         });
-
+                
+        if(typeof Wall.wall_markers != 'undefined')
+            Map.display_wall_markers();
     },
     
     
@@ -119,10 +120,12 @@ var Map = {
     	resultItem.geometry && resultItem.geometry.viewport && Map.map.fitBounds(resultItem.geometry.viewport);
     	$('#suggest-list').empty();
     	
-    	// some regex to get google map center and viewport lat lngs
+    	// get google map center and viewport lat lngs
         var mapCenter = resultItem.geometry.viewport.getCenter();
         Map.lat = mapCenter.lat();
         Map.lng = mapCenter.lng();
+        console.log(Map.lat);
+        console.log(Map.lng);
         
     	var neCorner = resultItem.geometry.viewport.getNorthEast();
         var swCorner = resultItem.geometry.viewport.getSouthWest();
@@ -162,7 +165,7 @@ var Map = {
         var title = $('input#marker_name').val();
         var body = $('input#marker_description').val();
         var lat = Map.marker.getPosition().lat();
-        var lng = Map.marker.getPosition().lat();
+        var lng = Map.marker.getPosition().lng();
         
         // TODO: alert user to fill in name if it's missing
         // or if its > 60 chars 
@@ -174,7 +177,6 @@ var Map = {
                 body: body,
                 lat: lat,
                 lng: lng,
-                created: Math.round(new Date().getTime()/1000)
             }
             
             $.ajax({
@@ -203,11 +205,18 @@ var Map = {
     
     
     display_wall_markers: function(){
-        wall_markers = new Array();
-        $('.location_based').each(function(){
-            alert($(this).attr('lng'));
-            //wall_markers.push()
-        });
+        var bounds = new google.maps.LatLngBounds();
+        for (var key in Wall.wall_markers) {
+            if (Wall.wall_markers.hasOwnProperty(key)) {
+                var marker_lat_lng = new google.maps.LatLng(Wall.wall_markers[key]['lat'], Wall.wall_markers[key]['lng']);
+                new google.maps.Marker({
+                    map: Map.map,
+                    position: marker_lat_lng
+                });
+                bounds.extend(marker_lat_lng);
+            }
+        }
+        Map.map.fitBounds(bounds);
     },
     
     // Formats and returns the Info Window HTML (displayed in a balloon when a marker is clicked)
@@ -247,7 +256,6 @@ var Map = {
 $(document).ready(function(){
     Map.loadScript();
     Map.loadWallListeners();
-    Map.display_wall_markers();
 });
 
 

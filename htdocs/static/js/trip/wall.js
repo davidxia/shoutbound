@@ -174,5 +174,8 @@ Wall = {
     
 };
 
-$(document).ready(Wall.loadWall);
-$(document).ready(Wall.convertPostTimes);
+
+$(document).ready(function(){
+    Wall.loadWall();
+    Wall.convertPostTimes();
+});
