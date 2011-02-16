@@ -415,6 +415,15 @@ NEWS FEED
     margin-top: 20px;
 }
 
+div.location_based{
+    color: green;
+    cursor: pointer;
+}
+
+div.location_based:hover{
+    background: aqua;
+}
+
 
 .wall-comment-username {
     font-weight: bold;
