@@ -187,6 +187,18 @@ var Map = {
         } else { alert("you fucked up somewhere"); }
     },
     
+    
+    loadWallListeners: function(){
+        $('div.location_based').click(function(){
+            var lat = $(this).attr('lat');
+            var lng = $(this).attr('lng');
+            Map.marker.setMap(Map.map);
+            Map.marker.setPosition(new google.maps.LatLng(lat, lng));
+            Map.map.setCenter(new google.maps.LatLng(lat, lng));
+        });
+    
+    },
+    
     // Formats and returns the Info Window HTML (displayed in a balloon when a marker is clicked)
     generateInfoWindowHtml: function(biz) {
         var text = '<div class="marker">';
@@ -222,6 +234,8 @@ var Map = {
 
 
 $(document).ready(Map.loadScript);
+$(document).ready(Map.loadWallListeners);
+
 
 
 /*

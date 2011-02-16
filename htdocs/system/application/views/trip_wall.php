@@ -1,31 +1,38 @@
 <div id="trip-wall-content">
     <?php foreach($wall_data['wall_items'] as $item): ?>
 
-
-        <div id="wall-item-<?php echo $item[itemid]; ?>" class="wall-item">
+        <?php if($item['islocation']): ?>
+            <div id="wall-item-<?php echo $item[itemid]; ?>" class="wall-item location_based" lat="<?php echo $item['lat']; ?>" lng="<?php echo $item['lng']; ?>">
+                <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?php echo $item['user']['fid']; ?>/picture?type=square" /></div>
+                <?php if($user_type == 'planner'){ ?>
+                    <div class="remove-wall-item" itemid="<?php echo $item['itemid']; ?>"></div>
+                <?php } ?>
+                <span class="wall-comment-username"><?php echo $item['user']['name']; ?></span>
             
-            <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?php echo $item['user']['fid']; ?>/picture?type=square" /></div>
-            <?php if($user_type == 'planner'){ ?>
-                <div class="remove-wall-item" itemid="<?php echo $item['itemid']; ?>"></div>
-            <?php } ?>
-            <span class="wall-comment-username"><?php echo $item['user']['name']; ?></span>
-                        
-            <?php if($item['islocation']): ?>
                 <span class="wall-comment-text">dropped a pin on <?php echo $item['title']; ?>
                     <?php if($item['body']): ?>
                         <br/><?php echo $item['body']; ?>
                     <?php endif; ?>
                 </span>
-                        
-            <?php else: ?>
+            </div>
+            
+            
+        <?php else: ?>
+            <div id="wall-item-<?php echo $item[itemid]; ?>" class="wall-item">
+                <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?php echo $item['user']['fid']; ?>/picture?type=square" /></div>
+                <?php if($user_type == 'planner'){ ?>
+                    <div class="remove-wall-item" itemid="<?php echo $item['itemid']; ?>"></div>
+                <?php } ?>
+                <span class="wall-comment-username"><?php echo $item['user']['name']; ?></span>
+            
                 <span class="wall-comment-text"><?php echo $item['body']; ?></span>
-            <?php endif; ?>
+            </div>
+        <?php endif; ?>
+        
+        
             <br/>
-            <span class="wall-timestamp"><?php echo $item['created']; ?></span>
-            <br/>
-                    
+            <span class="wall-timestamp"><?php echo $item['created']; ?></span>                    
             <div class="clear"></div>
-        </div>
 
 
         <div id="replies_<?php echo $item['itemid']; ?>">
