@@ -192,9 +192,12 @@ $this->load->view('core_header', $header_args);
 
 
 <script type="text/javascript">
+    // output wall markers to page so Map.display_wall_markers function can display them once google map loads
+    // only put a comma after each item in the array if it's not the last one
+    // TODO: is there a better way to do the comma thing?
     Wall.wall_markers = [
         <? for($i=0, $count=count($location_based_items); $i<$count; $i++): ?>
-            {"lat": <?=$location_based_items[$i]['lat']?>, "lng": <?=$location_based_items[$i]['lng']?>}
+            {"itemid": <?=$location_based_items[$i]['itemid']?>, "lat": <?=$location_based_items[$i]['lat']?>, "lng": <?=$location_based_items[$i]['lng']?>}
             <? if($i < $count-1): ?>
                 ,
             <? endif; ?>

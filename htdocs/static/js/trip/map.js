@@ -3,6 +3,7 @@ var Map = {
     geocoder: null,
     marker: null,
     infoWindow: null,
+    markers: {},
     
     lat: null,
     lng: null,
@@ -24,7 +25,8 @@ var Map = {
         	disableDefaultUI: true,
         	zoomControl: true,
         	zoomControlOptions: {
-                style: google.maps.ZoomControlStyle.LARGE
+                style: google.maps.ZoomControlStyle.LARGE,
+                position: google.maps.ControlPosition.LEFT_TOP
             },
     		zoom: 5,
     		center: new google.maps.LatLng(Map.lat, Map.lng),
@@ -32,6 +34,20 @@ var Map = {
     	};
     	// display world map; used get(0) to get DOM element from jQuery selector's returned array
     	Map.map = new google.maps.Map($('#map-canvas').get(0), mapOptions);
+    	
+        // Create a div element to hold our custom control
+        var marker_control_div = $('<div></div>');
+        // Margin offsets control from map edge
+        marker_control_div.css('margin', '10px');
+        marker_control_div.css('backgroundImage', 'url(http://dev.shoutbound.com/david/images/shoutbound_marker.png)');
+        marker_control_div.css('height', '30px');
+        marker_control_div.css('width', '18px');
+        marker_control_div.css('cursor', 'pointer');
+        marker_control_div.attr('title', 'drag to place a marker on the map');
+        // bind click event that drops a marker
+        marker_control_div.click(function(){ Map.add_map_marker(marker_control_div); });
+        Map.map.controls[google.maps.ControlPosition.TOP_LEFT].push(marker_control_div.get(0));
+
 
     	// change viewport to saved latlngbounds
     	var sw = new google.maps.LatLng(Map.sBound, Map.wBound);
@@ -42,12 +58,6 @@ var Map = {
     	
     	// create new geocoder to resolve city names into latlng co-ords
     	Map.geocoder = new google.maps.Geocoder();
-
-        // create marker object for map
-        Map.marker = new google.maps.Marker({
-            map: Map.map,
-            draggable: true
-        });        
         
         // create infoWindow object for map
         Map.infoWindow = new google.maps.InfoWindow({
@@ -56,18 +66,8 @@ var Map = {
                  "<tr><td>description:</td> <td><input type='text' id='marker_description'/></td> </tr>" +
                  "<tr><td></td><td><input type='button' value='save & close' onclick='Map.saveMapMarker()'/></td></tr>"
         });
-
-
-        // Clicking on map updates marker position and opens infoWindow
-        google.maps.event.addListener(Map.map, "click", function(event){
-            Map.marker.setPosition(event.latLng);
-            Map.infoWindow.open(Map.map, Map.marker);
-        });
-        // Infowindow pops up when marker is clicked
-        google.maps.event.addListener(Map.marker, "click", function() {
-            Map.infoWindow.open(Map.map, Map.marker);
-        });
-                
+        
+        // display location-based wall posts as markers on map
         if(typeof Wall.wall_markers != 'undefined')
             Map.display_wall_markers();
     },
@@ -124,8 +124,6 @@ var Map = {
         var mapCenter = resultItem.geometry.viewport.getCenter();
         Map.lat = mapCenter.lat();
         Map.lng = mapCenter.lng();
-        console.log(Map.lat);
-        console.log(Map.lng);
         
     	var neCorner = resultItem.geometry.viewport.getNorthEast();
         var swCorner = resultItem.geometry.viewport.getSouthWest();
@@ -192,31 +190,39 @@ var Map = {
     },
     
     
-    loadWallListeners: function(){
-        $('div.location_based').click(function(){
-            var lat = $(this).attr('lat');
-            var lng = $(this).attr('lng');
-            Map.marker.setMap(Map.map);
-            Map.marker.setPosition(new google.maps.LatLng(lat, lng));
-            Map.map.setCenter(new google.maps.LatLng(lat, lng));
-        });
-    
+    load_wall_listeners: function(){
+        var i = 0;
+        for(i=0; i<6; i++){
+            console.log(Wall.wall_markers[i]['itemid']);
+            var x = Wall.wall_markers[i]['itemid'];
+            $('#wall-item-'+Wall.wall_markers[i]['itemid']).click(function(){
+                //Map.infoWindow.close();
+                //alert($(this).attr('id'));
+                Map.infoWindow.open(Map.map, Map.markers[x]);
+            });
+
+        }
     },
     
     
     display_wall_markers: function(){
         var bounds = new google.maps.LatLngBounds();
-        for (var key in Wall.wall_markers) {
+        for (var key in Wall.wall_markers){
             if (Wall.wall_markers.hasOwnProperty(key)) {
                 var marker_lat_lng = new google.maps.LatLng(Wall.wall_markers[key]['lat'], Wall.wall_markers[key]['lng']);
-                new google.maps.Marker({
-                    map: Map.map,
-                    position: marker_lat_lng
-                });
+                // add each new marker object to Map.markers array
+                //var x = Wall.wall_markers[key]['itemid'];
+                Map.markers[Wall.wall_markers[key]['itemid']] = new google.maps.Marker({
+                        map: Map.map,
+                        position: marker_lat_lng
+                    });
+                
                 bounds.extend(marker_lat_lng);
             }
         }
+        console.log(Map.markers);
         Map.map.fitBounds(bounds);
+        //Map.load_wall_listeners();
     },
     
     // Formats and returns the Info Window HTML (displayed in a balloon when a marker is clicked)
@@ -249,13 +255,58 @@ var Map = {
     formatPhoneNumber: function(num) {
         if(num.length != 10) return '';
         return '(' + num.slice(0,3) + ') ' + num.slice(3,6) + '-' + num.slice(6,10) + '<br/>';
+    },
+    
+    
+    add_map_marker: function(marker_control){
+        // drop a draggable marker in the center of the map
+        Map.marker = new google.maps.Marker({
+            map: Map.map,
+            animation: google.maps.Animation.DROP,
+            draggable: true,
+            position: Map.map.getCenter(),
+            zIndex: 9999,
+            icon: new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/shoutbound_marker.png')
+        });
+        // make the marker_control inactive to prevent more pins from being dropped
+        marker_control.css('backgroundImage', 'url(http://dev.shoutbound.com/david/images/fb-login-button.png)');
+        marker_control.unbind('click');
+        marker_control.click(function(){
+            Map.remove_map_marker(marker_control);
+        });
+        
+        // if marker is dragged or clicked, display infowindow
+        google.maps.event.addListener(Map.marker, 'click', function() {
+            Map.infoWindow.open(Map.map, Map.marker);
+        });
+        google.maps.event.addListener(Map.marker, 'dragend', function() {
+            Map.infoWindow.open(Map.map, Map.marker);
+        });
+        
+        // closing infowindow removes marker
+        google.maps.event.addListener(Map.infoWindow, 'closeclick', function() {
+            Map.remove_map_marker(marker_control);
+        });
+
+    },
+    
+    
+    remove_map_marker: function(marker_control){
+        // remove the draggable marker
+        // TODO: we need graphics!!
+        marker_control.css('backgroundImage', 'url(http://dev.shoutbound.com/david/images/shoutbound_marker.png)');
+        Map.marker.setMap(null);
+        marker_control.unbind('click');
+        marker_control.click(function(){
+            Map.add_map_marker(marker_control);
+        });
     }
 };
 
 
 $(document).ready(function(){
     Map.loadScript();
-    Map.loadWallListeners();
+    //Map.load_wall_listeners();
 });
 
 
