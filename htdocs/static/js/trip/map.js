@@ -219,7 +219,9 @@ var Map = {
                     if(Map.new_marker)
                         Map.remove_map_marker();
                     var location_name = $(this).children('.wall_location_name').html();
-                    Map.infoWindow.setContent(location_name+'<br/>address<br/>phone');
+                    var location_address = $(this).children('.wall_location_address').html();
+                    var location_phone = $(this).children('.wall_location_phone').html();
+                    Map.infoWindow.setContent(location_name+'<br/>'+location_address+'<br/>'+location_phone);
                     Map.infoWindow.open(Map.map, Map.markers[Wall.wall_markers[value]['itemid']]);
                 }                
             })(i);

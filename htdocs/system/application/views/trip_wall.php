@@ -4,6 +4,8 @@
         <? if($item['islocation']): ?>
             <div id="wall-item-<?=$item[itemid]?>" class="wall-item location_based">
                 <span class="wall_location_name"><?=$item['name']?></span><br/>
+                <span class="wall_location_address"><?=$item['address']?></span><br/>
+                <span class="wall_location_phone"><?=$item['phone']?></span><br/>
                 Suggested by <?=$item['user']['name']?><br/>
                 <? if($user_type == 'planner'): ?>
                     <div class="remove-wall-item" itemid="<?=$item['itemid']?>"></div>
