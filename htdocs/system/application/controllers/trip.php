@@ -276,7 +276,7 @@ class Trip extends Controller {
     }
     
     
-    function wall_post(){
+    function ajax_wall_post(){
         $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
         if(!$trip)
             return json_error('That trip doesn\'t exist');
@@ -344,19 +344,22 @@ class Trip extends Controller {
     }
     
     
-    function save_map_marker(){
+    function ajax_save_new_marker(){
         $itemid = $this->Trip_m->create_item(
             $this->user['uid'],
-            $tripid = $_POST['tripid'],
+            $this->input->post('tripid'),
             null,
-            $title = $_POST['title'],
-            $body = $_POST['body'],
+            $this->input->post('name'),
             null,
-            $_POST['lat'],
-            $_POST['lng'],
+            null,
+            $this->input->post('lat'),
+            $this->input->post('lng'),
             0,
-            1
+            1,
+            $this->input->post('address'),
+            $this->input->post('phone')
         );
+        
 
         // check if row was created in database        
         if($itemid){
@@ -364,10 +367,10 @@ class Trip extends Controller {
                 'itemid' => $itemid,
                 'fid' => $this->user['fid'],
                 'name' => $this->user['name'],
-                'title' => $title,
+                'marker_name' => $_POST['name'],
                 'body' => $_POST['body'],
                 'islocation' => true,
-                'replyid' => 0
+                'replyid' => 0,
             ));
         }
     }    

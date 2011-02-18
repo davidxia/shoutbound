@@ -64,12 +64,7 @@ var Map = {
     	Map.geocoder = new google.maps.Geocoder();
         
         // create infoWindow object for map
-        Map.infoWindow = new google.maps.InfoWindow({
-            content: "<table>" +
-                 "<tr><td>name:</td> <td><input type='text' id='marker_name'/> </td> </tr>" +
-                 "<tr><td>description:</td> <td><input type='text' id='marker_description'/></td> </tr>" +
-                 "<tr><td></td><td><input type='button' value='save & close' onclick='Map.saveMapMarker()'/></td></tr>"
-        });
+        Map.infoWindow = new google.maps.InfoWindow();
         
         // display location-based wall posts as markers on map
         if(typeof Wall.wall_markers != 'undefined')
@@ -163,31 +158,33 @@ var Map = {
     },
     
     
-    saveMapMarker: function(){
-        var title = $('input#marker_name').val();
-        var body = $('input#marker_description').val();
-        var lat = Map.marker.getPosition().lat();
-        var lng = Map.marker.getPosition().lng();
+    save_new_marker: function(){
+        var name = $('#new_marker_name').val();
+        var address = $('#new_marker_address').val();
+        var phone = $('#new_marker_phone').val();
+        var lat = Map.new_marker.getPosition().lat();
+        var lng = Map.new_marker.getPosition().lng();
         
         // TODO: alert user to fill in name if it's missing
         // or if its > 60 chars 
         
-        if(lat && lng && title){
-            var postData = {
+        if(lat && lng && name){
+            var post_data = {
                 tripid: tripid,
-                title: title,
-                body: body,
+                name: name,
                 lat: lat,
                 lng: lng,
+                address: address,
+                phone: phone
             }
-            
+
             $.ajax({
                type:'POST',
-               url: baseUrl + 'trip/save_map_marker',
-               data: postData,
+               url: baseUrl + 'trip/ajax_save_new_marker',
+               data: post_data,
                success: function(response){
                    Wall.showPost(response);
-                   Map.marker.setMap(null);
+                   Map.new_marker.setMap(null);
                }
             });
         } else { alert("you fucked up somewhere"); }
@@ -283,9 +280,10 @@ var Map = {
         Map.infoWindow.close();
         // make infoWindow content a form for filling out information
         Map.infoWindow.setContent("<table>" +
-                 "<tr><th>name:</th> <td><input type='text' id='marker_name'/> </td> </tr>" +
-                 "<tr><th>description:</th> <td><input type='text' id='marker_description'/></td> </tr>" +
-                 "<tr><th></th><td><input type='button' value='save & close' onclick='Map.saveMapMarker()'/></td></tr>" +
+                 "<tr><th>name:</th> <td><input type='text' id='new_marker_name'/> </td> </tr>" +
+                 "<tr><th>address:</th> <td><input type='text' id='new_marker_address'/></td> </tr>" +
+                 "<tr><th>phone:</th> <td><input type='text' id='new_marker_phone'/></td> </tr>" +
+                 "<tr><th></th><td><input type='button' value='save & close' onclick='Map.save_new_marker()'/></td></tr>" +
                  "</table>"
         );
         

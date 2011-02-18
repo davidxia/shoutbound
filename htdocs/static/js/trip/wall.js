@@ -17,7 +17,7 @@ Wall = {
         $('#submit-wall').click(function() {
             $.ajax({
                 type: 'POST',
-                url: baseUrl + 'trip/wall_post',
+                url: baseUrl + 'trip/ajax_wall_post',
                 data: {
                     tripid: tripid,
                     body: $('#wall-text-input').val()
@@ -43,7 +43,7 @@ Wall = {
                     // then posts the reply
                     $.ajax({
                         type: 'POST',
-                        url: baseUrl + 'trip/wall_post',
+                        url: baseUrl + 'trip/ajax_wall_post',
                         data: {
                             tripid: tripid,
                             body: $('#reply_box_'+replyid).val(),
@@ -109,7 +109,7 @@ Wall = {
         commentHTML += '<span class="wall-comment-username">'+response.name+'</span>';
         commentHTML += '<span class="wall-comment-text">';
         if(response.islocation){
-            commentHTML += 'dropped a pin on '+response.title+'<br/>';
+            commentHTML += 'dropped a pin on '+response.marker_name+'<br/>';
         }
         commentHTML += response.body+'</span>';
         
