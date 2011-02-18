@@ -2,18 +2,17 @@
     <? foreach($wall_data['wall_items'] as $item): ?>
 
         <? if($item['islocation']): ?>
-            <div id="wall-item-<?=$item[itemid]?>" class="wall-item location_based" lat="<?=$item['lat']?>" lng="<?=$item['lng']?>">
+            <div id="wall-item-<?=$item[itemid]?>" class="wall-item location_based">
                 <div class="nn-fb-img left"><img src="http://graph.facebook.com/<?=$item['user']['fid']?>/picture?type=square" /></div>
                 <? if($user_type == 'planner'): ?>
                     <div class="remove-wall-item" itemid="<?=$item['itemid']?>"></div>
                 <? endif; ?>
                 <span class="wall-comment-username"><?=$item['user']['name']?></span>
             
-                <span class="wall-comment-text">dropped a pin on <?=$item['title']?>
-                    <? if($item['body']): ?>
-                        <br/><?=$item['body']?>
-                    <? endif; ?>
-                </span>
+                dropped a pin on <span class="wall_location_name"><?=$item['title']?></span>
+                <? if($item['body']): ?>
+                    <br/><?=$item['body']?>
+                <? endif; ?>
             </div>
             
             
