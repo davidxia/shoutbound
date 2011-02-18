@@ -18,12 +18,7 @@ class Trip_m extends Model {
                    );
         list($sql, $values) = $this->mdb->insert_string('trips_users', $v);
         $this->mdb->alter($sql, $values);
-        
-        //erase cache        
-        $this->mc->delete('trip_by_tripid:'.$tripid);
-        $this->mc->delete('planner_tripids_by_uid:'.$uid);
-        $this->mc->delete('uids_by_tripid:'.$tripid);
-        
+                
         return $tripid;
     }
     

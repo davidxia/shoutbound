@@ -6,6 +6,9 @@
 
 <body>
 
+<a href="<?=site_url('signup')?>">Sign up</a>
+<a href="<?=site_url('login')?>">Log in</a>
+
 <div id="fb-root"></div>
 <script>
     window.fbAsyncInit = function() {

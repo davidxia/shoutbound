@@ -30,7 +30,11 @@ var Map = {
             },
     		zoom: 5,
     		center: new google.maps.LatLng(Map.lat, Map.lng),
-    		mapTypeId: google.maps.MapTypeId.ROADMAP
+    		mapTypeId: google.maps.MapTypeId.ROADMAP,
+    		mapTypeControlOptions: {
+    		  mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE]
+            },
+            mapTypeControl: true
     	};
     	// display world map; used get(0) to get DOM element from jQuery selector's returned array
     	Map.map = new google.maps.Map($('#map-canvas').get(0), mapOptions);

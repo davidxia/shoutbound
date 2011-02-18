@@ -140,7 +140,7 @@ class User_m extends Model {
     ////////////////////////////////////////////////////////////
     // Creating users
 
-    function create_user($udata) {
+    function create_user($udata){
         list($sql, $v) = $this->mdb->insert_string('users', $udata);
         $uid = $this->mdb->alter($sql, $v);
         $udata['uid'] = $uid;
@@ -156,7 +156,7 @@ class User_m extends Model {
     }
 
 
-    function add_friendship($uid, $friend_fid, $friend_name) {
+    function add_friendship($uid, $friend_fid, $friend_name){
         $d = array('uid' => $uid,
                    'friend_fid' => $friend_fid,
                    'name' => $friend_name);
@@ -166,6 +166,19 @@ class User_m extends Model {
         list($sql, $values) = $this->mdb->insert_string('friends', $d);
         $this->mdb->alter($sql, $values);
     }
+    
+    
+    function create_user_through_signup(){
+        $v = array(
+            'name' => $this->input->post('name'),
+			'email' => $this->input->post('email'),			
+			'password' => md5('davidxia' . $this->input->post('password') . 'isagodamongmen')
+			);
+        list($sql, $v) = $this->mdb->insert_string('users', $v);
+        $uid = $this->mdb->alter($sql, $v);
+
+		return $uid;
+	}
 
 
 }
