@@ -9,6 +9,7 @@
         <script type="text/javascript" src="<?php echo static_url('js/jquery/jquery.js');?>"></script>
         <script type="text/javascript" src="<?php echo static_url('js/jquery/jquery.json.js');?>"></script>
         <script type="text/javascript" src="<?php echo static_url('js/jquery/popup.js');?>"></script>
+        <script type="text/javascript" src="<?php echo static_url('js/jquery/color.js');?>"></script>
 
         <!-- PAGE CSS and JAVASCRIPT -->
         <?php

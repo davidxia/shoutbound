@@ -202,7 +202,29 @@ Wall = {
 };
 
 
+
+
 $(document).ready(function(){
     Wall.loadWall();
     Wall.convertPostTimes();
+    $('#comment_input').focus(function(){
+        if($(this).val() == 'write a comment...'){
+            $(this).animate({
+                color: '#fff'
+                // your input background color.
+            }, 300, 'linear', function(){
+                $(this).val('').css('color','#000'); 
+                // change color back to black so typing shows up
+            });
+            $('#submit-wall').toggleClass('hidden');
+        }
+    }).blur(function(){
+        if($(this).val() == ''){
+            $(this).val('write a comment...').css('color','#fff');
+            $(this).animate({
+                color: '#000'
+            }, 300, 'linear');
+            $('#submit-wall').toggleClass('hidden');
+        }
+    });
 });

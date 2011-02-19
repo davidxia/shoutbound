@@ -116,7 +116,13 @@ var Map = {
     listResult: function(resultItem) {
     	var li = $('<li></li>');
     	li.html('<a href="#">'+resultItem.formatted_address+'</a>');
-    	li.click(function(){ Map.updateMap(resultItem); });
+    	li.click(function(){
+    	    Map.updateMap(resultItem);
+    	    $('.place_name').html(resultItem.address_components[0].long_name);
+    	    $('#place_type_dropdown').removeClass('hidden');
+    	    $('#place_good_for').removeClass('hidden');
+    	    $('#comment_container').removeClass('hidden');
+        });
     	$('#location_autosuggest').append(li);
     },
     
@@ -137,7 +143,7 @@ var Map = {
             });
             // display infowindow with data on the place
             //console.log(resultItem);
-            Map.infoWindow.setContent('<span class="infowindow_text">'+resultItem.address_components[0].long_name+'</span>');
+            Map.infoWindow.setContent('<span class="infowindow_text">'+resultItem.formatted_address+'</span>');
             setTimeout('Map.infoWindow.open(Map.map, Map.new_marker);', 700);
             
             // make the marker_control inactive to prevent more pins from being dropped

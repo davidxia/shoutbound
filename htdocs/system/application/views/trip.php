@@ -158,12 +158,33 @@ $this->load->view('core_header', $header_args);
                         <div id="auto_loc_list">
                             <ul id="location_autosuggest"></ul>
                         </div>
-                        
-                        <!--<button type="button" onclick="Map.save()">save where</button>-->
+                        <div id="place_type_dropdown" class="hidden">
+                            <span class="place_name"></span> is a:<br/>
+                            <select>
+                                <option value="restaurant">restaurant</option>
+                                <option value="bar">bar</option>
+                                <option value="park">park</option>
+                                <option value="landmark">landmark</option>
+                                <option value="store">store</option>
+                                <option value="fucking cool place">fucking cool place</option>
+                            </select>
+                        </div>
+                        <div id="place_good_for" class="hidden">
+                            <span class="place_name"></span> is good for:<br/>
+                            <select>
+                                <option value="seeing new york like a local">seeing new york like a local</option>
+                                <option value="burgers">burgers</option>
+                            </select>
+                        </div>
+                        <br/>
+                        <div id="comment_container" class="hidden">
+                            <input type="text" id="comment_input" value="write a comment..."/>
+                            <a id="submit-wall" class="hidden">Suggest</a>
+                        </div>
+                        <!--<button type="button" onclick="Map.save()">save where</button>
                 	    
-                        <!--<input type="text" id="wall_text_input" />-->
                         <button id="submit-wall">post</button>
-                        <button id="submit-suggestion">search</button>
+                        <button id="submit-suggestion">search</button>-->
                     </div>
                 </div>
                 <ol id="trip-wall-suggest-list"></ol>
