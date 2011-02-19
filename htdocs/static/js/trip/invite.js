@@ -81,46 +81,98 @@ Invite = {
         $('.success').bind('click', Invite.hideInviteDialog); 
     },
     
-    joinTrip: function(uid){
-        var postData = {
+    ajax_rsvp_yes: function(){
+        var post_data = {
             tripid: tripid,
             uid: uid
         }
     
         $.ajax({
             type:'POST',
-            url: baseUrl + 'trip/ajax_join_trip',
-            data: postData,
+            url: baseUrl + 'trip/ajax_rsvp_yes',
+            data: post_data,
             success: function(response){
-                //var r = $.parseJSON(response);
-                //alert(r['success']);
-                if($.parseJSON(response)){
-                    $('#rsvp_status').html("I'm in");
-                    $('#rsvp_button').html('<a href="#" onclick="Invite.leaveTrip('+uid+');">I\'m lame and can\'t go :(</a><br/>');
+                if($.parseJSON(response)['success']){
+                    // change rsvp status
+                    $('#rsvp_status').html("You're in :)");
+                    // fade in avatar
+                    var html = '<div class="trip_goer" style="display:none" uid="'+uid+'"><img class="square-50" src="http://graph.facebook.com/'+fid+'/picture?type=square"></div>';
+                    $(html).prependTo('#trip_goers').fadeIn('slow');
+                    // increase number by one
+                    $('#num').html(function(){
+                        return parseInt($(this).html())+1;
+                    })
+                    // fade out then remove yes button, replace with no button, and bind with click
+                    $('#rsvp_yes_button').fadeOut(300, function(){
+                        $(this).remove();
+                        $('#rsvp_buttons').addClass('moved');
+                        $('#rsvp_buttons').append('<a href="#" id="rsvp_no_button">I\'m out</a>').click(function(){
+                            
+                            Invite.ajax_rsvp_no();
+                        });
+                    });
+                    $('#rsvp_status').after('<div id="invsugg_btn_cont"><div id="invite_others_button">invite other people</div><div id="get_suggestions_button">get more suggestions</div></div>');
                 }
             }
         });
     },
     
-    leaveTrip: function(uid){
-        var postData = {
+    
+    ajax_rsvp_no: function(){
+        var post_data = {
             tripid: tripid,
             uid: uid
         }
     
         $.ajax({
             type:'POST',
-            url: baseUrl + 'trip/ajax_leave_trip',
-            data: postData,
+            url: baseUrl + 'trip/ajax_rsvp_no',
+            data: post_data,
             success: function(response){
-                //var r = $.parseJSON(response);
-                //alert(r['success']);
-                if($.parseJSON(response)){
-                    $('#rsvp_status').html("I'm lame");
-                    $('#rsvp_button').html('<a href="#" onclick="Invite.joinTrip('+uid+');">Count me in</a><br/>');
+                if($.parseJSON(response)['success']){
+                    // change rsvp status
+                    $('#rsvp_status').html("You're out, but you can still change your mind.");
+                    // remove invite and ask for suggestions button
+                    $('#invsugg_btn_cont').remove();
+                    // fade out avatar then remove
+                    $('div[uid="'+uid+'"]').fadeOut('slow', function(){
+                        $(this).remove();
+                    });
+                    // decrease number by one
+                    $('#num').html(function(){
+                        return parseInt($(this).html())-1;
+                    })
+
+                    // fade out no button, remove, and replace with yes button, bind with click
+                    $('#rsvp_no_button').fadeOut(300, function(){
+                        $(this).remove();
+                        $('#rsvp_buttons').removeClass('moved');
+                        $('#rsvp_buttons').append('<a href="#" id="rsvp_yes_button">I\'m in</a>').click(function(){
+                            Invite.ajax_rsvp_yes();
+                        });
+                    });
                 }
             }
         });
     }
     
 };
+
+Invite.ajax_create_trip_goers_html = function(){
+    var html = '<div class="trip_goer">';
+    html += '<img class="square-50" src="http://graph.facebook.com/'+fid+'/picture?type=square">';
+    html += '</div>';
+    return html;
+}
+
+
+$(document).ready(function(){
+    $('#rsvp_yes_button').click(function() {
+        Invite.ajax_rsvp_yes();
+        return false;
+    });
+    $('#rsvp_no_button').click(function() {
+        Invite.ajax_rsvp_no();
+        return false;
+    });
+});

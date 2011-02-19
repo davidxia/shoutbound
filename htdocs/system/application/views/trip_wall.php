@@ -4,9 +4,14 @@
         <? if($item['islocation']): ?>
             <div id="wall-item-<?=$item[itemid]?>" class="wall-item location_based">
                 <span class="wall_location_name"><?=$item['name']?></span><br/>
-                <span class="wall_location_address"><?=$item['address']?></span><br/>
-                <span class="wall_location_phone"><?=$item['phone']?></span><br/>
-                Suggested by <?=$item['user']['name']?><br/>
+                <span class="wall_location_address" style="display:none;"><?=$item['address']?></span>
+                <span class="wall_location_phone" style="display:none;"><?=$item['phone']?></span>
+                Suggested by <span class="wall_comment_author"><?=$item['user']['name']?></span><br/>
+                Accomodation, landmark, restaurant<br/>
+                Good for: seeing new york like a local, food, burgers<br/>
+                <div class="rating_panel">
+                    Like Dislike<br/>
+                </div>
                 <? if($user_type == 'planner'): ?>
                     <div class="remove-wall-item" itemid="<?=$item['itemid']?>"></div>
                 <? endif; ?>
@@ -22,7 +27,7 @@
                 <? if($user_type == 'planner'): ?>
                     <div class="remove-wall-item" itemid="<?=$item['itemid']?>"></div>
                 <? endif; ?>
-                <span class="wall-comment-username"><?=$item['user']['name']?></span>
+                <span class="wall_comment_author"><?=$item['user']['name']?></span>
             
                 <span class="wall-comment-text"><?=$item['body']?></span>
             </div>

@@ -46,7 +46,7 @@ class Trip extends Controller {
  		}
  		// get users who rsvp yes, ie are going on the trip
  		foreach($uids_rsvps as $uid => $rsvp) {
-            if($rsvp == 'yes') { $yes_users[] = $this->User_m->get_user_by_uid($uid); }
+            if($rsvp == 'yes') { $trip_goers[] = $this->User_m->get_user_by_uid($uid); }
  		}
         
         // getting data for sub-sections
@@ -70,7 +70,7 @@ class Trip extends Controller {
                            //'trips' => $this->Trip_m->get_user_trips($this->user['uid']),
                            //'current_trip' => $trip,
  			               //'in_users' =>$in_users,
- 			               'yes_users' => $yes_users,
+ 			               'trip_goers' => $trip_goers   ,
                            );
         
         $this->load->view('trip', $view_data);
@@ -111,16 +111,14 @@ class Trip extends Controller {
     }
     
     
-    function ajax_join_trip(){
+    function ajax_rsvp_yes(){
         $a = $this->Trip_m->update_rsvp_by_tripid_uid($_POST['tripid'], $_POST['uid'], 'yes');
-        
         json_success(array('success'=>$a));
     }
     
     
-    function ajax_leave_trip(){
+    function ajax_rsvp_no(){
         $a = $this->Trip_m->update_rsvp_by_tripid_uid($_POST['tripid'], $_POST['uid'], 'no');
-        
         json_success(array('success'=>$a));
     }
         

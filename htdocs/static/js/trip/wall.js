@@ -22,7 +22,7 @@ Wall = {
                     tripid: tripid,
                     body: $('#wall-text-input').val()
                 },
-                success: Wall.showPost
+                success: Wall.show_post
             });
         });
         
@@ -50,7 +50,7 @@ Wall = {
                             replyid: replyid,
                             created: Math.round(new Date().getTime()/1000)
                         },
-                        success: Wall.showPost
+                        success: Wall.show_post
                     });
 
                     $('.show_reply_button[postid="'+replyid+'"]').show();
@@ -91,7 +91,7 @@ Wall = {
     },
     
 
-    showPost: function(responseText){
+    show_post: function(responseText){
         var response = $.parseJSON(responseText);
         
         // display: none creates sliding effect when comment is posted
@@ -128,6 +128,33 @@ Wall = {
         } else {
             $(commentHTML).appendTo('#replies_'+response.replyid).slideDown('slow');
         }
+        
+        if(response.replyid == 0)
+            $('#wall-text-input').val('');
+    },
+    
+    
+    show_location_based_post: function(responseText){
+        var response = $.parseJSON(responseText);
+        
+        // display: none creates sliding effect when comment is posted
+        var html = '<div id="wall-item-'+response.itemid+'" class="wall-item location_based" style="display:none">';
+        html += '<span class="wall_location_name">'+response.marker_name+'</span><br/>';
+        html += 'Suggested by '+response.name+'<br/>';
+        html += 'Accomodation, landmark, restaurant<br/>Good for: seeing new york like a local, food, burgers<br/>';
+        html += '<div class="rating_panel">Like Dislike<br/></div>';
+        
+        html += '<div class=remove-wall-item" itemid="'+response.itemid+'"></div>';
+        
+        html += '<br/><span class="wall-timestamp">a second ago</span><br/>';
+        html += '<div class="clear"></div>';
+        html += '</div>';
+
+        html += '<div id="replies_'+response.itemid+'"></div>';
+        html += '<div class="reply-box"><a href="#" class="show_reply_button" postid="'+response.itemid+'" style="display: inline;">this reply button doesnt work!</a>';
+        html += '<div class="reply-container"></div></div>';
+
+        $(html).prependTo('#trip-wall-content').slideDown('slow');
         
         if(response.replyid == 0)
             $('#wall-text-input').val('');

@@ -183,7 +183,7 @@ var Map = {
                url: baseUrl + 'trip/ajax_save_new_marker',
                data: post_data,
                success: function(response){
-                   Wall.showPost(response);
+                   Wall.show_location_based_post(response);
                    Map.new_marker.setMap(null);
                }
             });

@@ -10,7 +10,10 @@ body {
 }
 
 a:link, a:visited {
-    color: #4B0082;
+}
+
+#logo{
+    text-align: right;
 }
 
 ol, ul {
@@ -19,7 +22,7 @@ ol, ul {
     margin: 0px;
 }
 
-#navigation-buttons li {
+#navigation_buttons li {
     float: right;
     margin: 0px 0px 0px 10px;
 }
@@ -33,18 +36,92 @@ a.navigation:link, a.navigation:visited {
 a.navigation:hover {
     text-decoration: underline;
 }
-
-#trip-name {
+#top_container1{
+    float: left;
+    width: 100%;
+    position: relative;
+    right: 31%;
+    border-right: 1px solid black;
+}
+#top_container2{
+    float: left;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 20px;
+    border: 1px solid black;
+}
+#trip_summary{
+    display:inline;
+	float: left;
+	position: relative;
+    width: 67%;
+    left: 32%;
+    overflow: hidden;
+}
+#trip_widget{
+    display:inline;
+	float: left;
+	position: relative;
+    width: 29%;
+    height: 100%;
+    left: 34%;
+    overflow: hidden;
+    text-align: center;
+}
+#trip_name{
     font-size: 1.5em;
     font-weight: bold;
-    padding-left: 5px;
-    margin-bottom: 5px;
 }
 
-#trip-creator {
+#trip_creator{
     font-size: 0.75em;
-    padding-left: 5px;
-    margin-bottom: 3px;
+    border-bottom: 1px solid black;
+}
+#trip_description{
+    border-bottom: 1px solid black;
+}
+#trip_goers{
+    border-bottom: 1px solid black;
+
+}
+.trip_goer{
+    display: inline-block;
+}
+#trip_places{
+    width: 20%;
+    display: inline-block;
+    float: left;
+    font-size: 0.75em;
+}
+#trip_start_times{
+    width: 20%;
+    display: inline-block;
+    float: left;
+    font-size: 0.75em;
+}
+#need_advice_on{
+    width: 60%;
+    display: inline-block;
+    float: left;
+    font-size: 0.75em;
+}
+.indented{
+    padding-left: 20px;
+}
+.moved{
+    text-align: right;
+}
+#invsugg_btn_cont{
+
+}
+#invite_others_button{
+    display: inline-block;
+    font-size: 0.75em;
+}
+#get_suggestions_button{
+    display: inline-block;
+    font-size: 0.75em;
 }
 
 #share-trip {
@@ -92,7 +169,8 @@ a.user-link:hover {
 ----------------------------------------------------------------------------------------------------*/
 
 #banner {
-	height: 61px;
+	height: 60px;
+	border: 1px solid black;
 }
 
 
@@ -203,7 +281,6 @@ a.user-link:hover {
     padding: 10px;
     font-size: 1.5em;
     font-weight: bold;
-    color: indigo;
 }
 
 .cancel-link {
@@ -416,18 +493,27 @@ NEWS FEED
 }
 
 div.location_based{
-    color: green;
     cursor: pointer;
+    background: white;
+	-webkit-transition: background-color linear .2s;
+	-moz-transition: background-color linear .2s;
+    -o-transition: background-color linear .2s;
+    transition: background-color linear .2s;
+    
 }
 
 div.location_based:hover{
-    background: aqua;
+    background: #EAEAEA;
+	-webkit-transition: background-color linear .2s;
+	-moz-transition: background-color linear .2s;
+    -o-transition: background-color linear .2s;
+    transition: background-color linear .2s;
+    
 }
 
 
-.wall-comment-username {
+.wall_comment_author {
     font-weight: bold;
-    color: #541F5E;
     
     margin-right: 5px;
 }
@@ -440,6 +526,10 @@ div.location_based:hover{
 .wall-timestamp {
     color:#777;
     font-size: 12px;
+}
+.wall_location_name{
+   color: black;
+   font-size: 1.25em;
 }
 
 .show_reply_button {
