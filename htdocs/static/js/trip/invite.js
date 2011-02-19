@@ -93,6 +93,8 @@ Invite = {
             data: post_data,
             success: function(response){
                 if($.parseJSON(response)['success']){
+                    // unbind click event
+                    $('#rsvp_yes_button').unbind();
                     // change rsvp status
                     $('#rsvp_status').html("You're in :)");
                     // fade in avatar
@@ -107,7 +109,6 @@ Invite = {
                         $(this).remove();
                         $('#rsvp_buttons').addClass('moved');
                         $('#rsvp_buttons').append('<a href="#" id="rsvp_no_button">I\'m out</a>').click(function(){
-                            
                             Invite.ajax_rsvp_no();
                         });
                     });
@@ -130,6 +131,8 @@ Invite = {
             data: post_data,
             success: function(response){
                 if($.parseJSON(response)['success']){
+                    // unbind click event
+                    $('#rsvp_no_button').unbind();
                     // change rsvp status
                     $('#rsvp_status').html("You're out, but you can still change your mind.");
                     // remove invite and ask for suggestions button
@@ -142,7 +145,6 @@ Invite = {
                     $('#num').html(function(){
                         return parseInt($(this).html())-1;
                     })
-
                     // fade out no button, remove, and replace with yes button, bind with click
                     $('#rsvp_no_button').fadeOut(300, function(){
                         $(this).remove();

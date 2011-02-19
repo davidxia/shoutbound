@@ -34,7 +34,8 @@ var Map = {
     		mapTypeControlOptions: {
     		  mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE]
             },
-            mapTypeControl: true
+            mapTypeControl: true,
+            scrollwheel: false
     	};
     	// display world map; used get(0) to get DOM element from jQuery selector's returned array
     	Map.map = new google.maps.Map($('#map-canvas').get(0), mapOptions);
@@ -73,7 +74,7 @@ var Map = {
     
     
     geocode: function() {
-    	var query = $('#trip-where').val();
+    	var query = $('#location_search_box').val();
     	if(query && query.trim) { query = query.trim(); }// trim space if browser supports
     	if(query != Map.geocoder.resultAddress && query.length > 1) { // no useless request
     		clearTimeout(Map.geocoder.waitingDelay);
@@ -81,7 +82,7 @@ var Map = {
     			Map.geocoder.geocode({'address': query}, Map.geocodeResult);
     		}, 300);
     	} else {
-    		$('#suggest-list').html("");
+    		$('#location_autosuggest').html("");
     		Map.geocoder.resultAddress = "";
     		Map.geocoder.resultBounds = null;
     	}
@@ -90,16 +91,16 @@ var Map = {
     // this callback function is passed the geocoderResult object
 	geocodeResult: function (result, status) {
 		if (status == google.maps.GeocoderStatus.OK && result[0]) {
-			$('#suggest-list').empty();
+			$('#location_autosuggest').empty();
 			for(var i=0; i<result.length; i++) {
 				Map.listResult(result[i]);
 			}
 		} else if(status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-			$('#suggest-list').html("Where the fuck is that?!");
+			$('#location_autosuggest').html("Where the fuck is that?!");
 			Map.geocoder.resultAddress = "";
 			Map.geocoder.resultBounds = null;
 		} else {
-			$('#suggest-list').html(status);
+			$('#location_autosuggest').html(status);
 			Map.geocoder.resultAddress = "";
 			Map.geocoder.resultBounds = null;
 		}
@@ -107,17 +108,16 @@ var Map = {
 	
 	// Selectable dropdown list
     listResult: function(resultItem) {
-    	var li = document.createElement("li");
-    	li.innerHTML = resultItem.formatted_address;
-    	li.className = "list-item";
-    	li.onclick = function(){ Map.updateMap(resultItem); }
-    	$('#suggest-list').append(li);
+    	var li = $('<li></li>');
+    	li.html('<a href="#">'+resultItem.formatted_address+'</a>');
+    	li.click(function(){ Map.updateMap(resultItem); });
+    	$('#location_autosuggest').append(li);
     },
     
     updateMap: function(resultItem) {
-        $('#trip-where').val(resultItem.formatted_address);
+        $('#locaion_search_box').val(resultItem.formatted_address);
     	resultItem.geometry && resultItem.geometry.viewport && Map.map.fitBounds(resultItem.geometry.viewport);
-    	$('#suggest-list').empty();
+    	$('#location_autosuggest').empty();
     	
     	// get google map center and viewport lat lngs
         var mapCenter = resultItem.geometry.viewport.getCenter();

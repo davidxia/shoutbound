@@ -59,7 +59,7 @@ $this->load->view('core_header', $header_args);
                     created by John Smith
                 </div>
                 <div id="trip_description">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </div>
                 <div id="trip_goers">
                     <? if($trip_goers):?>
@@ -136,125 +136,57 @@ $this->load->view('core_header', $header_args);
 
         <div class="clear"></div>
 
-        <div class="grid_3">
-        
-            <br/>
-            
-            <br/>
-            
-            <? if($trip['trip_startdate']){ ?>
-                When: <span id="trip-local-start-date">
-                    <script type="text/javascript">convertTripStartTime();</script>
-                    </span><br/><br/>
-                <span id="years"><script type="text/javascript">countdown();</script></span>
-                <span id="days"></span>
-                <span id="hours"></span> 
-                <span id="minutes"></span>
-                <span id="seconds"></span>
-                <br/>
-            <? } else { ?>
-                When: no date set yet
-            <? } ?>
-        
-        <? if($user_type == 'planner'):
-            // date selection dropdowns
-            $months = array("January", "February", "March",
-                             "April", "May", "June", "July",
-                             "August", "September", "October",
-                             "November", "December");
-            $days = range(1, 31);
-            $years = range(2011, 2020);
-            $hours = range(0, 23);
-            $minutes = range(0, 60);
-            
-            echo '<select id="trip-start-month">';
-            foreach($months as $month) {
-                echo '<option>'.$month.'</option>';
-            }
-            echo '</select>';
-            
-            echo '<select id="trip-start-day">';
-            foreach($days as $day) {
-                echo '<option>'.$day.'</option>';
-            }
-            echo '</select>';
-            
-            echo '<select id="trip-start-year">';
-            foreach($years as $year) {
-                echo '<option>'.$year.'</option>';
-            }
-            echo '</select>';
-            
-            echo '<select id="trip-start-hour">';
-            foreach($hours as $hour) {
-                echo '<option>'.$hour.'</option>';
-            }
-            echo '</select>';
-            
-            echo '<select id="trip-start-minute">';
-            foreach($minutes as $minute) {
-                echo '<option>'.$minute.'</option>';
-            }
-            echo '</select>';
-        ?>
-        <button type="button" onclick="saveTripDate()">save when</button> 
-        <br/><br/>
-        <? endif; ?>
-        
-        Where:
-            <? if($user_type == 'planner'):?>
-            <input type="text" size="40" id="trip-where"
-            onkeyup="Map.geocode()"
-            autocomplete="off"
-            title="Type placename or address" />
-            <button type="button" onclick="Map.save()">save where</button>
-            <? endif; ?>
-    	    <ol id="suggest-list"></ol>
-        
-        <? if($user_type == 'planner'): ?>
-        <div id="share-trip">
-            <a href="javascript: Share.showShareDialog();">share this trip</a>
-        </div>
-        <a href="#" onclick="facebookShare()">Facebook</a>
-        <br/>
-        <a href="#" onclick="twitterShare('Help me plan my <?=$trip['name']; ?> trip on #shoutbound <?=site_url('trip/details').'/'.$trip['tripid']; ?>')">Twitter</a>
-        <br/>
-        <!--<a href="#" onclick='setFBStatus(); return false;'>publish to facebook</a>
-        <br/>-->
-        <a href="mailto:?subject=<?=rawurlencode('Help me plan my '.$trip['name'].' trip'); ?>&body=<?=rawurlencode('Hey, I\'m going to '.$trip['name'].' from '.$trip['trip_startdate'].' to... Help me plan my trip here: '.site_url('trip/details').'/'.$trip['tripid']); ?>">Email</a>
-        <div>
-            <a href="javascript: Delete.deleteTrip(); ">delete trip</a>
-        </div>
-        <? endif; ?>
-        
-        <div id="invite-trip">
-			<?=$this->load->view('trip_friends')?>
-		</div>
-		</div>     
-        <div class="grid_9">
-            <div id="map-shell">
-                <div id="map-canvas"></div>
-            </div>
-        </div>
-        <div class="clear"></div>
-        
-        <div id="console">            
-            <div id="wall" class="grid_9 push_3">
-                
-                <div class="wall-text-input-wrap">
-                    <input type="text" id="wall-text-input">
-                    <button id="submit-wall">post</button>
-                    <button id="submit-suggestion">search</button>
+
+
+        <div id="console">
+            <div id="wall">
+                <div id="wall_input_wrapper">
+                    <div id="make_suggestion">Make a suggestion</div>
+                    <div id="write_message">Write a message</div>
+                    <div id="input_container">
+                        <input type="radio" name="location_control" value="Search for a place" checked />Search for a place
+                        <input type="radio" name="location_control" value="Drop your own pin" />Drop your own pin
+                        <input type="text" id="location_search_box"
+                            onkeyup="Map.geocode()"
+                            autocomplete="off"
+                            title="Type in placename or address" />
+                        near
+                        <select>
+                            <option value="Boston, MA">Boston, MA</option>
+                            <option value="New York, NY">New York, NY</option>
+                            <option value="Washington DC">Washington DC</option>
+                            <option value="Miami, FL">Miami, FL</option>
+                            <option value="other">other</option>
+                        </select><br/>
+                        <div id="auto_loc_list">
+                            <ul id="location_autosuggest"></ul>
+                        </div>
+                        
+                        <!--<button type="button" onclick="Map.save()">save where</button>-->
+                	    
+                        <!--<input type="text" id="wall_text_input" />-->
+                        <button id="submit-wall">post</button>
+                        <button id="submit-suggestion">search</button>
+                    </div>
                 </div>
-                
                 <ol id="trip-wall-suggest-list"></ol>
+
                 <? $wall_view = array('wall_data' => $wall_data,
                                       'user_type' => $user_type,
                                      );
                                       
                    echo $this->load->view('trip_wall', $wall_view); ?>
             </div>
+    
+    
+    		  
+            <div id="map-shell">
+                <div id="map-canvas"></div>
+            </div>
         </div>
+        
+        
+        
       
         <div id="footer">
 

@@ -1,4 +1,4 @@
-<div id="trip-wall-content">
+<div id="trip_wall_content">
     <? foreach($wall_data['wall_items'] as $item): ?>
 
         <? if($item['islocation']): ?>
