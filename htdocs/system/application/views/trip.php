@@ -146,10 +146,7 @@ $this->load->view('core_header', $header_args);
                     <div id="input_container">
                         <input type="radio" name="location_control" value="Search for a place" checked />Search for a place
                         <input type="radio" name="location_control" value="Drop your own pin" />Drop your own pin
-                        <input type="text" id="location_search_box"
-                            onkeyup="Map.geocode()"
-                            autocomplete="off"
-                            title="Type in placename or address" />
+                        <input type="text" id="location_search_box" autocomplete="off" title="Type in placename or address" />
                         near
                         <select>
                             <option value="Boston, MA">Boston, MA</option>

@@ -536,6 +536,9 @@ NEWS FEED
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
 }
+.infowindow_text{
+    font-size: .75em;
+}
 #trip_wall_content {
     margin-top: 20px;
     overflow-y: auto;

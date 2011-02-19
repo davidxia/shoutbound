@@ -60,9 +60,11 @@ var Map = {
     	var savedLatLngBounds = new google.maps.LatLngBounds(sw, ne);
     	Map.map.fitBounds(savedLatLngBounds);
     	
-    	
-    	// create new geocoder to resolve city names into latlng co-ords
-    	Map.geocoder = new google.maps.Geocoder();
+    	// bind onkeyup event to location_search_box
+    	$('#location_search_box').keyup(function(){
+    	    Map.geocode();
+    	})
+
         
         // create infoWindow object for map
         Map.infoWindow = new google.maps.InfoWindow();
@@ -73,35 +75,39 @@ var Map = {
     },
     
     
-    geocode: function() {
+    geocode: function(){
+    	// create new geocoder to resolve city names into latlng co-ords
+    	Map.geocoder = new google.maps.Geocoder();
     	var query = $('#location_search_box').val();
-    	if(query && query.trim) { query = query.trim(); }// trim space if browser supports
-    	if(query != Map.geocoder.resultAddress && query.length > 1) { // no useless request
+    	// trim space if browser supports
+    	if(query && query.trim) { query = query.trim(); }
+        // prevent useless requests
+    	if(query != Map.geocoder.resultAddress && query.length > 1) {
     		clearTimeout(Map.geocoder.waitingDelay);
     		Map.geocoder.waitingDelay = setTimeout(function(){
     			Map.geocoder.geocode({'address': query}, Map.geocodeResult);
-    		}, 300);
+    		}, 500);
     	} else {
-    		$('#location_autosuggest').html("");
-    		Map.geocoder.resultAddress = "";
+    		$('#location_autosuggest').html('');
+    		Map.geocoder.resultAddress = '';
     		Map.geocoder.resultBounds = null;
     	}
     },
     
     // this callback function is passed the geocoderResult object
-	geocodeResult: function (result, status) {
+	geocodeResult: function(result, status){
 		if (status == google.maps.GeocoderStatus.OK && result[0]) {
 			$('#location_autosuggest').empty();
 			for(var i=0; i<result.length; i++) {
 				Map.listResult(result[i]);
 			}
 		} else if(status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-			$('#location_autosuggest').html("Where the fuck is that?!");
-			Map.geocoder.resultAddress = "";
+			$('#location_autosuggest').html('Where the fuck is that?!');
+			Map.geocoder.resultAddress = '';
 			Map.geocoder.resultBounds = null;
 		} else {
 			$('#location_autosuggest').html(status);
-			Map.geocoder.resultAddress = "";
+			Map.geocoder.resultAddress = '';
 			Map.geocoder.resultBounds = null;
 		}
 	},
@@ -115,9 +121,38 @@ var Map = {
     },
     
     updateMap: function(resultItem) {
-        $('#locaion_search_box').val(resultItem.formatted_address);
+        $('#location_search_box').val(resultItem.formatted_address);
     	resultItem.geometry && resultItem.geometry.viewport && Map.map.fitBounds(resultItem.geometry.viewport);
     	$('#location_autosuggest').empty();
+    	var evnt = google.maps.event.addListener(Map.map, 'tilesloaded', function(){
+    	    if(Map.new_marker && Map.new_marker.getMap)
+    	        Map.new_marker.setMap(null);
+            Map.new_marker = new google.maps.Marker({
+                map: Map.map,
+                animation: google.maps.Animation.DROP,
+                draggable: false,
+                position: resultItem.geometry.location,
+                zIndex: 9999,
+                icon: new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/shoutbound_marker.png')
+            });
+            // display infowindow with data on the place
+            //console.log(resultItem);
+            Map.infoWindow.setContent('<span class="infowindow_text">'+resultItem.address_components[0].long_name+'</span>');
+            setTimeout('Map.infoWindow.open(Map.map, Map.new_marker);', 700);
+            
+            // make the marker_control inactive to prevent more pins from being dropped
+            Map.marker_control.css('backgroundImage', 'url(http://dev.shoutbound.com/david/images/fb-login-button.png)');
+            Map.marker_control.unbind('click');
+            Map.marker_control.click(function(){
+                Map.remove_map_marker();
+            });
+            // remove listener to prevent marker from dropping if map is updated
+            google.maps.event.removeListener(evnt);
+            // clicking on marker reopens infowindow
+        	google.maps.event.addListener(Map.new_marker, 'click', function(){
+        	    Map.infoWindow.open(Map.map, Map.new_marker);
+        	});
+    	});
     	
     	// get google map center and viewport lat lngs
         var mapCenter = resultItem.geometry.viewport.getCenter();
