@@ -145,20 +145,22 @@ $this->load->view('core_header', $header_args);
                 <div id="wall_input_wrapper">
                     <div id="make_suggestion">Make a suggestion</div>
                     <div id="write_message">Write a message</div>
-                    <div id="input_container">
-                        <input type="radio" name="location_control" value="Search for a place" checked />Search for a place
-                        <input type="radio" name="location_control" value="Drop your own pin" />Drop your own pin
-                        <input type="text" id="location_search_box" autocomplete="off" title="Type in placename or address" />
-                        near
-                        <select>
-                            <option value="Boston, MA">Boston, MA</option>
-                            <option value="New York, NY">New York, NY</option>
-                            <option value="Washington DC">Washington DC</option>
-                            <option value="Miami, FL">Miami, FL</option>
-                            <option value="other">other</option>
-                        </select><br/>
-                        <div id="auto_loc_list">
-                            <ul id="location_autosuggest"></ul>
+                    <div id="input-container">
+                        <input type="radio" name="find-method" value="1" checked />Search for a place
+                        <input type="radio" name="find-method" value="2" />Drop your own pin
+                        <div class="place-search-method">
+                            <input type="text" id="location-search-box" autocomplete="off" title="Type in placename or address" />
+                            near
+                            <select>
+                                <option value="Boston, MA">Boston, MA</option>
+                                <option value="New York, NY">New York, NY</option>
+                                <option value="Washington DC">Washington DC</option>
+                                <option value="Miami, FL">Miami, FL</option>
+                                <option value="other">other</option>
+                            </select><br/>
+                            <div id="auto_loc_list">
+                                <ul id="location_autosuggest"></ul>
+                            </div>
                         </div>
                         <div id="place_type_dropdown" class="hidden">
                             <span class="place_name"></span> is a:<br/>
@@ -170,6 +172,9 @@ $this->load->view('core_header', $header_args);
                                 <option value="store">store</option>
                                 <option value="fucking cool place">fucking cool place</option>
                             </select>
+                        </div>
+                        <div class="place-search-method hidden">
+                            here i am
                         </div>
                         <div id="place_good_for" class="hidden">
                             <span class="place_name"></span> is good for:<br/>
@@ -194,7 +199,6 @@ $this->load->view('core_header', $header_args);
                 <? $wall_view = array('wall_data' => $wall_data,
                                       'user_type' => $user_type,
                                      );
-                                      
                    echo $this->load->view('trip_wall', $wall_view); ?>
             </div>
     

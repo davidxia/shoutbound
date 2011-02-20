@@ -40,19 +40,27 @@ var Map = {
     	// display world map; used get(0) to get DOM element from jQuery selector's returned array
     	Map.map = new google.maps.Map($('#map-canvas').get(0), mapOptions);
     	
-        // Create a div element to hold our custom control
-        Map.marker_control = $('<div></div>');
-        // Margin offsets control from map edge
-        Map.marker_control.css('margin', '10px');
-        Map.marker_control.css('backgroundImage', 'url(http://dev.shoutbound.com/david/images/shoutbound_marker.png)');
-        Map.marker_control.css('height', '30px');
-        Map.marker_control.css('width', '18px');
-        Map.marker_control.css('cursor', 'pointer');
-        Map.marker_control.attr('title', 'drag to place a marker on the map');
-        // bind click event that drops a marker
-        Map.marker_control.click(function(){ Map.add_map_marker(Map.marker_control); });
-        Map.map.controls[google.maps.ControlPosition.TOP_LEFT].push(Map.marker_control.get(0));
+        Map.block = $('<div></div>');
+        Map.block.css({
+                               'margin': '10px',
+                               'height': '30px',
+                               'width': '18px',
+                             });
+        Map.map.controls[google.maps.ControlPosition.TOP_LEFT].push(Map.block.get(0));
 
+        // Create a div element to hold our custom control
+        Map.markerControl = $('<div></div>');
+        // Margin offsets control from map edge
+        Map.markerControl.css({'display': 'none',
+                               'backgroundImage': 'url(http://dev.shoutbound.com/david/images/shoutbound_marker.png)',
+                               'height': '30px',
+                               'width': '18px',
+                               'cursor': 'pointer',
+                               'title': 'drag to place a marker on the map'
+                             });
+        // bind click event that drops a marker
+        Map.markerControl.click(function(){ Map.add_map_marker(Map.markerControl); });
+        Map.block.append(Map.markerControl);
 
     	// change viewport to saved latlngbounds
     	var sw = new google.maps.LatLng(Map.sBound, Map.wBound);
@@ -60,8 +68,8 @@ var Map = {
     	var savedLatLngBounds = new google.maps.LatLngBounds(sw, ne);
     	Map.map.fitBounds(savedLatLngBounds);
     	
-    	// bind onkeyup event to location_search_box
-    	$('#location_search_box').keyup(function(){
+    	// bind onkeyup event to location-search-box
+    	$('#location-search-box').keyup(function(){
     	    Map.geocode();
     	})
 
@@ -78,7 +86,7 @@ var Map = {
     geocode: function(){
     	// create new geocoder to resolve city names into latlng co-ords
     	Map.geocoder = new google.maps.Geocoder();
-    	var query = $('#location_search_box').val();
+    	var query = $('#location-search-box').val();
     	// trim space if browser supports
     	if(query && query.trim) { query = query.trim(); }
         // prevent useless requests
@@ -127,7 +135,7 @@ var Map = {
     },
     
     updateMap: function(resultItem) {
-        $('#location_search_box').val(resultItem.formatted_address);
+        $('#location-search-box').val(resultItem.formatted_address);
     	resultItem.geometry && resultItem.geometry.viewport && Map.map.fitBounds(resultItem.geometry.viewport);
     	$('#location_autosuggest').empty();
     	var evnt = google.maps.event.addListener(Map.map, 'tilesloaded', function(){
@@ -147,9 +155,9 @@ var Map = {
             setTimeout('Map.infoWindow.open(Map.map, Map.new_marker);', 700);
             
             // make the marker_control inactive to prevent more pins from being dropped
-            Map.marker_control.css('backgroundImage', 'url(http://dev.shoutbound.com/david/images/fb-login-button.png)');
-            Map.marker_control.unbind('click');
-            Map.marker_control.click(function(){
+            Map.markerControl.css('backgroundImage', 'url(http://dev.shoutbound.com/david/images/fb-login-button.png)');
+            Map.markerControl.unbind('click');
+            Map.markerControl.click(function(){
                 Map.remove_map_marker();
             });
             // remove listener to prevent marker from dropping if map is updated
@@ -336,9 +344,9 @@ var Map = {
             icon: new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/shoutbound_marker.png')
         });
         // make the marker_control inactive to prevent more pins from being dropped
-        Map.marker_control.css('backgroundImage', 'url(http://dev.shoutbound.com/david/images/fb-login-button.png)');
-        Map.marker_control.unbind('click');
-        Map.marker_control.click(function(){
+        Map.markerControl.css('backgroundImage', 'url(http://dev.shoutbound.com/david/images/fb-login-button.png)');
+        Map.markerControl.unbind('click');
+        Map.markerControl.click(function(){
             Map.remove_map_marker();
         });
         
@@ -372,10 +380,10 @@ var Map = {
     remove_map_marker: function(){
         // remove the draggable marker
         // TODO: we need graphics!!
-        Map.marker_control.css('backgroundImage', 'url(http://dev.shoutbound.com/david/images/shoutbound_marker.png)');
+        Map.markerControl.css('backgroundImage', 'url(http://dev.shoutbound.com/david/images/shoutbound_marker.png)');
         Map.new_marker.setMap(null);
-        Map.marker_control.unbind('click');
-        Map.marker_control.click(function(){
+        Map.markerControl.unbind('click');
+        Map.markerControl.click(function(){
             Map.add_map_marker();
         });
     }

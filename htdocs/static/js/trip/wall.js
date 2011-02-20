@@ -216,7 +216,7 @@ $(document).ready(function(){
                 $(this).val('').css('color','#000'); 
                 // change color back to black so typing shows up
             });
-            $('#submit-wall').toggleClass('hidden');
+            $('#submit-wall').toggle();
         }
     }).blur(function(){
         if($(this).val() == ''){
@@ -224,7 +224,13 @@ $(document).ready(function(){
             $(this).animate({
                 color: '#000'
             }, 300, 'linear');
-            $('#submit-wall').toggleClass('hidden');
+            $('#submit-wall').toggle();
         }
+    });
+    
+    
+    $('input:radio[name=find-method]').change(function(){
+        $('.place-search-method').toggle();
+        Map.markerControl.toggle();
     });
 });

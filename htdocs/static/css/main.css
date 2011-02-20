@@ -499,14 +499,20 @@ NEWS FEED
 #make_suggestion:hover, #write_message:hover{
     text-decoration: underline;
 }
-#input_container{
+#input-container{
     border: 1px solid black;
     float: left;
     position: relative;
     display: inline;
+    width: 99.5%;
 }
-#location_search_box{
-    width: 50%;
+.place-search-method{
+    float: left;
+    width: 100%;
+    text-align: left;
+}
+#location-search-box{
+    width: 55%;
 }
 #location_autosuggest{
     text-align: left;
