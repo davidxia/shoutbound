@@ -249,6 +249,7 @@ var Map = {
         }
         Map.map.fitBounds(bounds);
         Map.load_wall_listeners();
+        Map.load_marker_listeners();
     },
     
     
@@ -268,6 +269,28 @@ var Map = {
             })(i);
         }
     },
+    
+    
+    load_marker_listeners: function(){
+        for(var i=0; i<Wall.wall_markers.length; i++){
+            Map.open_marker_infowindow(i);
+        }
+    },
+    
+    // TODO: how to consolidate these two functions?
+    open_marker_infowindow: function(i){
+        google.maps.event.addListener(Map.markers[Wall.wall_markers[i]['itemid']], 'click', function(){
+            $('.location_based').removeClass('highlighted');
+            var location_name = $('#wall-item-'+Wall.wall_markers[i]['itemid']).children('.wall_location_name').html();
+            var location_address = $('#wall-item-'+Wall.wall_markers[i]['itemid']).children('.wall_location_address').html();
+            var location_phone = $('#wall-item-'+Wall.wall_markers[i]['itemid']).children('.wall_location_phone').html();
+            Map.infoWindow.setContent(location_name+'<br/>'+location_address+'<br/>'+location_phone);
+            Map.infoWindow.open(Map.map, Map.markers[Wall.wall_markers[i]['itemid']]);
+            $('#wall_content').scrollTo($('#wall-item-'+Wall.wall_markers[i]['itemid']), 500);
+            $('#wall-item-'+Wall.wall_markers[i]['itemid']).addClass('highlighted');
+        });
+    },
+    
     
     // Formats and returns the Info Window HTML (displayed in a balloon when a marker is clicked)
     generateInfoWindowHtml: function(biz) {

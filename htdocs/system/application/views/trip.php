@@ -8,7 +8,9 @@ $header_args = array(
         'js/trip/invite.js',
         'js/trip/create.js',
         'js/trip/delete.js',
-        'js/trip/extras.js'
+        'js/trip/extras.js',
+        'js/jquery/color.js',
+        'js/jquery/scrollto.js'
     ),
     'css_paths'=>array(
     )
@@ -206,9 +208,7 @@ $this->load->view('core_header', $header_args);
         
         
       
-        <div id="footer">
-
-        </div>
+        <div id="footer"> </div>
     </div>
 
 
