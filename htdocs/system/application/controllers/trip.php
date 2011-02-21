@@ -11,12 +11,6 @@ class Trip extends Controller {
 
 
     function index() {
-        $items = $this->Trip_m->get_items_by_tripid(86);
-        foreach($items as $item){
-            if($item['islocation'] == 1)
-                $location_based_items[] = $item;
-        }
-        print_r($location_based_items);
     }
  	
 
@@ -29,17 +23,13 @@ class Trip extends Controller {
         $trip = $this->Trip_m->get_trip_by_tripid($tripid);
         if(!$trip) { redirect('/'); }
 
-        //check if user is associated with this trip in trips_users table
-        //redirect to home page if not
+        //check if user is associated with this trip in trips_users table, redirect to home page if not
         $trip_uids = $this->Trip_m->get_uids_by_tripid($tripid);
         for($i = 0; $i < count($trip_uids); $i++) {
             if($trip_uids[$i] == $this->user['uid']) { break; }
             if($i == (count($trip_uids)-1)) { redirect('/'); }
         }
-        
-        // get this user's type for this trip
-        //$user_type = $this->Trip_m->get_type_by_tripid_uid($tripid, $this->user['uid']);
-        
+                
  		// get users and corresponding rsvps for this trip
  		foreach($trip_uids as $i => $uid) {
  		    $uids_rsvps[$uid] = $this->Trip_m->get_rsvp_by_tripid_uid($tripid, $uid);
@@ -70,10 +60,33 @@ class Trip extends Controller {
                            //'trips' => $this->Trip_m->get_user_trips($this->user['uid']),
                            //'current_trip' => $trip,
  			               //'in_users' =>$in_users,
- 			               'trip_goers' => $trip_goers   ,
+ 			               'trip_goers' => $trip_goers,
                            );
         
         $this->load->view('trip', $view_data);
+    }
+    
+    
+    function share(){
+        $hash = '912ec803b2ce49e4a541068d495ab570';
+        $id = 2;
+        
+        $trip_share = $this->Trip_m->get_tripshare_by_idhash($id, $hash);
+        echo 'trip_share row: '; print_r($trip_share); echo '<br/>';
+        $a = array('tripid' => $trip_share['tripid'],
+                   'share_role' => $trip_share['share_role'],
+                  );
+        $b = json_encode($a);
+        echo 'json encoded trip_share : '; print_r($b); echo '<br/>';
+        $cookie = json_encode(array(84=>'912ec803b2ce49e4a541068d495ab534',86=>'912ec803b2ce49e4a541068d495ab370'));
+        echo 'original cookie: '; print_r($cookie); echo '<br/>';
+        set_cookie('received_invites', $cookie);
+        
+        //$cookie = array('received_invites' => $trip_share['tripid'],
+                        //'share_role' => $trip_share['share_role'],
+                        
+                       //);
+        //$this->input->set_cookie($cookie);
     }
     
     

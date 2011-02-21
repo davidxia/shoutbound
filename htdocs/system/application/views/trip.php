@@ -68,7 +68,6 @@ $this->load->view('core_header', $header_args);
                         <? foreach($trip_goers as $trip_goer):?>
                             <div class="trip_goer" uid="<?=$trip_goer['uid']?>">
                                 <img class="square-50" src="http://graph.facebook.com/<?=$trip_goer['fid']?>/picture?type=square" />
-                                <? //$trip_goer['name']?>
                             </div>
                         <? endforeach; ?>
                     <? endif; ?>
@@ -122,8 +121,12 @@ $this->load->view('core_header', $header_args);
                 <? elseif($user_rsvp == 'yes'):?>
                 <div id="rsvp_buttons" class="moved">
                     <div id="invsugg_btn_cont">
-                        <div id="invite_others_button">invite other people</div>
-                        <div id="get_suggestions_button">get more suggestions</div>
+                        <div id="invite-others-button">
+                            <a href="#" id="invite-others-link">invite other people</a>
+                        </div>
+                        <div id="get_suggestions_button">
+                            <a href="#" id="get-suggestions-link">get more suggestions</a>
+                        </div>
                     </div>
                     <a href="#" id="rsvp_no_button">I'm out</a>
                 </div>

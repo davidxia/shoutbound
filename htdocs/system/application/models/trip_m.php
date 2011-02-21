@@ -364,6 +364,32 @@ class Trip_m extends Model {
         }
         return $uids;
     }
-
     
+    
+    function get_tripshare_by_idhash($id, $hash){
+        $key = 'tripshare_by_idhash:'.$id.':'.$hash;
+        $trip_share = $this->mc->get($key);
+        $sql = 'SELECT * FROM `trip_shares` '.
+            'WHERE `id` = ? AND `hash_key` = ? AND `is_claimed` = 0';
+        $v = array($id, $hash);
+        $row = $this->mdb->select($sql, $v);
+        if($row){
+            $sql = 'UPDATE `trip_shares` SET `is_claimed` = 1 '.
+                'WHERE `id` = ?';
+            $this->mdb->alter($sql, $v);
+            return $row[0];
+        }else{
+            $sql = 'SELECT * FROM `trip_shares` '.
+                'WHERE `id` = ? AND hash_key = ? AND `is_claimed` = -1';
+            $row = $this->mdb->select($sql, $v);
+            if($row){
+                $this->mc->set($key, $row);
+                return $row[0];
+            }else{
+                return false;
+            }
+        }
+        
+    }
+
 }

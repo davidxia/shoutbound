@@ -127,13 +127,29 @@ a.navigation:hover {
 #invsugg_btn_cont{
 
 }
-#invite_others_button{
+#invite-others-button{
     display: inline-block;
     font-size: 0.75em;
+    background: #2B72CC url(/david/static/images/blueButton.png) repeat-x 0 0;
+    height: 40px;
+}
+#invite-others-button:hover{
+    background: url(/david/static/images/blueButton.png) repeat-x 0 -40px;
+}
+#invite-others-button:active{
+    background: url(/david/static/images/blueButton.png) repeat-x 0 -80px;
 }
 #get_suggestions_button{
     display: inline-block;
     font-size: 0.75em;
+    background: #2B72CC url(/david/static/images/blueButton.png) repeat-x 0 0;
+    height: 40px;
+}
+#get_suggestions_button:hover{
+    background: url(/david/static/images/blueButton.png) repeat-x 0 -40px;
+}
+#get_suggestions_button:active{
+    background: url(/david/static/images/blueButton.png) repeat-x 0 -80px;
 }
 
 #share-trip {
