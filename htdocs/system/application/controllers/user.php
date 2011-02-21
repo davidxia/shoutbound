@@ -90,6 +90,15 @@ class User extends Controller {
             echo('added friend');
         }
     }
+    
+    
+    function ajax_get_logged_in_uid(){
+        if($this->User_m->get_logged_in_uid()){
+            json_success(array('loggedin'=>true));
+        }else{
+            json_success(array('loggedin'=>false));        
+        }
+    }
 
 
 }

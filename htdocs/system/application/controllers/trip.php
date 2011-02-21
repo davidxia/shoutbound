@@ -2,12 +2,12 @@
 
 class Trip extends Controller {
     
-	function Trip() {
-		parent::Controller();
+	//function Trip() {
+		//parent::Controller();
 		//check that user is logged in
-        $this->user = $this->User_m->get_logged_in_user();
-        if(!$this->user) { redirect('/'); }
-	}
+        //$this->user = $this->User_m->get_logged_in_user();
+        //if(!$this->user) { redirect('/'); }
+	//}
 
 
     function index() {
@@ -15,20 +15,22 @@ class Trip extends Controller {
  	
 
     function details($tripid){
-        //check that user is logged in
+        // check that user is logged in
         $this->user = $this->User_m->get_logged_in_user();
-        if(!$this->user) { redirect('/'); }
+        //if(!$this->user) { redirect('/'); }
 
         //check if trip exists in trips table and is active, ie not deleted
         $trip = $this->Trip_m->get_trip_by_tripid($tripid);
         if(!$trip) { redirect('/'); }
+        
+        // TODO: check if trip is private
 
         //check if user is associated with this trip in trips_users table, redirect to home page if not
         $trip_uids = $this->Trip_m->get_uids_by_tripid($tripid);
-        for($i = 0; $i < count($trip_uids); $i++) {
-            if($trip_uids[$i] == $this->user['uid']) { break; }
-            if($i == (count($trip_uids)-1)) { redirect('/'); }
-        }
+        //for($i = 0; $i < count($trip_uids); $i++) {
+            //if($trip_uids[$i] == $this->user['uid']) { break; }
+            //if($i == (count($trip_uids)-1)) { redirect('/'); }
+        //}
                 
  		// get users and corresponding rsvps for this trip
  		foreach($trip_uids as $i => $uid) {

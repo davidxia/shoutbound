@@ -25,11 +25,13 @@ $this->load->view('core_header', $header_args);
     var baseUrl = "<?=site_url("")?>";
     var staticUrl = "<?=static_url("")?>";
     var tripid = <?=$trip['tripid']?>;
-    <? if($trip['trip_startdate']){ ?>
+    <? if($trip['trip_startdate']): ?>
         var tripStartDate = <?=$trip['trip_startdate']?>;
-    <? } ?>
-    var uid = <?=$this->user['uid']?>;
-    var fid = <?=$this->user['fid']?>;
+    <? endif; ?>
+    <? if($user): ?>
+        var uid = <?=$user['uid']?>;
+        var fid = <?=$user['fid']?>;
+    <? endif; ?>
     
     Map.lat = <?=$trip['lat']?>;
     Map.lng = <?=$trip['lng']?>;

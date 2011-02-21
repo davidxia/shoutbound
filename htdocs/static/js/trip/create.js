@@ -2,8 +2,18 @@ Create = {};
 
 Create.showCreateDialog = function() {
     $.ajax({
-        url: baseUrl + 'trip/ajax_panel_create_trip',
-        success: Create.displayCreateDialog
+        url: baseUrl+'user/ajax_get_logged_in_uid',
+        success: function(response){
+            var r = $.parseJSON(response);
+            if(r.loggedin){
+                $.ajax({
+                    url: baseUrl+'trip/ajax_panel_create_trip',
+                    success: Create.displayCreateDialog
+                });
+            }else{
+                alert('youre not logged in!');
+            }
+        }
     });
 }
 

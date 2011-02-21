@@ -5,7 +5,7 @@ class User_m extends Model {
     ////////////////////////////////////////////////////////////
     // Logging Users in and out
 
-    function log_in($uid) {
+    function log_in($uid){
         set_cookie('uid', $uid);
         $key = mt_rand(100000, 999999);
         $sig = $this->get_sig($uid, $key);
@@ -14,17 +14,17 @@ class User_m extends Model {
     }
 
 
-    function log_out() {
+    function log_out(){
         delete_cookie('uid');
         delete_cookie('key');
         delete_cookie('sig');
     }
 
 
-    function get_logged_in_uid() {
+    function get_logged_in_uid(){
         $uid = get_cookie('uid');
         if(!$uid)
-            return False;
+            return false;
         $key = get_cookie('key');
         $sig = get_cookie('sig');
         if($sig == $this->get_sig($uid, $key)) {
