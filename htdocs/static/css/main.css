@@ -33,6 +33,11 @@ ol, ul {
     -webkit-padding-start: 0px;
     margin: 0px;
 }
+#main{
+	margin-left: auto;
+	margin-right: auto;
+	width: 960px;
+}
 
 #navigation_buttons li {
     float: right;
@@ -200,9 +205,28 @@ a.user-link:hover {
 	height: 40px;
 	border: 1px solid black;
 }
+#col1{
+    display: inline;
+    float: left;
+    position: relative;
+    width: 576px;
+}
+#col2{
+    display: inline;
+    float: left;
+    position: relative;
+    width: 384px;
+}
+#feed {
+	padding: 10px;
+	border: 1px solid black;
+	overflow-x: hidden;
+}
 
-
-
+#feed-header {
+	font-size: 1.5em;
+	margin-bottom: 10px;
+}
 #trip-create-popup {
     height: auto;
 	width: 428px;
@@ -235,17 +259,7 @@ a.user-link:hover {
 #create-trip-button {
 }
 
-#recent-activity {
-	height: 300px;
-	padding: 10px;
-	border: 1px solid black;
-	overflow-x: hidden;
-}
 
-#recent-activity-header {
-	font-size: 1.5em;
-	margin-bottom: 10px;
-}
 
 #avatar {
     border: 1px solid black;
@@ -254,15 +268,37 @@ a.user-link:hover {
 
 #home-trips {
 	height: 300px;
-	padding: 10px;
 	border: 1px solid black;
 }
-
-#home-trips-header {
-	font-size: 1.5em;
-	margin-bottom: 10px;
+.home-trip{
+    border-bottom: 1px solid gray;
+    float: left;
+    width: 100%;
 }
-
+#home-trips-header {
+	font-size: 1.25em;
+	float: left;
+	width: 100%;
+}
+.home-trip-name{
+    font-size: 1.25em;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+.home-trip-content{
+    float: left;
+    width: 97%;
+    margin-left: 10px;
+}
+.trip-place, .trip-startdate{
+    width: 30%;
+    float: left;
+    font-size: 0.75em;
+}
+.trip-avatar-container{
+    width: 38%;
+    float: left;
+}
 .home-trip a:link {
     text-decoration: none;
 }
@@ -273,14 +309,13 @@ a.user-link:hover {
 
 
 
-#home-friends, #home-friends-trips {
+#home-friends-trips {
 	height: 300px;
-	padding: 10px;
 	border: 1px solid black;
 }
 
 #home-friends-header, #home-friends-trips-header {
-	font-size: 1.5em;
+	font-size: 1.25em;
 	margin-bottom: 10px;
 }
 /*------------------*/

@@ -12,8 +12,8 @@
 
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
-    var baseUrl = "<?php echo site_url(""); ?>";
-    var staticUrl = "<?php echo static_url(""); ?>";
+    var baseUrl = "<?=site_url(""); ?>";
+    var staticUrl = "<?=static_url(""); ?>";
 </script>
 
 </head> 
@@ -26,83 +26,89 @@
         echo($this->load->view('core_banner', $banner_args));
     ?>
   
-    <div id="main" class="container_12">
+    <div id="main">
         
-        <div id="col1" class="grid_6">
-			<div id="recent-activity">
-				<div id="recent-activity-header">Recent activity</div>
+        <div id="col1">
+			<div id="feed">
+				<div id="feed-header">News feed</div>
 				
-				<?php echo $this->load->view('profile_feed', '', true); ?>
+				<?=$this->load->view('home_feed', '', true); ?>
 
 			</div>
+        </div>
 
             	<!--<div id="avatar">
-                	<img src="http://graph.facebook.com/<?php echo $user['fid']; ?>/picture?type=large" />
+                	<img src="http://graph.facebook.com/<?=$user['fid']; ?>/picture?type=large" />
             	</div>-->
 
+
+        
+        
+        <div id="col2">
             <div id="home-trips">
 				<div id="home-trips-header">Your trips</div>
-                <ul>        
-                    <?php if(!(count($trips_yes) || count($trips_awaiting) || count($trips_no))){
-                        echo "<li>You don't have any trips yet...</li>";
-                    } else {
-                        if($trips_yes){
-                            echo "trips on which you're going";
-                            foreach($trips_yes as $trip_yes){ ?>
-                                <li><div class="home-trip">
-                                    <a href="<?php echo site_url('trip/details/'.$trip_yes['tripid']).'">'.$trip_yes['name']; ?></a>
-                                </div></li>
-                            <?php }
-                        }
-                        if($trips_awaiting){
-                            echo "<br/>your friends invited you to these trips";
-                            foreach($trips_awaiting as $trip_awaiting){ ?>
-                                <li><div class="home-trip">
-                                    <a href="<?php echo site_url('trip/details/'.$trip_awaiting['tripid']).'">'.$trip_awaiting['name']; ?></a>
-                                </div></li>
-                            <?php }
-                        }
-                        if($trips_no){
-                            echo "<br/>you rsvped no to these trips";
-                            foreach($trips_no as $trip_no){ ?>
-                                <li><div class="home-trip">
-                                    <a href="<?php echo site_url('trip/details/'.$trip_no['tripid']).'">'.$trip_no['name']; ?></a>
-                                </div></li>
-                            <?php }
-                        }
-                    } ?>
-                </ul>
+				<? if(!count($user_trips)):?>
+                        You don't have any trips yet...
+                <? else:?>
+                    <? foreach($user_trips as $user_trip):?>
+                        <div class="home-trip">
+                            <div class="home-trip-name">
+                                <a href="<?=site_url('trip/details/'.$user_trip['tripid'])?>"><?=$user_trip['name']?></a>
+                            </div>
+                            <div class="home-trip-content">
+                                <div class="trip-place">Chatham, MA</div>
+                                <div class="trip-startdate">February 23-27, 2011</div>
+                                <div class="trip-avatar-container">
+                                    <? foreach($user_trip['users'] as $trip_user):?>
+                                        <? if($trip_user['role']=='planner' && $trip_user['rsvp']=='yes'):?>
+                                            <img class="square-50" src="http://graph.facebook.com/<?=$trip_user['fid']; ?>/picture?type=square" />
+                                        <? endif;?>
+                                    <? endforeach;?>
+                                </div>
+                            </div>
+                        </div>
+                    <? endforeach;?>
+                <? endif; ?>
             </div>
-        </div>
-        
-        
-        <div id="col2" class="grid_6">            
-            <div id="home-friends">
+            
+            
+            
+            <!--<div id="home-friends">
                 <div id="home-friends-header">Your Shoutbound friends</div>
-                <?php foreach($user_friends as $user_friend): ?>
+                <? foreach($user_friends as $user_friend): ?>
                     <div class="friend-capsule">
-                        <img class="square-50" src="http://graph.facebook.com/<?php echo $user_friend['fid']; ?>/picture?type=square" />
-                        <div class="friend-capsule-name"><?php echo $user_friend['name']; ?></div>
+                        <img class="square-50" src="http://graph.facebook.com/<?=$user_friend['fid']; ?>/picture?type=square" />
+                        <div class="friend-capsule-name"><?=$user_friend['name']; ?></div>
                     </div>
-                <?php endforeach; ?>
-            </div>
+                <? endforeach; ?>
+            </div>-->
                 
-
             <div id="home-friends-trips">
-                <div id="home-friends-trips-header">Your friends' trips</div>
-
-                <?php if(!count($friends_trips)){
-                    echo "Tell your friends to share some trips with you";
-                } else {
-                    foreach($friends_trips as $friends_trip){ ?>
-                    <div class="home-friends-trip">
-                        <a href="<?php echo site_url('trip/details/'.$friends_trip['tripid']).'">'.$friends_trip['name']; ?></a>
-                    posted by <?php foreach($friends_trip['users'] as $planner){ echo $planner['name']; } ?>
-                    </div>
-                <?php }
-                } ?>
+				<div id="home-friends-trips-header">Your friends' trips</div>
+				<? if(!count($friends_trips)):?>
+                        Tell your friends to share some trips with you.
+                <? else:?>
+                    <? foreach($friends_trips as $friends_trip):?>
+                        <div class="home-trip">
+                            <div class="home-trip-name">
+                                <a href="<?=site_url('trip/details/'.$friends_trip['tripid'])?>"><?=$friends_trip['name']?></a>
+                            </div>
+                            <div class="home-trip-content">
+                                <div class="trip-place">Chatham, MA</div>
+                                <div class="trip-startdate">February 23-27, 2011</div>
+                                <div class="trip-avatar-container">
+                                    <? foreach($friends_trip['users'] as $trip_user):?>
+                                        <? if($trip_user['role']=='planner' && $trip_user['rsvp']=='yes'):?>
+                                            <img class="square-50" src="http://graph.facebook.com/<?=$trip_user['fid']; ?>/picture?type=square" />
+                                        <? endif;?>
+                                    <? endforeach;?>
+                                </div>
+                            </div>
+                        </div>
+                    <? endforeach;?>
+                <? endif; ?>
             </div>
-
+            
             
         </div>
 </div>

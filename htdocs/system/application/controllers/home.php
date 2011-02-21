@@ -26,12 +26,20 @@ class Home extends Controller {
         // trips for which user is a planner and rsvp yes
         foreach($user_tripids as $user_tripid) {
             if($this->Trip_m->get_rsvp_by_tripid_uid($user_tripid, $this->user['uid']) == 'yes'){
-                $view_data['trips_yes'][] = $this->Trip_m->get_trip_by_tripid($user_tripid);
-            } elseif($this->Trip_m->get_rsvp_by_tripid_uid($user_tripid, $this->user['uid']) == 'awaiting'){
-                $view_data['trips_awaiting'][] = $this->Trip_m->get_trip_by_tripid($user_tripid);
-            } elseif($this->Trip_m->get_rsvp_by_tripid_uid($user_tripid, $this->user['uid']) == 'no'){
-                $view_data['trips_no'][] = $this->Trip_m->get_trip_by_tripid($user_tripid);
-            }
+                $trip = $this->Trip_m->get_trip_by_tripid($user_tripid);
+                $trip_uids = $this->Trip_m->get_uids_by_tripid($user_tripid);
+                foreach($trip_uids as $trip_uid){
+                    $user = $this->User_m->get_user_by_uid($trip_uid);
+                    $user['rsvp'] = $this->Trip_m->get_rsvp_by_tripid_uid($user_tripid, $trip_uid);
+                    $user['role'] = $this->Trip_m->get_type_by_tripid_uid($user_tripid, $trip_uid);
+                    $trip['users'][] = $user;
+                }
+                $view_data['user_trips'][] = $trip;
+            }// elseif($this->Trip_m->get_rsvp_by_tripid_uid($user_tripid, $this->user['uid']) == 'awaiting'){
+                //$view_data['trips_awaiting'][] = $this->Trip_m->get_trip_by_tripid($user_tripid);
+            //} elseif($this->Trip_m->get_rsvp_by_tripid_uid($user_tripid, $this->user['uid']) == 'no'){
+                //$view_data['trips_no'][] = $this->Trip_m->get_trip_by_tripid($user_tripid);
+            //}
         }        
         
         // get friends' data
@@ -46,16 +54,13 @@ class Home extends Controller {
             }
             foreach($view_data['friends_trips'] as &$friends_trip) {
                 // get uids associated with each tripid
-                $uids = $this->Trip_m->get_uids_by_tripid($friends_trip['tripid']);
+                $trip_uids = $this->Trip_m->get_uids_by_tripid($friends_trip['tripid']);
                 // get users of these uids
-                foreach($uids as $uid) {
-                    $friends_trip['users'][] = $this->User_m->get_user_by_uid($uid);
-                }
-                // take out users who aren't planners
-                foreach($friends_trip['users'] as $i => $friends_trip_user){
-                    if($this->Trip_m->get_type_by_tripid_uid($friends_trip['tripid'],
-                    $friends_trip_user['uid']) != 'planner')
-                        unset($friends_trip['users'][$i]);
+                foreach($trip_uids as $trip_uid) {
+                    $user = $this->User_m->get_user_by_uid($trip_uid);
+                    $user['rsvp'] = $this->Trip_m->get_rsvp_by_tripid_uid($friends_trip['tripid'], $trip_uid);
+                    $user['role'] = $this->Trip_m->get_type_by_tripid_uid($friends_trip['tripid'], $trip_uid);
+                    $friends_trip['users'][] = $user;
                 }
             }
         }
@@ -84,7 +89,25 @@ class Home extends Controller {
     }
     
     function test() {
-    print_r($friends_tripids = $this->Trip_m->get_friends_tripids_by_uid(3));
+        // THIS SHOWS HER FRIENDS' TRIPS FOR WHICH SHE'S AN ADVISOR
+        $friends_tripids = $this->Trip_m->get_friends_tripids_by_uid($this->user['uid']);
+        print_r($friends_tripids); echo '<br/><br/>';
+        if(count($friends_tripids)){
+            foreach($friends_tripids as $friends_tripid){
+                $view_data['friends_trips'][] = $this->Trip_m->get_trip_by_tripid($friends_tripid);
+            }
+            foreach($view_data['friends_trips'] as &$friends_trip) {
+                // get uids associated with each tripid
+                $trip_uids = $this->Trip_m->get_uids_by_tripid($friends_trip['tripid']);
+                // get users of these uids
+                foreach($trip_uids as $trip_uid) {
+                    $user = $this->User_m->get_user_by_uid($trip_uid);
+                    $user['rsvp'] = $this->Trip_m->get_rsvp_by_tripid_uid($friends_trip['tripid'], $trip_uid);
+                    $user['role'] = $this->Trip_m->get_type_by_tripid_uid($friends_trip['tripid'], $trip_uid);
+                    $friends_trip['users'][] = $user;
+                }
+            }
+        }
+        print_r($view_data['friends_trips']);
     }
 }
-
