@@ -67,26 +67,37 @@ class Trip extends Controller {
     }
     
     
-    function share(){
-        $hash = '912ec803b2ce49e4a541068d495ab570';
-        $id = 2;
+    function share($id, $hash){
+        //$hash = '912ec803b2ce49e4a541068d495ab570';
+        //$id = 2;
         
         $trip_share = $this->Trip_m->get_tripshare_by_idhash($id, $hash);
-        echo 'trip_share row: '; print_r($trip_share); echo '<br/>';
-        $a = array('tripid' => $trip_share['tripid'],
-                   'share_role' => $trip_share['share_role'],
-                  );
-        $b = json_encode($a);
-        echo 'json encoded trip_share : '; print_r($b); echo '<br/>';
-        $cookie = json_encode(array(84=>'912ec803b2ce49e4a541068d495ab534',86=>'912ec803b2ce49e4a541068d495ab370'));
-        echo 'original cookie: '; print_r($cookie); echo '<br/>';
-        set_cookie('received_invites', $cookie);
+        if(!$trip_share){
+            redirect('/');
+        }
+        //echo 'trip_share row: '; print_r($trip_share); echo '<br/>';
+        //delete_cookie('received_invites');
+
+        //$cookie = json_encode(array(84=>'912ec803b2ce49e4a541068d495ab534',90=>'912ec803b2ce49e4a541068d495ab370'));
+        //echo 'original cookie: '; print_r($cookie); echo '<br/>';
+        //set_cookie('received_invites', $cookie);
+        //echo 'now the cookie is '.get_cookie('received_invites').'<br/>';
         
-        //$cookie = array('received_invites' => $trip_share['tripid'],
-                        //'share_role' => $trip_share['share_role'],
-                        
-                       //);
-        //$this->input->set_cookie($cookie);
+        // if cookie is set, append new key value pair, otherwise instantiate new stdclass object
+        if($received_invites = get_cookie('received_invites')){
+            // unserialize from JSON
+            $received_invites = json_decode($received_invites);
+            $received_invites->{$trip_share['tripid']} = $trip_share['hash_key'];
+        }else{
+            $received_invites = (object)array($trip_share['tripid'] => $trip_share['hash_key']);
+        }
+        //echo 'new cookie yay: '; print_r($received_invites); echo '<br/>';
+        // serialize to JSON and set cookie
+        $received_invites = json_encode($received_invites);
+        set_cookie('received_invites', $received_invites);
+        
+        redirect('/trip/details/'.$trip_share['tripid']);
+
     }
     
     
