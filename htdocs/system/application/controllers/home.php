@@ -82,6 +82,37 @@ class Home extends Controller {
         $this->load->view('home', $view_data);
     }
     
-    function test() {
+    function test()
+    {
+        // Let's create a user
+        $u = new User();
+        $u->name = 'Fred Smith';
+        $u->email = 'fred@smith.com';
+
+        // And save them to the database (validation rules will run)
+        if ($u->save())
+        {
+            // User object now has an ID
+            echo 'ID: ' . $u->id . '<br />';
+            echo 'Username: ' . $u->name . '<br />';
+            echo 'Email: ' . $u->email . '<br />';
+        }
+        else
+        {
+            // If validation fails, we can show the error for each property
+            echo $u->error->name;
+            echo $u->error->email;
+
+            // or we can loop through the error's all list
+            foreach ($u->error->all as $error)
+            {
+                echo $error;
+            }
+
+            // or we can just show all errors in one string!
+            echo $u->error->string;
+
+            // Each individual error is automatically wrapped with an error_prefix and error_suffix, which you can change (default: <p>error message</p>)
+        }
     }
 }
