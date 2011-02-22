@@ -41,6 +41,55 @@ class User extends DataMapper {
 			$this->{$field} = sha1($this->salt . $this->{$field});
 		}
 	}
+	
+    ////////////////////////////////////////////////////////////
+    // Logging Users in and out
+
+    function login($uid)
+    {
+        set_cookie('uid', $uid);
+        $key = mt_rand(100000, 999999);
+        $sig = $this->get_sig($uid, $key);
+        set_cookie('key', $key);
+        set_cookie('sig', $sig);
+    }
+
+
+    function logout(){
+        delete_cookie('uid');
+        delete_cookie('key');
+        delete_cookie('sig');
+    }
+
+
+    function get_logged_in_uid(){
+        $uid = get_cookie('uid');
+        if( ! $uid)
+        {
+            $this->is_loggedin = FALSE;
+        }
+        $key = get_cookie('key');
+        $sig = get_cookie('sig');
+        if ($sig == $this->get_sig($uid, $key))
+        {
+            $this->is_loggedin = TRUE;
+        }
+    }
+
+
+    function get_logged_in_user() {
+        $uid = $this->get_logged_in_uid();
+        if($uid)
+            return $this->get_user_by_uid($uid);
+        return null;
+    }
+
+
+    function get_sig($uid, $key) {
+        return md5($uid . '~nokonmyballz~' . $key);
+    }
+    
+    
 }
 
 /* End of file user.php */

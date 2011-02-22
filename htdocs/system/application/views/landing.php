@@ -30,7 +30,7 @@
 
 <script>
 function shoutboundLogin() {
-    $.ajax({url: "<?=site_url('user/ajax_login')?>",
+    $.ajax({url: "<?=site_url('users/ajax_login')?>",
             type: "POST",
             dataType: "json",
             success: function(data) {

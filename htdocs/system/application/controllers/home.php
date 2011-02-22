@@ -5,13 +5,19 @@ class Home extends Controller {
     function Home()
 	{
 		parent::Controller();
-		//authentication
-        $this->user = $this->User_m->get_logged_in_user();
-        if(!$this->user) { redirect('/'); }
+		// authentication
+		$u = new User();
+		$u->get_logged_in_uid();
+        if( ! $u->is_loggedin)
+        {
+            redirect('/');
+        }
 		//TODO: maybe some friend detection here
 	}
 
     function index() {            
+        echo 'yay youre at the home page';
+        /*
         // get tripids for which user is a planner
         $user_tripids = $this->Trip_m->get_planner_tripids_by_uid($this->user['uid']);
         // trips for which user's rsvp is yes
@@ -80,6 +86,7 @@ class Home extends Controller {
                            'friends_trips' => $friends_trips,
                           );
         $this->load->view('home', $view_data);
+        */
     }
     
     function test()

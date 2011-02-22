@@ -2,13 +2,20 @@
 
 class Landing extends Controller {
 
-    function index() {
-        $uid = $this->User_m->get_logged_in_uid();
-        if($uid)
+    function index()
+    {
+        $u = new User();
+        $u->get_logged_in_uid();
+        
+        if ($u->is_loggedin)
+        {
             redirect('/home');
-        else{
+        }
+        else
+        {
             $this->load->view('landing');
         }
+        
     }
 
 }
