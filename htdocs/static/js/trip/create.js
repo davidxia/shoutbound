@@ -7,7 +7,7 @@ create.showCreateDialog = function() {
       var r = $.parseJSON(response);
       if (r.loggedin) {
         $.ajax({
-          url: baseUrl+'trips/ajax_create_trip_panel',
+          url: baseUrl+'trips/ajax_trip_create_panel',
           success: create.displayCreatePanel
         });
       } else {
@@ -37,7 +37,7 @@ create.confirmCreate = function() {
   if (tripName) {
     $.ajax({
       type: 'POST',
-      url: baseUrl+'trips/ajax_create_trip',
+      url: baseUrl+'trips/ajax_trip_create',
       data: postData,
       success: function(response) {
         var r = $.parseJSON(response);

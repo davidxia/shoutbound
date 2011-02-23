@@ -10,20 +10,39 @@ class Trips extends Controller {
 
     function index()
     {
-        $t = new Trip();
-        $t->get_by_id(91);
-        //$t->name = 'test trip 2';
-        //$t->include_join_fields()->join_role = 3;
-        //$t->include_join_fields()->join_rsvp = 2;
         $u = new User();
-        $u->get_by_id(9);
-        if ($t->set_join_field($u, 'role', 2) AND $t->set_join_field($u, 'rsvp', 3))
+        if ( ! $u->get_logged_in_status())
         {
-            echo 'i changed hte field!'.$t->id;
+            redirect('/');            
+        }
+        $uid = get_cookie('uid');
+        $u->get_by_id($uid);
+        
+        $u->friend->where_not_in('friend_uid', array(0))->get();
+        $t = new Trip();
+        $t->get_by_id(86);
+        $t->user->get();
+        
+        foreach ($t->user->all as $user)
+        {
+            $trip_uids[] = $user->id;
+        }
+        foreach ($u->friend->all as $friend)
+        {
+            if ( ! in_array($friend->friend_uid, $trip_uids))
+            {
+                $uninvited_uids[] = $friend->friend_uid;
+            }
+        }
+        print_r($uninvited_uids);
+        $u->where_in('id', $uninvited_uids)->get();
+        foreach ($u->all as $user)
+        {
+            print_r($user->stored);
         }
         
-        //$t->save();
-        //$u->save($t);
+
+
     }
 
  	
@@ -96,14 +115,14 @@ class Trips extends Controller {
     }
     
 
-    function ajax_create_trip_panel()
+    function ajax_trip_create_panel()
     {
-        $render_string = $this->load->view('trip/create_trip_panel', '', TRUE);
+        $render_string = $this->load->view('trip/trip_create_panel', '', TRUE);
         json_success(array('data'=>$render_string));
     }
     
     
-    function ajax_create_trip()
+    function ajax_trip_create()
     {
         $u = new User();
         if ( ! $u->get_logged_in_status())
@@ -165,7 +184,7 @@ class Trips extends Controller {
 
     
     
-    function ajax_panel_invite_trip()
+    function ajax_trip_invite_panel()
     {
         $u = new User();
         if ( ! $u->get_logged_in_status())
@@ -175,40 +194,44 @@ class Trips extends Controller {
         $uid = get_cookie('uid');
         $u->get_by_id($uid);
         
-        //$u->
-        /*
-        $friends = $this->User_m->get_friends_by_uid($this->user['uid']);
+        // get user's friends
+        $u->friend->where_not_in('friend_uid', array(0))->get();
         
-        $not_invited_users = array();
-        foreach($friends as $friend) {
-            $rsvp = $this->Trip_m->get_rsvp_by_tripid_uid($_POST['tripid'], $friend['uid']);
-            if($rsvp['rsvp'] == NULL) {
-                $not_invited_users[] = $friend;
+        // get user ids associated with this trip
+        $t = new Trip();
+        $t->get_by_id($this->input->post('tripid'));
+        $t->user->get();        
+
+        // create array of friends not associated with this trip
+        foreach ($t->user->all as $user)
+        {
+            $trip_uids[] = $user->id;
+        }
+        foreach ($u->friend->all as $friend)
+        {
+            if ( ! in_array($friend->friend_uid, $trip_uids))
+            {
+                $uninvited_uids[] = $friend->friend_uid;
             }
         }
-        
-        $invited_users = array();
-        foreach($friends as $friend) {
-            $rsvp = $this->Trip_m->get_rsvp_by_tripid_uid($_POST['tripid'], $friend['uid']);
-            if($rsvp['rsvp'] != NULL) {
-                $invited_users[] = $friend;
-            }
+        $u->where_in('id', $uninvited_uids)->get();
+        foreach ($u->all as $user)
+        {
+            $uninvited_users[] = $user->stored;
         }
         
         $view_data = array(
-            'user' => $this->user,
-            'trip' => $trip,
-            'user_friends' => $friends,
-            'not_invited_users' => $not_invited_users,
-            'invited_users' => $invited_users,
+            'uninvited_users' => $uninvited_users,
         );
         
         $render_string = $this->load->view('trip/trip_invite_panel', $view_data, true);
         json_success(array('data'=>$render_string));
-        */
+        
     }
 
-    function ajax_invite_trip() {
+
+    function ajax_invite_trip()
+    {
         $planner = $this->user;
         $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
         $uids = json_decode($_POST['uids']);
