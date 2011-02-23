@@ -45,6 +45,28 @@ class User extends DataMapper {
     ////////////////////////////////////////////////////////////
     // Logging Users in and out
 
+    function get_logged_in_status()
+    {
+        $uid = get_cookie('uid');
+        $key = get_cookie('key');
+        $sig = get_cookie('sig');
+        if ($sig == $this->get_sig($uid, $key))
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+    
+
+    function get_sig($uid, $key)
+    {
+        return md5($uid . '~nokonmyballz~' . $key);
+    }
+    
+    
     function login($uid)
     {
         set_cookie('uid', $uid);
@@ -55,25 +77,11 @@ class User extends DataMapper {
     }
 
 
-    function logout(){
+    function logout()
+    {
         delete_cookie('uid');
         delete_cookie('key');
         delete_cookie('sig');
-    }
-
-
-    function get_logged_in_uid(){
-        $uid = get_cookie('uid');
-        if( ! $uid)
-        {
-            $this->is_loggedin = FALSE;
-        }
-        $key = get_cookie('key');
-        $sig = get_cookie('sig');
-        if ($sig == $this->get_sig($uid, $key))
-        {
-            $this->is_loggedin = TRUE;
-        }
     }
 
 
@@ -85,9 +93,7 @@ class User extends DataMapper {
     }
 
 
-    function get_sig($uid, $key) {
-        return md5($uid . '~nokonmyballz~' . $key);
-    }
+
     
     
 }

@@ -3,19 +3,28 @@ class Users extends Controller {
  
     function Users()
     {
-        parent::Controller();
+        parent::Controller();        
     }
  
     function index()
     {         
         $u = new User();
-        $u->get_by_fid(122703);
-        print_r($u->name);
+        if ($u->get_logged_in_status())
+        {
+            $u->get_by_fid(122703);
+            print_r($u->name);
+        }
+        else
+        {
+            echo 'no cookie :(';
+        }
+
     }
     
     function logout()
     {
-        $this->User->logout();
+        $u = new User();
+        $u->logout();
         redirect('/');
     }
     
@@ -25,15 +34,41 @@ class Users extends Controller {
         $u = new User();
         $u->get_by_fid($this->facebook->getUser());
         
-        if( ! empty($u->id))
+        if ( ! empty($u->id))
         {
             $u->login($u->id);
             json_success(array('redirect' => site_url('home')));
         }
         else
         {
-            json_success(array('redirect' => site_url('user/creating')));
+            json_success(array('redirect' => site_url('users/creating')));
         }
+    }
+    
+    
+    function creating()
+    {
+        $this->load->library('facebook');
+        $session = $this->facebook->getSession();
+        $u = new User();
+        
+        if ( ! $session)
+        {
+            //redirect('/landing');
+            echo 'youre not in fb!';
+        }
+        else
+        {
+            echo 'youre in fb';
+        }
+        
+        if ($u->get_by_fid($this->facebook->getUser()))
+        {
+            //redirect('/');
+            echo 'this fid already exists!';
+        }
+        //$this->load->view('creating_user');
+
     }
 }
 

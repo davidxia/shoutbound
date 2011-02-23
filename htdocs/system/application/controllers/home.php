@@ -7,8 +7,7 @@ class Home extends Controller {
 		parent::Controller();
 		// authentication
 		$u = new User();
-		$u->get_logged_in_uid();
-        if( ! $u->is_loggedin)
+        if ( ! $u->get_logged_in_status())
         {
             redirect('/');
         }
