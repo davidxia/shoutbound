@@ -108,7 +108,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('Trip_m');
+$autoload['model'] = array();
 
 
 
