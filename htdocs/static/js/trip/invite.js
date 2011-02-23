@@ -40,7 +40,6 @@ invite.rsvp_yes = function() {
 }
 
 
-
 invite.rsvp_no = function() {
   var post_data = {
     tripid: tripid,
@@ -88,10 +87,10 @@ invite.showInviteDialog = function() {
   
   $.ajax({
     type: 'POST',
-    url: baseUrl + 'trip/ajax_panel_invite_trip',
+    url: baseUrl+'trips/ajax_panel_invite_trip',
     data: postData,
     success: invite.displayInviteDialog
-    });
+  });
 }
   
 invite.displayInviteDialog = function(response) {
@@ -145,6 +144,10 @@ $(document).ready(function() {
   });
   $('#rsvp_no_button').click(function() {
     invite.rsvp_no();
+    return false;
+  });
+  $('#invite-others-button').click(function() {
+    invite.showInviteDialog();
     return false;
   });
 });

@@ -162,7 +162,99 @@ class Trips extends Controller {
             json_success(array('success'=>true));
         }        
     }
+
     
+    
+    function ajax_panel_invite_trip()
+    {
+        $u = new User();
+        if ( ! $u->get_logged_in_status())
+        {
+            redirect('/');            
+        }
+        $uid = get_cookie('uid');
+        $u->get_by_id($uid);
+        
+        //$u->
+        /*
+        $friends = $this->User_m->get_friends_by_uid($this->user['uid']);
+        
+        $not_invited_users = array();
+        foreach($friends as $friend) {
+            $rsvp = $this->Trip_m->get_rsvp_by_tripid_uid($_POST['tripid'], $friend['uid']);
+            if($rsvp['rsvp'] == NULL) {
+                $not_invited_users[] = $friend;
+            }
+        }
+        
+        $invited_users = array();
+        foreach($friends as $friend) {
+            $rsvp = $this->Trip_m->get_rsvp_by_tripid_uid($_POST['tripid'], $friend['uid']);
+            if($rsvp['rsvp'] != NULL) {
+                $invited_users[] = $friend;
+            }
+        }
+        
+        $view_data = array(
+            'user' => $this->user,
+            'trip' => $trip,
+            'user_friends' => $friends,
+            'not_invited_users' => $not_invited_users,
+            'invited_users' => $invited_users,
+        );
+        
+        $render_string = $this->load->view('trip/trip_invite_panel', $view_data, true);
+        json_success(array('data'=>$render_string));
+        */
+    }
+
+    function ajax_invite_trip() {
+        $planner = $this->user;
+        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
+        $uids = json_decode($_POST['uids']);
+        $message = $_POST['message'];
+        
+        $this->load->library('sendgrid_email');
+        
+        foreach($uids as $uid){
+            // TODO: fix based on user notification settings
+            $user_settings = $this->User_m->get_settings($uid);
+            if(true) {
+                $user = $this->User_m->get_user_by_uid($uid);
+                $response = $this->sendgrid_email->send_mail(
+                    array($user['email']),
+                    $planner['name'].' invited you on a trip on Shoutbound!',
+                    $this->_add_link_to_notification('<h4>'.$planner['name'].' invited you a trip on ShoutBound!</h4>'.$planner['name'].' says: '.$message,$trip),
+                    $this->_add_link_to_notification($planner['name'].' invited you on a trip on ShoutBound! '.$planner['name'].' says: '.$message,$trip)
+                );
+            }
+        }
+        
+        $success = json_decode($response, true);
+        $db_update = $this->Trip_m->invite_uids_by_tripid($_POST['tripid'], $uids);
+
+        
+        // if the JSON response string from Sendgrid is 'success'
+        // tell user it succeeded        
+        if($success['message'] == 'success' && $db_update){
+            $view_data = array(
+                //'uids' => $uids,
+                'trip' => $trip,
+                //'message' => $message
+            );
+            $render_string = $this->load->view('core_success', $view_data, true);
+            json_success(array('data'=>$render_string));
+        // otherwise, tell user his share failed
+        } else {
+            $view_data = array(
+                'response' => json_decode($response, true),
+            );
+            $render_string = $this->load->view('core_failure', $view_data, true);
+            json_success(array('data'=>$render_string));
+        }
+    }
+    
+        
     function share($id, $hash){
         //$hash = '912ec803b2ce49e4a541068d495ab570';
         //$id = 2;
@@ -294,84 +386,7 @@ class Trips extends Controller {
         
         return $ret_val;
     }
-    
-    
-    function ajax_panel_invite_trip() {
-        $friends = $this->User_m->get_friends_by_uid($this->user['uid']);
-        
-        $not_invited_users = array();
-        foreach($friends as $friend) {
-            $rsvp = $this->Trip_m->get_rsvp_by_tripid_uid($_POST['tripid'], $friend['uid']);
-            if($rsvp['rsvp'] == NULL) {
-                $not_invited_users[] = $friend;
-            }
-        }
-        
-        $invited_users = array();
-        foreach($friends as $friend) {
-            $rsvp = $this->Trip_m->get_rsvp_by_tripid_uid($_POST['tripid'], $friend['uid']);
-            if($rsvp['rsvp'] != NULL) {
-                $invited_users[] = $friend;
-            }
-        }
-        
-        $view_data = array(
-            'user' => $this->user,
-            'trip' => $trip,
-            'user_friends' => $friends,
-            'not_invited_users' => $not_invited_users,
-            'invited_users' => $invited_users,
-        );
-        
-        $render_string = $this->load->view('trip/trip_invite_panel', $view_data, true);
-        json_success(array('data'=>$render_string));
-    }
 
-    function ajax_invite_trip() {
-        $planner = $this->user;
-        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
-        $uids = json_decode($_POST['uids']);
-        $message = $_POST['message'];
-        
-        $this->load->library('sendgrid_email');
-        
-        foreach($uids as $uid){
-            // TODO: fix based on user notification settings
-            $user_settings = $this->User_m->get_settings($uid);
-            if(true) {
-                $user = $this->User_m->get_user_by_uid($uid);
-                $response = $this->sendgrid_email->send_mail(
-                    array($user['email']),
-                    $planner['name'].' invited you on a trip on Shoutbound!',
-                    $this->_add_link_to_notification('<h4>'.$planner['name'].' invited you a trip on ShoutBound!</h4>'.$planner['name'].' says: '.$message,$trip),
-                    $this->_add_link_to_notification($planner['name'].' invited you on a trip on ShoutBound! '.$planner['name'].' says: '.$message,$trip)
-                );
-            }
-        }
-        
-        $success = json_decode($response, true);
-        $db_update = $this->Trip_m->invite_uids_by_tripid($_POST['tripid'], $uids);
-
-        
-        // if the JSON response string from Sendgrid is 'success'
-        // tell user it succeeded        
-        if($success['message'] == 'success' && $db_update){
-            $view_data = array(
-                //'uids' => $uids,
-                'trip' => $trip,
-                //'message' => $message
-            );
-            $render_string = $this->load->view('core_success', $view_data, true);
-            json_success(array('data'=>$render_string));
-        // otherwise, tell user his share failed
-        } else {
-            $view_data = array(
-                'response' => json_decode($response, true),
-            );
-            $render_string = $this->load->view('core_failure', $view_data, true);
-            json_success(array('data'=>$render_string));
-        }
-    }
     
     
     function ajax_wall_post(){
