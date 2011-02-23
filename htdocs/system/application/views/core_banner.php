@@ -1,12 +1,12 @@
 <div id="banner" class="container_12">
     <div id="logo" class="grid_2">
-        <a class="home" href="<?php echo site_url('home'); ?>">
+        <a class="home" href="<?=site_url('home')?>">
             ShoutBound
         </a>
     </div>
 
 		<div class="grid_2 push_2">
-        	<a id="create_trip" href="#">Create trip</a>
+        	<a id="create-trip" href="#">Create trip</a>
         </div>
     
     <ul id="navigation_buttons" class="grid_3 push_5">

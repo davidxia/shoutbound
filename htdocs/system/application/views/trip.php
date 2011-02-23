@@ -202,9 +202,8 @@ $this->load->view('core_header', $header_args);
                 </div>
                 <ol id="trip-wall-suggest-list"></ol>
 
-                <? $wall_view = array('wall_data' => $wall_data,
-                                      'user_type' => $user_type,
-                                     );
+                <? $wall_view = array('wall_items' => $wall_items,
+                                      'user_type' => $user_type);
                    echo $this->load->view('trip_wall', $wall_view); ?>
             </div>
     
