@@ -95,6 +95,73 @@ class Trips extends Controller {
         $this->load->view('trip', $view_data);
     }
     
+
+    function ajax_create_trip_panel()
+    {
+        $render_string = $this->load->view('trip/create_trip_panel', '', TRUE);
+        json_success(array('data'=>$render_string));
+    }
+    
+    
+    function ajax_create_trip()
+    {
+        $u = new User();
+        if ( ! $u->get_logged_in_status())
+        {
+            redirect('/');            
+        }
+        $uid = get_cookie('uid');
+        $u->get_by_id($uid);
+
+        $t = new Trip();
+        $t->name = $this->input->post('tripName');
+        if ($t->save() AND $u->save($t)
+            AND $t->set_join_field($u, 'role', 2)
+            AND $t->set_join_field($u, 'rsvp', 3))
+        {
+            json_success(array('tripid' => $t->id));
+        }        
+    }
+
+    
+    function ajax_rsvp_yes()
+    {
+        $u = new User();
+        if ( ! $u->get_logged_in_status())
+        {
+            redirect('/');            
+        }
+        $uid = get_cookie('uid');
+        $u->get_by_id($uid);
+        
+        $t = new Trip();
+        $t->get_by_id($this->input->post('tripid'));
+        
+        if ($t->set_join_field($u, 'rsvp', 3))
+        {
+            json_success(array('success'=>true));
+        }        
+    }
+    
+    
+    function ajax_rsvp_no()
+    {
+        $u = new User();
+        if ( ! $u->get_logged_in_status())
+        {
+            redirect('/');            
+        }
+        $uid = get_cookie('uid');
+        $u->get_by_id($uid);
+        
+        $t = new Trip();
+        $t->get_by_id($this->input->post('tripid'));
+        
+        if ($t->set_join_field($u, 'rsvp', 1))
+        {
+            json_success(array('success'=>true));
+        }        
+    }
     
     function share($id, $hash){
         //$hash = '912ec803b2ce49e4a541068d495ab570';
@@ -130,34 +197,6 @@ class Trips extends Controller {
     }
     
     
-    function ajax_create_trip_panel()
-    {
-        $render_string = $this->load->view('trip/create_trip_panel', '', TRUE);
-        json_success(array('data'=>$render_string));
-    }
-    
-    
-    function ajax_create_trip()
-    {
-        $u = new User();
-        if ( ! $u->get_logged_in_status())
-        {
-            redirect('/');            
-        }
-        $uid = get_cookie('uid');
-        $u->get_by_id($uid);
-
-        $t = new Trip();
-        $t->name = $this->input->post('tripName');
-        if ($t->save() AND $u->save($t)
-            AND $t->set_join_field($u, 'role', 2)
-            AND $t->set_join_field($u, 'rsvp', 3))
-        {
-            $t->set_join_field($u, 'role', 2);
-            $t->set_join_field($u, 'rsvp', 3);
-            json_success(array('tripid' => $t->id));
-        }        
-    }
     
     
     function delete() {        
@@ -182,16 +221,6 @@ class Trips extends Controller {
     }
     
     
-    function ajax_rsvp_yes(){
-        $a = $this->Trip_m->update_rsvp_by_tripid_uid($_POST['tripid'], $_POST['uid'], 'yes');
-        json_success(array('success'=>$a));
-    }
-    
-    
-    function ajax_rsvp_no(){
-        $a = $this->Trip_m->update_rsvp_by_tripid_uid($_POST['tripid'], $_POST['uid'], 'no');
-        json_success(array('success'=>$a));
-    }
         
     
     function ajax_panel_share_trip() {
