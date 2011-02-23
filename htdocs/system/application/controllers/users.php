@@ -8,17 +8,18 @@ class Users extends Controller {
  
     function index()
     {         
-        $u = new User();
-        if ($u->get_logged_in_status())
+        $friend = new Friend();
+        $friend->name = 'asdfasdf';
+        $friend->friend_fid = '124125145';
+        if ($friend->save())
         {
-            $u->get_by_fid(122703);
-            print_r($u->name);
+            $u = new User();
+            $u->get_by_id(7);
+            if ($u->save($friend))
+            {
+                echo 'friend was saved';
+            }
         }
-        else
-        {
-            echo 'no cookie :(';
-        }
-
     }
     
     function logout()
@@ -54,21 +55,67 @@ class Users extends Controller {
         
         if ( ! $session)
         {
-            //redirect('/landing');
-            echo 'youre not in fb!';
+            redirect('/landing');
         }
-        else
+                
+        if ($u->get_by_fid($this->facebook->getUser())->id)
         {
-            echo 'youre in fb';
+            redirect('/');
         }
         
-        if ($u->get_by_fid($this->facebook->getUser()))
-        {
-            //redirect('/');
-            echo 'this fid already exists!';
-        }
-        //$this->load->view('creating_user');
+        $this->load->view('creating_user');
+    }
+    
+    
+    function ajax_create_user()
+    {
+        
+        $this->load->library('facebook');
+        $fbuser = $this->facebook->api('/me?fields=name,email,friends');
+        $u = new User();
 
+        if ( ! $fbuser)
+        {
+            json_error('We could not get your facebook data!');
+        }
+        
+        if ($u->get_by_fid($fbuser['id'])->id)
+        {
+            json_error('You are already a user');
+        }
+
+        $udata = array('fid' => $fbuser['id'],
+                       'name' => $fbuser['name']);
+
+        if ( ! $fbuser['email'])
+        {
+            return json_error('Couldn\'t get your email address');
+        }
+        $udata['email'] = $fbuser['email'];
+        
+        $u->clear();
+        $u->fid = $fbuser['id'];
+        $u->name = $fbuser['name'];
+        $u->email = $fbuser['email'];
+        if ($u->save())
+        {
+            $u->login($u->id);
+        }
+        
+        $f = new Friend();
+        foreach ($fbuser['friends']['data'] as $friend)
+        {
+            $f->clear();
+            $f->friend_fid = $friend['id'];
+            $f->name = $friend['name'];
+            if ($f->save())
+            {
+                $u->save($f);
+            }
+        }
+        
+        json_success(array('redirect' => site_url('/')));
+        
     }
 }
 

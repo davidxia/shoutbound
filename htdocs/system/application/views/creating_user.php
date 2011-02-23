@@ -9,12 +9,9 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $.ajax({
-        url: "<?php echo site_url('user/ajax_create_user'); ?>",
+        url: "<?=site_url('users/ajax_create_user')?>",
         type: "POST",
         dataType: "json",
-        error: function(data) {
-            alert('Major problem occured! Call up Ben quick!');
-        },
         success: function(data) {
             if(data['success']) {
                 window.location = data['redirect'];

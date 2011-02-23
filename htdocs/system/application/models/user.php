@@ -1,18 +1,18 @@
 <?php
 class User extends DataMapper {
  
-    public $has_many = array('trip');
+    public $has_many = array('trip', 'friend');
 
     var $validation = array(
         array(
-            'field' => 'name',
-            'label' => 'Name',
-            'rules' => array('required', 'trim', 'max_length' => 255)
+            'field' => 'fid',
+            'label' => 'fid',
+            'rules' => array('required')
         ),
         array(
-            'field' => 'password',
-            'label' => 'Password',
-            'rules' => array('required', 'trim', 'min_length' => 3, 'encrypt')
+            'field' => 'name',
+            'label' => 'Name',
+            'rules' => array('required', 'trim')
         ),
         array(
             'field' => 'email',
@@ -26,21 +26,6 @@ class User extends DataMapper {
         parent::DataMapper();
     }
     
-    // Validation prepping function to encrypt passwords
-	function _encrypt($field)
-	{
-		// Don't encrypt an empty string
-		if (!empty($this->{$field}))
-		{
-			// Generate a random salt if empty
-			if (empty($this->salt))
-			{
-				$this->salt = md5(uniqid(rand(), true));
-			}
-
-			$this->{$field} = sha1($this->salt . $this->{$field});
-		}
-	}
 	
     ////////////////////////////////////////////////////////////
     // Logging Users in and out
@@ -84,14 +69,14 @@ class User extends DataMapper {
         delete_cookie('sig');
     }
 
-
+/*
     function get_logged_in_user() {
         $uid = $this->get_logged_in_uid();
         if($uid)
             return $this->get_user_by_uid($uid);
         return null;
     }
-
+*/
 
 
     
