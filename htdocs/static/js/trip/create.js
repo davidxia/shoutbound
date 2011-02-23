@@ -39,18 +39,16 @@ create.confirmCreate = function() {
       type: 'POST',
       url: baseUrl+'trips/ajax_create_trip',
       data: postData,
-      success: create.confirmAddTrip
+      success: function(response) {
+        var r = $.parseJSON(response);
+        window.location = baseUrl+'trips/details/'+r['tripid'];
+      }
     });
   } else {
     alert('Please name your trip! You will be glad you did.')
   }
 }
 
-
-create.confirmAddTrip = function(response) {
-  var r = $.parseJSON(response);
-  window.location = baseUrl+'trips/details/'+r['tripid'];
-}
 
 $(document).ready(function() {
   $('#create-trip').click(function() {
