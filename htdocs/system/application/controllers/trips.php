@@ -1,17 +1,18 @@
 <?php
 
-class Trip extends Controller {
+class Trips extends Controller {
     
-	//function Trip() {
-		//parent::Controller();
-		//check that user is logged in
-        //$this->user = $this->User_m->get_logged_in_user();
-        //if(!$this->user) { redirect('/'); }
-	//}
+	function Trips()
+	{
+		parent::Controller();
+	}
 
 
-    function index() {
+    function index($id)
+    {
+        
     }
+
  	
 
     function details($tripid){
@@ -416,5 +417,4 @@ class Trip extends Controller {
         //$foo = $_POST['foo'];
         //echo $foo;
     //}
-    
 }

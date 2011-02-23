@@ -1,15 +1,12 @@
-<?
-if(!$news_feed_data){
-    echo('<span class="sidebar-message">There are no news items yet...</span>');
-}
+<? if ( ! $news_feed_data):?>
+    <span class="sidebar-message">There are no news items yet...</span>
+<? else:?>
 
-
-foreach($news_feed_data as $item) { 
-?>
+<? foreach($news_feed_data as $item):?>
 
 <div id="wall-item-<?=$item[itemid]?>" class="wall-item">
 
-<?php if($item['islocation']){ ?>
+<? if($item['islocation']):?>
 
     <div class="wall-comment wall-root-comment">
 
@@ -30,7 +27,7 @@ foreach($news_feed_data as $item) {
     </div>
 
 
-<? } else { ?>
+<? else:?>
 
     <div class="wall-comment wall-reply-comment">
 
@@ -51,9 +48,10 @@ foreach($news_feed_data as $item) {
 
         <div class="clear-both"></div>
     </div>
-    <?
-}
-
-?></div>
     
-<? } ?>
+<? endif;?>
+
+</div>
+    
+<? endforeach;?>
+<? endif;?>

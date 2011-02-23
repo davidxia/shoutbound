@@ -38,7 +38,7 @@
         </div>
 
             	<!--<div id="avatar">
-                	<img src="http://graph.facebook.com/<?=$user['fid']; ?>/picture?type=large" />
+                	<img src="http://graph.facebook.com/<?=$user->fid?>/picture?type=large" />
             	</div>-->
 
 
@@ -47,22 +47,20 @@
         <div id="col2">
             <div id="home-trips">
 				<div id="home-trips-header">Your trips</div>
-				<? if(!count($user_trips)):?>
-                        You don't have any trips yet...
+				<? if ( ! count($trips)):?>
+                    You don't have any trips yet...
                 <? else:?>
-                    <? foreach($user_trips as $user_trip):?>
+                    <? foreach ($trips as $trip):?>
                         <div class="home-trip">
                             <div class="home-trip-name">
-                                <a href="<?=site_url('trip/details/'.$user_trip['tripid'])?>"><?=$user_trip['name']?></a>
+                                <a href="<?=site_url('trip/details/'.$trip->id)?>"><?=$trip->name?></a>
                             </div>
                             <div class="home-trip-content">
                                 <div class="trip-place">Chatham, MA</div>
                                 <div class="trip-startdate">February 23-27, 2011</div>
                                 <div class="trip-avatar-container">
-                                    <? foreach($user_trip['users'] as $trip_user):?>
-                                        <? if($trip_user['role']=='planner' && $trip_user['rsvp']=='yes'):?>
-                                            <img class="square-50" src="http://graph.facebook.com/<?=$trip_user['fid']; ?>/picture?type=square" />
-                                        <? endif;?>
+                                    <? foreach ($trip->users as $trip_user):?>
+                                        <img class="square-50" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" />
                                     <? endforeach;?>
                                 </div>
                             </div>
@@ -85,22 +83,20 @@
                 
             <div id="home-friends-trips">
 				<div id="home-friends-trips-header">Your friends' trips</div>
-				<? if(!count($friends_trips)):?>
+				<? if ( ! count($advising_trips)):?>
                         Tell your friends to share some trips with you.
                 <? else:?>
-                    <? foreach($friends_trips as $friends_trip):?>
+                    <? foreach ($advising_trips as $advising_trip):?>
                         <div class="home-trip">
                             <div class="home-trip-name">
-                                <a href="<?=site_url('trip/details/'.$friends_trip['tripid'])?>"><?=$friends_trip['name']?></a>
+                                <a href="<?=site_url('trip/details/'.$advising_trip->id)?>"><?=$advising_trip->name?></a>
                             </div>
                             <div class="home-trip-content">
                                 <div class="trip-place">Chatham, MA</div>
                                 <div class="trip-startdate">February 23-27, 2011</div>
                                 <div class="trip-avatar-container">
-                                    <? foreach($friends_trip['users'] as $trip_user):?>
-                                        <? if($trip_user['role']=='planner' && $trip_user['rsvp']=='yes'):?>
-                                            <img class="square-50" src="http://graph.facebook.com/<?=$trip_user['fid']; ?>/picture?type=square" />
-                                        <? endif;?>
+                                    <? foreach ($advising_trip->users as $trip_user):?>
+                                        <img class="square-50" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" />
                                     <? endforeach;?>
                                 </div>
                             </div>

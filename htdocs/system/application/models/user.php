@@ -1,6 +1,7 @@
 <?php
+
 class User extends DataMapper {
- 
+
     public $has_many = array('trip', 'friend');
 
     var $validation = array(

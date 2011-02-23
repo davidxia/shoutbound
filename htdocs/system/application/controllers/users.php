@@ -1,4 +1,5 @@
 <?php
+
 class Users extends Controller {
  
     function Users()
@@ -8,18 +9,9 @@ class Users extends Controller {
  
     function index()
     {         
-        $friend = new Friend();
-        $friend->name = 'asdfasdf';
-        $friend->friend_fid = '124125145';
-        if ($friend->save())
-        {
-            $u = new User();
-            $u->get_by_id(7);
-            if ($u->save($friend))
-            {
-                echo 'friend was saved';
-            }
-        }
+        $u = new User();
+        $u->get_by_id(10);
+        echo $u->name;
     }
     
     function logout()
