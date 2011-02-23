@@ -1,66 +1,60 @@
-Create = {};
+var create = {};
 
-Create.showCreateDialog = function() {
-    $.ajax({
-        url: baseUrl+'user/ajax_get_logged_in_uid',
-        success: function(response){
-            var r = $.parseJSON(response);
-            if(r.loggedin){
-                $.ajax({
-                    url: baseUrl+'trip/ajax_panel_create_trip',
-                    success: Create.displayCreateDialog
-                });
-            }else{
-                alert('youre not logged in!');
-            }
-        }
-    });
-}
-
-
-Create.displayCreateDialog = function(responseString) {
-    var response = $.parseJSON(responseString);
-    $("#div_to_popup").empty();
-    $("#div_to_popup").append(response["data"]);
-    $("#div_to_popup").bPopup();
-    
-    $('#trip-create-confirm').bind('click', Create.confirmCreate);
-    $('#trip-create-cancel').bind('click', Create.hideCreateDialog);    
-}
-
-
-Create.hideCreateDialog = function(){
-    $("#div_to_popup").bPopup().close();
-}
-
-Create.confirmCreate = function(){
-    var tripWhat = $("#trip-what").val();
-        
-    var postData = {
-        tripWhat: tripWhat
-    }
-    
-    if(tripWhat){
+create.showCreateDialog = function() {
+  $.ajax({
+    url: baseUrl+'users/ajax_get_logged_in_status',
+    success: function(response){
+      var r = $.parseJSON(response);
+      if (r.loggedin) {
         $.ajax({
-           type:'POST',
-           url: baseUrl + 'trip/ajax_create_trip',
-           data: postData,
-           success: Create.confirmAddTrip
+          url: baseUrl+'trips/ajax_create_trip_panel',
+          success: create.displayCreatePanel
         });
-    } else {
-        alert("Please name your trip! You will be glad you did.")
+      } else {
+        alert('youre not logged in!');
+      }
     }
+  });
 }
 
 
-Create.confirmAddTrip = function (response){
-    var r = $.parseJSON(response);
-    window.location = baseUrl + "trip/details/"+r['tripid'];
+create.displayCreatePanel = function(response) {
+  var r = $.parseJSON(response);
+  $('#div_to_popup').empty();
+  $('#div_to_popup').append(r['data']);
+  $('#div_to_popup').bPopup();
+  $('#trip-create-confirm').bind('click', create.confirmCreate);
+  $('#trip-create-cancel').bind('click', function() {
+    $('#div_to_popup').bPopup().close();
+  });
 }
 
-$(document).ready(function(){
-    $('#create_trip').click(function() {
-        Create.showCreateDialog();
-        return false;
+
+create.confirmCreate = function() {
+  var tripName = $('#trip-name').val();
+  var postData = {tripName: tripName};
+    
+  if (tripName) {
+    $.ajax({
+      type: 'POST',
+      url: baseUrl+'trips/ajax_create_trip',
+      data: postData,
+      success: create.confirmAddTrip
     });
+  } else {
+    alert('Please name your trip! You will be glad you did.')
+  }
+}
+
+
+create.confirmAddTrip = function(response) {
+  var r = $.parseJSON(response);
+  window.location = baseUrl+'trips/details/'+r['tripid'];
+}
+
+$(document).ready(function() {
+  $('#create-trip').click(function() {
+    create.showCreateDialog();
+    return false;
+  });
 });

@@ -9,9 +9,6 @@ class Users extends Controller {
  
     function index()
     {         
-        $u = new User();
-        $u->get_by_id(10);
-        echo $u->name;
     }
     
     function logout()
@@ -109,6 +106,22 @@ class Users extends Controller {
         json_success(array('redirect' => site_url('/')));
         
     }
+
+
+    function ajax_get_logged_in_status()
+    {
+        $u = new User();
+        
+        if ($u->get_logged_in_status())
+        {
+            json_success(array('loggedin'=>TRUE));
+        }
+        else
+        {
+            json_success(array('loggedin'=>FALSE));        
+        }
+    }
+
 }
 
 /* End of file users.php */

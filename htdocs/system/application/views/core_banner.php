@@ -10,7 +10,7 @@
         </div>
     
     <ul id="navigation_buttons" class="grid_3 push_5">
-        <li><a class="navigation" href="<?=site_url('user/logout')?>">Logout</a></li>
+        <li><a class="navigation" href="<?=site_url('users/logout')?>">Logout</a></li>
         <li><a class="navigation" href="<?=site_url('profile/settings')?>">Settings</a></li>
         <li><a class="navigation" href="<?=site_url('home')?>">Home</a></li>
     </ul>

@@ -10,7 +10,20 @@ class Trips extends Controller {
 
     function index()
     {
-        echo 'trips index page';
+        $t = new Trip();
+        $t->get_by_id(91);
+        //$t->name = 'test trip 2';
+        //$t->include_join_fields()->join_role = 3;
+        //$t->include_join_fields()->join_rsvp = 2;
+        $u = new User();
+        $u->get_by_id(9);
+        if ($t->set_join_field($u, 'role', 2) AND $t->set_join_field($u, 'rsvp', 3))
+        {
+            echo 'i changed hte field!'.$t->id;
+        }
+        
+        //$t->save();
+        //$u->save($t);
     }
 
  	
@@ -112,20 +125,38 @@ class Trips extends Controller {
         $received_invites = json_encode($received_invites);
         set_cookie('received_invites', $received_invites);
         
-        redirect('/trip/details/'.$trip_share['tripid']);
+        redirect('/trips/details/'.$trip_share['tripid']);
 
     }
     
     
-    function ajax_panel_create_trip() {
-        $render_string = $this->load->view('trip/trip_create_panel', '', true);
+    function ajax_create_trip_panel()
+    {
+        $render_string = $this->load->view('trip/create_trip_panel', '', TRUE);
         json_success(array('data'=>$render_string));
     }
     
     
-    function ajax_create_trip(){
-        $tripid = $this->Trip_m->create_trip($this->user['uid'], $_POST['tripWhat']);
-        json_success(array('tripid'=>$tripid));
+    function ajax_create_trip()
+    {
+        $u = new User();
+        if ( ! $u->get_logged_in_status())
+        {
+            redirect('/');            
+        }
+        $uid = get_cookie('uid');
+        $u->get_by_id($uid);
+
+        $t = new Trip();
+        $t->name = $this->input->post('tripName');
+        if ($t->save() AND $u->save($t)
+            AND $t->set_join_field($u, 'role', 2)
+            AND $t->set_join_field($u, 'rsvp', 3))
+        {
+            $t->set_join_field($u, 'role', 2);
+            $t->set_join_field($u, 'rsvp', 3);
+            json_success(array('tripid' => $t->id));
+        }        
     }
     
     
