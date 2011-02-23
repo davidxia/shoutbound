@@ -2,7 +2,7 @@
 
 class Trip extends DataMapper {
  
-    public $has_many = array('user');
+    public $has_many = array('user', 'suggestion');
 
     var $validation = array(
         array(
@@ -18,3 +18,6 @@ class Trip extends DataMapper {
     }
     
 }
+
+/* End of file trip.php */
+/* Location: ./application/models/trip.php */

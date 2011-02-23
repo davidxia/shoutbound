@@ -16,9 +16,11 @@ class Home extends Controller {
 
     function index()
     {
-        $uid = get_cookie('uid');
+        $uid = get_cookie('uid');       
         $u = new User();
         $u->get_by_id($uid);
+        
+        $t = new Trip();
         
         // get active trips for which user is a planner and rsvp is yes
         $u->trip->where('active', 1)->where_join_field('user', 'role', 2)->where_join_field('user', 'rsvp', 3)->get();
@@ -50,11 +52,30 @@ class Home extends Controller {
             
         }
         
+        
+        // get suggestions for both user's trips and her friends trips
+        foreach($trips as $trip)
+        {
+            //print_r($trip->id);
+            $s = new Suggestion();
+            $s->where('trip_id', $trip->id)->where('active', 1)->get();
+            foreach ($s->all as $suggestion)
+            {
+                //$u->clear();
+                $suggestion->stored->user_fid = $u->get_by_id($suggestion->user_id)->fid;
+                $suggestion->stored->user_name = $u->name;
+                $suggestion->stored->trip_name = $t->get_by_id($suggestion->trip_id)->name;
+                $suggestion->stored->is_location = 1;
+                $news_feed_items[] = $suggestion->stored;
+            }
+        }
+        
+        
         $view_data = array('user' => $u,
                            //'user_friends' => $this->User_m->get_friends_by_uid($this->user['uid']),
-                           //'news_feed_data' => $trip_news,
                            'trips' => $trips,
-                           'advising_trips' => $advising_trips);
+                           'advising_trips' => $advising_trips,
+                           'news_feed_items' => $news_feed_items);
                           
         $this->load->view('home', $view_data);
         
@@ -62,5 +83,18 @@ class Home extends Controller {
     
     function test()
     {
+        $s = new Suggestion();
+        $s->where('trip_id', 86)->where('active', 1)->get();
+        foreach ($s->all as $suggestion)
+        {
+            print_r($suggestion->stored);
+            echo '<br/><br/>';
+        }
+        //print_r($s);
+        //$s->where('trip_id', 86)->get();
+        //echo $s->id.'<br/>'.$s->name;
     }
 }
+
+/* End of file home.php */
+/* Location: ./application/controllers/home.php */

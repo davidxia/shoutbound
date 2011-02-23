@@ -8,63 +8,76 @@ class Trips extends Controller {
 	}
 
 
-    function index($id)
+    function index()
     {
-        
+        echo 'trips index page';
     }
 
  	
 
-    function details($tripid){
-        // check that user is logged in
-        $this->user = $this->User_m->get_logged_in_user();
-        //if(!$this->user) { redirect('/'); }
+    function details($trip_id)
+    {
+        $t = new Trip();
+
+        $u = new User();
+        if ($u->get_logged_in_status())
+        {
+            $uid = get_cookie('uid');
+            $u->get_by_id($uid);
+            $user = $u->stored;
+        }
 
         //check if trip exists in trips table and is active, ie not deleted
-        $trip = $this->Trip_m->get_trip_by_tripid($tripid);
-        if(!$trip) { redirect('/'); }
-        
+        $t->get_by_id($trip_id);
+        if ( ! $t->active)
+        {
+            redirect('/');
+        }
         // TODO: check if trip is private
 
         //check if user is associated with this trip in trips_users table, redirect to home page if not
-        $trip_uids = $this->Trip_m->get_uids_by_tripid($tripid);
-        //for($i = 0; $i < count($trip_uids); $i++) {
-            //if($trip_uids[$i] == $this->user['uid']) { break; }
-            //if($i == (count($trip_uids)-1)) { redirect('/'); }
-        //}
-                
- 		// get users and corresponding rsvps for this trip
- 		foreach($trip_uids as $i => $uid) {
- 		    $uids_rsvps[$uid] = $this->Trip_m->get_rsvp_by_tripid_uid($tripid, $uid);
- 		}
- 		// get users who rsvp yes, ie are going on the trip
- 		foreach($uids_rsvps as $uid => $rsvp) {
-            if($rsvp == 'yes') { $trip_goers[] = $this->User_m->get_user_by_uid($uid); }
- 		}
+        $u->trip->include_join_fields()->get_by_id($trip_id);
+        if ( ! $u->trip->join_role)
+        {
+            redirect('/');
+        }
+        $user_role = $u->trip->join_role;
+        $user_rsvp = $u->trip->join_rsvp;
         
-        // getting data for sub-sections
-        $items = $this->Trip_m->get_items_by_tripid($tripid, 'ASC');
-        $wall_data = array('wall_items' => $this->Trip_m->format_items_as_thread($items));
-        // $list_data = array('list_items' => array_reverse($this->_filter_out_wall_data($items)));
-        
-        foreach($items as $item){
-            if($item['islocation'] == 1)
-                $location_based_items[] = $item;
+        $u->where_join_field('trip', 'rsvp', 3)->where_join_field('trip', 'role', 2)->get_by_related_trip('id', $trip_id);
+        foreach ($u->all as $other_user)
+        {
+            $trip_goers[] = $other_user->stored;
         }
 
-        $view_data = array('user' => $this->user,
-                           'user_type' => $this->Trip_m->get_type_by_tripid_uid($tripid, $this->user['uid']),
-                           'user_rsvp' => $this->Trip_m->get_rsvp_by_tripid_uid($tripid, $this->user['uid']),
-                           //'trip_user' => $trip_user,
-                           //'list_data' => $list_data,
-                           'wall_data' => $wall_data,
-                           'location_based_items' => $location_based_items,
-                           'trip' => $trip,
-                           //'trips' => $this->Trip_m->get_user_trips($this->user['uid']),
-                           //'current_trip' => $trip,
- 			               //'in_users' =>$in_users,
- 			               'trip_goers' => $trip_goers,
-                           );
+        
+        // get suggestions for both user's trips and her friends trips
+        $s = new Suggestion();
+        $s->where('trip_id', $trip_id)->where('active', 1)->get();
+        foreach ($s->all as $suggestion)
+        {
+            $suggestion->stored->user_fid = $u->get_by_id($suggestion->user_id)->fid;
+            $suggestion->stored->user_name = $u->name;
+            $suggestion->stored->is_location = 1;
+            $wall_items[] = $suggestion->stored;
+            $suggestions[] = $suggestion->stored;
+        }
+        
+
+        
+        /*
+        $items = $this->Trip_m->get_items_by_tripid($tripid, 'ASC');
+        $wall_items = array('wall_items' => $this->Trip_m->format_items_as_thread($items));
+        */
+        
+        $view_data = array('trip' => $t->stored,
+                           'user' => $user,
+                           'user_role' => $user_role,
+                           'user_rsvp' => $user_rsvp,
+                           'wall_items' => $wall_items,
+                           'suggestions' => $suggestions,
+ 			               'trip_goers' => $trip_goers);
+ 			               
         
         $this->load->view('trip', $view_data);
     }

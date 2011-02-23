@@ -24,25 +24,26 @@ $this->load->view('core_header', $header_args);
 <script type="text/javascript">
     var baseUrl = "<?=site_url("")?>";
     var staticUrl = "<?=static_url("")?>";
-    var tripid = <?=$trip['tripid']?>;
-    <? if($trip['trip_startdate']): ?>
-        var tripStartDate = <?=$trip['trip_startdate']?>;
+    var tripid = <?=$trip->id?>;
+    <? if ($trip->trip_startdate):?>
+        var tripStartDate = <?=$trip->trip_startdate?>;
     <? endif; ?>
-    <? if($user): ?>
-        var uid = <?=$user['uid']?>;
-        var fid = <?=$user['fid']?>;
-    <? endif; ?>
+    <? if ($user):?>
+        var uid = <?=$user->id?>;
+        var fid = <?=$user->fid?>;
+    <? endif;?>
     
-    Map.lat = <?=$trip['lat']?>;
-    Map.lng = <?=$trip['lng']?>;
-    Map.sBound = <?=$trip['sbound']?>;
-    Map.wBound = <?=$trip['wbound']?>;
-    Map.nBound = <?=$trip['nbound']?>;
-    Map.eBound = <?=$trip['ebound']?>;
+    Map.lat = <?=$trip->lat?>;
+    Map.lng = <?=$trip->lng?>;
+    Map.sBound = <?=$trip->sbound?>;
+    Map.wBound = <?=$trip->wbound?>;
+    Map.nBound = <?=$trip->nbound?>;
+    Map.eBound = <?=$trip->ebound?>;
 </script>
 
-<meta name="title" content="<?=$trip['name']?>" />
-<meta name="description" content="<?=$trip['name']?>" />
+<meta name="title" content="<?=$trip->name?>" />
+<meta name="description" content="<?=$trip->name?>" />
+
 <?=$this->load->view('core_header_end')?>
 
 
@@ -57,7 +58,7 @@ $this->load->view('core_header', $header_args);
         <div id="top_container2"><div id="top_container1">
             <div id="trip_summary">
                 <div id="trip_name" >
-                    <?=$trip['name']?>
+                    <?=$trip->name?>
                 </div>
                 <div id="trip_creator">
                     created by John Smith
@@ -66,16 +67,16 @@ $this->load->view('core_header', $header_args);
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </div>
                 <div id="trip_goers">
-                    <? if($trip_goers):?>
-                        <? foreach($trip_goers as $trip_goer):?>
-                            <div class="trip_goer" uid="<?=$trip_goer['uid']?>">
-                                <img class="square-50" src="http://graph.facebook.com/<?=$trip_goer['fid']?>/picture?type=square" />
+                    <? if ($trip_goers):?>
+                        <? foreach ($trip_goers as $trip_goer):?>
+                            <div class="trip_goer" uid="<?=$trip_goer->id?>">
+                                <img class="square-50" src="http://graph.facebook.com/<?=$trip_goer->fid?>/picture?type=square" />
                             </div>
-                        <? endforeach; ?>
-                    <? endif; ?>
+                        <? endforeach;?>
+                    <? endif;?>
                     
                     <span id="num_trip_goers">
-                        <? if(count($trip_goers) == 1):?>
+                        <? if (count($trip_goers) == 1):?>
                             <span id="num"><?=count($trip_goers)?></span> person is in
                         <? else:?>
                             <span id="num"><?=count($trip_goers)?></span> people are in
@@ -104,23 +105,23 @@ $this->load->view('core_header', $header_args);
             
             </div>
             <div id="trip_widget">
-            <? if($user_type == 'planner'):?>
+            <? if ($user_role == 2):?>
                 <span id="rsvp_status">
-                <? if($user_rsvp == 'awaiting'):?>
+                <? if ($user_rsvp == 2):?>
                     You're invited
-                <? elseif($user_rsvp == 'yes'):?>
+                <? elseif ($user_rsvp == 3):?>
                     You're in
-                <? elseif($user_rsvp == 'no'):?>
+                <? elseif ($user_rsvp == 1):?>
                     You're out, but you can still change your mind
-                <? endif; ?>
+                <? endif;?>
                 </span>
                 
-                <? if($user_rsvp == 'awaiting'):?>
+                <? if ($user_rsvp == 2):?>
                 <div id="rsvp_buttons">
                     <a href="#" id="rsvp_yes_button">I'm in</a>
                     <a href="#" id="rsvp_no_button">I'm out</a>
                 </div>
-                <? elseif($user_rsvp == 'yes'):?>
+                <? elseif ($user_rsvp == 3):?>
                 <div id="rsvp_buttons" class="moved">
                     <div id="invsugg_btn_cont">
                         <div id="invite-others-button">
@@ -132,11 +133,11 @@ $this->load->view('core_header', $header_args);
                     </div>
                     <a href="#" id="rsvp_no_button">I'm out</a>
                 </div>
-                <? elseif($user_rsvp == 'no'):?>
+                <? elseif ($user_rsvp == 1):?>
                 <div id="rsvp_buttons">
                     <a href="#" id="rsvp_yes_button">I'm in</a>
                 </div>
-                <? endif; ?>
+                <? endif;?>
             <? endif;?>
             </div>
         </div></div>
@@ -226,12 +227,12 @@ $this->load->view('core_header', $header_args);
     // only put a comma after each item in the array if it's not the last one
     // TODO: is there a better way to do the comma thing?
     Wall.wall_markers = [
-        <? for($i=0, $count=count($location_based_items); $i<$count; $i++): ?>
-            {"itemid": <?=$location_based_items[$i]['itemid']?>, "lat": <?=$location_based_items[$i]['lat']?>, "lng": <?=$location_based_items[$i]['lng']?>}
-            <? if($i < $count-1): ?>
+        <? for($i=0, $count=count($suggestions); $i<$count; $i++):?>
+            {"itemid": <?=$suggestions[$i]->id?>, "lat": <?=$suggestions[$i]->lat?>, "lng": <?=$suggestions[$i]->lng?>}
+            <? if($i < $count-1):?>
                 ,
-            <? endif; ?>
-        <? endfor; ?>
+            <? endif;?>
+        <? endfor;?>
     ];
 </script>
 </body> 

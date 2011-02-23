@@ -32,16 +32,10 @@
 			<div id="feed">
 				<div id="feed-header">News feed</div>
 				
-				<?=$this->load->view('home_feed', '', true); ?>
+				<?=$this->load->view('home_feed', '', true)?>
 
 			</div>
         </div>
-
-            	<!--<div id="avatar">
-                	<img src="http://graph.facebook.com/<?=$user->fid?>/picture?type=large" />
-            	</div>-->
-
-
         
         
         <div id="col2">
@@ -53,7 +47,7 @@
                     <? foreach ($trips as $trip):?>
                         <div class="home-trip">
                             <div class="home-trip-name">
-                                <a href="<?=site_url('trip/details/'.$trip->id)?>"><?=$trip->name?></a>
+                                <a href="<?=site_url('trips/details/'.$trip->id)?>"><?=$trip->name?></a>
                             </div>
                             <div class="home-trip-content">
                                 <div class="trip-place">Chatham, MA</div>
@@ -69,17 +63,6 @@
                 <? endif; ?>
             </div>
             
-            
-            
-            <!--<div id="home-friends">
-                <div id="home-friends-header">Your Shoutbound friends</div>
-                <? foreach($user_friends as $user_friend): ?>
-                    <div class="friend-capsule">
-                        <img class="square-50" src="http://graph.facebook.com/<?=$user_friend['fid']; ?>/picture?type=square" />
-                        <div class="friend-capsule-name"><?=$user_friend['name']; ?></div>
-                    </div>
-                <? endforeach; ?>
-            </div>-->
                 
             <div id="home-friends-trips">
 				<div id="home-friends-trips-header">Your friends' trips</div>
@@ -89,7 +72,7 @@
                     <? foreach ($advising_trips as $advising_trip):?>
                         <div class="home-trip">
                             <div class="home-trip-name">
-                                <a href="<?=site_url('trip/details/'.$advising_trip->id)?>"><?=$advising_trip->name?></a>
+                                <a href="<?=site_url('trips/details/'.$advising_trip->id)?>"><?=$advising_trip->name?></a>
                             </div>
                             <div class="home-trip-content">
                                 <div class="trip-place">Chatham, MA</div>
@@ -102,12 +85,11 @@
                             </div>
                         </div>
                     <? endforeach;?>
-                <? endif; ?>
+                <? endif;?>
             </div>
-            
-            
-        </div>
-</div>
+        </div><!-- COL2 END -->
+        
+    </div><!-- MAIN END -->
 
 </body> 
 </html>
