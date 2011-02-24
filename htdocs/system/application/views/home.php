@@ -47,7 +47,7 @@
                     <? foreach ($trips as $trip):?>
                         <div class="home-trip">
                             <div class="home-trip-name">
-                                <a href="<?=site_url('trips/details/'.$trip->id)?>"><?=$trip->name?></a>
+                                <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
                             </div>
                             <div class="home-trip-content">
                                 <div class="trip-place">Chatham, MA</div>
@@ -72,7 +72,7 @@
                     <? foreach ($advising_trips as $advising_trip):?>
                         <div class="home-trip">
                             <div class="home-trip-name">
-                                <a href="<?=site_url('trips/details/'.$advising_trip->id)?>"><?=$advising_trip->name?></a>
+                                <a href="<?=site_url('trips/'.$advising_trip->id)?>"><?=$advising_trip->name?></a>
                             </div>
                             <div class="home-trip-content">
                                 <div class="trip-place">Chatham, MA</div>

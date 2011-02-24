@@ -16,7 +16,7 @@
                   <span class="wall-comment-text"> suggested <span id="wall-location-name-<?=$news_feed_item->id?>" class="wall-location-text"></span>
                   <br/>
                   <span class="feed-trip-reference-text">
-                      for <?=$news_feed_item->name?>'s trip - <a href="<?=site_url('trips/details/'.($news_feed_item->trip_id))?>"><?=$news_feed_item->trip_name?></a>
+                      for <?=$news_feed_item->name?>'s trip - <a href="<?=site_url('trips/'.($news_feed_item->trip_id))?>"><?=$news_feed_item->trip_name?></a>
                   </span>
                   
                   </span>
@@ -37,7 +37,7 @@
                   <span class="wall-comment-text"> "<?=$item['body'];?>" </span>
                   <br/>
                   <span class="feed-trip-reference-text">
-                        for <?=$item['trip']['user']['name']?>'s trip - <a href="<?=site_url('trips/details/'.($item['tripid']))?>"><?=$item['trip']['name'];?></a>
+                        for <?=$item['trip']['user']['name']?>'s trip - <a href="<?=site_url('trips/'.($item['tripid']))?>"><?=$item['trip']['name'];?></a>
                   </span>
                   
                   <br/>

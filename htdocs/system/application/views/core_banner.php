@@ -6,7 +6,7 @@
     </div>
 
 		<div class="grid_2 push_2">
-        	<a id="create-trip" href="#">Create trip</a>
+        	<a href="<?=site_url('trips/create')?>">Create trip</a>
         </div>
     
     <ul id="navigation_buttons" class="grid_3 push_5">

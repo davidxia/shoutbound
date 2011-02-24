@@ -2,52 +2,13 @@
 
 class Trips extends Controller {
     
-	function Trips()
-	{
-		parent::Controller();
-	}
-
-
-    function index()
+    function Trips()
     {
-        $u = new User();
-        if ( ! $u->get_logged_in_status())
-        {
-            redirect('/');            
-        }
-        $uid = get_cookie('uid');
-        $u->get_by_id($uid);
-        
-        $u->friend->where_not_in('friend_uid', array(0))->get();
-        $t = new Trip();
-        $t->get_by_id(86);
-        $t->user->get();
-        
-        foreach ($t->user->all as $user)
-        {
-            $trip_uids[] = $user->id;
-        }
-        foreach ($u->friend->all as $friend)
-        {
-            if ( ! in_array($friend->friend_uid, $trip_uids))
-            {
-                $uninvited_uids[] = $friend->friend_uid;
-            }
-        }
-        print_r($uninvited_uids);
-        $u->where_in('id', $uninvited_uids)->get();
-        foreach ($u->all as $user)
-        {
-            print_r($user->stored);
-        }
-        
-
-
+    	parent::Controller();
     }
-
  	
 
-    function details($trip_id)
+    function index($trip_id)
     {
         $t = new Trip();
 
@@ -112,6 +73,12 @@ class Trips extends Controller {
  			               
         
         $this->load->view('trip', $view_data);
+    }
+    
+    
+    function create()
+    {
+        $this->load->view('trip/create', $view_data);
     }
     
 
