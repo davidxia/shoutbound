@@ -41,6 +41,12 @@ $this->load->view('core_header', $header_args);
     text-align: center;
     line-height: 2.4;
   }
+  #name-invite-box, #interests-box {
+    display: none;
+  }
+  textarea, input {
+    margin-top: 20px;
+  }
 </style>
  
  
@@ -65,9 +71,9 @@ $this->load->view('core_header', $header_args);
       
       <!-- TRIP CREATION FORM CONTAINER -->
       <div id="trip-creation-form" style="width:718px; display:inline; float:left; position:relative; border-left:1px solid black">
-        <!-- DESTINATION AND DATES CONTAINER -->
-        <div style="margin-left:20px; margin-right:20px; margin-top:40px; position:relative; float:left; width:679px; border:1px solid black;">
-          <!-- DESTINATION BOX -->
+        <!-- PLACE AND DATES BOX -->
+        <div id="place-date-box" style="margin-left:20px; margin-right:20px; margin-top:40px; position:relative; float:left; width:679px; border:1px solid black;">
+          <!-- PLACE BOX -->
           <div style="float:left; width:35%;">
             <div style="margin-top:10px; margin-left:10px">
               <span style="">Destination</span>
@@ -94,15 +100,66 @@ $this->load->view('core_header', $header_args);
             </div>
           </div><!-- DATE PICKER BOX ENDS -->
 
-          <! -- DESTINATION INPUT BOX -->
+          <! -- PLACE INPUT BOX -->
           <div style="margin-left:10px; margin-top:10px; border:1px solid black; float:left;">
             add another destination
-          </div><!-- DESTINATION BOX ENDS -->
+          </div><!-- PLACE BOX ENDS -->
           
-        </div><!-- DESTINATION AND DATES CONTAINER ENDS -->
+        </div><!-- PLACE AND DATES BOX ENDS -->
         
-        <div class="back-button">Back</div>
-        <div class="next-button">Next</div>
+        <!-- NAME INVITES BOX -->
+        <div id="name-invite-box" style="margin-left:20px; margin-right:20px; margin-top:40px; position:relative; float:left; width:679px; border:1px solid black;">
+          <div style="padding:0px 0px 20px 10px; width:669px; border-bottom:1px solid black;">
+            My trip is called:
+            <input type="text" size="40" />
+          </div>
+          
+          <div style="padding:20px 0px 20px 10px; width:669px; border-bottom:1px solid black;">
+            Invite others to join your trip (optional):
+            <br/>
+            <div style="margin-left:135px;">
+              <input type="text" size="40" />
+            </div>
+            <br/>
+            Give them a deadline to respond by (optional):
+            <div style="margin-left:135px;">
+              <input type="text" />
+            </div>
+          </div>
+
+          <div style="padding:20px 0px 20px 10px; width:669px;">
+            Describe your trip in 140 characters or less (optional)
+            <textarea style="width:450px; height:56px;"></textarea>
+          </div>
+        </div><!-- NAME INVITES BOX ENDS -->
+        
+        <!-- INTERESTS BOX -->
+        <div id="interests-box" style="margin-left:20px; margin-right:20px; margin-top:40px; position:relative; float:left; width:679px; border:1px solid black;">
+          <div style="padding:20px 0px 20px 10px; width:669px; border-bottom:1px solid black;">
+            On my trip I'm interested in:
+            <textarea style="width:482px; height:56px;"></textarea>
+          </div>
+          
+          <div style="padding:20px 0px 20px 10px; width:669px; border-bottom:1px solid black;">
+            I want suggestions for:
+            <br/>
+            <label for="accommodation">Accommodation</label>
+            <input type="checkbox" name="accommodation" value="accommodation" />
+            <br/>
+          </div>
+
+          <div style="padding:20px 0px 20px 10px; width:669px;">
+            Ask specific friends to give you advice on your trip:
+            <div style="margin-left:135px;">
+              <input type="text" size="40" />
+            </div>
+            <br/>
+            Share this trip on Facebook and Twitter to get even more advice.
+          </div>        
+        </div><!-- INTERESTS BOX ENDS -->
+        
+        <div class="back-button"><a href="#">Back</a></div>
+        <div class="next-button"><a href="#">Next</a></div>
         
       </div><!-- TRIP CREATION FORM CONTAINER ENDS -->
       
@@ -117,39 +174,56 @@ $this->load->view('core_header', $header_args);
       showPart2();
     });
 
+
     var showPart1 = function() {
       $('#part1-indicator').css('background-color', '#D0D0FF');
       $('#part2-indicator').css('background-color', 'transparent');
+      
       $('div.back-button').fadeOut(300);
       $('div.next-button').unbind().click(function() {
         showPart2();
-      });    
+      });
+      
+      $('#name-invite-box').hide();
+      $('#place-date-box').show();
     };
+
 
     var showPart2 = function() {
       $('#part1-indicator').css('background-color', 'transparent');
       $('#part2-indicator').css('background-color', '#D0D0FF');
       $('#part3-indicator').css('background-color', 'transparent');
+      
       $('div.back-button').fadeIn(300).click(function() {
         showPart1();
       });
       $('div.next-button').unbind();
-      $('div.create-button').unbind().removeClass('create-button').addClass('next-button').html('Next');
+      $('div.create-button').unbind().removeClass('create-button').addClass('next-button').html('<a href="#">Next</a>');
       $('div.next-button').click(function() {
         showPart3();
-      });    
+      });
+      
+      $('#place-date-box').hide();
+      $('#interests-box').hide();
+      $('#name-invite-box').show();
     }
+    
     
     var showPart3 = function() {
       $('#part2-indicator').css('background-color', 'transparent');
       $('#part3-indicator').css('background-color', '#D0D0FF');
+      
       $('div.back-button').unbind().click(function() {
         showPart2();
       });
-      $('div.next-button').unbind().removeClass('next-button').addClass('create-button').html('Create');
+      $('div.next-button').unbind().removeClass('next-button').addClass('create-button').html('<a href="#">Create</a>');
       $('div.create-button').click(function() {
         alert('youve created a trip');
       });
+      
+      $('#name-invite-box').hide();
+      $('#interests-box').show();
+
     };
 
   });
