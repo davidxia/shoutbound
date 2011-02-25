@@ -113,7 +113,7 @@ $this->load->view('core_header', $header_args);
         <!-- MAIN -->
         <div id="main" style="min-height:500px;">
           <!-- TRIP CREATION FORM -->
-          <form id="trip-creation-form" action="test" method="post" style="width:800px;">
+          <form id="trip-creation-form" action="confirm_create" method="post" style="width:800px;">
           
           
             <!-- PLACE DATES FIELD -->

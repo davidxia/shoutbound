@@ -8,9 +8,24 @@ class Trips extends Controller {
     }
  	  
  	  
- 	  function test()
+ 	  function confirm_create()
  	  {
- 	      echo 'form validated';
+        $u = new User();
+        if ( ! $u->get_logged_in_status())
+        {
+            redirect('/');            
+        }
+        $uid = get_cookie('uid');
+        $u->get_by_id($uid);
+
+        $t = new Trip();
+        $t->name = $this->input->post('trip_name');
+        if ($t->save() AND $u->save($t)
+            AND $t->set_join_field($u, 'role', 2)
+            AND $t->set_join_field($u, 'rsvp', 3))
+        {
+            redirect('trips/'.$t->id);
+        } 	      
  	  }
 
     function index($trip_id)
@@ -83,6 +98,12 @@ class Trips extends Controller {
     
     function create($i=1)
     {
+        $u = new User();
+        if ( ! $u->get_logged_in_status())
+        {
+            redirect('/');            
+        }
+
         if ($i == 1)
         {
             $this->load->view('trip/create_1', $view_data);
@@ -93,13 +114,13 @@ class Trips extends Controller {
         }
     }
     
-
+/*
     function ajax_trip_create_panel()
     {
         $render_string = $this->load->view('trip/trip_create_panel', '', TRUE);
         json_success(array('data'=>$render_string));
     }
-    
+*/    
     
     function ajax_trip_create()
     {

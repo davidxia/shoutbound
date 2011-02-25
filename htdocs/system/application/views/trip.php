@@ -333,40 +333,42 @@ li.location-based.highlighted{
 
             <!-- WALL CONTENT -->
             <ul id="wall-content">
-              <? foreach ($wall_items as $wall_item):?>
-                <? if ($wall_item->is_location):?>
-                  <li id="wall-item-<?=$wall_item->id?>" class="location-based" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
-                    <div class="wall-location-name"style="font-weight:bold;"><?=$wall_item->name?></div>
-                    <div>Suggested by <a href="#" class="wall-comment-author" style="text-decoration:none;"><?=$wall_item->user_name?></a></div>
-                    <span class="wall-location-address" style="display:none;"><?=$wall_item->address?></span>
-                    <span class="wall-location-phone" style="display:none;"><?=$wall_item->phone?></span>
-                    
-                    Accomodation, landmark, restaurant<br/>
-                    Good for: seeing new york like a local, food, burgers<br/>
-                    <div class="rating-panel">
-                      Like Dislike
-                    </div>
-                    <? if ($user_role == 2):?>
-                      <div class="remove-wall-item" itemid="<?=$wall_item->id?>"></div>
-                    <? endif;?>
-                    <? if ($wall_item->text):?>
-                      <br/>
-                      <?=$wall_item->text?>
-                    <? endif;?>
-                    <span class="wall-timestamp" style="color:#777; font-size: 12px;"><?=$wall_item->created?></span>
-                  </li>
-                <? else:?>
-                  <li id="wall-item-<?=$wall_item->id?>" class="" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
-                    <a href="#"><img src="http://graph.facebook.com/<?=$wall_item->user_fid?>/picture?type=square" /></a>
-                    <? if ($user_role == 2):?>
-                      <div class="remove-wall-item" itemid="<?=$wall_item->id?>"></div>
-                    <? endif;?>
-                    <span class="wall_comment_author"><?=$wall_item->user_name?></span>
-                    <span class="wall-comment-text"><?=$wall_item->text?></span>
-                    <span style="color:#777; font-size: 12px;"><?=$wall_item->created?></span>
-                  </li>
-                <? endif;?>
-              <? endforeach;?>
+              <? if ($wall_items):?>
+                <? foreach ($wall_items as $wall_item):?>
+                  <? if ($wall_item->is_location):?>
+                    <li id="wall-item-<?=$wall_item->id?>" class="location-based" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
+                      <div class="wall-location-name"style="font-weight:bold;"><?=$wall_item->name?></div>
+                      <div>Suggested by <a href="#" class="wall-comment-author" style="text-decoration:none;"><?=$wall_item->user_name?></a></div>
+                      <span class="wall-location-address" style="display:none;"><?=$wall_item->address?></span>
+                      <span class="wall-location-phone" style="display:none;"><?=$wall_item->phone?></span>
+                      
+                      Accomodation, landmark, restaurant<br/>
+                      Good for: seeing new york like a local, food, burgers<br/>
+                      <div class="rating-panel">
+                        Like Dislike
+                      </div>
+                      <? if ($user_role == 2):?>
+                        <div class="remove-wall-item" itemid="<?=$wall_item->id?>"></div>
+                      <? endif;?>
+                      <? if ($wall_item->text):?>
+                        <br/>
+                        <?=$wall_item->text?>
+                      <? endif;?>
+                      <span class="wall-timestamp" style="color:#777; font-size: 12px;"><?=$wall_item->created?></span>
+                    </li>
+                  <? else:?>
+                    <li id="wall-item-<?=$wall_item->id?>" class="" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
+                      <a href="#"><img src="http://graph.facebook.com/<?=$wall_item->user_fid?>/picture?type=square" /></a>
+                      <? if ($user_role == 2):?>
+                        <div class="remove-wall-item" itemid="<?=$wall_item->id?>"></div>
+                      <? endif;?>
+                      <span class="wall_comment_author"><?=$wall_item->user_name?></span>
+                      <span class="wall-comment-text"><?=$wall_item->text?></span>
+                      <span style="color:#777; font-size: 12px;"><?=$wall_item->created?></span>
+                    </li>
+                  <? endif;?>
+                <? endforeach;?>
+              <? endif;?>
               
               
             </ul><!-- WALL CONTENT ENDS -->
