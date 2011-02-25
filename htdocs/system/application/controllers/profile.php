@@ -3,25 +3,25 @@
 class Profile extends Controller {
     
     function Profile()
-	{
-		parent::Controller();
-		
-		//authentication
-        $this->user = $this->User_m->get_logged_in_user();
-        if(!$this->user){
+    {
+        parent::Controller();
+        $u = new User();
+        if ( ! $u->get_logged_in_status())
+        {
             redirect('/');
+        }
 		}
 		
-		//TODO: maybe some friend detection here
-	}
 
-    function index() {
+    function index()
+    {
         $this->details();
     }
 
     function details($pid=false) {
         
-        if($pid === false){
+        if ($pid === false)
+        {
             $pid = $this->user['uid'];
         }
         

@@ -3,15 +3,15 @@
 class Home extends Controller {
     
     function Home()
-	{
-		parent::Controller();
-		$u = new User();
+    {
+        parent::Controller();
+        $u = new User();
         if ( ! $u->get_logged_in_status())
         {
             redirect('/');
         }
-		// TODO: maybe some friend detection here
-	}
+        // TODO: maybe some friend detection here
+    }
 	
 
     function index()

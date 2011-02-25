@@ -1,6 +1,7 @@
 <?
 $header_args = array(
     'js_paths'=>array(
+        'js/jquery/validate.min.js',
     ),
     'css_paths'=>array(
         'css/common.css',
@@ -91,6 +92,12 @@ $this->load->view('core_header', $header_args);
   .clear {
     clear: both;
   }
+  label.error {
+    color: red;
+    vertical-align: top;
+    font-size: 12px;
+  }
+
 </style>
  
  
@@ -106,7 +113,7 @@ $this->load->view('core_header', $header_args);
         <!-- MAIN -->
         <div id="main" style="min-height:500px;">
           <!-- TRIP CREATION FORM -->
-          <form id="trip-creation-form" action="" method="post" style="width:800px;">
+          <form id="trip-creation-form" action="test" method="post" style="width:800px;">
           
           
             <!-- PLACE DATES FIELD -->
@@ -117,7 +124,7 @@ $this->load->view('core_header', $header_args);
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
-                <input autofocus="autofocus" type="text" style="width:380px;"/>
+                <input class="required" id="destination" name="destination" autofocus="autofocus" type="text" style="width:380px;"/>
               </div>
               
               <div class="field dates" style="margin-left:10px;">
@@ -126,27 +133,27 @@ $this->load->view('core_header', $header_args);
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
-                From <input type="text" size="10"/> to <input type="text" size="10" />
+                From <input  id="startdate" name="startdate" type="text" size="10"/> to <input  id="enddate" name="enddate" type="text" size="10" />
               </div>
             </fieldset><!-- PLACE DATES FIELD ENDS -->
             
             <!-- SUMMARY INVITES FIELD -->
             <fieldset id="summary-invites-field" style="border-width:0; border-color:transparent;">
-              <div class="field trip-name" style="margin-left:10px;">
+              <div class="field trip_name" style="margin-left:10px;">
                 <span class="label-and-errors">
-                  <label for="">Trip name</label>
+                  <label for="trip_name">Trip name</label>
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
-                <input type="text" style="width:380px;"/>
+                <input  id="trip_name" name="trip_name" class="required" type="text" style="width:380px;"/>
               </div>
               <div class="field" style="margin-left:10px;">
                 <span class="label-and-errors">
-                  <label for="">Invite people to join your trip (optional)</label>
+                  <label for="invites">Invite people to join your trip (optional)</label>
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
-                <input type="text" style="width:380px;"/>
+                <input  id="invites" name="invites" type="text" style="width:380px;"/>
               </div>
               <div class="field" style="margin-left:10px;">
                 <span class="label-and-errors">
@@ -158,11 +165,11 @@ $this->load->view('core_header', $header_args);
               </div>
               <div class="field" style="margin-left:10px;">
                 <span class="label-and-errors">
-                  <label for="">Describe your trip in 140 characters or less (optional)</label>
+                  <label for="trip-description">Describe your trip in 140 characters or less (optional)</label>
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
-                <textarea style="width:380px; height:56px;"></textarea>
+                <textarea  id="trip-description" name="trip-description" style="width:380px; height:56px;"></textarea>
               </div>
             </fieldset><!-- SUMMARY INVITES FIELD ENDS -->
             
@@ -170,16 +177,16 @@ $this->load->view('core_header', $header_args);
             <fieldset id="interests-field" style="border-width:0; border-color:transparent; position:relative;">
               <div class="field" style="margin-left:10px;">
                 <span class="label-and-errors">
-                  <label for="">On my trip, I'm interested in (optional)</label>
+                  <label for="trip-interests">On my trip, I'm interested in (optional)</label>
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
-                <textarea style="width:380px; height:56px;"></textarea>
+                <textarea  id="trip-interests" name="trip-interests" style="width:380px; height:56px;"></textarea>
               </div>
               
               <div class="field" style="margin-left:10px;">
                 <span class="label-and-errors">
-                  <label for="">I want suggestions for:</label>
+                  I want suggestions for:
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
@@ -218,11 +225,11 @@ $this->load->view('core_header', $header_args);
 
               <div class="field" style="margin-left:10px;">
                 <span class="label-and-errors">
-                  <label for="">Ask specific friends to give you advice for your trip.</label>
+                  <label for="advisors">Ask specific friends to give you advice for your trip.</label>
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
-                <input type="text" size="40" />
+                <input id="advisors" name="advisors" type="text" size="40" />
               </div>
               
               <div class="field" style="margin-left:10px;">
@@ -236,7 +243,7 @@ $this->load->view('core_header', $header_args);
 
 
             </fieldset><!-- INTERESTS FIELD ENDS -->
-            
+            <input class="submit" type="submit" value="Submit"/>
           </form><!-- TRIP CREATION FORM ENDS -->
           
         </div><!-- MAIN DIV ENDS -->
@@ -248,6 +255,17 @@ $this->load->view('core_header', $header_args);
 
 <script type="text/javascript">
   $(document).ready(function() {
+    
+    $('#trip-creation-form').validate({
+      messages: {
+       destination: 'You need a destination for a trip, silly :p',
+       trip_name: 'Give your trip a cool name.'
+      },
+      errorPlacement: function(error, element) {
+        error.appendTo( element.siblings('.label-and-errors').children('.error-message') );
+      }
+    });
+   
     $('div.next-button').click(function() {
       showPart2();
     });
