@@ -1,11 +1,10 @@
 <?
     $header_args = array(
         'css_paths'=>array(
+            'css/common.css'
         ),
         'js_paths'=>array(
-			'js/trip/create.js',
         )
-        
     );
     echo($this->load->view('core_header', $header_args));
 ?>
@@ -16,80 +15,112 @@
     var staticUrl = "<?=static_url(""); ?>";
 </script>
 
+<style type="text/css">
+  a {
+    text-decoration: none;
+  }
+</style>
+
 </head> 
 <body>
-
-	<div id="div_to_popup"></div>
-
-    <?
-        $banner_args = array('user'=>$user);
-        echo($this->load->view('core_banner', $banner_args));
-    ?>
-  
+  <div id="wrapper" style="margin: 0 auto; width:960px;">
+      
+    <?=$this->load->view('header')?>
+    
+    <!-- MAIN -->
     <div id="main">
+      <!-- NEWS FEED -->
+			<div id="news-feed" style="float:left; width:556px; background-color:#FFCCCC; padding-left:20px;">
+				<div style="margin:10px 0px 10px;">
+  				<span style="font-size:24px;">News feed</span>
+				</div>
+        <? if ( ! $news_feed_items):?>
+          <span>There are no news items yet...</span>
+        <? else:?>
+          <ul>
+            <? foreach($news_feed_items as $news_feed_item):?>
+              <li id="wall-item-<?=$news_feed_item->id?>" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
+              <? if ($news_feed_item->is_location):?>
+                <a href="#" style="margin-right:10px; float:left;"><img src="http://graph.facebook.com/<?=$news_feed_item->user_fid?>/picture?type=square" /></a>
+                <div style="display:table-cell; line-height:18px;">
+                  <?=$news_feed_item->user_name?> suggested <span style="font-weight:bold;"><?=$news_feed_item->name?></span>
+                  <br/>
+                  for <a href="<?=site_url('trips/'.($news_feed_item->trip_id))?>"><?=$news_feed_item->trip_name?></a>
+                  <br/>
+                  <span style="font-size:10px;"><?=$news_feed_item->created?></span>
+                </div>
+              <? endif;?>
+              </li>
+            <? endforeach;?>
+          </ul>
+        <? endif;?>
+			</div><!-- NEWS FEED ENDS -->
+			
+			<!-- TRIPS COLUMN -->
+			<div style="float:left; width:364px;background-color:#CCCFFF; padding-left:20px;">
+			  <!-- USERS TRIPS -->
+        <div id="user-trips">
+  				<div style="margin:10px 0px 10px;">
+    				<span style="font-size:24px;">Your trips</span>
+  				</div>
+  				<? if ( ! count($trips)):?>
+            You don't have any trips yet...
+          <? else:?>
+            <ul>
+              <? foreach ($trips as $trip):?>
+                <li class="user-trip" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
+                  <div class="user-trip-name">
+                    <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
+                  </div>
+                  <ul class="trip-content" style="margin-top:10px;">
+                    <li class="trip-place" style="float:left; width:30%; font-size:12px;">Chatham, MA</li>
+                    <li class="trip-startdate" style="float:left; width:30%; font-size:12px;">February 23-27, 2011</li>
+                    <li class="trip-avatar-container">
+                      <? foreach ($trip->users as $trip_user):?>
+                        <a href="#"><img src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" /></a>
+                      <? endforeach;?>
+                    </li>
+                  </ul>
+                </li>
+              <? endforeach;?>
+            </ul>
+          <? endif; ?>
+        </div><!-- USERS TRIPS ENDS -->
         
-        <div id="col1">
-			<div id="feed">
-				<div id="feed-header">News feed</div>
-				
-				<?=$this->load->view('home_feed', '', true)?>
-
-			</div>
-        </div>
-        
-        
-        <div id="col2">
-            <div id="home-trips">
-				<div id="home-trips-header">Your trips</div>
-				<? if ( ! count($trips)):?>
-                    You don't have any trips yet...
-                <? else:?>
-                    <? foreach ($trips as $trip):?>
-                        <div class="home-trip">
-                            <div class="home-trip-name">
-                                <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
-                            </div>
-                            <div class="home-trip-content">
-                                <div class="trip-place">Chatham, MA</div>
-                                <div class="trip-startdate">February 23-27, 2011</div>
-                                <div class="trip-avatar-container">
-                                    <? foreach ($trip->users as $trip_user):?>
-                                        <img class="square-50" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" />
-                                    <? endforeach;?>
-                                </div>
-                            </div>
-                        </div>
-                    <? endforeach;?>
-                <? endif; ?>
-            </div>
-            
-                
-            <div id="home-friends-trips">
-				<div id="home-friends-trips-header">Your friends' trips</div>
-				<? if ( ! count($advising_trips)):?>
-                        Tell your friends to share some trips with you.
-                <? else:?>
-                    <? foreach ($advising_trips as $advising_trip):?>
-                        <div class="home-trip">
-                            <div class="home-trip-name">
-                                <a href="<?=site_url('trips/'.$advising_trip->id)?>"><?=$advising_trip->name?></a>
-                            </div>
-                            <div class="home-trip-content">
-                                <div class="trip-place">Chatham, MA</div>
-                                <div class="trip-startdate">February 23-27, 2011</div>
-                                <div class="trip-avatar-container">
-                                    <? foreach ($advising_trip->users as $trip_user):?>
-                                        <img class="square-50" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" />
-                                    <? endforeach;?>
-                                </div>
-                            </div>
-                        </div>
-                    <? endforeach;?>
-                <? endif;?>
-            </div>
-        </div><!-- COL2 END -->
-        
-    </div><!-- MAIN END -->
+        <!-- FRIENDS TRIPS -->
+        <div id="home-friends-trips">
+  				<div style="margin:10px 0px 10px;">
+    				<span style="font-size:24px;">Your friends' trips</span>
+  				</div>
+  				<? if ( ! count($advising_trips)):?>
+            Tell your friends to share some trips with you.
+          <? else:?>
+            <ul>
+              <? foreach ($advising_trips as $advising_trip):?>
+                <li class="home-trip">
+                  <div class="home-trip-name">
+                    <a href="<?=site_url('trips/'.$advising_trip->id)?>"><?=$advising_trip->name?></a>
+                  </div>
+                  <ul class="trip-content" style="margin-top:10px;">
+                    <li class="trip-place" style="float:left; width:30%; font-size:12px;">Chatham, MA</li>
+                    <li class="trip-startdate" style="float:left; width:30%; font-size:12px;">February 23-27, 2011</li>
+                    <li class="trip-avatar-container">
+                      <? foreach ($advising_trip->users as $trip_user):?>
+                        <img src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" />
+                      <? endforeach;?>
+                    </li>
+                  </ul>
+                </li>
+              <? endforeach;?>
+            </ul>
+          <? endif;?>
+        </div><!-- FRIENDS TRIPS ENDS -->
+			
+			</div><!-- TRIPS COLUMN ENDS -->
+      
+    
+    </div><!-- MAIN ENDS -->
+  </div><!-- WRAPPER ENDS -->
 
 </body> 
 </html>

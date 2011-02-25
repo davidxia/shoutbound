@@ -20,7 +20,7 @@ var Map = {
     },
     
     loadMap: function() {
-        // load google map with options
+      // load google map with options
     	var mapOptions = {
         	disableDefaultUI: true,
         	zoomControl: true,
@@ -83,16 +83,18 @@ var Map = {
     },
     
     
-    geocode: function(){
-    	// create new geocoder to resolve city names into latlng co-ords
+    geocode: function() {
+    	// new geocoder to convert address/name into latlng co-ords
     	Map.geocoder = new google.maps.Geocoder();
     	var query = $('#location-search-box').val();
     	// trim space if browser supports
-    	if(query && query.trim) { query = query.trim(); }
+    	if (query && query.trim) {
+    	  query = query.trim();
+      }
         // prevent useless requests
-    	if(query != Map.geocoder.resultAddress && query.length > 1) {
+    	if (query != Map.geocoder.resultAddress && query.length > 1) {
     		clearTimeout(Map.geocoder.waitingDelay);
-    		Map.geocoder.waitingDelay = setTimeout(function(){
+    		Map.geocoder.waitingDelay = setTimeout(function() {
     			Map.geocoder.geocode({'address': query}, Map.geocodeResult);
     		}, 500);
     	} else {
@@ -110,7 +112,7 @@ var Map = {
 				Map.listResult(result[i]);
 			}
 		} else if(status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-			$('#location_autosuggest').html('Where the fuck is that?!');
+			$('#location_autosuggest').html('Aw, we couldn\t find that place.');
 			Map.geocoder.resultAddress = '';
 			Map.geocoder.resultBounds = null;
 		} else {
@@ -120,17 +122,19 @@ var Map = {
 		}
 	},
 	
-	// Selectable dropdown list
+  	// Selectable dropdown list
     listResult: function(resultItem) {
     	var li = $('<li></li>');
     	li.html('<a href="#">'+resultItem.formatted_address+'</a>');
     	li.click(function(){
-    	    Map.updateMap(resultItem);
-    	    $('.place_name').html(resultItem.address_components[0].long_name);
-    	    $('#place_type_dropdown').removeClass('hidden');
-    	    $('#place_good_for').removeClass('hidden');
-    	    $('#comment_container').removeClass('hidden');
-        });
+  	    Map.updateMap(resultItem);
+  	    $('.place_name').html(resultItem.address_components[0].long_name);
+  	    $('#place_type_dropdown').removeClass('hidden');
+  	    $('#place_good_for').removeClass('hidden');
+  	    $('#comment_container').removeClass('hidden');
+  	    $('#marker-notification').show();
+  	    return false;
+      });
     	$('#location_autosuggest').append(li);
     },
     
@@ -139,19 +143,21 @@ var Map = {
     	resultItem.geometry && resultItem.geometry.viewport && Map.map.fitBounds(resultItem.geometry.viewport);
     	$('#location_autosuggest').empty();
     	var evnt = google.maps.event.addListener(Map.map, 'tilesloaded', function(){
-    	    if(Map.new_marker && Map.new_marker.getMap)
-    	        Map.new_marker.setMap(null);
+    	    if(Map.new_marker && Map.new_marker.getMap) {
+            Map.new_marker.setMap(null);
+          }
             Map.new_marker = new google.maps.Marker({
-                map: Map.map,
-                animation: google.maps.Animation.DROP,
-                draggable: false,
-                position: resultItem.geometry.location,
-                zIndex: 9999,
-                icon: new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/shoutbound_marker.png')
+              map: Map.map,
+              animation: google.maps.Animation.DROP,
+              draggable: true,
+              position: resultItem.geometry.location,
+              zIndex: 9999,
+              maxWidth: 400,
+              icon: new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/shoutbound_marker.png')
             });
             // display infowindow with data on the place
-            //console.log(resultItem);
-            Map.infoWindow.setContent('<span class="infowindow_text">'+resultItem.formatted_address+'</span>');
+            Map.infoWindow.setContent('<label>Name</label><input id="infowindow-name" type="text" value="'+resultItem.address_components[0].long_name+'" /><br/><label>Address</label><input id="infowindow-address" type="text" value="'+resultItem.formatted_address+'" /><br/><label>Phone</label><input type="text"><div style="padding-left:100px;" /><a href="#" id="infowindow-add" style="text-decoration:none;">Add</a></div>');
+            Map.infoWindowBindAdd(resultItem.formatted_address);
             setTimeout('Map.infoWindow.open(Map.map, Map.new_marker);', 700);
             
             // make the marker_control inactive to prevent more pins from being dropped
@@ -164,7 +170,15 @@ var Map = {
             google.maps.event.removeListener(evnt);
             // clicking on marker reopens infowindow
         	google.maps.event.addListener(Map.new_marker, 'click', function(){
-        	    Map.infoWindow.open(Map.map, Map.new_marker);
+      	    Map.infoWindow.open(Map.map, Map.new_marker);
+        	});
+        	google.maps.event.addListener(Map.new_marker, 'dragstart', function(){
+      	    Map.infoWindow.close();
+      	    $('#marker-notification').hide();
+        	});
+        	google.maps.event.addListener(Map.new_marker, 'dragend', function(){
+        	  Map.updateInfoWindow();
+      	    //Map.infoWindow.open(Map.map, Map.new_marker);
         	});
     	});
     	
@@ -179,6 +193,41 @@ var Map = {
         Map.wBound = swCorner.lng();
         Map.nBound = neCorner.lat();
         Map.eBound = neCorner.lng();
+    },
+    
+    updateInfoWindow: function() {
+      var markerLatLng = Map.new_marker.getPosition();
+      //console.log(markerLatLng);
+    	var markerGeocoder = new google.maps.Geocoder();
+    	// reverse geocode by passing in lat lng
+      Map.geocoder.geocode({'latLng': markerLatLng}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          if (results[0]) {
+            Map.infoWindow.setOptions({
+              maxWidth: 400
+            });
+            Map.infoWindow.setContent('<label>Name</label><input id="infowindow-name" type="text" /><br/><label>Address</label><input id="infowindow-address" type="text" value="'+results[0].formatted_address+'" /><br/><label>Phone</label><input type="text"><div style="padding-left:100px;" /><a href="#" id="infowindow-add" style="text-decoration:none;">Add</a></div>');
+            Map.infoWindow.open(Map.map, Map.new_marker);
+            Map.infoWindowBindAdd(results[0].formatted_address);
+          }
+        } else {
+          Map.infoWindow.setOptions({
+            maxWidth: 400
+          });
+          Map.infoWindow.setContent('<label>Name</label><input id="infowindow-name" type="text" /><br/><label>Address</label><input id="infowindow-address" type="text" value="" /><br/><label>Phone</label><input type="text"><div style="padding-left:100px;" /><a href="#" id="infowindow-add" style="text-decoration:none;">Add</a></div>');
+          Map.infoWindow.open(Map.map, Map.new_marker);
+          Map.infoWindowBindAdd(results[0].formatted_address);
+        }
+      });
+    },
+    
+    infoWindowBindAdd: function(address) {
+      $('#infowindow-add').load(function() {
+        $(this).click(function() {
+          $('#location-search-box').val(address);
+          alert('the bind worked');
+        });
+      });
     },
     
     // save map viewport and map center latlng
@@ -262,16 +311,17 @@ var Map = {
     
     
     load_wall_listeners: function(){
-        for(var i=0; i<Wall.wall_markers.length; i++){
+        for (var i=0; i<Wall.wall_markers.length; i++) {
             // google 'javascript closures in for-loops' to understand what the hell is going on here
             document.getElementById('wall-item-'+Wall.wall_markers[i]['itemid']).onclick = (function(value){
                 return function(){
-                    if(Map.new_marker)
+                    if (Map.new_marker) {
                         Map.remove_map_marker();
-                    var location_name = $(this).children('.wall_location_name').html();
-                    var location_address = $(this).children('.wall_location_address').html();
-                    var location_phone = $(this).children('.wall_location_phone').html();
-                    Map.infoWindow.setContent(location_name+'<br/>'+location_address+'<br/>'+location_phone);
+                    }
+                    var locationName = $(this).children('.wall-location-name').html();
+                    var locationAddress = $(this).children('.wall-location-address').html();
+                    var locationPhone = $(this).children('.wall-location-phone').html();
+                    Map.infoWindow.setContent(locationName+'<br/>'+locationAddress+'<br/>'+locationPhone);
                     Map.infoWindow.open(Map.map, Map.markers[Wall.wall_markers[value]['itemid']]);
                 }                
             })(i);
@@ -280,7 +330,7 @@ var Map = {
     
     
     load_marker_listeners: function(){
-        for(var i=0; i<Wall.wall_markers.length; i++){
+        for (var i=0; i<Wall.wall_markers.length; i++){
             Map.open_marker_infowindow(i);
         }
     },
@@ -289,12 +339,13 @@ var Map = {
     open_marker_infowindow: function(i){
         google.maps.event.addListener(Map.markers[Wall.wall_markers[i]['itemid']], 'click', function(){
             $('.location_based').removeClass('highlighted');
-            var location_name = $('#wall-item-'+Wall.wall_markers[i]['itemid']).children('.wall_location_name').html();
-            var location_address = $('#wall-item-'+Wall.wall_markers[i]['itemid']).children('.wall_location_address').html();
-            var location_phone = $('#wall-item-'+Wall.wall_markers[i]['itemid']).children('.wall_location_phone').html();
-            Map.infoWindow.setContent(location_name+'<br/>'+location_address+'<br/>'+location_phone);
+            var locationName = $('#wall-item-'+Wall.wall_markers[i]['itemid']).children('.wall-location-name').html();
+            var locationAddress = $('#wall-item-'+Wall.wall_markers[i]['itemid']).children('.wall-location-address').html();
+            var locationPhone = $('#wall-item-'+Wall.wall_markers[i]['itemid']).children('.wall-location-phone').html();
+            Map.infoWindow.setContent(locationName+'<br/>'+locationAddress+'<br/>'+locationPhone);
             Map.infoWindow.open(Map.map, Map.markers[Wall.wall_markers[i]['itemid']]);
-            $('#wall_content').scrollTo($('#wall-item-'+Wall.wall_markers[i]['itemid']), 500);
+            $('#wall-content').scrollTo($('#wall-item-'+Wall.wall_markers[i]['itemid']), 500);
+            $('.location-based').removeClass('highlighted');
             $('#wall-item-'+Wall.wall_markers[i]['itemid']).addClass('highlighted');
         });
     },

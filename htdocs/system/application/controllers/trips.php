@@ -6,7 +6,73 @@ class Trips extends Controller {
     {
     	parent::Controller();
     }
- 	
+ 	  
+ 	  
+ 	  function test($trip_id)
+ 	  {
+        $t = new Trip();
+
+        $u = new User();
+        if ($u->get_logged_in_status())
+        {
+            $uid = get_cookie('uid');
+            $u->get_by_id($uid);
+            $user = $u->stored;
+        }
+
+        //check if trip exists in trips table and is active, ie not deleted
+        $t->get_by_id($trip_id);
+        if ( ! $t->active)
+        {
+            redirect('/');
+        }
+        // TODO: check if trip is private
+
+        //check if user is associated with this trip in trips_users table, redirect to home page if not
+        $u->trip->include_join_fields()->get_by_id($trip_id);
+        if ( ! $u->trip->join_role)
+        {
+            redirect('/');
+        }
+        $user_role = $u->trip->join_role;
+        $user_rsvp = $u->trip->join_rsvp;
+        
+        $u->where_join_field('trip', 'rsvp', 3)->where_join_field('trip', 'role', 2)->get_by_related_trip('id', $trip_id);
+        foreach ($u->all as $other_user)
+        {
+            $trip_goers[] = $other_user->stored;
+        }
+
+        
+        // get suggestions for both user's trips and her friends trips
+        $s = new Suggestion();
+        $s->where('trip_id', $trip_id)->where('active', 1)->get();
+        foreach ($s->all as $suggestion)
+        {
+            $suggestion->stored->user_fid = $u->get_by_id($suggestion->user_id)->fid;
+            $suggestion->stored->user_name = $u->name;
+            $suggestion->stored->is_location = 1;
+            $wall_items[] = $suggestion->stored;
+            $suggestions[] = $suggestion->stored;
+        }
+        
+
+        
+        /*
+        $items = $this->Trip_m->get_items_by_tripid($tripid, 'ASC');
+        $wall_items = array('wall_items' => $this->Trip_m->format_items_as_thread($items));
+        */
+        
+        $view_data = array('trip' => $t->stored,
+                           'user' => $user,
+                           'user_role' => $user_role,
+                           'user_rsvp' => $user_rsvp,
+                           'wall_items' => $wall_items,
+                           'suggestions' => $suggestions,
+ 			                     'trip_goers' => $trip_goers);
+ 			               
+        print_r($wall_items);
+ 	  }
 
     function index($trip_id)
     {
@@ -69,16 +135,23 @@ class Trips extends Controller {
                            'user_rsvp' => $user_rsvp,
                            'wall_items' => $wall_items,
                            'suggestions' => $suggestions,
- 			               'trip_goers' => $trip_goers);
+ 			                     'trip_goers' => $trip_goers);
  			               
         
         $this->load->view('trip', $view_data);
     }
     
     
-    function create()
+    function create($i=1)
     {
-        $this->load->view('trip/create', $view_data);
+        if ($i == 1)
+        {
+            $this->load->view('trip/create_1', $view_data);
+        }
+        elseif ($i == 2)
+        {
+            $this->load->view('trip/create_2', $view_data);
+        }
     }
     
 
