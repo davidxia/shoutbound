@@ -35,12 +35,12 @@ $this->load->view('core_header', $header_args);
         var fid = <?=$user->fid?>;
     <? endif;?>
     
-    Map.lat = <?=$trip->lat?>;
-    Map.lng = <?=$trip->lng?>;
-    Map.sBound = <?=$trip->sbound?>;
-    Map.wBound = <?=$trip->wbound?>;
-    Map.nBound = <?=$trip->nbound?>;
-    Map.eBound = <?=$trip->ebound?>;
+    map.lat = <?=$trip->lat?>;
+    map.lng = <?=$trip->lng?>;
+    map.sBound = <?=$trip->sbound?>;
+    map.wBound = <?=$trip->wbound?>;
+    map.nBound = <?=$trip->nbound?>;
+    map.eBound = <?=$trip->ebound?>;
 </script>
 
 <style type="text/css">
@@ -141,9 +141,6 @@ $this->load->view('core_header', $header_args);
 #wall-text-input {
   width: 50%;
 }
-.infowindow-text{
-  font-size: .75em;
-}
 #wall-content {
   overflow-y: auto;
   overflow-x: hidden;
@@ -191,6 +188,13 @@ li.location-based.highlighted{
   padding: 4px;
   font-size: 14px;
   width: 200px;
+}
+.checkbox-name {
+  text-align: right;
+  padding-right: 10px;
+}
+.padding-right {
+  padding-right: 20px;
 }
 
 </style>
@@ -315,12 +319,67 @@ li.location-based.highlighted{
                 <input type="text" id="location-search-box" size="39" />
                 <!-- AUTO LOC LIST -->
                 <div id="auto-loc-list" style="position:absolute; top:60px; left:0px; background:white; opacity:0.8; width:350px;">
-                  <ul id="location_autosuggest"></ul>
+                  <ul id="location-autosuggest"></ul>
                   <div id="place-type-dropdown" style="display:none;"></div>
                 </div><!-- AUTO LOC LIST ENDS -->
                 <div id="marker-notification" style="position:absolute; top:-40px; right:-480px; z-index:1000; display:none; color:white; background-color:black; opacity:0.8; -moz-box-shadow: 2px 2px 5px black; -webkit-box-shadow: 2px 2px 5px black; box-shadow: 2px 2px 5px black; padding:15px;">You can drag and drop the pin anywhere you want.</div>
-                
               </div><!-- LOCATION SEARCH ENDS -->
+              
+              <!-- CATEGORY -->
+              <div id="category" style="display:none; margin-left:20px;">
+                Category<br/>
+                <table style="border-collapse:collapse;">
+                  <tbody>
+                    <tr>
+                      <td class="checkbox-name"><label for="accommodation">Accommodation</label></td>
+                      <td class="padding-right"><input type="checkbox" name="accommodation" id="accommodation" value="accommodation" /></td>
+                      <td class="checkbox-name"><label for="local-attractions">Local attractions</label></td>
+                      <td class="padding-right"><input type="checkbox" name="local-attractions" id="local-attractions" value="local-attractions" /></td>
+                    </tr>
+                    <tr>
+                      <td class="checkbox-name"><label for="restaurants">Restaurants</label></td>
+                      <td class="padding-right"><input type="checkbox" name="restaurants" id="restaurants" value="accommodation" /></td>
+                      <td class="checkbox-name"><label for="bars-nightlife">Bars/nightlife</label></td>
+                      <td class="padding-right"><input type="checkbox" name="bars-nightlife" id="bars-nightlife" value="bars-nightlife" /></td>
+                    </tr>
+                    <tr>
+                      <td class="checkbox-name"><label for="landmarks">Landmarks</label></td>
+                      <td class="padding-right"><input type="checkbox" name="landmarks" id="landmarks" value="accommodation" /></td>
+                      <td class="checkbox-name"><label for="activities-events">Activities/events</label></td>
+                      <td class="padding-right"><input type="checkbox" name="activities-events" id="activities-events" value="activities-events" /></td>
+                    </tr>
+                    <tr>
+                      <td class="checkbox-name"><label for="shopping">Shopping</label></td>
+                      <td class="padding-right"><input type="checkbox" name="shopping" id="shopping" value="accommodation" /></td>
+                      <td class="checkbox-name"><label for="blah">blah</label></td>
+                      <td class="padding-right"><input type="checkbox" name="blah" id="blah" value="blah" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <textarea id="category-other" style="width:200px; height:40px;">other</textarea>
+              </div><!-- CATEGORY ENDS -->
+
+              <!-- GOOD FOR -->
+              <div id="good-for" style="display:none; margin-left:20px;">
+                Good for<br/>
+                <table style="border-collapse:collapse;">
+                  <tbody>
+                    <tr>
+                      <td class="checkbox-name"><label for="input-1">input-1</label></td>
+                      <td class="padding-right"><input type="checkbox" name="input-1" id="input-1" value="input-1" /></td>
+                      <td class="checkbox-name"><label for="input-2">input-2</label></td>
+                      <td class="padding-right"><input type="checkbox" name="input-2" id="input-2" value="input-2" /></td>
+                    </tr>
+                    <tr>
+                      <td class="checkbox-name"><label for="input-3">input-3</label></td>
+                      <td class="padding-right"><input type="checkbox" name="input-3" id="input-3" value="input-3" /></td>
+                      <td class="checkbox-name"><label for="input-4">input-4</label></td>
+                      <td class="padding-right"><input type="checkbox" name="input-4" id="input-4" value="input-4" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <textarea id="good-for-other" style="width:200px; height:40px;">other</textarea>
+              </div><!-- GOOD FOR ENDS -->
               
               <div id="link-input" style="display:none;">
                 Link
