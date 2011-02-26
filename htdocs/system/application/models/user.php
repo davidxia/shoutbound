@@ -38,7 +38,7 @@ class User extends DataMapper {
         $sig = get_cookie('sig');
         if ($sig == $this->get_sig($uid, $key))
         {
-            return TRUE;
+            return $uid;
         }
         else
         {
@@ -69,19 +69,6 @@ class User extends DataMapper {
         delete_cookie('key');
         delete_cookie('sig');
     }
-
-/*
-    function get_logged_in_user() {
-        $uid = $this->get_logged_in_uid();
-        if($uid)
-            return $this->get_user_by_uid($uid);
-        return null;
-    }
-*/
-
-
-    
-    
 }
 
 /* End of file user.php */

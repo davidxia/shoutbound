@@ -2,7 +2,7 @@ var invite = {};
 
 invite.rsvp_yes = function() {
   var post_data = {
-    tripid: tripid,
+    tripId: tripId,
     uid: uid
   };
 
@@ -42,7 +42,7 @@ invite.rsvp_yes = function() {
 
 invite.rsvp_no = function() {
   var post_data = {
-    tripid: tripid,
+    tripId: tripId,
     uid: uid
   };
 
@@ -83,7 +83,7 @@ invite.rsvp_no = function() {
 
     
 invite.showInviteDialog = function() {
-  var postData = {tripid: tripid};
+  var postData = {tripId: tripId};
   $.ajax({
     type: 'POST',
     url: baseUrl+'trips/ajax_trip_invite_panel',
@@ -134,7 +134,7 @@ invite.confirmInvite = function() {
 
 invite.sendInviteData = function(uids){
   var postData = {
-    tripid: tripid,
+    tripId: tripId,
     uids: $.JSON.encode(uids),
     message: $("#trip-invite-textarea").val()
   };

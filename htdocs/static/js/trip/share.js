@@ -2,8 +2,8 @@ var Share = {
     
     showShareDialog: function() {
         var postData = {
-            tripid: tripid
-        }
+            tripId: tripId
+        };
         
         $.ajax({
            type: 'POST',
@@ -59,7 +59,7 @@ var Share = {
     
     sendShareData: function(uids){
         var postData = {
-            tripid: tripid,
+            tripId: tripId,
             uids: $.JSON.encode(uids),
             message: $("#trip-share-textarea").val()
         };

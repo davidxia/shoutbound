@@ -26,7 +26,7 @@ function saveTripDate(){
                                 tripStartDay, tripStartHour,
                                 tripStartMinute)/1000;
     var postData = {
-        tripid: tripid,
+        tripId: tripId,
         tripStartDate: tripUnixTime
     };
     $.ajax({
@@ -172,7 +172,7 @@ function setFBStatus(){
     // check if user is logged in:
 	FB.getLoginStatus(function(response) {
 	    if (response.session) {
-			new_status = "Help me plan my trip to <?php echo $trip['name'].' '.site_url('trip/details'); ?>/"+tripid;
+			new_status = "Help me plan my trip to <?php echo $trip['name'].' '.site_url('trip/details'); ?>/"+tripId;
 			FB.api(
 		        {
 				    method: 'status.set',

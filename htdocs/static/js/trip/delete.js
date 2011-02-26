@@ -2,13 +2,13 @@ var Delete = {
     
     deleteTrip: function() {
         var postData = {
-            tripid: tripid
-        }
+            tripId: tripId
+        };
         
-        if(tripid){
+        if(tripId){
             $.ajax({
                type: 'POST',
-               url: baseUrl + 'trip/delete',
+               url: baseUrl+'trips/delete',
                data: postData,
                success: function() {
                    window.location.href = baseUrl;

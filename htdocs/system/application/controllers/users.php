@@ -111,10 +111,11 @@ class Users extends Controller {
     function ajax_get_logged_in_status()
     {
         $u = new User();
+        $uid = $u->get_logged_in_status();
         
-        if ($u->get_logged_in_status())
+        if ($uid)
         {
-            json_success(array('loggedin'=>TRUE));
+            json_success(array('loggedin'=>$uid));
         }
         else
         {

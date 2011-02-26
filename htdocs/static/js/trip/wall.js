@@ -19,7 +19,7 @@ Wall = {
                 type: 'POST',
                 url: baseUrl + 'trip/ajax_wall_post',
                 data: {
-                    tripid: tripid,
+                    tripId: tripId,
                     body: $('#wall-text-input').val()
                 },
                 success: Wall.show_post
@@ -45,7 +45,7 @@ Wall = {
                         type: 'POST',
                         url: baseUrl + 'trip/ajax_wall_post',
                         data: {
-                            tripid: tripid,
+                            tripId: tripId,
                             body: $('#reply_box_'+replyid).val(),
                             replyid: replyid,
                             created: Math.round(new Date().getTime()/1000)
@@ -69,7 +69,7 @@ Wall = {
                 type: 'POST',
                 url: baseUrl + 'trip/remove_trip_item',
                 data: {
-                    tripid: tripid,
+                    tripId: tripId,
                     itemid: itemid
                 },
                 success: function(responseText){
@@ -81,7 +81,7 @@ Wall = {
                         type: 'POST',
                         url: baseUrl + 'trip/remove_wall_replies',
                         data: {
-                            tripid: tripid,
+                            tripId: tripId,
                             replyid: response.itemid
                         }
                     });

@@ -75,6 +75,10 @@ map.geocodeLocationQuery = function() {
     geocoder.geocode({'address': query}, map.returnGeocodeResult);
   } else {
   	$('#location-autosuggest').html('');
+    if (typeof map.newMarker != 'undefined') {
+      map.newMarker.setMap(null);
+    }
+  	$('.location-data').val('');
   }
 }
 
@@ -135,7 +139,7 @@ map.dropMapMarker = function(resultItem) {
     google.maps.event.removeListener(evnt);
 
     // display infowindow with data on the place
-    map.infoWindow.setContent('<div style="width:300px; height:130px"><label>Name</label><input id="infowindow-name" type="text" value="'+resultItem.address_components[0].long_name+'" /><br/><label>Address</label><input id="infowindow-address" type="text" value="'+resultItem.formatted_address+'" /><br/><label>Phone</label><input type="text"><div style="padding-left:100px;" /><a href="#" id="infowindow-add" style="text-decoration:none;">Add</a></div></div>');
+    map.infoWindow.setContent('<div style="width:300px; height:130px"><label>Name</label><input id="infowindow-name" type="text" value="'+resultItem.address_components[0].long_name+'" /><br/><label>Address</label><input id="infowindow-address" type="text" value="'+resultItem.formatted_address+'" /><br/><label>Phone</label><input id="infowindow-phone" type="text"><div style="padding-left:100px;" /><a href="#" id="infowindow-add" style="text-decoration:none;">Add</a></div></div>');
     setTimeout('map.infoWindow.open(map.googleMap, map.newMarker);', 700);
     
     // clear previous infowindow domready listeners
@@ -145,6 +149,7 @@ map.dropMapMarker = function(resultItem) {
       $('#infowindow-add').click(function() {
         $('#category').show();
         $('#good-for').show();
+        map.saveMarkerData();
         $(this).unbind();
         map.infoWindow.close();
         return false;
@@ -164,18 +169,6 @@ map.dropMapMarker = function(resultItem) {
       map.updateInfoWindow();
     });
   });
-
-  // get google map center and viewport lat lngs
-  var mapCenter = resultItem.geometry.viewport.getCenter();
-  map.lat = mapCenter.lat();
-  map.lng = mapCenter.lng();
-  
-  var neCorner = resultItem.geometry.viewport.getNorthEast();
-  var swCorner = resultItem.geometry.viewport.getSouthWest();
-  map.sBound = swCorner.lat();
-  map.wBound = swCorner.lng();
-  map.nBound = neCorner.lat();
-  map.eBound = neCorner.lng();
 }
 
 
@@ -187,7 +180,7 @@ map.updateInfoWindow = function() {
   // reverse geocode by passing in lat lng
   markerReverseGeocoder.geocode({'latLng': markerLatLng}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK && results[0]) {
-      map.infoWindow.setContent('<div style="width:300px; height:130px"><label>Name</label><input id="infowindow-name" type="text" /><br/><label>Address</label><input id="infowindow-address" type="text" value="'+results[0].formatted_address+'" /><br/><label>Phone</label><input type="text"><div style="padding-left:100px;" /><a href="#" id="infowindow-add" style="text-decoration:none;">Add</a></div></div>');
+      map.infoWindow.setContent('<div style="width:300px; height:130px"><label>Name</label><input id="infowindow-name" type="text" /><br/><label>Address</label><input id="infowindow-address" type="text" value="'+results[0].formatted_address+'" /><br/><label>Phone</label><input id="infowindow-phone" type="text"><div style="padding-left:100px;" /><a href="#" id="infowindow-add" style="text-decoration:none;">Add</a></div></div>');
       map.infoWindow.open(map.googleMap, map.newMarker);
       
       // I can't move this to separate function without losing passed results[0]
@@ -196,6 +189,7 @@ map.updateInfoWindow = function() {
           $('#location-search-box').val(results[0].formatted_address);
           $('#category').show();
           $('#good-for').show();
+          map.saveMarkerData();
           $(this).unbind();
           map.infoWindow.close();
           return false;
@@ -203,13 +197,14 @@ map.updateInfoWindow = function() {
       });
 
     } else {
-      map.infoWindow.setContent('<div style="width:300px; height:130px"><label>Name</label><input id="infowindow-name" type="text" /><br/><label>Address</label><input id="infowindow-address" type="text" value="" /><br/><label>Phone</label><input type="text"><div style="padding-left:100px;" /><a href="#" id="infowindow-add" style="text-decoration:none;">Add</a></div></div>');
+      map.infoWindow.setContent('<div style="width:300px; height:130px"><label>Name</label><input id="infowindow-name" type="text" /><br/><label>Address</label><input id="infowindow-address" type="text" value="" /><br/><label>Phone</label><input id="infowindow-phone" type="text"><div style="padding-left:100px;" /><a href="#" id="infowindow-add" style="text-decoration:none;">Add</a></div></div>');
       map.infoWindow.open(map.googleMap, map.newMarker);
       google.maps.event.addListener(map.infoWindow, 'domready', function() {
         $('#infowindow-add').click(function() {
           $('#location-search-box').val($('#infowindow-address').val());
           $('#category').show();
           $('#good-for').show();
+          map.saveMarkerData();
           $(this).unbind();
           map.infoWindow.close();
           return false;
@@ -219,6 +214,22 @@ map.updateInfoWindow = function() {
   });
 }
 
+
+map.saveMarkerData = function() {
+  var name = $('#infowindow-name').val();
+  var phone = $('#infowindow-phone').val();
+  var lat = map.newMarker.getPosition().lat();
+  var lng = map.newMarker.getPosition().lng();
+    
+  if (lat && lng && name) {
+    $('#location-name').val(name);
+    $('#location-phone').val(phone);
+    $('#location-lat').val(lat);
+    $('#location-lng').val(lng);
+  } else {
+    alert('give your place a name');
+  }
+}
 
 
 map.displayWallMarkers = function() {

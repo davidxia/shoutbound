@@ -66,6 +66,7 @@ class Trips extends Controller {
         
         // get suggestions for both user's trips and her friends trips
         $s = new Suggestion();
+        $s->order_by('created', 'desc');
         $s->where('trip_id', $trip_id)->where('active', 1)->get();
         foreach ($s->all as $suggestion)
         {
@@ -75,8 +76,6 @@ class Trips extends Controller {
             $wall_items[] = $suggestion->stored;
             $suggestions[] = $suggestion->stored;
         }
-        
-
         
         /*
         $items = $this->Trip_m->get_items_by_tripid($tripid, 'ASC');
@@ -91,7 +90,6 @@ class Trips extends Controller {
                            'suggestions' => $suggestions,
  			                     'trip_goers' => $trip_goers);
  			               
-        
         $this->load->view('trip', $view_data);
     }
     
@@ -138,7 +136,7 @@ class Trips extends Controller {
             AND $t->set_join_field($u, 'role', 2)
             AND $t->set_join_field($u, 'rsvp', 3))
         {
-            json_success(array('tripid' => $t->id));
+            json_success(array('tripId' => $t->id));
         }        
     }
 
@@ -154,7 +152,7 @@ class Trips extends Controller {
         $u->get_by_id($uid);
         
         $t = new Trip();
-        $t->get_by_id($this->input->post('tripid'));
+        $t->get_by_id($this->input->post('tripId'));
         
         if ($t->set_join_field($u, 'rsvp', 3))
         {
@@ -174,7 +172,7 @@ class Trips extends Controller {
         $u->get_by_id($uid);
         
         $t = new Trip();
-        $t->get_by_id($this->input->post('tripid'));
+        $t->get_by_id($this->input->post('tripId'));
         
         if ($t->set_join_field($u, 'rsvp', 1))
         {
@@ -199,7 +197,7 @@ class Trips extends Controller {
         
         // get user ids associated with this trip
         $t = new Trip();
-        $t->get_by_id($this->input->post('tripid'));
+        $t->get_by_id($this->input->post('tripId'));
         $t->user->get();        
 
         // create array of friends not associated with this trip
@@ -233,7 +231,7 @@ class Trips extends Controller {
     function ajax_invite_trip()
     {
         $planner = $this->user;
-        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
+        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
         $uids = json_decode($_POST['uids']);
         $message = $_POST['message'];
         
@@ -254,7 +252,7 @@ class Trips extends Controller {
         }
         
         $success = json_decode($response, true);
-        $db_update = $this->Trip_m->invite_uids_by_tripid($_POST['tripid'], $uids);
+        $db_update = $this->Trip_m->invite_uids_by_tripid($_POST['tripId'], $uids);
 
         
         // if the JSON response string from Sendgrid is 'success'
@@ -298,27 +296,26 @@ class Trips extends Controller {
         if($received_invites = get_cookie('received_invites')){
             // unserialize from JSON
             $received_invites = json_decode($received_invites);
-            $received_invites->{$trip_share['tripid']} = $trip_share['hash_key'];
+            $received_invites->{$trip_share['tripId']} = $trip_share['hash_key'];
         }else{
-            $received_invites = (object)array($trip_share['tripid'] => $trip_share['hash_key']);
+            $received_invites = (object)array($trip_share['tripId'] => $trip_share['hash_key']);
         }
         //echo 'new cookie yay: '; print_r($received_invites); echo '<br/>';
         // serialize to JSON and set cookie
         $received_invites = json_encode($received_invites);
         set_cookie('received_invites', $received_invites);
         
-        redirect('/trips/details/'.$trip_share['tripid']);
+        redirect('/trips/details/'.$trip_share['tripId']);
 
     }
     
     
     
-    
     function delete() {        
-        $this->Trip_m->delete_trip($_POST['tripid']);
+        $this->Trip_m->delete_trip($_POST['tripId']);
     }
     
-    
+/*    
     function ajax_update_map() {
         $lat = $_POST['lat'];
         $lng = $_POST['lng'];
@@ -326,7 +323,7 @@ class Trips extends Controller {
         $wBound = $_POST['wBound'];
         $nBound = $_POST['nBound'];
         $eBound = $_POST['eBound'];
-        $tripid = $_POST['tripid'];
+        $tripid = $_POST['tripId'];
         
         $a = $this->Trip_m->update_mapcenter_by_tripid($lat, $lng, $tripid);
         $b = $this->Trip_m->update_latlngbounds_by_tripid($sBound, $wBound, $nBound, $eBound, $tripid);
@@ -334,12 +331,12 @@ class Trips extends Controller {
         
         json_success(array('success'=>$c));
     }
-    
+*/    
     
         
     
     function ajax_panel_share_trip() {
-        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
+        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
         $friends = $this->User_m->get_friends_by_uid($this->user['uid']);
         
         $view_data = array(
@@ -353,7 +350,7 @@ class Trips extends Controller {
     
     function ajax_share_trip() {
         $planner = $this->user;
-        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
+        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
         $uids = json_decode($_POST['uids']);
         $message = $_POST['message'];
         
@@ -413,7 +410,7 @@ class Trips extends Controller {
     
     
     function ajax_wall_post(){
-        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
+        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
         if(!$trip)
             return json_error('That trip doesn\'t exist');
             
@@ -453,7 +450,7 @@ class Trips extends Controller {
         if(!$item)
             return json_error('That item doesn\'t exist');
 
-        $itemid = $this->Trip_m->remove_trip_item_by_itemid($_POST['itemid'], $_POST['tripid']);
+        $itemid = $this->Trip_m->remove_trip_item_by_itemid($_POST['itemid'], $_POST['tripId']);
         
         json_success(array('itemid' => $itemid));
     }
@@ -466,24 +463,24 @@ class Trips extends Controller {
             
         $itemids = $this->Trip_m->get_itemids_by_replyid($_POST['replyid']);
         foreach($itemids as $itemid){
-            $this->Trip_m->remove_trip_item_by_itemid($itemid, $_POST['tripid']);
+            $this->Trip_m->remove_trip_item_by_itemid($itemid, $_POST['tripId']);
         }
     }
     
     function save_trip_startdate(){
-        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripid']);
+        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
         if(!$trip)
             return json_error('That trip doesn\'t exist');
         
-        $a = $this->Trip_m->update_startdate_by_tripid($_POST['tripid'], $_POST['tripStartDate']);
+        $a = $this->Trip_m->update_startdate_by_tripid($_POST['tripId'], $_POST['tripStartDate']);
         json_success(array('success'=>$a));
     }
     
-    
+/*    
     function ajax_save_new_marker(){
         $itemid = $this->Trip_m->create_item(
             $this->user['uid'],
-            $this->input->post('tripid'),
+            $this->input->post('tripId'),
             null,
             $this->input->post('name'),
             null,
@@ -510,7 +507,7 @@ class Trips extends Controller {
             ));
         }
     }    
-    
+*/   
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
     //function _filter_out_wall_data($in_data){

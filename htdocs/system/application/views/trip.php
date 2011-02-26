@@ -1,13 +1,10 @@
 <?
 $header_args = array(
     'js_paths'=>array(
-        //'js/jquery/popup.js',
         'js/trip/map.js',
-        //'js/trip/yelp.js',
         'js/trip/wall.js',
         'js/trip/share.js',
         'js/trip/invite.js',
-        //'js/trip/create.js',
         'js/trip/delete.js',
         'js/trip/extras.js',
         'js/jquery/color.js',
@@ -26,7 +23,7 @@ $this->load->view('core_header', $header_args);
 <script type="text/javascript">
     var baseUrl = "<?=site_url("")?>";
     var staticUrl = "<?=static_url("")?>";
-    var tripid = <?=$trip->id?>;
+    var tripId = <?=$trip->id?>;
     <? if ($trip->trip_startdate):?>
         var tripStartDate = <?=$trip->trip_startdate?>;
     <? endif; ?>
@@ -171,12 +168,14 @@ li.location-based.highlighted{
   transition: background-color linear .2s;
 }
 .remove-wall-item {
-  display: inline-block;
   background-image: url(/david/static/images/delete_button.png);
-  height: 17px;
-  width: 17px;
+  height: 15px;
+  width: 15px;
   opacity: 0;
   cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .remove-wall-item:hover {
   opacity: 1;
@@ -316,6 +315,10 @@ li.location-based.highlighted{
               <!-- LOCATION SEARCH -->
               <div id="location-search" style="display:none; position:relative;">
                 Location
+                <input type="hidden" class="location-data" id="location-name" name="location-name" />
+                <input type="hidden" class="location-data" id="location-phone" name="location-phone" />
+                <input type="hidden" class="location-data" id="location-lat" name="location-lat" />
+                <input type="hidden" class="location-data" id="location-lng" name="location-lng" />
                 <input type="text" id="location-search-box" size="39" />
                 <!-- AUTO LOC LIST -->
                 <div id="auto-loc-list" style="position:absolute; top:60px; left:0px; background:white; opacity:0.8; width:350px;">
@@ -386,7 +389,7 @@ li.location-based.highlighted{
                 <input type="text" id="link-input-box" size="39" value="http://" />
               </div>
               
-              <div id="wall-post-button" style="padding-left:330px; display:none;"><a href="#" style="text-decoration:none;">Post</a></div>
+              <div id="wall-post-button" style="padding-left:330px; display:none;"><a href="#" id="post-to-wall" style="text-decoration:none;">Post</a></div>
               
             </div><!-- WALL INPUT CONTAINER -->
 
@@ -395,7 +398,7 @@ li.location-based.highlighted{
               <? if ($wall_items):?>
                 <? foreach ($wall_items as $wall_item):?>
                   <? if ($wall_item->is_location):?>
-                    <li id="wall-item-<?=$wall_item->id?>" class="location-based" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
+                    <li id="wall-item-<?=$wall_item->id?>" class="location-based" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA; position:relative;">
                       <div class="wall-location-name"style="font-weight:bold;"><?=$wall_item->name?></div>
                       <div>Suggested by <a href="#" class="wall-comment-author" style="text-decoration:none;"><?=$wall_item->user_name?></a></div>
                       <span class="wall-location-address" style="display:none;"><?=$wall_item->address?></span>
@@ -469,6 +472,68 @@ li.location-based.highlighted{
   
   $('#link-input-box').click(function() {
     $(this).val('');
+  });
+  
+  $('li.location-based').hover(
+    function() {
+      $(this).children('.remove-wall-item').css('opacity', 1);
+    },
+    function() {
+      $(this).children('.remove-wall-item').css('opacity', 0);
+    }
+  );
+  
+  $(document).ready(function() {
+    $('#post-to-wall').click(function() {
+      // distinguish between message and location-based suggestion
+      if ($('#location-name').val().length==0 || $('#location-lat').val().length==0 || $('#location-lng').val().length==0) {
+        alert('this will be saved as a message not a suggestion');
+        return false;
+        
+      } else {
+      
+        $.ajax({
+          type: 'POST',
+          url: baseUrl+'users/ajax_get_logged_in_status',
+          success: function(response) {
+            var r = $.parseJSON(response);
+            // if user is logged in, save the suggestion
+            if (r['loggedin']) {
+              var userId = r['loggedin'];
+
+              var postData = {
+                userId: userId,
+                tripId: tripId,
+                name: $('#location-name').val(),
+                text: $('#message-box').html(),
+                lat: $('#location-lat').val(),
+                lng: $('#location-lng').val(),
+                address: $('#location-search-box').val(),
+                phone: $('#location-phone').val()
+              };
+              console.log(postData);
+              
+              $.ajax({
+                type: 'POST',
+                url: baseUrl+'suggestions/ajax_save_suggestion',
+                data: postData,
+                success: function(response) {
+                  console.log(response);
+                  var r = $.parseJSON(response);
+                  alert('suggestion saved, please refresh page to see it; suggestion id'+r['id']);
+                }
+              });
+              
+            } else {
+              alert('please login to post on the wall');
+            }
+          }
+        });
+        
+        return false;
+      }
+      
+    });
   });
     
 </script>

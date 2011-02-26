@@ -21,6 +21,11 @@ class Suggestion extends DataMapper {
             'rules' => array('required', 'trim')
         ),
         array(
+            'field' => 'text',
+            'label' => 'Text',
+            'rules' => array('trim')
+        ),
+        array(
             'field' => 'lat',
             'label' => 'Lat',
             'rules' => array('required')
@@ -29,6 +34,16 @@ class Suggestion extends DataMapper {
             'field' => 'lng',
             'label' => 'Lng',
             'rules' => array('required')
+        ),
+        array(
+            'field' => 'address',
+            'label' => 'Address',
+            'rules' => array('trim')
+        ),
+        array(
+            'field' => 'phone',
+            'label' => 'Phone',
+            'rules' => array('trim')
         ),
     );
 
