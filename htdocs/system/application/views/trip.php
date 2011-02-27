@@ -1,17 +1,17 @@
 <?
 $header_args = array(
+    'css_paths'=>array(
+    ),
     'js_paths'=>array(
         'js/trip/map.js',
         'js/trip/wall.js',
         'js/trip/share.js',
         'js/trip/invite.js',
-        'js/trip/delete.js',
+        //'js/trip/delete.js',
         'js/trip/extras.js',
         'js/jquery/color.js',
-        'js/jquery/scrollto.js'
-    ),
-    'css_paths'=>array(
-        'css/common.css'
+        'js/jquery/scrollto.js',
+        'js/jquery/timeago.js'
     )
 );
 
@@ -145,7 +145,7 @@ $this->load->view('core_header', $header_args);
   padding: 20px 10px 0px 10px;
   background-color: #CCFFCC;
 }
-li.location-based {
+li.suggestion {
   cursor: pointer;
   background: white;
   -webkit-transition: background-color linear .2s;
@@ -153,21 +153,21 @@ li.location-based {
   -o-transition: background-color linear .2s;
   transition: background-color linear .2s;
 }
-li.location-based:hover{
+li.suggestion:hover{
   background: #EAEAEA;
 	-webkit-transition: background-color linear .2s;
 	-moz-transition: background-color linear .2s;
   -o-transition: background-color linear .2s;
   transition: background-color linear .2s;
 }
-li.location-based.highlighted{
+li.suggestion.highlighted{
   background: #EAEAEA;
 	-webkit-transition: background-color linear .2s;
 	-moz-transition: background-color linear .2s;
   -o-transition: background-color linear .2s;
   transition: background-color linear .2s;
 }
-.remove-wall-item {
+.remove-wall-suggestion {
   background-image: url(/david/static/images/delete_button.png);
   height: 15px;
   width: 15px;
@@ -176,9 +176,6 @@ li.location-based.highlighted{
   position: absolute;
   top: 0;
   right: 0;
-}
-.remove-wall-item:hover {
-  opacity: 1;
 }
 #map-shell {
   font-size: 14px;
@@ -398,7 +395,7 @@ li.location-based.highlighted{
               <? if ($wall_items):?>
                 <? foreach ($wall_items as $wall_item):?>
                   <? if ($wall_item->is_location):?>
-                    <li id="wall-item-<?=$wall_item->id?>" class="location-based" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA; position:relative;">
+                    <li id="wall-suggestion-<?=$wall_item->id?>" class="suggestion" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA; position:relative;">
                       <div class="wall-location-name"style="font-weight:bold;"><?=$wall_item->name?></div>
                       <div>Suggested by <a href="#" class="wall-comment-author" style="text-decoration:none;"><?=$wall_item->user_name?></a></div>
                       <span class="wall-location-address" style="display:none;"><?=$wall_item->address?></span>
@@ -406,23 +403,23 @@ li.location-based.highlighted{
                       
                       Accomodation, landmark, restaurant<br/>
                       Good for: seeing new york like a local, food, burgers<br/>
-                      <div class="rating-panel">
-                        Like Dislike
-                      </div>
-                      <? if ($user_role == 2):?>
-                        <div class="remove-wall-item" itemid="<?=$wall_item->id?>"></div>
-                      <? endif;?>
                       <? if ($wall_item->text):?>
                         <br/>
                         <?=$wall_item->text?>
                       <? endif;?>
-                      <span class="wall-timestamp" style="color:#777; font-size: 12px;"><?=$wall_item->created?></span>
+                      <div class="rating-panel">
+                        Like Dislike
+                      </div>
+                      <? if ($user_role == 2):?>
+                        <div class="remove-wall-suggestion" suggestionId="<?=$wall_item->id?>"></div>
+                      <? endif;?>
+                      <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
                     </li>
                   <? else:?>
-                    <li id="wall-item-<?=$wall_item->id?>" class="" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
+                    <li id="wall-message-<?=$wall_item->id?>" class="" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
                       <a href="#"><img src="http://graph.facebook.com/<?=$wall_item->user_fid?>/picture?type=square" /></a>
                       <? if ($user_role == 2):?>
-                        <div class="remove-wall-item" itemid="<?=$wall_item->id?>"></div>
+                        <div class="remove-wall-message" messageId="<?=$wall_item->id?>"></div>
                       <? endif;?>
                       <span class="wall_comment_author"><?=$wall_item->user_name?></span>
                       <span class="wall-comment-text"><?=$wall_item->text?></span>
@@ -456,13 +453,15 @@ li.location-based.highlighted{
   // TODO: is there a better way to do the comma thing?
   Wall.wall_markers = [
       <? for($i=0, $count=count($suggestions); $i<$count; $i++):?>
-          {"itemid": <?=$suggestions[$i]->id?>, "lat": <?=$suggestions[$i]->lat?>, "lng": <?=$suggestions[$i]->lng?>}
+          {"suggestionId": <?=$suggestions[$i]->id?>, "lat": <?=$suggestions[$i]->lat?>, "lng": <?=$suggestions[$i]->lng?>}
           <? if($i < $count-1):?>
               ,
           <? endif;?>
       <? endfor;?>
   ];
   
+  
+  // expand post area
   $('#message-box').click(function() {
     $(this).html('').css('height', '50px');
     $('#location-search').show();
@@ -470,22 +469,29 @@ li.location-based.highlighted{
     $('#wall-post-button').show();
   });
   
+  
   $('#link-input-box').click(function() {
     $(this).val('');
   });
   
-  $('li.location-based').hover(
+  
+  // change background color of wall item on hover
+  $('li.suggestion').hover(
     function() {
-      $(this).children('.remove-wall-item').css('opacity', 1);
+      $(this).children('.remove-wall-suggestion').css('opacity', 1);
     },
     function() {
-      $(this).children('.remove-wall-item').css('opacity', 0);
+      $(this).children('.remove-wall-suggestion').css('opacity', 0);
     }
   );
   
+  // convert unix timestamps to time ago
+  $('abbr.timeago').timeago();
+  
+  
   $(document).ready(function() {
     $('#post-to-wall').click(function() {
-      // distinguish between message and location-based suggestion
+      // distinguish between message and suggestion
       if ($('#location-name').val().length==0 || $('#location-lat').val().length==0 || $('#location-lng').val().length==0) {
         alert('this will be saved as a message not a suggestion');
         return false;
@@ -505,7 +511,7 @@ li.location-based.highlighted{
                 userId: userId,
                 tripId: tripId,
                 name: $('#location-name').val(),
-                text: $('#message-box').html(),
+                text: $('#message-box').val(),
                 lat: $('#location-lat').val(),
                 lng: $('#location-lng').val(),
                 address: $('#location-search-box').val(),
@@ -535,7 +541,24 @@ li.location-based.highlighted{
       
     });
   });
-    
+
+  // ajax delete wall items
+  $('.remove-wall-suggestion').click(function() {
+    // TODO: ask user to confirm removal
+    var suggestionId = $(this).attr('suggestionId');
+    $.ajax({
+      type: 'POST',
+      url: baseUrl+'suggestions/remove_suggestion',
+      data: {
+        suggestionId: suggestionId
+      },
+      success: function(response){
+        var r = $.parseJSON(response);
+        $('#wall-suggestion-'+r.suggestionId).fadeOut(1000);
+      }
+    });
+  });
+
 </script>
 </body> 
 </html>

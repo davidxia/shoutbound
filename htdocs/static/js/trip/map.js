@@ -238,7 +238,7 @@ map.displayWallMarkers = function() {
     if (Wall.wall_markers.hasOwnProperty(key)) {
       var markerLatLng = new google.maps.LatLng(Wall.wall_markers[key]['lat'], Wall.wall_markers[key]['lng']);
       // add each new marker object to Map.markers array
-      map.markers[Wall.wall_markers[key]['itemid']] = new google.maps.Marker({
+      map.markers[Wall.wall_markers[key]['suggestionId']] = new google.maps.Marker({
         map: map.googleMap,
         position: markerLatLng
       });
@@ -255,7 +255,7 @@ map.displayWallMarkers = function() {
 map.loadWallListeners = function() {
   for (var i=0; i<Wall.wall_markers.length; i++) {
     // google 'javascript closures in for-loops' to understand what the hell is going on here
-    document.getElementById('wall-item-'+Wall.wall_markers[i]['itemid']).onclick = (function(value){
+    document.getElementById('wall-suggestion-'+Wall.wall_markers[i]['suggestionId']).onclick = (function(value){
       return function(){
         if (map.newMarker) {
           map.newMarker.setMap(null);
@@ -264,7 +264,7 @@ map.loadWallListeners = function() {
         var locationAddress = $(this).children('.wall-location-address').html();
         var locationPhone = $(this).children('.wall-location-phone').html();
         map.infoWindow.setContent('<div style="min-height:30px;">'+locationName+'<br/>'+locationAddress+'<br/>'+locationPhone+'</div>');
-        map.infoWindow.open(map.googleMap, map.markers[Wall.wall_markers[value]['itemid']]);
+        map.infoWindow.open(map.googleMap, map.markers[Wall.wall_markers[value]['suggestionId']]);
       }                
     })(i);
   }
@@ -280,16 +280,16 @@ map.loadMarkerListeners = function() {
 
 // TODO: how to consolidate these two functions?
 map.openMarkerInfoWindow = function(i){
-  google.maps.event.addListener(map.markers[Wall.wall_markers[i]['itemid']], 'click', function() {
+  google.maps.event.addListener(map.markers[Wall.wall_markers[i]['suggestionId']], 'click', function() {
     $('.location_based').removeClass('highlighted');
-    var locationName = $('#wall-item-'+Wall.wall_markers[i]['itemid']).children('.wall-location-name').html();
-    var locationAddress = $('#wall-item-'+Wall.wall_markers[i]['itemid']).children('.wall-location-address').html();
-    var locationPhone = $('#wall-item-'+Wall.wall_markers[i]['itemid']).children('.wall-location-phone').html();
+    var locationName = $('#wall-suggestion-'+Wall.wall_markers[i]['suggestionId']).children('.wall-location-name').html();
+    var locationAddress = $('#wall-suggestion-'+Wall.wall_markers[i]['suggestionId']).children('.wall-location-address').html();
+    var locationPhone = $('#wall-suggestion-'+Wall.wall_markers[i]['suggestionId']).children('.wall-location-phone').html();
     map.infoWindow.setContent('<div style="min-height:30px;">'+locationName+'<br/>'+locationAddress+'<br/>'+locationPhone+'</div>');
-    map.infoWindow.open(map.googleMap, map.markers[Wall.wall_markers[i]['itemid']]);
-    $('#wall-content').scrollTo($('#wall-item-'+Wall.wall_markers[i]['itemid']), 500);
+    map.infoWindow.open(map.googleMap, map.markers[Wall.wall_markers[i]['suggestionId']]);
+    $('#wall-content').scrollTo($('#wall-suggestion-'+Wall.wall_markers[i]['suggestionId']), 500);
     $('.location-based').removeClass('highlighted');
-    $('#wall-item-'+Wall.wall_markers[i]['itemid']).addClass('highlighted');
+    $('#wall-suggestion-'+Wall.wall_markers[i]['suggestionId']).addClass('highlighted');
   });
 }
 

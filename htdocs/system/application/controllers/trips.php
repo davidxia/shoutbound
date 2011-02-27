@@ -76,12 +76,7 @@ class Trips extends Controller {
             $wall_items[] = $suggestion->stored;
             $suggestions[] = $suggestion->stored;
         }
-        
-        /*
-        $items = $this->Trip_m->get_items_by_tripid($tripid, 'ASC');
-        $wall_items = array('wall_items' => $this->Trip_m->format_items_as_thread($items));
-        */
-        
+                
         $view_data = array('trip' => $t->stored,
                            'user' => $user,
                            'user_role' => $user_role,
@@ -112,13 +107,6 @@ class Trips extends Controller {
         }
     }
     
-/*
-    function ajax_trip_create_panel()
-    {
-        $render_string = $this->load->view('trip/trip_create_panel', '', TRUE);
-        json_success(array('data'=>$render_string));
-    }
-*/    
     
     function ajax_trip_create()
     {
@@ -276,7 +264,8 @@ class Trips extends Controller {
     }
     
         
-    function share($id, $hash){
+    function share($id, $hash)
+    {
         //$hash = '912ec803b2ce49e4a541068d495ab570';
         //$id = 2;
         
@@ -311,31 +300,14 @@ class Trips extends Controller {
     
     
     
-    function delete() {        
+    function delete()
+    {        
         $this->Trip_m->delete_trip($_POST['tripId']);
-    }
-    
-/*    
-    function ajax_update_map() {
-        $lat = $_POST['lat'];
-        $lng = $_POST['lng'];
-        $sBound = $_POST['sBound'];
-        $wBound = $_POST['wBound'];
-        $nBound = $_POST['nBound'];
-        $eBound = $_POST['eBound'];
-        $tripid = $_POST['tripId'];
-        
-        $a = $this->Trip_m->update_mapcenter_by_tripid($lat, $lng, $tripid);
-        $b = $this->Trip_m->update_latlngbounds_by_tripid($sBound, $wBound, $nBound, $eBound, $tripid);
-        $c = $a && $b;
-        
-        json_success(array('success'=>$c));
-    }
-*/    
-    
+    }    
         
     
-    function ajax_panel_share_trip() {
+    function ajax_panel_share_trip()
+    {
         $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
         $friends = $this->User_m->get_friends_by_uid($this->user['uid']);
         
@@ -348,7 +320,8 @@ class Trips extends Controller {
     }
     
     
-    function ajax_share_trip() {
+    function ajax_share_trip()
+    {
         $planner = $this->user;
         $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
         $uids = json_decode($_POST['uids']);
@@ -393,7 +366,8 @@ class Trips extends Controller {
     }
     
     
-    function _add_link_to_notification($message, $trip, $body=null){
+    function _add_link_to_notification($message, $trip, $body=null)
+    {
         
         $ret_val = $message;
         
@@ -409,7 +383,8 @@ class Trips extends Controller {
 
     
     
-    function ajax_wall_post(){
+    function ajax_wall_post()
+    {
         $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
         if(!$trip)
             return json_error('That trip doesn\'t exist');
@@ -445,18 +420,10 @@ class Trips extends Controller {
     }
     
     
-    function remove_trip_item(){
-        $item = $this->Trip_m->get_item_by_itemid($_POST['itemid']);
-        if(!$item)
-            return json_error('That item doesn\'t exist');
-
-        $itemid = $this->Trip_m->remove_trip_item_by_itemid($_POST['itemid'], $_POST['tripId']);
-        
-        json_success(array('itemid' => $itemid));
-    }
     
     
-    function remove_wall_replies(){
+    function remove_wall_replies()
+    {
         $parent = $this->Trip_m->get_item_by_itemid($_POST['replyid']);
         if(!$parent)
             return json_error('That thread doesn\'t exist');
@@ -467,7 +434,8 @@ class Trips extends Controller {
         }
     }
     
-    function save_trip_startdate(){
+    function save_trip_startdate()
+    {
         $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
         if(!$trip)
             return json_error('That trip doesn\'t exist');
@@ -476,53 +444,4 @@ class Trips extends Controller {
         json_success(array('success'=>$a));
     }
     
-/*    
-    function ajax_save_new_marker(){
-        $itemid = $this->Trip_m->create_item(
-            $this->user['uid'],
-            $this->input->post('tripId'),
-            null,
-            $this->input->post('name'),
-            null,
-            null,
-            $this->input->post('lat'),
-            $this->input->post('lng'),
-            0,
-            1,
-            $this->input->post('address'),
-            $this->input->post('phone')
-        );
-        
-
-        // check if row was created in database        
-        if($itemid){
-            json_success(array(
-                'itemid' => $itemid,
-                'fid' => $this->user['fid'],
-                'name' => $this->user['name'],
-                'marker_name' => $_POST['name'],
-                'body' => $_POST['body'],
-                'islocation' => true,
-                'replyid' => 0,
-            ));
-        }
-    }    
-*/   
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////
-    //function _filter_out_wall_data($in_data){
-        //$out_data = array();
-        //foreach($in_data as $item){
-            //if($item['islocation']){
-                //$out_data[] = $item;
-            //}
-        //}
-        
-        //return $out_data;
-    //}
-    
-    //function do_ajax_suggestion(){
-        //$foo = $_POST['foo'];
-        //echo $foo;
-    //}
 }

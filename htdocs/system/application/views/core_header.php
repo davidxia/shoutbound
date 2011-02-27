@@ -4,6 +4,7 @@
     <title>ShoutBound</title>
 
     <!-- LIBRARIES -->
+    <link rel="stylesheet" href="<?php echo static_url('css/common.css');?>" type="text/css" media="screen" charset="utf-8"></script>
     <script type="text/javascript" src="<?php echo static_url('js/jquery/jquery.js');?>"></script>
     <script type="text/javascript" src="<?php echo static_url('js/jquery/jquery.json.js');?>"></script>
 

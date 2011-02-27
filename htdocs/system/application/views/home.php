@@ -1,9 +1,9 @@
 <?
     $header_args = array(
         'css_paths'=>array(
-            'css/common.css'
         ),
         'js_paths'=>array(
+            'js/jquery/timeago.js'
         )
     );
     echo($this->load->view('core_header', $header_args));
@@ -47,7 +47,7 @@
                   <br/>
                   for <a href="<?=site_url('trips/'.($news_feed_item->trip_id))?>"><?=$news_feed_item->trip_name?></a>
                   <br/>
-                  <span style="font-size:10px;"><?=$news_feed_item->created?></span>
+                  <abbr class="timeago" title="<?=$news_feed_item->created?>" style="font-size:10px;"><?=$news_feed_item->created?></abbr>
                 </div>
               <? endif;?>
               </li>
@@ -77,7 +77,7 @@
                     <li class="trip-startdate" style="float:left; width:30%; font-size:12px;">February 23-27, 2011</li>
                     <li class="trip-avatar-container">
                       <? foreach ($trip->users as $trip_user):?>
-                        <a href="#"><img src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" /></a>
+                        <a href="#"><img style="height:32px; width:32px;" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" /></a>
                       <? endforeach;?>
                     </li>
                   </ul>
@@ -106,7 +106,7 @@
                     <li class="trip-startdate" style="float:left; width:30%; font-size:12px;">February 23-27, 2011</li>
                     <li class="trip-avatar-container">
                       <? foreach ($advising_trip->users as $trip_user):?>
-                        <img src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" />
+                        <img style="height:32px; width:32px;" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" />
                       <? endforeach;?>
                     </li>
                   </ul>
@@ -122,5 +122,10 @@
     </div><!-- MAIN ENDS -->
   </div><!-- WRAPPER ENDS -->
 
-</body> 
+</body>
+
+<script type="text/javascript">
+  $('abbr.timeago').timeago();
+</script>
+
 </html>

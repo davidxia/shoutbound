@@ -58,6 +58,7 @@ class Home extends Controller {
         {
             //print_r($trip->id);
             $s = new Suggestion();
+            $s->order_by('created', 'desc');
             $s->where('trip_id', $trip->id)->where('active', 1)->get();
             foreach ($s->all as $suggestion)
             {

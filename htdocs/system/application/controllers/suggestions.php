@@ -28,4 +28,17 @@ class Suggestions extends Controller {
         }
     }
     
+    
+    function remove_suggestion()
+    {
+        $s = new Suggestion();
+        $s->where('id', $this->input->post('suggestionId'))->update('active', 0);
+
+        if ($s->db->affected_rows() == 1)
+        {
+            json_success(array('suggestionId' => $this->input->post('suggestionId')));
+        }
+    }
+
+    
 }
