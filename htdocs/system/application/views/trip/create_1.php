@@ -1,10 +1,11 @@
 <?
 $header_args = array(
+    'css_paths'=>array(
+        'css/excite-bike/jquery-ui-1.8.10.custom.css',
+    ),
     'js_paths'=>array(
         'js/jquery/validate.min.js',
-    ),
-    'css_paths'=>array(
-        'css/common.css',
+        'js/jquery/jquery-ui-1.8.10.custom.min.js'
     )
 );
 
@@ -125,6 +126,10 @@ $this->load->view('core_header', $header_args);
                   <div class="clear"></div>
                 </span>
                 <input class="required" id="destination" name="destination" autofocus="autofocus" type="text" style="width:380px;"/>
+                <!-- AUTO LOC LIST -->
+                <div id="auto-loc-list" style="position:absolute; top:60px; left:0px; background:white; opacity:0.8; width:350px;">
+                  <ul id="location-autosuggest"></ul>
+                </div><!-- AUTO LOC LIST ENDS -->
               </div>
               
               <div class="field dates" style="margin-left:10px;">
@@ -133,7 +138,7 @@ $this->load->view('core_header', $header_args);
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
-                From <input  id="startdate" name="startdate" type="text" size="10"/> to <input  id="enddate" name="enddate" type="text" size="10" />
+                From <input id="startdate" name="startdate" type="text" size="11"/> to <input id="enddate" name="enddate" type="text" size="11" />
               </div>
             </fieldset><!-- PLACE DATES FIELD ENDS -->
             
@@ -358,5 +363,87 @@ $this->load->view('core_header', $header_args);
       $('#other-textbox').toggle();
     });
 
+    // datepicker jquery plugin
+    $('#startdate').datepicker();
+    $('#enddate').datepicker();    
+    
   });
+  
+  ///////////////////////////////////////
+  // load geocoder for destination field
+  var map = {};
+  
+  $(document).ready(function() {
+    map.loadGoogleMapScript();
+  });
+
+  map.loadGoogleMapScript = function() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'http://maps.google.com/maps/api/js?sensor=false&callback=map.loadGoogleMap';
+    document.body.appendChild(script);
+  };
+  
+  map.loadGoogleMap = function() {
+    // bind onkeyup event to location-search-box
+    $('#destination').keyup(function() {
+      map.delay(map.geocodeLocationQuery, 1000);
+    });
+  };
+
+  // delay geocoder api for 1 second of keyboard inactivity
+  map.delay = (function() {
+    var timer = 0;
+    return function(callback, ms){
+      clearTimeout (timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+  
+  map.geocodeLocationQuery = function() {
+    // new geocoder to convert address/name into latlng co-ords
+    var geocoder = new google.maps.Geocoder();
+    var query = $('#destination').val().trim();
+      
+    // geocode request sent after user stops typing for 1 second
+    if (query.length > 1) {
+      geocoder.geocode({'address': query}, map.returnGeocodeResult);
+    } else {
+    	$('#location-autosuggest').html('');
+    }
+  };
+  
+  
+  // this callback function is passed the geocoderResult object
+  map.returnGeocodeResult = function(result, status) {
+    if (status == google.maps.GeocoderStatus.OK && result[0]) {
+    	$('#location-autosuggest').empty();
+    	for (var i=0; i<result.length; i++) {
+    		map.listResult(result[i]);
+    	}
+    } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+    	$('#location-autosuggest').html('Aw, we couldn\'t find that place.');
+    } else {
+    	$('#location-autosuggest').html(status);
+    }
+  };
+  
+  
+  // selectable dropdown list
+  map.listResult = function(resultItem) {
+    var li = $('<li></li>');
+    li.html('<a href="#">'+resultItem.formatted_address+'</a>');
+    li.click(function(){
+      map.clickGeocodeResult(resultItem);
+      return false;
+    });
+    $('#location-autosuggest').append(li);
+  };
+
+  map.clickGeocodeResult = function(resultItem) {
+    $('#destination').val(resultItem.formatted_address);
+    $('#location-autosuggest').empty();
+    
+  };
+
 </script>

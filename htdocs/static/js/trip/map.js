@@ -10,7 +10,7 @@ map.loadGoogleMapScript = function() {
   script.type = 'text/javascript';
   script.src = 'http://maps.google.com/maps/api/js?sensor=false&callback=map.loadGoogleMap';
   document.body.appendChild(script);
-}
+};
 
 map.loadGoogleMap = function() {
   var mapOptions = {
@@ -52,7 +52,7 @@ map.loadGoogleMap = function() {
   if (typeof Wall.wall_markers != 'undefined') {
     map.displayWallMarkers();
   }
-}
+};
 
 
 // delay geocoder api for 1 second of keyboard inactivity
@@ -80,7 +80,7 @@ map.geocodeLocationQuery = function() {
     }
   	$('.location-data').val('');
   }
-}
+};
 
 
 // this callback function is passed the geocoderResult object
@@ -95,7 +95,7 @@ map.returnGeocodeResult = function(result, status) {
   } else {
   	$('#location-autosuggest').html(status);
   }
-}
+};
 
 
 // selectable dropdown list
@@ -113,7 +113,7 @@ map.listResult = function(resultItem) {
     return false;
   });
   $('#location-autosuggest').append(li);
-}
+};
 
 
 map.dropMapMarker = function(resultItem) {
@@ -169,7 +169,7 @@ map.dropMapMarker = function(resultItem) {
       map.updateInfoWindow();
     });
   });
-}
+};
 
 
 map.updateInfoWindow = function() {
@@ -212,7 +212,7 @@ map.updateInfoWindow = function() {
       });
     }
   });
-}
+};
 
 
 map.saveMarkerData = function() {
@@ -229,7 +229,7 @@ map.saveMarkerData = function() {
   } else {
     alert('give your place a name');
   }
-}
+};
 
 
 map.displayWallMarkers = function() {
@@ -249,7 +249,7 @@ map.displayWallMarkers = function() {
   map.googleMap.fitBounds(bounds);
   map.loadWallListeners();
   map.loadMarkerListeners();
-}
+};
 
 
 map.loadWallListeners = function() {
@@ -268,14 +268,14 @@ map.loadWallListeners = function() {
       }                
     })(i);
   }
-}
+};
 
 
 map.loadMarkerListeners = function() {
   for (var i=0; i<Wall.wall_markers.length; i++){
     map.openMarkerInfoWindow(i);
   }
-}
+};
 
 
 // TODO: how to consolidate these two functions?
@@ -291,7 +291,7 @@ map.openMarkerInfoWindow = function(i){
     $('.location-based').removeClass('highlighted');
     $('#wall-suggestion-'+Wall.wall_markers[i]['suggestionId']).addClass('highlighted');
   });
-}
+};
 
 $(document).ready(function() {
   map.loadGoogleMapScript();

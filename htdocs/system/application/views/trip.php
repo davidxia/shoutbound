@@ -320,7 +320,6 @@ li.suggestion.highlighted{
                 <!-- AUTO LOC LIST -->
                 <div id="auto-loc-list" style="position:absolute; top:60px; left:0px; background:white; opacity:0.8; width:350px;">
                   <ul id="location-autosuggest"></ul>
-                  <div id="place-type-dropdown" style="display:none;"></div>
                 </div><!-- AUTO LOC LIST ENDS -->
                 <div id="marker-notification" style="position:absolute; top:-40px; right:-480px; z-index:1000; display:none; color:white; background-color:black; opacity:0.8; -moz-box-shadow: 2px 2px 5px black; -webkit-box-shadow: 2px 2px 5px black; box-shadow: 2px 2px 5px black; padding:15px;">You can drag and drop the pin anywhere you want.</div>
               </div><!-- LOCATION SEARCH ENDS -->
@@ -542,9 +541,10 @@ li.suggestion.highlighted{
     });
   });
 
-  // ajax delete wall items
+  // ajax remove wall items
   $('.remove-wall-suggestion').click(function() {
     // TODO: ask user to confirm removal
+    // remove wall item
     var suggestionId = $(this).attr('suggestionId');
     $.ajax({
       type: 'POST',
@@ -557,6 +557,8 @@ li.suggestion.highlighted{
         $('#wall-suggestion-'+r.suggestionId).fadeOut(1000);
       }
     });
+    // also remove corresponding map marker
+    map.markers[suggestionId].setMap(null);
   });
 
 </script>
