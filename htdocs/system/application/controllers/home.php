@@ -52,23 +52,22 @@ class Home extends Controller {
             
         }
         
-        
-        // get suggestions for both user's trips and her friends trips
-        foreach($trips as $trip)
+        // put user's planning trips in an array for where_in below
+        foreach ($trips as $trip)
         {
-            //print_r($trip->id);
-            $s = new Suggestion();
-            $s->order_by('created', 'desc');
-            $s->where('trip_id', $trip->id)->where('active', 1)->get();
-            foreach ($s->all as $suggestion)
-            {
-                //$u->clear();
-                $suggestion->stored->user_fid = $u->get_by_id($suggestion->user_id)->fid;
-                $suggestion->stored->user_name = $u->name;
-                $suggestion->stored->trip_name = $t->get_by_id($suggestion->trip_id)->name;
-                $suggestion->stored->is_location = 1;
-                $news_feed_items[] = $suggestion->stored;
-            }
+            $trip_ids[] = $trip->id;
+        }
+        // get suggestions for both user's trips and her friends trips
+        $s = new Suggestion();
+        $s->order_by('created', 'desc');
+        $s->where_in('trip_id', $trip_ids)->where('active', 1)->get();
+        foreach ($s->all as $suggestion)
+        {
+            $suggestion->stored->user_fid = $u->get_by_id($suggestion->user_id)->fid;
+            $suggestion->stored->user_name = $u->name;
+            $suggestion->stored->trip_name = $t->get_by_id($suggestion->trip_id)->name;
+            $suggestion->stored->is_location = 1;
+            $news_feed_items[] = $suggestion->stored;
         }
         
         
@@ -84,16 +83,6 @@ class Home extends Controller {
     
     function test()
     {
-        $s = new Suggestion();
-        $s->where('trip_id', 86)->where('active', 1)->get();
-        foreach ($s->all as $suggestion)
-        {
-            print_r($suggestion->stored);
-            echo '<br/><br/>';
-        }
-        //print_r($s);
-        //$s->where('trip_id', 86)->get();
-        //echo $s->id.'<br/>'.$s->name;
     }
 }
 
