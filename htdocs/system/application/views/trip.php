@@ -32,12 +32,12 @@ $this->load->view('core_header', $header_args);
         var fid = <?=$user->fid?>;
     <? endif;?>
     
-    map.lat = <?=$trip->lat?>;
-    map.lng = <?=$trip->lng?>;
-    map.sBound = <?=$trip->sbound?>;
-    map.wBound = <?=$trip->wbound?>;
-    map.nBound = <?=$trip->nbound?>;
-    map.eBound = <?=$trip->ebound?>;
+    map.lat = <?=$destinations[0]->lat?>;
+    map.lng = <?=$destinations[0]->lng?>;
+    //map.sBound = <?=$trip->sbound?>;
+    //map.wBound = <?=$trip->wbound?>;
+    //map.nBound = <?=$trip->nbound?>;
+    //map.eBound = <?=$trip->ebound?>;
 </script>
 
 <style type="text/css">
@@ -239,19 +239,21 @@ li.suggestion.highlighted{
               </span>
             </div><!-- TRIP GOERS ENDS -->
             
-            <div id="trip-places" style="width:20%; display:inline-block; float:left; font-size:0.75em;">
-              Boston, MA<br/>
-              New York, NY<br/>
-              Washington DC<br/>
-              Miami, FL<br/>
+            <div id="trip-destinations" style="width:30%; display:inline-block; float:left; font-size:0.75em;">
+              <? foreach ($destinations as $destination):?>
+                <?=$destination->address?><br/>
+              <? endforeach;?>
             </div>
-            <div id="trip-start-times" style="width:20%; display:inline-block; float:left; font-size:0.75em;">
-              March 2-11, 2011<br/>
-              March 12-14, 2011<br/>
-              March 15-19, 2011<br/>
-              March 20-21, 2011<br/>
+            <div id="destination-start-dates" style="width:20%; display:inline-block; float:left; font-size:0.75em;">
+              <? foreach ($destinations as $destination):?>
+                <? if ($destination->startdate):?>
+                  <?=date('n/d/y', $destination->startdate)?><br/>
+                <? else:?>
+                  no date set yet<br/>
+                <? endif;?>
+              <? endforeach;?>
             </div>
-            <div id="need-advice-on" style="width:60%; display:inline-block; float:left; font-size:0.75em;">
+            <div id="need-advice-on" style="width:50%; display:inline-block; float:left; font-size:0.75em;">
               Interested in:<br/>
               <span style="padding-left: 20px;">hiking, exploring, seeing New York like a local</span><br/>
               Want suggestions for:<br/>
@@ -273,7 +275,7 @@ li.suggestion.highlighted{
                     You're out, but you can still change your mind
                 <? endif;?>
                 </span>
-                  
+                
                 <? if ($user_rsvp == 2):?>
                 <div id="rsvp_buttons">
                     <a href="#" id="rsvp_yes_button">I'm in</a>
@@ -296,7 +298,16 @@ li.suggestion.highlighted{
                     <a href="#" id="rsvp_yes_button">I'm in</a>
                 </div>
                 <? endif;?>
+                
+                <? if ($user_role == 2 AND $user_rsvp == 3):?>
+                  <div>
+                    <a href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete</a>
+                  </div>
+                <? endif;?>
+                
               <? endif;?>
+              
+              
             </div><!-- WIDGET ENDS -->
         
         <div style="clear:both;"</div>

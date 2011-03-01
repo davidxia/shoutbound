@@ -24,7 +24,7 @@ map.loadGoogleMap = function() {
       style: google.maps.ZoomControlStyle.LARGE,
       //position: google.maps.ControlPosition.LEFT_TOP
     },
-  	zoom: 5,
+  	zoom: 7,
   	center: new google.maps.LatLng(map.lat, map.lng),
   	mapTypeId: google.maps.MapTypeId.ROADMAP,    
     scrollwheel: false
@@ -35,10 +35,10 @@ map.loadGoogleMap = function() {
 
   
   // change viewport to saved latlngbounds
-  var sw = new google.maps.LatLng(map.sBound, map.wBound);
-  var ne = new google.maps.LatLng(map.nBound, map.eBound);
-  var savedLatLngBounds = new google.maps.LatLngBounds(sw, ne);
-  map.googleMap.fitBounds(savedLatLngBounds);
+  //var sw = new google.maps.LatLng(map.sBound, map.wBound);
+  //var ne = new google.maps.LatLng(map.nBound, map.eBound);
+  //var savedLatLngBounds = new google.maps.LatLngBounds(sw, ne);
+  //map.googleMap.fitBounds(savedLatLngBounds);
   
   // bind onkeyup event to location-search-box
   $('#location-search-box').keyup(function() {
@@ -234,7 +234,7 @@ map.saveMarkerData = function() {
 
 map.displayWallMarkers = function() {
   var bounds = new google.maps.LatLngBounds();
-  for (var key in Wall.wall_markers){
+  for (var key in Wall.wall_markers) {
     if (Wall.wall_markers.hasOwnProperty(key)) {
       var markerLatLng = new google.maps.LatLng(Wall.wall_markers[key]['lat'], Wall.wall_markers[key]['lng']);
       // add each new marker object to Map.markers array
@@ -246,7 +246,9 @@ map.displayWallMarkers = function() {
       bounds.extend(markerLatLng);
     }
   }
-  map.googleMap.fitBounds(bounds);
+  if ( ! Wall.wall_markers.length == 0) {
+    map.googleMap.fitBounds(bounds);
+  }
   map.loadWallListeners();
   map.loadMarkerListeners();
 };

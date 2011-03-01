@@ -11,7 +11,7 @@ class Trips extends Controller {
  	  function confirm_create()
  	  {
         $u = new User();
-        if ( ! $u->get_logged_in_status())
+        if ( ! $u->get_logged_in_status() OR getenv("REQUEST_METHOD") == 'GET')
         {
             redirect('/');            
         }
@@ -20,11 +20,35 @@ class Trips extends Controller {
 
         $t = new Trip();
         $t->name = $this->input->post('trip_name');
+                
         if ($t->save() AND $u->save($t)
             AND $t->set_join_field($u, 'role', 2)
             AND $t->set_join_field($u, 'rsvp', 3))
         {
-            redirect('trips/'.$t->id);
+            // save trip's destinations and dates
+            $d = new Destination();
+            $d->trip_id = $t->id;
+            $d->address = $this->input->post('destination');
+            $d->lat = $this->input->post('destination-lat');
+            $d->lng = $this->input->post('destination-lng');
+
+            // gets trip start and end dates and stores as unix time
+            // TODO: callback method for better client side validation?
+            $startdate = date_parse_from_format('n/j/Y', $this->input->post('startdate'));
+            if (checkdate($startdate['month'], $startdate['day'], $startdate['year']))
+            {
+                $d->startdate = mktime(0, 0, 0, $startdate['month'], $startdate['day'], $startdate['year']);
+            }
+            $enddate = date_parse_from_format('n/j/Y', $this->input->post('enddate'));
+            if (checkdate($enddate['month'], $enddate['day'], $enddate['year']))
+            {
+                $d->enddate = mktime(0, 0, 0, $enddate['month'], $enddate['day'], $enddate['year']);
+            }
+            
+            if ($d->save())
+            {
+                redirect('trips/'.$t->id);
+            }
         } 	      
  	  }
 
@@ -57,10 +81,19 @@ class Trips extends Controller {
         $user_role = $u->trip->join_role;
         $user_rsvp = $u->trip->join_rsvp;
         
+        // get users who are trip planners and rsvped yes
         $u->where_join_field('trip', 'rsvp', 3)->where_join_field('trip', 'role', 2)->get_by_related_trip('id', $trip_id);
         foreach ($u->all as $other_user)
         {
             $trip_goers[] = $other_user->stored;
+        }
+        
+        // get trip's destinations
+        $d = new Destination();
+        $d->where('trip_id', $trip_id)->get();
+        foreach ($d->all as $destination)
+        {
+            $destinations[] = $destination->stored;
         }
 
         
@@ -78,6 +111,7 @@ class Trips extends Controller {
         }
                 
         $view_data = array('trip' => $t->stored,
+                           'destinations' => $destinations,
                            'user' => $user,
                            'user_role' => $user_role,
                            'user_rsvp' => $user_rsvp,
@@ -300,9 +334,33 @@ class Trips extends Controller {
     
     
     
-    function delete()
-    {        
-        $this->Trip_m->delete_trip($_POST['tripId']);
+    function delete($trip_id)
+    {
+        $u = new User();
+        if ( ! $u->get_logged_in_status())
+        {
+            redirect('/');            
+        }
+        $uid = get_cookie('uid');
+        $u->get_by_id($uid);
+        
+        $t = new Trip();
+        //check if trip exists in trips table and is active, ie not deleted
+        $t->get_by_id($trip_id);
+        if ( ! $t->active)
+        {
+            redirect('/');
+        }
+
+        //check if user is a planner who rsvped yes, redirect to home page otherwise
+        $u->trip->include_join_fields()->get_by_id($trip_id);
+        if ($u->trip->join_role != 2 OR $u->trip->join_rsvp != 3)
+        {
+            redirect('/');
+        }
+
+        $t->where('id', $trip_id)->update('active', 0);
+        redirect('/');
     }    
         
     

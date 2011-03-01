@@ -83,6 +83,13 @@ class Home extends Controller {
     
     function test()
     {
+        $d = new Destination();
+        $d->where('trip_id', 121)->get();
+        foreach ($d->all as $destination)
+        {
+            $destinations[] = $destination->stored;
+        }
+        print_r($destinations[0]->lat);
     }
 }
 

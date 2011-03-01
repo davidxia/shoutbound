@@ -119,15 +119,17 @@ $this->load->view('core_header', $header_args);
           
             <!-- PLACE DATES FIELD -->
             <fieldset id="place-dates-field" style="border-width:0; border-color:transparent;">
-              <div class="field destination" style="margin-left:10px;">
+              <div class="field destination" style="margin-left:10px; position:relative;">
                 <span class="label-and-errors">
                   <label for="destination">Destination</label>
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
-                <input class="required" id="destination" name="destination" autofocus="autofocus" type="text" style="width:380px;"/>
+                <input type="text" class="required" id="destination" name="destination" autofocus="autofocus" style="width:380px;"/>
+                <input type="hidden" id="destination-lat" name="destination-lat" />
+                <input type="hidden" id="destination-lng" name="destination-lng" />
                 <!-- AUTO LOC LIST -->
-                <div id="auto-loc-list" style="position:absolute; top:60px; left:0px; background:white; opacity:0.8; width:350px;">
+                <div id="auto-loc-list" style="position:absolute; top:57px; background:#EAEAEA; opacity:0.9; width:350px;">
                   <ul id="location-autosuggest"></ul>
                 </div><!-- AUTO LOC LIST ENDS -->
               </div>
@@ -262,6 +264,14 @@ $this->load->view('core_header', $header_args);
   $(document).ready(function() {
     
     $('#trip-creation-form').validate({
+      rules: {
+        startdate: {
+          date: true
+        },
+        enddate: {
+          date: true
+        }
+      },
       messages: {
        destination: 'You need a destination for a trip, silly :p',
        trip_name: 'Give your trip a cool name.'
@@ -387,7 +397,7 @@ $this->load->view('core_header', $header_args);
   map.loadGoogleMap = function() {
     // bind onkeyup event to location-search-box
     $('#destination').keyup(function() {
-      map.delay(map.geocodeLocationQuery, 1000);
+      map.delay(map.geocodeLocationQuery, 500);
     });
   };
 
@@ -443,7 +453,9 @@ $this->load->view('core_header', $header_args);
   map.clickGeocodeResult = function(resultItem) {
     $('#destination').val(resultItem.formatted_address);
     $('#location-autosuggest').empty();
-    
+    $('#destination-lat').val(resultItem.geometry.location.lat());
+    $('#destination-lng').val(resultItem.geometry.location.lng());
   };
+
 
 </script>

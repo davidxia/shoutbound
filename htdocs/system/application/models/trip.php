@@ -2,14 +2,14 @@
 
 class Trip extends DataMapper {
  
-    public $has_many = array('user', 'suggestion');
+    public $has_many = array('user', 'suggestion', 'destination');
 
     var $validation = array(
         array(
             'field' => 'name',
             'label' => 'Name',
             'rules' => array('required', 'trim')
-        )
+        ),
     );
 
     function Trip()
