@@ -11,7 +11,7 @@ class Trips extends Controller {
  	  function confirm_create()
  	  {
         $u = new User();
-        if ( ! $u->get_logged_in_status() OR getenv("REQUEST_METHOD") == 'GET')
+        if ( ! $u->get_logged_in_status() OR getenv('REQUEST_METHOD') == 'GET')
         {
             redirect('/');            
         }
@@ -22,7 +22,7 @@ class Trips extends Controller {
         $t->name = $this->input->post('trip_name');
                 
         if ($t->save() AND $u->save($t)
-            AND $t->set_join_field($u, 'role', 2)
+            AND $t->set_join_field($u, 'role', 3)
             AND $t->set_join_field($u, 'rsvp', 3))
         {
             // save trip's destinations and dates
@@ -82,7 +82,7 @@ class Trips extends Controller {
         $user_rsvp = $u->trip->join_rsvp;
         
         // get users who are trip planners and rsvped yes
-        $u->where_join_field('trip', 'rsvp', 3)->where_join_field('trip', 'role', 2)->get_by_related_trip('id', $trip_id);
+        $u->where_join_field('trip', 'rsvp', 3)->where_in_join_field('trip', 'role', array(2,3))->get_by_related_trip('id', $trip_id);
         foreach ($u->all as $other_user)
         {
             $trip_goers[] = $other_user->stored;
@@ -352,9 +352,9 @@ class Trips extends Controller {
             redirect('/');
         }
 
-        //check if user is a planner who rsvped yes, redirect to home page otherwise
+        //check if user is the creator, redirect to home page otherwise
         $u->trip->include_join_fields()->get_by_id($trip_id);
-        if ($u->trip->join_role != 2 OR $u->trip->join_rsvp != 3)
+        if ($u->trip->join_role != 3)
         {
             redirect('/');
         }

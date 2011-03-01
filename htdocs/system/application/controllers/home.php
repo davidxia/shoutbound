@@ -22,13 +22,13 @@ class Home extends Controller {
         
         $t = new Trip();
         
-        // get active trips for which user is a planner and rsvp is yes
-        $u->trip->where('active', 1)->where_join_field('user', 'role', 2)->where_join_field('user', 'rsvp', 3)->get();
+        // get active trips for which user is a planner or creator and rsvp is yes
+        $u->trip->where('active', 1)->where_in_join_field('user', 'role', array(2,3))->where_join_field('user', 'rsvp', 3)->get();
         foreach ($u->trip->all as $trip)
         {
-            // get users who are going on this trip
+            // get creators and planners who are going on this trip
             $users = new User();
-            $users->where_join_field('trip', 'rsvp', 3)->where_join_field('trip', 'role', 2)->get_by_related_trip('id', $trip->id);
+            $users->where_join_field('trip', 'rsvp', 3)->where_in_join_field('trip', 'role', array(2,3))->get_by_related_trip('id', $trip->id);
             foreach ($users->all as $user)
             {
                 $trip->stored->users[] = $user->stored;
@@ -41,9 +41,9 @@ class Home extends Controller {
         $u->trip->where('active', 1)->where_join_field('user', 'role', 1)->get();
         foreach ($u->trip->all as $trip)
         {
-            // get users who are going on this trip
+            // get creators and planners who are going on this trip
             $users = new User();
-            $users->where_join_field('trip', 'rsvp', 3)->where_join_field('trip', 'role', 2)->get_by_related_trip('id', $trip->id);
+            $users->where_join_field('trip', 'rsvp', 3)->where_in_join_field('trip', 'role', array(2,3))->get_by_related_trip('id', $trip->id);
             foreach ($users->all as $user)
             {
                 $trip->stored->users[] = $user->stored;
@@ -83,13 +83,27 @@ class Home extends Controller {
     
     function test()
     {
-        $d = new Destination();
-        $d->where('trip_id', 121)->get();
-        foreach ($d->all as $destination)
+        $uid = get_cookie('uid');       
+        $u = new User();
+        $u->get_by_id($uid);
+        
+        $t = new Trip();
+        
+        // get active trips for which user is a planner or creator and rsvp is yes
+        $u->trip->where('active', 1)->where_join_field('user', 'role', 2)->or_where_join_field('user', 'role', 3)->where_join_field('user', 'rsvp', 3)->get();
+        foreach ($u->trip->all as $trip)
         {
-            $destinations[] = $destination->stored;
+            // get users who are going on this trip
+            $users = new User();
+            $users->where_join_field('trip', 'rsvp', 3)->where_join_field('trip', 'role', 2)->get_by_related_trip('id', $trip->id);
+            foreach ($users->all as $user)
+            {
+                $trip->stored->users[] = $user->stored;
+            }
+            $trips[] = $trip->stored;
+            
         }
-        print_r($destinations[0]->lat);
+        print_r($trips);
     }
 }
 

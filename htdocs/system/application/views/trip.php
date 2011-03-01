@@ -265,7 +265,7 @@ li.suggestion.highlighted{
             
             <!-- WIDGET -->
             <div id="trip-widget" style="width:220px; background-color:#CCCCFF; float:left; padding:10px 10px 0px;">
-              <? if ($user_role == 2):?>
+              <? if ($user_role >= 2):?>
                 <span id="rsvp_status">
                 <? if ($user_rsvp == 2):?>
                     You're invited
@@ -299,7 +299,7 @@ li.suggestion.highlighted{
                 </div>
                 <? endif;?>
                 
-                <? if ($user_role == 2 AND $user_rsvp == 3):?>
+                <? if ($user_role == 3):?>
                   <div>
                     <a href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete</a>
                   </div>
