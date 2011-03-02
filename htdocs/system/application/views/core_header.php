@@ -12,7 +12,7 @@
     <?
     if ($css_paths)
     {
-        foreach($css_paths as $css)
+        foreach ($css_paths as $css)
         {
             $css_tag = '<link rel="stylesheet" type="text/css" href="';
             $css_tag .= static_url($css);

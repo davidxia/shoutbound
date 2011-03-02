@@ -42,6 +42,9 @@ $this->load->view('core_header', $header_args);
 </script>
 
 <style type="text/css">
+  html{
+    background
+  }
   #invite-others-button{
     display: inline-block;
     font-size: 0.75em;
@@ -210,7 +213,7 @@ li.suggestion.highlighted{
 
 
 
-<body>
+<body style="background:url('<?=site_url('images/trip_page_background.png')?>'); background-repeat:repeat-x;">
   <div id="div-to-popup" style="background-color:white; display:none;"></div>
 
   <!-- WRAPPER -->
@@ -220,63 +223,68 @@ li.suggestion.highlighted{
 
 
     <!-- MAIN -->
-    <div id="main">
+    <div id="main" style="margin:10px 0px 10px; background-color:white; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;">
         
           <!-- TRIP SUMMARY -->
-          <div id="trip_summary" style="width:700px; background-color:#FFCCCC; float:left; padding:10px 10px 20px 10px;">
-            <div id="trip_name" style="font-size:1.5em;font-weight: bold;">
+          <div id="trip_summary" style="width:690px; float:left; margin:10px 10px 20px 10px;  padding:10px; border: 1px solid #ced7de; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;">
+            <div id="trip_name" style="font-size:1.5em;font-weight: bold; color:#026eb0; margin-bottom:5px;">
               <?=$trip->name?>
             </div>
-            <div id="trip_creator" style="font-size: 0.75em; border-bottom: 1px solid black;">
-              created by John Smith
+            <div id="trip_creator" style="font-size: 0.75em; margin-bottom:10px; ">
+              created by <?=$creator->name?>
             </div>
-            <div id="trip_description" style="border-bottom: 1px solid black;">
+            <div id="trip_description" style="border-bottom: 1px solid #ced7de; padding-bottom:10px; margin-right:5px;">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </div>
             <!-- TRIP GOERS -->
-            <div id="trip_goers" style="border-bottom: 1px solid black;">
+            <div id="trip_goers" style="border-bottom: 1px solid #ced7de; margin-top:10px; padding-bottom:10px;">
               <? if ($trip_goers):?>
                 <? foreach ($trip_goers as $trip_goer):?>
-                  <div class="trip_goer" uid="<?=$trip_goer->id?>" style="display:inline-block;">
-                    <img class="square-50" src="http://graph.facebook.com/<?=$trip_goer->fid?>/picture?type=square" />
+                  <div class="trip_goer" uid="<?=$trip_goer->id?>" style="float:left;">
+                    <a href="#"><img class="square-50" src="http://graph.facebook.com/<?=$trip_goer->fid?>/picture?type=square" /></a>
                   </div>
                 <? endforeach;?>
               <? endif;?>
-              <span id="num_trip_goers">
+              <div id="num_trip_goers" style="float:left; line-height:55px; margin-left:20px;">
                 <? if (count($trip_goers) == 1):?>
                   <span id="num"><?=count($trip_goers)?></span> person is in
                 <? else:?>
                   <span id="num"><?=count($trip_goers)?></span> people are in
                 <? endif;?>
-              </span>
+              </div>
+              
+              <div style="clear:both;"></div>
+
             </div><!-- TRIP GOERS ENDS -->
             
-            <div id="trip-destinations" style="width:30%; display:inline-block; float:left; font-size:0.75em;">
-              <? foreach ($destinations as $destination):?>
-                <?=$destination->address?><br/>
-              <? endforeach;?>
-            </div>
-            <div id="destination-start-dates" style="width:20%; display:inline-block; float:left; font-size:0.75em;">
-              <? foreach ($destinations as $destination):?>
-                <? if ($destination->startdate):?>
-                  <?=date('n/d/y', $destination->startdate)?><br/>
-                <? else:?>
-                  no date set yet<br/>
-                <? endif;?>
-              <? endforeach;?>
-            </div>
-            <div id="need-advice-on" style="width:50%; display:inline-block; float:left; font-size:0.75em;">
-              Interested in:<br/>
-              <span style="padding-left: 20px;">hiking, exploring, seeing New York like a local</span><br/>
-              Want suggestions for:<br/>
-              <span style="padding-left: 20px;">Accommodations, landmarks, restaurants</span>
+            <div style="margin-top:10px;">
+              <div id="trip-destinations" style="width:30%; display:inline-block; float:left; font-size:0.75em;">
+                <? foreach ($destinations as $destination):?>
+                  <?=$destination->address?><br/>
+                <? endforeach;?>
+              </div>
+              <div id="destination-start-dates" style="width:20%; display:inline-block; float:left; font-size:0.75em;">
+                <? foreach ($destinations as $destination):?>
+                  <? if ($destination->startdate):?>
+                    <?=date('n/d/y', $destination->startdate)?><br/>
+                  <? else:?>
+                    no date set yet<br/>
+                  <? endif;?>
+                <? endforeach;?>
+              </div>
+              <div id="need-advice-on" style="width:50%; display:inline-block; float:left; font-size:0.75em;">
+                Interested in:<br/>
+                <span style="padding-left: 20px;">hiking, exploring, seeing New York like a local</span><br/>
+                Want suggestions for:<br/>
+                <span style="padding-left: 20px;">Accommodations, landmarks, restaurants</span>
+              </div>
             </div>
           </div><!-- TRIP SUMMARY ENDS -->
             
             
             
             <!-- WIDGET -->
-            <div id="trip-widget" style="width:220px; background-color:#CCCCFF; float:left; padding:10px 10px 0px;">
+            <div id="trip-widget" style="width:208px; float:left; padding:10px 10px 0px;">
               <? if ($user_role >= 2):?>
                 <span id="rsvp_status">
                 <? if ($user_rsvp == 2):?>
@@ -322,7 +330,7 @@ li.suggestion.highlighted{
               
             </div><!-- WIDGET ENDS -->
         
-        <div style="clear:both;"</div>
+        <div style="clear:both;"></div>
 
         <!-- CONSOLE -->
         <div id="console">
@@ -432,7 +440,7 @@ li.suggestion.highlighted{
                       <div class="rating-panel">
                         Like Dislike
                       </div>
-                      <? if ($user_role == 2):?>
+                      <? if ($user_role >= 2):?>
                         <div class="remove-wall-suggestion" suggestionId="<?=$wall_item->id?>"></div>
                       <? endif;?>
                       <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
@@ -440,7 +448,7 @@ li.suggestion.highlighted{
                   <? else:?>
                     <li id="wall-message-<?=$wall_item->id?>" class="" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
                       <a href="#"><img src="http://graph.facebook.com/<?=$wall_item->user_fid?>/picture?type=square" /></a>
-                      <? if ($user_role == 2):?>
+                      <? if ($user_role >= 2):?>
                         <div class="remove-wall-message" messageId="<?=$wall_item->id?>"></div>
                       <? endif;?>
                       <span class="wall_comment_author"><?=$wall_item->user_name?></span>
@@ -459,6 +467,8 @@ li.suggestion.highlighted{
           <div id="map-shell" style="display:inline; float:left; position:relative; width:60%;">
             <div id="map-canvas" style="height: 650px;"></div>
           </div>
+          
+          <div style="clear:both;"></div>
           
         </div><!-- CONSOLE ENDS -->
         

@@ -83,21 +83,6 @@ class Home extends Controller {
     
     function test()
     {
-        $t = new Trip();
-        $t->get_by_id(86);
-
-        $uids = array(9, 10);
-        $u = new User();
-        $u->where_in('id', $uids)->get();
-        
-        foreach ($u->all as $user)
-        {
-            print_r($user->name);
-        }
-
-
-        //$t->set_join_field('user', 'role', 1);
-        //echo 'done';
     }
 }
 

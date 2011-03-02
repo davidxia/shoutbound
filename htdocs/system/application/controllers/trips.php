@@ -81,6 +81,10 @@ class Trips extends Controller {
         $user_role = $u->trip->join_role;
         $user_rsvp = $u->trip->join_rsvp;
         
+        // get creator
+        $u->where_join_field('trip', 'rsvp', 3)->where_join_field('trip', 'role', 3)->get_by_related_trip('id', $trip_id);
+        $creator = $u->stored;
+        
         // get users who are trip planners and rsvped yes
         $u->where_join_field('trip', 'rsvp', 3)->where_in_join_field('trip', 'role', array(2,3))->get_by_related_trip('id', $trip_id);
         foreach ($u->all as $other_user)
@@ -111,6 +115,7 @@ class Trips extends Controller {
         }
                 
         $view_data = array('trip' => $t->stored,
+                           'creator' => $creator,
                            'destinations' => $destinations,
                            'user' => $user,
                            'user_role' => $user_role,
