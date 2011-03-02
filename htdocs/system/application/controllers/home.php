@@ -83,27 +83,21 @@ class Home extends Controller {
     
     function test()
     {
-        $uid = get_cookie('uid');       
-        $u = new User();
-        $u->get_by_id($uid);
-        
         $t = new Trip();
+        $t->get_by_id(86);
+
+        $uids = array(9, 10);
+        $u = new User();
+        $u->where_in('id', $uids)->get();
         
-        // get active trips for which user is a planner or creator and rsvp is yes
-        $u->trip->where('active', 1)->where_join_field('user', 'role', 2)->or_where_join_field('user', 'role', 3)->where_join_field('user', 'rsvp', 3)->get();
-        foreach ($u->trip->all as $trip)
+        foreach ($u->all as $user)
         {
-            // get users who are going on this trip
-            $users = new User();
-            $users->where_join_field('trip', 'rsvp', 3)->where_join_field('trip', 'role', 2)->get_by_related_trip('id', $trip->id);
-            foreach ($users->all as $user)
-            {
-                $trip->stored->users[] = $user->stored;
-            }
-            $trips[] = $trip->stored;
-            
+            print_r($user->name);
         }
-        print_r($trips);
+
+
+        //$t->set_join_field('user', 'role', 1);
+        //echo 'done';
     }
 }
 

@@ -252,47 +252,71 @@ class Trips extends Controller {
 
     function ajax_invite_trip()
     {
-        $planner = $this->user;
-        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
-        $uids = json_decode($_POST['uids']);
-        $message = $_POST['message'];
+        $u = new User();
+        if ( ! $u->get_logged_in_status())
+        {
+            redirect('/');            
+        }
+        $uid = get_cookie('uid');
+        $u->get_by_id($uid);
+        $planner = $u->stored;
+        
+        $trip_id = $this->input->post('tripId');
+        
+        $t = new Trip();
+        $t->get_by_id($this->input->post('tripId'));
+
+        $uids = json_decode($this->input->post('uids'));
+        $u->where_in('id', $uids)->get();
+        
+        $message = $this->input->post('message');
         
         $this->load->library('sendgrid_email');
         
-        foreach($uids as $uid){
-            // TODO: fix based on user notification settings
-            $user_settings = $this->User_m->get_settings($uid);
-            if(true) {
-                $user = $this->User_m->get_user_by_uid($uid);
-                $response = $this->sendgrid_email->send_mail(
-                    array($user['email']),
-                    $planner['name'].' invited you on a trip on Shoutbound!',
-                    $this->_add_link_to_notification('<h4>'.$planner['name'].' invited you a trip on ShoutBound!</h4>'.$planner['name'].' says: '.$message,$trip),
-                    $this->_add_link_to_notification($planner['name'].' invited you on a trip on ShoutBound! '.$planner['name'].' says: '.$message,$trip)
-                );
+        if (count($uids))
+        {
+            foreach ($uids as $uid)
+            {
+                // TODO: fix based on user notification settings
+                if (true)
+                {
+                    $u->get_by_id($uid);
+                    $response = $this->sendgrid_email->send_mail(
+                        array($u->email),
+                        $planner->name.' invited you on a trip on Shoutbound!',
+                        $this->_add_link_to_notification('<h4>'.$planner->name.' invited you a trip on ShoutBound!</h4>'.$planner->name.' says: '.$message, $trip_id),
+                        $this->_add_link_to_notification($planner->name.' invited you on a trip on ShoutBound! '.$planner->name.' says: '.$message, $trip_id)
+                    );
+                    $t->save($u);
+                    $t->set_join_field($u, 'role', 2);
+                    $t->set_join_field($u, 'rsvp', 2);
+                }
             }
         }
         
+        // TODO: this success is overwritten until the last sent email
         $success = json_decode($response, true);
-        $db_update = $this->Trip_m->invite_uids_by_tripid($_POST['tripId'], $uids);
-
         
-        // if the JSON response string from Sendgrid is 'success'
-        // tell user it succeeded        
-        if($success['message'] == 'success' && $db_update){
+        // if the JSON response string from Sendgrid is 'success' tell user it succeeded        
+        if ($success['message'] == 'success')
+        {
             $view_data = array(
                 //'uids' => $uids,
                 'trip' => $trip,
                 //'message' => $message
             );
-            $render_string = $this->load->view('core_success', $view_data, true);
+            //$render_string = $this->load->view('core_success', $view_data, true);
+            $render_string = 'it worked';
             json_success(array('data'=>$render_string));
         // otherwise, tell user his share failed
-        } else {
+        }
+        else
+        {
             $view_data = array(
                 'response' => json_decode($response, true),
             );
-            $render_string = $this->load->view('core_failure', $view_data, true);
+            $render_string = 'it failed';
+            //$render_string = $this->load->view('core_failure', $view_data, true);
             json_success(array('data'=>$render_string));
         }
     }
@@ -424,16 +448,16 @@ class Trips extends Controller {
     }
     
     
-    function _add_link_to_notification($message, $trip, $body=null)
+    function _add_link_to_notification($message, $trip_id, $body=null)
     {
-        
         $ret_val = $message;
         
-        if($body) {
+        if ($body)
+        {
             $ret_val .= ' "'.$body.'"';
         }
         
-        $ret_val .= '<br/><a href="'.site_url('trip/details/'.$trip['tripid']).'">To see the trip, click here.</a>';
+        $ret_val .= '<br/><a href="'.site_url('trips/'.$trip_id).'">To see the trip, click here.</a>';
         $ret_val .= '<p><br/>Have fun! Team Shoutbound</p>';
         
         return $ret_val;

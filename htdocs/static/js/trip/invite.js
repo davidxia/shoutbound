@@ -90,9 +90,7 @@ invite.showInviteDialog = function() {
     data: postData,
     success: function(response) {
       var r = $.parseJSON(response);
-      $("#div_to_popup").empty();
-      $("#div_to_popup").append(r['data']);
-      $("#div_to_popup").bPopup();
+      $('#div-to-popup').empty().append(r['data']).bPopup();
       invite.bindButtons();
     }
   });
@@ -102,7 +100,7 @@ invite.showInviteDialog = function() {
 invite.bindButtons = function() {
   $('#trip-invite-confirm').bind('click', invite.confirmInvite);
   $('#trip-invite-cancel').bind('click', function() {
-    $('#div_to_popup').bPopup().close();
+    $('#div-to-popup').bPopup().close();
   }); 
 
   $('.friend-capsule').bind('click', function() {
@@ -128,7 +126,7 @@ invite.confirmInvite = function() {
   });
   
   invite.sendInviteData(selectedUids);
-  $('#div_to_popup').bPopup().close();
+  $('#div-to-popup').bPopup().close();
 }
 
 
@@ -136,7 +134,7 @@ invite.sendInviteData = function(uids){
   var postData = {
     tripId: tripId,
     uids: $.JSON.encode(uids),
-    message: $("#trip-invite-textarea").val()
+    message: $('#trip-invite-textarea').val()
   };
 
   $.ajax({
@@ -150,11 +148,11 @@ invite.sendInviteData = function(uids){
 
 invite.displaySuccessDialog = function(response) {
   var r = $.parseJSON((response));
-  $('#div_to_popup').empty();
-  $('#div_to_popup').append(r['data']);
-  $('#div_to_popup').bPopup();
+  $('#div-to-popup').empty();
+  $('#div-to-popup').append(r['data']);
+  $('#div-to-popup').bPopup();
   $('.success').bind('click', function() {
-    $('#div_to_popup').bPopup().close();
+    $('#div-to-popup').bPopup().close();
   });  
 }
 

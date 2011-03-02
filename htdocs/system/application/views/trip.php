@@ -7,6 +7,7 @@ $header_args = array(
         'js/trip/wall.js',
         'js/trip/share.js',
         'js/trip/invite.js',
+        'js/jquery/popup.js',
         //'js/trip/delete.js',
         'js/trip/extras.js',
         'js/jquery/color.js',
@@ -46,6 +47,7 @@ $this->load->view('core_header', $header_args);
     font-size: 0.75em;
     background: #2B72CC url(/david/static/images/blueButton.png) repeat-x 0 0;
     height: 40px;
+    cursor: pointer;
   }
   #invite-others-button:hover{
     background: url(/david/static/images/blueButton.png) repeat-x 0 -40px;
@@ -58,6 +60,7 @@ $this->load->view('core_header', $header_args);
     font-size: 0.75em;
     background: #2B72CC url(/david/static/images/blueButton.png) repeat-x 0 0;
     height: 40px;
+    cursor: pointer;
   }
   #get-suggestions-button:hover{
     background: url(/david/static/images/blueButton.png) repeat-x 0 -40px;
@@ -192,6 +195,13 @@ li.suggestion.highlighted{
 .padding-right {
   padding-right: 20px;
 }
+.friend-capsule:hover {
+  background: #eee;
+}
+
+.friend-capsule.share-selected {
+  background: #ccc;
+} 
 
 </style>
 
@@ -201,6 +211,8 @@ li.suggestion.highlighted{
 
 
 <body>
+  <div id="div-to-popup" style="background-color:white; display:none;"></div>
+
   <!-- WRAPPER -->
   <div id="wrapper" style="margin: 0 auto; width:960px;">
     <?=$this->load->view('header')?>
