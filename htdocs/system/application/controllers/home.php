@@ -23,7 +23,7 @@ class Home extends Controller {
         $t = new Trip();
         
         // get active trips for which user is a planner or creator and rsvp is yes
-        $u->trip->where('active', 1)->where_in_join_field('user', 'role', array(2,3))->where_join_field('user', 'rsvp', 3)->get();
+        $u->trip->where('active', 1)->where_in_join_field('user', 'role', array(2,3))->get();
         foreach ($u->trip->all as $trip)
         {
             // get creators and planners who are going on this trip
@@ -83,6 +83,11 @@ class Home extends Controller {
     
     function test()
     {
+        $emails = explode(',', 'james@shoutbound.com, david@shoutbound.com');
+        foreach ($emails as $email)
+        {
+            echo $email;
+        }
     }
 }
 

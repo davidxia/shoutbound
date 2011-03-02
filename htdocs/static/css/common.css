@@ -19,15 +19,16 @@ ol, ul {
 }
 
 input, textarea {
-    padding: 8px;
+    padding: 10px;
     font-size: 18px;
     border: 1px solid #8F8F8F;
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
   	transition: border linear .2s, box-shadow linear .2s;
   	-moz-transition: border linear .2s, -moz-box-shadow linear .2s;
   	-webkit-transition: border linear .2s, -webkit-box-shadow linear .2s;
+  	margin-top:8px;
 }
 input:focus, textarea:focus {
     outline: none;

@@ -6,7 +6,7 @@ class Trips extends Controller {
     {
     	parent::Controller();
     }
- 	  
+     	  
  	  
  	  function confirm_create()
  	  {
@@ -20,6 +20,11 @@ class Trips extends Controller {
 
         $t = new Trip();
         $t->name = $this->input->post('trip_name');
+        $t->description = $this->input->post('trip-description');
+        $deadline = date_parse_from_format('n/j/Y', $this->input->post('deadline'));
+        {
+            $t->response_deadline = mktime(0, 0, 0, $deadline['month'], $deadline['day'], $deadline['year']);
+        }
                 
         if ($t->save() AND $u->save($t)
             AND $t->set_join_field($u, 'role', 3)
@@ -32,7 +37,7 @@ class Trips extends Controller {
             $d->lat = $this->input->post('destination-lat');
             $d->lng = $this->input->post('destination-lng');
 
-            // gets trip start and end dates and stores as unix time
+            // gets trip startdate, enddate, deadline and stores as unix time
             // TODO: callback method for better client side validation?
             $startdate = date_parse_from_format('n/j/Y', $this->input->post('startdate'));
             if (checkdate($startdate['month'], $startdate['day'], $startdate['year']))
@@ -43,6 +48,24 @@ class Trips extends Controller {
             if (checkdate($enddate['month'], $enddate['day'], $enddate['year']))
             {
                 $d->enddate = mktime(0, 0, 0, $enddate['month'], $enddate['day'], $enddate['year']);
+            }
+            $deadline = date_parse_from_format('n/j/Y', $this->input->post('deadline'));
+            {
+                $d->response_deadline = mktime(0, 0, 0, $deadline['month'], $deadline['day'], $deadline['year']);
+            }
+            
+            // send out emails based on invites input tag
+            $this->load->library('sendgrid_email');
+            
+            $emails = explode(',', $this->input->post('invites'));
+            foreach ($emails as $email)
+            {
+                $response = $this->sendgrid_email->send_mail(
+                    array($email),
+                    $u->name.' invited you on a trip on Shoutbound!',
+                    $this->_add_link_to_notification('<h4>'.$u->name.' invited you a trip on ShoutBound!</h4>'.$u->name.' says: ', $this->input->post('trip-description'), $t->id),
+                    $this->_add_link_to_notification($u->name.' invited you on a trip on ShoutBound! '.$u->name.' says: '.$this->input->post('trip-description'), $t->id)
+                );
             }
             
             if ($d->save())
@@ -131,10 +154,17 @@ class Trips extends Controller {
     function create($i=1)
     {
         $u = new User();
-        if ( ! $u->get_logged_in_status())
+        if ($u->get_logged_in_status())
         {
-            redirect('/');            
+            $uid = get_cookie('uid');
+            $u->get_by_id($uid);
+            $user = $u->stored;
         }
+        
+        $view_data = array('destination' => $this->input->post('destination'),
+                           'destination_lat' => $this->input->post('destination-lat'),
+                           'destination_lng' => $this->input->post('destination-lng'),
+                           'user' => $user);
 
         if ($i == 1)
         {

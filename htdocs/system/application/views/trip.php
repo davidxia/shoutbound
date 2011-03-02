@@ -1,6 +1,7 @@
 <?
 $header_args = array(
     'css_paths'=>array(
+        'css/jquery.countdown.css'
     ),
     'js_paths'=>array(
         'js/trip/map.js',
@@ -12,7 +13,8 @@ $header_args = array(
         'js/trip/extras.js',
         'js/jquery/color.js',
         'js/jquery/scrollto.js',
-        'js/jquery/timeago.js'
+        'js/jquery/timeago.js',
+        'js/jquery/jquery.countdown.min.js'
     )
 );
 
@@ -148,8 +150,8 @@ $this->load->view('core_header', $header_args);
   overflow-y: auto;
   overflow-x: hidden;
   height: 541px;
-  padding: 20px 10px 0px 10px;
-  background-color: #CCFFCC;
+  /*padding: 20px 10px 0px 10px;
+  background-color: #CCFFCC;*/
 }
 li.suggestion {
   cursor: pointer;
@@ -226,7 +228,7 @@ li.suggestion.highlighted{
     <div id="main" style="margin:10px 0px 10px; background-color:white; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;">
         
           <!-- TRIP SUMMARY -->
-          <div id="trip_summary" style="width:690px; float:left; margin:10px 10px 20px 10px;  padding:10px; border: 1px solid #ced7de; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;">
+          <div id="trip_summary" style="width:690px; float:left; margin:10px 10px 10px 10px;  padding:10px; border: 1px solid #ced7de; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;">
             <div id="trip_name" style="font-size:1.5em;font-weight: bold; color:#026eb0; margin-bottom:5px;">
               <?=$trip->name?>
             </div>
@@ -234,18 +236,19 @@ li.suggestion.highlighted{
               created by <?=$creator->name?>
             </div>
             <div id="trip_description" style="border-bottom: 1px solid #ced7de; padding-bottom:10px; margin-right:5px;">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              <?=$trip->description?>
             </div>
             <!-- TRIP GOERS -->
             <div id="trip_goers" style="border-bottom: 1px solid #ced7de; margin-top:10px; padding-bottom:10px;">
               <? if ($trip_goers):?>
                 <? foreach ($trip_goers as $trip_goer):?>
-                  <div class="trip_goer" uid="<?=$trip_goer->id?>" style="float:left;">
+                  <div class="trip_goer" uid="<?=$trip_goer->id?>" style="float:left; margin-right:10px;">
                     <a href="#"><img class="square-50" src="http://graph.facebook.com/<?=$trip_goer->fid?>/picture?type=square" /></a>
                   </div>
                 <? endforeach;?>
               <? endif;?>
-              <div id="num_trip_goers" style="float:left; line-height:55px; margin-left:20px;">
+              <div style="clear:both;"></div>
+              <div id="num_trip_goers" style="float:left; margin-top: 3px; font-size: 0.75em">
                 <? if (count($trip_goers) == 1):?>
                   <span id="num"><?=count($trip_goers)?></span> person is in
                 <? else:?>
@@ -258,12 +261,12 @@ li.suggestion.highlighted{
             </div><!-- TRIP GOERS ENDS -->
             
             <div style="margin-top:10px;">
-              <div id="trip-destinations" style="width:30%; display:inline-block; float:left; font-size:0.75em;">
+              <div id="trip-destinations" style="width:30%; display:inline-block; float:left; font-size:1em;">
                 <? foreach ($destinations as $destination):?>
                   <?=$destination->address?><br/>
                 <? endforeach;?>
               </div>
-              <div id="destination-start-dates" style="width:20%; display:inline-block; float:left; font-size:0.75em;">
+              <div id="destination-start-dates" style="width:20%; display:inline-block; float:left; font-size:1em;">
                 <? foreach ($destinations as $destination):?>
                   <? if ($destination->startdate):?>
                     <?=date('n/d/y', $destination->startdate)?><br/>
@@ -272,11 +275,11 @@ li.suggestion.highlighted{
                   <? endif;?>
                 <? endforeach;?>
               </div>
-              <div id="need-advice-on" style="width:50%; display:inline-block; float:left; font-size:0.75em;">
+              <div id="need-advice-on" style="width:50%; display:inline-block; float:left; font-size:1em;">
                 Interested in:<br/>
-                <span style="padding-left: 20px;">hiking, exploring, seeing New York like a local</span><br/>
+                <span style="padding-left: 10px;">interest go here</span><br/>
                 Want suggestions for:<br/>
-                <span style="padding-left: 20px;">Accommodations, landmarks, restaurants</span>
+                <span style="padding-left: 10px;">suggestion categories go here</span>
               </div>
             </div>
           </div><!-- TRIP SUMMARY ENDS -->
@@ -289,10 +292,12 @@ li.suggestion.highlighted{
                 <span id="rsvp_status">
                 <? if ($user_rsvp == 2):?>
                     You're invited
+                    <div id="countdown"></div>
                 <? elseif ($user_rsvp == 3):?>
                     You're in
                 <? elseif ($user_rsvp == 1):?>
                     You're out, but you can still change your mind
+                    <div id="countdown"></div>
                 <? endif;?>
                 </span>
                 
@@ -337,8 +342,8 @@ li.suggestion.highlighted{
           <!-- WALL -->
           <div id="wall" style="float:left; width:40%; height: 650px;">
             <!-- WALL INPUT CONTAINER -->
-            <div id="wall-input-container" style="padding:10px;">
-              <textarea id="message-box" style="width:340px; height:15px;">Write a message</textarea>
+            <div id="wall-input-container" style="padding-left:10px;">
+              <textarea id="message-box" style="width:340px; height:20px;">Write a message</textarea>
               
               <!-- LOCATION SEARCH -->
               <div id="location-search" style="display:none; position:relative;">
@@ -465,7 +470,7 @@ li.suggestion.highlighted{
           
           
           <div id="map-shell" style="display:inline; float:left; position:relative; width:60%;">
-            <div id="map-canvas" style="height: 650px;"></div>
+            <div id="map-canvas" style="height: 650px; box-shadow:  0 0 3px 3px gray; -webkit-box-shadow:  0 0 3px 3px gray"></div>
           </div>
           
           <div style="clear:both;"></div>
@@ -475,8 +480,8 @@ li.suggestion.highlighted{
         
         
       
-        <?=$this->load->view('footer')?>
     </div><!-- MAIN ENDS -->
+    <?=$this->load->view('footer')?>
   </div><!-- WRAPPER ENDS -->
 
 <script type="text/javascript">
@@ -525,7 +530,8 @@ li.suggestion.highlighted{
     $('#post-to-wall').click(function() {
       // distinguish between message and suggestion
       if ($('#location-name').val().length==0 || $('#location-lat').val().length==0 || $('#location-lng').val().length==0) {
-        alert('this will be saved as a message not a suggestion');
+        var html = '<li id="wall-suggestion-601" class="suggestion" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA; position:relative;"><div class="wall-location-name"style="font-weight:bold;">'+$('#message-box').val()+'</div></li>';
+        $('#wall-content').prepend(html);
         return false;
         
       } else {
@@ -593,6 +599,10 @@ li.suggestion.highlighted{
     // also remove corresponding map marker
     map.markers[suggestionId].setMap(null);
   });
+  
+  // show countdown clock
+  var deadline = new Date(<?=$trip->response_deadline?>*1000);
+  $('#countdown').countdown({until: deadline});
 
 </script>
 </body> 

@@ -19,7 +19,24 @@ $this->load->view('core_header', $header_args);
     cursor: pointer;
   }
   #trip-creation-form {
-    padding-top: 30px;
+    margin-top:15px;
+    margin-left:90px;
+    margin-right:10px;
+    padding-top:30px;
+    padding-left:30px;
+    padding-right:30px;
+    padding-bottom:30px;
+    margin-bottom:20px;
+    border-radius:20px;
+    background-color:#e4f1fb;
+    color:navy;
+    font-size:18px;
+    font-weight:bold;
+    font-family:helvetica neue;
+    border:1 px solid navy;
+    box-shadow:  0 0 8px 8px gray; 
+    -webkit-box-shadow:  0 0 8px 8px gray;
+    
   }
   .next-button, .create-button {
     border: 1px solid black;
@@ -104,13 +121,44 @@ $this->load->view('core_header', $header_args);
  
 <?=$this->load->view('core_header_end')?>
 
-	<body>
-    <div id="wrapper" style="margin: 0 auto; width:960px;">
-      <?=$this->load->view('header')?>
+	<body style="background:url('http://dev.shoutbound.com/david/images/trip_page_background.png'); background-repeat:repeat-x;">
+		<div id="fb-root"></div>
+		<script>
+		    window.fbAsyncInit = function() {
+		        FB.init({appId: '136139119767617', status: true, cookie: true, xfbml: true});
+		    };
+		    (function() {
+		        var e = document.createElement('script'); e.async = true;
+		        e.src = document.location.protocol +
+		            '//connect.facebook.net/en_US/all.js';
+		        document.getElementById('fb-root').appendChild(e);
+		    }());
+		</script>
 
-      <div id="container" style="overflow:hidden;">
+    <div id="wrapper" style="margin: 0 auto; width:960px;">
+     	<?//=$this->load->view('header')?>
+
+      <div id="container" style="overflow:hidden; width:960px">
         
-        
+		<!-- HEADER -->
+		<div id="header" style="height:60px; padding: 10px 0 10px;">
+		  <div id="logo" style="float:left;">
+		    <a class="home" href="<?=site_url('home')?>" style="font-size:26px; display:block; height:60px; width:95px; background:url('<?=site_url('images/logo_header.png')?>'); text-indent:-9999px;">Shoutbound</a>
+		  </div>
+		  
+		  <div style="background-color:#4483B1; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px; float:right; width:830px; border: 1px solid #8BB5C8;">
+		  	<!--<div style="float:left; margin-left:200px; padding-top:5px;">
+		    	<a href="<?=site_url('trips/create')?>" style="font-size:26px;"><img src="<?=site_url('images/create_trip_button.png')?>" /></a>
+		    </div>-->
+		    
+		    <ul id="navigation" style="float:right; line-height:60px;">
+		      <li style="float:right; margin-right:10px;"><a href="<?=site_url('users/logout')?>" style="color:white; text-decoration:none;">Logout</a></li>
+		      <li style="float:right; margin-right:10px;"><a href="<?=site_url('profile/settings')?>" style="color:white; text-decoration:none;">Settings</a></li>
+		      <li style="float:right; margin-right:10px;"><a href="<?=site_url('home')?>" style="color:white; text-decoration:none;">Home</a></li>
+		    </ul>
+		  </div>
+		</div><!-- HEADER ENDS -->
+		  
         <!-- MAIN -->
         <div id="main" style="min-height:500px;">
           <!-- TRIP CREATION FORM -->
@@ -119,15 +167,27 @@ $this->load->view('core_header', $header_args);
           
             <!-- PLACE DATES FIELD -->
             <fieldset id="place-dates-field" style="border-width:0; border-color:transparent;">
-              <div class="field destination" style="margin-left:10px; position:relative;">
+              <div class="field destination" style="margin-left:10px; margin-bottom:10px; position:relative;">
                 <span class="label-and-errors">
                   <label for="destination">Destination</label>
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
-                <input type="text" class="required" id="destination" name="destination" autofocus="autofocus" style="width:380px;"/>
-                <input type="hidden" id="destination-lat" name="destination-lat" />
-                <input type="hidden" id="destination-lng" name="destination-lng" />
+                <input type="text" class="required" id="destination" name="destination" autofocus="autofocus" style="width:380px;"
+                  <? if ($destination):?>
+                    <?='value="'.$destination.'"'?>
+                  <? endif;?>
+                />
+                <input type="hidden" id="destination-lat" name="destination-lat" 
+                  <? if ($destination_lat):?>
+                    <?='value="'.$destination_lat.'"'?>
+                  <? endif;?>
+                />
+                <input type="hidden" id="destination-lng" name="destination-lng" 
+                  <? if ($destination_lng):?>
+                    <?='value="'.$destination_lng.'"'?>
+                  <? endif;?>
+                />
                 <!-- AUTO LOC LIST -->
                 <div id="auto-loc-list" style="position:absolute; top:57px; background:#EAEAEA; opacity:0.9; width:350px;">
                   <ul id="location-autosuggest"></ul>
@@ -140,7 +200,7 @@ $this->load->view('core_header', $header_args);
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
-                From <input id="startdate" name="startdate" type="text" size="11"/> to <input id="enddate" name="enddate" type="text" size="11" />
+                From <input id="startdate" name="startdate" type="text" size="10"/> to <input id="enddate" name="enddate" type="text" size="10" />
               </div>
             </fieldset><!-- PLACE DATES FIELD ENDS -->
             
@@ -152,9 +212,17 @@ $this->load->view('core_header', $header_args);
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
-                <input  id="trip_name" name="trip_name" class="required" type="text" style="width:380px;"/>
+                <input id="trip_name" name="trip_name" class="required" type="text" style="width:380px;"/>
               </div>
-              <div class="field" style="margin-left:10px;">
+               <div class="field" style="margin-left:10px; margin-top:10px;">
+                <span class="label-and-errors">
+                  <label for="trip-description">Describe your trip (optional)</label>
+                  <span class="error-message"></span>
+                  <div class="clear"></div>
+                </span>
+                <textarea id="trip-description" name="trip-description" style="width:380px; height:56px; font-size:14px;"></textarea>
+              </div>
+              <div class="field" style="margin-left:10px; margin-top: 10px; display:inline-block">
                 <span class="label-and-errors">
                   <label for="invites">Invite people to join your trip (optional)</label>
                   <span class="error-message"></span>
@@ -162,27 +230,19 @@ $this->load->view('core_header', $header_args);
                 </span>
                 <input  id="invites" name="invites" type="text" style="width:380px;"/>
               </div>
-              <div class="field" style="margin-left:10px;">
+              <div class="field" style="margin-left:40px; margin-top: 10px; display:inline-block">
                 <span class="label-and-errors">
-                  <label for="">Give them a deadline to respond by (optional)</label>
+                  <label for="">Deadline for response (optional)</label>
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
-                <input type="text" style="width:380px;"/>
-              </div>
-              <div class="field" style="margin-left:10px;">
-                <span class="label-and-errors">
-                  <label for="trip-description">Describe your trip in 140 characters or less (optional)</label>
-                  <span class="error-message"></span>
-                  <div class="clear"></div>
-                </span>
-                <textarea  id="trip-description" name="trip-description" style="width:380px; height:56px;"></textarea>
+                <input id="deadline" name="deadline" type="text" size="10"/>
               </div>
             </fieldset><!-- SUMMARY INVITES FIELD ENDS -->
             
             <!-- INTERESTS FIELD -->
             <fieldset id="interests-field" style="border-width:0; border-color:transparent; position:relative;">
-              <div class="field" style="margin-left:10px;">
+              <div class="field" style="margin-left:10px; margin-top: 10px;">
                 <span class="label-and-errors">
                   <label for="trip-interests">On my trip, I'm interested in (optional)</label>
                   <span class="error-message"></span>
@@ -191,13 +251,13 @@ $this->load->view('core_header', $header_args);
                 <textarea  id="trip-interests" name="trip-interests" style="width:380px; height:56px;"></textarea>
               </div>
               
-              <div class="field" style="margin-left:10px;">
+              <div class="field" style="margin-left:10px; margin-top: 10px; margin-bottom:10px;">
                 <span class="label-and-errors">
                   I want suggestions for:
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
-                <table>
+                <table style="margin-top:10px; margin-left:20px;">
                   <tbody>
                     <tr>
                       <td class="checkbox-name"><label for="accommodation">Accommodation</label></td>
@@ -214,7 +274,7 @@ $this->load->view('core_header', $header_args);
                       <td class="padding-right"><input type="checkbox" name="bars-nightlife" id="bars-nightlife" value="bars-nightlife" /></td>
                     </tr>
                     <tr>
-                      <td class="checkbox-name"><label for="landmarks">Landmarks</label></td>
+                      <td class="checkbox-name"><label for="landmarks">Natural features</label></td>
                       <td class="padding-right"><input type="checkbox" name="landmarks" id="landmarks" value="accommodation" /></td>
                       <td class="checkbox-name"><label for="activities-events">Activities/events</label></td>
                       <td class="padding-right"><input type="checkbox" name="activities-events" id="activities-events" value="activities-events" /></td>
@@ -232,7 +292,7 @@ $this->load->view('core_header', $header_args);
 
               <div class="field" style="margin-left:10px;">
                 <span class="label-and-errors">
-                  <label for="advisors">Ask specific friends to give you advice for your trip.</label>
+                  <label for="advisors">Ask friends and family for advice</label>
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
@@ -241,7 +301,7 @@ $this->load->view('core_header', $header_args);
               
               <div class="field" style="margin-left:10px;">
                 <span class="label-and-errors">
-                  <label for="">Share this trip on Facebook and Twitter to get more advice.</label>
+                  <label for="">Share this trip on Facebook and Twitter</label>
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
@@ -250,7 +310,11 @@ $this->load->view('core_header', $header_args);
 
 
             </fieldset><!-- INTERESTS FIELD ENDS -->
-            <input class="submit" type="submit" value="Submit"/>
+            <? if ($user):?>
+              <input class="submit" type="submit" value="" style="border:0; cursor:pointer; background:url('http://dev.shoutbound.com/david/images/create-button.png'); background-repeat:no-repeat; height:55px; width:175px; position:relative; left:500px; top:5px; "/>
+            <? else:?>
+              <a href="#" id="fb_login_button"><div style="cursor:pointer; background:url('http://dev.shoutbound.com/david/images/create-button.png'); background-repeat:no-repeat; height:55px; width:175px; position:relative; left:500px; top:5px;"></div></a>
+            <? endif;?>
           </form><!-- TRIP CREATION FORM ENDS -->
           
         </div><!-- MAIN DIV ENDS -->
@@ -261,7 +325,45 @@ $this->load->view('core_header', $header_args);
 </html>
 
 <script type="text/javascript">
+	function shoutboundLogin() {        
+    $.ajax({
+      url: "<?=site_url('users/ajax_login')?>",
+      type: 'POST',
+      dataType: 'json',
+      success: function(data) {        
+        if (data['success']) {
+          $('form#trip-creation-form').submit();
+        } else {
+          alert(data['message']);
+        }
+      }
+    });
+	}
+		
+
   $(document).ready(function() {
+
+    $('#fb_login_button').click(function() {
+      FB.login(function(response) {
+        if (response.session) {
+          shoutboundLogin();
+        } else {
+          alert('you failed to log in');
+        }
+      }, {perms: 'email'});
+      return false;
+    });
+    
+    $('#destination-input').focus(function() {
+      if ($(this).val() == 'Where do you want to go?') {
+        $(this).val('');
+      }
+    }).blur(function() {
+      if ($.trim($(this).val()) == '') {
+        $(this).val('Where do you want to go?');
+      }
+    });
+    
     
     $('#trip-creation-form').validate({
       rules: {
@@ -376,7 +478,7 @@ $this->load->view('core_header', $header_args);
     // datepicker jquery plugin
     $('#startdate').datepicker();
     $('#enddate').datepicker();    
-    
+    $('#deadline').datepicker(); 
   });
   
   ///////////////////////////////////////

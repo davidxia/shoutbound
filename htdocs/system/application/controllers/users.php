@@ -28,6 +28,7 @@ class Users extends Controller {
         {
             $u->login($u->id);
             json_success(array('redirect' => site_url('home')));
+            
         }
         else
         {
