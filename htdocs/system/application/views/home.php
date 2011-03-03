@@ -28,7 +28,7 @@
     <?=$this->load->view('header')?>
     
     <!-- MAIN -->
-    <div id="main" style="margin-top: 10px; border: 1px solid #ced7de; background-color:#FFFFFF; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;">
+    <div id="main" style="margin-top: 10px; border: 1px solid #ced7de; background-color:#FFFFFF; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px; min-height:300px;">
       <!-- NEWS FEED -->
 			<div id="news-feed" style="float:left; width:554px; padding-left:20px;">
 				<div style="margin:10px 0px 10px;">
@@ -72,17 +72,27 @@
                   <div class="user-trip-name">
                     <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
                   </div>
-                  <ul class="trip-content" style="margin-top:10px;">
-                    <li class="trip-place" style="float:left; width:30%; font-size:12px;">Chatham, MA</li>
-                    <li class="trip-startdate" style="float:left; width:30%; font-size:12px;">February 23-27, 2011</li>
-                    <li class="trip-avatar-container">
-                    <? if (count($trip->users)):?>
-                      <? foreach ($trip->users as $trip_user):?>
-                        <a href="#"><img style="height:32px; width:32px;" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" /></a>
-                      <? endforeach;?>
-                    <? endif;?>
-                    </li>
-                  </ul>
+                  <? foreach ($trip->destinations as $destination):?>
+                    <ul class="trip-content" style="margin-top:10px;">
+                      <li class="trip-place" style="float:left; width:30%; font-size:12px;">
+                        <?=$destination->address?>
+                      </li>
+                      <li class="trip-startdate" style="float:left; width:30%; font-size:12px;">
+                        <? if ($destination->startdate):?>
+                          <?=date('n/d/y', $destination->startdate)?>
+                        <? else:?>
+                          no date set yet
+                        <? endif;?>
+                      </li>
+                      <li class="trip-avatar-container">
+                      <? if (count($trip->users)):?>
+                        <? foreach ($trip->users as $trip_user):?>
+                          <a href="#"><img style="height:32px; width:32px;" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" /></a>
+                        <? endforeach;?>
+                      <? endif;?>
+                      </li>
+                    </ul>
+                  <? endforeach;?>
                 </li>
               <? endforeach;?>
             </ul>

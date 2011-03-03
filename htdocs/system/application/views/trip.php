@@ -27,9 +27,6 @@ $this->load->view('core_header', $header_args);
     var baseUrl = "<?=site_url("")?>";
     var staticUrl = "<?=static_url("")?>";
     var tripId = <?=$trip->id?>;
-    <? if ($trip->trip_startdate):?>
-        var tripStartDate = <?=$trip->trip_startdate?>;
-    <? endif; ?>
     <? if ($user):?>
         var uid = <?=$user->id?>;
         var fid = <?=$user->fid?>;

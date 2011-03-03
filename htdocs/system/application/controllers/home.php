@@ -33,6 +33,15 @@ class Home extends Controller {
             {
                 $trip->stored->users[] = $user->stored;
             }
+            
+            // get trip's destinations
+            $d = new Destination();
+            $d->where('trip_id', $trip->id)->get();
+            foreach ($d->all as $destination)
+            {
+                $trip->stored->destinations[] = $destination->stored;
+            }
+
             $trips[] = $trip->stored;
             
         }
@@ -53,21 +62,24 @@ class Home extends Controller {
         }
         
         // put user's planning trips in an array for where_in below
-        foreach ($trips as $trip)
+        if (count($trips))
         {
-            $trip_ids[] = $trip->id;
-        }
-        // get suggestions for both user's trips and her friends trips
-        $s = new Suggestion();
-        $s->order_by('created', 'desc');
-        $s->where_in('trip_id', $trip_ids)->where('active', 1)->get();
-        foreach ($s->all as $suggestion)
-        {
-            $suggestion->stored->user_fid = $u->get_by_id($suggestion->user_id)->fid;
-            $suggestion->stored->user_name = $u->name;
-            $suggestion->stored->trip_name = $t->get_by_id($suggestion->trip_id)->name;
-            $suggestion->stored->is_location = 1;
-            $news_feed_items[] = $suggestion->stored;
+            foreach ($trips as $trip)
+            {
+                $trip_ids[] = $trip->id;
+            }
+            // get suggestions for both user's trips and her friends trips
+            $s = new Suggestion();
+            $s->order_by('created', 'desc');
+            $s->where_in('trip_id', $trip_ids)->where('active', 1)->get();
+            foreach ($s->all as $suggestion)
+            {
+                $suggestion->stored->user_fid = $u->get_by_id($suggestion->user_id)->fid;
+                $suggestion->stored->user_name = $u->name;
+                $suggestion->stored->trip_name = $t->get_by_id($suggestion->trip_id)->name;
+                $suggestion->stored->is_location = 1;
+                $news_feed_items[] = $suggestion->stored;
+            }
         }
         
         
@@ -83,11 +95,36 @@ class Home extends Controller {
     
     function test()
     {
-        $emails = explode(',', 'james@shoutbound.com, david@shoutbound.com');
-        foreach ($emails as $email)
+        $uid = get_cookie('uid');       
+        $u = new User();
+        $u->get_by_id($uid);
+        
+        $t = new Trip();
+        
+        // get active trips for which user is a planner or creator and rsvp is yes
+        $u->trip->where('active', 1)->where_in_join_field('user', 'role', array(2,3))->get();
+        foreach ($u->trip->all as $trip)
         {
-            echo $email;
+            // get creators and planners who are going on this trip
+            $users = new User();
+            $users->where_join_field('trip', 'rsvp', 3)->where_in_join_field('trip', 'role', array(2,3))->get_by_related_trip('id', $trip->id);
+            foreach ($users->all as $user)
+            {
+                $trip->stored->users[] = $user->stored;
+            }
+            
+            // get trip's destinations
+            $d = new Destination();
+            $d->where('trip_id', $trip->id)->get();
+            foreach ($d->all as $destination)
+            {
+                $trip->stored->destinations[] = $destination->stored;
+            }
+            
+            $trips[] = $trip->stored;
+            
         }
+        print_r($trips);
     }
 }
 
