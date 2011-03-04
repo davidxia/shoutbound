@@ -10,6 +10,8 @@ class Trips extends Controller {
     
     function test()
     {
+        $s = json_decode($_POST['o']);
+        json_success(array('s' => $s));
     }
      	  
  	  
@@ -157,19 +159,11 @@ class Trips extends Controller {
     
     
     function create($i=1)
-    {
-        $u = new User();
-        if ($u->get_logged_in_status())
-        {
-            $uid = get_cookie('uid');
-            $u->get_by_id($uid);
-            $user = $u->stored;
-        }
-        
+    {        
         $view_data = array('destination' => $this->input->post('destination'),
                            'destination_lat' => $this->input->post('destination_lat'),
                            'destination_lng' => $this->input->post('destination_lng'),
-                           'user' => $user);
+                          );
 
         if ($i == 1)
         {
@@ -187,7 +181,7 @@ class Trips extends Controller {
         $u = new User();
         if ( ! $u->get_logged_in_status())
         {
-            redirect('/');            
+            redirect('/');
         }
         $uid = get_cookie('uid');
         $u->get_by_id($uid);

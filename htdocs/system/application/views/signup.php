@@ -2,19 +2,20 @@
 	<head>
 		<title>Shoutbound - Sign Up</title>
 		<link rel="stylesheet" href="<?= site_url('static/css/signup.css')?>" type="text/css" media="screen" />
+		<script type="text/javascript" src="http://dev.shoutbound.com/david/static/js/jquery/jquery.js"></script>
 	</head>
 <body style="background:url('<?=site_url('images/trip_page_background.png')?>'); background-repeat:repeat-x;">
 	<div id="fb-root"></div>
 	<script>
-	    window.fbAsyncInit = function() {
-	        FB.init({appId: '136139119767617', status: true, cookie: true, xfbml: true});
-	    };
-	    (function() {
-	        var e = document.createElement('script'); e.async = true;
-	        e.src = document.location.protocol +
-	            '//connect.facebook.net/en_US/all.js';
-	        document.getElementById('fb-root').appendChild(e);
-	    }());
+    window.fbAsyncInit = function() {
+      FB.init({appId: '136139119767617', status: true, cookie: true, xfbml: true});
+    };
+    (function() {
+      var e = document.createElement('script'); e.async = true;
+      e.src = document.location.protocol +
+          '//connect.facebook.net/en_US/all.js';
+      document.getElementById('fb-root').appendChild(e);
+    }());
 	</script>
 
 	<div id="container" style="width:800px; margin:auto; text-align:center;">

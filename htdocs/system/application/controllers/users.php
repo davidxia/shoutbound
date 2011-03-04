@@ -37,21 +37,37 @@ class Users extends Controller {
     }
 
     
+    function ajax_email_login()
+    {
+        $u = new User();
+        $u->email = $this->input->post('email');
+        $u->password = $this->input->post('password');
+
+        if ($u->email_login())
+        {
+            json_success(array('loggedin' => true));
+        }
+        else
+        {
+            json_success(array('loggedin' => false));
+        }
+    }
+
+
     function ajax_login()
     {
         $this->load->library('facebook');
         $u = new User();
         $u->get_by_fid($this->facebook->getUser());
         
-        if ( ! empty($u->id))
+        if (empty($u->id))
         {
-            $u->login($u->id);
-            json_success(array('redirect' => site_url('home')));
-            
+            json_success(array('redirect' => site_url('users/creating'), 'existingUser' => false));
         }
         else
         {
-            json_success(array('redirect' => site_url('users/creating')));
+            $u->login($u->id);
+            json_success(array('redirect' => site_url('home'), 'existingUser' => true));
         }
     }
     
@@ -78,19 +94,18 @@ class Users extends Controller {
     
     function ajax_create_user()
     {
-        
         $this->load->library('facebook');
         $fbuser = $this->facebook->api('/me?fields=name,email,friends');
         $u = new User();
 
         if ( ! $fbuser)
         {
-            json_error('We could not get your facebook data!');
+            json_success(array('error' => true, 'message' => 'We could not get your Facebook data'));
         }
         
         if ($u->get_by_fid($fbuser['id'])->id)
         {
-            json_error('You are already a user');
+            json_success(array('error' => true, 'message' => 'You are already a user'));
         }
 
         $udata = array('fid' => $fbuser['id'],
@@ -98,7 +113,7 @@ class Users extends Controller {
 
         if ( ! $fbuser['email'])
         {
-            return json_error('Couldn\'t get your email address');
+            json_success(array('error' => true, 'message' => 'We could not get your email address'));
         }
         $udata['email'] = $fbuser['email'];
         
@@ -123,7 +138,7 @@ class Users extends Controller {
             }
         }
         
-        json_success(array('redirect' => site_url('/')));
+        json_success(array('error' => false, 'redirect' => site_url('/')));
         
     }
 
@@ -146,10 +161,8 @@ class Users extends Controller {
     
     function login_signup()
     {
-        $this->load->helper('form');
         $render_string = $this->load->view('login_signup', $view_data, true);
         json_success(array('data'=>$render_string));
-
     }
 
 }

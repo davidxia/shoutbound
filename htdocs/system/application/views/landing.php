@@ -27,7 +27,7 @@ $this->load->view('core_header_end');
 			
 			<div id="box" style="background: black; opacity:0.6; height:165px; position:absolute; top:130px; width:960px;"></div>
 			
-			<div id="headline" style="position:absolute; top:150px; left:45px; line-height:40px; font: 45px helvetica neue; font-weight: bold; color:white;">Collaborative travel <br> planning made easy.</div>
+			<div id="headline" style="position:absolute; top:150px; left:45px; line-height:40px; font: 45px helvetica neue; font-weight: bold; color:white;">Collaborative travel <br/> planning made easy.</div>
 
 			<div id="bar">
 			  <form id="destination" action="trips/create" method="post">

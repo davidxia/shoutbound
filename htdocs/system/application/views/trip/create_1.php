@@ -159,7 +159,7 @@ $this->load->view('core_header', $header_args);
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
-                <input id="trip_name" name="trip_name" class="required" type="text" style="width:380px;"/>
+                <input id="trip_name" name="trip_name" class="required" type="text" style="width:380px;" />
               </div>
                <div class="field" style="margin-left:10px; margin-top:10px;">
                 <span class="label-and-errors">
@@ -257,11 +257,7 @@ $this->load->view('core_header', $header_args);
 
 
             </fieldset><!-- INTERESTS FIELD ENDS -->
-            <? if ($user):?>
-              <input class="submit" type="submit" value="" style="border:0; cursor:pointer; background:url('http://dev.shoutbound.com/david/images/create-button.png'); background-repeat:no-repeat; height:55px; width:175px; position:relative; left:500px; top:5px; " />
-            <? else:?>
-              <a href="#" id="login"><img src="http://dev.shoutbound.com/david/images/create-button.png" style="height:55px; width:175px; position:relative; left:500px; top:5px;"></div></a>
-            <? endif;?>
+            <input class="submit" type="submit" value="" style="border:0; cursor:pointer; background:url('http://dev.shoutbound.com/david/images/create-button.png'); background-repeat:no-repeat; height:55px; width:175px; position:relative; left:500px; top:5px;" />
           </form><!-- TRIP CREATION FORM ENDS -->
           
         </div><!-- MAIN DIV ENDS -->
@@ -274,7 +270,6 @@ $this->load->view('core_header', $header_args);
 <script type="text/javascript">
   function showLoginDialog() {
     $.ajax({
-      type: 'POST',
       url: baseUrl+'users/login_signup',
       success: function(response) {
         var r = $.parseJSON(response);
@@ -286,22 +281,8 @@ $this->load->view('core_header', $header_args);
   }
   
   
-  $(document).ready(function() {
-    $('#login').click(function() {
-      showLoginDialog();
-      return false;
-    });
-  
-    $('#destination-input').focus(function() {
-      if ($(this).val() == 'Where do you want to go?') {
-        $(this).val('');
-      }
-    }).blur(function() {
-      if ($.trim($(this).val()) == '') {
-        $(this).val('Where do you want to go?');
-      }
-    });
-    
+  $(document).ready(function() {    
+    // add extra destination and date ranges
     $('#add-destination').click(function() {
       var id = $(this).prev().children('div.destination').children('input.destination-input').attr('id');
       var n = parseInt(id.replace('destinations_address_', ''))+1;
@@ -312,7 +293,7 @@ $this->load->view('core_header', $header_args);
     });
     
     
-    
+    // jquery form validation plugin
     $('#trip-creation-form').validate({
       rules: {
         startdate: {
@@ -328,6 +309,27 @@ $this->load->view('core_header', $header_args);
       errorPlacement: function(error, element) {
         error.appendTo( element.siblings('.label-and-errors').children('.error-message') );
       }
+    });
+    
+    
+    // clicking create button checks if form is valid
+    // if user is logged in, form is submitted
+    // if user isn't logged in, login/signup dialogue pops up
+    $('input.submit').click(function() {
+      if ($('#trip-creation-form').valid()) {
+        $.ajax({
+          url: baseUrl+'users/ajax_get_logged_in_status',
+          success: function(response) {
+            var r = $.parseJSON(response);
+            if (r.loggedin) {
+              $('#trip-creation-form').submit();
+            } else {
+              showLoginDialog();
+            }
+          }
+        });
+      }
+      return false;
     });
     
    

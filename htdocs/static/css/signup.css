@@ -7,7 +7,7 @@ body {
 	padding: 0;
 	font-family: arial;
 }
-#signup_form {
+#signup-form-container {
 	width: 500px;
 	padding: 1em;
 	-moz-border-radius: 3px;

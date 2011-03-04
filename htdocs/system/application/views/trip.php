@@ -29,7 +29,9 @@ $this->load->view('core_header', $header_args);
     var tripId = <?=$trip->id?>;
     <? if ($user):?>
         var uid = <?=$user->id?>;
-        var fid = <?=$user->fid?>;
+        <? if ($user->fid):?>
+            var fid = <?=$user->fid?>;
+        <? endif;?>
     <? endif;?>
     
     map.lat = <?=$destinations[0]->lat?>;
