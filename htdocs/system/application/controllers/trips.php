@@ -6,6 +6,11 @@ class Trips extends Controller {
     {
     	parent::Controller();
     }
+    
+    
+    function test()
+    {
+    }
      	  
  	  
  	  function confirm_create()
@@ -32,31 +37,33 @@ class Trips extends Controller {
         {
             // save trip's destinations and dates
             $d = new Destination();
-            $d->trip_id = $t->id;
-            $d->address = $this->input->post('destination');
-            $d->lat = $this->input->post('destination-lat');
-            $d->lng = $this->input->post('destination-lng');
-
-            // gets trip startdate, enddate, deadline and stores as unix time
-            // TODO: callback method for better client side validation?
-            $startdate = date_parse_from_format('n/j/Y', $this->input->post('startdate'));
-            if (checkdate($startdate['month'], $startdate['day'], $startdate['year']))
+            $destinations = $this->input->post('destinations');
+            foreach ($destinations as $destination)
             {
-                $d->startdate = mktime(0, 0, 0, $startdate['month'], $startdate['day'], $startdate['year']);
-            }
-            $enddate = date_parse_from_format('n/j/Y', $this->input->post('enddate'));
-            if (checkdate($enddate['month'], $enddate['day'], $enddate['year']))
-            {
-                $d->enddate = mktime(0, 0, 0, $enddate['month'], $enddate['day'], $enddate['year']);
-            }
-            $deadline = date_parse_from_format('n/j/Y', $this->input->post('deadline'));
-            {
-                $d->response_deadline = mktime(0, 0, 0, $deadline['month'], $deadline['day'], $deadline['year']);
+                $d->clear();
+                $d->trip_id = $t->id;
+                $d->address = $destination['address'];
+                $d->lat = $destination['lat'];
+                $d->lng = $destination['lng'];
+                
+                // gets each destination's startdate and enddate and stores as unix time
+                // TODO: callback method for better client side validation?
+                $startdate = date_parse_from_format('n/j/Y', $destination['startdate']);
+                if (checkdate($startdate['month'], $startdate['day'], $startdate['year']))
+                {
+                    $d->startdate = mktime(0, 0, 0, $startdate['month'], $startdate['day'], $startdate['year']);
+                }
+                $enddate = date_parse_from_format('n/j/Y', $destination['enddate']);
+                if (checkdate($enddate['month'], $enddate['day'], $enddate['year']))
+                {
+                    $d->enddate = mktime(0, 0, 0, $enddate['month'], $enddate['day'], $enddate['year']);
+                }
+                
+                $d->save();
             }
             
             // send out emails based on invites input tag
             $this->load->library('sendgrid_email');
-            
             $emails = explode(',', $this->input->post('invites'));
             foreach ($emails as $email)
             {
@@ -68,11 +75,9 @@ class Trips extends Controller {
                 );
             }
             
-            if ($d->save())
-            {
-                redirect('trips/'.$t->id);
-            }
-        } 	      
+            // TODO: success callback to ensure all destinations were saved?
+            redirect('trips/'.$t->id);
+        }      
  	  }
 
     function index($trip_id)
@@ -162,8 +167,8 @@ class Trips extends Controller {
         }
         
         $view_data = array('destination' => $this->input->post('destination'),
-                           'destination_lat' => $this->input->post('destination-lat'),
-                           'destination_lng' => $this->input->post('destination-lng'),
+                           'destination_lat' => $this->input->post('destination_lat'),
+                           'destination_lng' => $this->input->post('destination_lng'),
                            'user' => $user);
 
         if ($i == 1)

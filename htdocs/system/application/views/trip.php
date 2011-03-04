@@ -47,28 +47,28 @@ $this->load->view('core_header', $header_args);
   #invite-others-button{
     display: inline-block;
     font-size: 0.75em;
-    background: #2B72CC url(/david/static/images/blueButton.png) repeat-x 0 0;
+    background: #2B72CC url(/david/images/blue_button.png) repeat-x 0 0;
     height: 40px;
     cursor: pointer;
   }
   #invite-others-button:hover{
-    background: url(/david/static/images/blueButton.png) repeat-x 0 -40px;
+    background: url(/david/images/blue_button.png) repeat-x 0 -40px;
   }
   #invite-others-button:active{
-    background: url(/david/static/images/blueButton.png) repeat-x 0 -80px;
+    background: url(/david/images/blue_button.png) repeat-x 0 -80px;
   }
   #get-suggestions-button{
     display: inline-block;
     font-size: 0.75em;
-    background: #2B72CC url(/david/static/images/blueButton.png) repeat-x 0 0;
+    background: #2B72CC url(/david/images/blue_button.png) repeat-x 0 0;
     height: 40px;
     cursor: pointer;
   }
   #get-suggestions-button:hover{
-    background: url(/david/static/images/blueButton.png) repeat-x 0 -40px;
+    background: url(/david/images/blue_button.png) repeat-x 0 -40px;
   }
   #get-suggestions-button:active{
-    background: url(/david/static/images/blueButton.png) repeat-x 0 -80px;
+    background: url(/david/images/blue_button.png) repeat-x 0 -80px;
   }
   .moved{
     text-align: right;
@@ -173,7 +173,7 @@ li.suggestion.highlighted{
   transition: background-color linear .2s;
 }
 .remove-wall-suggestion {
-  background-image: url(/david/static/images/delete_button.png);
+  background-image: url(/david/images/delete_button.png);
   height: 15px;
   width: 15px;
   opacity: 0;

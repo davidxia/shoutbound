@@ -8,7 +8,7 @@ class User extends DataMapper {
         array(
             'field' => 'fid',
             'label' => 'fid',
-            'rules' => array('required')
+            'rules' => array('')
         ),
         array(
             'field' => 'name',
@@ -68,6 +68,26 @@ class User extends DataMapper {
         delete_cookie('uid');
         delete_cookie('key');
         delete_cookie('sig');
+    }
+    
+    
+    function email_login()
+    {
+        // Create a temporary user object
+        $u = new User();
+
+        // Get this users stored record via their username
+        $u->where('email', $this->email)->get();        
+
+        if ($u->password == md5('davidxia'.$this->password.'isgodamongmen'))
+        {
+            $u->login($u->id);
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
     }
 }
 

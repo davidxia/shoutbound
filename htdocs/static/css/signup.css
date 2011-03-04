@@ -9,12 +9,11 @@ body {
 }
 #signup_form {
 	width: 500px;
-	border: 1px solid black;
-	margin: 0 auto 0;
 	padding: 1em;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+	display:inline-block;
 
 }
 
@@ -32,14 +31,26 @@ h1 {
 	text-shadow: 0 1px 0 white;
 }
 
-#signup_form th{
+h2{
+	margin:1em;
+	font-family: helvetica neue, helvetica, arial;
+	font-size:20px;
+	color:black;
+}
+
+h3{
+	font-family: helvetica neue, helvetica, arial;
+	font-size:14px;
+	color:black;
+}
+
+#signup_form th, form th {
     text-align: right;
     padding-right: 10px;
-    width: 160px;
 }
 input[type=text], input[type=password] {
 	display: block;
-	margin: 0 0 1em 0;
+	margin: 0 0 0 0;
 	width: 280px;
 	border:1px solid #aaa;
 	-moz-border-radius: 5px;
@@ -65,9 +76,9 @@ input[type=submit], form a {
 	margin-right: 1em;
 	padding: 6px;
 	text-decoration: none;
-	font-size: 12px;
+	font-size: 18px;
 	-moz-border-radius: 4px;
-	background: #348075;
+	background: gray;
 	color: white;
 	box-shadow: 0 1px 0 white;
 	-moz-box-shadow: 0 1px 0 white;
@@ -76,7 +87,7 @@ input[type=submit], form a {
 }
 
 input[type=submit]:hover, form a:hover {
-	background: #287368;
+	background: #0000CC;
 	cursor: pointer;
 }
 

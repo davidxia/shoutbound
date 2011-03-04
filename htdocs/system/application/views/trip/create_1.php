@@ -5,22 +5,23 @@ $header_args = array(
     ),
     'js_paths'=>array(
         'js/jquery/validate.min.js',
-        'js/jquery/jquery-ui-1.8.10.custom.min.js'
+        'js/jquery/jquery-ui-1.8.10.custom.min.js',
+        'js/jquery/popup.js'
     )
 );
 
 $this->load->view('core_header', $header_args);
 ?>
+<!-- JAVASCRIPT CONSTANTS --> 
+<script type="text/javascript">
+  var baseUrl = "<?=site_url("")?>";
+  var staticUrl = "<?=static_url("")?>";
+</script>
 
 <style type="text/css">
-  .progress-bar {
-    width: 240px;
-    height: 48px;
-    cursor: pointer;
-  }
   #trip-creation-form {
     margin-top:15px;
-    margin-left:90px;
+    margin-left:120px;
     margin-right:10px;
     padding-top:30px;
     padding-left:30px;
@@ -38,44 +39,6 @@ $this->load->view('core_header', $header_args);
     -webkit-box-shadow:  0 0 8px 8px gray;
     
   }
-  .next-button, .create-button {
-    border: 1px solid black;
-    margin-top: 40px;
-    margin-right: 20px;
-    background: #2B72CC url(/david/static/images/blueButton.png) repeat-x 0 0;
-    cursor: pointer;
-    height: 40px;
-    width: 80px;
-    text-align: center;
-    line-height: 2.4;
-  }
-  .next-button:hover, .back-button:hover, .create-button:hover {
-    background: url(/david/static/images/blueButton.png) repeat-x 0 -40px;
-  }
-  .next-button:active, .back-button:active, .create-button:active {
-    background: url(/david/static/images/blueButton.png) repeat-x 0 -80px;
-  }
-  .back-button {
-    display: none;
-    border: 1px solid black;
-    margin-top: 40px;
-    margin-left: 20px;
-    background: #2B72CC url(/david/static/images/blueButton.png) repeat-x 0 0;
-    cursor: pointer;
-    height: 40px;
-    width: 80px;
-    text-align: center;
-    line-height: 2.4;
-  }
-  .next-button a, .back-button a, .create-button a {
-    color: white;
-    text-decoration: none;
-  }
-/*
-  #summary-invites-field, #interests-field {
-    display: none;
-  }
-*/
   #main table{
     border-collapse: collapse;
   }
@@ -122,18 +85,8 @@ $this->load->view('core_header', $header_args);
 <?=$this->load->view('core_header_end')?>
 
 	<body style="background:url('http://dev.shoutbound.com/david/images/trip_page_background.png'); background-repeat:repeat-x;">
-		<div id="fb-root"></div>
-		<script>
-		    window.fbAsyncInit = function() {
-		        FB.init({appId: '136139119767617', status: true, cookie: true, xfbml: true});
-		    };
-		    (function() {
-		        var e = document.createElement('script'); e.async = true;
-		        e.src = document.location.protocol +
-		            '//connect.facebook.net/en_US/all.js';
-		        document.getElementById('fb-root').appendChild(e);
-		    }());
-		</script>
+    <div id="div-to-popup" style="background-color:white; display:none;"></div>
+    
 
     <div id="wrapper" style="margin: 0 auto; width:960px;">
      	<?//=$this->load->view('header')?>
@@ -146,64 +99,58 @@ $this->load->view('core_header', $header_args);
 		    <a class="home" href="<?=site_url('home')?>" style="font-size:26px; display:block; height:60px; width:95px; background:url('<?=site_url('images/logo_header.png')?>'); text-indent:-9999px;">Shoutbound</a>
 		  </div>
 		  
-		  <div style="background-color:#4483B1; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px; float:right; width:830px; border: 1px solid #8BB5C8;">
-		  	<!--<div style="float:left; margin-left:200px; padding-top:5px;">
-		    	<a href="<?=site_url('trips/create')?>" style="font-size:26px;"><img src="<?=site_url('images/create_trip_button.png')?>" /></a>
-		    </div>-->
-		    
-		    <ul id="navigation" style="float:right; line-height:60px;">
-		      <li style="float:right; margin-right:10px;"><a href="<?=site_url('users/logout')?>" style="color:white; text-decoration:none;">Logout</a></li>
-		      <li style="float:right; margin-right:10px;"><a href="<?=site_url('profile/settings')?>" style="color:white; text-decoration:none;">Settings</a></li>
-		      <li style="float:right; margin-right:10px;"><a href="<?=site_url('home')?>" style="color:white; text-decoration:none;">Home</a></li>
-		    </ul>
+		  <div style="background-color:#4483B1; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px; float:right; width:830px; border: 1px solid #8BB5C8; color:white; font-size:22px; text-align:center; padding:14px;">
+		    Create your trip
 		  </div>
 		</div><!-- HEADER ENDS -->
 		  
         <!-- MAIN -->
         <div id="main" style="min-height:500px;">
           <!-- TRIP CREATION FORM -->
-          <form id="trip-creation-form" action="confirm_create" method="post" style="width:800px;">
+          <form id="trip-creation-form" action="confirm_create" method="post" style="width:770px; position:relative;">
           
           
             <!-- PLACE DATES FIELD -->
-            <fieldset id="place-dates-field" style="border-width:0; border-color:transparent;">
+            <fieldset style="border-width:0; border-color:transparent;">
               <div class="field destination" style="margin-left:10px; margin-bottom:10px; position:relative;">
                 <span class="label-and-errors">
-                  <label for="destination">Destination</label>
+                  <label for="destinations_address_1">Destination</label>
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
-                <input type="text" class="required" id="destination" name="destination" autofocus="autofocus" style="width:380px;"
+                <input type="text" id="destinations_address_1" class="destination-input" name="destinations[1][address]" autofocus="autofocus" autocomplete="off" style="width:380px;"
                   <? if ($destination):?>
                     <?='value="'.$destination.'"'?>
                   <? endif;?>
                 />
-                <input type="hidden" id="destination-lat" name="destination-lat" 
+                <input type="hidden" id="destinations_lat_1" class="required destination_lat" name="destinations[1][lat]" 
                   <? if ($destination_lat):?>
                     <?='value="'.$destination_lat.'"'?>
                   <? endif;?>
                 />
-                <input type="hidden" id="destination-lng" name="destination-lng" 
+                <input type="hidden" id="destinations_lng_1" class="destination_lng" name="destinations[1][lng]" 
                   <? if ($destination_lng):?>
                     <?='value="'.$destination_lng.'"'?>
                   <? endif;?>
                 />
-                <!-- AUTO LOC LIST -->
-                <div id="auto-loc-list" style="position:absolute; top:57px; background:#EAEAEA; opacity:0.9; width:350px;">
-                  <ul id="location-autosuggest"></ul>
-                </div><!-- AUTO LOC LIST ENDS -->
               </div>
-              
               <div class="field dates" style="margin-left:10px;">
                 <span class="label-and-errors">
                   <label for="">Dates (optional)</label>
                   <span class="error-message"></span>
                   <div class="clear"></div>
                 </span>
-                From <input id="startdate" name="startdate" type="text" size="10"/> to <input id="enddate" name="enddate" type="text" size="10" />
+                From <input id="startdate1" class="startdate" name="destinations[1][startdate]" type="text" size="10"/> to <input id="enddate1" class="enddate" name="destinations[1][enddate]" type="text" size="10" />
               </div>
             </fieldset><!-- PLACE DATES FIELD ENDS -->
             
+            <a href="#" id="add-destination">add another destination</a>
+            <!-- AUTO LOC LIST -->
+            <div id="auto-loc-list" style="position:absolute; bottom:750px; left:45px; background:white; opacity:0.9; width:350px;">
+              <ul id="location-autosuggest"></ul>
+            </div><!-- AUTO LOC LIST ENDS -->
+
+
             <!-- SUMMARY INVITES FIELD -->
             <fieldset id="summary-invites-field" style="border-width:0; border-color:transparent;">
               <div class="field trip_name" style="margin-left:10px;">
@@ -311,9 +258,9 @@ $this->load->view('core_header', $header_args);
 
             </fieldset><!-- INTERESTS FIELD ENDS -->
             <? if ($user):?>
-              <input class="submit" type="submit" value="" style="border:0; cursor:pointer; background:url('http://dev.shoutbound.com/david/images/create-button.png'); background-repeat:no-repeat; height:55px; width:175px; position:relative; left:500px; top:5px; "/>
+              <input class="submit" type="submit" value="" style="border:0; cursor:pointer; background:url('http://dev.shoutbound.com/david/images/create-button.png'); background-repeat:no-repeat; height:55px; width:175px; position:relative; left:500px; top:5px; " />
             <? else:?>
-              <a href="#" id="fb_login_button"><div style="cursor:pointer; background:url('http://dev.shoutbound.com/david/images/create-button.png'); background-repeat:no-repeat; height:55px; width:175px; position:relative; left:500px; top:5px;"></div></a>
+              <a href="#" id="login"><img src="http://dev.shoutbound.com/david/images/create-button.png" style="height:55px; width:175px; position:relative; left:500px; top:5px;"></div></a>
             <? endif;?>
           </form><!-- TRIP CREATION FORM ENDS -->
           
@@ -325,35 +272,26 @@ $this->load->view('core_header', $header_args);
 </html>
 
 <script type="text/javascript">
-	function shoutboundLogin() {        
+  function showLoginDialog() {
     $.ajax({
-      url: "<?=site_url('users/ajax_login')?>",
       type: 'POST',
-      dataType: 'json',
-      success: function(data) {        
-        if (data['success']) {
-          $('form#trip-creation-form').submit();
-        } else {
-          alert(data['message']);
-        }
+      url: baseUrl+'users/login_signup',
+      success: function(response) {
+        var r = $.parseJSON(response);
+        $('#div-to-popup').empty();
+        $('#div-to-popup').append(r['data']);
+        $('#div-to-popup').bPopup();
       }
     });
-	}
-		
-
+  }
+  
+  
   $(document).ready(function() {
-
-    $('#fb_login_button').click(function() {
-      FB.login(function(response) {
-        if (response.session) {
-          shoutboundLogin();
-        } else {
-          alert('you failed to log in');
-        }
-      }, {perms: 'email'});
+    $('#login').click(function() {
+      showLoginDialog();
       return false;
     });
-    
+  
     $('#destination-input').focus(function() {
       if ($(this).val() == 'Where do you want to go?') {
         $(this).val('');
@@ -363,6 +301,16 @@ $this->load->view('core_header', $header_args);
         $(this).val('Where do you want to go?');
       }
     });
+    
+    $('#add-destination').click(function() {
+      var id = $(this).prev().children('div.destination').children('input.destination-input').attr('id');
+      var n = parseInt(id.replace('destinations_address_', ''))+1;
+      //console.log(n);
+      var html = '<fieldset style="border-width:0; border-color:transparent;"><div class="field destination" style="margin-left:10px; margin-bottom:10px; position:relative;"><span class="label-and-errors"><label for="destinations_address_'+n+'">Destination</label><span class="error-message"></span><div class="clear"></div></span><input type="text" id="destinations_address_'+n+'" class="destination-input" name="destinations['+n+'][address]" autofocus="autofocus" autocomplete="off" style="width:380px;" /><input type="hidden" class="required destination_lat" id="destinations_lat_'+n+'" name="destinations['+n+'][lat]" /><input type="hidden" id="destinations_lng'+n+'" class="destination_lng" name="destinations['+n+'][lng]" /></div><div class="field dates" style="margin-left:10px;"><span class="label-and-errors"><label for="">Dates (optional)</label><span class="error-message"></span><div class="clear"></div></span>From <input id="startdate'+n+'" class="startdate" name="destinations['+n+'][startdate]" type="text" size="10"/> to <input id="enddate'+n+'" class="enddate" name="destinations['+n+'][enddate]" type="text" size="10" /></div></fieldset>';
+      $(html).insertBefore('#add-destination');
+      return false;
+    });
+    
     
     
     $('#trip-creation-form').validate({
@@ -375,13 +323,13 @@ $this->load->view('core_header', $header_args);
         }
       },
       messages: {
-       destination: 'You need a destination for a trip, silly :p',
-       trip_name: 'Give your trip a cool name.'
+        trip_name: 'Give your trip a cool name.'
       },
       errorPlacement: function(error, element) {
         error.appendTo( element.siblings('.label-and-errors').children('.error-message') );
       }
     });
+    
    
     $('div.next-button').click(function() {
       showPart2();
@@ -476,8 +424,12 @@ $this->load->view('core_header', $header_args);
     });
 
     // datepicker jquery plugin
-    $('#startdate').datepicker();
-    $('#enddate').datepicker();    
+    $('.startdate').live('focus', function() {
+      $(this).datepicker();
+    });
+    $('.enddate').live('focus', function() {
+      $(this).datepicker();
+    });
     $('#deadline').datepicker(); 
   });
   
@@ -498,65 +450,72 @@ $this->load->view('core_header', $header_args);
   
   map.loadGoogleMap = function() {
     // bind onkeyup event to location-search-box
-    $('#destination').keyup(function() {
-      map.delay(map.geocodeLocationQuery, 500);
+    $('input.destination-input').live('keyup', function() {
+      var domInput = this;
+      //console.log(this);
+      map.delay(function() {
+        // new geocoder to convert address/name into latlng co-ords
+        //console.log(x);
+        var geocoder = new google.maps.Geocoder();
+        var query = $(domInput).val().trim();
+        //console.log(query);
+          
+        // geocode request sent after user stops typing for 1 second
+        if (query.length > 1) {
+          geocoder.geocode({'address': query}, function(result, status) {
+            //console.log(domInput);
+            if (status == google.maps.GeocoderStatus.OK && result[0]) {
+            	$('#location-autosuggest').empty();
+            	for (var i=0; i<result.length; i++) {
+            		map.listResult(result[i], domInput);
+            	}
+            } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+            	$('#location-autosuggest').html('Aw, we couldn\'t find that place.');
+            } else {
+            	$('#location-autosuggest').html(status);
+            }
+          });
+        } else {
+        	$('#location-autosuggest').html('');
+        }
+        
+      }, 500);
     });
   };
 
   // delay geocoder api for 1 second of keyboard inactivity
   map.delay = (function() {
     var timer = 0;
-    return function(callback, ms){
+    return function(callback, ms) {
       clearTimeout (timer);
       timer = setTimeout(callback, ms);
     };
   })();
   
-  map.geocodeLocationQuery = function() {
-    // new geocoder to convert address/name into latlng co-ords
-    var geocoder = new google.maps.Geocoder();
-    var query = $('#destination').val().trim();
-      
-    // geocode request sent after user stops typing for 1 second
-    if (query.length > 1) {
-      geocoder.geocode({'address': query}, map.returnGeocodeResult);
-    } else {
-    	$('#location-autosuggest').html('');
-    }
-  };
+  //map.geocodeLocationQuery = function() {
+  //};
   
   
   // this callback function is passed the geocoderResult object
-  map.returnGeocodeResult = function(result, status) {
-    if (status == google.maps.GeocoderStatus.OK && result[0]) {
-    	$('#location-autosuggest').empty();
-    	for (var i=0; i<result.length; i++) {
-    		map.listResult(result[i]);
-    	}
-    } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-    	$('#location-autosuggest').html('Aw, we couldn\'t find that place.');
-    } else {
-    	$('#location-autosuggest').html(status);
-    }
-  };
+  //map.returnGeocodeResult = ;
   
   
   // selectable dropdown list
-  map.listResult = function(resultItem) {
+  map.listResult = function(resultItem, domInput) {
     var li = $('<li></li>');
-    li.html('<a href="#">'+resultItem.formatted_address+'</a>');
+    li.html('<a href="#" style="background-color:white; text-decoration: none; line-height:40px; font:helvetica neue; font-size: 16px; padding-top: 5px; border-bottom: 1px solid gray; color:navy;">'+resultItem.formatted_address+'</a>');
     li.click(function(){
-      map.clickGeocodeResult(resultItem);
+      map.clickGeocodeResult(resultItem, domInput);
       return false;
     });
     $('#location-autosuggest').append(li);
   };
 
-  map.clickGeocodeResult = function(resultItem) {
-    $('#destination').val(resultItem.formatted_address);
+  map.clickGeocodeResult = function(resultItem, domInput) {
+    $(domInput).val(resultItem.formatted_address);
     $('#location-autosuggest').empty();
-    $('#destination-lat').val(resultItem.geometry.location.lat());
-    $('#destination-lng').val(resultItem.geometry.location.lng());
+    $(domInput).siblings('input.destination_lat').val(resultItem.geometry.location.lat());
+    $(domInput).siblings('input.destination_lng').val(resultItem.geometry.location.lng());
   };
 
 

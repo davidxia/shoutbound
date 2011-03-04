@@ -18,6 +18,25 @@ class Users extends Controller {
         redirect('/');
     }
     
+    function login()
+    {
+        $u = new User();
+
+        $u->email = $this->input->post('email');
+        $u->password = $this->input->post('password');
+
+        if ($u->email_login())
+        {
+            redirect('/');
+        }
+        else
+        {
+            // Show the custom login error message
+            echo '<p>invalid password or email</p>';
+        }
+    }
+
+    
     function ajax_login()
     {
         $this->load->library('facebook');
@@ -122,6 +141,15 @@ class Users extends Controller {
         {
             json_success(array('loggedin'=>FALSE));        
         }
+    }
+    
+    
+    function login_signup()
+    {
+        $this->load->helper('form');
+        $render_string = $this->load->view('login_signup', $view_data, true);
+        json_success(array('data'=>$render_string));
+
     }
 
 }
