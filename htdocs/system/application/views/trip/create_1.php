@@ -102,7 +102,7 @@ $this->load->view('core_header', $header_args);
         <fieldset style="border-width:0; border-color:transparent; position:relative; margin-bottom:30px;">
           <div style="width:412px; display:inline-block; margin-left:10px; margin-bottom:20px;">Destinations</div><div id="dates-header" style="width:298px; display:inline-block; visibility:hidden;">Dates</div>
           <div id="destinations_dates" style="position:relative;">
-          <a id="add-destination" href="" style="position:absolute; top:20px; left:-10px;">[+]</a><a id="subtract-destination" href="" style="position:absolute; top:0; left:-10px;">[-]</a>
+          <a id="add-destination" href="" style="position:absolute; top:20px; left:-10px;"><img src="<?=site_url('images/plus_icon.jpg')?>" height="20" width="20"/></a><a id="subtract-destination" href="" style="position:absolute; top:0; left:-10px;"><img src="<?=site_url('images/minus_icon.jpg')?>" height="20" width="20"/></a>
             <div class="field destination" style="margin-left:10px; margin-bottom:10px; position:relative; display:inline-block;">
               <span class="label-and-errors">
                 <label for="address0">1.</label>

@@ -6,17 +6,6 @@ class Trips extends Controller {
     {
     	parent::Controller();
     }
-    
-    
-    function test()
-    {
-        $this->load->view('dynamic_form');
-    }
-
-    function test2()
-    {
-        $this->load->view('dynamic_form2');
-    }
 
  	  
  	  function confirm_create()
