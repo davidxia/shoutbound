@@ -10,10 +10,14 @@ class Trips extends Controller {
     
     function test()
     {
-        $s = json_decode($_POST['o']);
-        json_success(array('s' => $s));
+        $this->load->view('dynamic_form');
     }
-     	  
+
+    function test2()
+    {
+        $this->load->view('dynamic_form2');
+    }
+
  	  
  	  function confirm_create()
  	  {
@@ -24,11 +28,14 @@ class Trips extends Controller {
         }
         $uid = get_cookie('uid');
         $u->get_by_id($uid);
+        
+        $post = $this->input->post('destinations_dates');
+        $post = $post['destinations_dates'];
 
         $t = new Trip();
-        $t->name = $this->input->post('trip_name');
-        $t->description = $this->input->post('trip-description');
-        $deadline = date_parse_from_format('n/j/Y', $this->input->post('deadline'));
+        $t->name = $post['trip_name'];
+        $t->description = $post['trip-description'];
+        $deadline = date_parse_from_format('n/j/Y', $post['deadline']);
         {
             $t->response_deadline = mktime(0, 0, 0, $deadline['month'], $deadline['day'], $deadline['year']);
         }
@@ -39,41 +46,43 @@ class Trips extends Controller {
         {
             // save trip's destinations and dates
             $d = new Destination();
-            $destinations = $this->input->post('destinations');
-            foreach ($destinations as $destination)
+            foreach ($post as $key => $value)
             {
-                $d->clear();
-                $d->trip_id = $t->id;
-                $d->address = $destination['address'];
-                $d->lat = $destination['lat'];
-                $d->lng = $destination['lng'];
-                
-                // gets each destination's startdate and enddate and stores as unix time
-                // TODO: callback method for better client side validation?
-                $startdate = date_parse_from_format('n/j/Y', $destination['startdate']);
-                if (checkdate($startdate['month'], $startdate['day'], $startdate['year']))
+                if (is_array($value))
                 {
-                    $d->startdate = mktime(0, 0, 0, $startdate['month'], $startdate['day'], $startdate['year']);
+                    $d->clear();
+                    $d->trip_id = $t->id;
+                    $d->address = $post[$key]['address'];
+                    $d->lat = $post[$key]['lat'];
+                    $d->lng = $post[$key]['lng'];
+                    
+                    // gets each destination's startdate and enddate and stores as unix time
+                    // TODO: callback method for better client side validation?
+                    $startdate = date_parse_from_format('n/j/Y', $post[$key]['startdate']);
+                    if (checkdate($startdate['month'], $startdate['day'], $startdate['year']))
+                    {
+                        $d->startdate = mktime(0, 0, 0, $startdate['month'], $startdate['day'], $startdate['year']);
+                    }
+                    $enddate = date_parse_from_format('n/j/Y', $post[$key]['enddate']);
+                    if (checkdate($enddate['month'], $enddate['day'], $enddate['year']))
+                    {
+                        $d->enddate = mktime(0, 0, 0, $enddate['month'], $enddate['day'], $enddate['year']);
+                    }
+                    
+                    $d->save();
                 }
-                $enddate = date_parse_from_format('n/j/Y', $destination['enddate']);
-                if (checkdate($enddate['month'], $enddate['day'], $enddate['year']))
-                {
-                    $d->enddate = mktime(0, 0, 0, $enddate['month'], $enddate['day'], $enddate['year']);
-                }
-                
-                $d->save();
             }
             
             // send out emails based on invites input tag
             $this->load->library('sendgrid_email');
-            $emails = explode(',', $this->input->post('invites'));
+            $emails = explode(',', $post['invites']);
             foreach ($emails as $email)
             {
                 $response = $this->sendgrid_email->send_mail(
                     array($email),
                     $u->name.' invited you on a trip on Shoutbound!',
-                    $this->_add_link_to_notification('<h4>'.$u->name.' invited you a trip on ShoutBound!</h4>'.$u->name.' says: ', $this->input->post('trip-description'), $t->id),
-                    $this->_add_link_to_notification($u->name.' invited you on a trip on ShoutBound! '.$u->name.' says: '.$this->input->post('trip-description'), $t->id)
+                    $this->_add_link_to_notification('<h4>'.$u->name.' invited you to a trip on Shoubound</h4>'.$u->name.' says: '.$post['trip-description'], $t->id),
+                    $this->_add_link_to_notification($u->name.' invited you to a trip on Shoutbound '.$u->name.' says: '.$post['trip-description'], $t->id)
                 );
             }
             
@@ -84,6 +93,11 @@ class Trips extends Controller {
 
     function index($trip_id)
     {
+        if ( ! isset($trip_id))
+        {
+            redirect('/');
+        }
+        
         $t = new Trip();
 
         $u = new User();
