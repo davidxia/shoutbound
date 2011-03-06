@@ -108,9 +108,21 @@ $this->load->view('core_header', $header_args);
                 <label for="address0">1.</label>
                 <span class="error-message" style="position:absolute; top:-14px;"></span>
               </span>
-              <input type="text" id="address" class="destination-input" name="address" style="width:360px;"/>
-              <input type="hidden" id="lat" class="required destination_lat" name="lat"/>
-              <input type="hidden" id="lng" class="destination_lng" name="lng"/>
+              <input type="text" id="address" class="destination-input" name="address" style="width:360px;"
+      			    <? if ($destination):?>
+      			      <? echo 'value="'.$destination.'"'?>
+                <? endif;?>
+              />
+              <input type="hidden" id="lat" class="required destination_lat" name="lat"
+      			    <? if ($destination_lat):?>
+      			      <? echo 'value="'.$destination_lat.'"'?>
+                <? endif;?>
+              />
+              <input type="hidden" id="lng" class="destination_lng" name="lng"
+      			    <? if ($destination_lng):?>
+      			      <? echo 'value="'.$destination_lng.'"'?>
+                <? endif;?>
+              />
             </div>
             
             <div class="field dates" style="margin-left:10px; display:inline-block; visibility:hidden;">
@@ -186,42 +198,13 @@ $this->load->view('core_header', $header_args);
   
   
   $(document).ready(function() {
-    $('#destinations_dates').dynamicForm('#add-destination', '#subtract-destination', {limit:5});
-    
-    /*
-    // add another destination and date inputs
-    $('#add-destination').click(function() {
-      $(this).hide();
-      
-      var id = $(this).prev().prev().children('input.destination-input').attr('id');
-      var n = parseInt(id.replace('destinations_address_', ''))+1;
-      console.log(n);
-      var html = [];
-      html[0] = '<div class="field destination" style="margin-left:10px; margin-bottom:10px; position:relative; float:left;">';
-      html[1] = '<span class="label-and-errors">';
-      html[2] = '<label for="destinations_address_'+n+'">'+n+'.</label> ';
-      html[3] = '<span class="error-message" style="position:absolute; top:-7px;"></span>';
-      html[4] = '</span>';
-      html[5] = '<input type="text" id="destinations_address_'+n+'" class="destination-input" name="destinations['+n+'][address]" autofocus="autofocus" autocomplete="off" style="width:360px;"/>';
-      html[6] = '<input type="hidden" id="destinations_lat_'+n+'" class="destination_lat" name="destinations['+n+'][lat]"/>';
-      html[7] = '<input type="hidden" id="destinations_lng_'+n+'" class="destination_lng" name="destinations['+n+'][lng]"/>';
-      html[8] = '</div>';
-      html[9] = '<div class="field dates" id="dates_'+n+'" style="margin-left:10px; float:left; visibility:hidden;">';
-      html[10] = '<span class="label-and-errors">';
-      html[11] = '<span class="error-message"></span>';
-      html[12] = '<div class="clear"></div>';
-      html[13] = '</span>';
-      html[14] = '<label for="startdate_'+n+'">from</label> ';
-      html[15] = '<input id="startdate_'+n+'" class="startdate" name="destinations['+n+'][startdate]" type="text" size="10"/>';
-      html[16] = ' <label for="enddate_'+n+'">to</label> ';
-      html[17] = '<input id="enddate_'+n+'" class="enddate" name="destinations['+n+'][enddate]" type="text" size="10" />';
-      html[18] = '</div>';
-      html = html.join('');
-
-      $(html).insertBefore('#add-destination');
-      return false;
+    $('#destinations_dates').dynamicForm('#add-destination', '#subtract-destination', {
+      limit: 5,
+      afterClone: function(clone) {
+        clone.find('input').val('');       
+      }
     });
-    */
+    
     
     // jquery form validation plugin
     $('#trip-creation-form').validate({

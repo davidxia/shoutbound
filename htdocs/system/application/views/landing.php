@@ -34,7 +34,7 @@ $this->load->view('core_header_end');
 		<div id="bar">
 		  <form id="destination" action="trips/create" method="post" style="position:relative;">
 			  <input type="text" id="destination-input" name="destination" autocomplete="off" style="border-radius:15px; box-shadow:  0 0 3px 3px gray; -webkit-box-shadow:  0 0 3px 3px gray; background-color:white; position:absolute; top:170px; left:530px;z-index:3; height:75px; width:285px; padding-right:100px; padding-top: 1px; padding-left:15px; padding-bottom:1px; font:22px helvetica neue;font-weight: bold; color:#000080;" value="Where do you want to go?"/>
-        <input type="hidden" id="destination_lat" name="destination_lat" />
+        <input type="hidden" id="destination_lat" name="destination_lat"/>
         <input type="hidden" id="destination_lng" name="destination_lng" />
 			  <img id="baricon" src="<?=site_url('images/baricon.png')?>" style="background-repeat:no-repeat; z-index:5; height:75px; width:75px; position:absolute; top:179px; left:855px; cursor:pointer;" />
 		  </form>
