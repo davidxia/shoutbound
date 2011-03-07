@@ -20,6 +20,7 @@ class Suggestions extends Controller {
         $s->lng = $this->input->post('lng');
         $s->address = $this->input->post('address');
         $s->phone = $this->input->post('phone');
+        $s->created = time()-72;
         
         if ($s->save())
         {
@@ -42,3 +43,6 @@ class Suggestions extends Controller {
 
     
 }
+
+/* End of file suggestions.php */
+/* Location: ./application/controllers/suggestions.php */

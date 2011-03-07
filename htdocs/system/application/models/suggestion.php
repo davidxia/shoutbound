@@ -45,6 +45,11 @@ class Suggestion extends DataMapper {
             'label' => 'Phone',
             'rules' => array('trim')
         ),
+        array(
+            'field' => 'created',
+            'label' => 'Created',
+            'rules' => array('required')
+        ),
     );
 
     function Suggestion()
@@ -53,3 +58,6 @@ class Suggestion extends DataMapper {
     }
     
 }
+
+/* End of file suggestion.php */
+/* Location: ./application/models/suggestion.php */

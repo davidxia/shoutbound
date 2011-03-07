@@ -9,7 +9,6 @@ $header_args = array(
         'js/trip/share.js',
         'js/trip/invite.js',
         'js/jquery/popup.js',
-        //'js/trip/delete.js',
         'js/trip/extras.js',
         'js/jquery/color.js',
         'js/jquery/scrollto.js',
@@ -174,7 +173,7 @@ li.suggestion.highlighted{
   -o-transition: background-color linear .2s;
   transition: background-color linear .2s;
 }
-.remove-wall-suggestion {
+.remove-wall-item {
   background-image: url(/david/images/delete_button.png);
   height: 15px;
   width: 15px;
@@ -184,6 +183,7 @@ li.suggestion.highlighted{
   top: 0;
   right: 0;
 }
+
 #map-shell {
   font-size: 14px;
 }
@@ -428,10 +428,10 @@ li.suggestion.highlighted{
             <ul id="wall-content">
               <? if ($wall_items):?>
                 <? foreach ($wall_items as $wall_item):?>
-                  <? if ($wall_item->is_location):?>
+                  <? if ($wall_item->lat):?>
                     <li id="wall-suggestion-<?=$wall_item->id?>" class="suggestion" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA; position:relative;">
                       <div class="wall-location-name"style="font-weight:bold;"><?=$wall_item->name?></div>
-                      <div>Suggested by <a href="#" class="wall-comment-author" style="text-decoration:none;"><?=$wall_item->user_name?></a></div>
+                      <div>Suggested by <a href="#" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a></div>
                       <span class="wall-location-address" style="display:none;"><?=$wall_item->address?></span>
                       <span class="wall-location-phone" style="display:none;"><?=$wall_item->phone?></span>
                       
@@ -445,19 +445,19 @@ li.suggestion.highlighted{
                         Like Dislike
                       </div>
                       <? if ($user_role >= 2):?>
-                        <div class="remove-wall-suggestion" suggestionId="<?=$wall_item->id?>"></div>
+                        <div class="remove-wall-item" suggestionId="<?=$wall_item->id?>"></div>
                       <? endif;?>
                       <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
                     </li>
                   <? else:?>
-                    <li id="wall-message-<?=$wall_item->id?>" class="" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
-                      <a href="#"><img src="http://graph.facebook.com/<?=$wall_item->user_fid?>/picture?type=square" /></a>
+                    <li id="wall-message-<?=$wall_item->id?>" class="" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA; position:relative;">
+                      <a href="#" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a>
                       <? if ($user_role >= 2):?>
-                        <div class="remove-wall-message" messageId="<?=$wall_item->id?>"></div>
+                        <div class="remove-wall-item" messageId="<?=$wall_item->id?>"></div>
                       <? endif;?>
-                      <span class="wall_comment_author"><?=$wall_item->user_name?></span>
-                      <span class="wall-comment-text"><?=$wall_item->text?></span>
-                      <span style="color:#777; font-size: 12px;"><?=$wall_item->created?></span>
+                      <span class="wall-item-text"><?=$wall_item->text?></span>
+                      <br/>
+                      <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
                     </li>
                   <? endif;?>
                 <? endforeach;?>
@@ -498,26 +498,34 @@ li.suggestion.highlighted{
   
   
   // expand post area
-  $('#message-box').click(function() {
-    $(this).html('').css('height', '50px');
+  $('#message-box').focus(function() {
+    expandMessageBox();
+  });
+  
+  function expandMessageBox() {
+    $('#message-box').html('').css('height', '50px');
     $('#location-search').show();
     $('#link-input').show();
     $('#wall-post-button').show();
-  });
-  
-  
-  $('#link-input-box').click(function() {
+  }
+
+
+  $('#link-input-box').focus(function() {
     $(this).val('');
+  }).blur(function() {
+    if ($(this).val() == '') {
+      $(this).val('http://');
+    }
   });
   
   
   // change background color of wall item on hover
-  $('li.suggestion').hover(
+  $('#wall-content').children('li').hover(
     function() {
-      $(this).children('.remove-wall-suggestion').css('opacity', 1);
+      $(this).children('.remove-wall-item').css('opacity', 1);
     },
     function() {
-      $(this).children('.remove-wall-suggestion').css('opacity', 0);
+      $(this).children('.remove-wall-item').css('opacity', 0);
     }
   );
   
@@ -529,8 +537,36 @@ li.suggestion.highlighted{
     $('#post-to-wall').click(function() {
       // distinguish between message and suggestion
       if ($('#location-name').val().length==0 || $('#location-lat').val().length==0 || $('#location-lng').val().length==0) {
-        var html = '<li id="wall-suggestion-601" class="suggestion" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA; position:relative;"><div class="wall-location-name"style="font-weight:bold;">'+$('#message-box').val()+'</div></li>';
-        $('#wall-content').prepend(html);
+        $.ajax({
+          type: 'POST',
+          url: baseUrl+'users/ajax_get_logged_in_status',
+          success: function(response) {
+            var r = $.parseJSON(response);
+            if (r.loggedin) {
+              var userId = r.loggedin;
+              var postData = {
+                userId: userId,
+                tripId: tripId,
+                text: $('#message-box').val(),
+              }
+              
+              $.ajax({
+                type: 'POST',
+                url: baseUrl+'messages/ajax_save_message',
+                data: postData,
+                success: function(response) {
+                  var r = $.parseJSON(response);
+                  displayMessage(r);
+                  $('abbr.timeago').timeago();
+                  
+                }
+              });
+              
+            } else {
+              alert('please login to post on the wall');
+            }
+          }
+        });
         return false;
         
       } else {
@@ -541,8 +577,8 @@ li.suggestion.highlighted{
           success: function(response) {
             var r = $.parseJSON(response);
             // if user is logged in, save the suggestion
-            if (r['loggedin']) {
-              var userId = r['loggedin'];
+            if (r.logged) {
+              var userId = r.loggedin;
 
               var postData = {
                 userId: userId,
@@ -554,14 +590,12 @@ li.suggestion.highlighted{
                 address: $('#location-search-box').val(),
                 phone: $('#location-phone').val()
               };
-              console.log(postData);
               
               $.ajax({
                 type: 'POST',
                 url: baseUrl+'suggestions/ajax_save_suggestion',
                 data: postData,
                 success: function(response) {
-                  console.log(response);
                   var r = $.parseJSON(response);
                   alert('suggestion saved, please refresh page to see it; suggestion id'+r['id']);
                 }
@@ -578,9 +612,26 @@ li.suggestion.highlighted{
       
     });
   });
+  
+  
+  function displayMessage(r) {
+    var html = [];
+    html[0] = '<li id="wall-message-'+r.id+'" class="" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA; position:relative;">';
+    html[1] = '<a href="#" class="wall-item-author" style="text-decoration:none;">';
+    html[2] = 'David Xia';
+    html[3] = '</a>';
+    html[4] = ' <div class="remove-wall-item" messageId="'+r.id+'"></div>';
+    html[5] = '<span class="wall-item-text">'+r.text+'</span>';
+    html[6] = '<br/>';
+    html[7] = '<abbr class="timeago" title="'+r.created+'" style="color:#777; font-size: 12px;">'+r.created+'</abbr>';
+    html[8] = '</li>';
+    html = html.join('');
+    
+    $('#wall-content').prepend(html);
+  }
 
   // ajax remove wall items
-  $('.remove-wall-suggestion').click(function() {
+  $('.remove-wall-item').click(function() {
     // TODO: ask user to confirm removal
     // remove wall item
     var suggestionId = $(this).attr('suggestionId');

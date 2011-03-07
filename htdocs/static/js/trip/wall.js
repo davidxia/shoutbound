@@ -1,6 +1,7 @@
 var Wall = {};
 
 Wall.loadWall = function() {
+  /*
   // bind post function to wall post button
   $('#submit-wall').click(function() {
     $.ajax({
@@ -13,6 +14,7 @@ Wall.loadWall = function() {
       success: Wall.show_post
     });
   });
+  */
   
   
   $('.show_reply_button').click(function() {

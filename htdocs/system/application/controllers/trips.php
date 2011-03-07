@@ -4,7 +4,7 @@ class Trips extends Controller {
     
     function Trips()
     {
-    	parent::Controller();
+        parent::Controller();
     }
 
  	  
@@ -134,7 +134,17 @@ class Trips extends Controller {
         }
 
         
-        // get suggestions for both user's trips and her friends trips
+        // get active suggestions and messages for this trip
+        $m = new Message();
+        $m->order_by('created', 'desc');
+        $m->where('trip_id', $trip_id)->where('active', 1)->get();
+        foreach ($m->all as $message)
+        {
+            $message->stored->user_fid = $u->get_by_id($message->user_id)->fid;
+            $message->stored->user_name = $u->name;
+            $wall_items[] = $message->stored;
+        }
+        
         $s = new Suggestion();
         $s->order_by('created', 'desc');
         $s->where('trip_id', $trip_id)->where('active', 1)->get();
@@ -142,11 +152,12 @@ class Trips extends Controller {
         {
             $suggestion->stored->user_fid = $u->get_by_id($suggestion->user_id)->fid;
             $suggestion->stored->user_name = $u->name;
-            $suggestion->stored->is_location = 1;
             $wall_items[] = $suggestion->stored;
             $suggestions[] = $suggestion->stored;
         }
-                
+        
+        $this->_quicksort($wall_items);
+        
         $view_data = array('trip' => $t->stored,
                            'creator' => $creator,
                            'destinations' => $destinations,
@@ -563,4 +574,60 @@ class Trips extends Controller {
         json_success(array('success'=>$a));
     }
     
+    
+    function _quicksort(&$array)
+    {
+        $cur = 1;
+        $stack[1]['l'] = 0;
+        $stack[1]['r'] = count($array)-1;
+        
+        do
+        {
+            $l = $stack[$cur]['l'];
+            $r = $stack[$cur]['r'];
+            $cur--;
+            
+            do
+            {
+                $i = $l;
+                $j = $r;
+                $tmp = $array[(int)( ($l+$r)/2 )];
+                
+                // partion the array in two parts.
+                // left from $tmp are with smaller values,
+                // right from $tmp are with bigger ones
+                do
+                {
+                    while ($array[$i]->created > $tmp->created)
+                    $i++;
+                    
+                    while ($tmp->created > $array[$j]->created)
+                    $j--;
+                    
+                    // swap elements from the two sides
+                    if ($i <= $j)
+                    {
+                        $w = $array[$i];
+                        $array[$i] = $array[$j];
+                        $array[$j] = $w;
+                        
+                        $i++;
+                        $j--;
+                    }
+                    
+                } while ($i <= $j);
+                
+                if ($i < $r)
+                {
+                    $cur++;
+                    $stack[$cur]['l'] = $i;
+                    $stack[$cur]['r'] = $r;
+                }
+                $r = $j;
+            
+            } while ($l < $r);
+        
+        } while ($cur != 0);
+    }
+
 }
