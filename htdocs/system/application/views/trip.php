@@ -570,8 +570,9 @@ li.suggestion.highlighted{
           url: baseUrl+'users/ajax_get_logged_in_status',
           success: function(response) {
             var r = $.parseJSON(response);
+            console.log(r);
             // if user is logged in, save the suggestion
-            if (r.logged) {
+            if (r.loggedin) {
               var userId = r.loggedin;
 
               var postData = {
@@ -628,20 +629,35 @@ li.suggestion.highlighted{
   $('.remove-wall-item').click(function() {
     // TODO: ask user to confirm removal
     // remove wall item
-    var suggestionId = $(this).attr('suggestionId');
-    $.ajax({
-      type: 'POST',
-      url: baseUrl+'suggestions/remove_suggestion',
-      data: {
-        suggestionId: suggestionId
-      },
-      success: function(response){
-        var r = $.parseJSON(response);
-        $('#wall-suggestion-'+r.suggestionId).fadeOut(1000);
-      }
-    });
-    // also remove corresponding map marker
-    map.markers[suggestionId].setMap(null);
+    if ($(this).attr('suggestionId')) {
+      var suggestionId = $(this).attr('suggestionId');
+      $.ajax({
+        type: 'POST',
+        url: baseUrl+'suggestions/remove_suggestion',
+        data: {
+          suggestionId: suggestionId
+        },
+        success: function(response){
+          var r = $.parseJSON(response);
+          $('#wall-suggestion-'+r.suggestionId).fadeOut(1000);
+        }
+      });
+      // also remove corresponding map marker
+      map.markers[suggestionId].setMap(null);
+    } else if ($(this).attr('messageId')) {
+      var messageId = $(this).attr('messageId');
+      $.ajax({
+        type: 'POST',
+        url: baseUrl+'messages/remove_message',
+        data: {
+          messageId: messageId
+        },
+        success: function(response){
+          var r = $.parseJSON(response);
+          $('#wall-message-'+r.messageId).fadeOut(1000);
+        }
+      });
+    }
   });
   
   // show countdown clock

@@ -6,8 +6,16 @@ class Trips extends Controller {
     {
         parent::Controller();
     }
-
- 	  
+    
+    
+    function test()
+    {
+        $ts = new Trip_share();
+        $r = $ts->get_tripshare_by_tripid_sharekey(13, '912ec803b2ce49e4a541068d495ab572');
+        print_r($r);
+        
+    }
+    
  	  function confirm_create()
  	  {
         $u = new User();
@@ -88,16 +96,7 @@ class Trips extends Controller {
         }
         
         $t = new Trip();
-
-        $u = new User();
-        if ($u->get_logged_in_status())
-        {
-            $uid = get_cookie('uid');
-            $u->get_by_id($uid);
-            $user = $u->stored;
-        }
-
-        //check if trip exists in trips table and is active, ie not deleted
+        //check if trip exists in trips table and is active
         $t->get_by_id($trip_id);
         if ( ! $t->active)
         {
@@ -105,14 +104,36 @@ class Trips extends Controller {
         }
         // TODO: check if trip is private
 
-        //check if user is associated with this trip in trips_users table, redirect to home page if not
-        $u->trip->include_join_fields()->get_by_id($trip_id);
-        if ( ! $u->trip->join_role)
+        $u = new User();
+        if ($u->get_logged_in_status())
         {
-            redirect('/');
+            $uid = get_cookie('uid');
+            $u->get_by_id($uid);
+            $user = $u->stored;
+            
+            // check if user is associated with this trip in trips_users table
+            // if not, check if user has invite cookie with correct access key
+            // redirect to home page if neither
+            $u->trip->include_join_fields()->get_by_id($trip_id);
+            if ( ! $u->trip->join_role)
+            {
+                if ( ! $this->verify_share_cookie($trip_id))
+                {
+                    redirect('/');
+                }
+            }
+            
+            $user_role = $u->trip->join_role;
+            $user_rsvp = $u->trip->join_rsvp;
         }
-        $user_role = $u->trip->join_role;
-        $user_rsvp = $u->trip->join_rsvp;
+        else
+        {
+            // if user is not logged in, check invite cookie for correct access key
+            if ( ! $this->verify_share_cookie($trip_id))
+            {
+                redirect('/');
+            }
+        }
         
         // get creator
         $u->where_join_field('trip', 'rsvp', 3)->where_join_field('trip', 'role', 3)->get_by_related_trip('id', $trip_id);
@@ -370,40 +391,36 @@ class Trips extends Controller {
     }
     
         
-    function share($id, $hash)
-    {
-        //$hash = '912ec803b2ce49e4a541068d495ab570';
-        //$id = 2;
+    function share($trip_id, $share_key)
+    {        
+        $ts = new Trip_share();
+        $trip_share = $ts->get_tripshare_by_tripid_sharekey($trip_id, $share_key);
+
         
-        $trip_share = $this->Trip_m->get_tripshare_by_idhash($id, $hash);
-        if(!$trip_share){
+        if ( ! $trip_share)
+        {
             redirect('/');
         }
-        //echo 'trip_share row: '; print_r($trip_share); echo '<br/>';
-        //delete_cookie('received_invites');
-
-        //$cookie = json_encode(array(84=>'912ec803b2ce49e4a541068d495ab534',90=>'912ec803b2ce49e4a541068d495ab370'));
-        //echo 'original cookie: '; print_r($cookie); echo '<br/>';
-        //set_cookie('received_invites', $cookie);
-        //echo 'now the cookie is '.get_cookie('received_invites').'<br/>';
         
         // if cookie is set, append new key value pair, otherwise instantiate new stdclass object
-        if($received_invites = get_cookie('received_invites')){
+        
+        if ($received_invites = get_cookie('received_invites'))
+        {
             // unserialize from JSON
             $received_invites = json_decode($received_invites);
-            $received_invites->{$trip_share['tripId']} = $trip_share['hash_key'];
-        }else{
-            $received_invites = (object)array($trip_share['tripId'] => $trip_share['hash_key']);
+            $received_invites->{$trip_share->trip_id} = $trip_share->access_key;
         }
-        //echo 'new cookie yay: '; print_r($received_invites); echo '<br/>';
+        else
+        {
+            $received_invites = (object)array($trip_share->trip_id => $trip_share->access_key);
+        }
         // serialize to JSON and set cookie
         $received_invites = json_encode($received_invites);
         set_cookie('received_invites', $received_invites);
         
-        redirect('/trips/details/'.$trip_share['tripId']);
-
+        redirect('/trips/'.$trip_share->trip_id);
+        
     }
-    
     
     
     function delete($trip_id)
@@ -630,4 +647,18 @@ class Trips extends Controller {
         } while ($cur != 0);
     }
 
+
+    function verify_share_cookie($trip_id)
+    {
+        $received_invites = json_decode(get_cookie('received_invites'));
+        $ts = new Trip_share();
+        $ts->where('access_key', $received_invites->$trip_id)->get();
+        
+        if ( ! $ts->trip_id)
+        {
+            return FALSE;
+        }
+        
+        return TRUE;
+    }
 }

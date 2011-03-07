@@ -95,7 +95,7 @@ $this->load->view('core_header', $header_args);
     <!-- CONTENT -->
     <div style="margin: 0 auto; width:960px;" class="content wrapper">
       <!-- TRIP CREATION FORM -->
-      <form id="trip-creation-form" action="confirm_create" method="post" style="position:relative;">
+      <form id="trip-creation-form" action="#" method="post" style="position:relative;">
       
       
         <!-- PLACE DATES FIELD -->
@@ -150,15 +150,15 @@ $this->load->view('core_header', $header_args);
           </div>
            <div class="field" style="margin-left:10px; margin-top:10px;">
             <span class="label-and-errors">
-              <label for="trip-description">Describe your trip (optional)</label>
+              <label for="description">Describe your trip <span id="chars-left">140 characters left</span></label>
               <span class="error-message"></span>
               <div class="clear"></div>
             </span>
-            <textarea id="trip-description" name="trip-description" style="width:380px; height:56px; font-size:14px;"></textarea>
+            <textarea id="description" name="description" style="width:380px; height:56px; font-size:14px;"></textarea>
           </div>
           <div class="field" style="margin-left:10px; margin-top: 10px; display:inline-block">
             <span class="label-and-errors">
-              <label for="invites">Invite people to join your trip (optional)</label>
+              <label for="invites">Invite people to join your trip (emails)</label>
               <span class="error-message"></span>
               <div class="clear"></div>
             </span>
@@ -173,6 +173,60 @@ $this->load->view('core_header', $header_args);
             <input id="deadline" name="deadline" type="text" size="10"/>
           </div>
         </fieldset><!-- SUMMARY INVITES FIELD ENDS -->
+
+
+        <!-- INTERESTS FIELD -->
+        <fieldset id="interests-field" style="border-width:0; border-color:transparent; position:relative;">
+          <div class="field" style="margin-left:10px; margin-top: 10px;">
+            <span class="label-and-errors">
+              <label for="trip-interests">On my trip, I'm interested in (optional)</label>
+              <span class="error-message"></span>
+              <div class="clear"></div>
+            </span>
+            <textarea  id="trip-interests" name="trip-interests" style="width:380px; height:56px;"></textarea>
+          </div>
+          
+          <div class="field" style="margin-left:10px; margin-top: 10px; margin-bottom:10px;">
+            <span class="label-and-errors">
+              I want suggestions for:
+              <span class="error-message"></span>
+              <div class="clear"></div>
+            </span>
+            <table style="margin-top:10px; margin-left:20px;">
+              <tbody>
+                <tr>
+                  <td class="checkbox-name"><label for="accommodation">Accommodation</label></td>
+                  <td class="padding-right"><input type="checkbox" name="accommodation" id="accommodation" value="accommodation" /></td>
+                  <td class="checkbox-name"><label for="local-attractions">Local attractions</label></td>
+                  <td class="padding-right"><input type="checkbox" name="local-attractions" id="local-attractions" value="local-attractions" /></td>
+                  <td class="checkbox-name"><label for="other">Other</label></td>
+                  <td><input type="checkbox" name="other" id="other" value="other" /></td>
+                </tr>
+                <tr>
+                  <td class="checkbox-name"><label for="restaurants">Restaurants</label></td>
+                  <td class="padding-right"><input type="checkbox" name="restaurants" id="restaurants" value="accommodation" /></td>
+                  <td class="checkbox-name"><label for="bars-nightlife">Bars/nightlife</label></td>
+                  <td class="padding-right"><input type="checkbox" name="bars-nightlife" id="bars-nightlife" value="bars-nightlife" /></td>
+                </tr>
+                <tr>
+                  <td class="checkbox-name"><label for="landmarks">Natural features</label></td>
+                  <td class="padding-right"><input type="checkbox" name="landmarks" id="landmarks" value="accommodation" /></td>
+                  <td class="checkbox-name"><label for="activities-events">Activities/events</label></td>
+                  <td class="padding-right"><input type="checkbox" name="activities-events" id="activities-events" value="activities-events" /></td>
+                </tr>
+                <tr>
+                  <td class="checkbox-name"><label for="shopping">Shopping</label></td>
+                  <td class="padding-right"><input type="checkbox" name="shopping" id="shopping" value="accommodation" /></td>
+                  <td class="checkbox-name"><label for="landmarks">Landmarks</label></td>
+                  <td class="padding-right"><input type="checkbox" name="landmarks" id="landmarks" value="landmarks" /></td>
+                </tr>
+              </tbody>
+            </table>
+            <textarea id="other-textbox" style="position:absolute; right:185px; top:150px; width:200px; height:63px; display:none;"></textarea>
+          </div>
+
+        </fieldset><!-- INTERESTS FIELD ENDS -->
+
         
         <input class="submit" type="submit" value="" style="border:0; cursor:pointer; background:url('http://dev.shoutbound.com/david/images/create-button.png'); background-repeat:no-repeat; height:55px; width:175px; position:relative; left:500px; top:5px;" />
       </form><!-- TRIP CREATION FORM ENDS -->
@@ -198,6 +252,8 @@ $this->load->view('core_header', $header_args);
   
   
   $(document).ready(function() {
+  
+    // dynamic form plugin for multiple destinations
     $('#destinations_dates').dynamicForm('#add-destination', '#subtract-destination', {
       limit: 5,
       afterClone: function(clone) {
@@ -214,6 +270,9 @@ $this->load->view('core_header', $header_args);
         },
         enddate: {
           date: true
+        },
+        description: {
+          maxlength: 140
         }
       },
       messages: {
@@ -258,6 +317,11 @@ $this->load->view('core_header', $header_args);
       $(this).datepicker();
     });
     $('#deadline').datepicker(); 
+    
+    
+    $('#description').keyup(function() {
+      $('#chars-left').html(140 - $(this).val().length+' characters left');
+    });
   });
   
   ///////////////////////////////////////
