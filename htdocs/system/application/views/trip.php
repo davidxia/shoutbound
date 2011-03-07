@@ -35,10 +35,6 @@ $this->load->view('core_header', $header_args);
     
     map.lat = <?=$destinations[0]->lat?>;
     map.lng = <?=$destinations[0]->lng?>;
-    //map.sBound = <?=$trip->sbound?>;
-    //map.wBound = <?=$trip->wbound?>;
-    //map.nBound = <?=$trip->nbound?>;
-    //map.eBound = <?=$trip->ebound?>;
 </script>
 
 <style type="text/css">
@@ -148,8 +144,6 @@ $this->load->view('core_header', $header_args);
   overflow-y: auto;
   overflow-x: hidden;
   height: 541px;
-  /*padding: 20px 10px 0px 10px;
-  background-color: #CCFFCC;*/
 }
 li.suggestion {
   cursor: pointer;

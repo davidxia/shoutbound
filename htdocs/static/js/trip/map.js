@@ -72,7 +72,11 @@ map.geocodeLocationQuery = function() {
     
   // geocode request sent after user stops typing for 1 second
   if (query.length > 1) {
-    geocoder.geocode({'address': query}, map.returnGeocodeResult);
+    var request = {
+      'address': query,
+      'bounds': map.googleMap.getBounds()
+    };
+    geocoder.geocode(request, map.returnGeocodeResult);
   } else {
   	$('#location-autosuggest').html('');
     if (typeof map.newMarker != 'undefined') {

@@ -1,22 +1,7 @@
 var Wall = {};
 
+/*
 Wall.loadWall = function() {
-  /*
-  // bind post function to wall post button
-  $('#submit-wall').click(function() {
-    $.ajax({
-      type: 'POST',
-      url: baseUrl+'trip/ajax_wall_post',
-      data: {
-        tripId: tripId,
-        body: $('#wall-text-input').val()
-      },
-      success: Wall.show_post
-    });
-  });
-  */
-  
-  
   $('.show_reply_button').click(function() {
       var replyid = $(this).attr('postid');
       
@@ -151,3 +136,4 @@ $(document).ready(function(){
     }
   });
 });
+*/
