@@ -11,7 +11,7 @@
     
     <ul id="navigation" style="float:right; line-height:60px;">
       <li style="float:right; margin-right:10px;"><a href="<?=site_url('users/logout')?>" style="color:white; text-decoration:none;">Logout</a></li>
-      <li style="float:right; margin-right:10px;"><a href="<?=site_url('profile/settings')?>" style="color:white; text-decoration:none;">Settings</a></li>
+      <li style="float:right; margin-right:10px;"><a href="<?=site_url('settings')?>" style="color:white; text-decoration:none;">Settings</a></li>
       <li style="float:right; margin-right:10px;"><a href="<?=site_url('home')?>" style="color:white; text-decoration:none;">Home</a></li>
     </ul>
   </div>

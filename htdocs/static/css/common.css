@@ -37,6 +37,9 @@ input:focus, textarea:focus {
     -moz-box-shadow: 0 0 8px rgba(82,168,236,.5);
     -webkit-box-shadow: 0 0 8px rgba(82,168,236,.5);
 }
+input[type="submit"] {
+  cursor:pointer;
+}
 
 
 /* Specific to trip page

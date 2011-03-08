@@ -1,6 +1,7 @@
 <?php
 
-class Suggestion extends DataMapper {
+class Suggestion extends DataMapper
+{
  
     public $has_one = array('user', 'trip');
 

@@ -47,6 +47,7 @@
           alert('Post was not published.');
         }
       });
+      return false;
     });
     
     $('#test2').click(function() {
@@ -55,6 +56,7 @@
         message: 'You should learn more about this awesome game.',
         data: 'tracking information for the user'
       });
+      return false;
     });
   });
   

@@ -1,6 +1,7 @@
 <?php
 
-class Messages extends Controller {
+class Messages extends Controller
+{
     
     function Messages()
     {

@@ -1,6 +1,8 @@
 <?php
 
 class User extends DataMapper {
+    
+    public $has_one = array('setting');
 
     public $has_many = array(
       'trip',

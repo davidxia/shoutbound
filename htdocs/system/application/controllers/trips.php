@@ -9,8 +9,9 @@ class Trips extends Controller
     }
     
     
-    function test()
+    function facebook_test()
     {
+        $this->load->view('facebook_test');
     }
     
  	  function confirm_create()
