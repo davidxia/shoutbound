@@ -8,8 +8,28 @@ class Users extends Controller {
     }
  
     function index()
-    {         
+    {
+        
+        $u = new User();
+        $u->get_by_id(2);
+        print_r($u->name);
+        foreach ($u->related_user->get() as $user)
+        {
+            print_r($user->stored);
+        }
+        echo 'yay';
+        
+        /*
+        $u  = new User();
+        $u->get_by_id(1);
+        print_r($u->stored);
+        $u2 = new User();
+        $u2->get_by_id(2);
+        print_r($u2->stored);
+        $u->save_related_user($u2);
+        */
     }
+    
     
     function logout()
     {
@@ -17,6 +37,7 @@ class Users extends Controller {
         $u->logout();
         redirect('/');
     }
+    
     
     function login()
     {
@@ -54,7 +75,7 @@ class Users extends Controller {
     }
 
 
-    function ajax_login()
+    function ajax_facebook_login()
     {
         $this->load->library('facebook');
         $u = new User();
@@ -92,17 +113,16 @@ class Users extends Controller {
     }
     
     
-    function ajax_create_user()
+    function ajax_create_fb_user()
     {
         $this->load->library('facebook');
         $fbuser = $this->facebook->api('/me?fields=name,email,friends');
-        $u = new User();
-
         if ( ! $fbuser)
         {
             json_success(array('error' => true, 'message' => 'We could not get your Facebook data'));
         }
         
+        $u = new User();
         if ($u->get_by_fid($fbuser['id'])->id)
         {
             json_success(array('error' => true, 'message' => 'You are already a user'));
@@ -127,14 +147,25 @@ class Users extends Controller {
         }
         
         $f = new Friend();
+        $other_user = new User();
         foreach ($fbuser['friends']['data'] as $friend)
         {
-            $f->clear();
-            $f->friend_fid = $friend['id'];
-            $f->name = $friend['name'];
-            if ($f->save())
+            // check if friend is already Shoutbound user
+            // if so save self-relation in related_users_users table
+            $other_user->get_by_fid($friend['id']);
+            if ($other_user->id)
             {
-                $u->save($f);
+                $u->save_related_user($other_user);
+            }
+            else
+            {
+                $f->clear();
+                $f->facebook_id = $friend['id'];
+                $f->name = $friend['name'];
+                if ($f->save())
+                {
+                    $u->save($f);
+                }
             }
         }
         

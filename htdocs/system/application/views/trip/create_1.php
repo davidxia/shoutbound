@@ -95,7 +95,7 @@ $this->load->view('core_header', $header_args);
     <!-- CONTENT -->
     <div style="margin: 0 auto; width:960px;" class="content wrapper">
       <!-- TRIP CREATION FORM -->
-      <form id="trip-creation-form" action="#" method="post" style="position:relative;">
+      <form id="trip-creation-form" action="confirm_create" method="post" style="position:relative;">
       
       
         <!-- PLACE DATES FIELD -->
@@ -125,7 +125,11 @@ $this->load->view('core_header', $header_args);
               />
             </div>
             
-            <div class="field dates" style="margin-left:10px; display:inline-block; visibility:hidden;">
+            <div class="field dates" style="margin-left:10px; display:inline-block;
+              <? if ( ! isset($destination)):?>
+                visibility:hidden;
+              <? endif;?>
+            ">
               <span class="label-and-errors">
                 <span class="error-message"></span>
                 <div class="clear"></div>
@@ -244,7 +248,7 @@ $this->load->view('core_header', $header_args);
       success: function(response) {
         var r = $.parseJSON(response);
         $('#div-to-popup').empty();
-        $('#div-to-popup').append(r['data']);
+        $('#div-to-popup').append(r.data);
         $('#div-to-popup').bPopup();
       }
     });

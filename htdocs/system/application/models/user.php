@@ -2,7 +2,18 @@
 
 class User extends DataMapper {
 
-    public $has_many = array('trip', 'friend');
+    public $has_many = array(
+      'trip',
+      'friend',
+      'related_user' => array(
+        'class' => 'user',
+        'other_field' => 'user',
+        'reciprocal' => TRUE,
+      ),
+      'user' => array(
+        'other_field' => 'related_user',
+      )
+    );
 
     var $validation = array(
         array(

@@ -9,7 +9,7 @@
   <script type="text/javascript">
   $(document).ready(function () {
     $.ajax({
-      url: "<?=site_url('users/ajax_create_user')?>",
+      url: "<?=site_url('users/ajax_create_fb_user')?>",
       type: 'POST',
       dataType: "json",
       success: function(data) {

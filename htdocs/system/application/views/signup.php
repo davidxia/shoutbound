@@ -80,7 +80,7 @@
 
 	function shoutboundLogin() {
     $.ajax({
-      url: "<?=site_url('users/ajax_login')?>",
+      url: "<?=site_url('users/ajax_facebook_login')?>",
       type: 'POST',
       dataType: 'json',
       success: function(data) {

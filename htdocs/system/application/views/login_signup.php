@@ -74,11 +74,48 @@
 
 
 <script type="text/javascript">
+  // if user signs up thru facebook, call ajax_facebook_login to check
+  // if they are existing user, if they are ajax_facebook_login logs them in
+  // and submits the trip creation form; if they aren't existing user
+  // call ajax_create_fb_user to create their account, check for errors,
+  // then submit trip creation form
+	function facebookLogin() {
+    $.ajax({
+      url: "<?=site_url('users/ajax_facebook_login')?>",
+      type: 'POST',
+      dataType: 'json',
+      success: function(response) {
+        if (response['existingUser']) {
+          $('#trip-creation-form').submit();
+        } else {
+          createFBUser();
+        }
+      }
+    });
+	}
+
+
+  function createFBUser() {
+    $.ajax({
+      url: baseUrl+'users/ajax_create_fb_user',
+      type: 'POST',
+      //dataType: "json",
+      success: function(response) {
+        if (response['error']) {
+          alert(response['message']);
+        } else {
+          $('#trip-creation-form').submit();
+        }
+      }
+    });
+  }
+
+
   $(document).ready(function() {
     $('#fb_login_button').click(function() {
       FB.login(function(response) {
         if (response.session) {
-          shoutboundLogin();
+          facebookLogin();
         } else {
           alert('you failed to log in');
         }
@@ -87,37 +124,8 @@
     });
   });
 
-  // if user signs up thru facebook, call ajax_login to check
-  // if they are existing user, if they are ajax_login logs them in
-  // and submits the trip creation form; if they aren't existing user
-  // call ajax_create_user to create their account, check for errors,
-  // then submit trip creation form
-	function shoutboundLogin() {
-    $.ajax({
-      url: "<?=site_url('users/ajax_login')?>",
-      type: 'POST',
-      dataType: 'json',
-      success: function(response) {
-        if (response['existingUser']) {
-          $('#trip-creation-form').submit();
-        } else if (response['existingUser'] == false) {
-          $.ajax({
-            url: baseUrl+'users/ajax_create_user',
-            type: 'POST',
-            dataType: "json",
-            success: function(response) {
-              if (response['error']) {
-                alert(response['message']);
-              } else {
-                $('#trip-creation-form').submit();
-              }
-            }
-          });
-        }
-      }
-    });
-	}
 	
+  
 	
   // jquery form validation plugin
   $('#signup-form').validate({

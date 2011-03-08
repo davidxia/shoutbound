@@ -10,9 +10,21 @@ class Trips extends Controller {
     
     function test()
     {
-        $ts = new Trip_share();
-        $r = $ts->get_tripshare_by_tripid_sharekey(13, '912ec803b2ce49e4a541068d495ab572');
-        print_r($r);
+        $u = new User();
+        if ( ! $u->get_logged_in_status())
+        {
+            redirect('/');            
+        }
+        
+        $uid = get_cookie('uid');
+        $u->get_by_id($uid);
+
+        // get user's friends
+        $u->friend->where_not_in('friend_uid', array(0))->get();
+        foreach ($u->friend->all as $friend)
+        {
+            print_r($friend->stored);
+        }
         
     }
     
@@ -396,7 +408,6 @@ class Trips extends Controller {
         $ts = new Trip_share();
         $trip_share = $ts->get_tripshare_by_tripid_sharekey($trip_id, $share_key);
 
-        
         if ( ! $trip_share)
         {
             redirect('/');
