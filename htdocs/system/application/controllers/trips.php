@@ -15,17 +15,26 @@ class Trips extends Controller {
         {
             redirect('/');            
         }
-        
         $uid = get_cookie('uid');
         $u->get_by_id($uid);
 
         // get user's friends
-        $u->friend->where_not_in('friend_uid', array(0))->get();
+        $u->friend->get();
         foreach ($u->friend->all as $friend)
         {
             print_r($friend->stored);
+            echo '<br/><br/>';
         }
         
+        // get user ids associated with this trip
+        $t = new Trip();
+        $t->get_by_id(1);
+        $t->user->get(); 
+        foreach ($t->user->all as $user)
+        {
+            echo 'eas';
+            print_r($user->stored);
+        }       
     }
     
  	  function confirm_create()
@@ -296,7 +305,7 @@ class Trips extends Controller {
         $u->get_by_id($uid);
         
         // get user's friends
-        $u->friend->where_not_in('friend_uid', array(0))->get();
+        $u->friend->get();
         
         // get user ids associated with this trip
         $t = new Trip();
@@ -310,23 +319,23 @@ class Trips extends Controller {
         }
         foreach ($u->friend->all as $friend)
         {
-            if ( ! in_array($friend->friend_uid, $trip_uids))
-            {
-                $uninvited_uids[] = $friend->friend_uid;
-            }
+            //if ( ! in_array($friend->friend_uid, $trip_uids))
+            //{
+                $fb_friends[] = $friend->stored;
+            //}
         }
-        $u->where_in('id', $uninvited_uids)->get();
-        foreach ($u->all as $user)
-        {
-            $uninvited_users[] = $user->stored;
-        }
+        //$u->where_in('id', $uninvited_uids)->get();
+        //foreach ($u->all as $user)
+        //{
+            //$uninvited_users[] = $user->stored;
+        //}
         
         $view_data = array(
-            'uninvited_users' => $uninvited_users,
+            'fb_friends' => $fb_friends,
         );
         
         $render_string = $this->load->view('trip/trip_invite_panel', $view_data, true);
-        json_success(array('data'=>$render_string));
+        json_success(array('data' => $render_string));
         
     }
 
