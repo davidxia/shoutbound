@@ -104,7 +104,8 @@ invite.bindButtons = function() {
   }); 
 
   $('.friend-capsule').bind('click', function() {
-    var uid = $(this).attr('uid');
+    // different behavior based on whether it's a fb friend or sb friend, etc
+    var fbid = $(this).attr('fbid');
 
     if ($.data(this, 'selected')) {
       $(this).removeClass('share-selected');
@@ -119,17 +120,52 @@ invite.bindButtons = function() {
   
 invite.confirmInvite = function() {
   var selectedUids = [];
-  $('.friend-capsule').each(function(){
+  $('.friend-capsule').each(function() {
     if ($.data(this, 'selected')){
-      selectedUids.push($(this).attr('uid'));
+      selectedUids.push($(this).attr('fbid'));
     }
   });
-  
-  invite.sendInviteData(selectedUids);
+  invite.sendFBMessage(selectedUids);
+  //invite.sendInviteData(selectedUids);
   $('#div-to-popup').bPopup().close();
+  return false;
 }
 
 
+// opens new window for Facebook private message
+// TODO: how to send to multiple recipients?
+invite.sendFBMessage = function(selectedUids) {
+  var to = selectedUids[0];
+  var shareKey = invite.generateShareKey('facebook message');
+  var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
+  var url = 'http://www.facebook.com/messages/'+to+'?msg_prefill='+message;
+  window.open(url);
+}
+
+
+invite.generateShareKey = function(targetId) {
+  var postData = {
+    tripId: tripId,
+    shareRole: 1,
+    shareMedium: 1,
+    targetId: targetId
+  };
+  
+  var r = '';
+  $.ajax({
+    async: false,
+    type: 'POST',
+    url: baseUrl+'trip_shares/generate_share_key',
+    data: postData,
+    success: function(response) {
+      r = $.parseJSON(response);
+    }
+  });
+  return r.shareKey;
+}
+
+
+// sends email via Sendgrid
 invite.sendInviteData = function(uids){
   var postData = {
     tripId: tripId,
@@ -138,7 +174,7 @@ invite.sendInviteData = function(uids){
   };
 
   $.ajax({
-    type:'POST',
+    type: 'POST',
     url: baseUrl+'trips/ajax_invite_trip',
     data: postData,
     success: invite.displaySuccessDialog

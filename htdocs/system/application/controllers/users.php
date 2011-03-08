@@ -1,6 +1,7 @@
 <?php
 
-class Users extends Controller {
+class Users extends Controller
+{
  
     function Users()
     {
@@ -9,25 +10,7 @@ class Users extends Controller {
  
     function index()
     {
-        
-        $u = new User();
-        $u->get_by_id(2);
-        print_r($u->name);
-        foreach ($u->related_user->get() as $user)
-        {
-            print_r($user->stored);
-        }
-        echo 'yay';
-        
-        /*
-        $u  = new User();
-        $u->get_by_id(1);
-        print_r($u->stored);
-        $u2 = new User();
-        $u2->get_by_id(2);
-        print_r($u2->stored);
-        $u->save_related_user($u2);
-        */
+        $this->load->view('test');
     }
     
     

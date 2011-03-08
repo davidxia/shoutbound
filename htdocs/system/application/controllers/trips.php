@@ -1,6 +1,7 @@
 <?php
 
-class Trips extends Controller {
+class Trips extends Controller
+{
     
     function Trips()
     {
@@ -10,31 +11,6 @@ class Trips extends Controller {
     
     function test()
     {
-        $u = new User();
-        if ( ! $u->get_logged_in_status())
-        {
-            redirect('/');            
-        }
-        $uid = get_cookie('uid');
-        $u->get_by_id($uid);
-
-        // get user's friends
-        $u->friend->get();
-        foreach ($u->friend->all as $friend)
-        {
-            print_r($friend->stored);
-            echo '<br/><br/>';
-        }
-        
-        // get user ids associated with this trip
-        $t = new Trip();
-        $t->get_by_id(1);
-        $t->user->get(); 
-        foreach ($t->user->all as $user)
-        {
-            echo 'eas';
-            print_r($user->stored);
-        }       
     }
     
  	  function confirm_create()
@@ -428,11 +404,11 @@ class Trips extends Controller {
         {
             // unserialize from JSON
             $received_invites = json_decode($received_invites);
-            $received_invites->{$trip_share->trip_id} = $trip_share->access_key;
+            $received_invites->{$trip_share->trip_id} = md5('alea iacta est'.$share_key);
         }
         else
         {
-            $received_invites = (object)array($trip_share->trip_id => $trip_share->access_key);
+            $received_invites = (object)array($trip_share->trip_id => md5('alea iacta est'.$share_key));
         }
         // serialize to JSON and set cookie
         $received_invites = json_encode($received_invites);
@@ -671,14 +647,22 @@ class Trips extends Controller {
     function verify_share_cookie($trip_id)
     {
         $received_invites = json_decode(get_cookie('received_invites'));
+        $share_key = $received_invites->$trip_id;
+
         $ts = new Trip_share();
-        $ts->where('access_key', $received_invites->$trip_id)->get();
+        $ts->where('trip_id', $trip_id)->get();
         
-        if ( ! $ts->trip_id)
+        foreach ($ts->all as $trip_share)
         {
-            return FALSE;
+            if (md5('alea iacta est'.$trip_share->share_key) == $share_key)
+            {
+                return TRUE;
+            }
         }
         
-        return TRUE;
+        return FALSE;
     }
 }
+
+/* End of file trips.php */
+/* Location: ./application/controllers/trips.php */

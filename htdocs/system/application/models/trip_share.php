@@ -11,8 +11,8 @@ class Trip_share extends DataMapper {
             'rules' => array('required')
         ),
         array(
-            'field' => 'hash_key',
-            'label' => 'Hash Key',
+            'field' => 'share_key',
+            'label' => 'Share Key',
             'rules' => array('required')
         ),
         array(
