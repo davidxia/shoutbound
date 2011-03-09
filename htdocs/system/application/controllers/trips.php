@@ -29,7 +29,7 @@ class Trips extends Controller
 
         $t = new Trip();
         $t->name = $post['trip_name'];
-        $t->description = $post['trip-description'];
+        $t->description = $post['description'];
         $deadline = date_parse_from_format('n/j/Y', $post['deadline']);
         {
             $t->response_deadline = mktime(0, 0, 0, $deadline['month'], $deadline['day'], $deadline['year']);

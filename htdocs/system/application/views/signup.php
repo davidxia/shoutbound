@@ -107,7 +107,7 @@ $this->load->view('core_header', $header_args);
 
 	function facebookLogin() {
     $.ajax({
-      url: baseUrl+'users/ajax_facebook_login',
+      url: baseUrl+'login/ajax_facebook_login',
       success: function(response) {
         var r = $.parseJSON(response);
         if (r.existingUser) {
@@ -122,7 +122,7 @@ $this->load->view('core_header', $header_args);
 
 	function updateFBFriends() {
     $.ajax({
-      url: baseUrl+'users/ajax_update_fb_friends',
+      url: baseUrl+'login/ajax_update_fb_friends',
       success: function() {
         window.location = "<?=site_url('/')?>";
       }
@@ -137,7 +137,7 @@ $this->load->view('core_header', $header_args);
     $('#div-to-popup').bPopup();  
 
     $.ajax({
-      url: baseUrl+'users/ajax_create_fb_user',
+      url: baseUrl+'signup/ajax_create_fb_user',
       success: function(response) {
         var r = $.parseJSON(response);
         if ( ! r.error) {

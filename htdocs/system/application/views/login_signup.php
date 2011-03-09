@@ -13,7 +13,7 @@
 
 <div style="padding:20px;">
   <div style="width:300px; float:left;">
-    <div>Sign in</div>
+    <div>Login</div>
     <form action="" method="post">
       <table><tbody>
         <tr>
@@ -26,7 +26,7 @@
         </tr>
         <tr>
           <th></th>
-          <td><input type="submit" value="sign in" id="signin-submit" style="cursor:pointer;" /></td>
+          <td><input type="submit" value="sign in" id="login-submit" style="cursor:pointer;" /></td>
         </tr>
       </tbody></table>
     </form>
@@ -81,7 +81,7 @@
   // then submit trip creation form
 	function facebookLogin() {
     $.ajax({
-      url: baseUrl+'users/ajax_facebook_login',
+      url: baseUrl+'login/ajax_facebook_login',
       success: function(response) {
         var r = $.parseJSON(response);
         if (r.existingUser) {
@@ -96,7 +96,7 @@
 	
 	function updateFBFriends() {
     $.ajax({
-      url: baseUrl+'users/ajax_update_fb_friends',
+      url: baseUrl+'login/ajax_update_fb_friends',
       success: function() {
         $('#trip-creation-form').submit();
       }
@@ -111,7 +111,7 @@
     $('#div-to-popup').bPopup();  
 
     $.ajax({
-      url: baseUrl+'users/ajax_create_fb_user',
+      url: baseUrl+'signup/ajax_create_fb_user',
       success: function(response) {
         var r = $.parseJSON(response);
         if (r.error) {
@@ -191,7 +191,7 @@
     return false;
   });
   
-  $('#signin-submit').click(function() {
+  $('#login-submit').click(function() {
     var postData = {
       email: $('#email').val(),
       password: $('#password').val()

@@ -75,7 +75,7 @@
 
 	function facebookLogin() {
     $.ajax({
-      url: "<?=site_url('users/ajax_facebook_login')?>",
+      url: "<?=site_url('login/ajax_facebook_login')?>",
       success: function(response) {
         var r = $.parseJSON(response);
         if (r.existingUser) {
@@ -90,7 +90,7 @@
 	
 	function updateFBFriends() {
     $.ajax({
-      url: "<?=site_url('users/ajax_update_fb_friends')?>",
+      url: "<?=site_url('login/ajax_update_fb_friends')?>",
       success: function() {
         window.location = "<?=site_url('/')?>";
       }
@@ -105,7 +105,7 @@
     $('#div-to-popup').bPopup();  
 
     $.ajax({
-      url: "<?=site_url('users/ajax_create_fb_user')?>",
+      url: "<?=site_url('signup/ajax_create_fb_user')?>",
       success: function(response) {
         var r = $.parseJSON(response);
         if ( ! r.error) {
