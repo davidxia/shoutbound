@@ -20,26 +20,7 @@ class Users extends Controller
         $u->logout();
         redirect('/');
     }
-    
-    
-    function login()
-    {
-        $u = new User();
-
-        $u->email = $this->input->post('email');
-        $u->password = $this->input->post('password');
-
-        if ($u->email_login())
-        {
-            redirect('/');
-        }
-        else
-        {
-            // Show the custom login error message
-            echo '<p>invalid password or email</p>';
-        }
-    }
-            
+                
 
     function ajax_get_logged_in_status()
     {

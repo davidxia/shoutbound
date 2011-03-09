@@ -15,13 +15,29 @@ class Login extends Controller {
         {
             redirect('/');
         }
-            
-        $this->load->helper('form');
-        $this->load->view('login');
-    
+        
+        $this->load->view('login');    
     }
     
     
+    function email_login()
+    {
+        $u = new User();
+
+        $u->email = $this->input->post('email');
+        $u->password = $this->input->post('password');
+
+        if ($u->email_login())
+        {
+            json_success();
+        }
+        else
+        {
+            json_error();
+        }
+    }
+
+
     function ajax_email_login()
     {
         $u = new User();
@@ -30,11 +46,11 @@ class Login extends Controller {
 
         if ($u->email_login())
         {
-            json_success(array('loggedin' => true));
+            json_success(array('loggedin' => TRUE));
         }
         else
         {
-            json_success(array('loggedin' => false));
+            json_success(array('loggedin' => FALSE));
         }
     }
 
@@ -47,12 +63,12 @@ class Login extends Controller {
         
         if (empty($u->id))
         {
-            json_success(array('existingUser' => false));
+            json_success(array('existingUser' => FALSE));
         }
         else
         {
             $u->login($u->id);
-            json_success(array('redirect' => site_url('home'), 'existingUser' => true));
+            json_success(array('redirect' => site_url('home'), 'existingUser' => TRUE));
         }
     }
 

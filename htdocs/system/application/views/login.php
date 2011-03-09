@@ -27,7 +27,7 @@
     Login to Shoutbound
   </div>
   <div style="margin:10px auto; width:400px; border-top: 1px solid gray; padding-top:20px;">
-    <form action="<?=site_url('users/login')?>" method="post">
+    <form id="login-form" action="">
       <table><tbody>
         <tr>
           <th><label for="email">Email</label></th>
@@ -39,7 +39,7 @@
         </tr>
         <tr>
           <th></th>
-          <td style="padding-left:70px;"><input type="submit" value="sign in" /></td>
+          <td style="padding-left:70px;"><input type="submit" id="login-form-submit" value="sign in" /></td>
         </tr>
       </tbody></table>
     </form>
@@ -59,6 +59,8 @@
 
 </body>
 <script type="text/javascript">
+  
+  
   $(document).ready(function() {
     $('#fb_login_button').click(function() {
       FB.login(function(response) {
@@ -68,6 +70,31 @@
           alert('you failed to log in');
         }
       }, {perms: 'email'});
+      return false;
+    });
+    
+    $('#login-form-submit').click(function() {
+      var postData = {
+        email: $('#email').val(),
+        password: $('#password').val()
+      };
+      
+      $.ajax({
+        url: "<?=site_url('login/email_login')?>",
+        type: 'POST',
+        data: postData,
+        success: function(response) {
+          var r = $.parseJSON(response);
+          if (r.success) {
+            window.location = "<?=site_url('/')?>";
+          } else {
+            $('#div-to-popup').empty();
+            var html = 'Wrong email or password. Try again.';
+            $('#div-to-popup').append(html);
+            $('#div-to-popup').bPopup();  
+          }
+        }
+      });
       return false;
     });
   });
