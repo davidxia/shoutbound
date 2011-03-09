@@ -1,22 +1,25 @@
 <html>
 	<head>
-		<title>Shoutbound - Sign Up</title>
+		<title>Shoutbound - Login</title>
 		<link rel="stylesheet" href="<?= site_url('static/css/signup.css')?>" type="text/css" media="screen" />
 		<script type="text/javascript" src="http://dev.shoutbound.com/david/static/js/jquery/jquery.js"></script>
+		<script type="text/javascript" src="http://dev.shoutbound.com/david/static/js/jquery/popup.js"></script>
 	</head>
 <body style="background:url('<?=site_url('images/trip_page_background.png')?>'); background-repeat:repeat-x;">
 	<div id="fb-root"></div>
 	<script>
-	    window.fbAsyncInit = function() {
-	        FB.init({appId: '136139119767617', status: true, cookie: true, xfbml: true});
-	    };
-	    (function() {
-	        var e = document.createElement('script'); e.async = true;
-	        e.src = document.location.protocol +
-	            '//connect.facebook.net/en_US/all.js';
-	        document.getElementById('fb-root').appendChild(e);
-	    }());
+    window.fbAsyncInit = function() {
+      FB.init({appId: '136139119767617', status: true, cookie: true, xfbml: true});
+    };
+    (function() {
+      var e = document.createElement('script'); e.async = true;
+      e.src = document.location.protocol +
+          '//connect.facebook.net/en_US/all.js';
+      document.getElementById('fb-root').appendChild(e);
+    }());
 	</script>
+
+  <div id="div-to-popup" style="background-color:white; display:none;"></div>
 
 	<div id="container" style="width:800px; margin:auto; text-align:center;">
 	<div id="title" style="margin-top: 40px; line-height:100px; font-size:35px; font-weight:bold;">
@@ -49,17 +52,18 @@
     </div>
     <br/>
   	<div style="margin-top:10px; border-top: 1px solid gray; padding-top:25px;">
-    Don't have an account? Sign up <a href="http://dev.shoutbound.com/david/signup">here</a>.
+      Don't have an account? Sign up <a href="http://dev.shoutbound.com/david/signup">here</a>.
     </div>
   </div>
 </div>
+
 </body>
 <script type="text/javascript">
   $(document).ready(function() {
     $('#fb_login_button').click(function() {
       FB.login(function(response) {
         if (response.session) {
-          shoutboundLogin();
+          facebookLogin();
         } else {
           alert('you failed to log in');
         }
@@ -68,20 +72,40 @@
     });
   });
 
-	function shoutboundLogin() {
+	function facebookLogin() {
     $.ajax({
       url: "<?=site_url('users/ajax_facebook_login')?>",
       type: 'POST',
-      dataType: 'json',
-      success: function(data) {
-        if (data['success']) {
-          window.location = data['redirect'];
+      //dataType: 'json',
+      success: function(response) {
+        if (response['existingUser']) {
+          window.location = response['redirect'];
         } else {
-          alert(data['message']);
+          showAccountCreationDialog();
         }
       }
     });
 	}
+	
+  function showAccountCreationDialog() {
+    $('#div-to-popup').empty();
+    var html = 'Creating your Shoutbound account...';
+    $('#div-to-popup').append(html);
+    $('#div-to-popup').bPopup();  
+
+    $.ajax({
+      url: "<?=site_url('users/ajax_create_fb_user')?>",
+      success: function(response) {
+        var r = $.parseJSON(response);
+        if ( ! r.error) {
+          window.location = r.redirect;
+        } else {
+          alert(r.message);
+        }
+      }
+    });
+  }
+
 
 </script>
 </html>

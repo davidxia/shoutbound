@@ -12,7 +12,7 @@ class Users extends Controller
     {
         $this->load->view('test');
     }
-    
+        
     
     function logout()
     {
@@ -66,33 +66,13 @@ class Users extends Controller
         
         if (empty($u->id))
         {
-            json_success(array('redirect' => site_url('users/creating'), 'existingUser' => false));
+            json_success(array('redirect' => site_url('users/creating_FB_account'), 'existingUser' => false));
         }
         else
         {
             $u->login($u->id);
             json_success(array('redirect' => site_url('home'), 'existingUser' => true));
         }
-    }
-    
-    
-    function creating()
-    {
-        $this->load->library('facebook');
-        $session = $this->facebook->getSession();
-        $u = new User();
-        
-        if ( ! $session)
-        {
-            redirect('/landing');
-        }
-                
-        if ($u->get_by_fid($this->facebook->getUser())->id)
-        {
-            redirect('/');
-        }
-        
-        $this->load->view('creating_user');
     }
     
     
@@ -111,49 +91,57 @@ class Users extends Controller
             json_success(array('error' => true, 'message' => 'You are already a user'));
         }
 
-        $udata = array('fid' => $fbuser['id'],
-                       'name' => $fbuser['name']);
-
         if ( ! $fbuser['email'])
         {
             json_success(array('error' => true, 'message' => 'We could not get your email address'));
         }
-        $udata['email'] = $fbuser['email'];
         
         $u->clear();
         $u->fid = $fbuser['id'];
         $u->name = $fbuser['name'];
         $u->email = $fbuser['email'];
+        
         if ($u->save())
         {
             $u->login($u->id);
-        }
-        
-        $f = new Friend();
-        $other_user = new User();
-        foreach ($fbuser['friends']['data'] as $friend)
-        {
-            // check if friend is already Shoutbound user
-            // if so save self-relation in related_users_users table
-            $other_user->get_by_fid($friend['id']);
-            if ($other_user->id)
+            
+            // if row exists for this fbid in friends table, delete it
+            // corresponding rows in friends_users table auto deleted by DMZ ORM
+            $f = new Friend();
+            $f->where('facebook_id', $fbuser['id'])->get();
+            if ($f->id)
             {
-                $u->save_related_user($other_user);
+                $f->delete();
             }
-            else
+
+            $other_user = new User();
+            foreach ($fbuser['friends']['data'] as $friend)
             {
-                $f->clear();
-                $f->facebook_id = $friend['id'];
-                $f->name = $friend['name'];
-                if ($f->save())
+                // check if friend is already Shoutbound user
+                // if so save self-relation in related_users_users table
+                $other_user->get_by_fid($friend['id']);
+                if ($other_user->id)
                 {
-                    $u->save($f);
+                    $u->save_related_user($other_user);
+                }
+                else
+                {
+                    $f->clear();
+                    $f->facebook_id = $friend['id'];
+                    $f->name = $friend['name'];
+                    if ($f->save())
+                    {
+                        $u->save($f);
+                    }
                 }
             }
+            
+            json_success(array('error' => false, 'redirect' => site_url('/')));
         }
-        
-        json_success(array('error' => false, 'redirect' => site_url('/')));
-        
+        else
+        {
+            json_success(array('error' => true, 'message' => 'Something went wrong. Please try again.'));
+        }        
     }
 
 
