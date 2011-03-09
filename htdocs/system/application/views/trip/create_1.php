@@ -242,7 +242,7 @@ $this->load->view('core_header', $header_args);
 
 <script type="text/javascript">
   
-  function showLoginDialog() {
+  function showLoginSignupDialog() {
     $.ajax({
       url: baseUrl+'users/login_signup',
       success: function(response) {
@@ -300,7 +300,7 @@ $this->load->view('core_header', $header_args);
             if (r.loggedin) {
               $('#trip-creation-form').submit();
             } else {
-              showLoginDialog();
+              showLoginSignupDialog();
             }
           }
         });

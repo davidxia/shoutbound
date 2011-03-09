@@ -81,28 +81,41 @@
   // then submit trip creation form
 	function facebookLogin() {
     $.ajax({
-      url: "<?=site_url('users/ajax_facebook_login')?>",
-      type: 'POST',
-      dataType: 'json',
+      url: baseUrl+'users/ajax_facebook_login',
       success: function(response) {
-        if (response['existingUser']) {
-          $('#trip-creation-form').submit();
+        var r = $.parseJSON(response);
+        if (r.existingUser) {
+          updateFBFriends();
         } else {
-          createFBUser();
+          showAccountCreationDialog();
         }
       }
     });
 	}
+	
+	
+	function updateFBFriends() {
+    $.ajax({
+      url: baseUrl+'users/ajax_update_fb_friends',
+      success: function() {
+        $('#trip-creation-form').submit();
+      }
+    });
+	}
+	
 
+  function showAccountCreationDialog() {
+    $('#div-to-popup').empty();
+    var html = 'Creating your Shoutbound account...';
+    $('#div-to-popup').append(html);
+    $('#div-to-popup').bPopup();  
 
-  function createFBUser() {
     $.ajax({
       url: baseUrl+'users/ajax_create_fb_user',
-      type: 'POST',
-      //dataType: "json",
       success: function(response) {
-        if (response['error']) {
-          alert(response['message']);
+        var r = $.parseJSON(response);
+        if (r.error) {
+          alert(r.message);
         } else {
           $('#trip-creation-form').submit();
         }

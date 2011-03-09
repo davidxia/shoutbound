@@ -72,20 +72,31 @@
     });
   });
 
+
 	function facebookLogin() {
     $.ajax({
       url: "<?=site_url('users/ajax_facebook_login')?>",
-      type: 'POST',
-      //dataType: 'json',
       success: function(response) {
-        if (response['existingUser']) {
-          window.location = response['redirect'];
+        var r = $.parseJSON(response);
+        if (r.existingUser) {
+          updateFBFriends();
         } else {
           showAccountCreationDialog();
         }
       }
     });
 	}
+	
+	
+	function updateFBFriends() {
+    $.ajax({
+      url: "<?=site_url('users/ajax_update_fb_friends')?>",
+      success: function() {
+        window.location = "<?=site_url('/')?>";
+      }
+    });
+	}
+	
 	
   function showAccountCreationDialog() {
     $('#div-to-popup').empty();
