@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html> 
   <head>
-    <title>ShoutBound</title>
+    <title>Shoutbound</title>
 
     <!-- LIBRARIES -->
     <link rel="stylesheet" href="<?php echo static_url('css/common.css');?>" type="text/css" media="screen" charset="utf-8"></script>
@@ -14,9 +14,9 @@
     {
         foreach ($css_paths as $css)
         {
-            $css_tag = '<link rel="stylesheet" type="text/css" href="';
+            $css_tag = '<link rel="stylesheet" href="';
             $css_tag .= static_url($css);
-            $css_tag .= '"/>';
+            $css_tag .= '" type="text/css" media="screen" charset="utf-8"/>';
 
             echo($css_tag);
         }

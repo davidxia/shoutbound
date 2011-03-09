@@ -45,8 +45,9 @@ h3{
 }
 
 #signup_form th, form th {
-    text-align: right;
-    padding-right: 10px;
+  text-align: right;
+  padding-right: 10px;
+  vertical-align: middle;
 }
 input[type=text], input[type=password] {
 	display: block;

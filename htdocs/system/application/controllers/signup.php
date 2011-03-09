@@ -10,9 +10,7 @@ class Signup extends Controller {
             redirect('/');
         }
             
-        $this->load->helper('form');
         $this->load->view('signup');
-
     }
     
     
@@ -21,7 +19,7 @@ class Signup extends Controller {
 		    $u = new User();
 		    $u->name = $this->input->post('name');
 		    $u->email = $this->input->post('email');
-		    $u->password = md5('davidxia'.$this->input->post('password_create').'isgodamongmen');
+		    $u->password = md5('davidxia'.$this->input->post('password').'isgodamongmen');
 		    		    
         if ($u->save())
         {

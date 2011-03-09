@@ -1,10 +1,25 @@
-<html>
-	<head>
-		<title>Shoutbound - Sign Up</title>
-		<link rel="stylesheet" href="<?= site_url('static/css/signup.css')?>" type="text/css" media="screen" />
-		<script type="text/javascript" src="http://dev.shoutbound.com/david/static/js/jquery/jquery.js"></script>
-		<script type="text/javascript" src="http://dev.shoutbound.com/david/static/js/jquery/popup.js"></script>
-	</head>
+<?
+$header_args = array(
+    'css_paths'=>array(
+        'css/signup.css',
+    ),
+    'js_paths'=>array(
+        'js/jquery/validate.min.js',
+        'js/jquery/popup.js',
+    )
+);
+
+$this->load->view('core_header', $header_args);
+?>
+
+<!-- JAVASCRIPT CONSTANTS --> 
+<script type="text/javascript">
+  var baseUrl = "<?=site_url("")?>";
+  var staticUrl = "<?=static_url("")?>";
+</script>
+
+
+</head>
 	
 <body style="background:url('<?=site_url('images/trip_page_background.png')?>'); background-repeat:repeat-x;">
 	<div id="fb-root"></div>
@@ -24,39 +39,42 @@
   	<div id="title" style="margin-top: 40px; line-height:100px; font-size:35px; font-weight:bold;  border-bottom: 1 px solid gray;">
       <a href="<?=site_url('/')?>"><img src="<?=site_url('images/logo_header.png')?>" style="height:auto; width:auto; display:inline-block; position: relative; top:12px; margin-right:10px; border:0;" /></a>
       Sign up for Shoutbound
-    </div>  
-    <div id="signup_form">
+    </div>
+    
+    <div>
       <h2 style="margin-left:130px;">Create an account</h2>
-      <?=form_open('signup/create_user')?>
+      <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post">
       <fieldset style="border:0">
       <table><tbody>
         <tr>
           <th><label for="name">Name</label></th>
           <td><input type="text" name="name" id="name" autocomplete="off" size="20"/></td>
+          <td class="error" style="vertical-align:middle;"><div class="error-message" style="width:200px;"></div></td>
         </tr>
         <tr>
           <th><label for="email">Email</label></th>
-          <td><input type="text" name="email" id="email" autocomplete="off" /></td>
+          <td><input type="text" name="email" id="email" autocomplete="off"/></td>
+          <td class="error" style="vertical-align:middle;"><div class="error-message" style="width:200px;"></div></td>
         </tr>
         <tr>
           <th><label for="password">Password</label></th>
-          <td><input type="password" name="password" id="password" autocomplete="off" /></td>
+          <td><input type="password" name="password" id="password" autocomplete="off"/></td>
+          <td class="error" style="vertical-align:middle;"><div class="error-message" style="width:200px;"></div></td>
         </tr>
         <tr>
           <th><label for="password_confirm">Confirm password</label></th>
           <td><input type="password" name="password_confirm" id="password_confirm" autocomplete="off" /></td>
+          <td class="error" style="vertical-align:middle;"><div class="error-message" style="width:200px;"></div></td>
         </tr>
         <tr>
           <th></th>
-          <td><?= form_submit('submit', 'Create Acccount') ?></td>
+          <td><input class="submit" type="submit" value="Create my account"/></td>
+          <td></td>
         </tr>
       </tbody></table>
-      
-              
-      <?= validation_errors('<p class="error">') ?>
       </fieldset>
     </div>
-      
+    
     <div style="text-align:center; display:inline-block;">
     	<span style="font-size:20px; font-weight: bold; font-size:20px;	color:black;">or</span>
     	<a href="#" id="fb_login_button" style="margin-left:5px; position: relative; top:3px;">
@@ -89,7 +107,7 @@
 
 	function facebookLogin() {
     $.ajax({
-      url: "<?=site_url('users/ajax_facebook_login')?>",
+      url: baseUrl+'users/ajax_facebook_login',
       success: function(response) {
         var r = $.parseJSON(response);
         if (r.existingUser) {
@@ -104,7 +122,7 @@
 
 	function updateFBFriends() {
     $.ajax({
-      url: "<?=site_url('users/ajax_update_fb_friends')?>",
+      url: baseUrl+'users/ajax_update_fb_friends',
       success: function() {
         window.location = "<?=site_url('/')?>";
       }
@@ -119,7 +137,7 @@
     $('#div-to-popup').bPopup();  
 
     $.ajax({
-      url: "<?=site_url('users/ajax_create_fb_user')?>",
+      url: baseUrl+'users/ajax_create_fb_user',
       success: function(response) {
         var r = $.parseJSON(response);
         if ( ! r.error) {
@@ -130,6 +148,43 @@
       }
     });
   }
+  
+  
+  // jquery form validation plugin
+  $('#signup-form').validate({
+    rules: {
+      name: 'required',
+      email: {
+        required: true,
+        email: true
+      },
+      password: {
+        required: true,
+        minlength: 4
+      },
+      password_confirm: {
+        equalTo: '#password'
+      }
+    },
+    messages: {
+      name: 'You gotta have a name, yo.',
+      email: {
+        required: 'We promise not to spam you.',
+        email: 'Nice try, enter a valid email.'
+      },
+      password: {
+        required: 'Password protect that shit.',
+        minlength: 'make it at least 4 characters'
+      },
+      password_confirm: {
+        equalTo: 'Reenter your password.'
+      }
+    },
+    errorPlacement: function(error, element) {
+      error.appendTo(element.parent().siblings('.error').children('.error-message'));
+    }
+  });
+
 
 </script>
 </html>

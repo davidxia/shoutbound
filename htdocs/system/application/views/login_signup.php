@@ -200,7 +200,7 @@
     $.ajax({
       type: 'POST',
       data: postData,
-      url: baseUrl+'users/ajax_email_login',
+      url: baseUrl+'login/ajax_email_login',
       // once user is logged in, submit create trip form
       success: function(response) {
         var r = $.parseJSON(response);

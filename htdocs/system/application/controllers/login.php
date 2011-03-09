@@ -6,6 +6,7 @@ class Login extends Controller {
     {
         parent::Controller();        
     }
+    
  
     function index()
     {
@@ -18,6 +19,23 @@ class Login extends Controller {
         $this->load->helper('form');
         $this->load->view('login');
     
+    }
+    
+    
+    function ajax_email_login()
+    {
+        $u = new User();
+        $u->email = $this->input->post('email');
+        $u->password = $this->input->post('password');
+
+        if ($u->email_login())
+        {
+            json_success(array('loggedin' => true));
+        }
+        else
+        {
+            json_success(array('loggedin' => false));
+        }
     }
 }
 
