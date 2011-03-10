@@ -63,7 +63,7 @@
   				<div style="margin:10px 0px 10px;">
     				<span style="font-size:24px;">Your trips</span>
   				</div>
-  				<? if ( ! count($trips)):?>
+  				<? if (empty($trips)):?>
             You don't have any trips yet...
           <? else:?>
             <ul>
@@ -85,11 +85,9 @@
                         <? endif;?>
                       </li>
                       <li class="trip-avatar-container">
-                      <? if (count($trip->users)):?>
-                        <? foreach ($trip->users as $trip_user):?>
-                          <a href="#"><img style="height:32px; width:32px;" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" /></a>
-                        <? endforeach;?>
-                      <? endif;?>
+                      <? foreach ($trip->users as $trip_user):?>
+                        <a href="#"><img style="height:32px; width:32px;" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" /></a>
+                      <? endforeach;?>
                       </li>
                     </ul>
                   <? endforeach;?>
@@ -104,7 +102,7 @@
   				<div style="margin:10px 0px 10px;">
     				<span style="font-size:24px;">Your friends' trips</span>
   				</div>
-  				<? if ( ! count($advising_trips)):?>
+  				<? if (empty($advising_trips)):?>
             Tell your friends to share some trips with you.
           <? else:?>
             <ul>

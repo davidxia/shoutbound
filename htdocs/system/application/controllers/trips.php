@@ -281,34 +281,38 @@ class Trips extends Controller
         $uid = get_cookie('uid');
         $u->get_by_id($uid);
         
-        // get user's friends
+        // get user's non-Shoutbound friends
         $u->friend->get();
-        
+        $fb_friends = array();
+        foreach ($u->friend as $friend)
+        {
+                $fb_friends[] = $friend->stored;
+        }
+
+        // get Shoutbound friends not related to this trip
+        $u->related_user->get();
         // get user ids associated with this trip
         $t = new Trip();
         $t->get_by_id($this->input->post('tripId'));
         $t->user->get();        
-
         // create array of friends not associated with this trip
         foreach ($t->user->all as $user)
         {
             $trip_uids[] = $user->id;
         }
-        foreach ($u->friend->all as $friend)
+        $uninvited_sb_friends = array();
+        foreach ($u->related_user as $sb_friend)
         {
-            //if ( ! in_array($friend->friend_uid, $trip_uids))
-            //{
-                $fb_friends[] = $friend->stored;
-            //}
+            if ( ! in_array($sb_friend->id, $trip_uids))
+            {
+                $uninvited_sb_friends[] = $sb_friend->stored;
+            }
         }
-        //$u->where_in('id', $uninvited_uids)->get();
-        //foreach ($u->all as $user)
-        //{
-            //$uninvited_users[] = $user->stored;
-        //}
         
+                
         $view_data = array(
             'fb_friends' => $fb_friends,
+            'uninvited_sb_friends' => $uninvited_sb_friends,
         );
         
         $render_string = $this->load->view('trip/trip_invite_panel', $view_data, true);
@@ -320,11 +324,11 @@ class Trips extends Controller
     function ajax_invite_trip()
     {
         $u = new User();
-        if ( ! $u->get_logged_in_status())
+        $uid = $u->get_logged_in_status();
+        if ( ! $uid)
         {
             redirect('/');            
         }
-        $uid = get_cookie('uid');
         $u->get_by_id($uid);
         $planner = $u->stored;
         
@@ -340,11 +344,12 @@ class Trips extends Controller
         
         $this->load->library('sendgrid_email');
         
-        if (count($uids))
+        if ( ! empty($uids))
         {
             foreach ($uids as $uid)
             {
                 // TODO: fix based on user notification settings
+                // TODO: generate trip share here and add hash to email link
                 if (true)
                 {
                     $u->get_by_id($uid);

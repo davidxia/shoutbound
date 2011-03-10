@@ -102,32 +102,57 @@ invite.bindButtons = function() {
   $('#trip-invite-cancel').bind('click', function() {
     $('#div-to-popup').bPopup().close();
     return false;
-  }); 
+  });
 
   $('.friend-capsule').bind('click', function() {
     // different behavior based on whether it's a fb friend or sb friend, etc
-    var fbid = $(this).attr('fbid');
-
-    if ($.data(this, 'selected')) {
-      $(this).removeClass('share-selected');
-      $.data(this, 'selected', false);
-    } else {
-      $(this).addClass('share-selected');
-      $.data(this, 'selected', true);
+    var attr = $(this).attr('sbid');
+    if (typeof attr !== 'undefined' && attr !== false) {
+      if ($.data(this, 'sb-sel')) {
+        $(this).removeClass('share-selected');
+        $.data(this, 'sb-sel', false);
+      } else {
+        $(this).addClass('share-selected');
+        $.data(this, 'sb-sel', true);
+      }
     }
+    
+    attr = $(this).attr('fbid');
+    if (typeof attr !== 'undefined' && attr !== false) {
+      if ($.data(this, 'fb-sel')) {
+        $(this).removeClass('share-selected');
+        $.data(this, 'fb-sel', false);
+      } else {
+        $(this).addClass('share-selected');
+        $.data(this, 'fb-sel', true);
+      }
+    }
+    return false;
   });
 }
   
   
 invite.confirmInvite = function() {
-  var selectedUids = [];
+  var selectedFBids = [];
   $('.friend-capsule').each(function() {
-    if ($.data(this, 'selected')){
-      selectedUids.push($(this).attr('fbid'));
+    if ($.data(this, 'fb-sel')) {
+      selectedFBids.push($(this).attr('fbid'));
     }
   });
-  invite.sendFBMessage(selectedUids);
-  //invite.sendInviteData(selectedUids);
+  
+  var selectedSBids = [];
+  $('.friend-capsule').each(function() {
+    if ($.data(this, 'sb-sel')) {
+      selectedSBids.push($(this).attr('sbid'));
+    }
+  });
+
+  if (selectedFBids.length >= 1) {
+    invite.sendFBMessage(selectedFBids);
+  }
+  if (selectedSBids.length >= 1) {
+    invite.sendSBInvite(selectedSBids);
+  }
   $('#div-to-popup').bPopup().close();
   return false;
 }
@@ -135,8 +160,8 @@ invite.confirmInvite = function() {
 
 // opens new window for Facebook private message
 // TODO: how to send to multiple recipients?
-invite.sendFBMessage = function(selectedUids) {
-  var to = selectedUids[0];
+invite.sendFBMessage = function(selectedFBids) {
+  var to = selectedFBids[0];
   var shareKey = invite.generateShareKey('facebook message');
   var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
   var url = 'http://www.facebook.com/messages/'+to+'?msg_prefill='+message;
@@ -166,8 +191,8 @@ invite.generateShareKey = function(targetId) {
 }
 
 
-// sends email via Sendgrid
-invite.sendInviteData = function(uids){
+// add record to trips_users and sends email via Sendgrid
+invite.sendSBInvite = function(uids) {
   var postData = {
     tripId: tripId,
     uids: $.JSON.encode(uids),

@@ -35,30 +35,34 @@
     
     <div style="clear:both;"></div>
 
-    <? if (count($fb_friends)):?>
-      <ul id="friends" style=" height:400px; overflow-y:auto;">
-          <? foreach ($fb_friends as $fb_friend):?>
-            <li fbid="<?=$fb_friend->facebook_id?>" class="friend-capsule" style="height:64px; width:134px; margin:3px; cursor:pointer; float:left;">
-              <a href="#" style="display:block; height:56px; padding:4px; border-spacing:0; text-decoration:none;">
-                <span style="border:1px solid #E0E0E0; margin-right:5px; padding:2px; display:block; height:50px; width:50px; background-image: url(http://graph.facebook.com/<?=$fb_friend->facebook_id?>/picture?type=square); background-position:2px 2px; background-repeat:no-repeat; float:left;"></span>
-                <span class="friend-name" style="font-size:11px; float:left; display:block; width:65px; margin-top:2px;"><?=$fb_friend->name?></span>
-              </a>
-            </li>
-          <? endforeach;?>
-    	</ul>
+    <ul id="friends" style=" height:400px; overflow-y:auto;">
+        <? foreach ($fb_friends as $fb_friend):?>
+          <li fbid="<?=$fb_friend->facebook_id?>" class="friend-capsule" style="height:64px; width:134px; margin:3px; cursor:pointer; float:left;">
+            <a href="#" style="display:block; height:56px; padding:4px; border-spacing:0; text-decoration:none;">
+              <span style="border:1px solid #E0E0E0; margin-right:5px; padding:2px; display:block; height:50px; width:50px; background-image: url(http://graph.facebook.com/<?=$fb_friend->facebook_id?>/picture?type=square); background-position:2px 2px; background-repeat:no-repeat; float:left;"></span>
+              <span class="friend-name" style="font-size:11px; float:left; display:block; width:65px; margin-top:2px;"><?=$fb_friend->name?></span>
+            </a>
+          </li>
+        <? endforeach;?>
+        <? foreach ($uninvited_sb_friends as $sb_friend):?>
+          <li sbid="<?=$sb_friend->id?>" class="friend-capsule" style="height:64px; width:134px; margin:3px; cursor:pointer; float:left;">
+            <a href="#" style="display:block; height:56px; padding:4px; border-spacing:0; text-decoration:none;">
+              <span style="border:1px solid #E0E0E0; margin-right:5px; padding:2px; display:block; height:50px; width:50px; background-image: url(http://graph.facebook.com/<?=$sb_friend->fid?>/picture?type=square); background-position:2px 2px; background-repeat:no-repeat; float:left;"></span>
+              <span class="friend-name" style="font-size:11px; float:left; display:block; width:65px; margin-top:2px;"><?=$sb_friend->name?></span>
+            </a>
+          </li>
+        <? endforeach;?>
+  	</ul>
+  
+    <div style="clear:both;"></div>
+    Add a message...
+    <br/>
+    <input type="text" id="trip-invite-textarea" size="40" />
     
-      <div style="clear:both;"></div>
-      Add a message...
-      <br/>
-      <input type="text" id="trip-invite-textarea" size="40" />
-      
-      <div id="trip-invite-toolbar" style="margin-left">
-        <a href="#" id="trip-invite-confirm">invite</a>
-        <a href="#" id="trip-invite-cancel">cancel</a>
-      </div>
-    <? else:?>
-      You've already invited all your friends.
-    <? endif;?>
+    <div id="trip-invite-toolbar" style="margin-left">
+      <a href="#" id="trip-invite-confirm">invite</a>
+      <a href="#" id="trip-invite-cancel">cancel</a>
+    </div>
   
   </div>
 </div>
@@ -77,6 +81,7 @@
     $('#friends').empty();
     var html = 'helloo!!!';
     $('#friends').append(html);
+    $('#filter-dropmenu').hide();
     // TODO: this method is soo slow, how to make it faster??
     /*
     $('#friends').children('li').each(function() {
