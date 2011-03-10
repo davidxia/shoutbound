@@ -90,7 +90,7 @@ invite.showInviteDialog = function() {
     data: postData,
     success: function(response) {
       var r = $.parseJSON(response);
-      $('#div-to-popup').empty().append(r['data']).bPopup();
+      $('#div-to-popup').empty().append(r.data).bPopup({follow:false, modal:false});
       invite.bindButtons();
     }
   });
@@ -101,6 +101,7 @@ invite.bindButtons = function() {
   $('#trip-invite-confirm').bind('click', invite.confirmInvite);
   $('#trip-invite-cancel').bind('click', function() {
     $('#div-to-popup').bPopup().close();
+    return false;
   }); 
 
   $('.friend-capsule').bind('click', function() {

@@ -193,13 +193,24 @@ li.suggestion.highlighted{
 .padding-right {
   padding-right: 20px;
 }
-.friend-capsule:hover {
-  background: #eee;
+.friend-capsule .friend-name {
+  color:#222;
 }
-
+.friend-capsule:hover {
+  background: #e7ebf5;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+}
+.friend-capsule:hover .friend-name {
+  color: #000;
+}
 .friend-capsule.share-selected {
-  background: #ccc;
-} 
+  background: #526ea6;
+}
+.friend-capsule.share-selected .friend-name {
+  color: #fff;
+}
 
 </style>
 
@@ -209,7 +220,7 @@ li.suggestion.highlighted{
 
 
 <body style="background:url('<?=site_url('images/trip_page_background.png')?>'); background-repeat:repeat-x;">
-  <div id="div-to-popup" style="background-color:white; display:none;"></div>
+  <div id="div-to-popup" style="display:none;"></div>
 
   <!-- WRAPPER -->
   <div id="wrapper" style="margin: 0 auto; width:960px;">
@@ -663,6 +674,7 @@ li.suggestion.highlighted{
   // show countdown clock
   var deadline = new Date(<?=$trip->response_deadline?>*1000);
   $('#countdown').countdown({until: deadline});
+  
 
 </script>
 </body> 
