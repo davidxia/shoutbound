@@ -66,8 +66,8 @@ class Home extends Controller
         }
         
         // put user's planning trips in an array for where_in below
-        if (count($trips))
-        {
+        //if (count($trips))
+        //{
             foreach ($trips as $trip)
             {
                 $trip_ids[] = $trip->id;
@@ -84,10 +84,10 @@ class Home extends Controller
                 $suggestion->stored->is_location = 1;
                 $news_feed_items[] = $suggestion->stored;
             }
-        }
+        //}
         
         
-        $view_data = array('user' => $u,
+        $view_data = array('user' => $u->stored,
                            'trips' => $trips,
                            'advising_trips' => $advising_trips,
                            'news_feed_items' => $news_feed_items);

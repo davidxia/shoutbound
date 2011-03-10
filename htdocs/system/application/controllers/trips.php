@@ -103,9 +103,9 @@ class Trips extends Controller
         // TODO: check if trip is private
 
         $u = new User();
-        if ($u->get_logged_in_status())
+        $uid = $u->get_logged_in_status();
+        if ($uid)
         {
-            $uid = get_cookie('uid');
             $u->get_by_id($uid);
             $user = $u->stored;
             
@@ -193,7 +193,12 @@ class Trips extends Controller
     
     function create($i=1)
     {        
-        $view_data = array('destination' => $this->input->post('destination'),
+        $u = new User();
+        $uid = $u->get_logged_in_status();
+        $u->get_by_id($uid);
+
+        $view_data = array('user' => $u->stored,
+                           'destination' => $this->input->post('destination'),
                            'destination_lat' => $this->input->post('destination_lat'),
                            'destination_lng' => $this->input->post('destination_lng'),
                           );

@@ -1,13 +1,8 @@
-<div id="footer" style="background-color:#1b272c; height:50px; color:white; padding:10px;">
-  <ul>
-    <li style="float:left; margin-right:15px; font-size:13px;">
-      <a href="#" style="color:white; text-decoration:none;">About</a>
-    </li>
-    <li style="float:left; margin-right:15px; font-size:12px;">
-      <a href="http://blog.shoutbound.com" style="color:white; text-decoration:none;">Blog</a>
-    </li>
-    <li style="float:left; margin-right:15px; font-size:12px;">
-      <a href="#" style="color:white; text-decoration:none;">Contact Us</a>
-    </li>
-  </ul>
+<div class="footer" style="clear:both; background-color:#1b272c; height:50px; color:white;z-index:10; font-size:12px; padding:25px 80px;">
+  <div class="wrapper" style="width:960px; margin:0 auto;">
+    <span style="float:right; color:white;">&copy; <?=date('Y')?> Shoutbound, Inc.</span>
+    <a href="#" style="color:white; text-decoration:none; margin-right:20px">About</a>
+    <a href="http://blog.shoutbound.com" style="color:white; text-decoration:none; margin-right:20px">Blog</a>
+    <a href="#" style="color:white; text-decoration:none; margin-right:20px">Contact Us</a>
+  </div>
 </div>

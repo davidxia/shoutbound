@@ -23,83 +23,80 @@ $this->load->view('core_header', $header_args);
 
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
-    var baseUrl = "<?=site_url("")?>";
-    var staticUrl = "<?=static_url("")?>";
-    var tripId = <?=$trip->id?>;
-    <? if ($user):?>
-        var uid = <?=$user->id?>;
-        <? if ($user->fid):?>
-            var fid = <?=$user->fid?>;
-        <? endif;?>
-    <? endif;?>
-    
-    map.lat = <?=$destinations[0]->lat?>;
-    map.lng = <?=$destinations[0]->lng?>;
+  var baseUrl = "<?=site_url('')?>";
+  var staticUrl = "<?=static_url('')?>";
+  var tripId = <?=$trip->id?>;
+  <? if ($user):?>
+      var uid = <?=$user->id?>;
+      <? if ($user->fid):?>
+          var fid = <?=$user->fid?>;
+      <? endif;?>
+  <? endif;?>
+  
+  map.lat = <?=$destinations[0]->lat?>;
+  map.lng = <?=$destinations[0]->lng?>;
 </script>
 
 <style type="text/css">
-  html{
-    background
-  }
-  #invite-others-button{
-    display: inline-block;
-    font-size: 0.75em;
-    background: #2B72CC url(/david/images/blue_button.png) repeat-x 0 0;
-    height: 40px;
-    cursor: pointer;
-  }
-  #invite-others-button:hover{
-    background: url(/david/images/blue_button.png) repeat-x 0 -40px;
-  }
-  #invite-others-button:active{
-    background: url(/david/images/blue_button.png) repeat-x 0 -80px;
-  }
-  #get-suggestions-button{
-    display: inline-block;
-    font-size: 0.75em;
-    background: #2B72CC url(/david/images/blue_button.png) repeat-x 0 0;
-    height: 40px;
-    cursor: pointer;
-  }
-  #get-suggestions-button:hover{
-    background: url(/david/images/blue_button.png) repeat-x 0 -40px;
-  }
-  #get-suggestions-button:active{
-    background: url(/david/images/blue_button.png) repeat-x 0 -80px;
-  }
-  .moved{
-    text-align: right;
-  }
-  #share-trip {
-    font-size: 1.5em;
-    margin-top: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #EDEDED;
-  }
-  #share-trip a:link {
-    text-decoration: none;
-  }
+#invite-others-button{
+  display: inline-block;
+  font-size: 0.75em;
+  background: #2B72CC url(/david/images/blue_button.png) repeat-x 0 0;
+  height: 40px;
+  cursor: pointer;
+}
+#invite-others-button:hover{
+  background: url(/david/images/blue_button.png) repeat-x 0 -40px;
+}
+#invite-others-button:active{
+  background: url(/david/images/blue_button.png) repeat-x 0 -80px;
+}
+#get-suggestions-button{
+  display: inline-block;
+  font-size: 0.75em;
+  background: #2B72CC url(/david/images/blue_button.png) repeat-x 0 0;
+  height: 40px;
+  cursor: pointer;
+}
+#get-suggestions-button:hover{
+  background: url(/david/images/blue_button.png) repeat-x 0 -40px;
+}
+#get-suggestions-button:active{
+  background: url(/david/images/blue_button.png) repeat-x 0 -80px;
+}
+.moved{
+  text-align: right;
+}
+#share-trip {
+  font-size: 1.5em;
+  margin-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #EDEDED;
+}
+#share-trip a:link {
+  text-decoration: none;
+}
 #make-suggestion:hover, #write-message:hover{
-    text-decoration: underline;
+  text-decoration: underline;
 }
 #input-container{
-    border: 1px solid black;
-    float: left;
-    position: relative;
-    display: inline;
-    width: 99.5%;
+  border: 1px solid black;
+  float: left;
+  position: relative;
+  display: inline;
+  width: 99.5%;
 }
 #location-autosuggest{
-    text-align: left;
-    padding-left: 12px;
+  text-align: left;
+  padding-left: 12px;
 }
 #place-type-dropdown{
-    float: left;
-    position: relative;
-    margin-top: 20px;
-    margin-left: 10px;
-    text-align: left;
-    width: 95%;
+  float: left;
+  position: relative;
+  margin-top: 20px;
+  margin-left: 10px;
+  text-align: left;
+  width: 95%;
 }
 #place-good-for{
   float: left;
@@ -214,22 +211,21 @@ li.suggestion.highlighted{
 
 </style>
 
-
-<?=$this->load->view('core_header_end')?>
+</head>
 
 
 
 <body style="background:url('<?=site_url('images/trip_page_background.png')?>'); background-repeat:repeat-x;">
   <div id="div-to-popup" style="display:none;"></div>
 
+  <?=$this->load->view('header')?>
+  
+
   <!-- WRAPPER -->
-  <div id="wrapper" style="margin: 0 auto; width:960px;">
-    <?=$this->load->view('header')?>
-
-
+  <div class="wrapper" style="margin: 0 auto; width:960px;">
 
     <!-- MAIN -->
-    <div id="main" style="margin:10px 0px 10px; background-color:white; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;">
+    <div class="content" style="padding-bottom:80px; margin:10px 0px 10px; background-color:white; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;">
         
           <!-- TRIP SUMMARY -->
           <div id="trip_summary" style="width:690px; float:left; margin:10px 10px 10px 10px;  padding:10px; border: 1px solid #ced7de; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;">
@@ -474,19 +470,19 @@ li.suggestion.highlighted{
           
           
           <div id="map-shell" style="display:inline; float:left; position:relative; width:60%;">
-            <div id="map-canvas" style="height: 650px; box-shadow:  0 0 3px 3px gray; -webkit-box-shadow:  0 0 3px 3px gray"></div>
+            <div id="map-canvas" style="height: 650px;"></div>
           </div>
           
           <div style="clear:both;"></div>
           
         </div><!-- CONSOLE ENDS -->
-        
-        
-        
       
     </div><!-- MAIN ENDS -->
-    <?=$this->load->view('footer')?>
   </div><!-- WRAPPER ENDS -->
+
+
+  <?=$this->load->view('footer')?>
+
 
 <script type="text/javascript">
   // output wall markers to page so Map.display_wall_markers function can display them once google map loads

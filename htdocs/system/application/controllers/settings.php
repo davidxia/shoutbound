@@ -17,12 +17,12 @@ class Settings extends Controller
     function index()
     {
         $u = new User();
-        $uid = get_cookie('uid');
-        $u->get_by_id($uid);
+        $u->get_by_id(get_cookie('uid'));
         $u->settings->get();
 
         $view_data = array(
-          'settings' => $u->settings->stored,
+            'user' => $u->stored,
+            'settings' => $u->settings->stored,
         );
         
         $this->load->view('settings', $view_data);

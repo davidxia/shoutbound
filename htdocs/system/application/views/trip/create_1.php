@@ -20,76 +20,64 @@ $this->load->view('core_header', $header_args);
 </script>
 
 <style type="text/css">
-  #trip-creation-form {
-    margin-top: 20px;
-    margin-right: 200px;
-    padding:20px 20px 20px 20px;
-    border-radius:5px;
-    background-color:#e4f1fb;
-    color:navy;
-    border:1 px solid navy;    
-  }
-  #main table{
-    border-collapse: collapse;
-  }
-  #main th, td {
-    padding: 0 0 15px 0;
-  }
-  #main th {
-    text-align: right;
-    font-weight: normal;
-    font-size: 16px;
-    padding-right: 10px;
-    min-width: 200px;
-  }
-  #interests-box td {
-    text-align: right;
-  }
-  .checkbox-name {
-    padding-right: 10px;
-  }
-  .padding-right {
-    padding-right: 40px;
-  }
-  #other-textbox {
-    position: absolute;
-  }
-  body form div.field {
-    
-  }
-  body form .label-and-errors {
+#trip-creation-form {
+  margin-top: 20px;
+  margin-right: 200px;
+  padding:20px 20px 20px 20px;
+  border-radius:5px;
+  background-color:#e4f1fb;
+  color:navy;
+  border:1 px solid navy;    
+}
+#main table{
+  border-collapse: collapse;
+}
+#main th, td {
+  padding: 0 0 15px 0;
+}
+#main th {
+  text-align: right;
+  font-weight: normal;
+  font-size: 16px;
+  padding-right: 10px;
+  min-width: 200px;
+}
+#interests-box td {
+  text-align: right;
+}
+.checkbox-name {
+  padding-right: 10px;
+}
+.padding-right {
+  padding-right: 40px;
+}
+#other-textbox {
+  position: absolute;
+}
+body form div.field {
   
-  }
-  .clear {
-    clear: both;
-  }
-  label.error {
-    color: red;
-    vertical-align: top;
-    font-size: 12px;
-  }
+}
+body form .label-and-errors {
+
+}
+.clear {
+  clear: both;
+}
+label.error {
+  color: red;
+  vertical-align: top;
+  font-size: 12px;
+}
 
 </style>
  
  
 <?=$this->load->view('core_header_end')?>
 
-	<body style="background:url('http://dev.shoutbound.com/david/images/trip_page_background.png'); background-repeat:repeat-x;">
+	<body style="background: white url('http://dev.shoutbound.com/david/images/trip_page_background.png') repeat-x 0 0;">
     <div id="div-to-popup" style="background-color:white; display:none;"></div>
     
-		<!-- HEADER -->
-    <div class="header" style="background-color:#4483B1; color:white; height:50px; display:block;">
-      <div class="wrapper" style="width:960px; margin:0 auto; position:relative;">
-        <div class="nav" style="position:absolute; right:0; top:0;">
-          <a href="<?=site_url('login')?>" style="margin-left:20px; text-decoration:none; display:block; float:left; color: white; padding:10px 0; line-height:30px;">Login</a>
-          <a href="<?=site_url('signup')?>" style="margin-left:20px; text-decoration:none; display:block; float:left; color: white; padding:10px 0; line-height:30px;">Sign Up</a>
-        </div>
-        <h1 style="position:absolute; left:0; top:0px;">
-          <a href="<?=site_url('/')?>"><img src="<?=site_url('images/logo_header.png')?>" alt="Shoutbound" width="81" height="50"/></a>
-        </h1>
-      </div>
-    </div><!-- HEADER ENDS -->
-
+    <? $this->load->view('header')?>
 
 		  
     <!-- CONTENT -->
@@ -236,7 +224,10 @@ $this->load->view('core_header', $header_args);
       </form><!-- TRIP CREATION FORM ENDS -->
       
     </div><!-- CONTENT ENDS -->
-	
+    
+    
+    <?=$this->load->view('footer')?>
+
 	</body>
 </html>
 

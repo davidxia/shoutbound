@@ -1,31 +1,33 @@
 <?
-    $header_args = array(
-        'css_paths'=>array(
-        ),
-        'js_paths'=>array(
-            'js/jquery/timeago.js'
-        )
-    );
-    echo($this->load->view('core_header', $header_args));
+$header_args = array(
+    'css_paths'=> array(
+    ),
+    'js_paths'=> array(
+        'js/jquery/timeago.js'
+    )
+);
+$this->load->view('core_header', $header_args);
 ?>
 
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
-    var baseUrl = "<?=site_url(""); ?>";
-    var staticUrl = "<?=static_url(""); ?>";
+  var baseUrl = "<?=site_url(''); ?>";
+  var staticUrl = "<?=static_url(''); ?>";
 </script>
 
 <style type="text/css">
-  a {
-    text-decoration: none;
-  }
+a {
+  text-decoration: none;
+}
 </style>
 
 </head> 
 <body style="background:url('<?=site_url('images/trip_page_background.png')?>'); background-repeat:repeat-x;">
+
+  <? $this->load->view('header')?>
+
   <div id="wrapper" style="margin: 0 auto; width:960px;">
       
-    <?=$this->load->view('header')?>
     
     <!-- MAIN -->
     <div id="main" style="margin-top: 10px; border: 1px solid #ced7de; background-color:#FFFFFF; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px; min-height:300px;">
@@ -130,8 +132,9 @@
       
       <div style="clear:both;"></div>
     </div><!-- MAIN ENDS -->
-    <?=$this->load->view('footer')?>
   </div><!-- WRAPPER ENDS -->
+
+  <?=$this->load->view('footer')?>
 
 </body>
 

@@ -7,50 +7,48 @@ $header_args = array(
 );
 
 $this->load->view('core_header', $header_args);
-$this->load->view('core_header_end');
-
 ?>
-	</head>
+</head>
 
-<body style="text-align:center; background-color: #E0E0E0; margin:0 0 0 0">
+<body style="background-color: #E0E0E0; margin:0 0 0 0">
 
+	<div class="wrapper" style="margin: 0 auto; width:960px; background: white url('<?=site_url('images/hills_and_logo.png')?>') no-repeat 0 0;">
+	
+  	<!-- MAIN -->		
+  	<div class="content" style="height:761px; position:relative;">
+  	  <div style="padding-top:20px;">
+    		<a href="<?=site_url('login')?>" style="display:block; background:transparent url(<?=site_url('images/login.png')?>) no-repeat 0 0; height:45px; width:120px; text-indent:-10000px; float:right; margin-right:20px;">Login</a>
+    	  <a href="<?=site_url('signup')?>" style="display:block; background:transparent url(<?=site_url('images/signup.png')?>) no-repeat 0 0; height:45px; width:120px; text-indent:-10000px; float:right; margin-right:20px;">Sign up</a>
+    	  <div style="clear:both;"></div>
+  	  </div>
+  		
+  		
+  		<div style="background:#1b272c; margin-top:100px; padding:20px;">
+    		<div style="float:right; line-height:90px;">
+    		  <form id="destination" action="trips/create" method="post" style="position:relative;">
+    			  <input type="text" id="destination-input" name="destination" autocomplete="off" style="border-radius:5px; -moz-border-radius:5px;
+  -webkit-border-radius:5px; height:69px; width:320px; padding:0 100px 0 15px; font-size:22px; font-weight: bold; color:#000080;" value="Where do you want to go?"/>
+            <input type="hidden" id="destination_lat" name="destination_lat"/>
+            <input type="hidden" id="destination_lng" name="destination_lng"/>
+    			  
+    			  <button type="submit" style="background: transparent url(<?=site_url('images/baricon.png')?>) no-repeat 0 0;  height:71px; width:70px; position:absolute; top:9px; right:1px; text-indent:-10000px; cursor:pointer; border:0 none; padding:0; ">Go</button>
+    		  </form>
+    		</div>
+    		<div style="font-size:40px; font-weight:bold; color:white; margin-right:470px; text-align:left;">
+    		  Collaborative travel planning made easy.
+        </div>
+  		</div>
+  		
   
-
-	<div id="wrapper" style="margin: 0 auto; width:960px; background:url('<?=site_url('images/hills_and_logo.png')?>'); background-repeat:no-repeat;">
-	
-	<!-- MAIN -->		
-	<div id="main" style="height:761px; position:relative;">
-		<a href="<?=site_url('signup')?>">
-			<div id="sign-up" style="background:url('<?=site_url('images/sign-up.png')?>'); background-repeat:no-repeat; height:50px; width:150px; z-index:2; position:absolute; top:30px; left:615px; float:left; display:inline block;"></div>
-		</a>
-		<a href="<?=site_url('login')?>">
-			<div id="log-in" style="background:url('<?=site_url('images/login.png')?>'); background-repeat:no-repeat; height:50px; width:150px; z-index:2; position:absolute; top:30px; left:755px; float:left; display:inline block;"></div>
-		</a>
-		
-		<div id="box" style="background: black; opacity:0.6; height:165px; position:absolute; top:130px; width:960px;"></div>
-		
-		<div id="headline" style="position:absolute; top:150px; left:45px; line-height:40px; font: 45px helvetica neue; font-weight: bold; color:white;">Collaborative travel <br/> planning made easy.</div>
-
-		<div id="bar">
-		  <form id="destination" action="trips/create" method="post" style="position:relative;">
-			  <input type="text" id="destination-input" name="destination" autocomplete="off" style="border-radius:15px; box-shadow:  0 0 3px 3px gray; -webkit-box-shadow:  0 0 3px 3px gray; background-color:white; position:absolute; top:170px; left:530px;z-index:3; height:75px; width:285px; padding-right:100px; padding-top: 1px; padding-left:15px; padding-bottom:1px; font:22px helvetica neue;font-weight: bold; color:#000080;" value="Where do you want to go?"/>
-        <input type="hidden" id="destination_lat" name="destination_lat"/>
-        <input type="hidden" id="destination_lng" name="destination_lng" />
-			  <img id="baricon" src="<?=site_url('images/baricon.png')?>" style="background-repeat:no-repeat; z-index:5; height:75px; width:75px; position:absolute; top:179px; left:855px; cursor:pointer;" />
-		  </form>
-		</div>
-    <!-- AUTO LOC LIST -->
-    <div id="auto-loc-list" style="position:absolute; top:257px; left:540px; background:#EAEAEA; opacity:0.9; width:350px; text-align:left;">
-      <ul id="location-autosuggest"></ul>
-    </div><!-- AUTO LOC LIST ENDS -->
-
-	</div>
-	
-	<!-- MAIN ENDS -->
+      <!-- AUTO LOC LIST -->
+      <div id="auto-loc-list" style="position:absolute; top:257px; left:540px; background:#EAEAEA; opacity:0.9; width:350px; text-align:left;">
+        <ul id="location-autosuggest"></ul>
+      </div><!-- AUTO LOC LIST ENDS -->
+  
+  	</div><!-- MAIN ENDS -->
+	</div><!-- WRAPPER ENDS -->
 	
   <?=$this->load->view('footer')?>
-	
-	</div>
 
 	<script>
 	
