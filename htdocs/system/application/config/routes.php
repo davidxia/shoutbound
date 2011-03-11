@@ -43,6 +43,7 @@
 $route['default_controller'] = "landing";
 $route['scaffolding_trigger'] = "";
 $route['trips/(:num)'] = "trips/index/$1";
+$route['profile/(:num)'] = "profile/index/$1";
 
 /* End of file routes.php */
 /* Location: ./system/application/config/routes.php */

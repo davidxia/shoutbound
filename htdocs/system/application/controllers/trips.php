@@ -355,7 +355,6 @@ class Trips extends Controller
             $u->get_by_id($uid);
             $u->settings->get();
             
-            // TODO: generate trip share here and add hash to email link
             $ts = new Trip_share();
             $ts->trip_id = $trip_id;
             $ts->share_role = 2;

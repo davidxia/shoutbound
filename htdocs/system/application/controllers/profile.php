@@ -7,19 +7,49 @@ class Profile extends Controller
     {
         parent::Controller();
         $u = new User();
-        if ( ! $u->get_logged_in_status())
+        $uid = $u->get_logged_in_status();
+        if ( ! $uid)
         {
             redirect('/');            
         }
-        $uid = get_cookie('uid');
-        $u->get_by_id($uid);
 		}
 		
 
-    function index()
+    function index($uid = FALSE)
     {
-        $this->details();
+        $u = new User();
+
+        if ( ! $uid)
+        {
+            $uid = $u->get_logged_in_status();
+        }
+        $u->get_by_id($uid);
+
+        // get active trips for which user is a planner or creator and rsvp is yes
+        $trips = array();
+        $u->trip->where('active', 1)->where_in_join_field('user', 'role', array(2,3))->get();
+        foreach ($u->trip as $trip)
+        {
+            $trips[] = $trip->stored;
+        }
+        
+        // get user's Shoutbound friends (we shouldn't display their FB friends publicly)
+        $friends = array();
+        $u->related_user->get();
+        foreach ($u->related_user as $friend)
+        {
+            $friends[] = $friend->stored;
+        }
+        
+        $view_data = array(
+            'user' => $u->stored,
+            'trips' => $trips,
+            'friends' => $friends,
+        );
+        
+        $this->load->view('profile', $view_data);
     }
+    
 
     function details($pid=false) {
         
@@ -48,3 +78,5 @@ class Profile extends Controller
 
 }
 
+/* End of file profile.php */
+/* Location: ./application/controllers/profile.php */

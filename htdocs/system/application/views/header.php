@@ -10,6 +10,7 @@
     <div class="nav" style="position:absolute; right:0; top:0;">
       <? if ($user->id):?>
         <a href="<?=site_url('home')?>" style="margin-left:20px; text-decoration:none; display:block; float:left; color: white; padding:10px 0; line-height:30px;">Home</a>
+        <a href="<?=site_url('profile')?>" style="margin-left:20px; text-decoration:none; display:block; float:left; color: white; padding:10px 0; line-height:30px;">Profile</a>
         <a href="<?=site_url('settings')?>" style="margin-left:20px; text-decoration:none; display:block; float:left; color: white; padding:10px 0; line-height:30px;">Settings</a>
         <a href="<?=site_url('users/logout')?>" style="margin-left:20px; text-decoration:none; display:block; float:left; color: white; padding:10px 0; line-height:30px;">Logout</a>
       <? else:?>
