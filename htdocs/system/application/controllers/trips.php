@@ -86,9 +86,9 @@ class Trips extends Controller
         }      
  	  }
 
-    function index($trip_id)
+    function index($trip_id = FALSE)
     {
-        if ( ! isset($trip_id))
+        if ( ! $trip_id)
         {
             redirect('/');
         }
@@ -100,8 +100,8 @@ class Trips extends Controller
         {
             redirect('/');
         }
-        // TODO: check if trip is private
-
+        
+        
         $u = new User();
         $uid = $u->get_logged_in_status();
         if ($uid)
@@ -109,25 +109,28 @@ class Trips extends Controller
             $u->get_by_id($uid);
             $user = $u->stored;
             
-            // check if user is associated with this trip in trips_users table
-            // if not, check if user has invite cookie with correct access key
-            // redirect to home page if neither
-            $u->trip->include_join_fields()->get_by_id($trip_id);
-            if ( ! $u->trip->join_role)
+            if ($t->is_private)
             {
-                if ( ! $this->verify_share_cookie($trip_id))
+                // check if user is associated with this trip in trips_users table
+                // if not, check if user has invite cookie with correct access key
+                // redirect to home page if neither
+                $u->trip->include_join_fields()->get_by_id($trip_id);
+                if ( ! $u->trip->join_role)
                 {
-                    redirect('/');
+                    if ( ! $this->verify_share_cookie($trip_id))
+                    {
+                        redirect('/');
+                    }
                 }
+                
+                $user_role = $u->trip->join_role;
+                $user_rsvp = $u->trip->join_rsvp;
             }
-            
-            $user_role = $u->trip->join_role;
-            $user_rsvp = $u->trip->join_rsvp;
         }
         else
         {
             // if user is not logged in, check invite cookie for correct access key
-            if ( ! $this->verify_share_cookie($trip_id))
+            if ($t->is_private AND ! $this->verify_share_cookie($trip_id))
             {
                 redirect('/');
             }
@@ -152,7 +155,6 @@ class Trips extends Controller
             $destinations[] = $destination->stored;
         }
 
-        
         // get active suggestions and messages for this trip
         $m = new Message();
         $m->order_by('created', 'desc');
@@ -178,15 +180,17 @@ class Trips extends Controller
         $this->load->helper('quicksort');
         _quicksort($wall_items);
         
-        $view_data = array('trip' => $t->stored,
-                           'creator' => $creator,
-                           'destinations' => $destinations,
-                           'user' => $user,
-                           'user_role' => $user_role,
-                           'user_rsvp' => $user_rsvp,
-                           'wall_items' => $wall_items,
-                           'suggestions' => $suggestions,
- 			                     'trip_goers' => $trip_goers);
+        $view_data = array(
+            'trip' => $t->stored,
+            'creator' => $creator,
+            'destinations' => $destinations,
+            'user' => $user,
+            'user_role' => $user_role,
+            'user_rsvp' => $user_rsvp,
+            'wall_items' => $wall_items,
+            'suggestions' => $suggestions,
+            'trip_goers' => $trip_goers
+        );
  			               
         $this->load->view('trip', $view_data);
     }

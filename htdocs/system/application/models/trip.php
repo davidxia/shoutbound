@@ -11,15 +11,15 @@ class Trip extends DataMapper {
             'rules' => array('required', 'trim')
         ),
         array(
+            'field' => 'response_deadline',
+            'label' => 'Deadline',
+            'rules' => array('')
+        ),
+        array(
             'field' => 'description',
             'label' => 'Description',
             'rules' => array('trim')
         ),
-        array(
-            'field' => 'response_deadline',
-            'label' => 'Deadline',
-            'rules' => array('')
-        )
     );
 
     function Trip()
