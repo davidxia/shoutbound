@@ -1,9 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class sendgrid_email {
+class sendgrid_email
+{
 
     function send_mail($to_array, $subject, $html_body, $text_body,
-                       $from='notifications@shoutbound.com') {
+                       $from='notifications@shoutbound.com')
+    {
         $url = 'http://sendgrid.com/';
         $user = 'david@shoutbound.com';
         $pass = 'tEdRAmu6';
@@ -24,7 +26,6 @@ class sendgrid_email {
             'text'      => $text_body,
             'from'      => $from,
         );
-
 
         $request =  $url.'api/mail.send.json';
 
@@ -49,4 +50,3 @@ class sendgrid_email {
         return $response;
     }
 }
-

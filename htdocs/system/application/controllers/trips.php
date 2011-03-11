@@ -335,7 +335,6 @@ class Trips extends Controller
             redirect('/');            
         }
         $u->get_by_id($uid);
-        $planner = $u->stored;
         
         $trip_id = $this->input->post('tripId');
         
@@ -360,9 +359,9 @@ class Trips extends Controller
                     $u->get_by_id($uid);
                     $response = $this->sendgrid_email->send_mail(
                         array($u->email),
-                        $planner->name.' invited you on a trip on Shoutbound!',
-                        $this->_add_link_to_notification('<h4>'.$planner->name.' invited you a trip on ShoutBound!</h4>'.$planner->name.' says: '.$message, $trip_id),
-                        $this->_add_link_to_notification($planner->name.' invited you on a trip on ShoutBound! '.$planner->name.' says: '.$message, $trip_id)
+                        $u->name.' invited you on a trip on Shoutbound!',
+                        $this->_add_link_to_notification('<h4>'.$u->name.' invited you a trip on ShoutBound!</h4>'.$u->name.' says: '.$message, $trip_id),
+                        $this->_add_link_to_notification($u->name.' invited you on a trip on ShoutBound! '.$u->name.' says: '.$message, $trip_id)
                     );
                     $t->save($u);
                     $t->set_join_field($u, 'role', 2);
@@ -385,8 +384,8 @@ class Trips extends Controller
             //$render_string = $this->load->view('core_success', $view_data, true);
             $render_string = 'it worked';
             json_success(array('data'=>$render_string));
-        // otherwise, tell user his share failed
         }
+        // otherwise, tell user his invite failed
         else
         {
             $view_data = array(

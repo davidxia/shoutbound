@@ -35,30 +35,40 @@ class Settings extends Controller
         $uid = get_cookie('uid');
         $u->get_by_id($uid);
         
-        if ($this->input->post('trip_suggestion')==1 AND
-            $this->input->post('trip_post')==1 AND
-            $this->input->post('trip_reply')==1 AND
-            $this->input->post('replies')==2)
-        {
-            $u->setting_id = 1;
-        }
-
+        $s = $this->input->post('tripInvite').$this->input->post('tripPost').$this->input->post('postReply');
         
-        if ($this->input->post('trip_suggestion')==1 AND
-          $this->input->post('trip_post')==1 AND
-          $this->input->post('trip_reply')==1 AND
-          $this->input->post('replies')==1)
+        switch ($s)
         {
-            $u->setting_id = 2;
+            case '111':
+                $u->setting_id = 1;
+                break;
+            case '110':
+                $u->setting_id = 2;
+                break;
+            case '101':
+                $u->setting_id = 3;
+                break;
+            case '100':
+                $u->setting_id = 4;
+                break;
+            case '011':
+                $u->setting_id = 5;
+                break;
+            case '010':
+                $u->setting_id = 6;
+                break;
+            case '001':
+                $u->setting_id = 7;
+                break;
+            case '000':
+                $u->setting_id = 8;
+                break;
         }
-
+        
         if ($u->save())
         {
-            json_success(array('message' => 'Settings saved'));
-        }
-        
-        // TODO: decide what settings we need and assign numbers for each
-        
+            json_success(array('message' => 'Settings updated'));
+        }        
     }
     
 

@@ -6,8 +6,8 @@ class Setting extends DataMapper
 
     var $validation = array(
         array(
-            'field' => 'trip_suggestion',
-            'label' => 'Trip Suggestion',
+            'field' => 'trip_invite',
+            'label' => 'Trip Invite',
             'rules' => array('required')
         ),
         array(
@@ -16,13 +16,8 @@ class Setting extends DataMapper
             'rules' => array('required')
         ),
         array(
-            'field' => 'trip_reply',
-            'label' => 'Trip Reply',
-            'rules' => array('required')
-        ),
-        array(
-            'field' => 'replies',
-            'label' => 'Replies',
+            'field' => 'post_reply',
+            'label' => 'Post Reply',
             'rules' => array('required')
         ),
     );
