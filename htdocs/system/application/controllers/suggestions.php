@@ -41,7 +41,20 @@ class Suggestions extends Controller {
         }
     }
 
-    
+    function ajax_like_suggestion()
+    {
+        $s = new Suggestion();
+        $s->where('id', $this->input->post('suggestionId'))->update('votes', 'votes + 1', FALSE);
+
+        if ($s->db->affected_rows() == 1)
+        {
+            json_success();
+        }
+        else
+        {
+            json_error();
+        }
+    }
 }
 
 /* End of file suggestions.php */

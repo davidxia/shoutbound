@@ -443,7 +443,8 @@ li.suggestion.highlighted{
                         <?=$wall_item->text?>
                       <? endif;?>
                       <div class="rating-panel">
-                        Like Dislike
+                        <a href="#" class="like">Like</a>
+                        <span class="num-likes"><?=$wall_item->votes?></span> likes
                       </div>
                       <? if ($user_role >= 2):?>
                         <div class="remove-wall-item" suggestionId="<?=$wall_item->id?>"></div>
@@ -451,7 +452,7 @@ li.suggestion.highlighted{
                       <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
                     </li>
                   <? else:?>
-                    <li id="wall-message-<?=$wall_item->id?>" class="" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA; position:relative;">
+                    <li id="wall-message-<?=$wall_item->id?>" class="message" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA; position:relative;">
                       <a href="#" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a>
                       <? if ($user_role >= 2):?>
                         <div class="remove-wall-item" messageId="<?=$wall_item->id?>"></div>
@@ -671,7 +672,32 @@ li.suggestion.highlighted{
   var deadline = new Date(<?=$trip->response_deadline?>*1000);
   $('#countdown').countdown({until: deadline});
   
-
+  $('a.like').click(function() {
+    var suggestionId = $(this).parent().parent().attr('id');
+    suggestionId = suggestionId.match(/\d/)[0];
+    var numLikes = $(this).siblings('.num-likes');
+    
+    var postData = {
+      suggestionId: suggestionId
+    };
+    
+    $.ajax({
+      type: 'POST',
+      url: baseUrl+'suggestions/ajax_like_suggestion',
+      data: postData,
+      success: function(response) {
+        var r = $.parseJSON(response);
+        if (r.success) {
+          var n = parseInt(numLikes.html());
+          numLikes.html(n+1);
+        } else {
+          alert('something\'s broken. Tell David to fix it.');
+        }
+      }
+    });
+    return false;
+  });
 </script>
+
 </body> 
 </html>
