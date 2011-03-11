@@ -65,27 +65,39 @@ class Home extends Controller
             
         }
         
-        // put user's planning trips in an array for where_in below
-        //if (count($trips))
-        //{
-            foreach ($trips as $trip)
-            {
-                $trip_ids[] = $trip->id;
-            }
-            // get suggestions for both user's trips and her friends trips
-            $s = new Suggestion();
-            $s->order_by('created', 'desc');
-            $s->where_in('trip_id', $trip_ids)->where('active', 1)->get();
-            foreach ($s->all as $suggestion)
-            {
-                $suggestion->stored->user_fid = $u->get_by_id($suggestion->user_id)->fid;
-                $suggestion->stored->user_name = $u->name;
-                $suggestion->stored->trip_name = $t->get_by_id($suggestion->trip_id)->name;
-                $suggestion->stored->is_location = 1;
-                $news_feed_items[] = $suggestion->stored;
-            }
-        //}
+        foreach ($trips as $trip)
+        {
+            $trip_ids[] = $trip->id;
+        }
+        // get suggestions for both user's trips and her friends trips
+        $s = new Suggestion();
+        $s->order_by('created', 'desc');
+        $s->where_in('trip_id', $trip_ids)->where('active', 1)->get();
+        foreach ($s as $suggestion)
+        {
+            $suggestion->stored->user_fid = $u->get_by_id($suggestion->user_id)->fid;
+            $suggestion->stored->user_name = $u->name;
+            $suggestion->stored->trip_name = $t->get_by_id($suggestion->trip_id)->name;
+            $suggestion->stored->is_location = 1;
+            $news_feed_items[] = $suggestion->stored;
+        }
         
+        // get messages for both user's trips and her friends trips
+        $m = new Message();
+        $m->order_by('created', 'desc');
+        $m->where_in('trip_id', $trip_ids)->where('active', 1)->get();
+        foreach ($m as $message)
+        {
+            $message->stored->user_fid = $u->get_by_id($message->user_id)->fid;
+            $message->stored->user_name = $u->name;
+            $message->stored->trip_name = $t->get_by_id($message->trip_id)->name;
+            $message->stored->is_location = 0;
+            $news_feed_items[] = $message->stored;
+        }
+        
+        $this->load->helper('quicksort');
+        _quicksort($news_feed_items);
+
         
         $view_data = array('user' => $u->stored,
                            'trips' => $trips,

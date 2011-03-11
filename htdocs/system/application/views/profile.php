@@ -117,10 +117,10 @@ $this->load->view('core_header', $header_args);
           <div style="border-radius:0 0 5px 5px; background-color: #F9F9F9; border: 1px solid #CCC; margin-bottom: 13px;">
             <div style="border-bottom: 1px solid #CCC; border-top: 1px solid white; padding: 10px;">
               <? foreach ($trips as $trip):?>
-              <h3 style="font-size: 13px; height: 14px; line-height: 14px;">
-                <a href="#" style="text-decoration:none; font-weight:bold; color: #2398C9;"><?=$trip->name?></a>
-                <?=$trip->deadline?>
+              <h3 style="font-size: 13px; height: 14px; line-height: 14px; margin:1px 0 2px;">
+                <a href="<?=site_url('trips/'.$trip->id)?>" style="text-decoration:none; font-weight:bold; color: #2398C9;"><?=$trip->name?></a>
               </h3>
+              <p style="font-size:13px;"><?=$trip->destinations[0]->address?></p>
               <? endforeach;?>
             </div>
           </div><!-- TRIPS END -->

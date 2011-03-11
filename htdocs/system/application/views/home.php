@@ -43,11 +43,20 @@ a {
             <? foreach($news_feed_items as $news_feed_item):?>
               <li id="wall-item-<?=$news_feed_item->id?>" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
               <? if ($news_feed_item->is_location):?>
-                <a href="#" style="margin-right:10px; float:left;"><img src="http://graph.facebook.com/<?=$news_feed_item->user_fid?>/picture?type=square" /></a>
+                <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>" style="margin-right:10px; float:left;"><img src="http://graph.facebook.com/<?=$news_feed_item->user_fid?>/picture?type=square" /></a>
                 <div style="display:table-cell; line-height:18px;">
                   <?=$news_feed_item->user_name?> suggested <span style="font-weight:bold;"><?=$news_feed_item->name?></span>
                   <br/>
                   for <a href="<?=site_url('trips/'.($news_feed_item->trip_id))?>"><?=$news_feed_item->trip_name?></a>
+                  <br/>
+                  <abbr class="timeago" title="<?=$news_feed_item->created?>" style="font-size:10px;"><?=$news_feed_item->created?></abbr>
+                </div>
+              <? else:?>
+                <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>" style="margin-right:10px; float:left;"><img src="http://graph.facebook.com/<?=$news_feed_item->user_fid?>/picture?type=square" /></a>
+                <div style="display:table-cell; line-height:18px;">
+                  <?=$news_feed_item->user_name?> wrote <span style="font-weight:bold;"><?=$news_feed_item->text?></span>
+                  <br/>
+                  on <a href="<?=site_url('trips/'.($news_feed_item->trip_id))?>"><?=$news_feed_item->trip_name?></a>
                   <br/>
                   <abbr class="timeago" title="<?=$news_feed_item->created?>" style="font-size:10px;"><?=$news_feed_item->created?></abbr>
                 </div>
@@ -88,7 +97,7 @@ a {
                       </li>
                       <li class="trip-avatar-container">
                       <? foreach ($trip->users as $trip_user):?>
-                        <a href="#"><img style="height:32px; width:32px;" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" /></a>
+                        <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>"><img style="height:32px; width:32px;" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" /></a>
                       <? endforeach;?>
                       </li>
                     </ul>
