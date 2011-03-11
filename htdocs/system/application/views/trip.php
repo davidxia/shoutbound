@@ -1,5 +1,6 @@
 <?
 $header_args = array(
+    'title' => $trip->name.' | Shoutbound',
     'css_paths'=>array(
         'css/jquery.countdown.css'
     ),
@@ -233,7 +234,7 @@ li.suggestion.highlighted{
               <?=$trip->name?>
             </div>
             <div id="trip_creator" style="font-size: 0.75em; margin-bottom:10px; ">
-              created by <?=$creator->name?>
+              created by <a href="<?=site_url('profile/'.$creator->id)?>" style="text-decoration:none;"><?=$creator->name?></a>
             </div>
             <div id="trip_description" style="border-bottom: 1px solid #ced7de; padding-bottom:10px; margin-right:5px;">
               <?=$trip->description?>
@@ -243,7 +244,7 @@ li.suggestion.highlighted{
               <? if ($trip_goers):?>
                 <? foreach ($trip_goers as $trip_goer):?>
                   <div class="trip_goer" uid="<?=$trip_goer->id?>" style="float:left; margin-right:10px;">
-                    <a href="#"><img class="square-50" src="http://graph.facebook.com/<?=$trip_goer->fid?>/picture?type=square" /></a>
+                    <a href="<?=site_url('profile/'.$creator->id)?>"><img class="square-50" src="http://graph.facebook.com/<?=$trip_goer->fid?>/picture?type=square"/></a>
                   </div>
                 <? endforeach;?>
               <? endif;?>

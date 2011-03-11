@@ -1,9 +1,10 @@
 <?
 $header_args = array(
-    'css_paths'=>array(
+    'title' => 'Sign Up | Shoutbound',
+    'css_paths' => array(
         'css/signup.css',
     ),
-    'js_paths'=>array(
+    'js_paths' => array(
         'js/jquery/validate.min.js',
         'js/jquery/popup.js',
     )
@@ -39,10 +40,6 @@ $this->load->view('core_header', $header_args);
 	</script>
 
 	<div id="container" style="width:800px; margin:auto; text-align:center;">
-  	<div id="title" style="margin-top: 40px; line-height:100px; font-size:35px; font-weight:bold;  border-bottom: 1 px solid gray;">
-      <a href="<?=site_url('/')?>"><img src="<?=site_url('images/logo_header.png')?>" style="height:auto; width:auto; display:inline-block; position: relative; top:12px; margin-right:10px; border:0;" /></a>
-      Sign up for Shoutbound
-    </div>
     
     <div>
       <h2 style="margin-left:130px;">Create an account</h2>

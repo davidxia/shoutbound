@@ -111,22 +111,16 @@ class Trips extends Controller
             $u->get_by_id($uid);
             $user = $u->stored;
             
-            if ($t->is_private)
+            // get user's relation to this trip
+            $u->trip->include_join_fields()->get_by_id($trip_id);
+            $user_role = $u->trip->join_role;
+            $user_rsvp = $u->trip->join_rsvp;
+            
+            // if no relation, check if user has invite cookie with correct access key
+            // redirect to home page if neither
+            if ($t->is_private AND ! $user_role AND ! $this->verify_share_cookie($trip_id))
             {
-                // check if user is associated with this trip in trips_users table
-                // if not, check if user has invite cookie with correct access key
-                // redirect to home page if neither
-                $u->trip->include_join_fields()->get_by_id($trip_id);
-                if ( ! $u->trip->join_role)
-                {
-                    if ( ! $this->verify_share_cookie($trip_id))
-                    {
-                        redirect('/');
-                    }
-                }
-                
-                $user_role = $u->trip->join_role;
-                $user_rsvp = $u->trip->join_rsvp;
+                redirect('/');
             }
         }
         else

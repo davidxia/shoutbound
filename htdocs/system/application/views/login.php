@@ -1,9 +1,10 @@
 <?php
 $header_args = array(
-    'css_paths'=>array(
+    'title' => 'Login | Shoutbound',
+    'css_paths' => array(
         'css/signup.css',
     ),
-    'js_paths'=>array(
+    'js_paths' => array(
         'js/jquery/popup.js',
     )
 );
@@ -39,10 +40,6 @@ $this->load->view('core_header', $header_args);
   <div id="div-to-popup" style="background-color:white; display:none;"></div>
 
 	<div id="container" style="width:800px; margin:auto; text-align:center;">
-  	<div id="title" style="margin-top: 40px; line-height:100px; font-size:35px; font-weight:bold;">
-      <a href="<?=site_url('/')?>"><img src="<?=site_url('images/logo_header.png')?>" style="height:auto; width:auto; display:inline-block; position: relative; top:12px; margin-right:10px; border:0;" /></a>
-      Login to Shoutbound
-    </div>
     <div style="margin:10px auto; width:400px; border-top: 1px solid gray; padding-top:20px;">
       <form id="login-form" action="">
         <table><tbody>

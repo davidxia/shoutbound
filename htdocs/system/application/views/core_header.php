@@ -1,12 +1,12 @@
 <!DOCTYPE html> 
 <html> 
   <head>
-    <title>Shoutbound</title>
+    <title><?=$title?></title>
 
     <!-- LIBRARIES -->
-    <link rel="stylesheet" href="<?php echo static_url('css/common.css');?>" type="text/css" media="screen" charset="utf-8"></script>
-    <script type="text/javascript" src="<?php echo static_url('js/jquery/jquery.js');?>"></script>
-    <script type="text/javascript" src="<?php echo static_url('js/jquery/jquery.json.js');?>"></script>
+    <link rel="stylesheet" href="<?=static_url('css/common.css')?>" type="text/css" media="screen" charset="utf-8"></script>
+    <script type="text/javascript" src="<?=static_url('js/jquery/jquery.js')?>"></script>
+    <script type="text/javascript" src="<?=static_url('js/jquery/jquery.json.js')?>"></script>
 
     <!-- PAGE CSS and JAVASCRIPT -->
     <?
