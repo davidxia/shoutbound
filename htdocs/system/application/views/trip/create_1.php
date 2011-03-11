@@ -165,9 +165,13 @@ label.error {
             <input id="deadline" name="deadline" type="text" size="10"/>
           </div>
         </fieldset><!-- SUMMARY INVITES FIELD ENDS -->
+        
+        <label for="private">Private</label>
+        <input type="checkbox" name="private" id="private" value="1"/>
 
 
         <!-- INTERESTS FIELD -->
+        <!--
         <fieldset id="interests-field" style="border-width:0; border-color:transparent; position:relative;">
           <div class="field" style="margin-left:10px; margin-top: 10px;">
             <span class="label-and-errors">
@@ -177,6 +181,7 @@ label.error {
             </span>
             <textarea  id="trip-interests" name="trip-interests" style="width:380px; height:56px;"></textarea>
           </div>
+          
           
           <div class="field" style="margin-left:10px; margin-top: 10px; margin-bottom:10px;">
             <span class="label-and-errors">
@@ -217,7 +222,8 @@ label.error {
             <textarea id="other-textbox" style="position:absolute; right:185px; top:150px; width:200px; height:63px; display:none;"></textarea>
           </div>
 
-        </fieldset><!-- INTERESTS FIELD ENDS -->
+        </fieldset>-->
+        <!-- INTERESTS FIELD ENDS -->
 
         
         <input class="submit" type="submit" value="" style="border:0; cursor:pointer; background:url('http://dev.shoutbound.com/david/images/create-button.png'); background-repeat:no-repeat; height:55px; width:175px; position:relative; left:500px; top:5px;" />

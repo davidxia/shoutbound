@@ -14,6 +14,7 @@ class Trips extends Controller
         $this->load->view('facebook_test');
     }
     
+    
  	  function confirm_create()
  	  {
         $u = new User();
@@ -34,6 +35,7 @@ class Trips extends Controller
         {
             $t->response_deadline = mktime(0, 0, 0, $deadline['month'], $deadline['day'], $deadline['year']);
         }
+        $t->is_private = ($post['private'] == 1) ? 1 : 0;
                 
         if ($t->save() AND $u->save($t)
             AND $t->set_join_field($u, 'role', 3)
