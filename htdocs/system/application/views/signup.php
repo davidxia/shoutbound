@@ -21,7 +21,10 @@ $this->load->view('core_header', $header_args);
 
 </head>
 	
-<body style="background:url('<?=site_url('images/trip_page_background.png')?>'); background-repeat:repeat-x;">
+<body style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
+
+  <?=$this->load->view('header')?>
+
 	<div id="fb-root"></div>
 	<script>
     window.fbAsyncInit = function() {
@@ -88,6 +91,9 @@ $this->load->view('core_header', $header_args);
     </div>
         
   </div>
+  
+  <?=$this->load->view('footer')?>
+  
 </body>
 
 <script type="text/javascript">
