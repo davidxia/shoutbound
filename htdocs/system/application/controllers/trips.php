@@ -339,7 +339,7 @@ class Trips extends Controller
         $trip_id = $this->input->post('tripId');
         
         $t = new Trip();
-        $t->get_by_id($this->input->post('tripId'));
+        $t->get_by_id($trip_id);
 
         $uids = json_decode($this->input->post('uids'));
         //$u->where_in('id', $uids)->get();
@@ -354,18 +354,26 @@ class Trips extends Controller
         {
             $u->get_by_id($uid);
             $u->settings->get();
+            
             // TODO: generate trip share here and add hash to email link
-            if ($u->settings->trip_invite)
+            $ts = new Trip_share();
+            $ts->trip_id = $trip_id;
+            $ts->share_role = 2;
+            $ts->share_medium = 2;
+            $ts->target_id = $u->email;
+            $share_key = $ts->generate_share_key();
+            
+            if ($u->settings->trip_invite AND $share_key)
             {
                 $response = $this->sendgrid_email->send_mail(
                     array($u->email),
                     $u->name.' invited you on a trip on Shoutbound!',
                     $this->_add_link_to_notification('<h4>'.$u->name.
                         ' invited you on a trip on ShoutBound!</h4>'.
-                        $u->name.' says: '.$message, $trip_id),
+                        $u->name.' says: '.$message, $trip_id, $share_key),
                     $this->_add_link_to_notification($u->name.
                         ' invited you on a trip on ShoutBound! '.
-                        $u->name.' says: '.$message, $trip_id)
+                        $u->name.' says: '.$message, $trip_id, $share_key)
                 );
                 
                 $t->save($u);
@@ -452,7 +460,7 @@ class Trips extends Controller
         redirect('/');
     }    
         
-    
+    /*
     function ajax_panel_share_trip()
     {
         $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
@@ -511,25 +519,20 @@ class Trips extends Controller
             json_success(array('data'=>$render_string));
         }
     }
+    */
     
-    
-    function _add_link_to_notification($message, $trip_id, $body=null)
+    function _add_link_to_notification($message, $trip_id, $share_key)
     {
         $ret_val = $message;
-        
-        if ($body)
-        {
-            $ret_val .= ' "'.$body.'"';
-        }
-        
-        $ret_val .= '<br/><a href="'.site_url('trips/'.$trip_id).'">To see the trip, click here.</a>';
-        $ret_val .= '<p><br/>Have fun! Team Shoutbound</p>';
+                
+        $ret_val .= '<br/><a href="'.site_url('trips/share/'.$trip_id.'/'.$share_key).'">To see the trip, click here.</a>';
+        $ret_val .= '<br/>Have fun!<br/>Team Shoutbound';
         
         return $ret_val;
     }
 
     
-    
+    /*
     function ajax_wall_post()
     {
         $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
@@ -567,8 +570,6 @@ class Trips extends Controller
     }
     
     
-    
-    
     function remove_wall_replies()
     {
         $parent = $this->Trip_m->get_item_by_itemid($_POST['replyid']);
@@ -581,6 +582,8 @@ class Trips extends Controller
         }
     }
     
+    
+    
     function save_trip_startdate()
     {
         $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
@@ -590,6 +593,7 @@ class Trips extends Controller
         $a = $this->Trip_m->update_startdate_by_tripid($_POST['tripId'], $_POST['tripStartDate']);
         json_success(array('success'=>$a));
     }
+    */
     
     
     function _quicksort(&$array)

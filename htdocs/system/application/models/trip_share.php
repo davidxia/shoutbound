@@ -41,14 +41,8 @@ class Trip_share extends DataMapper
     
     function generate_share_key()
     {
-        //$ts = new Trip_share();
-        //$ts->trip_id = $this->trip_id;
-        
         $salt = rand(1000000,99999999);
         $this->share_key = md5($this->trip_id.$salt.$this->target_id);
-        //$ts->share_role = $this->input->post('shareRole');
-        //$ts->share_medium = $this->input->post('shareMedium');
-        //$ts->target_id = $this->input->post('targetId');
         
         if ($this->save())
         {

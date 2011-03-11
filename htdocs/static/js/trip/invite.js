@@ -162,7 +162,7 @@ invite.confirmInvite = function() {
 // TODO: how to send to multiple recipients?
 invite.sendFBMessage = function(selectedFBids) {
   var to = selectedFBids[0];
-  var shareKey = invite.generateShareKey('facebook message');
+  var shareKey = invite.generateShareKey('fbid '+to);
   var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
   var url = 'http://www.facebook.com/messages/'+to+'?msg_prefill='+message;
   window.open(url);
@@ -172,7 +172,7 @@ invite.sendFBMessage = function(selectedFBids) {
 invite.generateShareKey = function(targetId) {
   var postData = {
     tripId: tripId,
-    shareRole: 1,
+    shareRole: 2,
     shareMedium: 1,
     targetId: targetId
   };
