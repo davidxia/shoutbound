@@ -342,58 +342,52 @@ class Trips extends Controller
         $t->get_by_id($this->input->post('tripId'));
 
         $uids = json_decode($this->input->post('uids'));
-        $u->where_in('id', $uids)->get();
+        //$u->where_in('id', $uids)->get();
         
         $message = $this->input->post('message');
         
         $this->load->library('sendgrid_email');
         
-        if ( ! empty($uids))
+        //if ( ! empty($uids))
+        //{
+        foreach ($uids as $uid)
         {
-            foreach ($uids as $uid)
+            $u->get_by_id($uid);
+            $u->settings->get();
+            // TODO: generate trip share here and add hash to email link
+            if ($u->settings->trip_invite)
             {
-                // TODO: fix based on user notification settings
-                // TODO: generate trip share here and add hash to email link
-                if (true)
-                {
-                    $u->get_by_id($uid);
-                    $response = $this->sendgrid_email->send_mail(
-                        array($u->email),
-                        $u->name.' invited you on a trip on Shoutbound!',
-                        $this->_add_link_to_notification('<h4>'.$u->name.' invited you a trip on ShoutBound!</h4>'.$u->name.' says: '.$message, $trip_id),
-                        $this->_add_link_to_notification($u->name.' invited you on a trip on ShoutBound! '.$u->name.' says: '.$message, $trip_id)
-                    );
-                    $t->save($u);
-                    $t->set_join_field($u, 'role', 2);
-                    $t->set_join_field($u, 'rsvp', 2);
-                }
+                $response = $this->sendgrid_email->send_mail(
+                    array($u->email),
+                    $u->name.' invited you on a trip on Shoutbound!',
+                    $this->_add_link_to_notification('<h4>'.$u->name.
+                        ' invited you on a trip on ShoutBound!</h4>'.
+                        $u->name.' says: '.$message, $trip_id),
+                    $this->_add_link_to_notification($u->name.
+                        ' invited you on a trip on ShoutBound! '.
+                        $u->name.' says: '.$message, $trip_id)
+                );
+                
+                $t->save($u);
+                $t->set_join_field($u, 'role', 2);
+                $t->set_join_field($u, 'rsvp', 2);
             }
         }
+        //}
         
         // TODO: this success is overwritten until the last sent email
         $success = json_decode($response, true);
         
-        // if the JSON response string from Sendgrid is 'success' tell user it succeeded        
+        // tell user if invite succeeded or failed based on JSON response
         if ($success['message'] == 'success')
         {
-            $view_data = array(
-                //'uids' => $uids,
-                'trip' => $trip,
-                //'message' => $message
-            );
-            //$render_string = $this->load->view('core_success', $view_data, true);
-            $render_string = 'it worked';
-            json_success(array('data'=>$render_string));
+            $message = 'it worked';
+            json_success(array('data' => $message));
         }
-        // otherwise, tell user his invite failed
         else
         {
-            $view_data = array(
-                'response' => json_decode($response, true),
-            );
-            $render_string = 'it failed';
-            //$render_string = $this->load->view('core_failure', $view_data, true);
-            json_success(array('data'=>$render_string));
+            $message = 'it failed';
+            json_success(array('data' => $message));
         }
     }
     

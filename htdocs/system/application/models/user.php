@@ -1,6 +1,7 @@
 <?php
 
-class User extends DataMapper {
+class User extends DataMapper
+{
     
     public $has_one = array('setting');
 

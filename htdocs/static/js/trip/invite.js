@@ -187,7 +187,12 @@ invite.generateShareKey = function(targetId) {
       r = $.parseJSON(response);
     }
   });
-  return r.shareKey;
+  
+  if (r.success) {
+    return r.shareKey;
+  } else {
+    alert(r.message);
+  }
 }
 
 
