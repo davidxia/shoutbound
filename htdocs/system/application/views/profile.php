@@ -101,6 +101,7 @@ $this->load->view('core_header', $header_args);
         
       </div><!-- LEFT COLUMN ENDS -->
       
+      
       <!-- RIGHT COLUMN -->
       <div id="rightcol" style="float:left; width:300px;">
         <? if ($user AND $is_friend===0):?>
@@ -126,6 +127,23 @@ $this->load->view('core_header', $header_args);
               <? endforeach;?>
             </div>
           </div><!-- TRIPS END -->
+        </div><!-- TRIPS CONTAINER ENDS -->
+
+        <!-- FRIENDS CONTAINER -->
+        <div>
+          <div style="background: #0CBADF; border-bottom: 1px solid rgba(0, 0, 0, .1); font-weight: bold; padding: 8px 10px; border-radius: 5px 5px 0 0; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; -webkit-border-radius:5px 5px 0 0; -webkit-text-stroke: 1px transparent; color:white;">
+            Friends (<?=count($friends)?>)
+          </div>
+          <!-- TRIPS -->
+          <div style="border-radius:0 0 5px 5px; background-color: #F9F9F9; border: 1px solid #CCC; margin-bottom: 13px;">
+            <div style="border-bottom: 1px solid #CCC; border-top: 1px solid white; padding: 10px;">
+              <? foreach ($friends as $friend):?>
+              <h3 style="font-size: 13px; height: 14px; line-height: 14px; margin:1px 0 2px;">
+                <a href="<?=site_url('profile/'.$friend->id)?>" style="text-decoration:none; font-weight:bold; color: #2398C9;"><?=$friend->name?></a>
+              </h3>
+              <? endforeach;?>
+            </div>
+          </div><!-- FRIENDS END -->
         </div><!-- TRIPS CONTAINER ENDS -->
       </div><!-- RIGHT COLUMN ENDS -->
       

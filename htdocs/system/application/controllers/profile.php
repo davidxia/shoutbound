@@ -97,10 +97,27 @@ class Profile extends Controller
         
         // get profile's Shoutbound friends (we shouldn't display their FB friends publicly)
         $friends = array();
-        $u->related_user->get();
-        foreach ($u->related_user as $friend)
+        // get array of friends relations to the user
+        $u->user->get();
+        $rels_to = array();
+        foreach ($u->user as $rel_to)
         {
-            $friends[] = $friend->stored;
+            $rels_to[] = $rel_to->id;
+        }
+        // get array of friend relations from the user
+        // TODO: is there a better way of doing this? like with a 'where' clause in one datamapper call?
+        $u->related_user->get();
+        $rels_from = array();
+        foreach ($u->related_user as $rel_from)
+        {
+            $rels_from[] = $rel_from->id;
+        }
+        $friend_ids = array_intersect($rels_to, $rels_from);
+        
+        foreach ($friend_ids as $friend_id)
+        {
+            $u->get_by_id($friend_id);
+            $friends[] = $u->stored;
         }
         
         $view_data = array(
