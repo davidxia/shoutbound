@@ -2,6 +2,8 @@
 <html> 
   <head>
     <title><?=$title?></title>
+    <link rel="shortcut icon" href="<?=site_url('images/favicon.ico')?>">
+    
 
     <!-- LIBRARIES -->
     <link rel="stylesheet" href="<?=static_url('css/common.css')?>" type="text/css" media="screen" charset="utf-8"></script>
