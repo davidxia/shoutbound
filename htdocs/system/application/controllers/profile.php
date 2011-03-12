@@ -6,14 +6,6 @@ class Profile extends Controller
     function Profile()
     {
         parent::Controller();
-        /*
-        $u = new User();
-        $uid = $u->get_logged_in_status();
-        if ( ! $uid)
-        {
-            redirect('/');            
-        }
-        */
 		}
 		
 
@@ -35,6 +27,7 @@ class Profile extends Controller
             $u->get_by_id($uid);
             $profile = $u->stored;
             $user = $u->stored;
+            $is_friend = 2;
         }
         elseif ( ! $uid)
         {
@@ -59,6 +52,29 @@ class Profile extends Controller
             $profile = $u->stored;
             $u->get_by_id($uid);
             $user = $u->stored;
+            
+            if ($pid != $uid)
+            {
+                $u->related_user->where('id', $pid)->get();
+                
+                // get profile user's friendship status with this user
+                $f = new User();
+                $f->get_by_id($pid);
+                $f->related_user->where('id', $uid)->get();
+                
+                if ( ! $u->related_user->id)
+                {
+                    $is_friend = 0;
+                }
+                elseif ($u->related_user->id AND ! $f->related_user->id)
+                {
+                    $is_friend = 1;
+                }
+                elseif ($u->related_user->id AND $f->related_user->id)
+                {
+                    $is_friend = 2;
+                }
+            }
         }
 
 
@@ -92,11 +108,48 @@ class Profile extends Controller
             'profile' => $profile,
             'trips' => $trips,
             'friends' => $friends,
+            'is_friend' => $is_friend,
         );
         
         $this->load->view('profile', $view_data);
     }
     
+    
+    function test()
+    {
+        $u = new User();
+        $u->get_by_id(1);
+        $f = new User();
+        $f->get_by_id(18);
+        
+        $u->related_user->where('id', 18)->get();
+        $f->related_user->where('id', 1)->get();
+        
+        if ( ! $u->related_user->id)
+        {
+            echo 'not friends';
+        }
+        elseif ($u->related_user->id AND ! $f->related_user->id)
+        {
+            echo 'request pending';
+        }
+        elseif ($u->related_user->id AND $f->related_user->id)
+        {
+            echo 'yay friends';
+            echo $u->related_user->name;
+            echo '<br/><br/>';
+        }
+        
+        
+        /*
+        foreach ($u->related_user as $friend)
+        {
+            print_r($friend->name);
+            print_r($friend->join_status);
+            echo '<br/>';
+        }
+        */
+    }
 
     function details($pid=false) {
         

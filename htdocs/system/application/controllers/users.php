@@ -43,6 +43,28 @@ class Users extends Controller
         $render_string = $this->load->view('login_signup', $view_data, true);
         json_success(array('data'=>$render_string));
     }
+    
+    
+    function add_friend()
+    {
+        $uid = $this->input->post('userId');
+        $u = new User();
+        $u->get_by_id($uid);
+        
+        $fid = $this->input->post('friendId');
+        $f = new User();
+        $f->get_by_id($fid);
+        
+        if ($f->save($u))
+        {
+            echo 1;
+        }
+        else
+        {
+            echo 0;
+        }
+        
+    }
 
 }
 

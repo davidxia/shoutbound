@@ -1,6 +1,6 @@
 <?php
 $header_args = array(
-    'title' => $profile->name.' | Shoutbound',
+    'title'=>$profile->name.' | Shoutbound',
     'css_paths'=>array(
     ),
     'js_paths'=>array(
@@ -10,11 +10,6 @@ $header_args = array(
 $this->load->view('core_header', $header_args);
 ?>
 
-<!-- JAVASCRIPT CONSTANTS --> 
-<script type="text/javascript">
-  var baseUrl = "<?=site_url('')?>";
-  var staticUrl = "<?=static_url('')?>";
-</script>
 
 <style type="text/css">
 #add-friend-button {
@@ -108,8 +103,12 @@ $this->load->view('core_header', $header_args);
       
       <!-- RIGHT COLUMN -->
       <div style="float:left; width:300px;">
-        <? if ($user AND $user->id != $profile->id):?>
-        <a href="#" id="add-friend-button">ADD AS FRIEND</a>
+        <? if ($user AND $is_friend==0):?>
+          <a href="#" id="add-friend-button">ADD AS FRIEND</a>
+        <? elseif ($user AND $is_friend==1):?>
+          FRIEND REQUEST SENT
+        <? elseif ($user AND $is_friend==2):?>
+          YOU ARE FRIENDS
         <? endif;?>
         <!-- TRIPS CONTAINER -->
         <div>
@@ -139,6 +138,28 @@ $this->load->view('core_header', $header_args);
 
   <?=$this->load->view('footer')?>
 
+<script type="text/javascript">
+  $('#add-friend-button').click(function() {
+    var postData = {
+      userId: <?=$user->id?>,
+      friendId: <?=$profile->id?>
+    };
+    
+    $.ajax({
+      type: 'POST',
+      url: '<?=site_url('users/add_friend')?>',
+      data: postData,
+      success: function(data) {
+        if (data == 1) {
+          $('#add-friend-button').html('FRIEND REQUEST SENT');
+        } else {
+          alert('something broken, tell David');
+        }
+      }
+    });
+    return false;
+  });
+</script>
 
 </body> 
 </html>

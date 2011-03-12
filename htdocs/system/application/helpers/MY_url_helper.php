@@ -1,6 +1,9 @@
 <?php
 
-function static_url($path) {
+// TODO: don't need this function
+
+function static_url($path)
+{
     return site_url('static/'.$path);
 }
 
