@@ -1,6 +1,6 @@
 <?php
 $header_args = array(
-    'title' => $user->name.' | Shoutbound',
+    'title' => $profile->name.' | Shoutbound',
     'css_paths'=>array(
     ),
     'js_paths'=>array(
@@ -66,7 +66,7 @@ $this->load->view('core_header', $header_args);
             <a href="#" style="background:transparent url('<?=site_url('images/sample_profile_pic.png')?>') no-repeat 0 0; display:block; text-indent:-10000px; width:110px; height:110px;">profile picture</a>
           </div>
           <div style="background-color:#E6E6E6; padding:10px; margin-left:133px; height:102px;">
-            <h1 style="color:#444; font-size:20px; font-weight:bold; margin-left:7px;"><?=$user->name?></h1>
+            <h1 style="color:#444; font-size:20px; font-weight:bold; margin-left:7px;"><?=$profile->name?></h1>
             <h2 style="color:#666; font-size:13px; margin:3px 8px 0 8px;">current location</h2>
             <div style="border-bottom: 1px solid #CCC; margin-top:8px; height:1px;"></div>
             <ul style="border-top: 1px solid white;">
@@ -108,7 +108,9 @@ $this->load->view('core_header', $header_args);
       
       <!-- RIGHT COLUMN -->
       <div style="float:left; width:300px;">
+        <? if ($user AND $user->id != $profile->id):?>
         <a href="#" id="add-friend-button">ADD AS FRIEND</a>
+        <? endif;?>
         <!-- TRIPS CONTAINER -->
         <div>
           <div style="background: #0CBADF; border-bottom: 1px solid rgba(0, 0, 0, .1); font-weight: bold; padding: 8px 10px; border-radius: 5px 5px 0 0; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; -webkit-border-radius:5px 5px 0 0; -webkit-text-stroke: 1px transparent; color:white;">

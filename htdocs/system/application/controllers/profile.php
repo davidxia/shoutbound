@@ -6,26 +6,63 @@ class Profile extends Controller
     function Profile()
     {
         parent::Controller();
+        /*
         $u = new User();
         $uid = $u->get_logged_in_status();
         if ( ! $uid)
         {
             redirect('/');            
         }
+        */
 		}
 		
 
-    function index($uid = FALSE)
+    function index($pid = FALSE)
     {
         $u = new User();
+        $uid = $u->get_logged_in_status();
 
-        if ( ! $uid)
+        // if user not logged in and no profile specified, return 404
+        if ( ! ($pid OR $uid))
         {
-            $uid = $u->get_logged_in_status();
+            $this->router->show_404();
+            return;
         }
-        $u->get_by_id($uid);
+        
+        // if no profile number specified, show user's own profile
+        if ( ! $pid)
+        {
+            $u->get_by_id($uid);
+            $profile = $u->stored;
+            $user = $u->stored;
+        }
+        elseif ( ! $uid)
+        {
+            $u->get_by_id($pid);
+            if ( ! $u->id)
+            {
+                $this->router->show_404();
+                return;
+            }
+            $profile = $u->stored;
+            $user = FALSE;
+        }
+        // if profile specified and user's logged in
+        else
+        {
+            $u->get_by_id($pid);
+            if ( ! $u->id)
+            {
+                $this->router->show_404();
+                return;
+            }
+            $profile = $u->stored;
+            $u->get_by_id($uid);
+            $user = $u->stored;
+        }
 
-        // get active trips for which user is a planner or creator and rsvp is yes
+
+        // get active trips for which profile is a planner or creator and rsvp is yes
         $trips = array();
         $u->trip->where('active', 1)->where_in_join_field('user', 'role', array(2,3))->get();
         foreach ($u->trip as $trip)
@@ -42,7 +79,7 @@ class Profile extends Controller
             $trips[] = $trip->stored;
         }
         
-        // get user's Shoutbound friends (we shouldn't display their FB friends publicly)
+        // get profile's Shoutbound friends (we shouldn't display their FB friends publicly)
         $friends = array();
         $u->related_user->get();
         foreach ($u->related_user as $friend)
@@ -51,7 +88,8 @@ class Profile extends Controller
         }
         
         $view_data = array(
-            'user' => $u->stored,
+            'user' => $user,
+            'profile' => $profile,
             'trips' => $trips,
             'friends' => $friends,
         );
