@@ -45,26 +45,6 @@ class Users extends Controller
     }
     
     
-    function add_friend()
-    {
-        $uid = $this->input->post('userId');
-        $u = new User();
-        $u->get_by_id($uid);
-        
-        $fid = $this->input->post('friendId');
-        $f = new User();
-        $f->get_by_id($fid);
-        
-        if ($f->save($u))
-        {
-            echo 1;
-        }
-        else
-        {
-            echo 0;
-        }
-        
-    }
 
 }
 

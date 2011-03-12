@@ -97,14 +97,65 @@ class Home extends Controller
         
         $this->load->helper('quicksort');
         _quicksort($news_feed_items);
+        
+        // get pending friend requests
+        // get array of friends relations to the user
+        $u->user->get();
+        $rels_to = array();
+        foreach ($u->user as $rel_to)
+        {
+            $rels_to[] = $rel_to->id;
+        }
+        // compare with array of friend relations from the user
+        // TODO: is there a better way of doing this? like with a 'where' clause in one datamapper call?
+        $u->related_user->get();
+        $rels_from = array();
+        foreach ($u->related_user as $rel_from)
+        {
+            $rels_from[] = $rel_from->id;
+        }
+        $num_friend_requests = count(array_diff($rels_to, $rels_from));
 
         
         $view_data = array('user' => $u->stored,
                            'trips' => $trips,
                            'advising_trips' => $advising_trips,
-                           'news_feed_items' => $news_feed_items);
+                           'news_feed_items' => $news_feed_items,
+                           'num_friend_requests' => $num_friend_requests,
+                           );
                           
         $this->load->view('home', $view_data);
+        
+    }
+    
+    
+    function test()
+    {
+        $u = new User();
+        $u->get_by_id(15);
+        
+        // get pending friend requests
+        // get array of friends relations to the user
+        $u->user->get();
+        $rels_to = array();
+        foreach ($u->user as $rel_to)
+        {
+            $rels_to[] = $rel_to->id;
+            echo $rel_to->id.'<br/>';
+        }
+        // compare with array of friend relations from the user
+        echo '////////////////////////<br/>';
+        $u->related_user->get();
+        $rels_from = array();
+        foreach ($u->related_user as $rel_from)
+        {
+            $rels_from[] = $rel_from->id;
+            echo $rel_from->id.'<br/>';
+        }
+        //print_r($rels_from);
+        echo '///////////////<br/>';
+        echo count(array_diff($rels_to, $rels_from));
+        //print_r($requests);
         
     }
 }

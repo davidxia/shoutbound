@@ -32,6 +32,11 @@ a {
     
     <!-- MAIN -->
     <div id="main" style="margin-top: 10px; border: 1px solid #ced7de; background-color:#FFFFFF; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px; min-height:300px;">
+      
+      <? if ($num_friend_requests):?>
+        You have <a href="<?=site_url('friends/edit')?>"><?=$num_friend_requests?> friend requests</a>
+      <? endif;?>
+    
       <!-- NEWS FEED -->
 			<div id="news-feed" style="float:left; width:554px; padding-left:20px;">
 				<div style="margin:10px 0px 10px;">

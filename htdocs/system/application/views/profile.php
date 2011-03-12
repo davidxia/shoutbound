@@ -102,13 +102,13 @@ $this->load->view('core_header', $header_args);
       </div><!-- LEFT COLUMN ENDS -->
       
       <!-- RIGHT COLUMN -->
-      <div style="float:left; width:300px;">
-        <? if ($user AND $is_friend==0):?>
+      <div id="rightcol" style="float:left; width:300px;">
+        <? if ($user AND $is_friend===0):?>
           <a href="#" id="add-friend-button">ADD AS FRIEND</a>
         <? elseif ($user AND $is_friend==1):?>
-          FRIEND REQUEST SENT
+          FRIEND REQUEST SENT; put a link here to cancel
         <? elseif ($user AND $is_friend==2):?>
-          YOU ARE FRIENDS
+          YOU ARE FRIENDS; put link here to edit friends
         <? endif;?>
         <!-- TRIPS CONTAINER -->
         <div>
@@ -141,17 +141,17 @@ $this->load->view('core_header', $header_args);
 <script type="text/javascript">
   $('#add-friend-button').click(function() {
     var postData = {
-      userId: <?=$user->id?>,
       friendId: <?=$profile->id?>
     };
     
     $.ajax({
       type: 'POST',
-      url: '<?=site_url('users/add_friend')?>',
+      url: '<?=site_url('friends/ajax_add_friend')?>',
       data: postData,
       success: function(data) {
         if (data == 1) {
-          $('#add-friend-button').html('FRIEND REQUEST SENT');
+          $('#add-friend-button').remove();
+          $('#rightcol').prepend('FRIEND REQUEST SENT');
         } else {
           alert('something broken, tell David');
         }
