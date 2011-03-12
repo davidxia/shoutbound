@@ -26,13 +26,13 @@ class Home extends Controller
         // get active trips for which user is a planner or creator and rsvp is yes
         $trips = array();
         $u->trip->where('active', 1)->where_in_join_field('user', 'role', array(2,3))->get();
+        $users = new User();
         foreach ($u->trip as $trip)
         {
-            // get creators and planners who are going on this trip
-            $users = new User();
+            // get creator and planners who are going on this trip
             $users->where_join_field('trip', 'rsvp', 3)->where_in_join_field('trip', 'role', array(2,3))->get_by_related_trip('id', $trip->id);
             $trip->stored->users = array();
-            foreach ($users->all as $user)
+            foreach ($users as $user)
             {
                 $trip->stored->users[] = $user->stored;
             }
@@ -41,7 +41,7 @@ class Home extends Controller
             $d = new Destination();
             $d->where('trip_id', $trip->id)->get();
             $trip->stored->destinations = array();
-            foreach ($d->all as $destination)
+            foreach ($d as $destination)
             {
                 $trip->stored->destinations[] = $destination->stored;
             }
@@ -52,31 +52,29 @@ class Home extends Controller
         // get active trips for which user is an advisor
         $advising_trips = array();
         $u->trip->where('active', 1)->where_join_field('user', 'role', 1)->get();
-        foreach ($u->trip->all as $trip)
+        foreach ($u->trip as $trip)
         {
             // get creators and planners who are going on this trip
-            $users = new User();
             $users->where_join_field('trip', 'rsvp', 3)->where_in_join_field('trip', 'role', array(2,3))->get_by_related_trip('id', $trip->id);
-            foreach ($users->all as $user)
+            foreach ($users as $user)
             {
                 $trip->stored->users[] = $user->stored;
             }
             $advising_trips[] = $trip->stored;
-            
         }
         
+        // get suggestions for both user's trips and her friends trips
         foreach ($trips as $trip)
         {
             $trip_ids[] = $trip->id;
         }
-        // get suggestions for both user's trips and her friends trips
         $s = new Suggestion();
         $s->order_by('created', 'desc');
         $s->where_in('trip_id', $trip_ids)->where('active', 1)->get();
         foreach ($s as $suggestion)
         {
-            $suggestion->stored->user_fid = $u->get_by_id($suggestion->user_id)->fid;
-            $suggestion->stored->user_name = $u->name;
+            $suggestion->stored->user_fid = $user->get_by_id($suggestion->user_id)->fid;
+            $suggestion->stored->user_name = $user->name;
             $suggestion->stored->trip_name = $t->get_by_id($suggestion->trip_id)->name;
             $suggestion->stored->is_location = 1;
             $news_feed_items[] = $suggestion->stored;
@@ -88,8 +86,8 @@ class Home extends Controller
         $m->where_in('trip_id', $trip_ids)->where('active', 1)->get();
         foreach ($m as $message)
         {
-            $message->stored->user_fid = $u->get_by_id($message->user_id)->fid;
-            $message->stored->user_name = $u->name;
+            $message->stored->user_fid = $user->get_by_id($message->user_id)->fid;
+            $message->stored->user_name = $user->name;
             $message->stored->trip_name = $t->get_by_id($message->trip_id)->name;
             $message->stored->is_location = 0;
             $news_feed_items[] = $message->stored;
@@ -131,8 +129,9 @@ class Home extends Controller
     
     function test()
     {
+        $uid = get_cookie('uid');       
         $u = new User();
-        $u->get_by_id(15);
+        $u->get_by_id($uid);
         
         // get pending friend requests
         // get array of friends relations to the user

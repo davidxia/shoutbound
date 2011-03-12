@@ -103,7 +103,7 @@ a {
                       </li>
                       <li class="trip-avatar-container">
                       <? foreach ($trip->users as $trip_user):?>
-                        <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>"><img style="height:32px; width:32px;" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" /></a>
+                        <a href="<?=site_url('profile/'.$trip_user->id)?>"><img style="height:32px; width:32px;" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" /></a>
                       <? endforeach;?>
                       </li>
                     </ul>
