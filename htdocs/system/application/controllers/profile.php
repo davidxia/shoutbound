@@ -52,7 +52,7 @@ class Profile extends Controller
             $profile = $u->stored;
             $u->get_by_id($uid);
             $user = $u->stored;
-            
+
             if ($pid != $uid)
             {
                 $u->related_user->where('id', $pid)->get();
@@ -77,9 +77,10 @@ class Profile extends Controller
             }
         }
 
-
         // get active trips for which profile is a planner or creator and rsvp is yes
         $trips = array();
+        $u->get_by_id($pid);
+
         $u->trip->where('active', 1)->where_in_join_field('user', 'role', array(2,3))->get();
         foreach ($u->trip as $trip)
         {
@@ -134,38 +135,6 @@ class Profile extends Controller
     
     function test()
     {
-        $u = new User();
-        $u->get_by_id(1);
-        $f = new User();
-        $f->get_by_id(18);
-        
-        $u->related_user->where('id', 18)->get();
-        $f->related_user->where('id', 1)->get();
-        
-        if ( ! $u->related_user->id)
-        {
-            echo 'not friends';
-        }
-        elseif ($u->related_user->id AND ! $f->related_user->id)
-        {
-            echo 'request pending';
-        }
-        elseif ($u->related_user->id AND $f->related_user->id)
-        {
-            echo 'yay friends';
-            echo $u->related_user->name;
-            echo '<br/><br/>';
-        }
-        
-        
-        /*
-        foreach ($u->related_user as $friend)
-        {
-            print_r($friend->name);
-            print_r($friend->join_status);
-            echo '<br/>';
-        }
-        */
     }
 
     

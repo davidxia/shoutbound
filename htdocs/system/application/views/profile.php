@@ -46,7 +46,7 @@ $this->load->view('core_header', $header_args);
   
 </head>
 
-<body>
+<body style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
 
   <?=$this->load->view('header')?>
 

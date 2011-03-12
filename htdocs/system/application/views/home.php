@@ -23,7 +23,7 @@ a {
 </style>
 
 </head> 
-<body style="background:url('<?=site_url('images/trip_page_background.png')?>'); background-repeat:repeat-x;">
+<body style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
 
   <? $this->load->view('header')?>
 
@@ -103,7 +103,8 @@ a {
                       </li>
                       <li class="trip-avatar-container">
                       <? foreach ($trip->users as $trip_user):?>
-                        <a href="<?=site_url('profile/'.$trip_user->id)?>"><img style="height:32px; width:32px;" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" /></a>
+                        <a href="<?=site_url('profile/'.$trip_user->id)?>"><img style="height:32px; width:32px;" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" />
+                        </a>
                       <? endforeach;?>
                       </li>
                     </ul>

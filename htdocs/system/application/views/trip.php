@@ -216,7 +216,7 @@ li.suggestion.highlighted{
 
 
 
-<body style="background:url('<?=site_url('images/trip_page_background.png')?>'); background-repeat:repeat-x;">
+<body style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
   <div id="div-to-popup" style="display:none;"></div>
 
   <?=$this->load->view('header')?>
