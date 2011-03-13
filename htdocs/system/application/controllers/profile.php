@@ -28,7 +28,6 @@ class Profile extends Controller
             $profile = $u->stored;
             $user = $u->stored;
             $pid = $uid;
-            //$is_friend = -1;
         }
         elseif ( ! $uid)
         {

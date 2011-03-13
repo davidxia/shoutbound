@@ -1,6 +1,7 @@
 <?php
 
-class Signup extends Controller {
+class Signup extends Controller
+{
 
     function index()
     {
@@ -130,3 +131,7 @@ class Signup extends Controller {
         }        
     }
 }
+
+
+/* End of file signup.php */
+/* Location: ./application/controllers/signup.php */

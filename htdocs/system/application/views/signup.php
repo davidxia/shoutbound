@@ -39,55 +39,58 @@ $this->load->view('core_header', $header_args);
     }());
 	</script>
 
-	<div id="container" style="width:800px; margin:auto; text-align:center;">
+	<div id="wrapper" style="width:960px; margin:0 auto;">
+    <div id="content" style="padding-top:30px; margin:0 auto; width:400px; padding-bottom:80px;">
     
-    <div>
-      <h2 style="margin-left:130px;">Create an account</h2>
-      <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post">
-      <fieldset style="border:0">
-      <table><tbody>
-        <tr>
-          <th><label for="name">Name</label></th>
-          <td><input type="text" name="name" id="name" autocomplete="off" size="20"/></td>
-          <td class="error" style="vertical-align:middle;"><div class="error-message" style="width:200px;"></div></td>
-        </tr>
-        <tr>
-          <th><label for="email">Email</label></th>
-          <td><input type="text" name="email" id="email" autocomplete="off"/></td>
-          <td class="error" style="vertical-align:middle;"><div class="error-message" style="width:200px;"></div></td>
-        </tr>
-        <tr>
-          <th><label for="password">Password</label></th>
-          <td><input type="password" name="password" id="password" autocomplete="off"/></td>
-          <td class="error" style="vertical-align:middle;"><div class="error-message" style="width:200px;"></div></td>
-        </tr>
-        <tr>
-          <th><label for="password_confirm">Confirm password</label></th>
-          <td><input type="password" name="password_confirm" id="password_confirm" autocomplete="off" /></td>
-          <td class="error" style="vertical-align:middle;"><div class="error-message" style="width:200px;"></div></td>
-        </tr>
-        <tr>
-          <th></th>
-          <td><input class="submit" type="submit" value="Create my account"/></td>
-          <td></td>
-        </tr>
-      </tbody></table>
-      </fieldset>
-    </div>
-    
-    <div style="text-align:center; display:inline-block;">
-    	<span style="font-size:20px; font-weight: bold; font-size:20px;	color:black;">or</span>
-    	<a href="#" id="fb_login_button" style="margin-left:5px; position: relative; top:3px;">
-      	<img src="<?=site_url('images/fb-login-button.png');?>" />
-    	</a>
-    </div>
-      
-    <div style="margin-top:10px; border-top: 1px solid gray; padding-top:25px;">
-      Already have an account? Login
-      <a href="http://dev.shoutbound.com/david/login">here</a>.
-    </div>
+      <h2 style="text-align:center; margin:20px 0;">Create an account</h2>
+      <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post" style="border:1px solid #AAA; padding:20px;">
+        <div style="margin-bottom:20px;">
+          <fieldset style="border:0">
+            <ul>
+              <li style="margin-bottom:20px;">
+                <div class="label-and-error" style="margin-bottom:10px;">
+                  <label for="name">Name</label>
+                  <span class="error-message" style="float:right;"></span>
+                </div>
+                <input type="text" name="name" id="name" autocomplete="off"/>
+              </li>
+              <li style="margin-bottom:20px;">
+                <div class="label-and-error" style="margin-bottom:10px;">
+                  <label for="email">Email</label>
+                  <span class="error-message" style="float:right;"></span>
+                </div>
+                <input type="text" name="email" id="email" autocomplete="off"/>
+              </li>
+              <li style="margin-bottom:20px;">
+                <div class="label-and-error" style="margin-bottom:10px;">
+                  <label for="password">Password</label>
+                  <span class="error-message" style="float:right;"></span>
+                </div>
+                <input type="password" name="password" id="password" autocomplete="off"/>
+              </li>
+            </ul>
+          </fieldset>
+        </div>
         
-  </div>
+        <div style="text-align:center;">
+          <input class="submit" type="submit" value="Create my account"/>
+        </div>
+      </form>
+      
+            
+      <div style="text-align:center; margin:20px 0;">
+      	<div style="font-size:20px; font-weight:bold; margin:10px 0;">or</div>
+      	<a href="#" id="fb_login_button">
+        	<img src="<?=site_url('images/fb-login-button.png')?>"/>
+      	</a>
+      </div>
+        
+    	<div style="text-align:center;">
+        Already have an account? Login <a href="<?=site_url('login')?>">here</a>.
+      </div>
+      
+    </div><!-- CONTENT ENDS -->
+  </div><!-- WRAPPER ENDS -->
   
   <?=$this->load->view('footer')?>
   
@@ -164,9 +167,6 @@ $this->load->view('core_header', $header_args);
       password: {
         required: true,
         minlength: 4
-      },
-      password_confirm: {
-        equalTo: '#password'
       }
     },
     messages: {
@@ -178,13 +178,10 @@ $this->load->view('core_header', $header_args);
       password: {
         required: 'Password protect that shit.',
         minlength: 'make it at least 4 characters'
-      },
-      password_confirm: {
-        equalTo: 'Reenter your password.'
       }
     },
     errorPlacement: function(error, element) {
-      error.appendTo(element.parent().siblings('.error').children('.error-message'));
+      error.appendTo(element.siblings('.label-and-error').children('.error-message'));
     }
   });
 

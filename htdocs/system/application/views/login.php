@@ -39,33 +39,37 @@ $this->load->view('core_header', $header_args);
 
   <div id="div-to-popup" style="background-color:white; display:none;"></div>
 
-	<div id="container" style="width:800px; margin:auto; text-align:center;">
-    <div style="margin:10px auto; width:400px; border-top: 1px solid gray; padding-top:20px;">
-      <form id="login-form" action="">
-        <table><tbody>
-          <tr>
-            <th><label for="email">Email</label></th>
-            <td><input type="text" name="email" id="email" autocomplete="off" size="20"/></td>
-          </tr>
-          <tr>
-            <th><label for="password">Password</label></th>
-            <td><input type="password" name="password" id="password" autocomplete="off" /></td>
-          </tr>
-          <tr>
-            <th></th>
-            <td style="padding-left:70px;"><input type="submit" id="login-form-submit" value="sign in" /></td>
-          </tr>
-        </tbody></table>
+	<div id="wrapper" style="width:960px; margin:0 auto;">
+    <div id="content" style="padding-top:30px; margin:0 auto; width:400px; padding-bottom:80px;">
+      <h2 style="text-align:center; margin:20px 0;">Login here</h2>
+      <form id="login-form" action="" style="border:1px solid #AAA; padding:20px;">
+        <div>
+          <fieldset>
+            <ul>
+              <li style="margin-bottom:20px;">
+                <label for="email" style="display:block; margin-bottom:10px;">Email</label>
+                <input type="text" name="email" id="email" autocomplete="off"/>
+              </li>
+              <li style="margin-bottom:20px;">
+                <label for="password" style="display:block; margin-bottom:10px;">Password</label>
+                <input type="password" name="password" id="password" autocomplete="off"/>
+              </li>
+            </ul>
+          </fieldset>
+        </div>
+        <div style="text-align:center;">
+          <input type="submit" id="login-form-submit" value="sign in"/>
+        </div>
       </form>
-      <br/>
-        	<span style="font-size:20px; font-weight: bold; font-size:20px;	color:black;">or</span>
-      <div style="text-align:center;">
+
+      <div style="text-align:center; margin:20px 0 40px;">
+      	<div style="font-size:20px; font-weight:bold; margin:10px 0;">or</div>
         <a href="#" id="fb_login_button">
           <img src="<?=site_url('images/fb-login-button.png');?>" />
         </a>
       </div>
-      <br/>
-    	<div style="margin-top:10px; border-top: 1px solid gray; padding-top:25px;">
+      
+    	<div style="text-align:center;">
         Don't have an account? Sign up <a href="http://dev.shoutbound.com/david/signup">here</a>.
       </div>
     </div>

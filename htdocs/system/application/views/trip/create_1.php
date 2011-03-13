@@ -1,5 +1,6 @@
 <?
 $header_args = array(
+    'title' => 'Shoutbound',
     'css_paths'=>array(
         'css/excite-bike/jquery-ui-1.8.10.custom.css',
     ),

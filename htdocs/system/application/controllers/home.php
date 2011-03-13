@@ -68,36 +68,42 @@ class Home extends Controller
         {
             $trip_ids[] = $trip->id;
         }
-        $s = new Suggestion();
-        $s->order_by('created', 'desc');
-        $s->where_in('trip_id', $trip_ids)->where('active', 1)->get();
-        foreach ($s as $suggestion)
+        if ( ! empty($trip_ids))
         {
-            $suggestion->stored->user_fid = $user->get_by_id($suggestion->user_id)->fid;
-            $suggestion->stored->user_name = $user->name;
-            $suggestion->stored->trip_name = $t->get_by_id($suggestion->trip_id)->name;
-            $suggestion->stored->is_location = 1;
-            $news_feed_items[] = $suggestion->stored;
-        }
+            $s = new Suggestion();
+            $s->order_by('created', 'desc');
+            $s->where_in('trip_id', $trip_ids)->where('active', 1)->get();
+            foreach ($s as $suggestion)
+            {
+                $suggestion->stored->user_fid = $u->get_by_id($suggestion->user_id)->fid;
+                $suggestion->stored->user_name = $u->name;
+                $suggestion->stored->trip_name = $t->get_by_id($suggestion->trip_id)->name;
+                $suggestion->stored->is_location = 1;
+                $news_feed_items[] = $suggestion->stored;
+            }
+            
+            
+            // get messages for both user's trips and her friends trips
+            $m = new Message();
+            $m->order_by('created', 'desc');
+            $m->where_in('trip_id', $trip_ids)->where('active', 1)->get();
+            foreach ($m as $message)
+            {
+                $message->stored->user_fid = $u->get_by_id($message->user_id)->fid;
+                $message->stored->user_name = $u->name;
+                $message->stored->trip_name = $t->get_by_id($message->trip_id)->name;
+                $message->stored->is_location = 0;
+                $news_feed_items[] = $message->stored;
+            }
+        }        
         
-        // get messages for both user's trips and her friends trips
-        $m = new Message();
-        $m->order_by('created', 'desc');
-        $m->where_in('trip_id', $trip_ids)->where('active', 1)->get();
-        foreach ($m as $message)
-        {
-            $message->stored->user_fid = $user->get_by_id($message->user_id)->fid;
-            $message->stored->user_name = $user->name;
-            $message->stored->trip_name = $t->get_by_id($message->trip_id)->name;
-            $message->stored->is_location = 0;
-            $news_feed_items[] = $message->stored;
-        }
         
         $this->load->helper('quicksort');
         _quicksort($news_feed_items);
         
         // get pending friend requests
         // get array of friends relations to the user
+        $u->get_by_id($uid);
         $u->user->get();
         $rels_to = array();
         foreach ($u->user as $rel_to)
