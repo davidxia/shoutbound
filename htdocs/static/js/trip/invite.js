@@ -90,7 +90,7 @@ invite.showInviteDialog = function() {
     data: postData,
     success: function(response) {
       var r = $.parseJSON(response);
-      $('#div-to-popup').empty().append(r.data).bPopup({follow:false, modal:false});
+      $('#div-to-popup').empty().append(r.data).bPopup({follow:false});
       invite.bindButtons();
     }
   });

@@ -13,12 +13,6 @@ $header_args = array(
 $this->load->view('core_header', $header_args);
 ?>
 
-<!-- JAVASCRIPT CONSTANTS --> 
-<script type="text/javascript">
-  var baseUrl = "<?=site_url("")?>";
-  var staticUrl = "<?=static_url("")?>";
-</script>
-
 
 </head>
 	
@@ -113,7 +107,7 @@ $this->load->view('core_header', $header_args);
 
 	function facebookLogin() {
     $.ajax({
-      url: baseUrl+'login/ajax_facebook_login',
+      url: '<?=site_url('login/ajax_facebook_login')?>',
       success: function(response) {
         var r = $.parseJSON(response);
         if (r.existingUser) {
@@ -128,9 +122,9 @@ $this->load->view('core_header', $header_args);
 
 	function updateFBFriends() {
     $.ajax({
-      url: baseUrl+'login/ajax_update_fb_friends',
+      url: '<?=site_url('login/ajax_update_fb_friends')?>',
       success: function() {
-        window.location = "<?=site_url('/')?>";
+        window.location = '<?=site_url('/')?>';
       }
     });
 	}
@@ -143,7 +137,7 @@ $this->load->view('core_header', $header_args);
     $('#div-to-popup').bPopup();  
 
     $.ajax({
-      url: baseUrl+'signup/ajax_create_fb_user',
+      url: '<?=site_url('signup/ajax_create_fb_user')?>',
       success: function(response) {
         var r = $.parseJSON(response);
         if ( ! r.error) {

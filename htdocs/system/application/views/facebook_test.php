@@ -27,7 +27,14 @@
     <a id="test" href="#">Publish to profile</a>
     <a id="test2" href="#">send friends a request</a>
   </body>
-  
+
+
+<?
+$trip_name = 'Congolese Merengue';
+$content = "Hey, I need your help in planning my ".$trip_name." trip.";
+//$content = '<a href="http://dev.shoutbound.com/david">easssss</a>';
+?>
+
   <script>
   $(document).ready(function() {
     $('#test').click(function() {
@@ -53,7 +60,8 @@
     $('#test2').click(function() {
       FB.ui({
         method: 'apprequests',
-        message: 'You should learn more about this awesome game.',
+        title: 'Invite your friends on this trip.',
+        message: '<?=$content?>',
         data: 'tracking information for the user'
       });
       return false;

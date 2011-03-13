@@ -39,32 +39,37 @@ $this->load->view('core_header', $header_args);
 </script>
 
 <style type="text/css">
-#invite-others-button{
-  display: inline-block;
-  font-size: 0.75em;
-  background: #2B72CC url(/david/images/blue_button.png) repeat-x 0 0;
-  height: 40px;
-  cursor: pointer;
+#invite-others-button, #get-suggestions-button {
+  color:white;
+  display:block;
+  height:30px;
+  line-height:30px;
+  text-align:center;
+  font-weight:bold;
+  font-size:11px;
+  text-decoration:none;
+  background:-webkit-gradient(linear, left top, left bottom, from(#F90), to(#FF6200));
+  background:-moz-linear-gradient(top, #F90, #FF6200);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#F90', endColorstr='#FF6200');
+  border: 1px solid #E55800;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  margin-bottom: 13px;
 }
-#invite-others-button:hover{
-  background: url(/david/images/blue_button.png) repeat-x 0 -40px;
+#invite-others-button:hover, #get-suggestions-button:hover {
+  background: #ffad32;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
+  background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');
 }
-#invite-others-button:active{
-  background: url(/david/images/blue_button.png) repeat-x 0 -80px;
+#invite-others-button:active, #get-suggestions-button:active {
+  background: #ff8132;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
+  background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }
-#get-suggestions-button{
-  display: inline-block;
-  font-size: 0.75em;
-  background: #2B72CC url(/david/images/blue_button.png) repeat-x 0 0;
-  height: 40px;
-  cursor: pointer;
-}
-#get-suggestions-button:hover{
-  background: url(/david/images/blue_button.png) repeat-x 0 -40px;
-}
-#get-suggestions-button:active{
-  background: url(/david/images/blue_button.png) repeat-x 0 -80px;
-}
+
 .moved{
   text-align: right;
 }
@@ -217,7 +222,24 @@ li.suggestion.highlighted{
 
 
 <body style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
-  <div id="div-to-popup" style="display:none;"></div>
+	<div id="fb-root"></div>
+	<script>
+    window.fbAsyncInit = function() {
+      FB.init({appId: '136139119767617', status: true, cookie: true, xfbml: true});
+    };
+    (function() {
+      var e = document.createElement('script'); e.async = true;
+      e.src = document.location.protocol +
+        '//connect.facebook.net/en_US/all.js';
+      document.getElementById('fb-root').appendChild(e);
+    }());
+	</script>
+	
+	  <div id="div-to-popup" style="display:none;">
+    <div id="trip-invite-popup" style="width:466px; padding:10px; background:rgba(82, 82, 82, 0.7); border-radius: 8px; -webkit-border-radius:8px; border-top-left-radius: 8px 8px; border-top-right-radius: 8px 8px; border-bottom-right-radius: 8px 8px; border-bottom-left-radius: 8px 8px;">
+      <fb:serverfbml id="fb_invite" width="615"></fb:serverfbml>
+    </div>
+  </div>
 
   <?=$this->load->view('header')?>
   
@@ -310,12 +332,8 @@ li.suggestion.highlighted{
                 <? elseif ($user_rsvp == 3):?>
                 <div id="rsvp_buttons" class="moved">
                     <div id="invsugg_btn_cont">
-                        <div id="invite-others-button">
-                            <a href="#" id="invite-others-link">invite other people</a>
-                        </div>
-                        <div id="get-suggestions-button">
-                            <a href="#" id="get-suggestions-link">get more suggestions</a>
-                        </div>
+                        <a href="#" id="invite-others-button">INVITE OTHER PEOPLE</a>
+                        <a href="#" id="get-suggestions-button">GET SUGGESTIONS</a>
                     </div>
                     <a href="#" id="rsvp_no_button">I'm out</a>
                 </div>
@@ -433,7 +451,7 @@ li.suggestion.highlighted{
                   <? if ($wall_item->lat):?>
                     <li id="wall-suggestion-<?=$wall_item->id?>" class="suggestion" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA; position:relative;">
                       <div class="wall-location-name"style="font-weight:bold;"><?=$wall_item->name?></div>
-                      <div>Suggested by <a href="#" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a></div>
+                      <div>Suggested by <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a></div>
                       <span class="wall-location-address" style="display:none;"><?=$wall_item->address?></span>
                       <span class="wall-location-phone" style="display:none;"><?=$wall_item->phone?></span>
                       
@@ -454,7 +472,7 @@ li.suggestion.highlighted{
                     </li>
                   <? else:?>
                     <li id="wall-message-<?=$wall_item->id?>" class="message" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA; position:relative;">
-                      <a href="#" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a>
+                      <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a>
                       <? if ($user_role >= 2):?>
                         <div class="remove-wall-item" messageId="<?=$wall_item->id?>"></div>
                       <? endif;?>

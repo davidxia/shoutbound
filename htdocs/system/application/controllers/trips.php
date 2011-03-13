@@ -157,7 +157,7 @@ class Trips extends Controller
         $m->where('trip_id', $trip_id)->where('active', 1)->get();
         foreach ($m->all as $message)
         {
-            $message->stored->user_fid = $u->get_by_id($message->user_id)->fid;
+            $message->stored->user_id = $u->get_by_id($message->user_id)->id;
             $message->stored->user_name = $u->name;
             $wall_items[] = $message->stored;
         }
@@ -167,7 +167,7 @@ class Trips extends Controller
         $s->where('trip_id', $trip_id)->where('active', 1)->get();
         foreach ($s->all as $suggestion)
         {
-            $suggestion->stored->user_fid = $u->get_by_id($suggestion->user_id)->fid;
+            $suggestion->stored->user_id = $u->get_by_id($suggestion->user_id)->id;
             $suggestion->stored->user_name = $u->name;
             $wall_items[] = $suggestion->stored;
             $suggestions[] = $suggestion->stored;
@@ -613,6 +613,15 @@ class Trips extends Controller
         }
         
         return FALSE;
+    }
+    
+    
+    function fb_friend_invite()
+    {
+        $friends   =   (isset($_REQUEST["ids"])   ?   $_REQUEST["ids"] : null);
+        $nonFBfriends = (isset($_REQUEST["email_hashes"]) ? $_REQUEST["email_hashes"] : null);
+        
+        print_r($friends);
     }
 }
 

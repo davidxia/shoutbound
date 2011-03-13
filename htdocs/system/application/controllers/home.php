@@ -135,33 +135,8 @@ class Home extends Controller
     
     function test()
     {
-        $uid = get_cookie('uid');       
-        $u = new User();
-        $u->get_by_id($uid);
-        
-        // get pending friend requests
-        // get array of friends relations to the user
-        $u->user->get();
-        $rels_to = array();
-        foreach ($u->user as $rel_to)
-        {
-            $rels_to[] = $rel_to->id;
-            echo $rel_to->id.'<br/>';
-        }
-        // compare with array of friend relations from the user
-        echo '////////////////////////<br/>';
-        $u->related_user->get();
-        $rels_from = array();
-        foreach ($u->related_user as $rel_from)
-        {
-            $rels_from[] = $rel_from->id;
-            echo $rel_from->id.'<br/>';
-        }
-        //print_r($rels_from);
-        echo '///////////////<br/>';
-        echo count(array_diff($rels_to, $rels_from));
-        //print_r($requests);
-        
+        $this->load->view('facebook_test2');
+    
     }
 }
 
