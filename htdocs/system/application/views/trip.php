@@ -221,7 +221,7 @@ li.suggestion.highlighted{
 
 
 
-<body style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
+<body style="background-color:#1B272C;">
 	<div id="fb-root"></div>
 	<script>
     window.fbAsyncInit = function() {
@@ -245,13 +245,12 @@ li.suggestion.highlighted{
   
 
   <!-- WRAPPER -->
-  <div class="wrapper" style="margin: 0 auto; width:960px;">
-
+  <div class="wrapper" style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
     <!-- MAIN -->
-    <div class="content" style="padding-bottom:80px; margin:10px 0px 10px; background-color:white; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;">
-        
+    <div class="content" style="margin: 0 auto; width:960px; padding:20px 0 80px;">
+      <div style="border: 1px solid #ced7de; background-color:#FFFFFF; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px; min-height:300px;">
           <!-- TRIP SUMMARY -->
-          <div id="trip_summary" style="width:690px; float:left; margin:10px 10px 10px 10px;  padding:10px; border: 1px solid #ced7de; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;">
+          <div id="trip_summary" style="width:688px; float:left; margin:10px 10px 10px 10px;  padding:10px; border: 1px solid #ced7de; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;">
             <div id="trip_name" style="font-size:1.5em;font-weight: bold; color:#026eb0; margin-bottom:5px;">
               <?=$trip->name?>
             </div>
@@ -496,7 +495,7 @@ li.suggestion.highlighted{
           <div style="clear:both;"></div>
           
         </div><!-- CONSOLE ENDS -->
-      
+      </div>
     </div><!-- MAIN ENDS -->
   </div><!-- WRAPPER ENDS -->
 

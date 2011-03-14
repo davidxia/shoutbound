@@ -19,12 +19,12 @@ $this->load->view('core_header', $header_args);
   
 </head>
 
-<body style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
+<body style="background-color:#1B272C;">
 
   <?=$this->load->view('header')?>
   
-  <div class="wrapper" style="margin:0 auto; width:960px;">
-    <div class="content" style="padding-bottom:80px;">
+  <div class="wrapper" style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
+    <div class="content" style="margin: 0 auto; width:960px; padding:20px 0 80px;">
       
       <form action="">
         <fieldset>

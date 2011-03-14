@@ -46,13 +46,13 @@ $this->load->view('core_header', $header_args);
   
 </head>
 
-<body style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
+<body style="background-color:#1B272C;">
 
   <?=$this->load->view('header')?>
 
 
-  <div class="wrapper" style="margin:0 auto; width:960px;">
-    <div class="content" style="margin-top:20px; padding-bottom:80px;">
+  <div class="wrapper" style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
+    <div class="content" style="margin: 0 auto; width:960px; padding:20px 0 80px;">
       
       <!-- LEFT COLUMN -->
       <div style="float:left; width:640px; margin-right:20px;">
@@ -146,6 +146,8 @@ $this->load->view('core_header', $header_args);
           </div><!-- FRIENDS END -->
         </div><!-- TRIPS CONTAINER ENDS -->
       </div><!-- RIGHT COLUMN ENDS -->
+      
+      <div style="clear:both;"></div>
       
       
     </div><!-- CONTENT ENDS -->
