@@ -20,7 +20,7 @@ $this->load->view('core_header', $header_args);
   
 </head>
 
-<body style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
+<body style="background-color:#1B272C;">
 
   <?=$this->load->view('header')?>
 
@@ -39,8 +39,8 @@ $this->load->view('core_header', $header_args);
 
   <div id="div-to-popup" style="background-color:white; display:none;"></div>
 
-	<div id="wrapper" style="width:960px; margin:0 auto;">
-    <div id="content" style="padding-top:30px; margin:0 auto; width:400px; padding-bottom:80px;">
+	<div class="wrapper" style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
+    <div class="content" style="margin:0 auto; padding-top:30px; margin:0 auto; width:400px; padding-bottom:80px;">
       <h2 style="text-align:center; margin:20px 0;">Login here</h2>
       <form id="login-form" action="" style="border:1px solid #AAA; padding:20px;">
         <div>

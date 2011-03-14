@@ -1,5 +1,6 @@
 <?php
 $header_args = array(
+    'title' => 'Settings | Shoutbound',
     'css_paths'=>array(
     ),
     'js_paths'=>array(

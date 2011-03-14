@@ -133,10 +133,15 @@ class Home extends Controller
     }
     
     
-    function test()
+    function facebook_test2()
     {
         $this->load->view('facebook_test2');
+    }
     
+    
+    function simplegeo_test()
+    {
+        $this->load->view('simplegeo_test');
     }
 }
 

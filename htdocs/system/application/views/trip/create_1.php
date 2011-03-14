@@ -26,9 +26,8 @@ $this->load->view('core_header', $header_args);
   margin-right: 200px;
   padding:20px 20px 20px 20px;
   border-radius:5px;
-  background-color:#e4f1fb;
   color:navy;
-  border:1 px solid navy;    
+  border:1px solid #AAA;
 }
 #main table{
   border-collapse: collapse;
@@ -75,162 +74,164 @@ label.error {
  
 <?=$this->load->view('core_header_end')?>
 
-	<body style="background: white url('http://dev.shoutbound.com/david/images/trip_page_background.png') repeat-x 0 0;">
+	<body style="background-color:#1B272C;">
     <div id="div-to-popup" style="background-color:white; display:none;"></div>
     
     <? $this->load->view('header')?>
 
 		  
-    <!-- CONTENT -->
-    <div style="margin: 0 auto; width:960px;" class="content wrapper">
-      <!-- TRIP CREATION FORM -->
-      <form id="trip-creation-form" action="confirm_create" method="post" style="position:relative;">
-      
-      
-        <!-- PLACE DATES FIELD -->
-        <fieldset style="border-width:0; border-color:transparent; position:relative; margin-bottom:30px;">
-          <div style="width:412px; display:inline-block; margin-left:10px; margin-bottom:20px;">Destinations</div><div id="dates-header" style="width:298px; display:inline-block; visibility:hidden;">Dates</div>
-          <div id="destinations_dates" style="position:relative;">
-          <a id="add-destination" href="" style="position:absolute; top:20px; left:-10px;"><img src="<?=site_url('images/plus_icon.jpg')?>" height="20" width="20"/></a><a id="subtract-destination" href="" style="position:absolute; top:0; left:-10px;"><img src="<?=site_url('images/minus_icon.jpg')?>" height="20" width="20"/></a>
-            <div class="field destination" style="margin-left:10px; margin-bottom:10px; position:relative; display:inline-block;">
-              <span class="label-and-errors">
-                <label for="address0">1.</label>
-                <span class="error-message" style="position:absolute; top:-14px;"></span>
-              </span>
-              <input type="text" id="address" class="destination-input" name="address" style="width:360px;"
-      			    <? if ($destination):?>
-      			      <? echo 'value="'.$destination.'"'?>
+    <!-- WRAPPER -->
+    <div class="wrapper" style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
+      <!-- CONTENT -->
+      <div class="content" style="margin:0 auto; padding-top:30px; width:960px; padding-bottom:80px;">
+        <!-- TRIP CREATION FORM -->
+        <form id="trip-creation-form" action="confirm_create" method="post" style="position:relative;">
+        
+        
+          <!-- PLACE DATES FIELD -->
+          <fieldset style="border-width:0; border-color:transparent; position:relative; margin-bottom:30px;">
+            <div style="width:412px; display:inline-block; margin-left:10px; margin-bottom:20px;">Destinations</div><div id="dates-header" style="width:298px; display:inline-block; visibility:hidden;">Dates</div>
+            <div id="destinations_dates" style="position:relative;">
+            <a id="add-destination" href="" style="position:absolute; top:20px; left:-10px;"><img src="<?=site_url('images/plus_icon.jpg')?>" height="20" width="20"/></a><a id="subtract-destination" href="" style="position:absolute; top:0; left:-10px;"><img src="<?=site_url('images/minus_icon.jpg')?>" height="20" width="20"/></a>
+              <div class="field destination" style="margin-left:10px; margin-bottom:10px; position:relative; display:inline-block;">
+                <span class="label-and-errors">
+                  <label for="address0">1.</label>
+                  <span class="error-message" style="position:absolute; top:-14px;"></span>
+                </span>
+                <input type="text" id="address" class="destination-input" name="address" style="width:360px;"
+        			    <? if ($destination):?>
+        			      <? echo 'value="'.$destination.'"'?>
+                  <? endif;?>
+                />
+                <input type="hidden" id="lat" class="required destination_lat" name="lat"
+        			    <? if ($destination_lat):?>
+        			      <? echo 'value="'.$destination_lat.'"'?>
+                  <? endif;?>
+                />
+                <input type="hidden" id="lng" class="destination_lng" name="lng"
+        			    <? if ($destination_lng):?>
+        			      <? echo 'value="'.$destination_lng.'"'?>
+                  <? endif;?>
+                />
+              </div>
+              
+              <div class="field dates" style="margin-left:10px; display:inline-block;
+                <? if ( ! isset($destination)):?>
+                  visibility:hidden;
                 <? endif;?>
-              />
-              <input type="hidden" id="lat" class="required destination_lat" name="lat"
-      			    <? if ($destination_lat):?>
-      			      <? echo 'value="'.$destination_lat.'"'?>
-                <? endif;?>
-              />
-              <input type="hidden" id="lng" class="destination_lng" name="lng"
-      			    <? if ($destination_lng):?>
-      			      <? echo 'value="'.$destination_lng.'"'?>
-                <? endif;?>
-              />
+              ">
+                <span class="label-and-errors">
+                  <span class="error-message"></span>
+                  <div class="clear"></div>
+                </span>
+                <label for="startdate">from</label> <input id="startdate" class="startdate" name="startdate" type="text" size="10"/> <label for="enddate">to</label> <input id="enddate" class="enddate" name="enddate" type="text" size="10" />
+              </div>
             </div>
-            
-            <div class="field dates" style="margin-left:10px; display:inline-block;
-              <? if ( ! isset($destination)):?>
-                visibility:hidden;
-              <? endif;?>
-            ">
+  
+          </fieldset><!-- PLACE DATES FIELD ENDS -->
+          
+  
+  
+          <!-- SUMMARY INVITES FIELD -->
+          <fieldset id="summary-invites-field" style="border-width:0; border-color:transparent;">
+            <div class="field trip_name" style="margin-left:10px;">
               <span class="label-and-errors">
+                <label for="trip_name">Trip name</label>
                 <span class="error-message"></span>
                 <div class="clear"></div>
               </span>
-              <label for="startdate">from</label> <input id="startdate" class="startdate" name="startdate" type="text" size="10"/> <label for="enddate">to</label> <input id="enddate" class="enddate" name="enddate" type="text" size="10" />
+              <input id="trip_name" name="trip_name" class="required" type="text" style="width:380px;" />
             </div>
-          </div>
-
-        </fieldset><!-- PLACE DATES FIELD ENDS -->
-        
-
-
-        <!-- SUMMARY INVITES FIELD -->
-        <fieldset id="summary-invites-field" style="border-width:0; border-color:transparent;">
-          <div class="field trip_name" style="margin-left:10px;">
-            <span class="label-and-errors">
-              <label for="trip_name">Trip name</label>
-              <span class="error-message"></span>
-              <div class="clear"></div>
-            </span>
-            <input id="trip_name" name="trip_name" class="required" type="text" style="width:380px;" />
-          </div>
-           <div class="field" style="margin-left:10px; margin-top:10px;">
-            <span class="label-and-errors">
-              <label for="description">Describe your trip <span id="chars-left">140 characters left</span></label>
-              <span class="error-message"></span>
-              <div class="clear"></div>
-            </span>
-            <textarea id="description" name="description" style="width:380px; height:56px; font-size:14px;"></textarea>
-          </div>
-          <div class="field" style="margin-left:10px; margin-top: 10px; display:inline-block">
-            <span class="label-and-errors">
-              <label for="invites">Invite people to join your trip (emails)</label>
-              <span class="error-message"></span>
-              <div class="clear"></div>
-            </span>
-            <input  id="invites" name="invites" type="text" style="width:380px;"/>
-          </div>
-          <div class="field" style="margin-left:40px; margin-top: 10px; display:inline-block">
-            <span class="label-and-errors">
-              <label for="">Deadline for response (optional)</label>
-              <span class="error-message"></span>
-              <div class="clear"></div>
-            </span>
-            <input id="deadline" name="deadline" type="text" size="10"/>
-          </div>
-        </fieldset><!-- SUMMARY INVITES FIELD ENDS -->
-        
-        <label for="private">Private</label>
-        <input type="checkbox" name="private" id="private" value="1"/>
-
-
-        <!-- INTERESTS FIELD -->
-        <!--
-        <fieldset id="interests-field" style="border-width:0; border-color:transparent; position:relative;">
-          <div class="field" style="margin-left:10px; margin-top: 10px;">
-            <span class="label-and-errors">
-              <label for="trip-interests">On my trip, I'm interested in (optional)</label>
-              <span class="error-message"></span>
-              <div class="clear"></div>
-            </span>
-            <textarea  id="trip-interests" name="trip-interests" style="width:380px; height:56px;"></textarea>
-          </div>
+             <div class="field" style="margin-left:10px; margin-top:10px;">
+              <span class="label-and-errors">
+                <label for="description">Describe your trip <span id="chars-left">140 characters left</span></label>
+                <span class="error-message"></span>
+                <div class="clear"></div>
+              </span>
+              <textarea id="description" name="description" style="width:380px; height:56px; font-size:14px;"></textarea>
+            </div>
+            <div class="field" style="margin-left:10px; margin-top: 10px; display:inline-block">
+              <span class="label-and-errors">
+                <label for="invites">Invite people to join your trip (emails)</label>
+                <span class="error-message"></span>
+                <div class="clear"></div>
+              </span>
+              <input  id="invites" name="invites" type="text" style="width:380px;"/>
+            </div>
+            <div class="field" style="margin-left:40px; margin-top: 10px; display:inline-block">
+              <span class="label-and-errors">
+                <label for="">Deadline for response (optional)</label>
+                <span class="error-message"></span>
+                <div class="clear"></div>
+              </span>
+              <input id="deadline" name="deadline" type="text" size="10"/>
+            </div>
+          </fieldset><!-- SUMMARY INVITES FIELD ENDS -->
           
+          <label for="private">Private</label>
+          <input type="checkbox" name="private" id="private" value="1"/>
+  
+  
+          <!-- INTERESTS FIELD -->
+          <!--
+          <fieldset id="interests-field" style="border-width:0; border-color:transparent; position:relative;">
+            <div class="field" style="margin-left:10px; margin-top: 10px;">
+              <span class="label-and-errors">
+                <label for="trip-interests">On my trip, I'm interested in (optional)</label>
+                <span class="error-message"></span>
+                <div class="clear"></div>
+              </span>
+              <textarea  id="trip-interests" name="trip-interests" style="width:380px; height:56px;"></textarea>
+            </div>
+            
+            
+            <div class="field" style="margin-left:10px; margin-top: 10px; margin-bottom:10px;">
+              <span class="label-and-errors">
+                I want suggestions for:
+                <span class="error-message"></span>
+                <div class="clear"></div>
+              </span>
+              <table style="margin-top:10px; margin-left:20px;">
+                <tbody>
+                  <tr>
+                    <td class="checkbox-name"><label for="accommodation">Accommodation</label></td>
+                    <td class="padding-right"><input type="checkbox" name="accommodation" id="accommodation" value="accommodation" /></td>
+                    <td class="checkbox-name"><label for="local-attractions">Local attractions</label></td>
+                    <td class="padding-right"><input type="checkbox" name="local-attractions" id="local-attractions" value="local-attractions" /></td>
+                    <td class="checkbox-name"><label for="other">Other</label></td>
+                    <td><input type="checkbox" name="other" id="other" value="other" /></td>
+                  </tr>
+                  <tr>
+                    <td class="checkbox-name"><label for="restaurants">Restaurants</label></td>
+                    <td class="padding-right"><input type="checkbox" name="restaurants" id="restaurants" value="accommodation" /></td>
+                    <td class="checkbox-name"><label for="bars-nightlife">Bars/nightlife</label></td>
+                    <td class="padding-right"><input type="checkbox" name="bars-nightlife" id="bars-nightlife" value="bars-nightlife" /></td>
+                  </tr>
+                  <tr>
+                    <td class="checkbox-name"><label for="landmarks">Natural features</label></td>
+                    <td class="padding-right"><input type="checkbox" name="landmarks" id="landmarks" value="accommodation" /></td>
+                    <td class="checkbox-name"><label for="activities-events">Activities/events</label></td>
+                    <td class="padding-right"><input type="checkbox" name="activities-events" id="activities-events" value="activities-events" /></td>
+                  </tr>
+                  <tr>
+                    <td class="checkbox-name"><label for="shopping">Shopping</label></td>
+                    <td class="padding-right"><input type="checkbox" name="shopping" id="shopping" value="accommodation" /></td>
+                    <td class="checkbox-name"><label for="landmarks">Landmarks</label></td>
+                    <td class="padding-right"><input type="checkbox" name="landmarks" id="landmarks" value="landmarks" /></td>
+                  </tr>
+                </tbody>
+              </table>
+              <textarea id="other-textbox" style="position:absolute; right:185px; top:150px; width:200px; height:63px; display:none;"></textarea>
+            </div>
+  
+          </fieldset>-->
+          <!-- INTERESTS FIELD ENDS -->
+  
           
-          <div class="field" style="margin-left:10px; margin-top: 10px; margin-bottom:10px;">
-            <span class="label-and-errors">
-              I want suggestions for:
-              <span class="error-message"></span>
-              <div class="clear"></div>
-            </span>
-            <table style="margin-top:10px; margin-left:20px;">
-              <tbody>
-                <tr>
-                  <td class="checkbox-name"><label for="accommodation">Accommodation</label></td>
-                  <td class="padding-right"><input type="checkbox" name="accommodation" id="accommodation" value="accommodation" /></td>
-                  <td class="checkbox-name"><label for="local-attractions">Local attractions</label></td>
-                  <td class="padding-right"><input type="checkbox" name="local-attractions" id="local-attractions" value="local-attractions" /></td>
-                  <td class="checkbox-name"><label for="other">Other</label></td>
-                  <td><input type="checkbox" name="other" id="other" value="other" /></td>
-                </tr>
-                <tr>
-                  <td class="checkbox-name"><label for="restaurants">Restaurants</label></td>
-                  <td class="padding-right"><input type="checkbox" name="restaurants" id="restaurants" value="accommodation" /></td>
-                  <td class="checkbox-name"><label for="bars-nightlife">Bars/nightlife</label></td>
-                  <td class="padding-right"><input type="checkbox" name="bars-nightlife" id="bars-nightlife" value="bars-nightlife" /></td>
-                </tr>
-                <tr>
-                  <td class="checkbox-name"><label for="landmarks">Natural features</label></td>
-                  <td class="padding-right"><input type="checkbox" name="landmarks" id="landmarks" value="accommodation" /></td>
-                  <td class="checkbox-name"><label for="activities-events">Activities/events</label></td>
-                  <td class="padding-right"><input type="checkbox" name="activities-events" id="activities-events" value="activities-events" /></td>
-                </tr>
-                <tr>
-                  <td class="checkbox-name"><label for="shopping">Shopping</label></td>
-                  <td class="padding-right"><input type="checkbox" name="shopping" id="shopping" value="accommodation" /></td>
-                  <td class="checkbox-name"><label for="landmarks">Landmarks</label></td>
-                  <td class="padding-right"><input type="checkbox" name="landmarks" id="landmarks" value="landmarks" /></td>
-                </tr>
-              </tbody>
-            </table>
-            <textarea id="other-textbox" style="position:absolute; right:185px; top:150px; width:200px; height:63px; display:none;"></textarea>
-          </div>
-
-        </fieldset>-->
-        <!-- INTERESTS FIELD ENDS -->
-
-        
-        <input class="submit" type="submit" value="" style="border:0; cursor:pointer; background:url('http://dev.shoutbound.com/david/images/create-button.png'); background-repeat:no-repeat; height:55px; width:175px; position:relative; left:500px; top:5px;" />
-      </form><!-- TRIP CREATION FORM ENDS -->
-      
-    </div><!-- CONTENT ENDS -->
+          <input class="submit" type="submit" value="" style="border:0; cursor:pointer; background:url('http://dev.shoutbound.com/david/images/create-button.png'); background-repeat:no-repeat; height:55px; width:175px; position:relative; left:500px; top:5px;" />
+        </form><!-- TRIP CREATION FORM ENDS -->
+      </div><!-- CONTENT ENDS -->
+    </div><!-- WRAPPER ENDS -->
     
     
     <?=$this->load->view('footer')?>

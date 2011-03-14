@@ -16,7 +16,7 @@ $this->load->view('core_header', $header_args);
 
 </head>
 	
-<body style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
+<body style="background-color:#1B272C;">
 
   <?=$this->load->view('header')?>
 
@@ -33,8 +33,8 @@ $this->load->view('core_header', $header_args);
     }());
 	</script>
 
-	<div id="wrapper" style="width:960px; margin:0 auto;">
-    <div id="content" style="padding-top:30px; margin:0 auto; width:400px; padding-bottom:80px;">
+	<div class="wrapper" style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
+    <div class="content" style="margin:0 auto; padding-top:30px; margin:0 auto; width:400px; padding-bottom:80px;">
     
       <h2 style="text-align:center; margin:20px 0;">Create an account</h2>
       <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post" style="border:1px solid #AAA; padding:20px;">

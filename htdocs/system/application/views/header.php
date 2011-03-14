@@ -1,5 +1,5 @@
 <!-- HEADER -->
-<div class="header" style="background-color:#4483B1; color:white; height:50px; display:block;">
+<div class="header" style="background-color:#0078a5; color:white; height:50px; display:block;">
   <div class="wrapper" style="width:960px; margin:0 auto; position:relative;">
     <h1 style="position:absolute; left:0; top:0px;">
       <a href="<?=site_url('/')?>"><img src="<?=site_url('images/logo_header.png')?>" alt="Shoutbound" width="81" height="50" style="display:block;"/></a>
