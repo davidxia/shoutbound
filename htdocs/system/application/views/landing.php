@@ -30,10 +30,10 @@ $this->load->view('core_header', $header_args);
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
-  margin-bottom: 13px;
   position: absolute;
-  top: 0;
-  right: 90px;
+  right: 0;
+  z-index: 3;
+  margin: 0;
 }
 #lets-go:hover {
 	background: #007ead;
@@ -82,126 +82,44 @@ $this->load->view('core_header', $header_args);
   	</div><!-- CONTENT ENDS -->
   	
   	<div style="background:#1b272c; position:relative; top:-380px; left:0;">
-      <div style="margin:0 auto; width:960px; text-align:center; padding:15px; line-height:60px;">
-  		  <form id="destination" action="trips/create" method="post" style="position:relative;">
-  			  <input type="text" id="destination-input" name="destination" autocomplete="off" style="border-radius:5px; -moz-border-radius:5px;
-  -webkit-border-radius:5px; height:59px; width:500px; padding:0 100px 0 40px; font-size:22px; font-weight: bold; color:#000080;" value="Where do you want to go?"/>
-          <input type="hidden" id="destination_lat" name="destination_lat"/>
-          <input type="hidden" id="destination_lng" name="destination_lng"/>
-  			  <button id="lets-go" type="submit">Let's go</button>
+      <div style="margin:0 auto; width:700px; padding:15px; line-height:60px; height:60px;">
+  		  <form action="trips/create" method="post" style="position:relative;">
+    		    <label for="destination" style="position:absolute; font-size:22px; font-weight:bold; color:#87CEEB; z-index:1; background-color:white; width:558px; height:61px; padding:0 100px 0 40px;"><span>Where do you want to go?</span></label>
+    			  <input type="text" id="destination" name="destination" autocomplete="off" style="position:absolute; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; height:59px; width:558px; padding:0 100px 0 40px; font-size:22px; font-weight: bold; color:#000080; z-index:2; background:transparent;"/>
+    			  <button id="lets-go" type="submit">Let's go</button>
   		  </form>
-
-        <!-- AUTO LOC LIST -->
-        <div id="auto-loc-list" style="position:absolute; top:400px; left:430px; background:#EAEAEA; opacity:0.9; width:400px; text-align:left;">
-          <ul id="location-autosuggest"></ul>
-        </div><!-- AUTO LOC LIST ENDS -->
       </div>
   	</div>
 
 
 	</div><!-- WRAPPER ENDS -->
 
-  		
-  
-	
   <?=$this->load->view('footer')?>
 
-	<script>
-	
-	$('#baricon').click(function() {
-	  $('#destination').submit();
-	});
-	
-	$(document).ready(function () {	    
-    $('#destination-input').focus(function() {
-      if ($(this).val() == 'Where do you want to go?') {
-        $(this).val('');
+<script>
+  $.fn.labelFader = function() {
+    var f = function() {
+      var $this = $(this);
+      if ($this.val()) {
+        $this.siblings("label").children('span').hide();
+      } else {
+        $this.siblings("label").children('span').fadeIn("fast");
       }
-    }).blur(function() {
-      if ($.trim($(this).val()) == '') {
-        $(this).val('Where do you want to go?');
-      }
-    });
-	});
-	
-  ///////////////////////////////////////
-  // load geocoder for destination field
-  var map = {};
-  
-  $(document).ready(function() {
-    map.loadGoogleMapScript();
-  });
-
-  map.loadGoogleMapScript = function() {
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'http://maps.google.com/maps/api/js?sensor=false&callback=map.loadGoogleMap';
-    document.body.appendChild(script);
-  };
-  
-  map.loadGoogleMap = function() {
-    // bind onkeyup event to location-search-box
-    $('#destination-input').keyup(function() {
-      map.delay(map.geocodeLocationQuery, 250);
-    });
-  };
-
-  // delay geocoder api for 1 second of keyboard inactivity
-  map.delay = (function() {
-    var timer = 0;
-    return function(callback, ms){
-      clearTimeout (timer);
-      timer = setTimeout(callback, ms);
     };
-  })();
-  
-  map.geocodeLocationQuery = function() {
-    // new geocoder to convert address/name into latlng co-ords
-    var geocoder = new google.maps.Geocoder();
-    var query = $('#destination-input').val().trim();
-      
-    // geocode request sent after user stops typing for 1 second
-    if (query.length > 1) {
-      geocoder.geocode({'address': query}, map.returnGeocodeResult);
-    } else {
-    	$('#location-autosuggest').html('');
-    }
-  };
-  
-  
-  // this callback function is passed the geocoderResult object
-  map.returnGeocodeResult = function(result, status) {
-    if (status == google.maps.GeocoderStatus.OK && result[0]) {
-    	$('#location-autosuggest').empty();
-    	for (var i=0; i<result.length; i++) {
-    		map.listResult(result[i]);
-    	}
-    } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-    	$('#location-autosuggest').html('Aw, we couldn\'t find that place.');
-    } else {
-    	$('#location-autosuggest').html(status);
-    }
-  };
-  
-  
-  // selectable dropdown list
-  map.listResult = function(resultItem) {
-    var li = $('<li style="padding:10px;"></li>');
-    li.html('<a href="#" style="text-decoration:none; color:navy; font-size:18px; font-weight:bold;">'+resultItem.formatted_address+'</a>');
-    li.click(function(){
-      map.clickGeocodeResult(resultItem);
-      return false;
-    });
-    $('#location-autosuggest').append(li);
+    this.focus(f);
+    this.blur(f);
+    this.keyup(f);
+    this.change(f);
+    this.each(f);
+    return this;
   };
 
-  map.clickGeocodeResult = function(resultItem) {
-    $('#destination-input').val(resultItem.formatted_address);
-    $('#location-autosuggest').empty();
-    $('#destination_lat').val(resultItem.geometry.location.lat());
-    $('#destination_lng').val(resultItem.geometry.location.lng());
-  };
-	</script>
+  $(document).ready(function() {
+    $('#destination').focus();
+
+    $('#destination').labelFader();
+  });
+</script>
 
 </body>
 </html>
