@@ -16,14 +16,9 @@ $this->load->view('core_header', $header_args);
   var staticUrl = "<?=static_url(''); ?>";
 </script>
 
-<style type="text/css">
-a {
-  text-decoration: none;
-}
-</style>
 
 </head> 
-<body style="background-color:#1B272C;">
+<body style="background-color:#1B272C; min-width:960px;">
 
   <? $this->load->view('header')?>
 

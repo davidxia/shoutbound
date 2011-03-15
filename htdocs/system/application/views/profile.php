@@ -46,7 +46,7 @@ $this->load->view('core_header', $header_args);
   
 </head>
 
-<body style="background-color:#1B272C;">
+<body style="background-color:#1B272C; min-width:960px;">
 
   <?=$this->load->view('header')?>
 

@@ -199,7 +199,8 @@ class Trips extends Controller
         $u->get_by_id($uid);
 
         $view_data = array('user' => $u->stored,
-                           'destination' => $this->input->post('destination')
+                           'destination' => $this->input->post('destination'),
+                           'is_landing' => 1,
                           );
 
         if ($i == 1)

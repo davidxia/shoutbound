@@ -45,15 +45,15 @@ $this->load->view('core_header', $header_args);
 	color: #80bed6;
 	background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
 	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
 }
 </style> 
 
 </head>
 
-<body style="background-color:#1B272C;">
+<body style="background-color:#1B272C; min-width:960px;">
 
-  <?=$this->load->view('header')?>
+  <? $this->load->view('header')?>
 
 	<div class="wrapper" style="background-color:white;">
 	
@@ -94,16 +94,16 @@ $this->load->view('core_header', $header_args);
 
 	</div><!-- WRAPPER ENDS -->
 
-  <?=$this->load->view('footer')?>
+  <? $this->load->view('footer')?>
 
 <script>
   $.fn.labelFader = function() {
     var f = function() {
       var $this = $(this);
       if ($this.val()) {
-        $this.siblings("label").children('span').hide();
+        $this.siblings('label').children('span').hide();
       } else {
-        $this.siblings("label").children('span').fadeIn("fast");
+        $this.siblings('label').children('span').fadeIn('fast');
       }
     };
     this.focus(f);

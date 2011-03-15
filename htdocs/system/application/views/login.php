@@ -20,9 +20,9 @@ $this->load->view('core_header', $header_args);
   
 </head>
 
-<body style="background-color:#1B272C;">
+<body style="background-color:#1B272C; min-width:960px;">
 
-  <?=$this->load->view('header')?>
+  <? $this->load->view('header')?>
 
 	<div id="fb-root"></div>
 	<script>
@@ -58,7 +58,7 @@ $this->load->view('core_header', $header_args);
           </fieldset>
         </div>
         <div style="text-align:center;">
-          <input type="submit" id="login-form-submit" value="sign in"/>
+          <button type="submit" id="login-button">Login</button>
         </div>
       </form>
 
@@ -75,7 +75,7 @@ $this->load->view('core_header', $header_args);
     </div>
   </div>
 
-  <?=$this->load->view('footer')?>
+  <? $this->load->view('footer')?>
 
 </body>
 <script type="text/javascript">
@@ -93,7 +93,7 @@ $this->load->view('core_header', $header_args);
       return false;
     });
     
-    $('#login-form-submit').click(function() {
+    $('#login-button').click(function() {
       var postData = {
         email: $('#email').val(),
         password: $('#password').val()

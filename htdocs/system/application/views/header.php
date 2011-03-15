@@ -1,12 +1,14 @@
 <!-- HEADER -->
 <div class="header" style="background-color:#0078a5; color:white; height:50px; display:block;">
-  <div class="wrapper" style="width:960px; margin:0 auto; position:relative;">
+  <div class="wrapper" style="width:930px; margin:0 auto; position:relative;">
     <h1 style="position:absolute; left:0; top:0px;">
       <a href="<?=site_url('/')?>"><img src="<?=site_url('images/logo_header.png')?>" alt="Shoutbound" width="81" height="50" style="display:block;"/></a>
     </h1>
     
-  	<a href="<?=site_url('trips/create')?>" style="position: absolute; top:3px; left:300px; display:block; background: transparent url(<?=site_url('images/create_trip_button.png')?>) no-repeat 0 0; width:154px; height:41px;"></a>
-
+    <? if ( ! $is_landing):?>
+    	<a href="<?=site_url('trips/create')?>" id="create-trip-button">CREATE A TRIP</a>
+    <? endif;?>
+    
     <div class="nav" style="position:absolute; right:0; top:0;">
       <? if ($user->id):?>
         <a href="<?=site_url('home')?>" style="margin-left:20px; text-decoration:none; display:block; float:left; color: white; padding:10px 0; line-height:30px;">Home</a>

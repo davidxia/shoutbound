@@ -1,6 +1,7 @@
 <?php
 
-class Landing extends Controller {
+class Landing extends Controller
+{
 
     function index()
     {
@@ -11,8 +12,12 @@ class Landing extends Controller {
         }
         else
         {
-            $this->load->view('landing');
+            $view_data = array('is_landing' => 1);
+            $this->load->view('landing', $view_data);
         }
     }
 
 }
+
+/* End of file landing.php */
+/* Location: ./application/controllers/landing.php */

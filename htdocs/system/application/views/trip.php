@@ -214,14 +214,43 @@ li.suggestion.highlighted{
 .friend-capsule.share-selected .friend-name {
   color: #fff;
 }
-
+#wall-post-button {
+  width: 50px;
+  cursor: pointer;
+  display:none;
+  line-height:30px;
+  text-align:center;
+  text-decoration:none;
+	color: white;
+	border: solid 1px #0076a3;
+	background: #0095cd;
+	background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
+	background: -moz-linear-gradient(top,  #00adee,  #0078a5);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  margin: 0;
+}
+#wall-post-button:hover {
+	background: #007ead;
+	background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
+	background: -moz-linear-gradient(top,  #0095cc,  #00678e);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
+}
+#wall-post-button:active {
+	color: #80bed6;
+	background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
+	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
+}
 </style>
 
 </head>
 
 
 
-<body style="background-color:#1B272C;">
+<body style="background-color:#1B272C; min-width:960px;">
 	<div id="fb-root"></div>
 	<script>
     window.fbAsyncInit = function() {
@@ -236,7 +265,7 @@ li.suggestion.highlighted{
 	</script>
 	
 	  <div id="div-to-popup" style="display:none;">
-    <div id="trip-invite-popup" style="width:466px; padding:10px; background:rgba(82, 82, 82, 0.7); border-radius: 8px; -webkit-border-radius:8px; border-top-left-radius: 8px 8px; border-top-right-radius: 8px 8px; border-bottom-right-radius: 8px 8px; border-bottom-left-radius: 8px 8px;">
+    <div id="trip-invite-popup" style="width:466px; padding:10px; background:rgba(82, 82, 82, 0.7); border-radius: 5px; -webkit-border-radius:5px; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; border-bottom-right-radius: 5px 5px; border-bottom-left-radius: 5px 5px;">
       <fb:serverfbml id="fb_invite" width="615"></fb:serverfbml>
     </div>
   </div>
@@ -248,9 +277,9 @@ li.suggestion.highlighted{
   <div class="wrapper" style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
     <!-- MAIN -->
     <div class="content" style="margin: 0 auto; width:960px; padding:20px 0 80px;">
-      <div style="border: 1px solid #ced7de; background-color:#FFFFFF; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px; min-height:300px;">
+      <div style="border: 1px solid #ced7de; background-color:#FFFFFF; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; min-height:300px;">
           <!-- TRIP SUMMARY -->
-          <div id="trip_summary" style="width:688px; float:left; margin:10px 10px 10px 10px;  padding:10px; border: 1px solid #ced7de; border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;">
+          <div id="trip_summary" style="width:688px; float:left; margin:10px 10px 10px 10px;  padding:10px; border: 1px solid #ced7de; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;">
             <div id="trip_name" style="font-size:1.5em;font-weight: bold; color:#026eb0; margin-bottom:5px;">
               <?=$trip->name?>
             </div>
@@ -361,85 +390,34 @@ li.suggestion.highlighted{
           <div id="wall" style="float:left; width:40%; height: 650px;">
             <!-- WALL INPUT CONTAINER -->
             <div id="wall-input-container" style="padding-left:10px;">
-              <textarea id="message-box" style="width:340px; height:20px;">Write a message</textarea>
+              <div style="height:80px;">
+                <label for="message-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:40px; padding-left:10px;"><span>Write a message</span></label>
+                <textarea id="message-box" style="position:absolute; z-index:2; background:transparent; width:340px; height:20px;"></textarea>
+              </div>
               
               <!-- LOCATION SEARCH -->
-              <div id="location-search" style="display:none; position:relative;">
-                Location
+              <div id="location-search" style="display:none; position:relative; height:40px;">
+                <label for="location-search-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:40px; padding-left:10px;"><span>Location</span></label>
                 <input type="hidden" class="location-data" id="location-name" name="location-name" />
                 <input type="hidden" class="location-data" id="location-phone" name="location-phone" />
                 <input type="hidden" class="location-data" id="location-lat" name="location-lat" />
                 <input type="hidden" class="location-data" id="location-lng" name="location-lng" />
-                <input type="text" id="location-search-box" size="39" />
+                <input type="text" id="location-search-box" style="position:absolute; z-index:2; background:transparent; width:340px;"/>
                 <!-- AUTO LOC LIST -->
                 <div id="auto-loc-list" style="position:absolute; top:60px; left:0px; background:white; opacity:0.8; width:350px;">
                   <ul id="location-autosuggest"></ul>
                 </div><!-- AUTO LOC LIST ENDS -->
                 <div id="marker-notification" style="position:absolute; top:-40px; right:-480px; z-index:1000; display:none; color:white; background-color:black; opacity:0.8; -moz-box-shadow: 2px 2px 5px black; -webkit-box-shadow: 2px 2px 5px black; box-shadow: 2px 2px 5px black; padding:15px;">You can drag and drop the pin anywhere you want.</div>
+                <div style="clear:both;"></div>
               </div><!-- LOCATION SEARCH ENDS -->
               
-              <!-- CATEGORY -->
-              <div id="category" style="display:none; margin-left:20px;">
-                Category<br/>
-                <table style="border-collapse:collapse;">
-                  <tbody>
-                    <tr>
-                      <td class="checkbox-name"><label for="accommodation">Accommodation</label></td>
-                      <td class="padding-right"><input type="checkbox" name="accommodation" id="accommodation" value="accommodation" /></td>
-                      <td class="checkbox-name"><label for="local-attractions">Local attractions</label></td>
-                      <td class="padding-right"><input type="checkbox" name="local-attractions" id="local-attractions" value="local-attractions" /></td>
-                    </tr>
-                    <tr>
-                      <td class="checkbox-name"><label for="restaurants">Restaurants</label></td>
-                      <td class="padding-right"><input type="checkbox" name="restaurants" id="restaurants" value="accommodation" /></td>
-                      <td class="checkbox-name"><label for="bars-nightlife">Bars/nightlife</label></td>
-                      <td class="padding-right"><input type="checkbox" name="bars-nightlife" id="bars-nightlife" value="bars-nightlife" /></td>
-                    </tr>
-                    <tr>
-                      <td class="checkbox-name"><label for="landmarks">Landmarks</label></td>
-                      <td class="padding-right"><input type="checkbox" name="landmarks" id="landmarks" value="accommodation" /></td>
-                      <td class="checkbox-name"><label for="activities-events">Activities/events</label></td>
-                      <td class="padding-right"><input type="checkbox" name="activities-events" id="activities-events" value="activities-events" /></td>
-                    </tr>
-                    <tr>
-                      <td class="checkbox-name"><label for="shopping">Shopping</label></td>
-                      <td class="padding-right"><input type="checkbox" name="shopping" id="shopping" value="accommodation" /></td>
-                      <td class="checkbox-name"><label for="blah">blah</label></td>
-                      <td class="padding-right"><input type="checkbox" name="blah" id="blah" value="blah" /></td>
-                    </tr>
-                  </tbody>
-                </table>
-                <textarea id="category-other" style="width:200px; height:40px;">other</textarea>
-              </div><!-- CATEGORY ENDS -->
-
-              <!-- GOOD FOR -->
-              <div id="good-for" style="display:none; margin-left:20px;">
-                Good for<br/>
-                <table style="border-collapse:collapse;">
-                  <tbody>
-                    <tr>
-                      <td class="checkbox-name"><label for="input-1">input-1</label></td>
-                      <td class="padding-right"><input type="checkbox" name="input-1" id="input-1" value="input-1" /></td>
-                      <td class="checkbox-name"><label for="input-2">input-2</label></td>
-                      <td class="padding-right"><input type="checkbox" name="input-2" id="input-2" value="input-2" /></td>
-                    </tr>
-                    <tr>
-                      <td class="checkbox-name"><label for="input-3">input-3</label></td>
-                      <td class="padding-right"><input type="checkbox" name="input-3" id="input-3" value="input-3" /></td>
-                      <td class="checkbox-name"><label for="input-4">input-4</label></td>
-                      <td class="padding-right"><input type="checkbox" name="input-4" id="input-4" value="input-4" /></td>
-                    </tr>
-                  </tbody>
-                </table>
-                <textarea id="good-for-other" style="width:200px; height:40px;">other</textarea>
-              </div><!-- GOOD FOR ENDS -->
               
-              <div id="link-input" style="display:none;">
-                Link
-                <input type="text" id="link-input-box" size="39" value="http://" />
+              <div id="link-input" style="display:none; height:40px;">
+                <label for="link-input-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:40px; padding-left:10px;"><span>http://</span></label>
+                <input type="text" id="link-input-box" style="position:absolute; z-index:2; background:transparent; width:340px;"/>
               </div>
               
-              <div id="wall-post-button" style="padding-left:330px; display:none;"><a href="#" id="post-to-wall" style="text-decoration:none;">Post</a></div>
+              <a href="#" id="wall-post-button">Post</a>
               
             </div><!-- WALL INPUT CONTAINER -->
 
@@ -454,16 +432,14 @@ li.suggestion.highlighted{
                       <span class="wall-location-address" style="display:none;"><?=$wall_item->address?></span>
                       <span class="wall-location-phone" style="display:none;"><?=$wall_item->phone?></span>
                       
-                      Accomodation, landmark, restaurant<br/>
-                      Good for: seeing new york like a local, food, burgers<br/>
                       <? if ($wall_item->text):?>
                         <br/>
                         <?=$wall_item->text?>
                       <? endif;?>
-                      <div class="rating-panel">
+                      <!--<div class="rating-panel">
                         <a href="#" class="like">Like</a>
                         <span class="num-likes"><?=$wall_item->votes?></span> likes
-                      </div>
+                      </div>-->
                       <? if ($user_role >= 2):?>
                         <div class="remove-wall-item" suggestionId="<?=$wall_item->id?>"></div>
                       <? endif;?>
@@ -522,21 +498,36 @@ li.suggestion.highlighted{
     expandMessageBox();
   });
   
+  $.fn.labelFader = function() {
+    var f = function() {
+      var $this = $(this);
+      if ($this.val()) {
+        $this.siblings('label').children('span').hide();
+      } else {
+        $this.siblings('label').children('span').fadeIn('fast');
+      }
+    };
+    this.focus(f);
+    this.blur(f);
+    this.keyup(f);
+    this.change(f);
+    this.each(f);
+    return this;
+  };
+
+  $(document).ready(function() {
+    $('#message-box').labelFader();
+    $('#location-search-box').labelFader();
+    $('#link-input-box').labelFader();
+  });
+  
+  
   function expandMessageBox() {
     $('#message-box').html('').css('height', '50px');
     $('#location-search').show();
     $('#link-input').show();
-    $('#wall-post-button').show();
+    $('#wall-post-button').css('display', 'block');
   }
-
-
-  $('#link-input-box').focus(function() {
-    $(this).val('');
-  }).blur(function() {
-    if ($(this).val() == '') {
-      $(this).val('http://');
-    }
-  });
   
   
   // change background color of wall item on hover
@@ -554,7 +545,7 @@ li.suggestion.highlighted{
   
   
   $(document).ready(function() {
-    $('#post-to-wall').click(function() {
+    $('#wall-post-button').click(function() {
       // distinguish between message and suggestion
       if ($('#location-name').val().length==0 || $('#location-lat').val().length==0 || $('#location-lng').val().length==0) {
         $.ajax({

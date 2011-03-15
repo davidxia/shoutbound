@@ -74,7 +74,7 @@ label.error {
  
 <?=$this->load->view('core_header_end')?>
 
-	<body style="background-color:#1B272C;">
+	<body style="background-color:#1B272C; min-width:960px;">
     <div id="div-to-popup" style="background-color:white; display:none;"></div>
     
     <? $this->load->view('header')?>
