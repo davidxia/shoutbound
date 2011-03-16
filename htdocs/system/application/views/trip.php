@@ -483,6 +483,15 @@ li.suggestion.highlighted{
   // output wall markers to page so Map.display_wall_markers function can display them once google map loads
   // only put a comma after each item in the array if it's not the last one
   // TODO: is there a better way to do the comma thing?
+  map.destination_markers = [
+      <? for($i=0, $count=count($destinations); $i<$count; $i++):?>
+          {"lat": <?=$destinations[$i]->lat?>, "lng": <?=$destinations[$i]->lng?>}
+          <? if($i < $count-1):?>
+              ,
+          <? endif;?>
+      <? endfor;?>
+  ];
+
   Wall.wall_markers = [
       <? for($i=0, $count=count($suggestions); $i<$count; $i++):?>
           {"suggestionId": <?=$suggestions[$i]->id?>, "lat": <?=$suggestions[$i]->lat?>, "lng": <?=$suggestions[$i]->lng?>}

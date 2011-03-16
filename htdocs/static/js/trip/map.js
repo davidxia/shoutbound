@@ -32,6 +32,9 @@ map.loadGoogleMap = function() {
   
   // display map inside map-canvas element
   map.googleMap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  
+  // mark trip's destinations on map
+  map.displayDestinationMarkers();
 
   
   // change viewport to saved latlngbounds
@@ -55,7 +58,28 @@ map.loadGoogleMap = function() {
 };
 
 
-// delay geocoder api for 1 second of keyboard inactivity
+map.displayDestinationMarkers = function() {
+  var bounds = new google.maps.LatLngBounds();
+  for (var key in map.destination_markers) {
+    if (map.destination_markers.hasOwnProperty(key)) {
+      var markerLatLng = new google.maps.LatLng(map.destination_markers[key]['lat'], map.destination_markers[key]['lng']);
+      // add each new marker object to Map.markers array
+      new google.maps.Marker({
+        map: map.googleMap,
+        position: markerLatLng,
+        icon: new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/shoutbound_marker.png')
+      });
+      // extend bounds to include this marker
+      bounds.extend(markerLatLng);
+    }
+  }
+  if (map.destination_markers.length !== 0) {
+    map.googleMap.fitBounds(bounds);
+  }
+}
+
+
+// delay geocoder api for 1/5 second of keyboard inactivity
 map.delay = (function() {
   var timer = 0;
   return function(callback, ms){

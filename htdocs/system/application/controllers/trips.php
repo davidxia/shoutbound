@@ -88,6 +88,7 @@ class Trips extends Controller
         }      
  	  }
 
+
     function index($trip_id = FALSE)
     {
         if ( ! $trip_id)
