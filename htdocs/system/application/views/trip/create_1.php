@@ -16,8 +16,7 @@ $this->load->view('core_header', $header_args);
 ?>
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
-  var baseUrl = "<?=site_url("")?>";
-  var staticUrl = "<?=static_url("")?>";
+  var baseUrl = "<?=site_url('')?>";
 </script>
 
 <style type="text/css">
@@ -105,7 +104,7 @@ label.error {
 </style>
  
  
-<?=$this->load->view('core_header_end')?>
+<? $this->load->view('core_header_end')?>
 
 	<body style="background-color:#1B272C; min-width:960px;">
     <div id="div-to-popup" style="background-color:white; display:none;"></div>
@@ -123,7 +122,7 @@ label.error {
         
           <!-- PLACE DATES FIELD -->
           <fieldset style="border-width:0; border-color:transparent; position:relative; margin-bottom:30px;">
-            <div style="width:412px; display:inline-block; margin-left:10px; margin-bottom:20px;">Destinations</div><div id="dates-header" style="width:298px; display:inline-block; visibility:hidden;">Dates</div>
+            <div style="width:412px; display:inline-block; margin-left:10px; margin-bottom:20px;">Destinations</div><div id="dates-header" style="width:296px; display:inline-block; visibility:hidden;">Dates</div>
             <div id="destinations_dates" style="position:relative;">
             <a id="add-destination" href="" style="position:absolute; top:20px; left:-10px;"><img src="<?=site_url('images/plus_icon.jpg')?>" height="20" width="20"/></a><a id="subtract-destination" href="" style="position:absolute; top:0; left:-10px;"><img src="<?=site_url('images/minus_icon.jpg')?>" height="20" width="20"/></a>
               <div class="field destination" style="margin-left:10px; margin-bottom:10px; position:relative; display:inline-block;">
@@ -362,6 +361,8 @@ label.error {
     });
   });
   
+
+
   ///////////////////////////////////////
   // load geocoder for destination field
   var map = {};
@@ -379,41 +380,45 @@ label.error {
   
   map.loadGoogleMap = function() {
     // bind onkeyup event to location-search-box
-    $('input.destination-input').live('keyup', function() {
-      var domInput = this;
-      map.delay(function() {
-        // new geocoder to convert address/name into latlng co-ords
-        var geocoder = new google.maps.Geocoder();
-        var query = $(domInput).val().trim();
-          
-        // geocode request sent after user stops typing for 1 second
-        if (query.length > 1) {
-          geocoder.geocode({'address': query}, function(result, status) {
-            if (status == google.maps.GeocoderStatus.OK && result[0]) {
-              if ($(domInput).next().attr('id') != 'auto-loc-list') {
-              	var html = [];
-              	html[0] = '<div id="auto-loc-list" style="padding-left:20px; background:white; opacity:0.9;">';
-              	html[1] = '<ul id="location-autosuggest"></ul>';
-              	html[2] = '</div>';
-              	html = html.join('');
-              	$(html).insertAfter($(domInput));
+    $('input.destination-input').live('keyup', function(e) {
+      var keyCode = e.keyCode || e.which;
+      // ignore arrow keys
+      if (keyCode!==37 && keyCode!==38 && keyCode!==39 && keyCode!==40) {
+        var domInput = this;
+        map.delay(function() {
+          // new geocoder to convert address/name into latlng co-ords
+          var geocoder = new google.maps.Geocoder();
+          var query = $(domInput).val().trim();
+            
+          // geocode request sent after user stops typing for 1 second
+          if (query.length > 1) {
+            geocoder.geocode({'address': query}, function(result, status) {
+              if (status == google.maps.GeocoderStatus.OK && result[0]) {
+                if ($(domInput).next().attr('id') != 'auto-loc-list') {
+                	var html = [];
+                	html[0] = '<div id="auto-loc-list" style="position:absolute; left:22px; background:white; opacity:0.9;">';
+                	html[1] = '<ul id="location-autosuggest"></ul>';
+                	html[2] = '</div>';
+                	html = html.join('');
+                	$(html).insertAfter($(domInput));
+                } else {
+                  $('#location-autosuggest').empty();
+                }
+              	
+              	for (var i=0; i<result.length; i++) {
+              		map.listResult(result[i], domInput);
+              	}
+              } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+              	$('#location-autosuggest').html('Aw, we couldn\'t find that place.');
               } else {
-                $('#location-autosuggest').empty();
+              	$('#location-autosuggest').html(status);
               }
-            	
-            	for (var i=0; i<result.length; i++) {
-            		map.listResult(result[i], domInput);
-            	}
-            } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-            	$('#location-autosuggest').html('Aw, we couldn\'t find that place.');
-            } else {
-            	$('#location-autosuggest').html(status);
-            }
-          });
-        } else {
-        	$('#location-autosuggest').html('');
-        }
-      }, 200);
+            });
+          } else {
+          	$('#location-autosuggest').html('');
+          }
+        }, 200);
+      }
     });
   };
 
@@ -429,8 +434,8 @@ label.error {
   
   // selectable dropdown list
   map.listResult = function(resultItem, domInput) {
-    var li = $('<li></li>');
-    li.html('<a href="#" style="background-color:white; text-decoration: none; line-height:40px; font:helvetica neue; font-size: 16px; padding-top: 5px; border-bottom: 1px solid gray; color:navy;">'+resultItem.formatted_address+'</a>');
+    var li = $('<li style="padding-left:10px;"></li>');
+    li.html('<a href="#" style="text-decoration:none; line-height:30px; padding-top:5px; color:black;">'+resultItem.formatted_address+'</a>');
     li.click(function(){
       map.clickGeocodeResult(resultItem, domInput);
       return false;

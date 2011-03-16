@@ -138,30 +138,24 @@ $this->load->view('core_header', $header_args);
   // allows user to use up/down arrows to select from autosuggest list
   $('#destination').keyup(function(e) {
     var keyCode = e.keyCode || e.which,
-        key = {up: 38, down: 40, enter: 13};
+        arrow = {up: 38, down: 40};
       
     /*key navigation through elements*/
-    if (keyCode == key.up || keyCode == key.down || keyCode == key.enter) {
+    if (keyCode == arrow.up || keyCode == arrow.down) {
       var $results = $('#auto-loc-list ul li');
   
       var $current = $results.filter('.selected'),
           $next;
   
       switch (keyCode) {
-        case key.up:
+        case arrow.up:
           $next = $current.prev();
           break;
-      case key.down:
+        case arrow.down:
           if (!$results.hasClass('selected')) {
             $results.first().addClass('selected');
           }
           $next = $current.next();
-          break;
-      case key.enter:
-          if ($results.hasClass('selected')) {
-            location.href = $current.find('a').attr('href');
-            return false;
-          }
           break;
       }
   
@@ -174,10 +168,12 @@ $this->load->view('core_header', $header_args);
       //update text in searchbar
       if ($results.hasClass('selected')) {
         $('#destination').val($('.selected').text());
+        $('#destination_lat').val($('.selected').children('a').attr('lat'));
+        $('#destination_lng').val($('.selected').children('a').attr('lng'));
       }
   
       //set cursor position
-      if (keyCode === key.up) {
+      if (keyCode === arrow.up) {
         return false;
       }
 
@@ -188,9 +184,9 @@ $this->load->view('core_header', $header_args);
   
   $('#destination').bind('keydown keypress', function(e) {
     var keyCode = e.keyCode || e.which,
-      key = {up: 38, down: 40};
+      arrow = {up: 38, down: 40};
     
-    if (keyCode == key.up || keyCode == key.enter) {
+    if (keyCode == arrow.up || keyCode == arrow.enter) {
       e.preventDefault();
     }
   });
@@ -213,9 +209,10 @@ $this->load->view('core_header', $header_args);
   
   map.loadGoogleMap = function() {
     // bind onkeyup event to location-search-box
-    $('#destination').keypress(function(e) {
-      // ignore non-char keys
-      if (e.which !== 0 && e.charCode !== 0) {
+    $('#destination').keyup(function(e) {
+      var keyCode = e.keyCode || e.which;
+      // ignore arrow keys
+      if (keyCode!==37 && keyCode!==38 && keyCode!==39 && keyCode!==40) {
         map.delay(map.geocodeLocationQuery, 150);
       }
     });
@@ -262,7 +259,7 @@ $this->load->view('core_header', $header_args);
   // selectable dropdown list
   map.listResult = function(resultItem) {
     var li = $('<li style="line-height:25px; padding-left:40px;"></li>');
-    li.html('<a href="#" style="text-decoration:none; color:navy; font-size:18px;">'+resultItem.formatted_address+'</a>');
+    li.html('<a href="#" style="text-decoration:none; color:navy; font-size:18px;" lat="'+resultItem.geometry.location.lat()+'" lng="'+resultItem.geometry.location.lng()+'">'+resultItem.formatted_address+'</a>');
     
     li.click(function(){
       map.clickGeocodeResult(resultItem);
