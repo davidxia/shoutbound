@@ -200,6 +200,8 @@ class Trips extends Controller
 
         $view_data = array('user' => $u->stored,
                            'destination' => $this->input->post('destination'),
+                           'destination_lat' => $this->input->post('destination_lat'),
+                           'destination_lng' => $this->input->post('destination_lng'),
                            'is_landing' => 1,
                           );
 

@@ -42,7 +42,7 @@ map.loadGoogleMap = function() {
   
   // bind onkeyup event to location-search-box
   $('#location-search-box').keyup(function() {
-    map.delay(map.geocodeLocationQuery, 1000);
+    map.delay(map.geocodeLocationQuery, 200);
   });
     
   // create infoWindow object for map
@@ -70,7 +70,7 @@ map.geocodeLocationQuery = function() {
   var geocoder = new google.maps.Geocoder();
   var query = $('#location-search-box').val().trim();
     
-  // geocode request sent after user stops typing for 1 second
+  // geocode request sent after user stops typing for 1/5 second
   if (query.length > 1) {
     var request = {
       'address': query,

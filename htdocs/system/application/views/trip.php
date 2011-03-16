@@ -136,7 +136,7 @@ $this->load->view('core_header', $header_args);
   padding-left: 10px;
   cursor: pointer;
 }
-#auto-loc-list ul li a:hover{
+#auto-loc-list ul li a:hover {
   background-color: #E0E0FF;
 }
 
@@ -404,7 +404,7 @@ li.suggestion.highlighted{
                 <input type="hidden" class="location-data" id="location-lng" name="location-lng" />
                 <input type="text" id="location-search-box" style="position:absolute; z-index:2; background:transparent; width:340px;"/>
                 <!-- AUTO LOC LIST -->
-                <div id="auto-loc-list" style="position:absolute; top:60px; left:0px; background:white; opacity:0.8; width:350px;">
+                <div id="auto-loc-list" style="position:absolute; top:60px; left:0px; background:white; opacity:0.8; width:350px; z-index:3;">
                   <ul id="location-autosuggest"></ul>
                 </div><!-- AUTO LOC LIST ENDS -->
                 <div id="marker-notification" style="position:absolute; top:-40px; right:-480px; z-index:1000; display:none; color:white; background-color:black; opacity:0.8; -moz-box-shadow: 2px 2px 5px black; -webkit-box-shadow: 2px 2px 5px black; box-shadow: 2px 2px 5px black; padding:15px;">You can drag and drop the pin anywhere you want.</div>

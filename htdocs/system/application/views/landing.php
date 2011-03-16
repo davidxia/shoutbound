@@ -47,6 +47,14 @@ $this->load->view('core_header', $header_args);
 	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
 }
+#auto-loc-list ul li:hover {
+  background-color: #E0E0FF;
+  cursor:pointer;
+}
+.selected {
+  font-weight:bold;
+  background-color: #E0E0FF;
+}
 </style> 
 
 </head>
@@ -82,12 +90,19 @@ $this->load->view('core_header', $header_args);
   	</div><!-- CONTENT ENDS -->
   	
   	<div style="background:#1b272c; position:relative; top:-380px; left:0;">
-      <div style="margin:0 auto; width:700px; padding:15px; line-height:60px; height:60px;">
-  		  <form action="trips/create" method="post" style="position:relative;">
+      <div style="margin:0 auto; width:700px; padding:15px; line-height:60px; height:60px; position:relative;">
+  		  <form id="create-trip" action="trips/create" method="post" style="position:relative;">
     		    <label for="destination" style="position:absolute; font-size:22px; font-weight:bold; color:#87CEEB; z-index:1; background-color:white; width:558px; height:61px; padding:0 100px 0 40px;"><span>Where do you want to go?</span></label>
     			  <input type="text" id="destination" name="destination" autocomplete="off" style="position:absolute; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; height:59px; width:558px; padding:0 100px 0 40px; font-size:22px; font-weight: bold; color:#000080; z-index:2; background:transparent;"/>
+    			  <input type="hidden" id="destination_lat" name="destination_lat"/>
+            <input type="hidden" id="destination_lng" name="destination_lng"/>
     			  <button id="lets-go" type="submit">Let's go</button>
   		  </form>
+  		  
+        <!-- AUTO LOC LIST -->
+        <div id="auto-loc-list" style="position:absolute; top:76px; left:15px; background-color:white; opacity:0.9; width:570px; text-align:left;">
+          <ul id="location-autosuggest"></ul>
+        </div><!-- AUTO LOC LIST ENDS -->
       </div>
   	</div>
 
@@ -116,9 +131,153 @@ $this->load->view('core_header', $header_args);
 
   $(document).ready(function() {
     $('#destination').focus();
-
     $('#destination').labelFader();
   });
+
+  
+  // allows user to use up/down arrows to select from autosuggest list
+  $('#destination').keyup(function(e) {
+    var keyCode = e.keyCode || e.which,
+        key = {up: 38, down: 40, enter: 13};
+      
+    /*key navigation through elements*/
+    if (keyCode == key.up || keyCode == key.down || keyCode == key.enter) {
+      var $results = $('#auto-loc-list ul li');
+  
+      var $current = $results.filter('.selected'),
+          $next;
+  
+      switch (keyCode) {
+        case key.up:
+          $next = $current.prev();
+          break;
+      case key.down:
+          if (!$results.hasClass('selected')) {
+            $results.first().addClass('selected');
+          }
+          $next = $current.next();
+          break;
+      case key.enter:
+          if ($results.hasClass('selected')) {
+            location.href = $current.find('a').attr('href');
+            return false;
+          }
+          break;
+      }
+  
+      //only check next element if up and down key pressed
+      if ($next.is('li')) {
+        $current.removeClass('selected');
+        $next.addClass('selected');
+      }
+  
+      //update text in searchbar
+      if ($results.hasClass('selected')) {
+        $('#destination').val($('.selected').text());
+      }
+  
+      //set cursor position
+      if (keyCode === key.up) {
+        return false;
+      }
+
+      return;
+    }
+  });
+  
+  
+  $('#destination').bind('keydown keypress', function(e) {
+    var keyCode = e.keyCode || e.which,
+      key = {up: 38, down: 40};
+    
+    if (keyCode == key.up || keyCode == key.enter) {
+      e.preventDefault();
+    }
+  });
+
+
+  ///////////////////////////////////////
+  // load geocoder for destination field
+  var map = {};
+  
+  $(document).ready(function() {
+    map.loadGoogleMapScript();
+  });
+
+  map.loadGoogleMapScript = function() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'http://maps.google.com/maps/api/js?sensor=false&callback=map.loadGoogleMap';
+    document.body.appendChild(script);
+  };
+  
+  map.loadGoogleMap = function() {
+    // bind onkeyup event to location-search-box
+    $('#destination').keypress(function(e) {
+      // ignore non-char keys
+      if (e.which !== 0 && e.charCode !== 0) {
+        map.delay(map.geocodeLocationQuery, 150);
+      }
+    });
+  };
+
+  // delay geocoder api for 1 second of keyboard inactivity
+  map.delay = (function() {
+    var timer = 0;
+    return function(callback, ms){
+      clearTimeout (timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+  
+  map.geocodeLocationQuery = function() {
+    // new geocoder to convert address/name into latlng co-ords
+    var geocoder = new google.maps.Geocoder();
+    var query = $('#destination').val().trim();
+      
+    // geocode request sent after user stops typing for 1 second
+    if (query.length > 1) {
+      geocoder.geocode({'address': query}, map.returnGeocodeResult);
+    } else {
+    	$('#location-autosuggest').html('');
+    }
+  };
+  
+  
+  // this callback function is passed the geocoderResult object
+  map.returnGeocodeResult = function(result, status) {
+    if (status == google.maps.GeocoderStatus.OK && result[0]) {
+    	$('#location-autosuggest').empty();
+    	for (var i=0; i<result.length; i++) {
+    		map.listResult(result[i]);
+    	}
+    } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+    	$('#location-autosuggest').html('Aw, we couldn\'t find that place.');
+    } else {
+    	$('#location-autosuggest').html(status);
+    }
+  };
+  
+  
+  // selectable dropdown list
+  map.listResult = function(resultItem) {
+    var li = $('<li style="line-height:25px; padding-left:40px;"></li>');
+    li.html('<a href="#" style="text-decoration:none; color:navy; font-size:18px;">'+resultItem.formatted_address+'</a>');
+    
+    li.click(function(){
+      map.clickGeocodeResult(resultItem);
+      return false;
+    });
+    $('#location-autosuggest').append(li);
+  };
+
+  map.clickGeocodeResult = function(resultItem) {
+    $('#destination').val(resultItem.formatted_address);
+    //$('#location-autosuggest').empty();
+    $('#destination_lat').val(resultItem.geometry.location.lat());
+    $('#destination_lng').val(resultItem.geometry.location.lng());
+    $('#create-trip').submit();
+  };
 </script>
 
 </body>

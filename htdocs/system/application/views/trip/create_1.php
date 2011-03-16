@@ -413,7 +413,7 @@ label.error {
         } else {
         	$('#location-autosuggest').html('');
         }
-      }, 300);
+      }, 200);
     });
   };
 
