@@ -12,8 +12,6 @@ $header_args = array(
 
 $this->load->view('core_header', $header_args);
 ?>
-
-
 </head>
 	
 <body style="background-color:#1B272C; min-width:960px;">
@@ -80,7 +78,7 @@ $this->load->view('core_header', $header_args);
       </div>
         
     	<div style="text-align:center;">
-        Already have an account? Login <a href="<?=site_url('login')?>">here</a>.
+        Already have an account? <a href="<?=site_url('login')?>">Login</a>.
       </div>
       
     </div><!-- CONTENT ENDS -->

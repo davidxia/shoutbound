@@ -68,7 +68,40 @@ label.error {
   vertical-align: top;
   font-size: 12px;
 }
-
+#create-button {
+  color:white;
+  height:40px;
+  width: 154px;
+  line-height:40px;
+  text-align:center;
+  font-weight:bold;
+  font-size:14px;
+  text-decoration:none;
+  background: #0095cd;
+  background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
+  background: -moz-linear-gradient(top,  #00adee,  #0078a5);
+  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
+  border: solid 1px #0076a3;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0;
+  margin:0;
+  float: right;
+}
+#create-button:hover {
+  background: #007ead;
+  background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
+  background: -moz-linear-gradient(top,  #0095cc,  #00678e);
+  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
+}
+#create-button:active {
+  color: #80bed6;
+  background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
+  background: -moz-linear-gradient(top,  #0078a5,  #00adee);
+  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
+}
 </style>
  
  
@@ -227,8 +260,10 @@ label.error {
           </fieldset>-->
           <!-- INTERESTS FIELD ENDS -->
   
-          
-          <input class="submit" type="submit" value="" style="border:0; cursor:pointer; background:url('http://dev.shoutbound.com/david/images/create-button.png'); background-repeat:no-repeat; height:55px; width:175px; position:relative; left:500px; top:5px;" />
+          <div>
+            <button id="create-button" type="submit">Create</button>
+          </div>
+          <div style="clear:both;"></div>
         </form><!-- TRIP CREATION FORM ENDS -->
       </div><!-- CONTENT ENDS -->
     </div><!-- WRAPPER ENDS -->
@@ -290,7 +325,7 @@ label.error {
     // clicking create button checks if form is valid
     // if user is logged in, form is submitted
     // if user isn't logged in, login/signup dialogue pops up
-    $('input.submit').click(function() {
+    $('#create-button').click(function() {
       if ($('#trip-creation-form').valid()) {
         $.ajax({
           url: baseUrl+'users/ajax_get_logged_in_status',

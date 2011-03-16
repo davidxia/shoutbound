@@ -70,7 +70,7 @@ $this->load->view('core_header', $header_args);
       </div>
       
     	<div style="text-align:center;">
-        Don't have an account? Sign up <a href="http://dev.shoutbound.com/david/signup">here</a>.
+        Don't have an account? <a href="<?=site_url('signup')?>">Sign up</a>.
       </div>
     </div>
   </div>

@@ -326,12 +326,12 @@ li.suggestion.highlighted{
                   <? endif;?>
                 <? endforeach;?>
               </div>
-              <div id="need-advice-on" style="width:50%; display:inline-block; float:left; font-size:1em;">
+              <!--<div id="need-advice-on" style="width:50%; display:inline-block; float:left; font-size:1em;">
                 Interested in:<br/>
                 <span style="padding-left: 10px;">interest go here</span><br/>
                 Want suggestions for:<br/>
                 <span style="padding-left: 10px;">suggestion categories go here</span>
-              </div>
+              </div>-->
             </div>
           </div><!-- TRIP SUMMARY ENDS -->
             
