@@ -55,48 +55,51 @@ $this->load->view('core_header', $header_args);
   font-weight:bold;
   background-color: #E0E0FF;
 }
+
 </style> 
 
 </head>
 
-<body style="background-color:#1B272C; min-width:960px;">
-
-  <? $this->load->view('header')?>
+<body style="background-color:white; min-width:960px;">
 
 	<div class="wrapper" style="background-color:white;">
+
+  <? $this->load->view('header')?>
 	
   	<!-- CONTENT -->		
   	<div class="content" style="position:relative; margin:0 auto; width:960px;">
-  		<div style="text-align:center; padding-top:50px; margin-bottom:30px;">
+  		<div style="text-align:center; padding-top:20px; margin-bottom:10px;">
   		  <img src="<?=site_url('images/stockphoto.jpg')?>" width="520" height="350"/>
   		</div>
   		
+  		<div style="clear"></div>
+  		
   		<ul>
   		  <li style="float:left; width:280px; margin:0 20px;">
-  		    <h2 style="font-size:28px; margin-bottom:15px;">Create</h2>
-  		    <p>Create a trip to wherever you want to go. Heading to New York to see the Big Apple? Dreaming of exploring Tibet? Planning a honeymoon in Bali? Create a trip on Shoutbound for all your future travel plans and dreams.</p>
+  		    <h2 style="font-size:28px; margin-bottom:10px; color:#003399;">Create</h2>
+  		    <p style="line-height:20px;">Heading to New York to see the Big Apple? Dreaming of exploring Tibet? Planning a honeymoon in Bali? Create a trip on Shoutbound for all your future travel plans and dreams!</p>
   		  </li>
   		  <li style="float:left; width:280px; margin:0 20px;">
-  		    <h2 style="font-size:28px; margin-bottom:15px;">Receive</h2>
-  		    <p>Want to know if anyone's up for joining you in Italy this summer? Looking for authentic dumplings in Hong Kong? Invite your friends and family to join you on your trips or give you travel advice. Shoutbound organizes and records their responses, making it easy to organize group travel and get recommendations from the people you trust.</p>
+  		    <h2 style="font-size:28px; margin-bottom:10px; color:#003399;">Receive</h2>
+  		    <p style="line-height:20px;">Invite your friends and family to join you on your trips or give you travel advice. Shoutbound organizes and records their responses, making it easy to plan group travel and get recommendations from the people you trust!</p>
   		  </li>
   		  <li style="float:left; width:280px; margin:0 20px;">
-  		    <h2 style="font-size:28px; margin-bottom:15px;">Go</h2>
-  		    <p>On your trip, use Shoutbound to remember, discover, and experience all the great places your friends and family recommended for you.</p>
+  		    <h2 style="font-size:28px; margin-bottom:10px; color:#003399;">Go!</h2>
+  		    <p style="line-height:20px;">Use Shoutbound to remember, discover, and experience all the great places your friends and family recommended for you!</p>
   		  </li>
   		  <li style="clear:both;"></li>
   		</ul>
   		
   	</div><!-- CONTENT ENDS -->
   	
-  	<div style="background:#1b272c; position:relative; top:-380px; left:0;">
+  	<div style="background:#D0D0D0; position:relative; top:-315px; left:0;">
       <div style="margin:0 auto; width:700px; padding:15px; line-height:60px; height:60px; position:relative;">
-  		  <form id="create-trip" action="trips/create" method="post" style="position:relative;">
-    		    <label for="destination" style="position:absolute; font-size:22px; font-weight:bold; color:#87CEEB; z-index:1; background-color:white; width:558px; height:61px; padding:0 100px 0 40px;"><span>Where do you want to go?</span></label>
+  		  <form id="create-trip" action="trips/create" method="post" style="position:relative; -moz-box-shadow: 0 0 5px 5px #888; -webkit-box-shadow: 0 0 5px 5px#888; box-shadow: 0 0 5px 5px #888; height:61px;">
+    		    <label for="destination" style="position:absolute; font-size:22px; font-weight:bold; color:navy; z-index:1; background-color:white; width:558px; height:61px; padding:0 100px 0 40px;"><span>Where do you want to go?</span></label>
     			  <input type="text" id="destination" name="destination" autocomplete="off" style="position:absolute; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; height:59px; width:558px; padding:0 100px 0 40px; font-size:22px; font-weight: bold; color:#000080; z-index:2; background:transparent;"/>
     			  <input type="hidden" id="destination_lat" name="destination_lat"/>
             <input type="hidden" id="destination_lng" name="destination_lng"/>
-    			  <button id="lets-go" type="submit">Let's go</button>
+    			  <button id="lets-go" type="submit">Let's go!</button>
   		  </form>
   		  
         <!-- AUTO LOC LIST -->
@@ -106,10 +109,11 @@ $this->load->view('core_header', $header_args);
       </div>
   	</div>
 
+	<div style="position:relative; top:-60px">
+		<? $this->load->view('footer')?>
+	</div>
 
-	</div><!-- WRAPPER ENDS -->
-
-  <? $this->load->view('footer')?>
+</div><!-- WRAPPER ENDS -->
 
 <script>
   $.fn.labelFader = function() {

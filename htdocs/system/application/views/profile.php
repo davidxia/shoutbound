@@ -75,10 +75,10 @@ $this->load->view('core_header', $header_args);
                 <span style="font-size:8.5px;">TRIPS DONE</span>
                 <strong style="color:#444; font-size:39px; font-weight:bold; display:block;">12</strong>
               </li>
-              <li style="float:left; width:146px; margin:5px 0 0 8px;">
+              <!--<li style="float:left; width:146px; margin:5px 0 0 8px;">
                 <span style="font-size:8.5px;">DISSIDENTS KILLED</span>
                 <strong style="color:#444; font-size:39px; font-weight:bold; display:block;">139</strong>
-              </li>
+              </li>-->
             </ul>
           </div>
         </div>
@@ -94,7 +94,7 @@ $this->load->view('core_header', $header_args);
           </div><!-- CONTAINER HEADER ENDS -->
           <div style="border-left: 1px solid #CCC; border-right: 1px solid #CCC;">
             <div style="padding-bottom:5px; background: #F9F9F9; border-bottom: 1px solid #CCC; border-top: 1px solid white; padding: 15px;">
-              stuff goes here
+              
             </div>
           </div>
         </div>

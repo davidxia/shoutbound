@@ -14,7 +14,7 @@ $this->load->view('core_header', $header_args);
 ?>
 </head>
 	
-<body style="background-color:#1B272C; min-width:960px;">
+<body style="background-color:white; min-width:960px;">
 
   <?=$this->load->view('header')?>
 
@@ -31,53 +31,54 @@ $this->load->view('core_header', $header_args);
     }());
 	</script>
 
-	<div class="wrapper" style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
-    <div class="content" style="margin:0 auto; padding-top:30px; margin:0 auto; width:400px; padding-bottom:80px;">
-    
-      <h2 style="text-align:center; margin:20px 0;">Create an account</h2>
-      <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post" style="border:1px solid #AAA; padding:20px;">
-        <div style="margin-bottom:20px;">
-          <fieldset style="border:0">
-            <ul>
-              <li style="margin-bottom:20px;">
-                <div class="label-and-error" style="margin-bottom:10px;">
-                  <label for="name">Name</label>
-                  <span class="error-message" style="float:right;"></span>
-                </div>
-                <input type="text" name="name" id="name" autocomplete="off"/>
-              </li>
-              <li style="margin-bottom:20px;">
-                <div class="label-and-error" style="margin-bottom:10px;">
-                  <label for="email">Email</label>
-                  <span class="error-message" style="float:right;"></span>
-                </div>
-                <input type="text" name="email" id="email" autocomplete="off"/>
-              </li>
-              <li style="margin-bottom:20px;">
-                <div class="label-and-error" style="margin-bottom:10px;">
-                  <label for="password">Password</label>
-                  <span class="error-message" style="float:right;"></span>
-                </div>
-                <input type="password" name="password" id="password" autocomplete="off"/>
-              </li>
-            </ul>
-          </fieldset>
-        </div>
-        
-        <div style="text-align:center;">
-          <button id="signup-button" type="submit">Create my account</button>
-        </div>
-      </form>
+	<div class="wrapper" style="background:white">
+    <div class="content" style="margin:0 auto; padding-top:30px; margin:0 auto; width:400px; padding-bottom:80px; margin-top: 30px;">
+    	<div style="border: 1px solid black; background-color:#FAFAFA;">
+	      <h2 style="text-align:center; margin:20px 0;">Create an account</h2>
+	      <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post" style="padding:10px;">
+	        <div style="margin-bottom:20px;">
+	          <fieldset style="border:0">
+	            <ul>
+	              <li style="margin-bottom:20px;">
+	                <div class="label-and-error" style="margin-bottom:10px;">
+	                  <label for="name">Name</label>
+	                  <span class="error-message" style="float:right;"></span>
+	                </div>
+	                <input type="text" name="name" id="name" autocomplete="off"/>
+	              </li>
+	              <li style="margin-bottom:20px;">
+	                <div class="label-and-error" style="margin-bottom:10px;">
+	                  <label for="email">Email</label>
+	                  <span class="error-message" style="float:right;"></span>
+	                </div>
+	                <input type="text" name="email" id="email" autocomplete="off"/>
+	              </li>
+	              <li style="margin-bottom:20px;">
+	                <div class="label-and-error" style="margin-bottom:10px;">
+	                  <label for="password">Password</label>
+	                  <span class="error-message" style="float:right;"></span>
+	                </div>
+	                <input type="password" name="password" id="password" autocomplete="off"/>
+	              </li>
+	            </ul>
+	          </fieldset>
+	        </div>
+       	
+	        <div style="text-align:center;">
+	          <button id="signup-button" type="submit">Create my account</button>
+	        </div>
+	      </form>
       
             
-      <div style="text-align:center; margin:20px 0;">
-      	<div style="font-size:20px; font-weight:bold; margin:10px 0;">or</div>
-      	<a href="#" id="fb_login_button">
-        	<img src="<?=site_url('images/fb-login-button.png')?>"/>
-      	</a>
+	      <div style="text-align:center; margin:20px 0; padding-bottom:20px;">
+	      	<div style="font-size:20px; font-weight:bold; margin:10px 0; ">or</div>
+	      	<a href="#" id="fb_login_button">
+	        	<img src="<?=site_url('images/fb-login-button.png')?>"/>
+	      	</a>
+	      </div>
       </div>
-        
-    	<div style="text-align:center;">
+         
+    	<div style="text-align:center; margin-top:15px;">
         Already have an account? <a href="<?=site_url('login')?>">Login</a>.
       </div>
       
@@ -168,7 +169,7 @@ $this->load->view('core_header', $header_args);
         email: 'Nice try, enter a valid email.'
       },
       password: {
-        required: 'Password protect that shit.',
+        required: 'Passwords are your friend.',
         minlength: 'make it at least 4 characters'
       }
     },

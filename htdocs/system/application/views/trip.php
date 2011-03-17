@@ -40,6 +40,8 @@ $this->load->view('core_header', $header_args);
 
 <style type="text/css">
 #invite-others-button, #get-suggestions-button {
+  width:75px;
+  height:75px;
   color:white;
   display:block;
   height:30px;
@@ -48,10 +50,10 @@ $this->load->view('core_header', $header_args);
   font-weight:bold;
   font-size:11px;
   text-decoration:none;
-  background:-webkit-gradient(linear, left top, left bottom, from(#F90), to(#FF6200));
-  background:-moz-linear-gradient(top, #F90, #FF6200);
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#F90', endColorstr='#FF6200');
-  border: 1px solid #E55800;
+  background:-webkit-gradient(linear, left top, left bottom, from(#E0E0E0), to(#888888));
+  background:-moz-linear-gradient(top, #E0E0E0 , #888888);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#E0E0E0', endColorstr='#888888');
+  border: 1px solid #686868;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
@@ -248,8 +250,6 @@ li.suggestion.highlighted{
 
 </head>
 
-
-
 <body style="background-color:#1B272C; min-width:960px;">
 	<div id="fb-root"></div>
 	<script>
@@ -274,23 +274,54 @@ li.suggestion.highlighted{
   
 
   <!-- WRAPPER -->
-  <div class="wrapper" style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
+  <div class="wrapper" style="background:white;">
     <!-- MAIN -->
     <div class="content" style="margin: 0 auto; width:960px; padding:20px 0 80px;">
-      <div style="border: 1px solid #ced7de; background-color:#FFFFFF; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; min-height:300px;">
+      <div style="background-color:white; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; min-height:300px;">
           <!-- TRIP SUMMARY -->
-          <div id="trip_summary" style="width:688px; float:left; margin:10px 10px 10px 10px;  padding:10px; border: 1px solid #ced7de; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;">
-            <div id="trip_name" style="font-size:1.5em;font-weight: bold; color:#026eb0; margin-bottom:5px;">
-              <?=$trip->name?>
+          <div id="trip_summary" style="width:636px; display:inline-block; float:left; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 1px solid black; min-height:235px;">
+          	<div style="background-color:#000099; color:white;">
+	            <div id="trip_name" style="font-size:36px;font-weight: bold; margin-bottom:6px; padding-left:10px; padding-top:10px;">
+	              <?=$trip->name?>
+	            </div>
+	            <div id="trip_creator" style="font-size: 12px; margin-bottom:6px; padding-bottom:5px; padding-left:10px; border-bottom: 1px solid #E8E8E8;">
+	              created by <a href="<?=site_url('profile/'.$creator->id)?>" style="text-decoration:none; color:white;"><?=$creator->name?></a>
+	            </div>
+	           </div>
+            
+            <div style="width:275px; border-right: 1px solid #ced7de; margin-top:5px; margin-bottom:5px; margin-left:10px; min-height:50px; float:left; display:inline-block;">
+	            <span style="color:gray; font-size:14px; margin-bottom:5px;">DESTINATION:</span>
+	            <div style="clear; margin-top:5px;"></div>	            
+	            <div id="trip-destinations" style="display:inline-block; float:left; font-size:14px;">            	
+	                <? foreach ($destinations as $destination):?>
+	                  <?=$destination->address?><br/>
+	                <? endforeach;?>
+	             </div>	                          
+	             <div id="destination-start-dates" style="display:inline-block; float:left; font-size:14px; margin-left:15px;">
+	                <? foreach ($destinations as $destination):?>
+	                  <? if ($destination->startdate):?>
+	                    <?=date('n/d/y', $destination->startdate)?><br/>
+	                  <? else:?>
+	                    no date set yet<br/>
+	                  <? endif;?>
+	                <? endforeach;?>
+	              </div>
             </div>
-            <div id="trip_creator" style="font-size: 0.75em; margin-bottom:10px; ">
-              created by <a href="<?=site_url('profile/'.$creator->id)?>" style="text-decoration:none;"><?=$creator->name?></a>
+            
+            <div style="width:325px; margin-top:5px; margin-bottom:5px; margin-left:10px; min-height:50px; float:left; display:inline-block;">
+	            <span style="color:gray; font-size:14px; margin-bottom:5px;">DESCRIPTION:</span>
+	            <div style="clear; margin-top:5px;"></div>
+	            <div id="trip_description" style="padding-right: 10px; font-size:14px; display:inline-block; float:left;">
+	              <?=$trip->description?>
+	            </div>
             </div>
-            <div id="trip_description" style="border-bottom: 1px solid #ced7de; padding-bottom:10px; margin-right:5px;">
-              <?=$trip->description?>
-            </div>
+            
             <!-- TRIP GOERS -->
-            <div id="trip_goers" style="border-bottom: 1px solid #ced7de; margin-top:10px; padding-bottom:10px;">
+            <div style="clear:both"></div>
+                      
+            <div id="trip_goers" style="border-top: 1px solid #ced7de; padding-bottom:10px; padding-top:10px; padding-left:10px">
+            <span style="color:gray; font-size:14px; margin-bottom:5px;">PEOPLE GOING ON THIS TRIP:</span>
+            <div style="clear:both; margin-bottom:5px;"></div>
               <? if ($trip_goers):?>
                 <? foreach ($trip_goers as $trip_goer):?>
                   <div class="trip_goer" uid="<?=$trip_goer->id?>" style="float:left; margin-right:10px;">
@@ -301,9 +332,9 @@ li.suggestion.highlighted{
               <div style="clear:both;"></div>
               <div id="num_trip_goers" style="float:left; margin-top: 3px; font-size: 0.75em">
                 <? if (count($trip_goers) == 1):?>
-                  <span id="num"><?=count($trip_goers)?></span> person is in
+                  <span id="num" style="margin-top:5px; font-size:14px;"><?=count($trip_goers)?></span><span style="margin-top:2px; font-size:14px;">person is going on this trip</span>
                 <? else:?>
-                  <span id="num"><?=count($trip_goers)?></span> people are in
+                  <span id="num" style="margin-top:5px; font-size:14px;"><?=count($trip_goers)?></span><span style="margin-top:2px; font-size:14px;">people are going on this trip</span>
                 <? endif;?>
               </div>
               
@@ -312,20 +343,9 @@ li.suggestion.highlighted{
             </div><!-- TRIP GOERS ENDS -->
             
             <div style="margin-top:10px;">
-              <div id="trip-destinations" style="width:30%; display:inline-block; float:left; font-size:1em;">
-                <? foreach ($destinations as $destination):?>
-                  <?=$destination->address?><br/>
-                <? endforeach;?>
-              </div>
-              <div id="destination-start-dates" style="width:20%; display:inline-block; float:left; font-size:1em;">
-                <? foreach ($destinations as $destination):?>
-                  <? if ($destination->startdate):?>
-                    <?=date('n/d/y', $destination->startdate)?><br/>
-                  <? else:?>
-                    no date set yet<br/>
-                  <? endif;?>
-                <? endforeach;?>
-              </div>
+              
+              
+              
               <!--<div id="need-advice-on" style="width:50%; display:inline-block; float:left; font-size:1em;">
                 Interested in:<br/>
                 <span style="padding-left: 10px;">interest go here</span><br/>
@@ -338,16 +358,19 @@ li.suggestion.highlighted{
             
             
             <!-- WIDGET -->
-            <div id="trip-widget" style="width:208px; float:left; padding:10px 10px 0px;">
+           <div id="trip-widget" style="width:305px; height:237px; float:left; display:inline-block; margin-left:15px; min-height:224px; border: 1px solid black; background-color:#FAFAFA;">
+           
+           	<div style="height:35px; line-height:35px; background-color:#0066FF; color:white; text-align:center; font-size:16px; font-weight:bold; margin-bottom:5px;">Trip Dashboard</div>
+           
               <? if ($user_role >= 2):?>
                 <span id="rsvp_status">
                 <? if ($user_rsvp == 2):?>
-                    You're invited
+                    You've been invited to join this trip!
                     <div id="countdown"></div>
                 <? elseif ($user_rsvp == 3):?>
-                    You're in
+                    You're going on this trip
                 <? elseif ($user_rsvp == 1):?>
-                    You're out, but you can still change your mind
+                    You're not going on this trip, but you can still change your mind
                     <div id="countdown"></div>
                 <? endif;?>
                 </span>
@@ -357,23 +380,30 @@ li.suggestion.highlighted{
                     <a href="#" id="rsvp_yes_button">I'm in</a>
                     <a href="#" id="rsvp_no_button">I'm out</a>
                 </div>
+                
                 <? elseif ($user_rsvp == 3):?>
-                <div id="rsvp_buttons" class="moved">
-                    <div id="invsugg_btn_cont">
-                        <a href="#" id="invite-others-button">INVITE OTHER PEOPLE</a>
-                        <a href="#" id="get-suggestions-button">GET SUGGESTIONS</a>
+                <div id="rsvp_buttons" class="moved" style="border-top: 1px solid gray; border-bottom: 1px solid gray; margin-top:10px; mar">
+                    <div id="invsugg_btn_cont" style="margin-top:10px; margin-left:10px;display:inline-block; float:left;">
+                        <a href="#" id="invite-others-button">INVITE</a>
+                        <!--<a href="#" id="get-suggestions-button">GET SUGGESTIONS</a>-->
                     </div>
-                    <a href="#" id="rsvp_no_button">I'm out</a>
+                    
+                    <span style="font-size:14px; height:50px; line-height:50px; margin-right:35px;">Click to invite more people</span>
+                    <div style="clear:both"></div>
+                                 
                 </div>
+                
+                <a href="#" id="rsvp_no_button">I'm out</a>
+                
                 <? elseif ($user_rsvp == 1):?>
                 <div id="rsvp_buttons">
                     <a href="#" id="rsvp_yes_button">I'm in</a>
                 </div>
                 <? endif;?>
-                
+                               
                 <? if ($user_role == 3):?>
                   <div>
-                    <a href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete</a>
+                    <a href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete this trip</a>
                   </div>
                 <? endif;?>
                 
@@ -385,16 +415,15 @@ li.suggestion.highlighted{
         <div style="clear:both;"></div>
 
         <!-- CONSOLE -->
-        <div id="console">
+        <div id="console" style="margin-top:15px; padding:10px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 1px solid black;">
           <!-- WALL -->
-          <div id="wall" style="float:left; width:40%; height: 650px;">
+          <div id="wall" style="float:left; width:40%; height: 630px;">
             <!-- WALL INPUT CONTAINER -->
-            <div id="wall-input-container" style="padding-left:10px;">
+            <div id="wall-input-container;">
               <div style="height:80px;">
                 <label for="message-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:40px; padding-left:10px;"><span>Write a message</span></label>
                 <textarea id="message-box" style="position:absolute; z-index:2; background:transparent; width:340px; height:20px;"></textarea>
-              </div>
-              
+              </div>             
               <!-- LOCATION SEARCH -->
               <div id="location-search" style="display:none; position:relative; height:40px;">
                 <label for="location-search-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:40px; padding-left:10px;"><span>Location</span></label>
@@ -413,7 +442,7 @@ li.suggestion.highlighted{
               
               
               <div id="link-input" style="display:none; height:40px;">
-                <label for="link-input-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:40px; padding-left:10px;"><span>http://</span></label>
+                <label for="link-input-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:40px; padding-left:10px;"><span>Link</span></label>
                 <input type="text" id="link-input-box" style="position:absolute; z-index:2; background:transparent; width:340px;"/>
               </div>
               
@@ -422,7 +451,7 @@ li.suggestion.highlighted{
             </div><!-- WALL INPUT CONTAINER -->
 
             <!-- WALL CONTENT -->
-            <ul id="wall-content">
+            <ul id="wall-content" style="border-top:1px solid gray; margin-top:10px; margin-right:10px;">
               <? if ($wall_items):?>
                 <? foreach ($wall_items as $wall_item):?>
                   <? if ($wall_item->lat):?>
@@ -465,7 +494,7 @@ li.suggestion.highlighted{
           
           
           <div id="map-shell" style="display:inline; float:left; position:relative; width:60%;">
-            <div id="map-canvas" style="height: 650px;"></div>
+            <div id="map-canvas" style="height: 630px;"></div>
           </div>
           
           <div style="clear:both;"></div>

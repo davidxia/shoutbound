@@ -106,14 +106,14 @@ label.error {
  
 <? $this->load->view('core_header_end')?>
 
-	<body style="background-color:#1B272C; min-width:960px;">
+	<body style="background-color:white; min-width:960px;">
     <div id="div-to-popup" style="background-color:white; display:none;"></div>
     
     <? $this->load->view('header')?>
 
 		  
     <!-- WRAPPER -->
-    <div class="wrapper" style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
+    <div class="wrapper" style="background:white">
       <!-- CONTENT -->
       <div class="content" style="margin:0 auto; padding-top:30px; width:960px; padding-bottom:80px;">
         <!-- TRIP CREATION FORM -->

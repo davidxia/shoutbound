@@ -9,9 +9,8 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 }
 body {
     line-height: 1;
-    font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
     /*font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
-    color: black;
 }
 a {
   text-decoration: none;
@@ -23,7 +22,7 @@ ol, ul {
 
 input, textarea {
     margin: 0;
-    padding: 10px;
+    padding: 5px;
     font-size: 14px;
     border: 1px solid #8F8F8F;
     border-radius: 5px;
@@ -58,10 +57,10 @@ input[type="submit"] {
   font-weight:bold;
   font-size:14px;
   text-decoration:none;
-  background:-webkit-gradient(linear, left top, left bottom, from(#F90), to(#FF6200));
-  background:-moz-linear-gradient(top, #F90, #FF6200);
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#F90', endColorstr='#FF6200');
-  border: 1px solid #E55800;
+  background:-webkit-gradient(linear, left top, left bottom, from(#E0E0E0), to(#888888));
+  background:-moz-linear-gradient(top, #E0E0E0 , #888888);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#E0E0E0', endColorstr='#888888');
+  border: 1px solid #686868;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
