@@ -15,11 +15,6 @@
           </li>
         <? endforeach;?>
     	</ul>
-
-      <div id="trip-invite-toolbar" style="margin-left">
-        <a href="#" id="trip-invite-confirm">invite</a>
-        <a href="#" id="trip-invite-cancel">cancel</a>
-      </div>
     </div>
 
     <div id="invite-methods">
@@ -30,10 +25,15 @@
       <a href="#" id="email-invite">E-mails</a>
     </div>
     
-  
+    <div id="email-input" style="display:none;">
+      <label for="emails">e-mails separated by commas</label>
+      <input type="text" id="emails" name="emails" style="width:400px;"/>
+    </div>
+
+    <div id="trip-invite-toolbar" style="display:none;">
+      <a href="#" id="trip-invite-confirm">invite</a>
+      <a href="#" id="trip-invite-cancel">cancel</a>
+    </div>
+
   </div>
 </div>
-
-<script type="text/javascript">
-
-</script>

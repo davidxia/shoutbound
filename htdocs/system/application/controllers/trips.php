@@ -122,8 +122,6 @@ class Trips extends Controller
                 }
             }
             
-            
-            
             // TODO: success callback to ensure all destinations were saved?
             redirect('trips/'.$t->id);
         }      

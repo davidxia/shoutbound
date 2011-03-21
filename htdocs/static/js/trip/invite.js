@@ -100,7 +100,7 @@ invite.showInviteDialog = function() {
     data: postData,
     success: function(response) {
       var r = $.parseJSON(response);
-      $('#div-to-popup').empty().append(r.data).bPopup({follow:false});
+      $('#div-to-popup').empty().append(r.data).bPopup({follow:false, opacity:0});
       invite.bindButtons();
     }
   });
@@ -133,21 +133,40 @@ invite.bindButtons = function() {
 invite.sbFriendSelector = function() {
   $('#sb-friends').toggle();
   $('#invite-methods').toggle();
+  $('#trip-invite-toolbar').toggle();
   return false;
 }
   
 
 invite.facebookInvite = function() {
-  var to = 1;
-  var shareKey = invite.generateShareKey('fb');
-  var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
-  var url = 'http://www.facebook.com/messages/'+to+'?msg_prefill='+message;
-  window.open(url);
+  FB.getLoginStatus(function(response) {
+    if (response.session) {
+      var to = 1;
+      var shareKey = invite.generateShareKey('fb');
+      var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
+      var url = 'http://www.facebook.com/messages/'+to+'?msg_prefill='+message;
+      window.open(url);
+    } else {
+      FB.login(function(response) {
+        if (response.session) {
+          var to = 1;
+          var shareKey = invite.generateShareKey('fb');
+          var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
+          var url = 'http://www.facebook.com/messages/'+to+'?msg_prefill='+message;
+          window.open(url);
+        }
+      });    
+    }
+  });
+  return false;
 }
 
 
 invite.emailInvite = function() {
-
+  $('#invite-methods').toggle();
+  $('#email-input').toggle();
+  $('#trip-invite-toolbar').toggle();
+  return false;
 }
 
 
@@ -162,11 +181,25 @@ invite.confirmInvite = function() {
   if (selectedSBids.length >= 1) {
     invite.sendSBInvite(selectedSBids);
   }
+  
+  var postData = {
+    tripId: tripId,
+    emails: $('#emails').val(),
+    uid: uid
+  };
+  
+  $.ajax({
+    type: 'POST',
+    url: baseUrl+'trip_shares/send_email_invites',
+    data: postData,
+    success: function() {
+      alert('emails sent');
+    }
+  });
+  
   $('#div-to-popup').bPopup().close();
   return false;
 }
-
-
 
 
 invite.generateShareKey = function(targetId) {
@@ -235,6 +268,10 @@ $(document).ready(function() {
     return false;
   });
   $('#invite-others-button').click(function() {
+    invite.showInviteDialog();
+    return false;
+  });
+  $('#get-suggestions-button').click(function() {
     invite.showInviteDialog();
     return false;
   });

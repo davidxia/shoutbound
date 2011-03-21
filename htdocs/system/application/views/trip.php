@@ -252,26 +252,25 @@ li.suggestion.highlighted{
 </head>
 
 <body style="min-width:960px;">
-	<div id="fb-root"></div>
-	<script>
+  <div id="fb-root"></div>
+  <script>
     window.fbAsyncInit = function() {
       FB.init({appId: '136139119767617', status: true, cookie: true, xfbml: true});
     };
     (function() {
       var e = document.createElement('script'); e.async = true;
       e.src = document.location.protocol +
-        '//connect.facebook.net/en_US/all.js';
+          '//connect.facebook.net/en_US/all.js';
       document.getElementById('fb-root').appendChild(e);
     }());
-	</script>
-	
-	  <div id="div-to-popup" style="display:none;">
+  </script>	
+  
+  <div id="div-to-popup" style="display:none;">
     <div id="trip-invite-popup" style="width:466px; padding:10px; background:rgba(82, 82, 82, 0.7); border-radius: 5px; -webkit-border-radius:5px; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; border-bottom-right-radius: 5px 5px; border-bottom-left-radius: 5px 5px;">
-      <fb:serverfbml id="fb_invite" width="615"></fb:serverfbml>
     </div>
   </div>
 
-  <?=$this->load->view('header')?>
+  <? $this->load->view('header')?>
   
 
   <!-- WRAPPER -->
