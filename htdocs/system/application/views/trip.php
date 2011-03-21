@@ -135,7 +135,6 @@ $this->load->view('core_header', $header_args);
   color: #000000;
   line-height: 1.5em;
   border-bottom: 1px solid #CCCCCC;
-  padding-left: 10px;
   cursor: pointer;
 }
 #auto-loc-list ul li a:hover {
@@ -217,18 +216,20 @@ li.suggestion.highlighted{
   color: #fff;
 }
 #wall-post-button {
-  width: 50px;
+  position:relative;
+  left:280px;
+  width: 60px;
   cursor: pointer;
   display:none;
-  line-height:30px;
+  line-height:25px;
   text-align:center;
   text-decoration:none;
 	color: white;
 	border: solid 1px #0076a3;
 	background: #0095cd;
-	background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
-	background: -moz-linear-gradient(top,  #00adee,  #0078a5);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
+	background: -webkit-gradient(linear, left top, left bottom, from(#44749D), to(#navy));
+	background: -moz-linear-gradient(top,  #44749D,  #navy);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#44749D', endColorstr='#navy');
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
@@ -250,7 +251,7 @@ li.suggestion.highlighted{
 
 </head>
 
-<body style="background-color:#1B272C; min-width:960px;">
+<body style="min-width:960px;">
 	<div id="fb-root"></div>
 	<script>
     window.fbAsyncInit = function() {
@@ -274,24 +275,24 @@ li.suggestion.highlighted{
   
 
   <!-- WRAPPER -->
-  <div class="wrapper" style="background:white;">
+  <div class="wrapper" style="background:#EBE7E0;">
     <!-- MAIN -->
-    <div class="content" style="margin: 0 auto; width:960px; padding:20px 0 80px;">
-      <div style="background-color:white; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; min-height:300px;">
+    <div class="content" style="margin: 0 auto; width:920px; padding:40px 20px 80px 20px;">
+    
           <!-- TRIP SUMMARY -->
-          <div id="trip_summary" style="width:636px; display:inline-block; float:left; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 1px solid black; min-height:235px;">
-          	<div style="background-color:#000099; color:white;">
-	            <div id="trip_name" style="font-size:36px;font-weight: bold; margin-bottom:6px; padding-left:10px; padding-top:10px;">
+          <div id="trip_summary" style="background-color:white; width:590px; display:inline-block; float:left; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #C8C8C8;">
+          	<div style="background-color:#C6D4E1; color:black; padding:10px 20px 10px 20px; border-bottom: 1px solid #FAFAFA;">
+	            <div id="trip_name" style="font-size:42px; margin-bottom:3px;">
 	              <?=$trip->name?>
 	            </div>
-	            <div id="trip_creator" style="font-size: 12px; margin-bottom:6px; padding-bottom:5px; padding-left:10px; border-bottom: 1px solid #E8E8E8;">
-	              created by <a href="<?=site_url('profile/'.$creator->id)?>" style="text-decoration:none; color:white;"><?=$creator->name?></a>
+	            <div id="trip_creator" style="font-size: 12px;">
+	              created by <a href="<?=site_url('profile/'.$creator->id)?>" style="text-decoration:none; color:navy;"><?=$creator->name?></a>
 	            </div>
 	           </div>
             
-            <div style="width:275px; border-right: 1px solid #ced7de; margin-top:5px; margin-bottom:5px; margin-left:10px; min-height:50px; float:left; display:inline-block;">
-	            <span style="color:gray; font-size:14px; margin-bottom:5px;">DESTINATION:</span>
-	            <div style="clear; margin-top:5px;"></div>	            
+            <div style="width:254px; border-right: 1px solid #FAFAFA; padding:10px 20px 5px 20px; float:left; display:inline-block;">
+	            <span style="color:gray; font-size:14px;">DESTINATION:</span>
+	            <div style="clear;margin-bottom:3px;"></div>	            
 	            <div id="trip-destinations" style="display:inline-block; float:left; font-size:14px;">            	
 	                <? foreach ($destinations as $destination):?>
 	                  <?=$destination->address?><br/>
@@ -308,10 +309,10 @@ li.suggestion.highlighted{
 	              </div>
             </div>
             
-            <div style="width:325px; margin-top:5px; margin-bottom:5px; margin-left:10px; min-height:50px; float:left; display:inline-block;">
-	            <span style="color:gray; font-size:14px; margin-bottom:5px;">DESCRIPTION:</span>
-	            <div style="clear; margin-top:5px;"></div>
-	            <div id="trip_description" style="padding-right: 10px; font-size:14px; display:inline-block; float:left;">
+            <div style="width:255px; padding:5px 20px 10px 20px; float:left; display:inline-block;">
+	            <span style="color:gray; font-size:14px; margin-bottom:10px;">DESCRIPTION:</span>
+	            <div style="clear;margin-bottom:3px;"></div>
+	            <div id="trip_description" style="font-size:14px; display:inline-block; float:left;">
 	              <?=$trip->description?>
 	            </div>
             </div>
@@ -319,9 +320,17 @@ li.suggestion.highlighted{
             <!-- TRIP GOERS -->
             <div style="clear:both"></div>
                       
-            <div id="trip_goers" style="border-top: 1px solid #ced7de; padding-bottom:10px; padding-top:10px; padding-left:10px">
-            <span style="color:gray; font-size:14px; margin-bottom:5px;">PEOPLE GOING ON THIS TRIP:</span>
-            <div style="clear:both; margin-bottom:5px;"></div>
+            <div id="trip_goers" style="border-top: 1px solid #FAFAFA; padding:10px 20px 10px 20px; font-size: 14px; color:gray;">
+            
+            <div id="num_trip_goers" style="margin-bottom:3px;">
+                <? if (count($trip_goers) == 1):?>
+                  <span id="num"></span><?=count($trip_goers)?></span> PERSON IS GOING ON THIS TRIP:<div style="clear:both; margin-bottom:3px;"></div>
+                  
+                <? else:?>
+                  <span id="num"><?=count($trip_goers)?></span> PEOPLE ARE GOING ON THIS TRIP:            <div style="clear:both; margin-bottom:3px;"></div>
+                <? endif;?>
+            </div>
+                       
               <? if ($trip_goers):?>
                 <? foreach ($trip_goers as $trip_goer):?>
                   <div class="trip_goer" uid="<?=$trip_goer->id?>" style="float:left; margin-right:10px;">
@@ -330,20 +339,8 @@ li.suggestion.highlighted{
                 <? endforeach;?>
               <? endif;?>
               <div style="clear:both;"></div>
-              <div id="num_trip_goers" style="float:left; margin-top: 3px; font-size: 0.75em">
-                <? if (count($trip_goers) == 1):?>
-                  <span id="num" style="margin-top:5px; font-size:14px;"><?=count($trip_goers)?></span><span style="margin-top:2px; font-size:14px;">person is going on this trip</span>
-                <? else:?>
-                  <span id="num" style="margin-top:5px; font-size:14px;"><?=count($trip_goers)?></span><span style="margin-top:2px; font-size:14px;">people are going on this trip</span>
-                <? endif;?>
-              </div>
               
-              <div style="clear:both;"></div>
-
-            </div><!-- TRIP GOERS ENDS -->
-            
-            <div style="margin-top:10px;">
-              
+            </div><!-- TRIP GOERS ENDS -->              
               
               
               <!--<div id="need-advice-on" style="width:50%; display:inline-block; float:left; font-size:1em;">
@@ -352,15 +349,15 @@ li.suggestion.highlighted{
                 Want suggestions for:<br/>
                 <span style="padding-left: 10px;">suggestion categories go here</span>
               </div>-->
-            </div>
           </div><!-- TRIP SUMMARY ENDS -->
             
             
             
             <!-- WIDGET -->
-           <div id="trip-widget" style="width:305px; height:237px; float:left; display:inline-block; margin-left:15px; min-height:224px; border: 1px solid black; background-color:#FAFAFA;">
+           <div id="trip-widget" style="width:277px; height:186px; float:left; display:inline-block; margin-left:15px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #C8C8C8; background-color:#BDB8AD; color:white; padding:15px;">
            
-           	<div style="height:35px; line-height:35px; background-color:#0066FF; color:white; text-align:center; font-size:16px; font-weight:bold; margin-bottom:5px;">Trip Dashboard</div>
+           	<div style="height:35px; line-height:35px; background-color:#BDB8AD;  text-align:center; font-size:16px; font-weight:bold; margin-bottom:5px;">TRIP DASHBOARD</div>
+           	<br>
            
               <? if ($user_role >= 2):?>
                 <span id="rsvp_status">
@@ -382,13 +379,13 @@ li.suggestion.highlighted{
                 </div>
                 
                 <? elseif ($user_rsvp == 3):?>
-                <div id="rsvp_buttons" class="moved" style="border-top: 1px solid gray; border-bottom: 1px solid gray; margin-top:10px; mar">
+                <div id="rsvp_buttons" class="moved" style="border-top: 1px solid #C8C8C8; border-bottom: 1px solid #C8C8C8; margin-top:10px; mar">
                     <div id="invsugg_btn_cont" style="margin-top:10px; margin-left:10px;display:inline-block; float:left;">
                         <a href="#" id="invite-others-button">INVITE</a>
                         <!--<a href="#" id="get-suggestions-button">GET SUGGESTIONS</a>-->
                     </div>
                     
-                    <span style="font-size:14px; height:50px; line-height:50px; margin-right:35px;">Click to invite more people</span>
+                    <span style="font-size:14px; height:50px; line-height:50px;">Click to invite more people</span>
                     <div style="clear:both"></div>
                                  
                 </div>
@@ -415,47 +412,46 @@ li.suggestion.highlighted{
         <div style="clear:both;"></div>
 
         <!-- CONSOLE -->
-        <div id="console" style="margin-top:15px; padding:10px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 1px solid black;">
+        <div id="console" style="background-color:white; width:880px; padding:20px; margin-top:15px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #FAFAFA">
           <!-- WALL -->
-          <div id="wall" style="float:left; width:40%; height: 630px;">
+          <div id="wall" style="float:left; width:360px; height: 630px;padding-right:10px; font-size:14px; line-height:18px;">
             <!-- WALL INPUT CONTAINER -->
             <div id="wall-input-container;">
               <div style="height:80px;">
-                <label for="message-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:40px; padding-left:10px;"><span>Write a message</span></label>
-                <textarea id="message-box" style="position:absolute; z-index:2; background:transparent; width:340px; height:20px;"></textarea>
+                <label for="message-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:30px; padding-left:10px;"><span>Write a message</span></label>
+                <textarea id="message-box" style="position:absolute; z-index:2; background:transparent; width:330px; height:20px;"></textarea>
               </div>             
               <!-- LOCATION SEARCH -->
               <div id="location-search" style="display:none; position:relative; height:40px;">
-                <label for="location-search-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:40px; padding-left:10px;"><span>Location</span></label>
+                <label for="location-search-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:30px; padding-left:10px;"><span>Location (optional)</span></label>
                 <input type="hidden" class="location-data" id="location-name" name="location-name" />
                 <input type="hidden" class="location-data" id="location-phone" name="location-phone" />
                 <input type="hidden" class="location-data" id="location-lat" name="location-lat" />
                 <input type="hidden" class="location-data" id="location-lng" name="location-lng" />
-                <input type="text" id="location-search-box" style="position:absolute; z-index:2; background:transparent; width:340px;"/>
+                <input type="text" id="location-search-box" style="position:absolute; z-index:2; background:transparent; width:330px;"/>
                 <!-- AUTO LOC LIST -->
-                <div id="auto-loc-list" style="position:absolute; top:60px; left:0px; background:white; opacity:0.8; width:350px; z-index:3;">
+                <div id="auto-loc-list" style="position:relative; top:32px; background:white; width:330px; z-index:3;">
                   <ul id="location-autosuggest"></ul>
                 </div><!-- AUTO LOC LIST ENDS -->
-                <div id="marker-notification" style="position:absolute; top:-40px; right:-480px; z-index:1000; display:none; color:white; background-color:black; opacity:0.8; -moz-box-shadow: 2px 2px 5px black; -webkit-box-shadow: 2px 2px 5px black; box-shadow: 2px 2px 5px black; padding:15px;">You can drag and drop the pin anywhere you want.</div>
+                <div id="marker-notification" style="position:absolute; top:-65px; right:-400px; z-index:1000; display:none; color:white; background-color:black; opacity:0.8; -moz-box-shadow: 2px 2px 5px black; -webkit-box-shadow: 2px 2px 5px black; box-shadow: 2px 2px 5px black; padding:10px;">You can drag and drop the pin anywhere you want.</div>
                 <div style="clear:both;"></div>
               </div><!-- LOCATION SEARCH ENDS -->
-              
-              
+                            
               <div id="link-input" style="display:none; height:40px;">
-                <label for="link-input-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:40px; padding-left:10px;"><span>Link</span></label>
-                <input type="text" id="link-input-box" style="position:absolute; z-index:2; background:transparent; width:340px;"/>
+                <label for="link-input-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:30px; padding-left:10px;"><span>Link (optional)</span></label>
+                <input type="text" id="link-input-box" style="position:absolute; z-index:2; background:transparent; width:330px;"/>
               </div>
               
-              <a href="#" id="wall-post-button">Post</a>
+              <a href="#" id="wall-post-button" style="margin-bottom:10px">Post</a>
               
             </div><!-- WALL INPUT CONTAINER -->
 
             <!-- WALL CONTENT -->
-            <ul id="wall-content" style="border-top:1px solid gray; margin-top:10px; margin-right:10px;">
+            <ul id="wall-content" style="border-top:2px solid #C8C8C8; padding-top:20px; margin-right:20px;">
               <? if ($wall_items):?>
                 <? foreach ($wall_items as $wall_item):?>
                   <? if ($wall_item->lat):?>
-                    <li id="wall-suggestion-<?=$wall_item->id?>" class="suggestion" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA; position:relative;">
+                    <li id="wall-suggestion-<?=$wall_item->id?>" class="suggestion" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #FAFAFA; position:relative;">
                       <div class="wall-location-name"style="font-weight:bold;"><?=$wall_item->name?></div>
                       <div>Suggested by <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a></div>
                       <span class="wall-location-address" style="display:none;"><?=$wall_item->address?></span>
@@ -475,7 +471,7 @@ li.suggestion.highlighted{
                       <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
                     </li>
                   <? else:?>
-                    <li id="wall-message-<?=$wall_item->id?>" class="message" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA; position:relative;">
+                    <li id="wall-message-<?=$wall_item->id?>" class="message" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #FAFAFA; position:relative;">
                       <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a>
                       <? if ($user_role >= 2):?>
                         <div class="remove-wall-item" messageId="<?=$wall_item->id?>"></div>
@@ -493,7 +489,7 @@ li.suggestion.highlighted{
           </div><!-- WALL ENDS -->
           
           
-          <div id="map-shell" style="display:inline; float:left; position:relative; width:60%;">
+          <div id="map-shell" style="display:inline; float:left; position:relative; width:510px;">
             <div id="map-canvas" style="height: 630px;"></div>
           </div>
           

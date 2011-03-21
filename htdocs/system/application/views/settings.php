@@ -19,11 +19,11 @@ $this->load->view('core_header', $header_args);
   
 </head>
 
-<body style="background-color:#1B272C;">
+<body style="background-color:white">
 
   <?=$this->load->view('header')?>
   
-  <div class="wrapper" style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
+  <div class="wrapper" style="background:white;">
     <div class="content" style="margin: 0 auto; width:960px; padding:20px 0 80px;">
       
       <form action="">
@@ -46,6 +46,7 @@ $this->load->view('core_header', $header_args);
           />
         </fieldset>
         
+        <br>
         
         <input type="submit" id="save-settings" name="save-settings" value="Save" />
       

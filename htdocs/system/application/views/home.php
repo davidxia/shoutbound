@@ -20,11 +20,19 @@ $this->load->view('core_header', $header_args);
 </head> 
 <body style="background-color:white; min-width:960px;">
 
+<style type="text/css">
+.content{
+	font-size:14px;
+	line-height:18px;
+}
+</style>
+
   <? $this->load->view('header')?>
 
-  <div class="wrapper" style="background:white;">
+  <div class="wrapper" style="background-color:#EBE7E0;">
+  
     <!-- MAIN -->
-    <div class="content" style="margin: 0 auto; width:960px; padding:15px 0 50px;">
+    <div class="content" style="margin:auto; width:960px;padding-top:30px; padding-bottom:70px;">
       
       <div style="min-height:300px;">
         <? if ($num_friend_requests):?>
@@ -32,14 +40,14 @@ $this->load->view('core_header', $header_args);
         <? endif;?>
       
         <!-- NEWS FEED -->
-  			<div id="news-feed" style="background-color:white; float:left; width:514px; border: 1px solid black; border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px; padding-bottom:15px; margin-top:20px; padding-bottom:15px;">
-  				<div style="padding:10px 0px 10px; background-color:#000099; line-height:30px; height:30px; margin-bottom:15px; -moz-border-radius-topright: 10px; -moz-border-radius-topleft: 10px; border-radius: 10px 10px 0px 0px; border-radius: 10px 10px 0px 0px; border-bottom: 1px solid black;">
-    				<span style="font-size:20px; font-weight:bold; padding-left:20px; color:white;">Recent activity</span>
+  			<div id="news-feed" style="background-color:white; -moz-box-shadow: 0px 0px 2px gray; -webkit-box-shadow: 0px 0px 2px gray; box-shadow: 0px 0px 2px gray; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px solid #C8C8C8; width:450px; float:left; display:inline-block; margin:0px 20px 0px 60px;">
+  				<div style="background-color:#C6D4E1; line-height:30px; height:30px; margin-bottom:15px; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; border-radius: 5px 5px 0px 0px; border-radius: 5px 5px 0px 0px; border-bottom: 1px solid #C8C8C8;">
+    				<span style="font-size:16px; padding-left:10px; font-weight:bold;">Recent activity</span>
   				</div>
           <? if ( ! $news_feed_items):?>
-            <span>You haven't had any activity yet...</span>
+            <div style="padding:0px 0px 20px 20px;">You haven't had any activity yet.  Get started by creating a trip!</div>
           <? else:?>
-            <ul style="margin-left:35px;">
+            <ul style="margin: 0px 20px 0px 20px;">
               <? foreach($news_feed_items as $news_feed_item):?>
                 <li id="wall-item-<?=$news_feed_item->id?>" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
                 <? if ($news_feed_item->is_location):?>
@@ -68,39 +76,43 @@ $this->load->view('core_header', $header_args);
   			</div><!-- NEWS FEED ENDS -->
   			
   			<!-- TRIPS COLUMN -->
-  			<div style="float:left; width:404px; padding-left:20px;">
+  			<div style="float:left; display:inline-block; width:350px; padding-left:20px;">
   			  <!-- USERS TRIPS -->
-          <div id="user-trips" style="background-color:white; border: 1px solid black; border-top-left-radius: 10px; border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px; padding-bottom:15px; margin-top:20px; padding-bottom:15px;">
-    				<div style="padding:10px 0px 10px; background-color:#000099; line-height:30px; height:30px; margin-bottom:15px; -moz-border-radius-topright: 10px; -moz-border-radius-topleft: 10px; border-radius: 10px 10px 0px 0px; border-radius: 10px 10px 0px 0px; border-bottom: 1px solid black;">
-      				<span style="font-size:20px; font-weight:bold; padding-left:20px; color:white;">Your trips</span>
+          <div id="user-trips" style="background-color:white; -moz-box-shadow: 0px 0px 2px gray; -webkit-box-shadow: 0px 0px 2px gray; box-shadow: 0px 0px 2px gary; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px solid #C8C8C8; margin-bottom:20px;">
+    				<div style="background-color:#C6D4E1; line-height:30px; height:30px; margin-bottom:15px; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; border-radius: 5px 5px 0px 0px; border-radius: 5px 5px 0px 0px; border-bottom: 1px solid #C8C8C8;">
+      				<span style="font-size:16px; padding-left:10px; font-weight:bold; color:black;">Your trips</span>
     				</div>
     				<? if (empty($trips)):?>
-              You don't have any trips yet...
+              <div style="padding:0px 0px 20px 20px;">You don't have any trips yet.  Get started by creating a trip!</div>
             <? else:?>
-              <ul style="margin-left:35px;">
+              <ul style="margin: 0px 20px 0px 20px;">
                 <? foreach ($trips as $trip):?>
                   <li class="user-trip" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
                     <div class="user-trip-name">
                       <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
                     </div>
                     <? foreach ($trip->destinations as $destination):?>
-                      <ul class="trip-content" style="margin-top:10px;">
-                        <li class="trip-place" style="float:left; width:30%; font-size:12px;">
+                      <ul class="trip-content" style="margin-top:5px;">
+                        <li class="trip-place" style="float:left; font-size:12px;">
                           <?=$destination->address?>
                         </li>
-                        <li class="trip-startdate" style="float:left; width:30%; font-size:12px;">
+                        <li class="trip-startdate" style="float:left; margin-left:20px; font-size:12px;">
                           <? if ($destination->startdate):?>
                             <?=date('n/d/y', $destination->startdate)?>
                           <? else:?>
                             no date set yet
-                          <? endif;?>
+                          <? endif;?>                                              
                         </li>
+                        
+                        <div style="clear:both"></div>
+                        
                         <li class="trip-avatar-container">
-                        <? foreach ($trip->users as $trip_user):?>
-                          <a href="<?=site_url('profile/'.$trip_user->id)?>"><img style="height:32px; width:32px;" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" />
+                        <? foreach ($trip->users as $trip_user):?>                       	                       
+                          <a href="<?=site_url('profile/'.$trip_user->id)?>"><img style="height:32px; width:32px; margin-top:5px;" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" />
                           </a>
                         <? endforeach;?>
                         </li>
+                        
                       </ul>
                     <? endforeach;?>
                   </li>
@@ -110,14 +122,14 @@ $this->load->view('core_header', $header_args);
           </div><!-- USERS TRIPS ENDS -->
           
           <!-- FRIENDS TRIPS -->
-          <div id="home-friends-trips" style="background-color:white; border: 1px solid black; border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px; padding-bottom:15px; margin-top:20px;">
-    				<div style="padding:10px 0px 10px; background-color:#000099; line-height:30px; height:30px; margin-bottom:15px; -moz-border-radius-topright: 10px; -moz-border-radius-topleft: 10px; border-radius: 10px 10px 0px 0px; border-radius: 10px 10px 0px 0px; border-bottom: 1px solid black;">
-      				<span style="font-size:20px; font-weight:bold; padding-left:20px; color:white;">Your friends' trips</span>
+          <div id="home-friends-trips" style="background-color:white; -moz-box-shadow: 0px 0px 2px gray; -webkit-box-shadow: 0px 0px 2px gray; box-shadow: 0px 0px 2px gary; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px solid #C8C8C8;">
+    				<div style="background-color:#C6D4E1; line-height:30px; height:30px; margin-bottom:15px; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; border-radius: 5px 5px 0px 0px; border-radius: 5px 5px 0px 0px; border-bottom: 1px solid #C8C8C8;">
+      				<span style="font-size:16px; padding-left:10px; font-weight:bold;color:black;">Your friends' trips</span>
     				</div>
     				<? if (empty($advising_trips)):?>
-              <span style="margin-left:35px;">Tell your friends to share some trips with you.</span>
+              <div style="margin-left:20px; padding-bottom:20px;">You haven't been invited to any <br>trips yet.</div>
             <? else:?>
-              <ul style="margin-left:35px;">
+              <ul style="margin-left:20px;">
                 <? foreach ($advising_trips as $advising_trip):?>
                   <li class="home-trip">
                     <div class="home-trip-name">

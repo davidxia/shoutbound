@@ -22,11 +22,14 @@ $this->load->view('core_header', $header_args);
 <style type="text/css">
 #trip-creation-form {
   margin-top: 20px;
-  margin-right: 200px;
-  padding:20px 20px 20px 20px;
+  margin-left:30px;
+  margin-right: 235px;
+  padding:20px 10px 10px 10px;
   border-radius:5px;
-  color:navy;
-  border:1px solid #AAA;
+  color:black;
+  font-size: 12px;
+  border:3px solid black;
+  background-color:#FAFAFA;
 }
 #main table{
   border-collapse: collapse;
@@ -57,7 +60,8 @@ body form div.field {
   
 }
 body form .label-and-errors {
-
+	color:navy;
+	font-size:14px;
 }
 .clear {
   clear: both;
@@ -70,7 +74,7 @@ label.error {
 #create-button {
   color:white;
   height:40px;
-  width: 154px;
+  width: 125px;
   line-height:40px;
   text-align:center;
   font-weight:bold;
@@ -86,8 +90,7 @@ label.error {
   border-radius: 5px;
   cursor: pointer;
   padding: 0;
-  margin:0;
-  float: right;
+  margin-left:248px;
 }
 #create-button:hover {
   background: #007ead;
@@ -115,20 +118,21 @@ label.error {
     <!-- WRAPPER -->
     <div class="wrapper" style="background:white">
       <!-- CONTENT -->
-      <div class="content" style="margin:0 auto; padding-top:30px; width:960px; padding-bottom:80px;">
+      <div class="content" style="margin:0 auto; padding-top:30px; width:960px; padding-bottom:80px; color:navy; font-size:36px;"><span style="margin-left:220px">Create a trip!</span>
         <!-- TRIP CREATION FORM -->
         <form id="trip-creation-form" action="confirm_create" method="post" style="position:relative;">
         
         
           <!-- PLACE DATES FIELD -->
-          <fieldset style="border-width:0; border-color:transparent; position:relative; margin-bottom:30px;">
-            <div style="width:412px; display:inline-block; margin-left:10px; margin-bottom:20px;">Destinations</div><div id="dates-header" style="width:296px; display:inline-block; visibility:hidden;">Dates</div>
+          <fieldset style="border-width:0; border-color:transparent; position:relative; margin-bottom:15px; border-bottom:1px solid #AAA; padding-bottom:20px;">
+            <div style="display:inline-block; margin-bottom:5px; color:navy; font-size:14px;">DESTINATION(S)</div>
+            <div id="dates-header" style="display:inline-block; color:navy; font-size:14px; margin-left:300px; margin-bottom:5px;">DATES (optional)</div>
             <div id="destinations_dates" style="position:relative;">
-            <a id="add-destination" href="" style="position:absolute; top:20px; left:-10px;"><img src="<?=site_url('images/plus_icon.jpg')?>" height="20" width="20"/></a><a id="subtract-destination" href="" style="position:absolute; top:0; left:-10px;"><img src="<?=site_url('images/minus_icon.jpg')?>" height="20" width="20"/></a>
-              <div class="field destination" style="margin-left:10px; margin-bottom:10px; position:relative; display:inline-block;">
+            <a id="add-destination" href="" style="position:absolute; top:35px; left:2px;">+ Add destination</a><a id="subtract-destination" href="" style="position:absolute; top:5px; left:-15px;"><img src="<?=site_url('images/minus_icon.jpg')?>" height="20" width="20"/></a>
+              <div class="field destination" style="margin-bottom:10px; margin-right:8px; position:relative; display:inline-block;">
                 <span class="label-and-errors">
-                  <label for="address0">1.</label>
-                  <span class="error-message" style="position:absolute; top:-14px;"></span>
+                  <label for="address0"></label>
+                  <span class="error-message" style="position:absolute; top:-18px; left:120px;"></span>
                 </span>
                 <input type="text" id="address" class="destination-input" name="address" style="width:360px;"
         			    <? if ($destination):?>
@@ -147,7 +151,7 @@ label.error {
                 />
               </div>
               
-              <div class="field dates" style="margin-left:10px; display:inline-block;
+              <div class="field dates" style="display:inline-block;
                 <? if ( ! isset($destination)):?>
                   visibility:hidden;
                 <? endif;?>
@@ -166,42 +170,44 @@ label.error {
   
           <!-- SUMMARY INVITES FIELD -->
           <fieldset id="summary-invites-field" style="border-width:0; border-color:transparent;">
-            <div class="field trip_name" style="margin-left:10px;">
+            <div class="field trip_name">
               <span class="label-and-errors">
-                <label for="trip_name">Trip name</label>
+                <label for="trip_name">TRIP NAME</label>
                 <span class="error-message"></span>
                 <div class="clear"></div>
               </span>
-              <input id="trip_name" name="trip_name" class="required" type="text" style="width:380px;" />
+              <input id="trip_name" name="trip_name" class="required" type="text" style="width:360px; margin-top:5px; margin-bottom:10px;" />
             </div>
-             <div class="field" style="margin-left:10px; margin-top:10px;">
+             <div class="field" style="margin-top:10px; border-bottom:1px solid #AAA; padding-bottom:10px;">
               <span class="label-and-errors">
-                <label for="description">Describe your trip <span id="chars-left">140 characters left</span></label>
+                <label for="description">DESCRIBE YOUR TRIP (optional)<span id="chars-left" style="margin-left:50px; color:gray;">140 characters left</span></label>
                 <span class="error-message"></span>
                 <div class="clear"></div>
               </span>
-              <textarea id="description" name="description" style="width:380px; height:56px; font-size:14px;"></textarea>
+              <textarea id="description" name="description" style="width:360px; height:56px; font-size:14px; margin-top:5px;"></textarea>
             </div>
-            <div class="field" style="margin-left:10px; margin-top: 10px; display:inline-block">
-              <span class="label-and-errors">
-                <label for="invites">Invite people to join your trip (emails)</label>
-                <span class="error-message"></span>
-                <div class="clear"></div>
-              </span>
-              <input  id="invites" name="invites" type="text" style="width:380px;"/>
-            </div>
-            <div class="field" style="margin-left:40px; margin-top: 10px; display:inline-block">
-              <span class="label-and-errors">
-                <label for="">Deadline for response (optional)</label>
-                <span class="error-message"></span>
-                <div class="clear"></div>
-              </span>
-              <input id="deadline" name="deadline" type="text" size="10"/>
-            </div>
+            <div style="border-bottom:1px solid #AAA;">
+	            <div class="field" style="margin-top: 10px; display:inline-block;">
+	              <span class="label-and-errors">
+	                <label for="invites">INVITE OTHERS (emails, separated by comma)</label>
+	                <span class="error-message"></span>
+	                <div class="clear"></div>
+	              </span>
+	              <input  id="invites" name="invites" type="text" style="width:360px; margin-top:5px;"/>
+	            </div>
+	            <div class="field" style="margin-left:40px; margin-top: 10px; display:inline-block">
+	              <span class="label-and-errors">
+	                <label for="">DEADLINE (optional)</label>
+	                <span class="error-message"></span>
+	                <div class="clear"></div>
+	              </span>
+	              <input id="deadline" name="deadline" type="text" size="10" style="margin-top:5px; margin-bottom:10px;"/>
+	             </div>
+           	 </div>
           </fieldset><!-- SUMMARY INVITES FIELD ENDS -->
           
-          <label for="private">Private</label>
-          <input type="checkbox" name="private" id="private" value="1"/>
+          <!--<label for="private">Private</label>
+          <input type="checkbox" name="private" id="private" value="1"/>-->
   
   
           <!-- INTERESTS FIELD -->
@@ -259,7 +265,7 @@ label.error {
           </fieldset>-->
           <!-- INTERESTS FIELD ENDS -->
   
-          <div>
+          <div style="margin-top:10px;">
             <button id="create-button" type="submit">Create</button>
           </div>
           <div style="clear:both;"></div>
