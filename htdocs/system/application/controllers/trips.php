@@ -70,18 +70,59 @@ class Trips extends Controller
                 }
             }
             
-            // send out emails based on invites input tag
+            // send emails to planners
             $this->load->library('sendgrid_email');
             $emails = explode(',', $post['invites']);
-            foreach ($emails as $email)
-            {
-                $response = $this->sendgrid_email->send_mail(
-                    array($email),
-                    $u->name.' invited you on a trip on Shoutbound!',
-                    $this->_add_link_to_notification('<h4>'.$u->name.' invited you to a trip on Shoubound</h4>'.$u->name.' says: '.$post['trip-description'], $t->id),
-                    $this->_add_link_to_notification($u->name.' invited you to a trip on Shoutbound '.$u->name.' says: '.$post['trip-description'], $t->id)
-                );
+            if ($post['private'])
+            {            
+                foreach ($emails as $email)
+                {
+                    // generate new share key for each e-mail address
+                    $ts = new Trip_share();
+                    $ts->trip_id = $t->id;
+                    $ts->share_role = 2;
+                    $ts->share_medium = 1;
+                    $ts->target_id = $email;
+                    $share_key = $ts->generate_share_key();
+
+                    $response = $this->sendgrid_email->send_mail(
+                        array($email),
+                        $u->name.' invited you on a trip on Shoutbound!',
+                        '<h4>'.$u->name.
+                            ' invited you to a trip on Shoutbound</h4>'.$post['description'].
+                            '<br/><a href="'.site_url('trips/share/'.$t->id.'/'.$share_key).
+                            '">To see the trip, click here.</a>'.
+                            '<br/>Have fun!<br/>Team Shoutbound',
+                        $u->name.
+                            ' invited you to a trip on Shoutbound'.$post['description'].
+                            '<br/><a href="'.site_url('trips/share/'.$t->id.'/'.$share_key).
+                            '">To see the trip, click here.</a>'.
+                            '<br/>Have fun!<br/>Team Shoutbound'
+                    );
+                }
             }
+            else
+            {
+                foreach ($emails as $email)
+                {
+                    $response = $this->sendgrid_email->send_mail(
+                        array($email),
+                        $u->name.' invited you on a trip on Shoutbound!',
+                        '<h4>'.$u->name.
+                            ' invited you to a trip on Shoutbound</h4>'.$post['description'].
+                            '<br/><a href="'.site_url('trips/'.$t->id).
+                            '">To see the trip, click here.</a>'.
+                            '<br/>Have fun!<br/>Team Shoutbound',
+                        $u->name.
+                            ' invited you to a trip on Shoutbound'.$post['description'].
+                            '<br/><a href="'.site_url('trips/'.$t->id).
+                            '">To see the trip, click here.</a>'.
+                            '<br/>Have fun!<br/>Team Shoutbound'
+                    );
+                }
+            }
+            
+            
             
             // TODO: success callback to ensure all destinations were saved?
             redirect('trips/'.$t->id);
@@ -131,6 +172,9 @@ class Trips extends Controller
             {
                 redirect('/');
             }
+            
+            $user_role = 2;
+            $user_rsvp = 2;
         }
         
         // get creator
@@ -278,7 +322,6 @@ class Trips extends Controller
     }
 
     
-    
     function ajax_trip_invite_panel()
     {
         $u = new User();
@@ -289,13 +332,15 @@ class Trips extends Controller
         $uid = get_cookie('uid');
         $u->get_by_id($uid);
         
+        /*
         // get user's non-Shoutbound friends
         $u->friend->get();
         $fb_friends = array();
         foreach ($u->friend as $friend)
         {
-                $fb_friends[] = $friend->stored;
+            $fb_friends[] = $friend->stored;
         }
+        */
 
         // get Shoutbound friends not related to this trip
         $u->related_user->get();
@@ -304,7 +349,7 @@ class Trips extends Controller
         $t->get_by_id($this->input->post('tripId'));
         $t->user->get();        
         // create array of friends not associated with this trip
-        foreach ($t->user->all as $user)
+        foreach ($t->user as $user)
         {
             $trip_uids[] = $user->id;
         }
@@ -319,7 +364,7 @@ class Trips extends Controller
         
                 
         $view_data = array(
-            'fb_friends' => $fb_friends,
+            //'fb_friends' => $fb_friends,
             'uninvited_sb_friends' => $uninvited_sb_friends,
         );
         
@@ -345,14 +390,11 @@ class Trips extends Controller
         $t->get_by_id($trip_id);
 
         $uids = json_decode($this->input->post('uids'));
-        //$u->where_in('id', $uids)->get();
         
-        $message = $this->input->post('message');
+        //$message = $this->input->post('message');
         
         $this->load->library('sendgrid_email');
         
-        //if ( ! empty($uids))
-        //{
         foreach ($uids as $uid)
         {
             $u->get_by_id($uid);
@@ -361,7 +403,7 @@ class Trips extends Controller
             $ts = new Trip_share();
             $ts->trip_id = $trip_id;
             $ts->share_role = 2;
-            $ts->share_medium = 2;
+            $ts->share_medium = 1;
             $ts->target_id = $u->email;
             $share_key = $ts->generate_share_key();
             
@@ -370,12 +412,16 @@ class Trips extends Controller
                 $response = $this->sendgrid_email->send_mail(
                     array($u->email),
                     $u->name.' invited you on a trip on Shoutbound!',
-                    $this->_add_link_to_notification('<h4>'.$u->name.
-                        ' invited you on a trip on ShoutBound!</h4>'.
-                        $u->name.' says: '.$message, $trip_id, $share_key),
-                    $this->_add_link_to_notification($u->name.
-                        ' invited you on a trip on ShoutBound! '.
-                        $u->name.' says: '.$message, $trip_id, $share_key)
+                    '<h4>'.$u->name.
+                        ' invited you to a trip on Shoutbound</h4>'.$post['description'].
+                        '<br/><a href="'.site_url('trips/share/'.$t->id.'/'.$share_key).
+                        '">To see the trip, click here.</a>'.
+                        '<br/>Have fun!<br/>Team Shoutbound',
+                    $u->name.
+                        ' invited you to a trip on Shoutbound'.$post['description'].
+                        '<br/><a href="'.site_url('trips/share/'.$t->id.'/'.$share_key).
+                        '">To see the trip, click here.</a>'.
+                        '<br/>Have fun!<br/>Team Shoutbound'
                 );
                 
                 $t->save($u);
@@ -383,7 +429,6 @@ class Trips extends Controller
                 $t->set_join_field($u, 'rsvp', 2);
             }
         }
-        //}
         
         // TODO: this success is overwritten until the last sent email
         $success = json_decode($response, true);
@@ -521,20 +566,21 @@ class Trips extends Controller
             json_success(array('data'=>$render_string));
         }
     }
-    */
+    
     
     function _add_link_to_notification($message, $trip_id, $share_key)
     {
         $ret_val = $message;
                 
-        $ret_val .= '<br/><a href="'.site_url('trips/share/'.$trip_id.'/'.$share_key).'">To see the trip, click here.</a>';
+        $ret_val .= '<br/><a href="'.
+            site_url('trips/share/'.$trip_id.'/'.$share_key).
+            '">To see the trip, click here.</a>';
         $ret_val .= '<br/>Have fun!<br/>Team Shoutbound';
         
         return $ret_val;
     }
 
     
-    /*
     function ajax_wall_post()
     {
         $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);

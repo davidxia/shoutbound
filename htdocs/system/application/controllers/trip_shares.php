@@ -22,6 +22,7 @@ class Trip_shares extends Controller
         $ts->share_role = $this->input->post('shareRole');
         $ts->share_medium = $this->input->post('shareMedium');
         $ts->target_id = $this->input->post('targetId');
+        $ts->is_claimed = $this->input->post('isClaimed');
 
         $share_key = $ts->generate_share_key();
         

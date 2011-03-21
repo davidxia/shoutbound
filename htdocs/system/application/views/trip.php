@@ -40,7 +40,7 @@ $this->load->view('core_header', $header_args);
 
 <style type="text/css">
 #invite-others-button, #get-suggestions-button {
-  width:75px;
+  width:100px;
   height:75px;
   color:white;
   display:block;
@@ -295,15 +295,19 @@ li.suggestion.highlighted{
 	            <div style="clear;margin-bottom:3px;"></div>	            
 	            <div id="trip-destinations" style="display:inline-block; float:left; font-size:14px;">            	
 	                <? foreach ($destinations as $destination):?>
-	                  <?=$destination->address?><br/>
+	                  <?=$destination->address?>
 	                <? endforeach;?>
 	             </div>	                          
 	             <div id="destination-start-dates" style="display:inline-block; float:left; font-size:14px; margin-left:15px;">
 	                <? foreach ($destinations as $destination):?>
-	                  <? if ($destination->startdate):?>
-	                    <?=date('n/d/y', $destination->startdate)?><br/>
+	                  <? if ($destination->startdate AND $destination->enddate):?>
+	                    from <?=date('n/d/y', $destination->startdate)?> to <?=date('n/d/y', $destination->enddate)?>
+	                  <? elseif ($destination->startdate AND ! $destination->enddate):?>
+	                    from <?=date('n/d/y', $destination->startdate)?> to (no date set)
+	                  <? elseif ( ! $destination->startdate AND $destination->enddate):?>
+	                    from (no date set) to <?=date('n/d/y', $destination->enddate)?>
 	                  <? else:?>
-	                    no date set yet<br/>
+	                    no dates
 	                  <? endif;?>
 	                <? endforeach;?>
 	              </div>
@@ -380,13 +384,15 @@ li.suggestion.highlighted{
                 
                 <? elseif ($user_rsvp == 3):?>
                 <div id="rsvp_buttons" class="moved" style="border-top: 1px solid #C8C8C8; border-bottom: 1px solid #C8C8C8; margin-top:10px; mar">
-                    <div id="invsugg_btn_cont" style="margin-top:10px; margin-left:10px;display:inline-block; float:left;">
-                        <a href="#" id="invite-others-button">INVITE</a>
-                        <!--<a href="#" id="get-suggestions-button">GET SUGGESTIONS</a>-->
-                    </div>
+                  <div style="margin-top:10px; text-align:left;">
+                    <a href="#" id="invite-others-button" style="display:inline-block;">INVITE</a>
+                    <span style="font-size:14px;">Click to invite more people</span>
+                  </div>
                     
-                    <span style="font-size:14px; height:50px; line-height:50px;">Click to invite more people</span>
-                    <div style="clear:both"></div>
+                  <div style="margin-top:10px; text-align:left;">
+                    <a href="#" id="get-suggestions-button" style="display:inline-block;">SUGGESTIONS</a>
+                    <span style="font-size:14px;">Ask for suggestions</span>
+                  </div>
                                  
                 </div>
                 

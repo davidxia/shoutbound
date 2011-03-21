@@ -168,8 +168,8 @@ label.error {
           
   
   
-          <!-- SUMMARY INVITES FIELD -->
-          <fieldset id="summary-invites-field" style="border-width:0; border-color:transparent;">
+          <!-- SUMMARY FIELD -->
+          <fieldset id="summary-field" style="border-width:0; border-color:transparent;">
             <div class="field trip_name">
               <span class="label-and-errors">
                 <label for="trip_name">TRIP NAME</label>
@@ -186,15 +186,19 @@ label.error {
               </span>
               <textarea id="description" name="description" style="width:360px; height:56px; font-size:14px; margin-top:5px;"></textarea>
             </div>
+          </fieldset><!-- SUMMARY  FIELD ENDS -->
+
+          <!-- PLANNERS ADVISORS FIELD -->
+          <fieldset style="border-width:0; border-color:transparent;">
             <div style="border-bottom:1px solid #AAA;">
-	            <div class="field" style="margin-top: 10px; display:inline-block;">
+              <div class="field" style="margin-top: 10px; display:inline-block;">
 	              <span class="label-and-errors">
 	                <label for="invites">INVITE OTHERS (emails, separated by comma)</label>
 	                <span class="error-message"></span>
 	                <div class="clear"></div>
 	              </span>
 	              <input  id="invites" name="invites" type="text" style="width:360px; margin-top:5px;"/>
-	            </div>
+              </div>
 	            <div class="field" style="margin-left:40px; margin-top: 10px; display:inline-block">
 	              <span class="label-and-errors">
 	                <label for="">DEADLINE (optional)</label>
@@ -202,12 +206,24 @@ label.error {
 	                <div class="clear"></div>
 	              </span>
 	              <input id="deadline" name="deadline" type="text" size="10" style="margin-top:5px; margin-bottom:10px;"/>
-	             </div>
-           	 </div>
-          </fieldset><!-- SUMMARY INVITES FIELD ENDS -->
+              </div>
+
+              <div class="field" style="margin-top: 10px; display:inline-block;">
+	              <span class="label-and-errors">
+	                <label for="advisors">ASK FOR SUGGESTIONS (emails, separated by comma)</label>
+	                <span class="error-message"></span>
+	                <div class="clear"></div>
+	              </span>
+	              <input  id="advisors" name="advisors" type="text" style="width:360px; margin-top:5px;"/>
+              </div>
+
+              <br/><br/>
+              <label for="private" style="color:navy; font-size:14px;">PRIVATE</label>
+              <input type="checkbox" name="private" id="private" value="1"/>
+            </div>
+
+          </fieldset><!-- PLANNERS ADVISORS FIELD ENDS -->
           
-          <!--<label for="private">Private</label>
-          <input type="checkbox" name="private" id="private" value="1"/>-->
   
   
           <!-- INTERESTS FIELD -->
