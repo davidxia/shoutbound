@@ -608,7 +608,7 @@ li.suggestion.highlighted{
                   var r = $.parseJSON(response);
                   displayMessage(r);
                   $('abbr.timeago').timeago();
-                  
+                  $('#message-box').val('');
                 }
               });
               
@@ -669,7 +669,7 @@ li.suggestion.highlighted{
     var html = [];
     html[0] = '<li id="wall-message-'+r.id+'" class="" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA; position:relative;">';
     html[1] = '<a href="#" class="wall-item-author" style="text-decoration:none;">';
-    html[2] = 'David Xia';
+    html[2] = r.uid;
     html[3] = '</a>';
     html[4] = ' <div class="remove-wall-item" messageId="'+r.id+'"></div>';
     html[5] = '<span class="wall-item-text">'+r.text+'</span>';
@@ -679,6 +679,7 @@ li.suggestion.highlighted{
     html = html.join('');
     
     $('#wall-content').prepend(html);
+    
   }
 
   // ajax remove wall items

@@ -20,10 +20,14 @@ class Messages extends Controller
         
         if ($m->save())
         {
+            $u = new User();
+            $u->get_by_id($m->user_id);
+            
             json_success(array(
                 'id' => $m->id,
                 'text' => $this->input->post('text'),
-                'created' => time()-72
+                'created' => time()-72,
+                'uid' => $u->name
             ));
         }
     }
