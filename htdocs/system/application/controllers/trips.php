@@ -330,16 +330,6 @@ class Trips extends Controller
         $uid = get_cookie('uid');
         $u->get_by_id($uid);
         
-        /*
-        // get user's non-Shoutbound friends
-        $u->friend->get();
-        $fb_friends = array();
-        foreach ($u->friend as $friend)
-        {
-            $fb_friends[] = $friend->stored;
-        }
-        */
-
         // get Shoutbound friends not related to this trip
         $u->related_user->get();
         // get user ids associated with this trip
@@ -359,10 +349,8 @@ class Trips extends Controller
                 $uninvited_sb_friends[] = $sb_friend->stored;
             }
         }
-        
                 
         $view_data = array(
-            //'fb_friends' => $fb_friends,
             'uninvited_sb_friends' => $uninvited_sb_friends,
         );
         
@@ -400,7 +388,7 @@ class Trips extends Controller
             
             $ts = new Trip_share();
             $ts->trip_id = $trip_id;
-            $ts->share_role = 2;
+            $ts->share_role = $this->input->post('shareRole');
             $ts->share_medium = 1;
             $ts->target_id = $u->email;
             $share_key = $ts->generate_share_key();
@@ -505,18 +493,44 @@ class Trips extends Controller
         redirect('/');
     }    
         
-    /*
-    function ajax_panel_share_trip()
+    
+    function ajax_trip_share_dialog()
     {
-        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
-        $friends = $this->User_m->get_friends_by_uid($this->user['uid']);
+        $u = new User();
+        if ( ! $u->get_logged_in_status())
+        {
+            redirect('/');            
+        }
+        $uid = get_cookie('uid');
+        $u->get_by_id($uid);
         
+        // get Shoutbound friends not related to this trip
+        $u->related_user->get();
+        // get user ids associated with this trip
+        $t = new Trip();
+        $t->get_by_id($this->input->post('tripId'));
+        $t->user->get();        
+        // create array of friends not associated with this trip
+        foreach ($t->user as $user)
+        {
+            $trip_uids[] = $user->id;
+        }
+        $uninvited_sb_friends = array();
+        foreach ($u->related_user as $sb_friend)
+        {
+            if ( ! in_array($sb_friend->id, $trip_uids))
+            {
+                $uninvited_sb_friends[] = $sb_friend->stored;
+            }
+        }
+                
         $view_data = array(
-            'user_friends' => $friends
+            'uninvited_sb_friends' => $uninvited_sb_friends,
+            'share_role' => $this->input->post('shareRole')
         );
         
-        $render_string = $this->load->view('trip/trip_share_panel', $view_data, true);
-        json_success(array('data'=>$render_string));
+        $render_string = $this->load->view('trip/trip_share_dialog', $view_data, true);
+        json_success(array('data' => $render_string));
     }
     
     
@@ -565,7 +579,7 @@ class Trips extends Controller
         }
     }
     
-    
+    /*
     function _add_link_to_notification($message, $trip_id, $share_key)
     {
         $ret_val = $message;

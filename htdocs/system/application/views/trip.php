@@ -8,7 +8,6 @@ $header_args = array(
         'js/trip/map.js',
         'js/trip/wall.js',
         'js/trip/share.js',
-        'js/trip/invite.js',
         'js/jquery/popup.js',
         'js/trip/extras.js',
         'js/jquery/color.js',
@@ -474,6 +473,7 @@ li.suggestion.highlighted{
                         <div class="remove-wall-item" suggestionId="<?=$wall_item->id?>"></div>
                       <? endif;?>
                       <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
+                      <a href="#" class="reply">reply</a>
                     </li>
                   <? else:?>
                     <li id="wall-message-<?=$wall_item->id?>" class="message" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #FAFAFA; position:relative;">
@@ -484,6 +484,7 @@ li.suggestion.highlighted{
                       <span class="wall-item-text"><?=$wall_item->text?></span>
                       <br/>
                       <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
+                      <a href="#" class="reply">reply</a>
                     </li>
                   <? endif;?>
                 <? endforeach;?>
@@ -744,6 +745,29 @@ li.suggestion.highlighted{
         }
       }
     });
+    return false;
+  });
+  
+  
+  // reply to wall posts
+  $('.reply').click(function() {
+    $(this).next().remove();
+    var id = $(this).parent().attr('id');
+    var replyBox = $('<div><textarea style="height:14px; display:block; overflow:hidden; resize:none; line-height:13px; width:300px;"></textarea></div>');
+    $(this).after(replyBox);
+    replyBox.children('textarea').focus();
+
+    // allows user to use up/down arrows to select from autosuggest list
+    replyBox.children('textarea').keydown(function(e) {
+      var keyCode = e.keyCode || e.which,
+          enter = 13;
+      if (keyCode == enter) {
+        e.preventDefault();
+        var reply = replyBox.children('textarea').val();
+        console.log(reply);
+      }
+    });
+    
     return false;
   });
 </script>
