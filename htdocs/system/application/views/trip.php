@@ -275,6 +275,38 @@ li.suggestion.highlighted{
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
 }
 
+#rsvp_yes_button{
+  width:170px;
+  height:40px;
+  color:white;
+  line-height:40px;
+  text-align:center;
+  font-weight:bold;
+  font-size:20px;
+  text-decoration:none;
+  background:-webkit-gradient(linear, left top, left bottom, from(#00CC33), to(#009900));
+  background:-moz-linear-gradient(top, #00CC33, #009900);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#00CC33', endColorstr='#009900');
+  border: 1px solid #686868;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  display:inline-block;
+}
+#rsvp_yes_button:hover {
+  background: green;
+  background: -webkit-gradient(linear, left top, left bottom, from(#00FF00), to(#00CC66));
+  background: -moz-linear-gradient(top,  #00FF00,  #00CC66);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00FF00', endColorstr='#00CC66');
+}
+
+#rsvp_yes_button:active {
+  background: #ff8132;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
+  background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
+}
+
 #rsvp_no_button{
   width:45px;
   color:white;
@@ -422,7 +454,8 @@ li.suggestion.highlighted{
                   <span id="num"></span><?=count($trip_goers)?></span> PERSON IS GOING ON THIS TRIP:<div style="clear:both; margin-bottom:3px;"></div>
                   
                 <? else:?>
-                  <span id="num"><?=count($trip_goers)?></span> PEOPLE ARE GOING ON THIS TRIP:            <div style="clear:both; margin-bottom:3px;"></div>
+                  <span id="num"><?=count($trip_goers)?></span> PEOPLE ARE GOING ON THIS TRIP:            
+                  <div style="clear:both; margin-bottom:3px;"></div>
                 <? endif;?>
             </div>
                        
@@ -450,17 +483,27 @@ li.suggestion.highlighted{
             
             <!-- WIDGET -->
            <div id="trip-widget" style="width:277px; height:223px; float:left; display:inline-block; margin-left:15px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #C8C8C8; background-color:white; color:black; padding:5px 10px 5px 10px;">          
-                <div id="rsvp_status;" style="font-size:20px;padding:10px 0px 10px 0px; font-weight:bold; text-align:center;">           
+                <div id="rsvp_status;" style="padding:10px 0px 10px 0px; text-align:center;">    
+                       
               <? if ($user_role >= 2):?>
                 <? if ($user_rsvp == 2):?>
-                    You've been invited to join this trip!<br>
-                    <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" id="rsvp_no_button">I'm out</a><br>
-                    <div id="countdown"></div>
+                    <span style="font-size:20px;font-weight:bold; text-align:center;">You've been invited<br>to join this trip!</span>
+                    <div style="margin:10px 0px 10px 0px;">
+	                    <a href="#" id="rsvp_yes_button">I'm in!</a><a href="#" id="rsvp_no_button" style="margin-left:2px; height:40px; width: 80px; margin-right:8px; line-height:40px; font-weight:bold; font-size:20px; float:right;">I'm out</a><br>
+                    </div>
+                    
+                    <div style="font-size:20px;font-weight:bold;color:black; margin:15px 0px 0px 10px; border-top:1px solid #C8C8C8;padding-top:10px;">Time left to respond:
+                   
+	                   	<div id="countdown" style="color:red; margin-top:5px;font-size:18px;"></div>                  
+
+										</div>                  
+                    
                 <? elseif ($user_rsvp == 3):?>
-                    You're going on this trip!
+                    <span style="font-size:20px;font-weight:bold; text-align:center;">You're going on this trip!</span>
                     
                 <? elseif ($user_rsvp == 1):?>
-                    You're not going on this trip, but you can still change your mind!<br><a href="#" id="rsvp_yes_button">I'm in</a><br>
+                    <span style="font-size:20px;font-weight:bold; text-align:center;">You're not going on this trip,<br>but you can still change your mind!</span>
+                    <a href="#" id="rsvp_yes_button">I'm in</a><br>
                     <div id="countdown"></div>
                 <? endif;?>
                </div>
@@ -478,9 +521,7 @@ li.suggestion.highlighted{
                  
                  <div style="margin-left:30px;">
                    <a href="#" id="rsvp_no_button">I'm out</a>
-                 </div>                   
-
-                                 
+                 </div>                                               
                 
                 <? elseif ($user_rsvp == 1):?>
                 <div id="rsvp_buttons">
@@ -493,8 +534,7 @@ li.suggestion.highlighted{
                   
                 <? endif;?>
                 
-              <? endif;?>
-              
+              <? endif;?>              
               
             </div><!-- WIDGET ENDS -->
         
