@@ -19,7 +19,7 @@ invite.rsvp_yes = function() {
           // unbind click event
           $('#rsvp_yes_button').unbind();
           // change rsvp status
-          $('#rsvp_status').html("You're in :)");
+          $('#rsvp_status').html("You're going on this trip");
           // fade in avatar
           var html = '<div class="trip_goer" style="display:none; float:left; margin-right:10px;" uid="'+uid+'"><img src="'+baseUrl+'/images/defaultavatar8.png" height="50" width="50"></div>';
           $(html).prependTo('#trip_goers').fadeIn('slow');
@@ -37,7 +37,8 @@ invite.rsvp_yes = function() {
               return false;
             });
           });
-          $('#rsvp_status').after('<div id="invsugg_btn_cont"><div id="invite-others-button"><a href="#" id="invite-others-link">invite other people</a></div><div id="get_suggestions_button"><a href="#" id="get-suggestions-link">get more suggestions</a></div></div>');
+          $('#rsvp_status').after('<div id="invsugg_btn_cont"><div style="margin: 15px 0;"><a href="#" id="invite-others-button" style="float:left; margin-right:10px; ">Invite</a><div style="display:inline-block; font-size:14px; height:30px;">Invite others<br/>to join this trip!</div></div><div style="margin:15px 0;"><a href="#" id="get-suggestions-button" style="display:inline-block; float:left; margin-right:10px;">Share</a><div style="display:inline-block; font-size:14px; height:30px;">Share this trip<br/>with others!</div></div></div>');
+          $('#countdown-container').remove();
         }
       }
     });
@@ -78,8 +79,8 @@ invite.rsvp_no = function() {
           // fade out no button, remove, and replace with yes button, bind with click
           $('#rsvp_no_button').fadeOut(300, function(){
             $(this).remove();
-            $('#rsvp_buttons').removeClass('moved');
-            $('#rsvp_buttons').append('<a href="#" id="rsvp_yes_button">I\'m in</a>');
+            //$('#rsvp_buttons').removeClass('moved');
+            $('#rsvp_buttons').empty().append('<a href="#" id="rsvp_yes_button">I\'m in</a>');
             $('#rsvp_yes_button').click(function() {
               invite.rsvp_yes();
               return false;
@@ -303,11 +304,11 @@ $(document).ready(function() {
     invite.rsvp_no();
     return false;
   });
-  $('#invite-others-button').click(function() {
+  $('#invite-others-button').live('click', function() {
     invite.showShareDialog(2);
     return false;
   });
-  $('#get-suggestions-button').click(function() {
+  $('#get-suggestions-button').live('click', function() {
     invite.showShareDialog(1);
     return false;
   });

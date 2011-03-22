@@ -330,20 +330,15 @@ class Trips extends Controller
         $ts = new Trip_share();
         $trip_share = $ts->get_tripshare_by_tripid_sharekey($trip_id, $share_key);
 
-        if ( ! $trip_share)
-        {
-            redirect('/');
-        }
-        
         // if cookie is set, append new key value pair, otherwise instantiate new stdclass object
         
-        if ($received_invites = get_cookie('received_invites'))
+        if ($trip_share AND $received_invites = get_cookie('received_invites'))
         {
             // unserialize from JSON
             $received_invites = json_decode($received_invites);
             $received_invites->{$trip_share->trip_id} = md5('alea iacta est'.$share_key);
         }
-        else
+        elseif ($trip_share)
         {
             $received_invites = (object)array($trip_share->trip_id => md5('alea iacta est'.$share_key));
         }
@@ -351,7 +346,7 @@ class Trips extends Controller
         $received_invites = json_encode($received_invites);
         set_cookie('received_invites', $received_invites);
         
-        redirect('/trips/'.$trip_share->trip_id);
+        redirect('/trips/'.$trip_id);
         
     }
     

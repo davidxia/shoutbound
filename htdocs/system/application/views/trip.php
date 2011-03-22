@@ -41,7 +41,6 @@ $this->load->view('core_header', $header_args);
 #invite-others-button{
   width:75px;
   color:white;
-  display:block;
   height:30px;
   line-height:30px;
   text-align:center;
@@ -482,59 +481,56 @@ li.suggestion.highlighted{
             
             
             <!-- WIDGET -->
-           <div id="trip-widget" style="width:277px; height:223px; float:left; display:inline-block; margin-left:15px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #C8C8C8; background-color:white; color:black; padding:5px 10px 5px 10px;">          
-                <div id="rsvp_status;" style="padding:10px 0px 10px 0px; text-align:center;">    
+          <div id="trip-widget" style="width:277px; height:223px; float:left; margin-left:15px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #C8C8C8; background-color:white; color:black; padding:5px 10px 5px 10px;">          
                        
               <? if ($user_role >= 2):?>
-                <? if ($user_rsvp == 2):?>
-                    <span style="font-size:20px;font-weight:bold; text-align:center;">You've been invited<br>to join this trip!</span>
-                    <div style="margin:10px 0px 10px 0px;">
-	                    <a href="#" id="rsvp_yes_button">I'm in!</a><a href="#" id="rsvp_no_button" style="margin-left:2px; height:40px; width: 80px; margin-right:8px; line-height:40px; font-weight:bold; font-size:20px; float:right;">I'm out</a><br>
-                    </div>
-                    
-                    <div style="font-size:20px;font-weight:bold;color:black; margin:15px 0px 0px 10px; border-top:1px solid #C8C8C8;padding-top:10px;">Time left to respond:
-                   
-	                   	<div id="countdown" style="color:red; margin-top:5px;font-size:18px;"></div>                  
-
-										</div>                  
-                    
-                <? elseif ($user_rsvp == 3):?>
-                    <span style="font-size:20px;font-weight:bold; text-align:center;">You're going on this trip!</span>
-                    
-                <? elseif ($user_rsvp == 1):?>
-                    <span style="font-size:20px;font-weight:bold; text-align:center;">You're not going on this trip,<br>but you can still change your mind!</span>
-                    <a href="#" id="rsvp_yes_button">I'm in</a><br>
-                    <div id="countdown"></div>
-                <? endif;?>
-               </div>
-                
-                <? if ($user_rsvp == 3):?>
-                <div id="rsvp_buttons" style="border-top: 1px solid #FAFAFA; border-bottom: 1px solid #FAFAFA; padding:10px 20px 10px 0px; margin-left:30px;">
-	                <a href="#" id="invite-others-button" style="display:inline-block; float:left; margin-right:10px; ">Invite</a>
-	                <div style="display:inline-block; font-size:14px; height:30px;">Invite others<br>to join this trip!</div>               
-		            </div>
-                    
-                <div style="border-bottom: 1px solid #FAFAFA; padding:10px 20px 10px 0px;margin-bottom:15px;">
-                   <a href="#" id="get-suggestions-button" style="display:inline-block; float:left; margin-left:30px; margin-right:10px;">Share</a>
-                   <div style="display:inline-block; font-size:14px; height:30px;">Share this trip<br>with others!</div>
-                 </div>
-                 
-                 <div style="margin-left:30px;">
-                   <a href="#" id="rsvp_no_button">I'm out</a>
-                 </div>                                               
-                
-                <? elseif ($user_rsvp == 1):?>
-                <div id="rsvp_buttons">
-                    <a href="#" id="rsvp_yes_button">I'm in</a>
+                <div id="rsvp_status" style="margin:10px 0; text-align:center;font-size:20px;font-weight:bold;">    
+                  <? if ($user_rsvp == 3):?>
+                    You're going on this trip
+                  <? elseif ($user_rsvp == 2):?>
+                    You've been invited<br/>on this trip
+                  <? elseif ($user_rsvp == 1):?>
+                    You're not going on this trip,<br/>but you can still change your mind
+                  <? endif;?>
                 </div>
+                <? if ($user_rsvp == 3):?>
+                <div id="invsugg_btn_cont">
+                  <div style="margin: 15px 0;">
+                    <a href="#" id="invite-others-button" style="float:left; margin-right:10px; ">Invite</a>
+                    <div style="display:inline-block; font-size:14px; height:30px;">Invite others<br/>to join this trip!</div>
+                  </div>
+                  <div style="margin:15px 0;">
+                    <a href="#" id="get-suggestions-button" style="display:inline-block; float:left; margin-right:10px;">Share</a>
+                    <div style="display:inline-block; font-size:14px; height:30px;">Share this trip<br/>with others!</div>
+                  </div>
+                </div>
+                <div id="rsvp_buttons" style="margin-left:30px;">
+                  <a href="#" id="rsvp_no_button">I'm out</a>
+                </div>                                              
+                <? elseif ($user_rsvp == 2):?>
+                  <div id="rsvp_buttons" style="margin:10px 0px 10px 0px;">
+                    <a href="#" id="rsvp_yes_button">I'm in</a>
+                    <a href="#" id="rsvp_no_button" style="margin-left:2px; height:40px; width: 80px; margin-right:8px; line-height:40px; font-weight:bold; font-size:20px; float:right;">I'm out</a>
+                    <br>
+                  </div>
+                  <div id="countdown-container" style="font-size:20px;font-weight:bold;color:black; margin:15px 0px 0px 10px; border-top:1px solid #C8C8C8;padding-top:10px;">Time left to respond:
+                   	<div id="countdown" style="color:red; margin-top:5px;font-size:18px;"></div>                  
+									</div>
+                <? elseif ($user_rsvp == 1):?>
+                  <div id="rsvp_buttons" style="margin:10px 0px 10px 0px;">
+                    <a href="#" id="rsvp_yes_button">I'm in</a>
+                  </div>
+                  <div id="countdown"></div>
+                <? elseif ($user_rsvp == 3):?>
+                  <div id="rsvp_buttons">
+                    <a href="#" id="rsvp_no_button" style="margin-left:2px; height:40px; width: 80px; margin-right:8px; line-height:40px; font-weight:bold; font-size:20px; float:right;">I'm out</a>
+                  </div>
                 <? endif;?>
-                               
-                <? if ($user_role == 3):?>
-                    <a id="deletebutton" style="position:relative; top:-22px; left:90px;" href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete this trip</a>                    
-                  
-                <? endif;?>
-                
               <? endif;?>              
+            
+              <? if ($user_role == 3):?>
+                <a id="deletebutton" style="" href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete this trip</a>                    
+              <? endif;?>
               
             </div><!-- WIDGET ENDS -->
         
