@@ -116,7 +116,10 @@ invite.bindButtons = function(shareRole) {
     invite.facebookMessage(shareRole);
     return false;
   });
-  $('#email-share').bind('click', invite.emailShare);
+  $('#email-share').click(function() {
+    invite.emailShare();
+    return false;
+  });
 
   $('#trip-share-confirm').click(function() {
     invite.confirmShare(shareRole);
@@ -153,7 +156,12 @@ invite.facebookMessage = function(shareRole) {
     if (response.session) {
       var to = 1;
       var shareKey = invite.generateShareKey(shareRole, 2, 'fb');
-      var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
+      if (shareRole == 2) {
+        var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
+      } else if (shareRole == 1) {
+        var message = 'Help me plan my trip: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
+      }
+      
       var url = 'http://www.facebook.com/messages/'+to+'?msg_prefill='+message;
       window.open(url);
     } else {
@@ -161,7 +169,11 @@ invite.facebookMessage = function(shareRole) {
         if (response.session) {
           var to = 1;
           var shareKey = invite.generateShareKey(shareRole, 2, 'fb');
-          var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
+          if (shareRole == 2) {
+            var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
+          } else if (shareRole == 1) {
+            var message = 'Help me plan my trip: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
+          }
           var url = 'http://www.facebook.com/messages/'+to+'?msg_prefill='+message;
           window.open(url);
         }
@@ -188,9 +200,24 @@ invite.confirmShare = function(shareRole) {
     }
   });
   uids = $.JSON.encode(uids);
-  console.log(uids.length);
 
-  if (uids.length >= 1) {
+  if ($('#emails').val())
+  {
+    var postData = {
+      tripId: tripId,
+      emails: $('#emails').val(),
+      shareRole: shareRole
+    };
+    
+    $.ajax({
+      type: 'POST',
+      url: baseUrl+'trip_shares/send_email',
+      data: postData,
+      success: function(r) {
+        invite.displaySuccessDialog(r);
+      }
+    });
+  } else {
     var postData = {
       tripId: tripId,
       uids: uids,
@@ -206,13 +233,6 @@ invite.confirmShare = function(shareRole) {
         invite.sendEmail(uids, shareRole);
       }
     });
-  } else {
-    console.log($('#emails').val());
-    var postData = {
-      tripId: tripId,
-      emails: $('#emails').val()
-      
-    };
   }
     
   $('#div-to-popup').bPopup().close();

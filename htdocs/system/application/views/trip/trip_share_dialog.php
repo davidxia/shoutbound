@@ -37,7 +37,13 @@
     </div>
 
     <div id="trip-share-toolbar" style="display:none;">
-      <a href="#" id="trip-share-confirm">invite</a>
+      <a href="#" id="trip-share-confirm">
+        <? if ($share_role == 2):?>
+          invite
+        <? elseif ($share_role == 1):?>
+          get suggestions
+        <? endif;?>
+      </a>
       <a href="#" id="trip-share-cancel">cancel</a>
     </div>
 

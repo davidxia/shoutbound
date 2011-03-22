@@ -87,6 +87,35 @@ class Trip_shares extends Controller
                 }
             }
         }
+        elseif ($this->input->post('emails'))
+        {
+            $emails = $this->input->post('emails');
+            $emails = explode(',', $emails);
+            
+            foreach ($emails as $email)
+            {
+                // generate new share key for each e-mail
+                $share_key = $this->generate_share_key($this->input->post('tripId'),
+                    $this->input->post('shareRole'), 1, $email, 0);
+                
+                $response = $this->sendgrid_email->send_mail(
+                    array($email),
+                    $sender.' invited you on a trip on Shoutbound!',
+                    $this->generate_html_email($sender, $this->input->post('tripId'), $share_key),
+                    $this->generate_text_email($sender, $this->input->post('tripId'), $share_key)
+                );
+                
+            }
+            
+            if ($this->input->post('shareRole') == 2)
+            {
+                echo 'invites sent';
+            }
+            elseif ($this->input->post('shareRole') == 1)
+            {
+                echo 'suggestions asked for';
+            }
+        }
     }
     
     
@@ -139,7 +168,14 @@ class Trip_shares extends Controller
             }
         }
         
-        echo 'invites sent';
+        if ($this->input->post('shareRole') == 2)
+        {
+            echo 'invites sent';
+        }
+        elseif ($this->input->post('shareRole') == 1)
+        {
+            echo 'suggestions asked for';
+        }
     }
     
     
