@@ -189,7 +189,7 @@ label.error {
           </fieldset><!-- SUMMARY  FIELD ENDS -->
 
           <!-- PLANNERS ADVISORS FIELD -->
-          <fieldset style="border-width:0; border-color:transparent;">
+          <!--<fieldset style="border-width:0; border-color:transparent;">
             <div style="border-bottom:1px solid #AAA;">
               <div class="field" style="margin-top: 10px; display:inline-block;">
 	              <span class="label-and-errors">
@@ -201,7 +201,7 @@ label.error {
               </div>
 	            <div class="field" style="margin-left:40px; margin-top: 10px; display:inline-block">
 	              <span class="label-and-errors">
-	                <label for="">DEADLINE (optional)</label>
+	                <label for="deadline">DEADLINE (optional)</label>
 	                <span class="error-message"></span>
 	                <div class="clear"></div>
 	              </span>
@@ -222,7 +222,7 @@ label.error {
               <input type="checkbox" name="private" id="private" value="1"/>
             </div>
 
-          </fieldset><!-- PLANNERS ADVISORS FIELD ENDS -->
+          </fieldset>--><!-- PLANNERS ADVISORS FIELD ENDS -->
           
   
   
