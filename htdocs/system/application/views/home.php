@@ -51,7 +51,7 @@ $this->load->view('core_header', $header_args);
               <? foreach($news_feed_items as $news_feed_item):?>
                 <li id="wall-item-<?=$news_feed_item->id?>" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
                 <? if ($news_feed_item->is_location):?>
-                  <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>" style="margin-right:10px; float:left;"><img src="http://graph.facebook.com/<?=$news_feed_item->user_fid?>/picture?type=square" /></a>
+                  <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>" style="margin-right:10px; float:left;"><img src="<?=site_url('images/defaultavatar8.png')?>" height="50" width="50"/></a>
                   <div style="display:table-cell; line-height:18px;">
                     <?=$news_feed_item->user_name?> suggested <span style="font-weight:bold;"><?=$news_feed_item->name?></span>
                     <br/>
@@ -60,7 +60,7 @@ $this->load->view('core_header', $header_args);
                     <abbr class="timeago" title="<?=$news_feed_item->created?>" style="font-size:10px;"><?=$news_feed_item->created?></abbr>
                   </div>
                 <? else:?>
-                  <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>" style="margin-right:10px; float:left;"><img src="http://graph.facebook.com/<?=$news_feed_item->user_fid?>/picture?type=square" /></a>
+                  <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>" style="margin-right:10px; float:left;"><img src="<?=site_url('images/defaultavatar8.png')?>" height="50" width="50"/></a>
                   <div style="display:table-cell; line-height:18px;">
                     <?=$news_feed_item->user_name?> wrote <span style="font-weight:bold;"><?=$news_feed_item->text?></span>
                     <br/>
@@ -108,7 +108,7 @@ $this->load->view('core_header', $header_args);
                         
                         <li class="trip-avatar-container">
                         <? foreach ($trip->users as $trip_user):?>                       	                       
-                          <a href="<?=site_url('profile/'.$trip_user->id)?>"><img style="height:32px; width:32px; margin-top:5px;" src="http://graph.facebook.com/<?=$trip_user->fid?>/picture?type=square" />
+                          <a href="<?=site_url('profile/'.$trip_user->id)?>"><img src="<?=site_url('images/defaultavatar8.png')?>" height="32" width="32"/>
                           </a>
                         <? endforeach;?>
                         </li>

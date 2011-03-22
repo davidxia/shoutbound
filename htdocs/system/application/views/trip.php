@@ -462,7 +462,7 @@ li.suggestion.highlighted{
               <? if ($trip_goers):?>
                 <? foreach ($trip_goers as $trip_goer):?>
                   <div class="trip_goer" uid="<?=$trip_goer->id?>" style="float:left; margin-right:10px;">
-                    <a href="<?=site_url('profile/'.$trip_goer->id)?>"><img class="square-50" src="http://graph.facebook.com/<?=$trip_goer->fid?>/picture?type=square"/></a>
+                    <a href="<?=site_url('profile/'.$trip_goer->id)?>"><img src="<?=site_url('images/defaultavatar8.png')?>" height="50" width="50"/></a>
                   </div>
                 <? endforeach;?>
               <? endif;?>

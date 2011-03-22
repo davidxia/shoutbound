@@ -21,7 +21,7 @@ invite.rsvp_yes = function() {
           // change rsvp status
           $('#rsvp_status').html("You're in :)");
           // fade in avatar
-          var html = '<div class="trip_goer" style="display:none; float:left; margin-right:10px;" uid="'+uid+'"><img style="height:50px;width:50px;" src="http://graph.facebook.com/'+fid+'/picture?type=square"></div>';
+          var html = '<div class="trip_goer" style="display:none; float:left; margin-right:10px;" uid="'+uid+'"><img src="'+baseUrl+'/images/defaultavatar8.png" height="50" width="50"></div>';
           $(html).prependTo('#trip_goers').fadeIn('slow');
           // increase number by one
           $('#num').html(function(){
