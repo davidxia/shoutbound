@@ -38,9 +38,8 @@ $this->load->view('core_header', $header_args);
 </script>
 
 <style type="text/css">
-#invite-others-button, #get-suggestions-button {
-  width:100px;
-  height:75px;
+#invite-others-button{
+  width:75px;
   color:white;
   display:block;
   height:30px;
@@ -49,31 +48,60 @@ $this->load->view('core_header', $header_args);
   font-weight:bold;
   font-size:11px;
   text-decoration:none;
-  background:-webkit-gradient(linear, left top, left bottom, from(#E0E0E0), to(#888888));
-  background:-moz-linear-gradient(top, #E0E0E0 , #888888);
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#E0E0E0', endColorstr='#888888');
+  background:-webkit-gradient(linear, left top, left bottom, from(#000099), to(#000033));
+  background:-moz-linear-gradient(top, #000099 , #000033);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#000099', endColorstr='#000033');
   border: 1px solid #686868;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
-  margin-bottom: 13px;
+  display:inline-block;
 }
-#invite-others-button:hover, #get-suggestions-button:hover {
+#invite-others-button:hover{
   background: #ffad32;
   background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
   background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');
 }
-#invite-others-button:active, #get-suggestions-button:active {
+#invite-others-button:active{
   background: #ff8132;
   background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
   background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }
 
-.moved{
-  text-align: right;
+#get-suggestions-button {
+  width:75px;
+  color:white;
+  display:block;
+  height:30px;
+  line-height:30px;
+  text-align:center;
+  font-weight:bold;
+  font-size:11px;
+  text-decoration:none;
+  background:-webkit-gradient(linear, left top, left bottom, from(#660099), to(#660066));
+  background:-moz-linear-gradient(top, #660099 , #660066);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#660099', endColorstr='#660066');
+  border: 1px solid #686868;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  display:inline-block;
 }
+#get-suggestions-button:hover {
+  background: #ffad32;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
+  background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');
+}
+#get-suggestions-button:active {
+  background: #ff8132;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
+  background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
+}
+
 #share-trip {
   font-size: 1.5em;
   margin-top: 10px;
@@ -246,6 +274,71 @@ li.suggestion.highlighted{
 	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
 }
+
+#rsvp_no_button{
+  width:45px;
+  color:white;
+  height:20px;
+  line-height:20px;
+  text-align:center;
+  font-weight:bold;
+  font-size:11px;
+  text-decoration:none;
+  background:-webkit-gradient(linear, left top, left bottom, from(#E0E0E0), to(#888888));
+  background:-moz-linear-gradient(top, #E0E0E0 , #888888);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#E0E0E0', endColorstr='#888888');
+  border: 1px solid #686868;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  display:inline-block;
+}
+#rsvp_no_button:hover {
+  background: green;
+  background: -webkit-gradient(linear, left top, left bottom, from(#A80000), to(#980000));
+  background: -moz-linear-gradient(top,  #A80000,  #980000);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#A80000', endColorstr='#980000');
+}
+
+#rsvp_no_button:active {
+  background: #ff8132;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
+  background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
+}
+
+#deletebutton{
+  width:85px;
+  color:white;
+  height:20px;
+  line-height:20px;
+  text-align:center;
+  font-weight:bold;
+  font-size:11px;
+  text-decoration:none;
+  background:-webkit-gradient(linear, left top, left bottom, from(#E0E0E0), to(#888888));
+  background:-moz-linear-gradient(top, #E0E0E0 , #888888);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#E0E0E0', endColorstr='#888888');
+  border: 1px solid #686868;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  display:inline-block;
+}
+#deletebutton:hover {
+  background: green;
+  background: -webkit-gradient(linear, left top, left bottom, from(#A80000), to(#980000));
+  background: -moz-linear-gradient(top,  #A80000,  #980000);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#A80000', endColorstr='#980000');
+}
+
+#deletebutton:active {
+  background: #ff8132;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
+  background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
+}
+
 </style>
 
 </head>
@@ -299,13 +392,13 @@ li.suggestion.highlighted{
 	             <div id="destination-start-dates" style="display:inline-block; float:left; font-size:14px; margin-left:15px;">
 	                <? foreach ($destinations as $destination):?>
 	                  <? if ($destination->startdate AND $destination->enddate):?>
-	                    from <?=date('n/d/y', $destination->startdate)?> to <?=date('n/d/y', $destination->enddate)?>
+	                    <?=date('n/d/y', $destination->startdate)?> to <?=date('n/d/y', $destination->enddate)?>
 	                  <? elseif ($destination->startdate AND ! $destination->enddate):?>
-	                    from <?=date('n/d/y', $destination->startdate)?> to (no date set)
+	                    <?=date('n/d/y', $destination->startdate)?> to (No date set)
 	                  <? elseif ( ! $destination->startdate AND $destination->enddate):?>
-	                    from (no date set) to <?=date('n/d/y', $destination->enddate)?>
+	                    (No date set) to <?=date('n/d/y', $destination->enddate)?>
 	                  <? else:?>
-	                    no dates
+	                    No dates set
 	                  <? endif;?>
 	                <? endforeach;?>
 	              </div>
@@ -356,45 +449,38 @@ li.suggestion.highlighted{
             
             
             <!-- WIDGET -->
-           <div id="trip-widget" style="width:277px; height:186px; float:left; display:inline-block; margin-left:15px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #C8C8C8; background-color:#BDB8AD; color:white; padding:15px;">
-           
-           	<div style="height:35px; line-height:35px; background-color:#BDB8AD;  text-align:center; font-size:16px; font-weight:bold; margin-bottom:5px;">TRIP DASHBOARD</div>
-           	<br>
-           
+           <div id="trip-widget" style="width:277px; height:223px; float:left; display:inline-block; margin-left:15px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #C8C8C8; background-color:white; color:black; padding:5px 10px 5px 10px;">          
+                <div id="rsvp_status;" style="font-size:20px;padding:10px 0px 10px 0px; font-weight:bold; text-align:center;">           
               <? if ($user_role >= 2):?>
-                <span id="rsvp_status">
                 <? if ($user_rsvp == 2):?>
-                    You've been invited to join this trip!
+                    You've been invited to join this trip!<br>
+                    <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" id="rsvp_no_button">I'm out</a><br>
                     <div id="countdown"></div>
                 <? elseif ($user_rsvp == 3):?>
-                    You're going on this trip
+                    You're going on this trip!
+                    
                 <? elseif ($user_rsvp == 1):?>
-                    You're not going on this trip, but you can still change your mind
+                    You're not going on this trip, but you can still change your mind!<br><a href="#" id="rsvp_yes_button">I'm in</a><br>
                     <div id="countdown"></div>
                 <? endif;?>
-                </span>
+               </div>
                 
-                <? if ($user_rsvp == 2):?>
-                <div id="rsvp_buttons">
-                    <a href="#" id="rsvp_yes_button">I'm in</a>
-                    <a href="#" id="rsvp_no_button">I'm out</a>
-                </div>
-                
-                <? elseif ($user_rsvp == 3):?>
-                <div id="rsvp_buttons" class="moved" style="border-top: 1px solid #C8C8C8; border-bottom: 1px solid #C8C8C8; margin-top:10px; mar">
-                  <div style="margin-top:10px; text-align:left;">
-                    <a href="#" id="invite-others-button" style="display:inline-block;">INVITE</a>
-                    <span style="font-size:14px;">Click to invite more people</span>
-                  </div>
+                <? if ($user_rsvp == 3):?>
+                <div id="rsvp_buttons" style="border-top: 1px solid #FAFAFA; border-bottom: 1px solid #FAFAFA; padding:10px 20px 10px 0px; margin-left:30px;">
+	                <a href="#" id="invite-others-button" style="display:inline-block; float:left; margin-right:10px; ">Invite</a>
+	                <div style="display:inline-block; font-size:14px; height:30px;">Invite others<br>to join this trip!</div>               
+		            </div>
                     
-                  <div style="margin-top:10px; text-align:left;">
-                    <a href="#" id="get-suggestions-button" style="display:inline-block;">SUGGESTIONS</a>
-                    <span style="font-size:14px;">Ask for suggestions</span>
-                  </div>
+                <div style="border-bottom: 1px solid #FAFAFA; padding:10px 20px 10px 0px;margin-bottom:15px;">
+                   <a href="#" id="get-suggestions-button" style="display:inline-block; float:left; margin-left:30px; margin-right:10px;">Share</a>
+                   <div style="display:inline-block; font-size:14px; height:30px;">Share this trip<br>with others!</div>
+                 </div>
+                 
+                 <div style="margin-left:30px;">
+                   <a href="#" id="rsvp_no_button">I'm out</a>
+                 </div>                   
+
                                  
-                </div>
-                
-                <a href="#" id="rsvp_no_button">I'm out</a>
                 
                 <? elseif ($user_rsvp == 1):?>
                 <div id="rsvp_buttons">
@@ -403,9 +489,8 @@ li.suggestion.highlighted{
                 <? endif;?>
                                
                 <? if ($user_role == 3):?>
-                  <div>
-                    <a href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete this trip</a>
-                  </div>
+                    <a id="deletebutton" style="position:relative; top:-22px; left:90px;" href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete this trip</a>                    
+                  
                 <? endif;?>
                 
               <? endif;?>
