@@ -71,10 +71,10 @@
 
 </style>
 
-<div id="trip-share-popup" style="padding:15px; background:rgba(82, 82, 82, 0.7); border-radius: 8px; -webkit-border-radius:8px; border-top-left-radius: 8px 8px; border-top-right-radius: 8px 8px; border-bottom-right-radius: 8px 8px; border-bottom-left-radius: 8px 8px;">
+<div id="trip-share-popup" style="padding:15px; background:rgba(82, 82, 82, 0.7); border-radius: 8px; -webkit-border-radius:8px; -moz-border-radius:8px;">
 
 
-  <div style="background-color:#FAFAFA;height:350px;width:320px;padding:10px 10px 10px 10px;">
+  <div style="background-color:#FAFAFA;height:475px;width:320px;padding:10px 10px 10px 10px;">
     <div style="font-size:20px; font-weight:bold; padding-bottom:10px; border-bottom:1px solid #C8C8C8;text-align:center;">
       <? if ($share_role == 2):?>
         Invite others to<br>join you on this trip!
@@ -108,6 +108,11 @@
 		      <input type="text" id="emails" name="emails" style="width:300px;"/>
 		    </div>
     	</div>
+    
+      <? if ($share_role == 2):?>
+        <label for="deadline">deadline</label>
+        <input id="deadline" name="deadline" type="text" size="10" style="margin-top:5px; margin-bottom:10px;"/>
+      <? endif;?>
 
     <div id="trip-share-toolbar" style="margin:10px 0px 10px 0px;">
       <a href="#" id="trip-share-confirm">
@@ -124,3 +129,11 @@
 
   </div>
 </div>
+
+<link rel="stylesheet" href="<?=site_url('static/css/excite-bike/jquery-ui-1.8.10.custom.css')?>" type="text/css" media="screen" charset="utf-8"/></script>
+<script type="text/javascript" src="<?=site_url('static/js/jquery/jquery-ui-1.8.10.custom.min.js')?>"></script>
+
+<script type="text/javascript">
+  $('#deadline').datepicker();
+  
+</script>

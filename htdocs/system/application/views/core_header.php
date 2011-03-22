@@ -6,7 +6,7 @@
     
 
     <!-- LIBRARIES -->
-    <link rel="stylesheet" href="<?=static_url('css/common.css')?>" type="text/css" media="screen" charset="utf-8"></script>
+    <link rel="stylesheet" href="<?=static_url('css/common.css')?>" type="text/css" media="screen" charset="utf-8"/>
     <script type="text/javascript" src="<?=static_url('js/jquery/jquery.js')?>"></script>
     <script type="text/javascript" src="<?=static_url('js/jquery/jquery.json.js')?>"></script>
 

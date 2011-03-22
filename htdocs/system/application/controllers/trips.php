@@ -425,70 +425,6 @@ class Trips extends Controller
         json_success(array('data' => $render_string));
     }
     
-    
-    /*    
-    function ajax_wall_post()
-    {
-        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
-        if(!$trip)
-            return json_error('That trip doesn\'t exist');
-            
-        if(isset($_POST['replyid'])) {
-            $replyid = $_POST['replyid'];
-        } else {
-            $replyid = 0;
-        }
-
-        $itemid = $this->Trip_m->create_item(
-            $this->user['uid'],
-            $trip['tripid'],
-            $_POST['yelp_id'],
-            null,
-            $_POST['body'],
-            $_POST['yelpjson'],
-            $_POST['lat'],
-            $_POST['lon'],
-            $replyid
-        );
-
-        // check if row was created in database
-        if($itemid){
-            json_success(array(
-                'itemid' => $itemid,
-                'fid' => $this->user['fid'],
-                'name'=> $this->user['name'],
-                'body'=> $_POST['body'],
-                'replyid' => $replyid
-            ));
-        }
-    }
-    
-    
-    function remove_wall_replies()
-    {
-        $parent = $this->Trip_m->get_item_by_itemid($_POST['replyid']);
-        if(!$parent)
-            return json_error('That thread doesn\'t exist');
-            
-        $itemids = $this->Trip_m->get_itemids_by_replyid($_POST['replyid']);
-        foreach($itemids as $itemid){
-            $this->Trip_m->remove_trip_item_by_itemid($itemid, $_POST['tripId']);
-        }
-    }
-    
-    
-    
-    function save_trip_startdate()
-    {
-        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
-        if(!$trip)
-            return json_error('That trip doesn\'t exist');
-        
-        $a = $this->Trip_m->update_startdate_by_tripid($_POST['tripId'], $_POST['tripStartDate']);
-        json_success(array('success'=>$a));
-    }
-    */
-    
 
     function verify_share_cookie($trip_id)
     {
@@ -509,14 +445,6 @@ class Trips extends Controller
         return FALSE;
     }
     
-    
-    function fb_friend_invite()
-    {
-        $friends   =   (isset($_REQUEST["ids"])   ?   $_REQUEST["ids"] : null);
-        $nonFBfriends = (isset($_REQUEST["email_hashes"]) ? $_REQUEST["email_hashes"] : null);
-        
-        print_r($friends);
-    }
 }
 
 /* End of file trips.php */
