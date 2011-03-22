@@ -350,7 +350,7 @@ class Trips extends Controller
         }        
     }
 
-    
+    /*
     function ajax_trip_invite_panel()
     {
         $u = new User();
@@ -389,81 +389,9 @@ class Trips extends Controller
         json_success(array('data' => $render_string));
         
     }
-
-
-    function ajax_invite_trip()
-    {
-        $u = new User();
-        $uid = $u->get_logged_in_status();
-        if ( ! $uid)
-        {
-            redirect('/');            
-        }
-        $u->get_by_id($uid);
-        
-        $trip_id = $this->input->post('tripId');
-        
-        $t = new Trip();
-        $t->get_by_id($trip_id);
-
-        $uids = json_decode($this->input->post('uids'));
-        
-        //$message = $this->input->post('message');
-        
-        $this->load->library('sendgrid_email');
-        
-        foreach ($uids as $uid)
-        {
-            $u->get_by_id($uid);
-            $u->settings->get();
-            
-            $ts = new Trip_share();
-            $ts->trip_id = $trip_id;
-            $ts->share_role = $this->input->post('shareRole');
-            $ts->share_medium = 1;
-            $ts->target_id = $u->email;
-            $share_key = $ts->generate_share_key();
-            
-            if ($u->settings->trip_invite AND $share_key)
-            {
-                $response = $this->sendgrid_email->send_mail(
-                    array($u->email),
-                    $u->name.' invited you on a trip on Shoutbound!',
-                    '<h4>'.$u->name.
-                        ' invited you to a trip on Shoutbound</h4>'.$post['description'].
-                        '<br/><a href="'.site_url('trips/share/'.$t->id.'/'.$share_key).
-                        '">To see the trip, click here.</a>'.
-                        '<br/>Have fun!<br/>Team Shoutbound',
-                    $u->name.
-                        ' invited you to a trip on Shoutbound'.$post['description'].
-                        '<br/><a href="'.site_url('trips/share/'.$t->id.'/'.$share_key).
-                        '">To see the trip, click here.</a>'.
-                        '<br/>Have fun!<br/>Team Shoutbound'
-                );
-                
-                $t->save($u);
-                $t->set_join_field($u, 'role', 2);
-                $t->set_join_field($u, 'rsvp', 2);
-            }
-        }
-        
-        // TODO: this success is overwritten until the last sent email
-        $success = json_decode($response, true);
-        
-        // tell user if invite succeeded or failed based on JSON response
-        if ($success['message'] == 'success')
-        {
-            $message = 'it worked';
-            json_success(array('data' => $message));
-        }
-        else
-        {
-            $message = 'it failed';
-            json_success(array('data' => $message));
-        }
-    }
+    */
     
-        
+            
     function share($trip_id, $share_key)
     {        
         $ts = new Trip_share();

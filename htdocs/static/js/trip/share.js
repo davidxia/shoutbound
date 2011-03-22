@@ -111,7 +111,14 @@ invite.showShareDialog = function(shareRole) {
   
   
 invite.bindButtons = function(shareRole) {
-  $('#trip-share-confirm').click(function(){
+  $('#shoutbound-share').bind('click', invite.FriendSelector);
+  $('#facebook-share').click(function() {
+    invite.facebookMessage(shareRole);
+    return false;
+  });
+  $('#email-share').bind('click', invite.emailShare);
+
+  $('#trip-share-confirm').click(function() {
     invite.confirmShare(shareRole);
     return false;
   });
@@ -119,12 +126,6 @@ invite.bindButtons = function(shareRole) {
     $('#div-to-popup').bPopup().close();
     return false;
   });
-  $('#shoutbound-share').bind('click', invite.sbFriendSelector);
-  $('#facebook-share').bind('click', invite.facebookInvite);
-  $('#email-share').click(function(){
-    invite.emailShare();
-    return false;
-  })
 
   $('.friend-capsule').bind('click', function() {
     if ($.data(this, 'selected')) {
@@ -139,19 +140,19 @@ invite.bindButtons = function(shareRole) {
 }
 
 
-invite.sbFriendSelector = function() {
-  $('#sb-friends').toggle();
+invite.FriendSelector = function() {
+  $('#friends').toggle();
   $('#share-methods').toggle();
   $('#trip-share-toolbar').toggle();
   return false;
 }
   
 
-invite.facebookInvite = function() {
+invite.facebookMessage = function(shareRole) {
   FB.getLoginStatus(function(response) {
     if (response.session) {
       var to = 1;
-      var shareKey = invite.generateShareKey('fb');
+      var shareKey = invite.generateShareKey(shareRole, 2, 'fb');
       var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
       var url = 'http://www.facebook.com/messages/'+to+'?msg_prefill='+message;
       window.open(url);
@@ -159,7 +160,7 @@ invite.facebookInvite = function() {
       FB.login(function(response) {
         if (response.session) {
           var to = 1;
-          var shareKey = invite.generateShareKey('fb');
+          var shareKey = invite.generateShareKey(shareRole, 2, 'fb');
           var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
           var url = 'http://www.facebook.com/messages/'+to+'?msg_prefill='+message;
           window.open(url);
@@ -167,6 +168,7 @@ invite.facebookInvite = function() {
       });    
     }
   });
+  $('#div-to-popup').bPopup().close();
   return false;
 }
 
@@ -179,21 +181,60 @@ invite.emailShare = function() {
 
 
 invite.confirmShare = function(shareRole) {  
-  var selectedSBids = [];
+  var uids = [];
   $('.friend-capsule').each(function() {
     if ($.data(this, 'selected')) {
-      selectedSBids.push($(this).attr('sbid'));
+      uids.push($(this).attr('uid'));
     }
   });
+  uids = $.JSON.encode(uids);
+  console.log(uids.length);
 
-  if (selectedSBids.length >= 1) {
-    invite.sendSBShare(selectedSBids, shareRole);
-  }
+  if (uids.length >= 1) {
+    var postData = {
+      tripId: tripId,
+      uids: uids,
+      shareRole: shareRole
+    };
   
+    $.ajax({
+      type: 'POST',
+      url: baseUrl+'trip_shares/ajax_share_trip',
+      data: postData,
+      success: function(r) {
+        invite.displaySuccessDialog(r);
+        invite.sendEmail(uids, shareRole);
+      }
+    });
+  } else {
+    console.log($('#emails').val());
+    var postData = {
+      tripId: tripId,
+      emails: $('#emails').val()
+      
+    };
+  }
+    
+  $('#div-to-popup').bPopup().close();
+  return false;
+}
+
+
+invite.displaySuccessDialog = function(r) {
+  $('#div-to-popup').empty();
+  $('#div-to-popup').append(r);
+  $('#div-to-popup').bPopup();
+  $('.success').click(function() {
+    $('#div-to-popup').bPopup().close();
+  });  
+}
+
+
+invite.sendEmail = function(uids, shareRole) {
   var postData = {
-    tripId: tripId,
-    emails: $('#emails').val(),
     uid: uid,
+    tripId: tripId,
+    uids: uids,
     shareRole: shareRole
   };
   
@@ -201,22 +242,15 @@ invite.confirmShare = function(shareRole) {
     type: 'POST',
     url: baseUrl+'trip_shares/send_email',
     data: postData,
-    success: function() {
-      alert('emails sent');
-    }
   });
-  
-  $('#div-to-popup').bPopup().close();
-  console.log(shareRole);
-  return false;
 }
 
 
-invite.generateShareKey = function(targetId) {
+invite.generateShareKey = function(shareRole, shareMedium, targetId) {
   var postData = {
     tripId: tripId,
-    shareRole: 2,
-    shareMedium: 2,
+    shareRole: shareRole,
+    shareMedium: shareMedium,
     targetId: targetId,
     isClaimed: -1
   };
@@ -225,7 +259,7 @@ invite.generateShareKey = function(targetId) {
   $.ajax({
     async: false,
     type: 'POST',
-    url: baseUrl+'trip_shares/generate_share_key',
+    url: baseUrl+'trip_shares/ajax_generate_share_key',
     data: postData,
     success: function(response) {
       r = $.parseJSON(response);
@@ -237,34 +271,6 @@ invite.generateShareKey = function(targetId) {
   } else {
     alert(r.message);
   }
-}
-
-
-// add record to trips_users and sends email via Sendgrid
-invite.sendSBShare = function(uids, shareRole) {
-  var postData = {
-    tripId: tripId,
-    uids: $.JSON.encode(uids),
-    shareRole: shareRole
-  };
-
-  $.ajax({
-    type: 'POST',
-    url: baseUrl+'trips/ajax_invite_trip',
-    data: postData,
-    success: invite.displaySuccessDialog
-  });
-}
-
-
-invite.displaySuccessDialog = function(response) {
-  var r = $.parseJSON((response));
-  $('#div-to-popup').empty();
-  $('#div-to-popup').append(r['data']);
-  $('#div-to-popup').bPopup();
-  $('.success').bind('click', function() {
-    $('#div-to-popup').bPopup().close();
-  });  
 }
 
 
