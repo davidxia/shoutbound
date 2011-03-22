@@ -24,11 +24,13 @@ $this->load->view('core_header', $header_args);
   margin-top: 20px;
   margin-left:30px;
   margin-right: 235px;
-  padding:20px 10px 10px 10px;
+  padding:20px 10px 10px 20px;
   border-radius:5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
   color:black;
   font-size: 12px;
-  border:3px solid black;
+  border: 1px solid black;
   background-color:#FAFAFA;
 }
 #main table{
@@ -126,15 +128,15 @@ label.error {
           <!-- PLACE DATES FIELD -->
           <fieldset style="border-width:0; border-color:transparent; position:relative; margin-bottom:15px; border-bottom:1px solid #AAA; padding-bottom:20px;">
             <div style="display:inline-block; margin-bottom:5px; color:navy; font-size:14px;">DESTINATION(S)</div>
-            <div id="dates-header" style="display:inline-block; color:navy; font-size:14px; margin-left:300px; margin-bottom:5px;">DATES (optional)</div>
+            <div id="dates-header" style="display:inline-block; visibility:hidden; color:navy; font-size:14px; margin-left:300px; margin-bottom:5px;">DATES (optional)</div>
             <div id="destinations_dates" style="position:relative;">
-            <a id="add-destination" href="" style="position:absolute; top:35px; left:2px;">+ Add destination</a><a id="subtract-destination" href="" style="position:absolute; top:5px; left:-15px;"><img src="<?=site_url('images/minus_icon.jpg')?>" height="20" width="20"/></a>
+            <a id="add-destination" href="" style="position:absolute; top:35px; left:2px;">+ Add destination</a><a id="subtract-destination" href="" style="position:absolute; top:5px; left:-15px; font-size:16px;">[-]</a>
               <div class="field destination" style="margin-bottom:10px; margin-right:8px; position:relative; display:inline-block;">
                 <span class="label-and-errors">
                   <label for="address0"></label>
                   <span class="error-message" style="position:absolute; top:-18px; left:120px;"></span>
                 </span>
-                <input type="text" id="address" class="destination-input" name="address" style="width:360px;"
+                <input type="text" id="address" class="destination-input" name="address" style="width:360px;" autocomplete=off
         			    <? if ($destination):?>
         			      <? echo 'value="'.$destination.'"'?>
                   <? endif;?>
@@ -151,11 +153,7 @@ label.error {
                 />
               </div>
               
-              <div class="field dates" style="display:inline-block;
-                <? if ( ! isset($destination)):?>
-                  visibility:hidden;
-                <? endif;?>
-              ">
+              <div class="field dates" style="display:inline-block;visibility:hidden;">
                 <span class="label-and-errors">
                   <span class="error-message"></span>
                   <div class="clear"></div>
@@ -189,7 +187,7 @@ label.error {
           </fieldset><!-- SUMMARY  FIELD ENDS -->
 
           <!-- PLANNERS ADVISORS FIELD -->
-          <fieldset style="border-width:0; border-color:transparent;">
+          <!--<fieldset style="border-width:0; border-color:transparent;">
             <div style="border-bottom:1px solid #AAA;">
               <div class="field" style="margin-top: 10px; display:inline-block;">
 	              <span class="label-and-errors">
@@ -201,7 +199,7 @@ label.error {
               </div>
 	            <div class="field" style="margin-left:40px; margin-top: 10px; display:inline-block">
 	              <span class="label-and-errors">
-	                <label for="">DEADLINE (optional)</label>
+	                <label for="deadline">DEADLINE (optional)</label>
 	                <span class="error-message"></span>
 	                <div class="clear"></div>
 	              </span>
@@ -222,7 +220,7 @@ label.error {
               <input type="checkbox" name="private" id="private" value="1"/>
             </div>
 
-          </fieldset><!-- PLANNERS ADVISORS FIELD ENDS -->
+          </fieldset>--><!-- PLANNERS ADVISORS FIELD ENDS -->
           
   
   
@@ -319,6 +317,7 @@ label.error {
         clone.find('input').val('');       
       }
     });
+    
     
     
     // jquery form validation plugin

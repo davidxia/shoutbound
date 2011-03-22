@@ -73,53 +73,30 @@ class Trips extends Controller
             // send emails to planners
             $this->load->library('sendgrid_email');
             $emails = explode(',', $post['invites']);
-            if ($post['private'])
-            {            
-                foreach ($emails as $email)
-                {
-                    // generate new share key for each e-mail address
-                    $ts = new Trip_share();
-                    $ts->trip_id = $t->id;
-                    $ts->share_role = 2;
-                    $ts->share_medium = 1;
-                    $ts->target_id = $email;
-                    $share_key = $ts->generate_share_key();
-
-                    $response = $this->sendgrid_email->send_mail(
-                        array($email),
-                        $u->name.' invited you on a trip on Shoutbound!',
-                        '<h4>'.$u->name.
-                            ' invited you to a trip on Shoutbound</h4>'.$post['description'].
-                            '<br/><a href="'.site_url('trips/share/'.$t->id.'/'.$share_key).
-                            '">To see the trip, click here.</a>'.
-                            '<br/>Have fun!<br/>Team Shoutbound',
-                        $u->name.
-                            ' invited you to a trip on Shoutbound'.$post['description'].
-                            '<br/><a href="'.site_url('trips/share/'.$t->id.'/'.$share_key).
-                            '">To see the trip, click here.</a>'.
-                            '<br/>Have fun!<br/>Team Shoutbound'
-                    );
-                }
-            }
-            else
+            foreach ($emails as $email)
             {
-                foreach ($emails as $email)
-                {
-                    $response = $this->sendgrid_email->send_mail(
-                        array($email),
-                        $u->name.' invited you on a trip on Shoutbound!',
-                        '<h4>'.$u->name.
-                            ' invited you to a trip on Shoutbound</h4>'.$post['description'].
-                            '<br/><a href="'.site_url('trips/'.$t->id).
-                            '">To see the trip, click here.</a>'.
-                            '<br/>Have fun!<br/>Team Shoutbound',
-                        $u->name.
-                            ' invited you to a trip on Shoutbound'.$post['description'].
-                            '<br/><a href="'.site_url('trips/'.$t->id).
-                            '">To see the trip, click here.</a>'.
-                            '<br/>Have fun!<br/>Team Shoutbound'
-                    );
-                }
+                // generate new share key for each e-mail address
+                $ts = new Trip_share();
+                $ts->trip_id = $t->id;
+                $ts->share_role = 2;
+                $ts->share_medium = 1;
+                $ts->target_id = $email;
+                $share_key = $ts->generate_share_key();
+
+                $response = $this->sendgrid_email->send_mail(
+                    array($email),
+                    $u->name.' invited you on a trip on Shoutbound!',
+                    '<h4>'.$u->name.
+                        ' invited you to a trip on Shoutbound</h4>'.$post['description'].
+                        '<br/><a href="'.site_url('trips/share/'.$t->id.'/'.$share_key).
+                        '">To see the trip, click here.</a>'.
+                        '<br/>Have fun!<br/>Team Shoutbound',
+                    $u->name.
+                        ' invited you to a trip on Shoutbound'.$post['description'].
+                        '<br/><a href="'.site_url('trips/share/'.$t->id.'/'.$share_key).
+                        '">To see the trip, click here.</a>'.
+                        '<br/>Have fun!<br/>Team Shoutbound'
+                );
             }
             
             // TODO: success callback to ensure all destinations were saved?

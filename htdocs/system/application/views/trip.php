@@ -600,8 +600,9 @@ li.suggestion.highlighted{
                     <a href="#" class="reply">reply</a>
                     <ul class="wall-replies" style="margin-left:10px;">
                       <? foreach ($wall_item->replies as $reply):?>
-                        <li id="wall-reply-<?=$reply->id?>" class="reply">
+                        <li id="wall-reply-<?=$reply->id?>" class="reply" style="border-bottom:1px solid #CCC; margin-bottom:5px; padding-bottom:5px;">
                           <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$reply->user_name?></a>: <?=$reply->text?>
+                          <br/>
                           <abbr class="timeago" title="<?=$reply->created?>" style="color:#777; font-size: 12px;"><?=$reply->created?></abbr>
                         </li>
                       <? endforeach;?>
@@ -619,7 +620,7 @@ li.suggestion.highlighted{
                     <a href="#" class="reply">reply</a>
                     <ul class="wall-replies"  style="margin-left:10px;">
                       <? foreach ($wall_item->replies as $reply):?>
-                        <li id="wall-reply-<?=$reply->id?>" class="reply">
+                        <li id="wall-reply-<?=$reply->id?>" class="reply" style="border-bottom:1px solid #CCC; margin-bottom:5px; padding-bottom:5px;">
                           <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$reply->user_name?></a>: <?=$reply->text?>
                           <abbr class="timeago" title="<?=$reply->created?>" style="color:#777; font-size: 12px;"><?=$reply->created?></abbr>
                         </li>
