@@ -452,43 +452,57 @@ li.suggestion.highlighted{
 
             <!-- WALL CONTENT -->
             <ul id="wall-content" style="border-top:2px solid #C8C8C8; padding-top:20px; margin-right:20px;">
-              <? if ($wall_items):?>
-                <? foreach ($wall_items as $wall_item):?>
-                  <? if ($wall_item->lat):?>
-                    <li id="wall-suggestion-<?=$wall_item->id?>" class="suggestion" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #FAFAFA; position:relative;">
-                      <div class="wall-location-name"style="font-weight:bold;"><?=$wall_item->name?></div>
-                      <div>Suggested by <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a></div>
-                      <span class="wall-location-address" style="display:none;"><?=$wall_item->address?></span>
-                      <span class="wall-location-phone" style="display:none;"><?=$wall_item->phone?></span>
-                      
-                      <? if ($wall_item->text):?>
-                        <br/>
-                        <?=$wall_item->text?>
-                      <? endif;?>
-                      <!--<div class="rating-panel">
-                        <a href="#" class="like">Like</a>
-                        <span class="num-likes"><?=$wall_item->votes?></span> likes
-                      </div>-->
-                      <? if ($user_role >= 2):?>
-                        <div class="remove-wall-item" suggestionId="<?=$wall_item->id?>"></div>
-                      <? endif;?>
-                      <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
-                      <a href="#" class="reply">reply</a>
-                    </li>
-                  <? else:?>
-                    <li id="wall-message-<?=$wall_item->id?>" class="message" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #FAFAFA; position:relative;">
-                      <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a>
-                      <? if ($user_role >= 2):?>
-                        <div class="remove-wall-item" messageId="<?=$wall_item->id?>"></div>
-                      <? endif;?>
-                      <span class="wall-item-text"><?=$wall_item->text?></span>
+              <? foreach ($wall_items as $wall_item):?>
+                <? if ($wall_item->lat):?>
+                  <li id="wall-suggestion-<?=$wall_item->id?>" class="suggestion" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #FAFAFA; position:relative;">
+                    <div class="wall-location-name"style="font-weight:bold;"><?=$wall_item->name?></div>
+                    <div>Suggested by <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a></div>
+                    <span class="wall-location-address" style="display:none;"><?=$wall_item->address?></span>
+                    <span class="wall-location-phone" style="display:none;"><?=$wall_item->phone?></span>
+                    
+                    <? if ($wall_item->text):?>
                       <br/>
-                      <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
-                      <a href="#" class="reply">reply</a>
-                    </li>
-                  <? endif;?>
-                <? endforeach;?>
-              <? endif;?>
+                      <?=$wall_item->text?>
+                    <? endif;?>
+                    <!--<div class="rating-panel">
+                      <a href="#" class="like">Like</a>
+                      <span class="num-likes"><?=$wall_item->votes?></span> likes
+                    </div>-->
+                    <? if ($user_role >= 2):?>
+                      <div class="remove-wall-item" suggestionId="<?=$wall_item->id?>"></div>
+                    <? endif;?>
+                    <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
+                    <a href="#" class="reply">reply</a>
+                    <ul class="wall-replies" style="margin-left:10px;">
+                      <? foreach ($wall_item->replies as $reply):?>
+                        <li id="wall-reply-<?=$reply->id?>" class="reply">
+                          <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$reply->user_name?></a>: <?=$reply->text?>
+                          <abbr class="timeago" title="<?=$reply->created?>" style="color:#777; font-size: 12px;"><?=$reply->created?></abbr>
+                        </li>
+                      <? endforeach;?>
+                    </ul>
+                  </li>
+                <? else:?>
+                  <li id="wall-message-<?=$wall_item->id?>" class="message" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #FAFAFA; position:relative;">
+                    <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a>
+                    <? if ($user_role >= 2):?>
+                      <div class="remove-wall-item" messageId="<?=$wall_item->id?>"></div>
+                    <? endif;?>
+                    <span class="wall-item-text"><?=$wall_item->text?></span>
+                    <br/>
+                    <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
+                    <a href="#" class="reply">reply</a>
+                    <ul class="wall-replies"  style="margin-left:10px;">
+                      <? foreach ($wall_item->replies as $reply):?>
+                        <li id="wall-reply-<?=$reply->id?>" class="reply">
+                          <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$reply->user_name?></a>: <?=$reply->text?>
+                          <abbr class="timeago" title="<?=$reply->created?>" style="color:#777; font-size: 12px;"><?=$reply->created?></abbr>
+                        </li>
+                      <? endforeach;?>
+                    </ul>
+                  </li>
+                <? endif;?>
+              <? endforeach;?>
               
               
             </ul><!-- WALL CONTENT ENDS -->
@@ -670,7 +684,7 @@ li.suggestion.highlighted{
     var html = [];
     html[0] = '<li id="wall-message-'+r.id+'" class="" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA; position:relative;">';
     html[1] = '<a href="#" class="wall-item-author" style="text-decoration:none;">';
-    html[2] = r.uid;
+    html[2] = r.userName;
     html[3] = '</a>';
     html[4] = ' <div class="remove-wall-item" messageId="'+r.id+'"></div>';
     html[5] = '<span class="wall-item-text">'+r.text+'</span>';
@@ -751,20 +765,68 @@ li.suggestion.highlighted{
   
   // reply to wall posts
   $('.reply').click(function() {
-    $(this).next().remove();
-    var id = $(this).parent().attr('id');
-    var replyBox = $('<div><textarea style="height:14px; display:block; overflow:hidden; resize:none; line-height:13px; width:300px;"></textarea></div>');
+    $(this).siblings('.reply-box').remove();
+    var parentElement = $(this).parent();
+    var parentId = parentElement.attr('id');
+    
+    var regex = /^.+-(.+)-(\d+)/;
+    var match = regex.exec(parentId);
+    if (match[1] == 'message') {
+      var messageId = match[2];
+    } else if (match[1] == 'suggestion') {
+      var suggestionId = match[2];
+    }
+    var replyBox = $('<div class="reply-box"><textarea style="height:14px; display:block; overflow:hidden; resize:none; line-height:13px; width:300px;"></textarea></div>');
     $(this).after(replyBox);
     replyBox.children('textarea').focus();
 
-    // allows user to use up/down arrows to select from autosuggest list
+    // hitting enter posts the reply
     replyBox.children('textarea').keydown(function(e) {
       var keyCode = e.keyCode || e.which,
           enter = 13;
       if (keyCode == enter) {
         e.preventDefault();
-        var reply = replyBox.children('textarea').val();
-        console.log(reply);
+        var replyText = replyBox.children('textarea').val();
+
+        $.ajax({
+          type: 'POST',
+          url: baseUrl+'users/ajax_get_logged_in_status',
+          success: function(response) {
+            var r = $.parseJSON(response);
+            if (r.loggedin) {
+              var postData = {
+                userId: r.loggedin,
+                messageId: messageId,
+                suggestionId: suggestionId,
+                text: replyText
+              };
+              
+              $.ajax({
+                type: 'POST',
+                url: baseUrl+'replies/ajax_save_reply',
+                data: postData,
+                success: function(r) {
+                  var r = $.parseJSON(r);
+                  $('.reply-box').remove();
+                  console.log(parentElement);
+                  var html = [];
+                  html[0] = '<li id="wall-reply-'+r.id+'" class="reply">';
+                  html[1] = '<a href="'+baseUrl+'profile/'+r.uid+'" class="wall-item-author" style="text-decoration:none;">';
+                  html[2] = r.userName;
+                  html[3] = '</a>';
+                  html[4] = ': '+r.text;
+                  html[5] = ' <abbr class="timeago" title="'+r.created+'" style="color:#777; font-size: 12px;">'+r.created+'</abbr>';
+                  html[6] = '</li>';
+                  html = html.join('')
+                  
+                  parentElement.children('.wall-replies').prepend(html);
+                  $('abbr.timeago').timeago();
+                }
+              });
+            }
+          }
+        });
+        
       }
     });
     

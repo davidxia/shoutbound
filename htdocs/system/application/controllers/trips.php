@@ -195,23 +195,53 @@ class Trips extends Controller
         }
 
         // get active suggestions and messages for this trip
+        // also get corresponding replies
+        $wall_items = array();
+        
         $m = new Message();
         $m->order_by('created', 'desc');
         $m->where('trip_id', $trip_id)->where('active', 1)->get();
-        foreach ($m->all as $message)
+        foreach ($m as $message)
         {
             $message->stored->user_id = $u->get_by_id($message->user_id)->id;
             $message->stored->user_name = $u->name;
+            $message->stored->replies = array();
+            
+            $r = new Reply();
+            $r->order_by('created', 'desc');
+            $r->where('message_id', $message->id)->where('active', 1)->get();
+            foreach ($r as $reply)
+            {
+                $u->get_by_id($reply->user_id);
+                $reply->stored->user_name = $u->name;
+                $message->stored->replies[] = $reply->stored;
+            }
+            
             $wall_items[] = $message->stored;
-        }
+        }        
         
         $s = new Suggestion();
         $s->order_by('created', 'desc');
         $s->where('trip_id', $trip_id)->where('active', 1)->get();
-        foreach ($s->all as $suggestion)
+        foreach ($s as $suggestion)
         {
             $suggestion->stored->user_id = $u->get_by_id($suggestion->user_id)->id;
             $suggestion->stored->user_name = $u->name;
+            $suggestion->stored->replies = array();
+
+            $r = new Reply();
+            $r->order_by('created', 'desc');
+            $r->where('suggestion_id', $suggestion->id)->where('active', 1)->get();
+            foreach ($r as $reply)
+            {
+                $u->get_by_id($reply->user_id);
+                $reply->stored->user_name = $u->name;
+                //print_r($reply->text);
+                //echo '<br/><br/>';
+                $suggestion->stored->replies[] = $reply->stored;
+                
+            }
+
             $wall_items[] = $suggestion->stored;
             $suggestions[] = $suggestion->stored;
         }
@@ -232,6 +262,7 @@ class Trips extends Controller
         );
  			               
         $this->load->view('trip', $view_data);
+        //print_r($wall_items);
     }
     
     

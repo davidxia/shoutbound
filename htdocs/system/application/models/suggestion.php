@@ -4,6 +4,7 @@ class Suggestion extends DataMapper
 {
  
     public $has_one = array('user', 'trip');
+    public $has_many = array('reply');
 
     var $validation = array(
         array(
