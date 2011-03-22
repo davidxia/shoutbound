@@ -405,7 +405,7 @@ li.suggestion.highlighted{
           <!-- TRIP SUMMARY -->
           <div id="trip_summary" style="background-color:white; width:590px; display:inline-block; float:left; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #C8C8C8;">
           	<div style="background-color:#C6D4E1; color:black; padding:10px 20px 10px 20px; border-bottom: 1px solid #FAFAFA;">
-	            <div id="trip_name" style="font-size:42px; margin-bottom:3px;">
+	            <div id="trip_name" style="font-size:36px; margin-bottom:3px;">
 	              <?=$trip->name?>
 	            </div>
 	            <div id="trip_creator" style="font-size: 12px;">
