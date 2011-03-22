@@ -1,17 +1,90 @@
-<div id="trip-share-popup" style="width:466px; padding:10px; background:rgba(82, 82, 82, 0.7); border-radius: 8px; -webkit-border-radius:8px; border-top-left-radius: 8px 8px; border-top-right-radius: 8px 8px; border-bottom-right-radius: 8px 8px; border-bottom-left-radius: 8px 8px;">
+
+<style type="text/css">
+#trip-share-popup{
+	font-family:font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+#trip-share-confirm{
+  width:75px;
+  color:white;
+  display:block;
+  height:30px;
+  line-height:30px;
+  text-align:center;
+  font-weight:bold;
+  font-size:11px;
+  text-decoration:none;
+  background:-webkit-gradient(linear, left top, left bottom, from(#000099), to(#000033));
+  background:-moz-linear-gradient(top, #000099 , #000033);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#000099', endColorstr='#000033');
+  border: 1px solid #686868;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  display:inline-block;
+  float:right;
+}
+#trip-share-confirm:hover{
+  background: #ffad32;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
+  background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');
+}
+#trip-share-confirm:active{
+  background: #ff8132;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
+  background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
+}
+
+#trip-share-cancel{
+  width:45px;
+  color:white;
+  height:30px;
+  line-height:30px;
+  text-align:center;
+  font-weight:bold;
+  font-size:11px;
+  text-decoration:none;
+  background:-webkit-gradient(linear, left top, left bottom, from(#E0E0E0), to(#888888));
+  background:-moz-linear-gradient(top, #E0E0E0 , #888888);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#E0E0E0', endColorstr='#888888');
+  border: 1px solid #686868;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  display:inline-block;
+}
+#trip-share-cancel:hover {
+  background: green;
+  background: -webkit-gradient(linear, left top, left bottom, from(#A80000), to(#980000));
+  background: -moz-linear-gradient(top,  #A80000,  #980000);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#A80000', endColorstr='#980000');
+}
+
+#trip-share-cancel:active {
+  background: #ff8132;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
+  background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
+}
+
+</style>
+
+<div id="trip-share-popup" style="padding:15px; background:rgba(82, 82, 82, 0.7); border-radius: 8px; -webkit-border-radius:8px; border-top-left-radius: 8px 8px; border-top-right-radius: 8px 8px; border-bottom-right-radius: 8px 8px; border-bottom-left-radius: 8px 8px;">
 
 
-  <div style="background-color:white;">
-    <div style="margin-bottom:10px; font-size:20px;">
+  <div style="background-color:#FAFAFA;height:350px;width:320px;padding:10px 10px 10px 10px;">
+    <div style="font-size:20px; font-weight:bold; padding-bottom:10px; border-bottom:1px solid #C8C8C8;text-align:center;">
       <? if ($share_role == 2):?>
-        Invite friends
+        Invite others to<br>join you on this trip!
       <? elseif ($share_role == 1):?>
-        Get suggestions from friends
+        Share this trip<br>with others!
       <? endif;?>
     </div>
     
-    <div id="friends" style=" display:none;">
-      <ul style=" height:400px; overflow-y:auto;">
+    <div id="friends" style="padding:10px 0px 10px 0px;  border-bottom:1px solid #C8C8C8;"><span style="font-size:16px;font-weight:bold;">Friends on Shoutbound:</span>
+      <ul style="overflow-y:auto;">
         <? foreach ($uninvited_sb_friends as $sb_friend):?>
           <li uid="<?=$sb_friend->id?>" class="friend-capsule" style="height:64px; width:134px; margin:3px; cursor:pointer; float:left;">
             <a href="#" style="display:block; height:56px; padding:4px; border-spacing:0; text-decoration:none;">
@@ -24,27 +97,29 @@
     </div>
 
     <div id="share-methods">
-      <a href="#" id="shoutbound-share">Shoutbound</a>
-      <br/>
-      <a href="#" id="facebook-share">Facebook</a>
-      <br/>
-      <a href="#" id="email-share">E-mails</a>
-    </div>
-    
-    <div id="email-input" style="display:none;">
-      <label for="emails">e-mails separated by commas</label>
-      <input type="text" id="emails" name="emails" style="width:400px;"/>
-    </div>
+      <!--<a href="#" id="shoutbound-share">Shoutbound</a>
+      <br/>-->
+      <div style="font-size:16px; font-weight:bold; padding:10px 0px 10px 0px; border-bottom:1px solid #C8C8C8;">via <a href="#" id="facebook-share">Facebook</a></div>
 
-    <div id="trip-share-toolbar" style="display:none;">
+      <div style="font-size:16px; padding:10px 0px 10px 0px; border-bottom:1px solid #C8C8C8;"><span style="font-weight:bold;">via e-mail:</span>
+      <!--<a href="#" id="email-share">E-mails</a>-->    
+		    <div id="email-input">
+		      <label for="emails" style="font-size:14px; color:gray; margin-bottom:2px; margin-top:5px;">Enter e-mail addresses, separated by commas</label>
+		      <input type="text" id="emails" name="emails" style="width:300px;"/>
+		    </div>
+    	</div>
+
+    <div id="trip-share-toolbar" style="margin:10px 0px 10px 0px;">
       <a href="#" id="trip-share-confirm">
-        <? if ($share_role == 2):?>
-          invite
-        <? elseif ($share_role == 1):?>
-          get suggestions
-        <? endif;?>
+	      <? if ($share_role == 2):?>
+	          Invite
+	        <? elseif ($share_role == 1):?>
+	          Share
+	        <? endif;?>
       </a>
-      <a href="#" id="trip-share-cancel">cancel</a>
+     
+      <a href="#" id="trip-share-cancel" style="margin-left:185px;">cancel</a>
+        
     </div>
 
   </div>
