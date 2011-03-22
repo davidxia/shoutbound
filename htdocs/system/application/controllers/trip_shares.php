@@ -12,7 +12,7 @@ class Trip_shares extends Controller
     function generate_share_key($trip_id, $share_role, $share_medium, $target_id, $is_claimed)
     {
         $u = new User();
-        if ( ! $u->get_logged_in_status() OR getenv('REQUEST_METHOD') == 'GET')
+        if ( ! $u->get_logged_in_status())
         {
             redirect('/');            
         }
@@ -24,8 +24,26 @@ class Trip_shares extends Controller
         $ts->target_id = $target_id;
         $ts->is_claimed = $is_claimed;
 
+        return $ts->generate_share_key();
+    }
+    
+    
+    function ajax_generate_share_key()
+    {
+        $u = new User();
+        if ( ! $u->get_logged_in_status())
+        {
+            redirect('/');            
+        }
+
+        $ts = new Trip_share();
+        $ts->trip_id = $this->input->post('tripId');
+        $ts->share_role = $this->input->post('shareRole');
+        $ts->share_medium = $this->input->post('shareMedium');
+        $ts->target_id = $this->input->post('targetId');
+        $ts->is_claimed = $this->input->post('isClaimed');
         $share_key = $ts->generate_share_key();
-        
+
         if ($share_key)
         {
             json_success(array('shareKey' => $share_key));
@@ -35,34 +53,69 @@ class Trip_shares extends Controller
             json_error('something broke, tell David to fix it');
         }
     }
-    
-    
+
+
     function send_email()
     {
         $u = new User();
         $u->get_by_id($this->input->post('uid'));
+        $sender = $u->name;
         
         $this->load->library('sendgrid_email');
-        $emails = explode(',', $this->input->post('emails'));
-
-        foreach ($emails as $email)
+        
+        if ($this->input->post('uids'))
         {
-            // generate new share key for each e-mail address
-            $ts = new Trip_share();
-            $ts->trip_id = $this->input->post('tripId');
-            $ts->share_role = $this->input->post('shareRole');
-            $ts->share_medium = 1;
-            $ts->target_id = $email;
-            $share_key = $ts->generate_share_key();
-
-            $response = $this->sendgrid_email->send_mail(
-                array($email),
-                $u->name.' invited you on a trip on Shoutbound!',
-                $this->generate_html_email($u->name, $ts->trip_id, $share_key),
-                $this->generate_text_email($u->name, $ts->trip_id, $share_key)
-            );
+            $uids = json_decode($this->input->post('uids'));
+            
+            foreach ($uids as $uid)
+            {
+                $u->get_by_id($uid);
+                $u->settings->get();
+                
+                if ($u->settings->trip_invite)
+                {                
+                    // generate new share key for each e-mail
+                    $share_key = $this->generate_share_key($this->input->post('tripId'),
+                        $this->input->post('shareRole'), 1, $u->email, 0);
+                    
+                    $response = $this->sendgrid_email->send_mail(
+                        array($u->email),
+                        $sender.' invited you on a trip on Shoutbound!',
+                        $this->generate_html_email($sender, $this->input->post('tripId'), $share_key),
+                        $this->generate_text_email($sender, $this->input->post('tripId'), $share_key)
+                    );
+                }
+            }
         }
-
+        elseif ($this->input->post('emails'))
+        {
+            $emails = $this->input->post('emails');
+            $emails = explode(',', $emails);
+            
+            foreach ($emails as $email)
+            {
+                // generate new share key for each e-mail
+                $share_key = $this->generate_share_key($this->input->post('tripId'),
+                    $this->input->post('shareRole'), 1, $email, 0);
+                
+                $response = $this->sendgrid_email->send_mail(
+                    array($email),
+                    $sender.' invited you on a trip on Shoutbound!',
+                    $this->generate_html_email($sender, $this->input->post('tripId'), $share_key),
+                    $this->generate_text_email($sender, $this->input->post('tripId'), $share_key)
+                );
+                
+            }
+            
+            if ($this->input->post('shareRole') == 2)
+            {
+                echo 'invites sent';
+            }
+            elseif ($this->input->post('shareRole') == 1)
+            {
+                echo 'suggestions asked for';
+            }
+        }
     }
     
     
@@ -86,6 +139,46 @@ class Trip_shares extends Controller
             
         return $text;
     }
+    
+    
+    function ajax_share_trip()
+    {
+        $u = new User();
+        $uid = $u->get_logged_in_status();
+        if ( ! $uid)
+        {
+            redirect('/');            
+        }
+        $u->get_by_id($uid);
+        
+        $trip_id = $this->input->post('tripId');
+        
+        $t = new Trip();
+        $t->get_by_id($trip_id);
+
+        $uids = json_decode($this->input->post('uids'));
+                
+        foreach ($uids as $uid)
+        {
+            $u->get_by_id($uid);
+            if ($t->save($u))
+            {
+                $t->set_join_field($u, 'role', $this->input->post('shareRole'));
+                $t->set_join_field($u, 'rsvp', 2);
+            }
+        }
+        
+        if ($this->input->post('shareRole') == 2)
+        {
+            echo 'invites sent';
+        }
+        elseif ($this->input->post('shareRole') == 1)
+        {
+            echo 'suggestions asked for';
+        }
+    }
+    
+    
 }
 
 /* End of file trip_shares.php */

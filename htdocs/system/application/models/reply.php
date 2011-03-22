@@ -1,19 +1,15 @@
 <?php
 
-class Message extends DataMapper {
+class Reply extends DataMapper {
+
+    var $table = 'replies';
  
-    public $has_one = array('user', 'trip');
-    public $has_many = array('reply');
+    public $has_one = array('user', 'message', 'suggestion');
 
     var $validation = array(
         array(
             'field' => 'user_id',
             'label' => 'User',
-            'rules' => array('required')
-        ),
-        array(
-            'field' => 'trip_id',
-            'label' => 'Trip',
             'rules' => array('required')
         ),
         array(
@@ -28,12 +24,12 @@ class Message extends DataMapper {
         ),
     );
 
-    function Message()
+    function Reply()
     {
         parent::DataMapper();
     }
     
 }
 
-/* End of file message.php */
-/* Location: ./application/models/message.php */
+/* End of file reply.php */
+/* Location: ./application/models/reply.php */

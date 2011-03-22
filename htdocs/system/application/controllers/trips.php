@@ -195,23 +195,51 @@ class Trips extends Controller
         }
 
         // get active suggestions and messages for this trip
+        // also get corresponding replies
+        $wall_items = array();
+        
         $m = new Message();
         $m->order_by('created', 'desc');
         $m->where('trip_id', $trip_id)->where('active', 1)->get();
-        foreach ($m->all as $message)
+        foreach ($m as $message)
         {
             $message->stored->user_id = $u->get_by_id($message->user_id)->id;
             $message->stored->user_name = $u->name;
+            $message->stored->replies = array();
+            
+            $r = new Reply();
+            $r->order_by('created', 'desc');
+            $r->where('message_id', $message->id)->where('active', 1)->get();
+            foreach ($r as $reply)
+            {
+                $u->get_by_id($reply->user_id);
+                $reply->stored->user_name = $u->name;
+                $message->stored->replies[] = $reply->stored;
+            }
+            
             $wall_items[] = $message->stored;
-        }
+        }        
         
         $s = new Suggestion();
         $s->order_by('created', 'desc');
         $s->where('trip_id', $trip_id)->where('active', 1)->get();
-        foreach ($s->all as $suggestion)
+        foreach ($s as $suggestion)
         {
             $suggestion->stored->user_id = $u->get_by_id($suggestion->user_id)->id;
             $suggestion->stored->user_name = $u->name;
+            $suggestion->stored->replies = array();
+
+            $r = new Reply();
+            $r->order_by('created', 'desc');
+            $r->where('suggestion_id', $suggestion->id)->where('active', 1)->get();
+            foreach ($r as $reply)
+            {
+                $u->get_by_id($reply->user_id);
+                $reply->stored->user_name = $u->name;
+                $suggestion->stored->replies[] = $reply->stored;
+                
+            }
+
             $wall_items[] = $suggestion->stored;
             $suggestions[] = $suggestion->stored;
         }
@@ -319,120 +347,7 @@ class Trips extends Controller
         }        
     }
 
-    
-    function ajax_trip_invite_panel()
-    {
-        $u = new User();
-        if ( ! $u->get_logged_in_status())
-        {
-            redirect('/');            
-        }
-        $uid = get_cookie('uid');
-        $u->get_by_id($uid);
-        
-        // get Shoutbound friends not related to this trip
-        $u->related_user->get();
-        // get user ids associated with this trip
-        $t = new Trip();
-        $t->get_by_id($this->input->post('tripId'));
-        $t->user->get();        
-        // create array of friends not associated with this trip
-        foreach ($t->user as $user)
-        {
-            $trip_uids[] = $user->id;
-        }
-        $uninvited_sb_friends = array();
-        foreach ($u->related_user as $sb_friend)
-        {
-            if ( ! in_array($sb_friend->id, $trip_uids))
-            {
-                $uninvited_sb_friends[] = $sb_friend->stored;
-            }
-        }
-                
-        $view_data = array(
-            'uninvited_sb_friends' => $uninvited_sb_friends,
-        );
-        
-        $render_string = $this->load->view('trip/trip_invite_panel', $view_data, true);
-        json_success(array('data' => $render_string));
-        
-    }
-
-
-    function ajax_invite_trip()
-    {
-        $u = new User();
-        $uid = $u->get_logged_in_status();
-        if ( ! $uid)
-        {
-            redirect('/');            
-        }
-        $u->get_by_id($uid);
-        
-        $trip_id = $this->input->post('tripId');
-        
-        $t = new Trip();
-        $t->get_by_id($trip_id);
-
-        $uids = json_decode($this->input->post('uids'));
-        
-        //$message = $this->input->post('message');
-        
-        $this->load->library('sendgrid_email');
-        
-        foreach ($uids as $uid)
-        {
-            $u->get_by_id($uid);
-            $u->settings->get();
             
-            $ts = new Trip_share();
-            $ts->trip_id = $trip_id;
-            $ts->share_role = $this->input->post('shareRole');
-            $ts->share_medium = 1;
-            $ts->target_id = $u->email;
-            $share_key = $ts->generate_share_key();
-            
-            if ($u->settings->trip_invite AND $share_key)
-            {
-                $response = $this->sendgrid_email->send_mail(
-                    array($u->email),
-                    $u->name.' invited you on a trip on Shoutbound!',
-                    '<h4>'.$u->name.
-                        ' invited you to a trip on Shoutbound</h4>'.$post['description'].
-                        '<br/><a href="'.site_url('trips/share/'.$t->id.'/'.$share_key).
-                        '">To see the trip, click here.</a>'.
-                        '<br/>Have fun!<br/>Team Shoutbound',
-                    $u->name.
-                        ' invited you to a trip on Shoutbound'.$post['description'].
-                        '<br/><a href="'.site_url('trips/share/'.$t->id.'/'.$share_key).
-                        '">To see the trip, click here.</a>'.
-                        '<br/>Have fun!<br/>Team Shoutbound'
-                );
-                
-                $t->save($u);
-                $t->set_join_field($u, 'role', 2);
-                $t->set_join_field($u, 'rsvp', 2);
-            }
-        }
-        
-        // TODO: this success is overwritten until the last sent email
-        $success = json_decode($response, true);
-        
-        // tell user if invite succeeded or failed based on JSON response
-        if ($success['message'] == 'success')
-        {
-            $message = 'it worked';
-            json_success(array('data' => $message));
-        }
-        else
-        {
-            $message = 'it failed';
-            json_success(array('data' => $message));
-        }
-    }
-    
-        
     function share($trip_id, $share_key)
     {        
         $ts = new Trip_share();
@@ -534,65 +449,7 @@ class Trips extends Controller
     }
     
     
-    function ajax_share_trip()
-    {
-        $planner = $this->user;
-        $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
-        $uids = json_decode($_POST['uids']);
-        $message = $_POST['message'];
-        
-        $this->load->library('sendgrid_email');
-        
-        foreach($uids as $uid){
-            // TODO: fix based on user notification settings
-            $user_settings = $this->User_m->get_settings($uid);
-            if(true) {
-                $user = $this->User_m->get_user_by_uid($uid);
-                $response = $this->sendgrid_email->send_mail(
-                    array($user['email']),
-                    $planner['name'].' shared a trip with you on ShoutBound!',
-                    $this->_add_link_to_notification('<h4>'.$planner['name'].' shared a trip with you on ShoutBound!</h4>'.$planner['name'].' says: '.$message,$trip),
-                    $this->_add_link_to_notification($planner['name'].' shared a trip with you on ShoutBound! '.$planner['name'].' says: '.$message,$trip)
-                );
-            }
-        }
-        
-        $success = json_decode($response, true);
-        
-        // if the JSON response string from Sendgrid is 'success'
-        // tell user it succeeded        
-        if($success['message'] == 'success'){
-            $view_data = array(
-                //'uids' => $uids,
-                'trip' => $trip,
-                //'message' => $message
-            );
-            $render_string = $this->load->view('core_success', $view_data, true);
-            json_success(array('data'=>$render_string));
-        // otherwise, tell user his share failed
-        } else {
-            $view_data = array(
-                'response' => json_decode($response, true),
-            );
-            $render_string = $this->load->view('core_failure', $view_data, true);
-            json_success(array('data'=>$render_string));
-        }
-    }
-    
-    /*
-    function _add_link_to_notification($message, $trip_id, $share_key)
-    {
-        $ret_val = $message;
-                
-        $ret_val .= '<br/><a href="'.
-            site_url('trips/share/'.$trip_id.'/'.$share_key).
-            '">To see the trip, click here.</a>';
-        $ret_val .= '<br/>Have fun!<br/>Team Shoutbound';
-        
-        return $ret_val;
-    }
-
-    
+    /*    
     function ajax_wall_post()
     {
         $trip = $this->Trip_m->get_trip_by_tripid($_POST['tripId']);
