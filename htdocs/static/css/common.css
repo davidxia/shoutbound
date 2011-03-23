@@ -20,7 +20,7 @@ ol, ul {
     -webkit-padding-start: 0px;
 }
 
-input, textarea {
+input[type="text"], input[type="password"], textarea {
     margin: 0;
     padding: 5px;
     font-size: 14px;
@@ -36,7 +36,7 @@ input, textarea {
   	-webkit-box-shadow: 0 0 2px 2px #C8C8C8; 
   	box-shadow: 0 0 2px 2px #C8C8C8;
 }
-input:focus, textarea:focus {
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
     outline: none;
     border-color:rgba(82,168,236,.75)!important;
     box-shadow: 0 0 8px rgba(82,168,236,.5);
