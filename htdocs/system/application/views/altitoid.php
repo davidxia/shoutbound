@@ -142,7 +142,7 @@ $(document).ready(function() {
       $('#status-message').text(data.filesUploaded + ' files uploaded, ' + data.errors + ' errors.');
     },
     'auto'           : true,
-    'sizeLimit'      : 8000000
+    'sizeLimit'      : 80000000
   });
   <? else:?>
   $('#file_upload').click(function(){

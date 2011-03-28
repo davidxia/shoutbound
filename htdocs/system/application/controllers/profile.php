@@ -152,7 +152,42 @@ class Profile extends Controller
     }
     
     
-
+    function profile_pic_uploadify()
+    {
+        if ( ! empty($_FILES)) {
+            $uid = $this->input->post('uid');
+          	$tempFile = $_FILES['Filedata']['tmp_name'];
+          	list($width, $height, $type, $attr) = getimagesize($_FILES['Filedata']['tmp_name']);
+          	
+            $path = explode('/',__FILE__);
+            $targetPath = $_SERVER['DOCUMENT_ROOT'].'/'.$path[2].'/images/profile_pics/';
+          	//$targetPath = '/var/www/static/profile_pics/';
+          	$targetFile =  str_replace('//','/',$targetPath) . $uid . '_' . $_FILES['Filedata']['name'];
+    
+        		$u = new User();
+        		$u->get_by_id($uid);
+        		$u->profile_pic = $uid . '_' . $_FILES['Filedata']['name'];
+        		$u->save();
+    
+          	$fileTypes  = str_replace('*.','',$_REQUEST['fileext']);
+          	$fileTypes  = str_replace(';','|',$fileTypes);
+          	$typesArray = split('\|',$fileTypes);
+          	$fileParts  = pathinfo($_FILES['Filedata']['name']);
+          	
+          	if (in_array($fileParts['extension'],$typesArray))
+          	{
+            		// Uncomment the following line if you want to make the directory if it doesn't exist
+            		// mkdir(str_replace('//','/',$targetPath), 0755, true);
+            		
+            		move_uploaded_file($tempFile,$targetFile);
+            		echo str_replace($_SERVER['DOCUMENT_ROOT'],'',$targetFile);
+          	}
+          	else
+          	{
+              echo 'Invalid file type.';
+          	}
+        }
+    }
 }
 
 /* End of file profile.php */
