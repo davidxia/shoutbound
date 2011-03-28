@@ -38,9 +38,10 @@ $this->load->view('core_header', $header_args);
         <? if ($num_friend_requests):?>
           You have <a href="<?=site_url('friends/edit')?>"><?=$num_friend_requests?> friend requests</a>
         <? endif;?>
-      
+        
+
         <!-- NEWS FEED -->
-  			<div id="news-feed" style="background-color:white; -moz-box-shadow: 0px 0px 2px gray; -webkit-box-shadow: 0px 0px 2px gray; box-shadow: 0px 0px 2px gray; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px solid #C8C8C8; width:450px; float:left; display:inline-block; margin:0px 20px 0px 60px;">
+  			<div id="news-feed" style="background-color:white; -moz-box-shadow: 0px 0px 2px gray; -webkit-box-shadow: 0px 0px 2px gray; box-shadow: 0px 0px 2px gray; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px solid #C8C8C8; width:500px; float:left;">
   				<div style="background-color:#C6D4E1; line-height:30px; height:30px; margin-bottom:15px; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; border-radius: 5px 5px 0px 0px; border-radius: 5px 5px 0px 0px; border-bottom: 1px solid #C8C8C8;">
     				<span style="font-size:16px; padding-left:10px; font-weight:bold;">Recent activity</span>
   				</div>
@@ -76,7 +77,7 @@ $this->load->view('core_header', $header_args);
   			</div><!-- NEWS FEED ENDS -->
   			
   			<!-- TRIPS COLUMN -->
-  			<div style="float:left; display:inline-block; width:350px; padding-left:20px;">
+  			<div style="float:left; width:350px; padding-left:20px;">
   			  <!-- USERS TRIPS -->
           <div id="user-trips" style="background-color:white; -moz-box-shadow: 0px 0px 2px gray; -webkit-box-shadow: 0px 0px 2px gray; box-shadow: 0px 0px 2px gary; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px solid #C8C8C8; margin-bottom:20px;">
     				<div style="background-color:#C6D4E1; line-height:30px; height:30px; margin-bottom:15px; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; border-radius: 5px 5px 0px 0px; border-radius: 5px 5px 0px 0px; border-bottom: 1px solid #C8C8C8;">

@@ -81,7 +81,7 @@ input[type="submit"] {
   background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');
 }
-#create-trip-iv:active {
+#create-trip-button:active {
   background: #ff8132;
   background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
   background: -moz-linear-gradient(top,  #ff8132,  #ffad32);

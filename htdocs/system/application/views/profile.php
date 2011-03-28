@@ -57,8 +57,9 @@ $this->load->view('core_header', $header_args);
       <!-- LEFT COLUMN -->
       <div style="float:left; width:640px; margin-right:20px;">
         <div style="background-color: #F9F9F9; border:1px solid #CCC; margin-bottom:13px; padding:10px; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;">
-          <div style="float:left; margin-right:10px; padding:5px; background-color:white; border: 1px solid #CCC;">
-            <a href="#" style="background:transparent url('<?=site_url('images/sample_profile_pic.png')?>') no-repeat 0 0; display:block; text-indent:-10000px; width:110px; height:110px;">profile picture</a>
+          <div style="float:left; margin-right:10px; padding:5px; background-color:white; border: 1px solid #CCC; position:relative;">
+            <a href="#" id="profile-pic" style="background:transparent url('<?=site_url('images/sample_profile_pic.png')?>') no-repeat 0 0; display:block; text-indent:-10000px; width:110px; height:110px;">profile picture</a>
+            <a href="<?=site_url('profile/edit')?>" id="edit-profile-pic" style="position:absolute; top:5px; right:0; font-size:12px; background-color:black; color:white; display:none;">change picture</a>
           </div>
           <div style="background-color:#E6E6E6; padding:10px; margin-left:133px; height:102px;">
             <h1 style="color:#444; font-size:20px; font-weight:bold; margin-left:7px;"><?=$profile->name?></h1>
@@ -179,6 +180,26 @@ $this->load->view('core_header', $header_args);
     });
     return false;
   });
+  
+  
+  $('#profile-pic').hover(
+    function() {
+      $('#edit-profile-pic').show();
+    },
+    function() {
+      $('#edit-profile-pic').hide();
+    }
+  );
+  
+  
+  $('#edit-profile-pic').hover(
+    function() {
+      $('#edit-profile-pic').show();
+    },
+    function() {
+      $('#edit-profile-pic').hide();
+    }
+  );
 </script>
 
 </body> 

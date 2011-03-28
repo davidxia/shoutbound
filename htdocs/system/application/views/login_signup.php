@@ -81,7 +81,7 @@
   // then submit trip creation form
 	function facebookLogin() {
     $.ajax({
-      url: baseUrl+'login/ajax_facebook_login',
+      url: '<?=site_url('login/ajax_facebook_login')?>',
       success: function(response) {
         var r = $.parseJSON(response);
         if (r.existingUser) {
@@ -96,7 +96,7 @@
 	
 	function updateFBFriends() {
     $.ajax({
-      url: baseUrl+'login/ajax_update_fb_friends',
+      url: '<?=site_url('login/ajax_update_fb_friends')?>',
       success: function() {
         $('#trip-creation-form').submit();
       }
@@ -111,7 +111,7 @@
     $('#div-to-popup').bPopup();  
 
     $.ajax({
-      url: baseUrl+'signup/ajax_create_fb_user',
+      url: '<?=site_url('signup/ajax_create_fb_user')?>',
       success: function(response) {
         var r = $.parseJSON(response);
         if (r.error) {
@@ -137,8 +137,6 @@
     });
   });
 
-	
-  
 	
   // jquery form validation plugin
   $('#signup-form').validate({
@@ -181,10 +179,11 @@
       $.ajax({
         type: 'POST',
         data: postData,
-        url: baseUrl+'signup/ajax_create_user',
+        url: '<?=site_url('signup/ajax_create_user')?>',
         // once user is created and logged in, submit create trip form
         success: function() {
-          $('#trip-creation-form').submit();
+          //$('#trip-creation-form').submit();
+          loginSignupSuccess();
         }
       });
     }
@@ -200,12 +199,13 @@
     $.ajax({
       type: 'POST',
       data: postData,
-      url: baseUrl+'login/ajax_email_login',
+      url: '<?=site_url('login/ajax_email_login')?>',
       // once user is logged in, submit create trip form
-      success: function(response) {
-        var r = $.parseJSON(response);
+      success: function(r) {
+        var r = $.parseJSON(r);
         if (r.loggedin) {
-          $('#trip-creation-form').submit();
+          //$('#trip-creation-form').submit();
+          loginSignupSuccess();
         } else {
           alert('invalid email or password');
         }

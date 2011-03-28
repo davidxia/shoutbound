@@ -133,32 +133,24 @@ class Profile extends Controller
     }
     
     
-    function test()
+    function edit()
     {
         $u = new User();
         $uid = $u->get_logged_in_status();
-        $u->get_by_id($uid);
-
-        // get active trips for which profile is a planner or creator and rsvp is yes
-        $trips = array();
-        $u->get_by_id($pid);
-
-        $u->trip->where('active', 1)->where_in_join_field('user', 'role', array(2,3))->get();
-        foreach ($u->trip as $trip)
+        if ( ! $uid )
         {
-            // get trip's destinations
-            $d = new Destination();
-            $d->where('trip_id', $trip->id)->get();
-            $trip->stored->destinations = array();
-            foreach ($d->all as $destination)
-            {
-                $trip->stored->destinations[] = $destination->stored;
-            }
-
-            $trips[] = $trip->stored;
+            redirect('/');
         }
+        
+        $u->get_by_id($uid);
+        
+        $view_data = array(
+            'user' => $u->stored,
+        );
+ 			               
+        $this->load->view('profile/edit', $view_data);
     }
-
+    
     
 
 }

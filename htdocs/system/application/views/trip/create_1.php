@@ -308,6 +308,11 @@ label.error {
   }
   
   
+  function loginSignupSuccess() {
+    $('#trip-creation-form').submit();
+  }
+  
+  
   $(document).ready(function() {
   
     // dynamic form plugin for multiple destinations
@@ -317,7 +322,6 @@ label.error {
         clone.find('input').val('');       
       }
     });
-    
     
     
     // jquery form validation plugin
