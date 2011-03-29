@@ -23,8 +23,8 @@ $this->load->view('core_header', $header_args);
 
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
-  var baseUrl = "<?=site_url('')?>";
-  var staticUrl = "<?=static_url('')?>";
+  var baseUrl = "<?=site_url()?>";
+  var staticSub = "<?=static_sub()?>";
   var tripId = <?=$trip->id?>;
   <? if ($user):?>
       var uid = <?=$user->id?>;
@@ -444,17 +444,15 @@ li.suggestion.highlighted{
             <div style="clear:both"></div>
                       
             <div id="trip_goers" style="border-top: 1px solid #FAFAFA; padding:10px 20px 10px 20px; font-size: 14px; color:gray;">
-            
-            <div id="num_trip_goers" style="margin-bottom:3px;">
-                <? if (count($trip_goers) == 1):?>
-                  <span id="num"></span><?=count($trip_goers)?></span> PERSON IS GOING ON THIS TRIP:<div style="clear:both; margin-bottom:3px;"></div>
-                  
-                <? else:?>
-                  <span id="num"><?=count($trip_goers)?></span> PEOPLE ARE GOING ON THIS TRIP:            
-                  <div style="clear:both; margin-bottom:3px;"></div>
-                <? endif;?>
-            </div>
-                       
+              <div id="num_trip_goers" style="margin-bottom:3px;">
+                  <? if (count($trip_goers) == 1):?>
+                    <span id="num"></span><?=count($trip_goers)?></span> PERSON IS GOING ON THIS TRIP:<div style="clear:both; margin-bottom:3px;"></div>
+                    
+                  <? else:?>
+                    <span id="num"><?=count($trip_goers)?></span> PEOPLE ARE GOING ON THIS TRIP:            
+                    <div style="clear:both; margin-bottom:3px;"></div>
+                  <? endif;?>
+              </div>                       
               <? if ($trip_goers):?>
                 <? foreach ($trip_goers as $trip_goer):?>
                   <div class="trip_goer" uid="<?=$trip_goer->id?>" style="float:left; margin-right:10px;">
@@ -569,7 +567,7 @@ li.suggestion.highlighted{
             </div><!-- WALL INPUT CONTAINER -->
 
             <!-- WALL CONTENT -->
-            <ul id="wall-content" style="border-top:2px solid #C8C8C8; padding-top:20px; margin-right:20px;">
+            <ul id="wall-content" style="border-top:2px solid #C8C8C8; padding-top:20px;">
               <? foreach ($wall_items as $wall_item):?>
                 <? if ($wall_item->lat):?>
                   <li id="wall-suggestion-<?=$wall_item->id?>" class="suggestion" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #FAFAFA; position:relative;">

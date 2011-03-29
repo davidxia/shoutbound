@@ -14,18 +14,23 @@ invite.rsvp_yes = function() {
       type: 'POST',
       url: baseUrl+'trips/ajax_rsvp_yes',
       data: post_data,
-      success: function(response) {
-        if ($.parseJSON(response)['success']) {
+      success: function(r) {
+        var r = $.parseJSON(r);
+        if (r.success) {
           // unbind click event
           $('#rsvp_yes_button').unbind();
           // change rsvp status
           $('#rsvp_status').html("You're going on this trip");
           // fade in avatar
-          var html = '<div class="trip_goer" style="display:none; float:left; margin-right:10px;" uid="'+uid+'"><img src="'+baseUrl+'/images/defaultavatar8.png" height="50" width="50"></div>';
-          $(html).prependTo('#trip_goers').fadeIn('slow');
+          var html = '<div class="trip_goer" style="display:none; float:left; margin-right:10px;" uid="'+uid+'"><img src="'+staticSub+'profile_pics/'+r.profilePic+'" height="50" width="50"></div>';
+          $(html).insertAfter('#num_trip_goers').fadeIn('slow');
           // increase number by one
           $('#num').html(function() {
-            return parseInt($(this).html())+1;
+            if (parseInt($(this).html()) == 1) {
+              $('#num_trip_goers').html('<span id="num">2</span> PEOPLE ARE GOING ON THIS TRIP:');
+            } else {
+              return parseInt($(this).html())+1;
+            }
           })
           // fade out then remove yes button, replace with no button, and bind with click
           $('#rsvp_yes_button').fadeOut(300, function() {
@@ -60,8 +65,8 @@ invite.rsvp_no = function() {
       type: 'POST',
       url: baseUrl+'trips/ajax_rsvp_no',
       data: post_data,
-      success: function(response) {
-        if ($.parseJSON(response)['success']) {
+      success: function(r) {
+        if ($.parseJSON(r)['success']) {
           // unbind click event
           $('#rsvp_no_button').unbind();
           // change rsvp status
@@ -74,7 +79,11 @@ invite.rsvp_no = function() {
           });
           // decrease number by one
           $('#num').html(function(){
-            return parseInt($(this).html())-1;
+            if (parseInt($(this).html()) == 2) {
+              $('#num_trip_goers').html('<span id="num">1</span> PERSON IS GOING ON THIS TRIP:');
+            } else {
+              return parseInt($(this).html())-1;
+            }
           })
           // fade out no button, remove, and replace with yes button, bind with click
           $('#rsvp_no_button').fadeOut(300, function(){

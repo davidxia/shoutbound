@@ -316,11 +316,11 @@ class Trips extends Controller
     function ajax_rsvp_yes()
     {
         $u = new User();
-        if ( ! $u->get_logged_in_status())
+        $uid = $u->get_logged_in_status();
+        if ( ! $uid)
         {
             redirect('/');            
         }
-        $uid = get_cookie('uid');
         $u->get_by_id($uid);
         
         $t = new Trip();
@@ -328,7 +328,7 @@ class Trips extends Controller
         
         if ($t->set_join_field($u, 'rsvp', 3))
         {
-            json_success(array('success'=>true));
+            json_success(array('profilePic'=>$u->profile_pic));
         }        
     }
     
@@ -336,11 +336,11 @@ class Trips extends Controller
     function ajax_rsvp_no()
     {
         $u = new User();
-        if ( ! $u->get_logged_in_status())
+        $uid = $u->get_logged_in_status();
+        if ( ! $uid)
         {
             redirect('/');            
         }
-        $uid = get_cookie('uid');
         $u->get_by_id($uid);
         
         $t = new Trip();
@@ -348,7 +348,7 @@ class Trips extends Controller
         
         if ($t->set_join_field($u, 'rsvp', 1))
         {
-            json_success(array('success'=>true));
+            json_success(array());
         }        
     }
 

@@ -7,7 +7,7 @@ function static_url($path)
 }
 
 
-function static_sub($path)
+function static_sub($path=null)
 {
     return 'http://static.shoutbound.com/' . $path;
 }
