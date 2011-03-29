@@ -251,6 +251,9 @@ class Trips extends Controller
         $this->load->helper('quicksort');
         _quicksort($wall_items);
         
+        $ts = new Trip_share();
+        $is_shared = ($ts->where('trip_id', $t->id)->count()) ? 1 : 0;
+        
         $view_data = array(
             'trip' => $t->stored,
             'creator' => $creator,
@@ -260,7 +263,8 @@ class Trips extends Controller
             'user_rsvp' => $user_rsvp,
             'wall_items' => $wall_items,
             'suggestions' => $suggestions,
-            'trip_goers' => $trip_goers
+            'trip_goers' => $trip_goers,
+            'is_shared' => $is_shared,
         );
  			               
         $this->load->view('trip/trip', $view_data);

@@ -29,6 +29,7 @@ $this->load->view('core_header', $header_args);
   <? if ($user):?>
       var uid = <?=$user->id?>;
   <? endif;?>
+  var isShared = <?=$is_shared?>;
   
   map.lat = <?=$destinations[0]->lat?>;
   map.lng = <?=$destinations[0]->lng?>;
@@ -742,6 +743,11 @@ li.suggestion.highlighted{
   
   
   $(document).ready(function() {
+    // if trip isn't shared, trigger invite others popup
+    if (isShared == 0) {
+      $('#invite-others-button').trigger('click');
+    }
+    
     $('#wall-post-button').click(function() {
       // distinguish between message and suggestion
       if ($('#location-name').val().length==0 || $('#location-lat').val().length==0 || $('#location-lng').val().length==0) {
