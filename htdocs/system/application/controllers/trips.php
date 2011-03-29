@@ -264,7 +264,6 @@ class Trips extends Controller
         );
  			               
         $this->load->view('trip/trip', $view_data);
-        //print_r($wall_items[0]->likes[15]);
     }
     
     

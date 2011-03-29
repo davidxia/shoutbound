@@ -446,7 +446,7 @@ li.suggestion.highlighted{
             <div id="trip_goers" style="border-top: 1px solid #FAFAFA; padding:10px 20px 10px 20px; font-size: 14px; color:gray;">
               <div id="num_trip_goers" style="margin-bottom:3px;">
                   <? if (count($trip_goers) == 1):?>
-                    <span id="num"></span><?=count($trip_goers)?></span> PERSON IS GOING ON THIS TRIP:<div style="clear:both; margin-bottom:3px;"></div>
+                    <span id="num"><?=count($trip_goers)?></span> PERSON IS GOING ON THIS TRIP:<div style="clear:both; margin-bottom:3px;"></div>
                     
                   <? else:?>
                     <span id="num"><?=count($trip_goers)?></span> PEOPLE ARE GOING ON THIS TRIP:            

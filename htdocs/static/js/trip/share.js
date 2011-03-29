@@ -28,6 +28,8 @@ invite.rsvp_yes = function() {
           $('#num').html(function() {
             if (parseInt($(this).html()) == 1) {
               $('#num_trip_goers').html('<span id="num">2</span> PEOPLE ARE GOING ON THIS TRIP:');
+            } else if (parseInt($(this).html()) == 0) {
+              $('#num_trip_goers').html('<span id="num">1</span> PERSON IS GOING ON THIS TRIP:');
             } else {
               return parseInt($(this).html())+1;
             }
@@ -81,6 +83,8 @@ invite.rsvp_no = function() {
           $('#num').html(function(){
             if (parseInt($(this).html()) == 2) {
               $('#num_trip_goers').html('<span id="num">1</span> PERSON IS GOING ON THIS TRIP:');
+            } else if (parseInt($(this).html()) == 1) {
+              $('#num_trip_goers').html('<span id="num">0</span> PEOPLE ARE GOING ON THIS TRIP:');
             } else {
               return parseInt($(this).html())-1;
             }
