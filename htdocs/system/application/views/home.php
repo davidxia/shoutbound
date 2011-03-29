@@ -46,7 +46,7 @@ $this->load->view('core_header', $header_args);
     				<span style="font-size:16px; padding-left:10px; font-weight:bold;">Recent activity</span>
   				</div>
           <? if ( ! $news_feed_items):?>
-            <div style="padding:0px 0px 20px 20px;">You haven't had any activity yet.  Get started by creating a trip!</div>
+            <div style="padding:0px 0px 20px 20px;">You haven't had any activity yet.  Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a>.</div>
           <? else:?>
             <ul style="margin: 0px 20px 0px 20px;">
               <? foreach($news_feed_items as $news_feed_item):?>
@@ -84,7 +84,7 @@ $this->load->view('core_header', $header_args);
       				<span style="font-size:16px; padding-left:10px; font-weight:bold; color:black;">Your trips</span>
     				</div>
     				<? if (empty($trips)):?>
-              <div style="padding:0px 0px 20px 20px;">You don't have any trips yet.  Get started by creating a trip!</div>
+              <div style="padding:0px 0px 20px 20px;">You don't have any trips yet.  Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a>.</div>
             <? else:?>
               <ul style="margin: 0px 20px 0px 20px;">
                 <? foreach ($trips as $trip):?>

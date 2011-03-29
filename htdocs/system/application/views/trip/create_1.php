@@ -314,12 +314,20 @@ label.error {
   
   
   $(document).ready(function() {
+    // dates for 1st destination appear if it's filled in
+    if ($('#lat').val() != '') {
+      //console.log($('#lat').val());
+      $('#dates-header').css('visibility', 'visible');
+      $('.dates').css('visibility', 'visible');
+    }
+  
   
     // dynamic form plugin for multiple destinations
     $('#destinations_dates').dynamicForm('#add-destination', '#subtract-destination', {
       limit: 5,
       afterClone: function(clone) {
-        clone.find('input').val('');       
+        clone.find('input').val('');
+        clone.find('.dates').css('visibility', 'hidden');
       }
     });
     
@@ -353,8 +361,8 @@ label.error {
       if ($('#trip-creation-form').valid()) {
         $.ajax({
           url: baseUrl+'users/ajax_get_logged_in_status',
-          success: function(response) {
-            var r = $.parseJSON(response);
+          success: function(r) {
+            var r = $.parseJSON(r);
             if (r.loggedin) {
               $('#trip-creation-form').submit();
             } else {
@@ -365,12 +373,9 @@ label.error {
       }
       return false;
     });
+    
         
     
-    $('#other').click(function() {
-      $('#other-textbox').toggle();
-    });
-
     // datepicker jquery plugin
     $('.startdate').live('focus', function() {
       $(this).datepicker();

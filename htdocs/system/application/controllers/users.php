@@ -43,9 +43,6 @@ class Users extends Controller
         $render_string = $this->load->view('login_signup', $view_data, true);
         json_success(array('data'=>$render_string));
     }
-    
-    
-
 }
 
 /* End of file users.php */

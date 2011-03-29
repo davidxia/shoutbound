@@ -33,7 +33,12 @@ class User extends DataMapper
             'field' => 'email',
             'label' => 'Email Address',
             'rules' => array('required', 'trim', 'unique', 'valid_email')
-        )
+        ),
+        array(
+            'field' => 'created',
+            'label' => 'Created',
+            'rules' => array('required')
+        ),
     );
 
     function User()

@@ -1,3 +1,4 @@
+/*
 var map = {};
 
 $(document).ready(function() {
@@ -61,3 +62,4 @@ map.clickGeocodeResult = function(resultItem) {
   $('#location-autosuggest').empty();
   
 };
+*/
