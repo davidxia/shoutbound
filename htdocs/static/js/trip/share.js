@@ -113,7 +113,7 @@ invite.showShareDialog = function(shareRole) {
   };
   $.ajax({
     type: 'POST',
-    url: baseUrl+'trips/ajax_trip_share_dialog',
+    url: baseUrl+'trip_shares/ajax_trip_share_dialog',
     data: postData,
     success: function(response) {
       var r = $.parseJSON(response);
@@ -128,6 +128,10 @@ invite.bindButtons = function(shareRole) {
   $('#shoutbound-share').bind('click', invite.FriendSelector);
   $('#facebook-share').click(function() {
     invite.facebookMessage(shareRole);
+    return false;
+  });
+  $('#twitter-share').click(function() {
+    invite.tweet(shareRole);
     return false;
   });
   $('#email-share').click(function() {
@@ -194,6 +198,23 @@ invite.facebookMessage = function(shareRole) {
       });    
     }
   });
+  $('#div-to-popup').bPopup().close();
+  return false;
+}
+
+
+invite.tweet = function(shareRole) {
+  var shareKey = invite.generateShareKey(shareRole, 2, 'tw');
+  if (shareRole == 2) {
+    var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
+  } else if (shareRole == 1) {
+    var message = 'Help me plan my trip: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
+  }
+  message = encodeURIComponent(encodeURIComponent(message));
+  
+  var url = 'http://twitter.com/login?redirect_after_login=%2Fhome%3Fstatus%3D'+message;
+  window.open(url);
+  
   $('#div-to-popup').bPopup().close();
   return false;
 }

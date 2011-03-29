@@ -178,7 +178,46 @@ class Trip_shares extends Controller
         }
     }
     
-    
+
+    function ajax_trip_share_dialog()
+    {
+        $u = new User();
+        if ( ! $u->get_logged_in_status())
+        {
+            redirect('/');            
+        }
+        $uid = get_cookie('uid');
+        $u->get_by_id($uid);
+        
+        // get Shoutbound friends not related to this trip
+        $u->related_user->get();
+        // get user ids associated with this trip
+        $t = new Trip();
+        $t->get_by_id($this->input->post('tripId'));
+        $t->user->get();        
+        // create array of friends not associated with this trip
+        foreach ($t->user as $user)
+        {
+            $trip_uids[] = $user->id;
+        }
+        $uninvited_sb_friends = array();
+        foreach ($u->related_user as $sb_friend)
+        {
+            if ( ! in_array($sb_friend->id, $trip_uids))
+            {
+                $uninvited_sb_friends[] = $sb_friend->stored;
+            }
+        }
+                
+        $view_data = array(
+            'uninvited_sb_friends' => $uninvited_sb_friends,
+            'share_role' => $this->input->post('shareRole')
+        );
+        
+        $render_string = $this->load->view('trip/trip_share_dialog', $view_data, true);
+        json_success(array('data' => $render_string));
+    }
+
 }
 
 /* End of file trip_shares.php */

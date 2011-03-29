@@ -1,4 +1,3 @@
-
 <style type="text/css">
 #trip-share-popup{
 	font-family:font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -101,6 +100,8 @@
       <br/>-->
       <div style="font-size:16px; font-weight:bold; padding:10px 0px 10px 0px; border-bottom:1px solid #C8C8C8;">via <a href="#" id="facebook-share">Facebook</a></div>
 
+      <div style="font-size:16px; font-weight:bold; padding:10px 0px 10px 0px; border-bottom:1px solid #C8C8C8;">via <a href="#" id="twitter-share">Twitter</a></div>
+
       <div style="font-size:16px; padding:10px 0px 10px 0px; border-bottom:1px solid #C8C8C8;"><span style="font-weight:bold;">via e-mail:</span>
       <!--<a href="#" id="email-share">E-mails</a>-->    
 		    <div id="email-input">
@@ -135,5 +136,4 @@
 
 <script type="text/javascript">
   $('#deadline').datepicker();
-  
 </script>
