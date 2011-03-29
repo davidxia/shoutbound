@@ -20,7 +20,8 @@ class Trips extends Controller
         $u = new User();
         if ( ! $u->get_logged_in_status() OR getenv('REQUEST_METHOD') == 'GET')
         {
-            redirect('/');            
+            $this->router->show_404();
+            return;
         }
         $uid = get_cookie('uid');
         $u->get_by_id($uid);
@@ -117,7 +118,8 @@ class Trips extends Controller
         $t->get_by_id($trip_id);
         if ( ! $t->active)
         {
-            redirect('/');
+            $this->router->show_404();
+            return;
         }
         
         
@@ -137,7 +139,8 @@ class Trips extends Controller
             // redirect to home page if neither
             if ($t->is_private AND ! $user_role AND ! $this->verify_share_cookie($trip_id))
             {
-                redirect('/');
+                $this->router->show_404();
+                return;
             }
         }
         else
@@ -145,7 +148,8 @@ class Trips extends Controller
             // if user is not logged in, check invite cookie for correct access key
             if ($t->is_private AND ! $this->verify_share_cookie($trip_id))
             {
-                redirect('/');
+                $this->router->show_404();
+                return;
             }
             
             $user_role = 2;

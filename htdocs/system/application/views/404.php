@@ -7,7 +7,7 @@
 
 <body>
   
-  <img src="http://slonky.com/error404_2.jpg" width="910" height="330"/>
+  <img src="<?=static_sub('chenchen_face.jpg')?>" width="604" height="453"/>
 
 </body> 
 </html>
