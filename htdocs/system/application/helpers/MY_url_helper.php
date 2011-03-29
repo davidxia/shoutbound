@@ -1,9 +1,13 @@
 <?php
 
-// TODO: don't need this function
 
 function static_url($path)
 {
     return site_url('static/'.$path);
 }
 
+
+function static_sub($path)
+{
+    return 'http://static.shoutbound.com/' . $path;
+}

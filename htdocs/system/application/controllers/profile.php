@@ -129,7 +129,7 @@ class Profile extends Controller
             'is_friend' => $is_friend,
         );
         
-        $this->load->view('profile', $view_data);
+        $this->load->view('profile/profile', $view_data);
     }
     
     
@@ -159,9 +159,9 @@ class Profile extends Controller
           	$tempFile = $_FILES['Filedata']['tmp_name'];
           	list($width, $height, $type, $attr) = getimagesize($_FILES['Filedata']['tmp_name']);
           	
-            $path = explode('/',__FILE__);
-            $targetPath = $_SERVER['DOCUMENT_ROOT'].'/'.$path[2].'/images/profile_pics/';
-          	//$targetPath = '/var/www/static/profile_pics/';
+            //$path = explode('/',__FILE__);
+            //$targetPath = $_SERVER['DOCUMENT_ROOT'].'/'.$path[2].'/images/profile_pics/';
+          	$targetPath = '/var/www/static/profile_pics/';
           	$targetFile =  str_replace('//','/',$targetPath) . $uid . '_' . $_FILES['Filedata']['name'];
     
         		$u = new User();

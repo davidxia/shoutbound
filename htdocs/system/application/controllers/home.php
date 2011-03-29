@@ -75,8 +75,9 @@ class Home extends Controller
             $s->where_in('trip_id', $trip_ids)->where('active', 1)->get();
             foreach ($s as $suggestion)
             {
-                $suggestion->stored->user_fid = $u->get_by_id($suggestion->user_id)->fid;
+                //$suggestion->stored->user_fid = $u->get_by_id($suggestion->user_id)->fid;
                 $suggestion->stored->user_name = $u->name;
+                $suggestion->stored->profile_pic = $u->profile_pic;
                 $suggestion->stored->trip_name = $t->get_by_id($suggestion->trip_id)->name;
                 $suggestion->stored->is_location = 1;
                 $news_feed_items[] = $suggestion->stored;
@@ -89,8 +90,9 @@ class Home extends Controller
             $m->where_in('trip_id', $trip_ids)->where('active', 1)->get();
             foreach ($m as $message)
             {
-                $message->stored->user_fid = $u->get_by_id($message->user_id)->fid;
+                //$message->stored->user_fid = $u->get_by_id($message->user_id)->fid;
                 $message->stored->user_name = $u->name;
+                $message->stored->profile_pic = $u->profile_pic;
                 $message->stored->trip_name = $t->get_by_id($message->trip_id)->name;
                 $message->stored->is_location = 0;
                 $news_feed_items[] = $message->stored;

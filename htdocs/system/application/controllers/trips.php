@@ -183,6 +183,7 @@ class Trips extends Controller
             $message->stored->user_id = $u->get_by_id($message->user_id)->id;
             $message->stored->user_name = $u->name;
             $message->stored->replies = array();
+            $message->stored->likes = array();
             
             $r = new Reply();
             $r->order_by('created', 'desc');
@@ -194,6 +195,15 @@ class Trips extends Controller
                 $message->stored->replies[] = $reply->stored;
             }
             
+            $l = new Like();
+            $l->where('message_id', $message->id)->get();
+            foreach ($l as $like)
+            {
+                $u->get_by_id($like->user_id);
+                $like->stored->user_name = $u->name;
+                $message->stored->likes[] = $like->stored;
+            }
+
             $wall_items[] = $message->stored;
         }        
         
@@ -205,6 +215,7 @@ class Trips extends Controller
             $suggestion->stored->user_id = $u->get_by_id($suggestion->user_id)->id;
             $suggestion->stored->user_name = $u->name;
             $suggestion->stored->replies = array();
+            $suggestion->stored->likes = array();
 
             $r = new Reply();
             $r->order_by('created', 'desc');
@@ -214,7 +225,15 @@ class Trips extends Controller
                 $u->get_by_id($reply->user_id);
                 $reply->stored->user_name = $u->name;
                 $suggestion->stored->replies[] = $reply->stored;
-                
+            }
+
+            $l = new Like();
+            $l->where('suggestion_id', $suggestion->id)->get();
+            foreach ($l as $like)
+            {
+                $u->get_by_id($like->user_id);
+                $like->stored->user_name = $u->name;
+                $suggestion->stored->likes[] = $like->stored;
             }
 
             $wall_items[] = $suggestion->stored;

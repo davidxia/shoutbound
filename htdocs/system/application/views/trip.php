@@ -461,7 +461,7 @@ li.suggestion.highlighted{
               <? if ($trip_goers):?>
                 <? foreach ($trip_goers as $trip_goer):?>
                   <div class="trip_goer" uid="<?=$trip_goer->id?>" style="float:left; margin-right:10px;">
-                    <a href="<?=site_url('profile/'.$trip_goer->id)?>"><img src="<?=site_url('images/defaultavatar8.png')?>" height="50" width="50"/></a>
+                    <a href="<?=site_url('profile/'.$trip_goer->id)?>"><img src="<?=site_url('images/profile_pics/'.$trip_goer->profile_pic)?>" height="50" width="50"/></a>
                   </div>
                 <? endforeach;?>
               <? endif;?>
@@ -578,6 +578,11 @@ li.suggestion.highlighted{
                   <li id="wall-suggestion-<?=$wall_item->id?>" class="suggestion" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #FAFAFA; position:relative;">
                     <div class="wall-location-name"style="font-weight:bold;"><?=$wall_item->name?></div>
                     <div>Suggested by <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a></div>
+                    <? if ($wall_item->likes->user_id):?>
+                      <div class="like">Like</div>
+                    <? else:?>
+                      <div class="unlike">Unlike</div>
+                    <? endif;?>
                     <span class="wall-location-address" style="display:none;"><?=$wall_item->address?></span>
                     <span class="wall-location-phone" style="display:none;"><?=$wall_item->phone?></span>
                     
@@ -930,7 +935,6 @@ li.suggestion.highlighted{
                 success: function(r) {
                   var r = $.parseJSON(r);
                   $('.reply-box').remove();
-                  console.log(parentElement);
                   var html = [];
                   html[0] = '<li id="wall-reply-'+r.id+'" class="reply">';
                   html[1] = '<a href="'+baseUrl+'profile/'+r.uid+'" class="wall-item-author" style="text-decoration:none;">';
@@ -953,6 +957,48 @@ li.suggestion.highlighted{
     });
     
     return false;
+  });
+  
+  
+  $('.like, .unlike').click(function() {
+    var like;
+    $(this).hasClass('like') ? like=1 : like=0;
+    var parentElement = $(this).parent();
+    var parentId = parentElement.attr('id');
+    
+    var regex = /^.+-(.+)-(\d+)/;
+    var match = regex.exec(parentId);
+    if (match[1] == 'message') {
+      var messageId = match[2];
+    } else if (match[1] == 'suggestion') {
+      var suggestionId = match[2];
+    }
+    
+    $.ajax({
+      type: 'POST',
+      url: baseUrl+'users/ajax_get_logged_in_status',
+      success: function(r) {
+        var r = $.parseJSON(r);
+        if (r.loggedin) {
+          var postData = {
+            userId: r.loggedin,
+            messageId: messageId,
+            suggestionId: suggestionId,
+            like: like
+          };
+          
+          $.ajax({
+            type: 'POST',
+            url: baseUrl+'likes/ajax_save_like',
+            data: postData,
+            success: function(r) {
+              var r = $.parseJSON(r);
+              console.log(r);
+            }
+          });
+        }
+      }
+    });
   });
 </script>
 
