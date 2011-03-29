@@ -24,7 +24,7 @@ invite.rsvp_yes = function() {
           var html = '<div class="trip_goer" style="display:none; float:left; margin-right:10px;" uid="'+uid+'"><img src="'+baseUrl+'/images/defaultavatar8.png" height="50" width="50"></div>';
           $(html).prependTo('#trip_goers').fadeIn('slow');
           // increase number by one
-          $('#num').html(function(){
+          $('#num').html(function() {
             return parseInt($(this).html())+1;
           })
           // fade out then remove yes button, replace with no button, and bind with click

@@ -11,6 +11,11 @@ class Like extends DataMapper {
             'rules' => array('required')
         ),
         array(
+            'field' => 'is_like',
+            'label' => 'Is Like',
+            'rules' => array('required')
+        ),
+        array(
             'field' => 'created',
             'label' => 'Created',
             'rules' => array('required')

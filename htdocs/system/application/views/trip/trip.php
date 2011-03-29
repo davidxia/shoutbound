@@ -28,9 +28,6 @@ $this->load->view('core_header', $header_args);
   var tripId = <?=$trip->id?>;
   <? if ($user):?>
       var uid = <?=$user->id?>;
-      <? if ($user->fid):?>
-          var fid = <?=$user->fid?>;
-      <? endif;?>
   <? endif;?>
   
   map.lat = <?=$destinations[0]->lat?>;
@@ -461,7 +458,7 @@ li.suggestion.highlighted{
               <? if ($trip_goers):?>
                 <? foreach ($trip_goers as $trip_goer):?>
                   <div class="trip_goer" uid="<?=$trip_goer->id?>" style="float:left; margin-right:10px;">
-                    <a href="<?=site_url('profile/'.$trip_goer->id)?>"><img src="<?=site_url('images/profile_pics/'.$trip_goer->profile_pic)?>" height="50" width="50"/></a>
+                    <a href="<?=site_url('profile/'.$trip_goer->id)?>"><img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" height="50" width="50"/></a>
                   </div>
                 <? endforeach;?>
               <? endif;?>
@@ -578,11 +575,6 @@ li.suggestion.highlighted{
                   <li id="wall-suggestion-<?=$wall_item->id?>" class="suggestion" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #FAFAFA; position:relative;">
                     <div class="wall-location-name"style="font-weight:bold;"><?=$wall_item->name?></div>
                     <div>Suggested by <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a></div>
-                    <? if ($wall_item->likes->user_id):?>
-                      <div class="like">Like</div>
-                    <? else:?>
-                      <div class="unlike">Unlike</div>
-                    <? endif;?>
                     <span class="wall-location-address" style="display:none;"><?=$wall_item->address?></span>
                     <span class="wall-location-phone" style="display:none;"><?=$wall_item->phone?></span>
                     
@@ -598,6 +590,19 @@ li.suggestion.highlighted{
                       <div class="remove-wall-item" suggestionId="<?=$wall_item->id?>"></div>
                     <? endif;?>
                     <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
+                    <? if ($wall_item->likes[$user->id] != 1):?>
+                      <span class="like">Like</span>
+                    <? else:?>
+                      <span class="unlike">Unlike</span>
+                    <? endif;?>
+                    <span class="num-likes">
+                    <? if ($wall_item->num_likes == 1):?>
+                      1 person likes this
+                    <? elseif ($wall_item->num_likes >= 1):?>
+                      <?=$wall_item->num_likes?> people like this
+                    <? endif;?>
+                    </span>
+                    
                     <a href="#" class="reply">reply</a>
                     <ul class="wall-replies" style="margin-left:10px;">
                       <? foreach ($wall_item->replies as $reply):?>
@@ -618,6 +623,19 @@ li.suggestion.highlighted{
                     <span class="wall-item-text"><?=$wall_item->text?></span>
                     <br/>
                     <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
+                    <? if ($wall_item->likes[$user->id] != 1):?>
+                      <span class="like" style="cursor:pointer;">Like</span>
+                    <? else:?>
+                      <span class="unlike" style="cursor:pointer;">Unlike</span>
+                    <? endif;?>
+                    <span class="num-likes">
+                    <? if ($wall_item->num_likes == 1):?>
+                      1 person likes this
+                    <? elseif ($wall_item->num_likes >= 1):?>
+                      <?=$wall_item->num_likes?> people like this
+                    <? endif;?>
+                    </span>
+                    
                     <a href="#" class="reply">reply</a>
                     <ul class="wall-replies"  style="margin-left:10px;">
                       <? foreach ($wall_item->replies as $reply):?>
@@ -768,7 +786,6 @@ li.suggestion.highlighted{
           url: baseUrl+'users/ajax_get_logged_in_status',
           success: function(response) {
             var r = $.parseJSON(response);
-            console.log(r);
             // if user is logged in, save the suggestion
             if (r.loggedin) {
               var userId = r.loggedin;
@@ -961,13 +978,14 @@ li.suggestion.highlighted{
   
   
   $('.like, .unlike').click(function() {
-    var like;
-    $(this).hasClass('like') ? like=1 : like=0;
-    var parentElement = $(this).parent();
-    var parentId = parentElement.attr('id');
+    var likeElement = $(this),
+        isLike;
+    likeElement.hasClass('like') ? isLike=1 : isLike=0;
+    var wallItem = $(this).parent();
+    var wallItemId = wallItem.attr('id');
     
     var regex = /^.+-(.+)-(\d+)/;
-    var match = regex.exec(parentId);
+    var match = regex.exec(wallItemId);
     if (match[1] == 'message') {
       var messageId = match[2];
     } else if (match[1] == 'suggestion') {
@@ -984,7 +1002,7 @@ li.suggestion.highlighted{
             userId: r.loggedin,
             messageId: messageId,
             suggestionId: suggestionId,
-            like: like
+            isLike: isLike
           };
           
           $.ajax({
@@ -993,7 +1011,31 @@ li.suggestion.highlighted{
             data: postData,
             success: function(r) {
               var r = $.parseJSON(r);
-              console.log(r);
+              likeElement.toggleClass('like');
+              likeElement.toggleClass('unlike');
+              if (isLike) {
+                likeElement.html('Unlike');
+                var numLikes = likeElement.next().html();
+                if (numLikes != '') {
+                  regex = /^(\d+).*/;
+                  match = regex.exec(numLikes);
+                  numLikes = parseInt(match[1])+1;
+                  likeElement.next().html(numLikes+'people like this');
+                } else {
+                  likeElement.next().html('1 person likes this');
+                }
+              } else {
+                likeElement.html('Like');
+                var numLikes = likeElement.next().html();
+                regex = /^(\d+).*/;
+                match = regex.exec(numLikes);
+                numLikes = parseInt(match[1])-1;
+                if (numLikes >= 2) {
+                  likeElement.next().html(numLikes+'people like this');
+                } else if (numLikes == 2) {
+                  likeElement.next().html('1 person likes this');
+                }
+              }
             }
           });
         }

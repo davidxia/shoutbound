@@ -8,7 +8,7 @@ class Trips extends Controller
         parent::Controller();
     }
     
-    
+        
     function facebook_test()
     {
         $this->load->view('facebook_test');
@@ -201,8 +201,10 @@ class Trips extends Controller
             {
                 $u->get_by_id($like->user_id);
                 $like->stored->user_name = $u->name;
-                $message->stored->likes[] = $like->stored;
+                $message->stored->likes[$like->user_id] = $like->is_like;
             }
+            $uids_likes = array_count_values($message->stored->likes);
+            $message->stored->num_likes = $uids_likes['1'];
 
             $wall_items[] = $message->stored;
         }        
@@ -233,8 +235,10 @@ class Trips extends Controller
             {
                 $u->get_by_id($like->user_id);
                 $like->stored->user_name = $u->name;
-                $suggestion->stored->likes[] = $like->stored;
+                $suggestion->stored->likes[$like->user_id] = $like->is_like;
             }
+            $uids_likes = array_count_values($suggestion->stored->likes);
+            $suggestion->stored->num_likes = $uids_likes['1'];
 
             $wall_items[] = $suggestion->stored;
             $suggestions[] = $suggestion->stored;
@@ -255,7 +259,8 @@ class Trips extends Controller
             'trip_goers' => $trip_goers
         );
  			               
-        $this->load->view('trip', $view_data);
+        $this->load->view('trip/trip', $view_data);
+        //print_r($wall_items[0]->likes[15]);
     }
     
     

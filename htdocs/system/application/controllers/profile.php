@@ -159,8 +159,6 @@ class Profile extends Controller
           	$tempFile = $_FILES['Filedata']['tmp_name'];
           	list($width, $height, $type, $attr) = getimagesize($_FILES['Filedata']['tmp_name']);
           	
-            //$path = explode('/',__FILE__);
-            //$targetPath = $_SERVER['DOCUMENT_ROOT'].'/'.$path[2].'/images/profile_pics/';
           	$targetPath = '/var/www/static/profile_pics/';
           	$targetFile =  str_replace('//','/',$targetPath) . $uid . '_' . $_FILES['Filedata']['name'];
     
