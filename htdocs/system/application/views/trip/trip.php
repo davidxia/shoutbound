@@ -463,15 +463,7 @@ li.suggestion.highlighted{
               <? endif;?>
               <div style="clear:both;"></div>
               
-            </div><!-- TRIP GOERS ENDS -->              
-              
-              
-              <!--<div id="need-advice-on" style="width:50%; display:inline-block; float:left; font-size:1em;">
-                Interested in:<br/>
-                <span style="padding-left: 10px;">interest go here</span><br/>
-                Want suggestions for:<br/>
-                <span style="padding-left: 10px;">suggestion categories go here</span>
-              </div>-->
+            </div><!-- TRIP GOERS ENDS -->
           </div><!-- TRIP SUMMARY ENDS -->
             
             
@@ -479,7 +471,7 @@ li.suggestion.highlighted{
             <!-- WIDGET -->
           <div id="trip-widget" style="width:277px; height:223px; float:left; margin-left:15px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #C8C8C8; background-color:white; color:black; padding:5px 10px 5px 10px;">          
                        
-              <? if ($user_role >= 2):?>
+              <? if ($user AND $user_role >= 2):?>
                 <div id="rsvp_status" style="margin:10px 0; text-align:center;font-size:20px;font-weight:bold;">    
                   <? if ($user_rsvp == 3):?>
                     You're going on this trip
