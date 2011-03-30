@@ -227,7 +227,30 @@ class Profile extends Controller
     
     function twitter_data()
     {
+        $this->load->library('session');
+        $this->config->load('twitter');
         
+        $params = array('key'=>$this->config->item('tw_consumer_key'), 'secret'=>$this->config->item('tw_consumer_secret'));
+        $this->load->library('twitter_oauth', $params);
+        
+        $response = $this->twitter_oauth->get_request_token(site_url('profile/twitter_test'));
+        
+        $this->session->set_userdata('token_secret', $response['token_secret']);
+        redirect($response['redirect']);
+    }
+    
+    
+    function twitter_test()
+    {
+        $this->load->library('session');
+        $this->config->load('twitter');
+
+        $params = array('key'=>$this->config->item('tw_consumer_key'), 'secret'=>$this->config->item('tw_consumer_secret'));
+        $this->load->library('twitter_oauth', $params);
+        
+        $response = $this->twitter_oauth->get_access_token(false, $this->session->userdata('token_secret'));
+        
+        print_r($response);
     }
 }
 
