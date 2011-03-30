@@ -186,6 +186,49 @@ class Profile extends Controller
           	}
         }
     }
+    
+    
+    function history()
+    {
+        $view_data = array(
+            'user' => $u->stored,
+        );
+
+        $this->load->view('profile/history', $view_data);
+    }
+    
+    
+    function facebook_history()
+    {
+        $this->load->library('facebook');
+        $fbdata = $this->facebook->api('/me?fields=name,location,hometown,education,work');
+        
+        $checkins = $this->facebook->api(array(
+            'method' => 'fql.query',
+            'query' => 'SELECT coords FROM checkin WHERE author_uid = me()'
+        ));
+        //print_r($checkins); echo '<br/><br/>';
+        
+        $places = array();
+        $places[] = $fbdata['location']['name'];
+        $places[] = $fbdata['hometown']['name'];
+        foreach ($fbdata['education'] as $education)
+        {
+            $places[] = $education['school']['name'];
+        }
+        foreach ($fbdata['work'] as $work)
+        {
+            $places[] = $work['location']['name'];
+        }        
+        $places = json_encode($places);
+        print_r($places);
+    }
+    
+    
+    function twitter_data()
+    {
+        
+    }
 }
 
 /* End of file profile.php */
