@@ -291,7 +291,7 @@ label.error {
   
   function showLoginSignupDialog() {
     $.ajax({
-      url: baseUrl+'users/login_signup',
+      url: '<?=site_url('users/login_signup')?>',
       success: function(response) {
         var r = $.parseJSON(response);
         $('#div-to-popup').empty();

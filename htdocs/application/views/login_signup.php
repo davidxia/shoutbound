@@ -182,7 +182,6 @@
         url: '<?=site_url('signup/ajax_create_user')?>',
         // once user is created and logged in, submit create trip form
         success: function() {
-          //$('#trip-creation-form').submit();
           loginSignupSuccess();
         }
       });
