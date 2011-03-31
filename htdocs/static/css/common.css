@@ -72,8 +72,8 @@ input[type="submit"] {
   -webkit-border-radius: 5px;
   border-radius: 5px;
   position: relative;
-  top: 2px;
-  left: 535px;
+  top: 3px;
+  left: 300px;
 }
 #create-trip-button:hover {
   background: #ffad32;

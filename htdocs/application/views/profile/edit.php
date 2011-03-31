@@ -15,13 +15,9 @@ $this->load->view('core_header', $header_args);
   
 </head>
 
-<body style="background-color:white">
-
-  <?=$this->load->view('header')?>
-  
-  <div class="wrapper" style="background:white;">
-    <div class="content" style="margin: 0 auto; width:960px; padding:20px 0 80px;">
-    
+<body>
+  <? $this->load->view('header')?>
+  <? $this->load->view('wrapper_content')?>    
       <div>
         <div id="status-message">Select an image file on your computer (4MB max):</div>
         <a href="#" id="file_upload" name="file_upload" type="file">SELECT FILES</a>
@@ -32,9 +28,7 @@ $this->load->view('core_header', $header_args);
     </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
 
-
-
-  <?=$this->load->view('footer')?>
+  <? $this->load->view('footer')?>
   
 <script type="text/javascript">
 $(document).ready(function() {

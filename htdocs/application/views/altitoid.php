@@ -93,33 +93,30 @@ $this->load->view('core_header', $header_args);
 
 </head>
 
-<body style="background-color:white">
+<body>
+  <? $this->load->view('header')?>
+  <? $this->load->view('wrapper_content')?>
 
-  <?=$this->load->view('header')?>
-
-  <div id="div-to-popup" style="background-color:white; display:none;"></div>
-
-  <div class="wrapper" style="background:white;">
-    <div class="content" style="margin: 0 auto; width:960px; padding:20px 0 80px;">
-      
-      <div>
-        <div id="status-message">Upload yo files</div>
-        <div>tip: hold down shift or control to select multiple files</div>
-        <a href="#" id="file_upload" name="file_upload" type="file">SELECT FILES</a>
-        <div id="custom-queue"></div>
-      </div>
-      
+    <div id="div-to-popup" style="background-color:white; display:none;"></div>      
+  
+    <div>
+      <div id="status-message">Upload yo files</div>
+      <div>tip: hold down shift or control to select multiple files</div>
+      <a href="#" id="file_upload" name="file_upload" type="file">SELECT FILES</a>
+      <div id="custom-queue"></div>
+    </div>
+        
     <? foreach ($uploads as $upload):?>
       <!--<img src="<?=site_url('images/uploads').'/'.$upload->path?>" width="<?=$upload->width?>" height="<?=$upload->height?>"/>-->
       <a href="<?=site_url('images/uploads').'/'.$upload->path?>"><?=$upload->path?></a>
       <br/>
     <? endforeach;?>
             
-    </div><!-- CONTENT ENDS -->
+  </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
-
   
-  <?=$this->load->view('footer')?>
+    
+  <? $this->load->view('footer')?>
   
 <script type="text/javascript">
 $(document).ready(function() {

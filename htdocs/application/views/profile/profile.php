@@ -46,14 +46,10 @@ $this->load->view('core_header', $header_args);
   
 </head>
 
-<body style="background-color:#1B272C; min-width:960px;">
+<body>
+  <? $this->load->view('header')?>
+  <? $this->load->view('wrapper_content')?>
 
-  <?=$this->load->view('header')?>
-
-
-  <div class="wrapper" style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
-    <div class="content" style="margin: 0 auto; width:960px; padding:20px 0 80px;">
-      
       <!-- LEFT COLUMN -->
       <div style="float:left; width:640px; margin-right:20px;">
         <div style="background-color: #F9F9F9; border:1px solid #CCC; margin-bottom:13px; padding:10px; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;">

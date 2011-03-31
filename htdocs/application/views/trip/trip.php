@@ -372,7 +372,9 @@ li.suggestion.highlighted{
 
 </head>
 
-<body style="min-width:960px;">
+<body>
+  <? $this->load->view('header')?>
+  <? $this->load->view('wrapper_content')?>
   <div id="fb-root"></div>
   <script>
     window.fbAsyncInit = function() {
@@ -391,13 +393,6 @@ li.suggestion.highlighted{
     </div>
   </div>
 
-  <? $this->load->view('header')?>
-  
-
-  <!-- WRAPPER -->
-  <div class="wrapper" style="background:#EBE7E0;">
-    <!-- MAIN -->
-    <div class="content" style="margin: 0 auto; width:920px; padding:40px 20px 80px 20px;">
     
           <!-- TRIP SUMMARY -->
           <div id="trip_summary" style="background-color:white; width:590px; display:inline-block; float:left; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #C8C8C8;">

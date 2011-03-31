@@ -14,17 +14,13 @@ $this->load->view('core_header', $header_args);
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = "<?=site_url()?>";
-  var staticUrl = "<?=static_url('')?>";
 </script>
   
 </head>
 
-<body style="background-color:white">
-
-  <?=$this->load->view('header')?>
-  
-  <div class="wrapper" style="background:white;">
-    <div class="content" style="margin: 0 auto; width:960px; padding:20px 0 80px;">
+<body>
+  <? $this->load->view('header')?>
+  <? $this->load->view('wrapper_content')?>
       
       <form action="">
         <fieldset>
@@ -58,7 +54,7 @@ $this->load->view('core_header', $header_args);
 
 
 
-  <?=$this->load->view('footer')?>
+  <? $this->load->view('footer')?>
 
 </body>
 </head>

@@ -16,7 +16,7 @@ $this->load->view('core_header', $header_args);
 ?>
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
-  var baseUrl = "<?=site_url('')?>";
+  var baseUrl = "<?=site_url()?>";
 </script>
 
 <style type="text/css">
@@ -111,16 +111,11 @@ label.error {
  
 <? $this->load->view('core_header_end')?>
 
-	<body style="background-color:white; min-width:960px;">
+<body>
+  <? $this->load->view('header')?>
+  <? $this->load->view('wrapper_content')?>
     <div id="div-to-popup" style="background-color:white; display:none;"></div>
-    
-    <? $this->load->view('header')?>
-
 		  
-    <!-- WRAPPER -->
-    <div class="wrapper" style="background:white">
-      <!-- CONTENT -->
-      <div class="content" style="margin:0 auto; padding-top:30px; width:960px; padding-bottom:80px; color:navy; font-size:36px;"><span style="margin-left:220px">Create a trip!</span>
         <!-- TRIP CREATION FORM -->
         <form id="trip-creation-form" action="confirm_create" method="post" style="position:relative;">
         

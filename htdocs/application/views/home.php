@@ -12,13 +12,8 @@ $this->load->view('core_header', $header_args);
 
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
-  var baseUrl = "<?=site_url(''); ?>";
-  var staticUrl = "<?=static_url(''); ?>";
+  var baseUrl = "<?=site_url(); ?>";
 </script>
-
-
-</head> 
-<body style="background-color:white; min-width:960px;">
 
 <style type="text/css">
 .content{
@@ -26,13 +21,11 @@ $this->load->view('core_header', $header_args);
 	line-height:18px;
 }
 </style>
+</head>
 
+<body>
   <? $this->load->view('header')?>
-
-  <div class="wrapper" style="background-color:#EBE7E0;">
-  
-    <!-- MAIN -->
-    <div class="content" style="margin:auto; width:960px;padding-top:30px; padding-bottom:70px;">
+  <? $this->load->view('wrapper_content')?>
       
       <div style="min-height:300px;">
         <? if ($num_friend_requests):?>
