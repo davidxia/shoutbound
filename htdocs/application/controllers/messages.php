@@ -1,11 +1,11 @@
 <?php
 
-class Messages extends Controller
+class Messages extends CI_Controller
 {
     
-    function Messages()
+    function __construct()
     {
-    	  parent::Controller();
+    	  parent::__construct();
     }
 
 

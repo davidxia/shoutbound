@@ -1,11 +1,11 @@
 <?php
 
-class Settings extends Controller
+class Settings extends CI_Controller
 {
     
-    function Settings()
+    function __construct()
     {
-    	  parent::Controller();
+    	  parent::__construct();
         $u = new User();
         if ( ! $u->get_logged_in_status())
         {

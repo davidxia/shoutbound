@@ -107,9 +107,8 @@ label.error {
   filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
 }
 </style>
- 
- 
-<? $this->load->view('core_header_end')?>
+</head>
+
 
 <body>
   <? $this->load->view('header')?>

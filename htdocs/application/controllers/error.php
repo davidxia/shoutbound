@@ -1,15 +1,19 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Error extends Controller
+class Error extends CI_Controller
 {
  
+    function __construct()
+    {
+        parent::__construct();
+    }
+
+
   	function error_404()
   	{
-        $CI =& get_instance();
-        $CI->output->set_status_header('404');
-        $CI->load->view('404');
+        $this->output->set_status_header('404');
+        $this->load->view('404');
   	}
-
 }
 
 

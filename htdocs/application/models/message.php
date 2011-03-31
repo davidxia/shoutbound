@@ -1,6 +1,7 @@
 <?php
 
-class Message extends DataMapper {
+class Message extends DataMapper
+{
  
     public $has_one = array('user', 'trip');
     public $has_many = array('reply');
@@ -28,9 +29,9 @@ class Message extends DataMapper {
         ),
     );
 
-    function Message()
+    function __construct()
     {
-        parent::DataMapper();
+        parent::__construct();
     }
     
 }

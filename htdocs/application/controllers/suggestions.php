@@ -1,10 +1,11 @@
 <?php
 
-class Suggestions extends Controller {
+class Suggestions extends CI_Controller
+{
     
-    function Suggestions()
+    function __construct()
     {
-    	parent::Controller();
+      	parent::__construct();
     }
 
 

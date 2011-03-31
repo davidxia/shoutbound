@@ -1,11 +1,11 @@
 <?php
 
-class Trips extends Controller
+class Trips extends CI_Controller
 {
     
-    function Trips()
+    function __construct()
     {
-        parent::Controller();
+        parent::__construct();
     }
     
         
@@ -20,7 +20,7 @@ class Trips extends Controller
         $u = new User();
         if ( ! $u->get_logged_in_status() OR getenv('REQUEST_METHOD') == 'GET')
         {
-            $this->router->show_404();
+            custom_404();
             return;
         }
         $uid = get_cookie('uid');
@@ -118,10 +118,9 @@ class Trips extends Controller
         $t->get_by_id($trip_id);
         if ( ! $t->active)
         {
-            $this->router->show_404();
+            custom_404();
             return;
         }
-        
         
         $u = new User();
         $uid = $u->get_logged_in_status();
@@ -139,21 +138,30 @@ class Trips extends Controller
             // redirect to home page if neither
             if ($t->is_private AND ! $user_role AND ! $this->verify_share_cookie($trip_id))
             {
-                $this->router->show_404();
+                custom_404();
                 return;
             }
         }
         else
         {
-            // if user is not logged in, check invite cookie for correct access key
-            if ($t->is_private AND ! $this->verify_share_cookie($trip_id))
+            // if user is not logged in and no invite cookie
+            if ( ! $this->verify_share_cookie($trip_id))
             {
-                $this->router->show_404();
-                return;
+                if ($t->is_private)
+                {
+                    custom_404();
+                    return;
+                }
+                
+                $user_role = 0;
+                $user_rsvp = 0;
             }
-            
-            $user_role = 2;
-            $user_rsvp = 2;
+            // if user is not logged in but has invite cookie
+            else
+            {
+                $user_role = 2;
+                $user_rsvp = 2;
+            }
         }
         
         // get creator
@@ -375,7 +383,7 @@ class Trips extends Controller
         }
         // serialize to JSON and set cookie
         $received_invites = json_encode($received_invites);
-        set_cookie('received_invites', $received_invites);
+        set_cookie('received_invites', $received_invites, 1209600);
         
         redirect('/trips/'.$trip_id);
         

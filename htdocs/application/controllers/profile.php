@@ -1,11 +1,11 @@
 <?php
 
-class Profile extends Controller
+class Profile extends CI_Controller
 {
     
-    function Profile()
+    function __construct()
     {
-        parent::Controller();
+        parent::__construct();
 		}
 		
 
@@ -17,7 +17,7 @@ class Profile extends Controller
         // if user not logged in and no profile specified, return 404
         if ( ! ($pid OR $uid))
         {
-            $this->router->show_404();
+            custom_404();
             return;
         }
         
@@ -34,7 +34,7 @@ class Profile extends Controller
             $u->get_by_id($pid);
             if ( ! $u->id)
             {
-                $this->router->show_404();
+                custom_404();
                 return;
             }
             $profile = $u->stored;
@@ -46,7 +46,7 @@ class Profile extends Controller
             $u->get_by_id($pid);
             if ( ! $u->id)
             {
-                $this->router->show_404();
+                custom_404();
                 return;
             }
             $profile = $u->stored;

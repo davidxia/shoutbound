@@ -1,11 +1,11 @@
 <?php
 
-class Replies extends Controller
+class Replies extends CI_Controller
 {
     
-    function Replies()
+    function __construct()
     {
-    	  parent::Controller();
+    	  parent::__construct();
     }
 
 

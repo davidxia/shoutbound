@@ -1,11 +1,11 @@
 <?php
 
-class Likes extends Controller
+class Likes extends CI_Controller
 {
     
-    function Likes()
+    function __construct()
     {
-    	  parent::Controller();
+    	  parent::__construct();
     }
 
 

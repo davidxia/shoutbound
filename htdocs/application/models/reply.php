@@ -1,6 +1,7 @@
 <?php
 
-class Reply extends DataMapper {
+class Reply extends DataMapper
+{
 
     var $table = 'replies';
  
@@ -24,9 +25,9 @@ class Reply extends DataMapper {
         ),
     );
 
-    function Reply()
+    function __construct()
     {
-        parent::DataMapper();
+        parent::__construct();
     }
     
 }

@@ -41,9 +41,9 @@ class User extends DataMapper
         ),
     );
 
-    function User()
+    function __construct()
     {
-        parent::DataMapper();
+        parent::__construct();
     }
     
 	
@@ -74,11 +74,11 @@ class User extends DataMapper
     
     function login($uid)
     {
-        set_cookie('uid', $uid);
+        set_cookie('uid', $uid, 7200);
         $key = mt_rand(100000, 999999);
         $sig = $this->get_sig($uid, $key);
-        set_cookie('key', $key);
-        set_cookie('sig', $sig);
+        set_cookie('key', $key, 7200);
+        set_cookie('sig', $sig, 7200);
     }
 
 

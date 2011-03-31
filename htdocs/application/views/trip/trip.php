@@ -394,265 +394,265 @@ li.suggestion.highlighted{
   </div>
 
     
-          <!-- TRIP SUMMARY -->
-          <div id="trip_summary" style="background-color:white; width:590px; display:inline-block; float:left; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #C8C8C8;">
-          	<div style="background-color:#C6D4E1; color:black; padding:10px 20px 10px 20px; border-bottom: 1px solid #FAFAFA;">
-	            <div id="trip_name" style="font-size:36px; margin-bottom:3px;">
-	              <?=$trip->name?>
-	            </div>
-	            <div id="trip_creator" style="font-size: 12px;">
-	              created by <a href="<?=site_url('profile/'.$creator->id)?>" style="text-decoration:none; color:navy;"><?=$creator->name?></a>
-	            </div>
-	           </div>
-            
-            <div style="width:254px; border-right: 1px solid #FAFAFA; padding:10px 20px 5px 20px; float:left; display:inline-block;">
-	            <span style="color:gray; font-size:14px;">DESTINATION:</span>
-	            <div style="clear;margin-bottom:3px;"></div>	            
-	            <div id="trip-destinations" style="display:inline-block; float:left; font-size:14px;">            	
-	                <? foreach ($destinations as $destination):?>
-	                  <?=$destination->address?>
-	                <? endforeach;?>
-	             </div>	                          
-	             <div id="destination-start-dates" style="display:inline-block; float:left; font-size:14px; margin-left:15px;">
-	                <? foreach ($destinations as $destination):?>
-	                  <? if ($destination->startdate AND $destination->enddate):?>
-	                    <?=date('n/d/y', $destination->startdate)?> to <?=date('n/d/y', $destination->enddate)?>
-	                  <? elseif ($destination->startdate AND ! $destination->enddate):?>
-	                    <?=date('n/d/y', $destination->startdate)?> to (No date set)
-	                  <? elseif ( ! $destination->startdate AND $destination->enddate):?>
-	                    (No date set) to <?=date('n/d/y', $destination->enddate)?>
-	                  <? else:?>
-	                    No dates set
-	                  <? endif;?>
-	                <? endforeach;?>
-	              </div>
-            </div>
-            
-            <div style="width:255px; padding:5px 20px 10px 20px; float:left; display:inline-block;">
-	            <span style="color:gray; font-size:14px; margin-bottom:10px;">DESCRIPTION:</span>
-	            <div style="clear;margin-bottom:3px;"></div>
-	            <div id="trip_description" style="font-size:14px; display:inline-block; float:left;">
-	              <?=$trip->description?>
-	            </div>
-            </div>
-            
-            <!-- TRIP GOERS -->
-            <div style="clear:both"></div>
-                      
-            <div id="trip_goers" style="border-top: 1px solid #FAFAFA; padding:10px 20px 10px 20px; font-size: 14px; color:gray;">
-              <div id="num_trip_goers" style="margin-bottom:3px;">
-                  <? if (count($trip_goers) == 1):?>
-                    <span id="num"><?=count($trip_goers)?></span> PERSON IS GOING ON THIS TRIP:<div style="clear:both; margin-bottom:3px;"></div>
-                    
-                  <? else:?>
-                    <span id="num"><?=count($trip_goers)?></span> PEOPLE ARE GOING ON THIS TRIP:            
-                    <div style="clear:both; margin-bottom:3px;"></div>
-                  <? endif;?>
-              </div>                       
-              <? if ($trip_goers):?>
-                <? foreach ($trip_goers as $trip_goer):?>
-                  <div class="trip_goer" uid="<?=$trip_goer->id?>" style="float:left; margin-right:10px;">
-                    <a href="<?=site_url('profile/'.$trip_goer->id)?>"><img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" height="50" width="50"/></a>
-                  </div>
-                <? endforeach;?>
-              <? endif;?>
-              <div style="clear:both;"></div>
-              
-            </div><!-- TRIP GOERS ENDS -->
-          </div><!-- TRIP SUMMARY ENDS -->
-            
-            
-            
-            <!-- WIDGET -->
-          <div id="trip-widget" style="width:277px; height:223px; float:left; margin-left:15px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #C8C8C8; background-color:white; color:black; padding:5px 10px 5px 10px;">          
-                       
-              <? if ($user AND $user_role >= 2):?>
-                <div id="rsvp_status" style="margin:10px 0; text-align:center;font-size:20px;font-weight:bold;">    
-                  <? if ($user_rsvp == 3):?>
-                    You're going on this trip
-                  <? elseif ($user_rsvp == 2):?>
-                    You've been invited<br/>on this trip
-                  <? elseif ($user_rsvp == 1):?>
-                    You're not going on this trip,<br/>but you can still change your mind
-                  <? endif;?>
-                </div>
-                <? if ($user_rsvp == 3):?>
-                <div id="invsugg_btn_cont">
-                  <div style="margin: 15px 0;">
-                    <a href="#" id="invite-others-button" style="float:left; margin-right:10px; ">Invite</a>
-                    <div style="display:inline-block; font-size:14px; height:30px;">Invite others<br/>to join this trip!</div>
-                  </div>
-                  <div style="margin:15px 0;">
-                    <a href="#" id="get-suggestions-button" style="display:inline-block; float:left; margin-right:10px;">Share</a>
-                    <div style="display:inline-block; font-size:14px; height:30px;">Share this trip<br/>with others!</div>
-                  </div>
-                </div>
-                <div id="rsvp_buttons" style="margin-left:30px;">
-                  <a href="#" id="rsvp_no_button">I'm out</a>
-                </div>                                              
-                <? elseif ($user_rsvp == 2):?>
-                  <div id="rsvp_buttons" style="margin:10px 0px 10px 0px;">
-                    <a href="#" id="rsvp_yes_button">I'm in</a>
-                    <a href="#" id="rsvp_no_button" style="margin-left:2px; height:40px; width: 80px; margin-right:8px; line-height:40px; font-weight:bold; font-size:20px; float:right;">I'm out</a>
-                    <br>
-                  </div>
-                  <div id="countdown-container" style="font-size:20px;font-weight:bold;color:black; margin:15px 0px 0px 10px; border-top:1px solid #C8C8C8;padding-top:10px;">Time left to respond:
-                   	<div id="countdown" style="color:red; margin-top:5px;font-size:18px;"></div>                  
-									</div>
-                <? elseif ($user_rsvp == 1):?>
-                  <div id="rsvp_buttons" style="margin:10px 0px 10px 0px;">
-                    <a href="#" id="rsvp_yes_button">I'm in</a>
-                  </div>
-                  <div id="countdown"></div>
-                <? elseif ($user_rsvp == 3):?>
-                  <div id="rsvp_buttons">
-                    <a href="#" id="rsvp_no_button" style="margin-left:2px; height:40px; width: 80px; margin-right:8px; line-height:40px; font-weight:bold; font-size:20px; float:right;">I'm out</a>
-                  </div>
-                <? endif;?>
-              <? endif;?>              
-            
-              <? if ($user_role == 3):?>
-                <a id="deletebutton" style="" href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete this trip</a>                    
-              <? endif;?>
-              
-            </div><!-- WIDGET ENDS -->
+      <!-- TRIP SUMMARY -->
+      <div id="trip_summary" style="background-color:white; width:590px; display:inline-block; float:left; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #C8C8C8;">
+      	<div style="background-color:#C6D4E1; color:black; padding:10px 20px 10px 20px; border-bottom: 1px solid #FAFAFA;">
+          <div id="trip_name" style="font-size:36px; margin-bottom:3px;">
+            <?=$trip->name?>
+          </div>
+          <div id="trip_creator" style="font-size: 12px;">
+            created by <a href="<?=site_url('profile/'.$creator->id)?>" style="text-decoration:none; color:navy;"><?=$creator->name?></a>
+          </div>
+         </div>
         
-        <div style="clear:both;"></div>
-
-        <!-- CONSOLE -->
-        <div id="console" style="background-color:white; width:880px; padding:20px; margin-top:15px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #FAFAFA">
-          <!-- WALL -->
-          <div id="wall" style="float:left; width:360px; height: 630px;padding-right:10px; font-size:14px; line-height:18px;">
-            <!-- WALL INPUT CONTAINER -->
-            <div id="wall-input-container;">
-              <div style="height:80px;">
-                <label for="message-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:30px; padding-left:10px;"><span>Write a message</span></label>
-                <textarea id="message-box" style="position:absolute; z-index:2; background:transparent; width:330px; height:20px;"></textarea>
-              </div>             
-              <!-- LOCATION SEARCH -->
-              <div id="location-search" style="display:none; position:relative; height:40px;">
-                <label for="location-search-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:30px; padding-left:10px;"><span>Location (optional)</span></label>
-                <input type="hidden" class="location-data" id="location-name" name="location-name" />
-                <input type="hidden" class="location-data" id="location-phone" name="location-phone" />
-                <input type="hidden" class="location-data" id="location-lat" name="location-lat" />
-                <input type="hidden" class="location-data" id="location-lng" name="location-lng" />
-                <input type="text" id="location-search-box" style="position:absolute; z-index:2; background:transparent; width:330px;"/>
-                <!-- AUTO LOC LIST -->
-                <div id="auto-loc-list" style="position:relative; top:32px; background:white; width:330px; z-index:3;">
-                  <ul id="location-autosuggest"></ul>
-                </div><!-- AUTO LOC LIST ENDS -->
-                <div id="marker-notification" style="position:absolute; top:-65px; right:-400px; z-index:1000; display:none; color:white; background-color:black; opacity:0.8; -moz-box-shadow: 2px 2px 5px black; -webkit-box-shadow: 2px 2px 5px black; box-shadow: 2px 2px 5px black; padding:10px;">You can drag and drop the pin anywhere you want.</div>
-                <div style="clear:both;"></div>
-              </div><!-- LOCATION SEARCH ENDS -->
-                            
-              <div id="link-input" style="display:none; height:40px;">
-                <label for="link-input-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:30px; padding-left:10px;"><span>Link (optional)</span></label>
-                <input type="text" id="link-input-box" style="position:absolute; z-index:2; background:transparent; width:330px;"/>
-              </div>
-              
-              <a href="#" id="wall-post-button" style="margin-bottom:10px">Post</a>
-              
-            </div><!-- WALL INPUT CONTAINER -->
-
-            <!-- WALL CONTENT -->
-            <ul id="wall-content" style="border-top:2px solid #C8C8C8; padding-top:20px;">
-              <? foreach ($wall_items as $wall_item):?>
-                <? if ($wall_item->lat):?>
-                  <li id="wall-suggestion-<?=$wall_item->id?>" class="suggestion" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #FAFAFA; position:relative;">
-                    <div class="wall-location-name"style="font-weight:bold;"><?=$wall_item->name?></div>
-                    <div>Suggested by <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a></div>
-                    <span class="wall-location-address" style="display:none;"><?=$wall_item->address?></span>
-                    <span class="wall-location-phone" style="display:none;"><?=$wall_item->phone?></span>
-                    
-                    <? if ($wall_item->text):?>
-                      <br/>
-                      <?=$wall_item->text?>
-                    <? endif;?>
-                    <!--<div class="rating-panel">
-                      <a href="#" class="like">Like</a>
-                      <span class="num-likes"><?=$wall_item->votes?></span> likes
-                    </div>-->
-                    <? if ($user_role >= 2):?>
-                      <div class="remove-wall-item" suggestionId="<?=$wall_item->id?>"></div>
-                    <? endif;?>
-                    <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
-                    <? if ($wall_item->likes[$user->id] != 1):?>
-                      <span class="like">Like</span>
-                    <? else:?>
-                      <span class="unlike">Unlike</span>
-                    <? endif;?>
-                    <span class="num-likes">
-                    <? if ($wall_item->num_likes == 1):?>
-                      1 person likes this
-                    <? elseif ($wall_item->num_likes >= 1):?>
-                      <?=$wall_item->num_likes?> people like this
-                    <? endif;?>
-                    </span>
-                    
-                    <a href="#" class="reply">reply</a>
-                    <ul class="wall-replies" style="margin-left:10px;">
-                      <? foreach ($wall_item->replies as $reply):?>
-                        <li id="wall-reply-<?=$reply->id?>" class="reply" style="border-bottom:1px solid #CCC; margin-bottom:5px; padding-bottom:5px;">
-                          <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$reply->user_name?></a>: <?=$reply->text?>
-                          <br/>
-                          <abbr class="timeago" title="<?=$reply->created?>" style="color:#777; font-size: 12px;"><?=$reply->created?></abbr>
-                        </li>
-                      <? endforeach;?>
-                    </ul>
-                  </li>
+        <div style="width:254px; border-right: 1px solid #FAFAFA; padding:10px 20px 5px 20px; float:left; display:inline-block;">
+          <span style="color:gray; font-size:14px;">DESTINATION:</span>
+          <div style="clear;margin-bottom:3px;"></div>	            
+          <div id="trip-destinations" style="display:inline-block; float:left; font-size:14px;">            	
+              <? foreach ($destinations as $destination):?>
+                <?=$destination->address?>
+              <? endforeach;?>
+           </div>	                          
+           <div id="destination-start-dates" style="display:inline-block; float:left; font-size:14px; margin-left:15px;">
+              <? foreach ($destinations as $destination):?>
+                <? if ($destination->startdate AND $destination->enddate):?>
+                  <?=date('n/d/y', $destination->startdate)?> to <?=date('n/d/y', $destination->enddate)?>
+                <? elseif ($destination->startdate AND ! $destination->enddate):?>
+                  <?=date('n/d/y', $destination->startdate)?> to (No date set)
+                <? elseif ( ! $destination->startdate AND $destination->enddate):?>
+                  (No date set) to <?=date('n/d/y', $destination->enddate)?>
                 <? else:?>
-                  <li id="wall-message-<?=$wall_item->id?>" class="message" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #FAFAFA; position:relative;">
-                    <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a>
-                    <? if ($user_role >= 2):?>
-                      <div class="remove-wall-item" messageId="<?=$wall_item->id?>"></div>
-                    <? endif;?>
-                    <span class="wall-item-text"><?=$wall_item->text?></span>
-                    <br/>
-                    <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
-                    <? if ($wall_item->likes[$user->id] != 1):?>
-                      <span class="like" style="cursor:pointer;">Like</span>
-                    <? else:?>
-                      <span class="unlike" style="cursor:pointer;">Unlike</span>
-                    <? endif;?>
-                    <span class="num-likes">
-                    <? if ($wall_item->num_likes == 1):?>
-                      1 person likes this
-                    <? elseif ($wall_item->num_likes >= 1):?>
-                      <?=$wall_item->num_likes?> people like this
-                    <? endif;?>
-                    </span>
-                    
-                    <a href="#" class="reply">reply</a>
-                    <ul class="wall-replies"  style="margin-left:10px;">
-                      <? foreach ($wall_item->replies as $reply):?>
-                        <li id="wall-reply-<?=$reply->id?>" class="reply" style="border-bottom:1px solid #CCC; margin-bottom:5px; padding-bottom:5px;">
-                          <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$reply->user_name?></a>: <?=$reply->text?>
-                          <abbr class="timeago" title="<?=$reply->created?>" style="color:#777; font-size: 12px;"><?=$reply->created?></abbr>
-                        </li>
-                      <? endforeach;?>
-                    </ul>
-                  </li>
+                  No dates set
                 <? endif;?>
               <? endforeach;?>
-              
-              
-            </ul><!-- WALL CONTENT ENDS -->
-          </div><!-- WALL ENDS -->
-          
-          
-          <div id="map-shell" style="display:inline; float:left; position:relative; width:510px;">
-            <div id="map-canvas" style="height: 630px;"></div>
+            </div>
+        </div>
+        
+        <div style="width:255px; padding:5px 20px 10px 20px; float:left; display:inline-block;">
+          <span style="color:gray; font-size:14px; margin-bottom:10px;">DESCRIPTION:</span>
+          <div style="clear;margin-bottom:3px;"></div>
+          <div id="trip_description" style="font-size:14px; display:inline-block; float:left;">
+            <?=$trip->description?>
           </div>
-          
+        </div>
+        
+        <!-- TRIP GOERS -->
+        <div style="clear:both"></div>
+                  
+        <div id="trip_goers" style="border-top: 1px solid #FAFAFA; padding:10px 20px 10px 20px; font-size: 14px; color:gray;">
+          <div id="num_trip_goers" style="margin-bottom:3px;">
+              <? if (count($trip_goers) == 1):?>
+                <span id="num"><?=count($trip_goers)?></span> PERSON IS GOING ON THIS TRIP:<div style="clear:both; margin-bottom:3px;"></div>
+                
+              <? else:?>
+                <span id="num"><?=count($trip_goers)?></span> PEOPLE ARE GOING ON THIS TRIP:            
+                <div style="clear:both; margin-bottom:3px;"></div>
+              <? endif;?>
+          </div>                       
+          <? if ($trip_goers):?>
+            <? foreach ($trip_goers as $trip_goer):?>
+              <div class="trip_goer" uid="<?=$trip_goer->id?>" style="float:left; margin-right:10px;">
+                <a href="<?=site_url('profile/'.$trip_goer->id)?>"><img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" height="50" width="50"/></a>
+              </div>
+            <? endforeach;?>
+          <? endif;?>
           <div style="clear:both;"></div>
           
-        </div><!-- CONSOLE ENDS -->
+        </div><!-- TRIP GOERS ENDS -->
+      </div><!-- TRIP SUMMARY ENDS -->
+        
+        
+        
+        <!-- WIDGET -->
+      <div id="trip-widget" style="width:277px; height:223px; float:left; margin-left:15px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #C8C8C8; background-color:white; color:black; padding:5px 10px 5px 10px;">          
+                   
+          <? if ($user_role >= 2):?>
+            <div id="rsvp_status" style="margin:10px 0; text-align:center;font-size:20px;font-weight:bold;">    
+              <? if ($user_rsvp == 3):?>
+                You're going on this trip
+              <? elseif ($user_rsvp == 2):?>
+                You've been invited<br/>on this trip
+              <? elseif ($user_rsvp == 1):?>
+                You're not going on this trip,<br/>but you can still change your mind
+              <? endif;?>
+            </div>
+            <? if ($user_rsvp == 3):?>
+            <div id="invsugg_btn_cont">
+              <div style="margin: 15px 0;">
+                <a href="#" id="invite-others-button" style="float:left; margin-right:10px; ">Invite</a>
+                <div style="display:inline-block; font-size:14px; height:30px;">Invite others<br/>to join this trip!</div>
+              </div>
+              <div style="margin:15px 0;">
+                <a href="#" id="get-suggestions-button" style="display:inline-block; float:left; margin-right:10px;">Share</a>
+                <div style="display:inline-block; font-size:14px; height:30px;">Share this trip<br/>with others!</div>
+              </div>
+            </div>
+            <div id="rsvp_buttons" style="margin-left:30px;">
+              <a href="#" id="rsvp_no_button">I'm out</a>
+            </div>                                              
+            <? elseif ($user_rsvp == 2):?>
+              <div id="rsvp_buttons" style="margin:10px 0px 10px 0px;">
+                <a href="#" id="rsvp_yes_button">I'm in</a>
+                <a href="#" id="rsvp_no_button" style="margin-left:2px; height:40px; width: 80px; margin-right:8px; line-height:40px; font-weight:bold; font-size:20px; float:right;">I'm out</a>
+                <br>
+              </div>
+              <div id="countdown-container" style="font-size:20px;font-weight:bold;color:black; margin:15px 0px 0px 10px; border-top:1px solid #C8C8C8;padding-top:10px;">Time left to respond:
+               	<div id="countdown" style="color:red; margin-top:5px;font-size:18px;"></div>                  
+							</div>
+            <? elseif ($user_rsvp == 1):?>
+              <div id="rsvp_buttons" style="margin:10px 0px 10px 0px;">
+                <a href="#" id="rsvp_yes_button">I'm in</a>
+              </div>
+              <div id="countdown"></div>
+            <? elseif ($user_rsvp == 3):?>
+              <div id="rsvp_buttons">
+                <a href="#" id="rsvp_no_button" style="margin-left:2px; height:40px; width: 80px; margin-right:8px; line-height:40px; font-weight:bold; font-size:20px; float:right;">I'm out</a>
+              </div>
+            <? endif;?>
+          <? endif;?>              
+        
+          <? if ($user_role == 3):?>
+            <a id="deletebutton" style="" href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete this trip</a>                    
+          <? endif;?>
+          
+        </div><!-- WIDGET ENDS -->
+    
+    <div style="clear:both;"></div>
+
+    <!-- CONSOLE -->
+    <div id="console" style="background-color:white; width:880px; padding:20px; margin-top:15px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #FAFAFA">
+      <!-- WALL -->
+      <div id="wall" style="float:left; width:360px; height: 630px;padding-right:10px; font-size:14px; line-height:18px;">
+        <!-- WALL INPUT CONTAINER -->
+        <div id="wall-input-container;">
+          <div style="height:80px;">
+            <label for="message-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:30px; padding-left:10px;"><span>Write a message</span></label>
+            <textarea id="message-box" style="position:absolute; z-index:2; background:transparent; width:330px; height:20px;"></textarea>
+          </div>             
+          <!-- LOCATION SEARCH -->
+          <div id="location-search" style="display:none; position:relative; height:40px;">
+            <label for="location-search-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:30px; padding-left:10px;"><span>Location (optional)</span></label>
+            <input type="hidden" class="location-data" id="location-name" name="location-name" />
+            <input type="hidden" class="location-data" id="location-phone" name="location-phone" />
+            <input type="hidden" class="location-data" id="location-lat" name="location-lat" />
+            <input type="hidden" class="location-data" id="location-lng" name="location-lng" />
+            <input type="text" id="location-search-box" style="position:absolute; z-index:2; background:transparent; width:330px;"/>
+            <!-- AUTO LOC LIST -->
+            <div id="auto-loc-list" style="position:relative; top:32px; background:white; width:330px; z-index:3;">
+              <ul id="location-autosuggest"></ul>
+            </div><!-- AUTO LOC LIST ENDS -->
+            <div id="marker-notification" style="position:absolute; top:-65px; right:-400px; z-index:1000; display:none; color:white; background-color:black; opacity:0.8; -moz-box-shadow: 2px 2px 5px black; -webkit-box-shadow: 2px 2px 5px black; box-shadow: 2px 2px 5px black; padding:10px;">You can drag and drop the pin anywhere you want.</div>
+            <div style="clear:both;"></div>
+          </div><!-- LOCATION SEARCH ENDS -->
+                        
+          <div id="link-input" style="display:none; height:40px;">
+            <label for="link-input-box" style="position:absolute; color:#888; z-index:1; background-color:white; line-height:30px; padding-left:10px;"><span>Link (optional)</span></label>
+            <input type="text" id="link-input-box" style="position:absolute; z-index:2; background:transparent; width:330px;"/>
+          </div>
+          
+          <a href="#" id="wall-post-button" style="margin-bottom:10px">Post</a>
+          
+        </div><!-- WALL INPUT CONTAINER -->
+
+        <!-- WALL CONTENT -->
+        <ul id="wall-content" style="border-top:2px solid #C8C8C8; padding-top:20px;">
+          <? foreach ($wall_items as $wall_item):?>
+            <? if ($wall_item->lat):?>
+              <li id="wall-suggestion-<?=$wall_item->id?>" class="suggestion" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #FAFAFA; position:relative;">
+                <div class="wall-location-name"style="font-weight:bold;"><?=$wall_item->name?></div>
+                <div>Suggested by <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a></div>
+                <span class="wall-location-address" style="display:none;"><?=$wall_item->address?></span>
+                <span class="wall-location-phone" style="display:none;"><?=$wall_item->phone?></span>
+                
+                <? if ($wall_item->text):?>
+                  <br/>
+                  <?=$wall_item->text?>
+                <? endif;?>
+                <!--<div class="rating-panel">
+                  <a href="#" class="like">Like</a>
+                  <span class="num-likes"><?=$wall_item->votes?></span> likes
+                </div>-->
+                <? if ($user_role >= 2):?>
+                  <div class="remove-wall-item" suggestionId="<?=$wall_item->id?>"></div>
+                <? endif;?>
+                <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
+                <? if ($wall_item->likes[$user->id] != 1):?>
+                  <span class="like">Like</span>
+                <? else:?>
+                  <span class="unlike">Unlike</span>
+                <? endif;?>
+                <span class="num-likes">
+                <? if ($wall_item->num_likes == 1):?>
+                  1 person likes this
+                <? elseif ($wall_item->num_likes >= 1):?>
+                  <?=$wall_item->num_likes?> people like this
+                <? endif;?>
+                </span>
+                
+                <a href="#" class="reply">reply</a>
+                <ul class="wall-replies" style="margin-left:10px;">
+                  <? foreach ($wall_item->replies as $reply):?>
+                    <li id="wall-reply-<?=$reply->id?>" class="reply" style="border-bottom:1px solid #CCC; margin-bottom:5px; padding-bottom:5px;">
+                      <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$reply->user_name?></a>: <?=$reply->text?>
+                      <br/>
+                      <abbr class="timeago" title="<?=$reply->created?>" style="color:#777; font-size: 12px;"><?=$reply->created?></abbr>
+                    </li>
+                  <? endforeach;?>
+                </ul>
+              </li>
+            <? else:?>
+              <li id="wall-message-<?=$wall_item->id?>" class="message" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #FAFAFA; position:relative;">
+                <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a>
+                <? if ($user_role >= 2):?>
+                  <div class="remove-wall-item" messageId="<?=$wall_item->id?>"></div>
+                <? endif;?>
+                <span class="wall-item-text"><?=$wall_item->text?></span>
+                <br/>
+                <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
+                <? if ($wall_item->likes[$user->id] != 1):?>
+                  <span class="like" style="cursor:pointer;">Like</span>
+                <? else:?>
+                  <span class="unlike" style="cursor:pointer;">Unlike</span>
+                <? endif;?>
+                <span class="num-likes">
+                <? if ($wall_item->num_likes == 1):?>
+                  1 person likes this
+                <? elseif ($wall_item->num_likes >= 1):?>
+                  <?=$wall_item->num_likes?> people like this
+                <? endif;?>
+                </span>
+                
+                <a href="#" class="reply">reply</a>
+                <ul class="wall-replies"  style="margin-left:10px;">
+                  <? foreach ($wall_item->replies as $reply):?>
+                    <li id="wall-reply-<?=$reply->id?>" class="reply" style="border-bottom:1px solid #CCC; margin-bottom:5px; padding-bottom:5px;">
+                      <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$reply->user_name?></a>: <?=$reply->text?>
+                      <abbr class="timeago" title="<?=$reply->created?>" style="color:#777; font-size: 12px;"><?=$reply->created?></abbr>
+                    </li>
+                  <? endforeach;?>
+                </ul>
+              </li>
+            <? endif;?>
+          <? endforeach;?>
+          
+          
+        </ul><!-- WALL CONTENT ENDS -->
+      </div><!-- WALL ENDS -->
+      
+      
+      <div id="map-shell" style="display:inline; float:left; position:relative; width:510px;">
+        <div id="map-canvas" style="height: 630px;"></div>
       </div>
-    </div><!-- MAIN ENDS -->
+      
+      <div style="clear:both;"></div>
+      
+    </div><!-- CONSOLE ENDS -->
+  </div>
+  </div><!-- MAIN ENDS -->
   </div><!-- WRAPPER ENDS -->
 
 
-  <?=$this->load->view('footer')?>
+  <? $this->load->view('footer')?>
 
 
 <script type="text/javascript">

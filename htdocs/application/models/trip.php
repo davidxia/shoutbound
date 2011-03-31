@@ -22,9 +22,9 @@ class Trip extends DataMapper {
         ),
     );
 
-    function Trip()
+    function __construct()
     {
-        parent::DataMapper();
+        parent::__construct();
     }
     
 }

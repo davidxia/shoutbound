@@ -1,11 +1,11 @@
 <?php
 
-class Trip_shares extends Controller
+class Trip_shares extends CI_Controller
 {
     
-    function Trip_shares()
+    function __construct()
     {
-        parent::Controller();
+        parent::__construct();
     }
     
     

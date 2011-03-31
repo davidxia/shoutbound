@@ -1,11 +1,11 @@
 <?php
 
-class Friends extends Controller
+class Friends extends CI_Controller
 {
     
-    function Friends()
+    function __construct()
     {
-        parent::Controller();
+        parent::__construct();
         $u = new User();
         if ( ! $u->get_logged_in_status())
         {

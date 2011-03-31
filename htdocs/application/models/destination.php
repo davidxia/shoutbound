@@ -1,6 +1,7 @@
 <?php
 
-class Destination extends DataMapper {
+class Destination extends DataMapper
+{
  
     public $has_one = array('trip');
 
@@ -37,9 +38,9 @@ class Destination extends DataMapper {
         ),
     );
 
-    function Destination()
+    function __construct()
     {
-        parent::DataMapper();
+        parent::__construct();
     }
     
 }

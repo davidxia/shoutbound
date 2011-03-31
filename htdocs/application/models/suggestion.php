@@ -54,9 +54,9 @@ class Suggestion extends DataMapper
         ),
     );
 
-    function Suggestion()
+    function __construct()
     {
-        parent::DataMapper();
+        parent::__construct();
     }
     
 }

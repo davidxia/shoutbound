@@ -1,6 +1,7 @@
 <?php
 
-class Upload extends DataMapper {
+class Upload extends DataMapper
+{
  
     public $has_one = array('user');
 
@@ -17,9 +18,9 @@ class Upload extends DataMapper {
         ),
     );
 
-    function Upload()
+    function __construct()
     {
-        parent::DataMapper();
+        parent::__construct();
     }    
 }
 

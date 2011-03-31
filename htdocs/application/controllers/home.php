@@ -1,11 +1,11 @@
 <?php
 
-class Home extends Controller
+class Home extends CI_Controller
 {
     
-    function Home()
+    function __construct()
     {
-        parent::Controller();
+        parent::__construct();
         $u = new User();
         if ( ! $u->get_logged_in_status())
         {

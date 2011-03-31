@@ -1,11 +1,11 @@
 <?php
 
-class Altitoid extends Controller
+class Altitoid extends CI_Controller
 {
     
-    function Friends()
+    function __construct()
     {
-        parent::Controller();
+        parent::__construct();
     }
 
 

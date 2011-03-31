@@ -1,6 +1,7 @@
 <?php
 
-class Like extends DataMapper {
+class Like extends DataMapper
+{
  
     public $has_one = array('user', 'message', 'suggestion');
 
@@ -22,9 +23,9 @@ class Like extends DataMapper {
         ),
     );
 
-    function Like()
+    function __construct()
     {
-        parent::DataMapper();
+        parent::__construct();
     }
     
 }

@@ -1,5 +1,6 @@
 <?php
-class Friend extends DataMapper {
+class Friend extends DataMapper
+{
  
     public $has_many = array('user');
     
@@ -16,9 +17,9 @@ class Friend extends DataMapper {
         )
     );
     
-    function Friend()
+    function __construct()
     {
-        parent::DataMapper();
+        parent::__construct();
     }
 }
 

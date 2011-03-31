@@ -33,9 +33,9 @@ class Trip_share extends DataMapper
         ),
     );
 
-    function Trip_share()
+    function __construct()
     {
-        parent::DataMapper();
+        parent::__construct();
     }
     
     
