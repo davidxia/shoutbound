@@ -20,7 +20,7 @@ $this->load->view('core_header', $header_args);
   
 </head>
 
-<body style="background-color:white; min-width:960px;">
+<body>
 
   <? $this->load->view('header')?>
 
@@ -73,6 +73,7 @@ $this->load->view('core_header', $header_args);
     
     <div style="text-align:center; margin-top:15px;">
        Don't have an account? <a href="<?=site_url('signup')?>">Sign up</a>.
+    </div>
     </div>
     </div>
   
