@@ -16,7 +16,7 @@ $this->load->view('core_header', $header_args);
 	
 <body style="background-color:white; min-width:960px;">
 
-  <?=$this->load->view('header')?>
+  <? $this->load->view('header')?>
 
 	<div id="fb-root"></div>
 	<script>
@@ -31,13 +31,13 @@ $this->load->view('core_header', $header_args);
     }());
 	</script>
 
-	<div class="wrapper" style="background:white">
+	<div class="wrapper" style="background:white;">
     <div class="content" style="margin:0 auto; padding-top:30px; margin:0 auto; width:400px; padding-bottom:80px; margin-top: 30px;">
-    	<div style="border: 1px solid black; background-color:#FAFAFA;">
-	      <h2 style="text-align:center; margin:20px 0;">Create an account</h2>
-	      <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post" style="padding:10px;">
+    	<div style="border: 1px solid black; background-color:#FAFAFA; padding:20px;">
+	      <h2>Sign up</h2>
+	      <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post" style="margin:20px 0;">
 	        <div style="margin-bottom:20px;">
-	          <fieldset style="border:0">
+	          <fieldset>
 	            <ul>
 	              <li style="margin-bottom:20px;">
 	                <div class="label-and-error" style="margin-bottom:10px;">
@@ -64,18 +64,13 @@ $this->load->view('core_header', $header_args);
 	          </fieldset>
 	        </div>
        	
-	        <div style="text-align:center;">
-	          <button id="signup-button" type="submit">Create my account</button>
-	        </div>
+          <button id="signup-button" type="submit">Create my account</button>
 	      </form>
       
             
-	      <div style="text-align:center; margin:20px 0; padding-bottom:20px;">
-	      	<div style="font-size:20px; font-weight:bold; margin:10px 0; ">or</div>
-	      	<a href="#" id="fb_login_button">
-	        	<img src="<?=site_url('images/fb-login-button.png')?>"/>
-	      	</a>
-	      </div>
+      	<a href="#" id="fb_login_button">
+        	<img src="<?=site_url('images/fb-login-button.png')?>"/>
+      	</a>
       </div>
          
     	<div style="text-align:center; margin-top:15px;">
@@ -85,7 +80,7 @@ $this->load->view('core_header', $header_args);
     </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
   
-  <?=$this->load->view('footer')?>
+  <? $this->load->view('footer')?>
   
 </body>
 

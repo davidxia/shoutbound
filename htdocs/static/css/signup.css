@@ -6,14 +6,6 @@
 	display:inline-block;
 
 }
-/*
-fieldset {
-	width: 480px;
-	margin: auto;
-	display: block;
-	border: none;
-}
-*/
 #signup_form th, form th {
   text-align: right;
   padding-right: 10px;
@@ -22,7 +14,7 @@ fieldset {
 input[type=text], input[type=password] {
 	display: block;
 	margin: 0 0 0 0;
-	width: 340px;
+	width: 339px;
 	border:1px solid #aaa;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -79,10 +71,7 @@ input[type=text]:focus, input[type=password]:focus{
 
 /* Validation error messages */
 
-.error {
-	/*
+label.error {
 	color: red;
 	font-size: 13px;
-	*/
 }
-

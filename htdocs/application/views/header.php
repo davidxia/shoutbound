@@ -16,8 +16,8 @@
         <a href="<?=site_url('settings')?>" style="margin-left:20px; text-decoration:none; display:block; float:left; padding:20px 0; line-height:20px; font-size:14px;">Settings</a>
         <a href="<?=site_url('users/logout')?>" style="margin-left:20px; text-decoration:none; display:block; float:left; padding:20px 0;   line-height:20px; font-size:14px;">Logout</a>
       <? else:?>
-        <a href="<?=site_url('login')?>" style="margin-left:20px; text-decoration:none; display:block; float:left; padding:20px 0; line-height:20px; font-size:14px;">Login</a>
         <a href="<?=site_url('signup')?>" style="margin-left:20px; text-decoration:none; display:block; float:left; padding:20px 0; line-height:20px; font-size:14px;">Sign Up</a>
+        <a href="<?=site_url('login')?>" style="margin-left:20px; text-decoration:none; display:block; float:left; padding:20px 0; line-height:20px; font-size:14px;">Login</a>
       <? endif;?>
     </div>
   </div>

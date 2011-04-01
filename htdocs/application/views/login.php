@@ -39,9 +39,9 @@ $this->load->view('core_header', $header_args);
 
 	<div class="wrapper" style="background:white;">
     <div class="content" style="margin:0 auto; padding-top:30px; margin:0 auto; width:400px; padding-bottom:80px;">
-    	<div style="border: 1px solid black; background-color:#FAFAFA; margin-top:30px;">
-	      <h2 style="text-align:center; margin-top:20px;">Login</h2>
-	      <form id="login-form" action="" style="padding:15px;">
+    	<div style="border: 1px solid black; background-color:#FAFAFA; margin-top:30px; padding:20px;">
+	      <h2>Login</h2>
+	      <form id="login-form" action="" style="margin:20px 0;">
 	        <div>
 	          <fieldset>
 	            <ul>
@@ -57,18 +57,13 @@ $this->load->view('core_header', $header_args);
 	            </ul>
 	          </fieldset>
 	        </div>
-	        <div style="text-align:center;">
-	          <button type="submit" id="login-button">Login</button>
-	        </div>
+          <button type="submit" id="login-button">Login</button>
 	      </form>
 
-      <div style="text-align:center; margin-bottom:40px;">
-      	<div style="font-size:20px; font-weight:bold; margin:10px;">or</div>
         <a href="#" id="fb_login_button">
           <img src="<?=site_url('images/fb-login-button.png');?>" />
         </a>
       </div>
-     </div>
     
     <div style="text-align:center; margin-top:15px;">
        Don't have an account? <a href="<?=site_url('signup')?>">Sign up</a>.
