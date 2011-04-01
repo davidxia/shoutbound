@@ -2,11 +2,10 @@
 $header_args = array(
     'title' => 'Sign Up | Shoutbound',
     'css_paths' => array(
-        'css/signup.css',
+        'css/signup_login.css',
     ),
     'js_paths' => array(
         'js/jquery/validate.min.js',
-        'js/jquery/popup.js',
     )
 );
 
@@ -14,8 +13,7 @@ $this->load->view('core_header', $header_args);
 ?>
 </head>
 	
-<body style="background-color:white; min-width:960px;">
-
+<body>
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
 
@@ -32,7 +30,7 @@ $this->load->view('core_header', $header_args);
     }());
 	</script>
 
-    	<div style="border:1px solid black; background-color:#FAFAFA; margin:0 auto; padding:20px; width:400px;">
+    	<div style="border:1px solid black; background-color:#FAFAFA; margin:0 auto; padding:20px; width:400px; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px;">
 	      <h2>Sign up</h2>
 	      <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post" style="margin:20px 0;">
 	        <div style="margin-bottom:20px;">
@@ -63,7 +61,7 @@ $this->load->view('core_header', $header_args);
 	          </fieldset>
 	        </div>
        	
-          <button id="signup-button" type="submit">Create my account</button>
+          <button type="submit" id="signup-submit" class="blue-button">Create my account</button>
 	      </form>
       
             

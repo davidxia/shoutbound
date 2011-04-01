@@ -89,7 +89,7 @@ p{
 			  <input type="text" id="destination" name="destination" autocomplete="off" style="position:absolute; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; height:37px; width:76%; margin-right:70px; padding-left:10px; font-size:20px; color:#000080; z-index:2; background:transparent; border:#BDB8AD;"/>
 			  <input type="hidden" id="destination_lat" name="destination_lat"/>
         <input type="hidden" id="destination_lng" name="destination_lng"/>
-			  <button id="lets-go" type="submit">Let's go!</button>
+			  <button id="lets-go" type="submit">Let&rsquo;s go!</button>
 		  </form>
   		  
 		    <!-- AUTO LOC LIST -->

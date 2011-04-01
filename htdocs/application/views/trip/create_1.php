@@ -29,67 +29,13 @@ $this->load->view('core_header', $header_args);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   color:black;
-  font-size: 12px;
   border: 1px solid black;
   background-color:#FAFAFA;
-}
-#main table{
-  border-collapse: collapse;
-}
-#main th, td {
-  padding: 0 0 15px 0;
-}
-#main th {
-  text-align: right;
-  font-weight: normal;
-  font-size: 16px;
-  padding-right: 10px;
-  min-width: 200px;
-}
-#interests-box td {
-  text-align: right;
-}
-body form div.field {
-  
-}
-body form .label-and-errors {
-	color:navy;
-	font-size:14px;
 }
 label.error {
   color: red;
   vertical-align: top;
   font-size: 12px;
-}
-.blue-button {
-  color:white;
-  text-align:center;
-  font-weight:bold;
-  font-size:14px;
-  text-decoration:none;
-  background: #0095cd;
-  background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
-  background: -moz-linear-gradient(top,  #00adee,  #0078a5);
-  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
-  border: solid 1px #0076a3;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 10px;
-  margin: 0;
-}
-.blue-button:hover {
-  background: #007ead;
-  background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
-  background: -moz-linear-gradient(top,  #0095cc,  #00678e);
-  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
-}
-.blue-button:active {
-  color: #80bed6;
-  background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
-  background: -moz-linear-gradient(top,  #0078a5,  #00adee);
-  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
 }
 </style>
 </head>
@@ -106,11 +52,11 @@ label.error {
         
           <!-- PLACE DATES FIELD -->
           <fieldset style="border-width:0; border-color:transparent; position:relative; margin-bottom:15px; border-bottom:1px solid #AAA; padding-bottom:20px;">
-            <div style="display:inline-block; margin-bottom:5px; color:navy; font-size:14px;">DESTINATION(S)</div>
-            <div id="dates-header" style="display:inline-block; visibility:hidden; color:navy; font-size:14px; margin-left:300px; margin-bottom:5px;">DATES (optional)</div>
+            <div style="display:inline-block; margin-bottom:5px;">Destinations</div>
+            <div id="dates-header" style="display:inline-block; visibility:hidden; margin-left:290px; margin-bottom:5px;">Dates (optional)</div>
             <div id="destinations_dates" style="position:relative;">
-            <a id="add-destination" href="" style="position:absolute; top:35px; left:2px;">+ Add destination</a><a id="subtract-destination" href="" style="position:absolute; top:5px; left:-15px; font-size:16px;">[-]</a>
-              <div class="field destination" style="margin-bottom:10px; margin-right:8px; position:relative; display:inline-block;">
+            <a id="add-destination" href="" style="position:absolute; top:35px; left:2px;">+ Add destination</a><a id="subtract-destination" href="" style="position:absolute; top:5px; left:-15px;">[-]</a>
+              <div class="field destination" style="margin-bottom:10px; margin-right:260px; position:relative; width:372px;">
                 <span class="label-and-errors">
                   <label for="address0"></label>
                   <span class="error-message" style="position:absolute; top:-18px; left:120px;"></span>
@@ -149,7 +95,7 @@ label.error {
           <fieldset id="summary-field" style="border-width:0; border-color:transparent;">
             <div class="field trip_name">
               <span class="label-and-errors">
-                <label for="trip_name">TRIP NAME</label>
+                <label for="trip_name">Trip name</label>
                 <span class="error-message"></span>
                 <div class="clear"></div>
               </span>
@@ -157,7 +103,7 @@ label.error {
             </div>
              <div class="field" style="margin-top:10px; border-bottom:1px solid #AAA; padding-bottom:10px;">
               <span class="label-and-errors">
-                <label for="description">DESCRIBE YOUR TRIP (optional)<span id="chars-left" style="margin-left:50px; color:gray;">140 characters left</span></label>
+                <label for="description">Trip description (optional)<span id="chars-left" style="margin-left:50px; color:gray;">140 characters left</span></label>
                 <span class="error-message"></span>
                 <div class="clear"></div>
               </span>

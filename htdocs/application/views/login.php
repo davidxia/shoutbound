@@ -2,7 +2,7 @@
 $header_args = array(
     'title' => 'Login | Shoutbound',
     'css_paths' => array(
-        'css/signup.css',
+        'css/signup_login.css',
     ),
     'js_paths' => array(
     )
@@ -19,7 +19,6 @@ $this->load->view('core_header', $header_args);
 </head>
 
 <body>
-
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
   
@@ -36,9 +35,7 @@ $this->load->view('core_header', $header_args);
     }());
 	</script>
 
-  <div id="div-to-popup" style="display:none;"></div>
-
-    	<div style="border:1px solid black; background-color:#FAFAFA; margin:0 auto; padding:20px; width:400px;">
+    	<div style="border:1px solid black; background-color:#FAFAFA; margin:0 auto; padding:20px; width:400px; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px;">
 	      <h2>Login</h2>
 	      <form id="login-form" action="" style="margin:20px 0;">
 	        <div>
@@ -56,7 +53,7 @@ $this->load->view('core_header', $header_args);
 	            </ul>
 	          </fieldset>
 	        </div>
-          <button type="submit" id="login-button">Login</button>
+          <button type="submit" id="login-submit" class="blue-button">Login</button>
 	      </form>
 
         <a href="#" id="fb_login_button">
@@ -75,8 +72,6 @@ $this->load->view('core_header', $header_args);
 
 </body>
 <script type="text/javascript">
-  
-  
   $(document).ready(function() {
     $('#fb_login_button').click(function() {
       FB.login(function(response) {
@@ -89,7 +84,7 @@ $this->load->view('core_header', $header_args);
       return false;
     });
     
-    $('#login-button').click(function() {
+    $('#login-submit').click(function() {
       var postData = {
         email: $('#email').val(),
         password: $('#password').val()
