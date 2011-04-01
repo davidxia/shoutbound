@@ -21,21 +21,17 @@ $this->load->view('core_header', $header_args);
 
 <style type="text/css">
 #trip-creation-form {
-  margin-top: 20px;
-  margin-left:30px;
-  margin-right: 235px;
-  padding:20px 10px 10px 20px;
-  border-radius:5px;
+  padding: 20px;
+  border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  color:black;
   border: 1px solid black;
-  background-color:#FAFAFA;
 }
 label.error {
   color: red;
   vertical-align: top;
-  font-size: 12px;
+  font-size: 13px;
+  float: right;
 }
 </style>
 </head>
@@ -47,16 +43,16 @@ label.error {
     <div id="div-to-popup" style="background-color:white; display:none;"></div>
 		  
         <!-- TRIP CREATION FORM -->
-        <form id="trip-creation-form" action="confirm_create" method="post" style="position:relative;">
+        <form id="trip-creation-form" action="confirm_create" method="post" style="position:relative; width:650px;">
         
         
           <!-- PLACE DATES FIELD -->
-          <fieldset style="border-width:0; border-color:transparent; position:relative; margin-bottom:15px; border-bottom:1px solid #AAA; padding-bottom:20px;">
+          <fieldset style="position:relative; margin-bottom:15px; border-bottom:1px solid #AAA; padding-bottom:20px;">
             <div style="display:inline-block; margin-bottom:5px;">Destinations</div>
             <div id="dates-header" style="display:inline-block; visibility:hidden; margin-left:290px; margin-bottom:5px;">Dates (optional)</div>
             <div id="destinations_dates" style="position:relative;">
-            <a id="add-destination" href="" style="position:absolute; top:35px; left:2px;">+ Add destination</a><a id="subtract-destination" href="" style="position:absolute; top:5px; left:-15px;">[-]</a>
-              <div class="field destination" style="margin-bottom:10px; margin-right:260px; position:relative; width:372px;">
+              <a id="add-destination" href="" style="position:absolute; top:35px; left:2px;">+ Add destination</a><a id="subtract-destination" href="" style="position:absolute; top:5px; left:-15px;">[-]</a>
+              <div class="field destination" style="margin-bottom:10px; float:left; position:relative; width:372px;">
                 <span class="label-and-errors">
                   <label for="address0"></label>
                   <span class="error-message" style="position:absolute; top:-18px; left:120px;"></span>
@@ -78,7 +74,7 @@ label.error {
                 />
               </div>
               
-              <div class="field dates" style="display:inline-block;visibility:hidden;">
+              <div class="field dates" style="width:251px; margin-left:385px; visibility:hidden;">
                 <span class="label-and-errors">
                   <span class="error-message"></span>
                   <div class="clear"></div>
@@ -92,7 +88,7 @@ label.error {
   
   
           <!-- SUMMARY FIELD -->
-          <fieldset id="summary-field" style="border-width:0; border-color:transparent;">
+          <fieldset id="summary-field" style="width:372px;">
             <div class="field trip_name">
               <span class="label-and-errors">
                 <label for="trip_name">Trip name</label>
@@ -151,7 +147,7 @@ label.error {
   
           <!-- INTERESTS FIELD -->
           <!--
-          <fieldset id="interests-field" style="border-width:0; border-color:transparent; position:relative;">
+          <fieldset id="interests-field" style="position:relative;">
             <div class="field" style="margin-left:10px; margin-top: 10px;">
               <span class="label-and-errors">
                 <label for="trip-interests">On my trip, I'm interested in (optional)</label>

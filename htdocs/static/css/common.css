@@ -88,7 +88,11 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
   border-color:rgba(82,168,236,.75)!important;
 }
 input[type="submit"] {
-  cursor:pointer;
+  cursor: pointer;
+}
+fieldset {
+  border-width: 0;
+  border-color: transparent;
 }
 
 
