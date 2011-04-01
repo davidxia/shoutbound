@@ -13,59 +13,62 @@
 
 <div style="padding:20px;">
   <div style="width:300px; float:left;">
-    <div>Login</div>
-    <form action="" method="post">
-      <table><tbody>
-        <tr>
-          <th><label for="email">Email</label></th>
-          <td><input type="text" name="email" id="email" autocomplete="off" size="20"/></td>
-        </tr>
-        <tr>
-          <th><label for="password">Password</label></th>
-          <td><input type="password" name="password" id="password" autocomplete="off" /></td>
-        </tr>
-        <tr>
-          <th></th>
-          <td><input type="submit" value="sign in" id="login-submit" style="cursor:pointer;" /></td>
-        </tr>
-      </tbody></table>
+    <h3>Login</h3>
+    <form action="" method="post" style="margin-top:10px;">
+      <fieldset style="border:0">
+        <ul>
+          <li style="margin-bottom:10px;">
+            <label for="email" style="display:block; margin-bottom:10px;">Email</label>
+            <input type="text" name="email" id="email" autocomplete="off" style="width:250px;"/>
+          </li>
+          <li style="margin-bottom:10px;">
+            <label for="password" style="display:block; margin-bottom:10px;">Password</label>
+            <input type="password" name="password" id="password" autocomplete="off" style="width:250px;"/>
+            <div id="login-error" style="color:red; margin-top:5px; height:18px; line-height:18px;"></div>
+          </li>
+        </ul>
+      </fieldset>
+      <button type="submit" id="login-submit" class="blue-button">Login</button>
     </form>
-    <div style="font-size:20px; text-align:center; padding:20px;">OR</div>
-    <div style="text-align:center;">
+    <div style="margin-top:20px;">
       <a href="#" id="fb_login_button">
-        <img src="<?=site_url('images/fb-login-button.png');?>" />
+        <img src="<?=site_url('images/fb-login-button.png');?>" width="154" height="22"/>
       </a>
     </div>
   </div>
   
-  <div style="width:300px; float:left;">
-    <h1>Create your account</h1>
+  <div style="width:300px; margin-left:300px;">
+    <h3>Sign up</h3>
     <div id="signup-form-container">
-    <form id="signup-form" action="" method="post">
-      <fieldset>
-        <table><tbody>
-          <tr>
-            <th><label for="name">Full name</label></th>
-            <td><input type="text" name="signup_name" id="signup_name" class="required" autocomplete="off" size="20"/></td>
-          </tr>
-          <tr>
-            <th><label for="email">Email</label></th>
-            <td><input type="text" name="signup_email" id="signup_email" autocomplete="off" /></td>
-          </tr>
-          <tr>
-            <th><label for="password">Password</label></th>
-            <td><input type="password" name="password_create" id="password_create" autocomplete="off" /></td>
-          </tr>
-          <tr>
-            <th><label for="password_confirm">Confirm password</label></th>
-            <td><input type="password" name="password_confirm" id="password_confirm" autocomplete="off" /></td>
-          </tr>
-          <tr>
-            <th></th>
-            <td><input type="submit" name="submit" id="signup-submit" value="Create account" style="cursor:pointer;"</td>
-          </tr>
-        </tbody></table>
+    <form id="signup-form" action="" method="post" style="margin-top:10px;">
+      <fieldset style="border:0">
+        <ul>
+          <li style="margin-bottom:10px;">
+            <div class="label-and-error" style="margin-bottom:10px;">
+              <label for="signup_name">Name</label>
+              <span class="error-message" style="float:right;"></span>
+            </div>
+            <input type="text" name="signup_name" id="signup_name" autocomplete="off"/>
+          </li>
+          <li style="margin-bottom:10px;">
+            <div class="label-and-error" style="margin-bottom:10px;">
+              <label for="signup_email">Email</label>
+              <span class="error-message" style="float:right;"></span>
+            </div>
+            <input type="text" name="signup_email" id="signup_email" autocomplete="off"/>
+          </li>
+          <li style="margin-bottom:10px;">
+            <div class="label-and-error" style="margin-bottom:10px;">
+              <label for="signup_pw">Password</label>
+              <span class="error-message" style="float:right;"></span>
+            </div>
+            <input type="password" name="signup_pw" id="signup_pw" autocomplete="off"/>
+          </li>
+        </ul>
       </fieldset>
+      <div style="text-align:center;">
+        <button type="submit" id="signup-submit">Sign up</button>
+      </div>
     </form>
     </div>
   </div>
@@ -82,8 +85,8 @@
 	function facebookLogin() {
     $.ajax({
       url: '<?=site_url('login/ajax_facebook_login')?>',
-      success: function(response) {
-        var r = $.parseJSON(response);
+      success: function(r) {
+        var r = $.parseJSON(r);
         if (r.existingUser) {
           updateFBFriends();
         } else {
@@ -141,17 +144,16 @@
   // jquery form validation plugin
   $('#signup-form').validate({
     rules: {
+      signup_name: {
+        required: true
+      },
       signup_email: {
         required: true,
         email: true
       },
-      password_create: {
+      signup_pw: {
         required: true,
         minlength: 3
-      },
-      password_confirm: {
-        required: true,
-        equalTo: "#password_create"
       }
     },
     messages: {
@@ -160,7 +162,7 @@
         required: 'we promise not to spam you',
         email: 'come on, that\'s not an email'
       },
-      password_create: {
+      signup_pw: {
         required: 'no password? you crazy!',
         minlength: 'weak! at least 3 characters'
       }
@@ -206,7 +208,7 @@
           //$('#trip-creation-form').submit();
           loginSignupSuccess();
         } else {
-          alert('invalid email or password');
+          $('#login-error').html('Wrong email or password.');
         }
       }
     });

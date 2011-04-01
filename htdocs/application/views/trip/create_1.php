@@ -49,15 +49,6 @@ $this->load->view('core_header', $header_args);
 #interests-box td {
   text-align: right;
 }
-.checkbox-name {
-  padding-right: 10px;
-}
-.padding-right {
-  padding-right: 40px;
-}
-#other-textbox {
-  position: absolute;
-}
 body form div.field {
   
 }
@@ -65,19 +56,13 @@ body form .label-and-errors {
 	color:navy;
 	font-size:14px;
 }
-.clear {
-  clear: both;
-}
 label.error {
   color: red;
   vertical-align: top;
   font-size: 12px;
 }
-#create-button {
+.blue-button {
   color:white;
-  height:40px;
-  width: 125px;
-  line-height:40px;
   text-align:center;
   font-weight:bold;
   font-size:14px;
@@ -91,16 +76,16 @@ label.error {
   -webkit-border-radius: 5px;
   border-radius: 5px;
   cursor: pointer;
-  padding: 0;
-  margin-left:248px;
+  padding: 10px;
+  margin: 0;
 }
-#create-button:hover {
+.blue-button:hover {
   background: #007ead;
   background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
   background: -moz-linear-gradient(top,  #0095cc,  #00678e);
   filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
 }
-#create-button:active {
+.blue-button:active {
   color: #80bed6;
   background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
   background: -moz-linear-gradient(top,  #0078a5,  #00adee);
@@ -274,7 +259,7 @@ label.error {
           <!-- INTERESTS FIELD ENDS -->
   
           <div style="margin-top:10px;">
-            <button id="create-button" type="submit">Create</button>
+            <button id="create-submit" class="blue-button" type="submit">Create</button>
           </div>
           <div style="clear:both;"></div>
         </form><!-- TRIP CREATION FORM ENDS -->
@@ -282,7 +267,7 @@ label.error {
     </div><!-- WRAPPER ENDS -->
     
     
-    <?=$this->load->view('footer')?>
+    <? $this->load->view('footer')?>
 
 	</body>
 </html>
@@ -351,7 +336,7 @@ label.error {
     // clicking create button checks if form is valid
     // if user is logged in, form is submitted
     // if user isn't logged in, login/signup dialogue pops up
-    $('#create-button').click(function() {
+    $('#create-submit').click(function() {
       if ($('#trip-creation-form').valid()) {
         $.ajax({
           url: baseUrl+'users/ajax_get_logged_in_status',
