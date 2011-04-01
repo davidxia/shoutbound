@@ -171,7 +171,7 @@ $this->load->view('core_header', $header_args);
 #wall-content {
   overflow-y: auto;
   overflow-x: hidden;
-  height: 541px;
+  height: 410px;
 }
 li.suggestion {
   cursor: pointer;
@@ -522,7 +522,7 @@ li.suggestion.highlighted{
     <!-- CONSOLE -->
     <div id="console" style="background-color:white; width:880px; padding:20px; margin-top:15px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #FAFAFA">
       <!-- WALL -->
-      <div id="wall" style="float:left; width:360px; height: 630px;padding-right:10px; font-size:14px; line-height:18px;">
+      <div id="wall" style="float:left; width:360px; height: 630px;padding-right:10px; font-size:14px;">
         <!-- WALL INPUT CONTAINER -->
         <div id="wall-input-container;">
           <div style="height:80px;">
@@ -660,21 +660,21 @@ li.suggestion.highlighted{
   // only put a comma after each item in the array if it's not the last one
   // TODO: is there a better way to do the comma thing?
   map.destination_markers = [
-      <? for($i=0, $count=count($destinations); $i<$count; $i++):?>
-          {"lat": <?=$destinations[$i]->lat?>, "lng": <?=$destinations[$i]->lng?>}
-          <? if($i < $count-1):?>
-              ,
-          <? endif;?>
-      <? endfor;?>
+    <? for($i=0, $count=count($destinations); $i<$count; $i++):?>
+      {"lat": <?=$destinations[$i]->lat?>, "lng": <?=$destinations[$i]->lng?>}
+      <? if($i < $count-1):?>
+        ,
+      <? endif;?>
+    <? endfor;?>
   ];
 
   Wall.wall_markers = [
-      <? for($i=0, $count=count($suggestions); $i<$count; $i++):?>
-          {"suggestionId": <?=$suggestions[$i]->id?>, "lat": <?=$suggestions[$i]->lat?>, "lng": <?=$suggestions[$i]->lng?>}
-          <? if($i < $count-1):?>
-              ,
-          <? endif;?>
-      <? endfor;?>
+    <? for($i=0, $count=count($suggestions); $i<$count; $i++):?>
+      {"suggestionId": <?=$suggestions[$i]->id?>, "lat": <?=$suggestions[$i]->lat?>, "lng": <?=$suggestions[$i]->lng?>}
+      <? if($i < $count-1):?>
+        ,
+      <? endif;?>
+    <? endfor;?>
   ];
   
   

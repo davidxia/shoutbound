@@ -98,7 +98,7 @@
     <div id="share-methods">
       <!--<a href="#" id="shoutbound-share">Shoutbound</a>
       <br/>-->
-      <div style="font-size:16px; font-weight:bold; padding:10px 0px 10px 0px; border-bottom:1px solid #C8C8C8;">via <a href="#" id="facebook-share">Facebook</a></div>
+      <div style="font-size:16px; font-weight:bold; padding:10px 0px 10px 0px; border-bottom:1px solid #C8C8C8;">via <a href="#" id="facebook-share">Facebook</a> <a id="fb-share-wall" href="#">Publish to profile</a></div>
 
       <div style="font-size:16px; font-weight:bold; padding:10px 0px 10px 0px; border-bottom:1px solid #C8C8C8;">via <a href="#" id="twitter-share">Twitter</a></div>
 

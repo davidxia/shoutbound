@@ -43,7 +43,7 @@ label.error {
     <div id="div-to-popup" style="background-color:white; display:none;"></div>
 		  
         <!-- TRIP CREATION FORM -->
-        <form id="trip-creation-form" action="confirm_create" method="post" style="position:relative; width:650px;">
+        <form id="trip-creation-form" action="confirm_create" method="post" style="position:relative; width:650px; margin:0 auto;">
         
         
           <!-- PLACE DATES FIELD -->

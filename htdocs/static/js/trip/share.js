@@ -130,6 +130,10 @@ invite.bindButtons = function(shareRole) {
     invite.facebookMessage(shareRole);
     return false;
   });
+  $('#fb-share-wall').click(function() {
+    invite.facebookWallPost(shareRole);
+    return false;
+  });
   $('#twitter-share').click(function() {
     invite.tweet(shareRole);
     return false;
@@ -199,6 +203,61 @@ invite.facebookMessage = function(shareRole) {
     }
   });
   $('#div-to-popup').bPopup().close();
+  return false;
+}
+
+
+invite.facebookWallPost = function(shareRole) {
+  FB.getLoginStatus(function(response) {
+    if (response.session) {
+      var shareKey = invite.generateShareKey(shareRole, 2, 'fb');
+      if (shareRole == 2) {
+        var message = 'Come with me on this trip I\'m planning.';
+      } else if (shareRole == 1) {
+        var message = 'Help me plan my trip.';
+      }
+      FB.ui({
+        method: 'feed',
+        name: message,
+        link: baseUrl+'trips/share/'+tripId+'/'+shareKey,
+        picture: baseUrl+'images/sb_logo_75.jpg',
+        caption: 'Shoutbound is bi-winning, duh.',
+        description: 'David Xia is a god.',
+        message: message
+      },
+      function(r) {
+        if (r && r.post_id) {
+          $('#div-to-popup').bPopup().close();
+        }
+      });
+    } else {
+      FB.login(function(response) {
+        if (response.session) {
+          var to = 1;
+          var shareKey = invite.generateShareKey(shareRole, 2, 'fb');
+          if (shareRole == 2) {
+            var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
+          } else if (shareRole == 1) {
+            var message = 'Help me plan my trip: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
+          }
+          FB.ui({
+            method: 'feed',
+            name: message,
+            link: baseUrl+'trips/share/'+tripId+'/'+shareKey,
+            picture: baseUrl+'images/sb_logo_75.jpg',
+            caption: 'Shoutbound is bi-winning, duh.',
+            description: 'David Xia is a god.',
+            message: message
+          },
+          function(r) {
+            if (r && r.post_id) {
+              $('#div-to-popup').bPopup().close();
+            }
+          });
+        }
+      });    
+    }
+  });
   return false;
 }
 
