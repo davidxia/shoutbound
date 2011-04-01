@@ -5,7 +5,6 @@ $header_args = array(
         'css/signup.css',
     ),
     'js_paths' => array(
-        'js/jquery/popup.js',
     )
 );
 
@@ -14,8 +13,7 @@ $this->load->view('core_header', $header_args);
 
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
-  var baseUrl = "<?=site_url('')?>";
-  var staticUrl = "<?=static_url('')?>";
+  var baseUrl = "<?=site_url()?>";
 </script>
   
 </head>
@@ -54,6 +52,7 @@ $this->load->view('core_header', $header_args);
 	              <li style="margin-bottom:20px;">
 	                <label for="password" style="display:block; margin-bottom:10px;">Password</label>
 	                <input type="password" name="password" id="password" autocomplete="off"/>
+	                <div id="login-error" style="color:red; margin-top:5px; height:18px; line-height:18px;"></div>
 	              </li>
 	            </ul>
 	          </fieldset>
@@ -109,12 +108,10 @@ $this->load->view('core_header', $header_args);
         success: function(response) {
           var r = $.parseJSON(response);
           if (r.success) {
-            window.location = "<?=site_url('/')?>";
+            window.location = "<?=site_url()?>";
           } else {
-            $('#div-to-popup').empty();
-            var html = 'Wrong email or password. Try again.';
-            $('#div-to-popup').append(html);
-            $('#div-to-popup').bPopup();  
+            var text = 'Wrong email or password.';
+            $('#login-error').html(text);
           }
         }
       });
