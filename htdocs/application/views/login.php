@@ -21,7 +21,8 @@ $this->load->view('core_header', $header_args);
 <body>
 
   <? $this->load->view('header')?>
-
+  <? $this->load->view('wrapper_content')?>
+  
 	<div id="fb-root"></div>
 	<script>
     window.fbAsyncInit = function() {
@@ -37,9 +38,7 @@ $this->load->view('core_header', $header_args);
 
   <div id="div-to-popup" style="display:none;"></div>
 
-	<div class="wrapper" style="background:white;">
-    <div class="content" style="margin:0 auto; padding-top:30px; margin:0 auto; width:400px; padding-bottom:80px;">
-    	<div style="border: 1px solid black; background-color:#FAFAFA; margin-top:30px; padding:20px;">
+    	<div style="border:1px solid black; background-color:#FAFAFA; margin:0 auto; padding:20px; width:400px;">
 	      <h2>Login</h2>
 	      <form id="login-form" action="" style="margin:20px 0;">
 	        <div>

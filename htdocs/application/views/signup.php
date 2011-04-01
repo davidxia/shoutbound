@@ -17,6 +17,7 @@ $this->load->view('core_header', $header_args);
 <body style="background-color:white; min-width:960px;">
 
   <? $this->load->view('header')?>
+  <? $this->load->view('wrapper_content')?>
 
 	<div id="fb-root"></div>
 	<script>
@@ -31,9 +32,7 @@ $this->load->view('core_header', $header_args);
     }());
 	</script>
 
-	<div class="wrapper" style="background:white;">
-    <div class="content" style="margin:0 auto; padding-top:30px; margin:0 auto; width:400px; padding-bottom:80px; margin-top: 30px;">
-    	<div style="border: 1px solid black; background-color:#FAFAFA; padding:20px;">
+    	<div style="border:1px solid black; background-color:#FAFAFA; margin:0 auto; padding:20px; width:400px;">
 	      <h2>Sign up</h2>
 	      <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post" style="margin:20px 0;">
 	        <div style="margin-bottom:20px;">

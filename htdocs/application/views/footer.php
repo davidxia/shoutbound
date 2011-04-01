@@ -1,5 +1,5 @@
-<div class="footer" style="clear:both; background-color:white; z-index:10; font-size:12px; padding:25px 0 80px; border-top:1px solid #BDB8AD;">
-  <div class="wrapper" style="width:930px; margin:0 auto;">
+<div class="footer">
+  <div class="wrapper">
     <span class="copy" style="float:right; color:#BABABA;">&copy; <?=date('Y')?> Shoutbound</span>
     <a href="http://www.shoutbound.com/story" style="color:#008EB4; text-decoration:none; margin-right:20px">Story</a>
     <a href="http://www.shoutbound.com/team" style="color:#008EB4; text-decoration:none; margin-right:20px">Team</a>
