@@ -18,8 +18,8 @@ $this->load->view('core_header', $header_args);
 </head>
 
 <body>
-
-  <?=$this->load->view('header')?>
+  <? $this->load->view('header')?>
+  <? $this->load->view('wrapper_content')?>
     
   <div id="fb-root"></div>
   <script>
@@ -35,21 +35,19 @@ $this->load->view('core_header', $header_args);
   </script>
 
   
-  <div class="wrapper">
-    <div class="content" style="margin: 0 auto; width:960px; padding:20px 0 80px;">
     
-      <a href="#" id="import-fb-data">import facebook data</a>
-      <br/>
-      <a href="#" id="import-tw-data">import twitter data</a>
-      
-      <div id="places"></div>
-      
-    </div><!-- CONTENT ENDS -->
+    <a href="#" id="import-fb-data">import facebook data</a>
+    <br/>
+    <a href="#" id="import-tw-data">import twitter data</a>
+    
+    <div id="places"></div>
+    
+  </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
 
 
 
-  <?=$this->load->view('footer')?>
+  <? $this->load->view('footer')?>
 
 <script type="text/javascript">
   $('#import-fb-data').click(function() {
