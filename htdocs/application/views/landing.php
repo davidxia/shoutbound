@@ -45,7 +45,7 @@ $this->load->view('core_header', $header_args);
 	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
 }
-#auto-loc-list .selected, #auto-loc-list li:hover {
+#location-autosuggest .selected, #location-autosuggest li:hover {
   font-weight:bold;
   background-color: #E0E0FF;
   cursor:pointer;
@@ -54,15 +54,12 @@ $this->load->view('core_header', $header_args);
 
 </head>
 
-<body style="min-width:960px;">
-
-<? $this->load->view('header')?>	
-	
-<!-- TOP -->		
-<div class="top" style="margin:55px auto 100px auto; width:960px;">
-		
+<body>
+  <? $this->load->view('header')?>
+  <? $this->load->view('wrapper_content')?>
+			
 	<!--LEFT-->
-	<div style="display:inline-block; width:450px; float:left; margin-left:20px;">
+	<div style="width:470px; float:left; padding-left:20px;">
 				
 		<div style="text-align:left; margin-top:65px;">
 			<span style="font-size:52px; line-height:58px; font-weight:bold;">Collaborative<br/>travel planning.</span>
@@ -77,51 +74,41 @@ $this->load->view('core_header', $header_args);
 			  <button id="lets-go" type="submit">Let&rsquo;s go!</button>
 		  </form>
   		  
-		    <!-- AUTO LOC LIST -->
-				<div id="auto-loc-list" style="position:absolute; background-color:white;width:310px; border:1px solid #8F8F8F; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;">
-		    	<ul id="location-autosuggest"></ul>
-		  	</div> <!--AUTO LOC LIST ENDS -->
-	  	
+  	    <!-- AUTO LOC LIST -->
+      	<ul id="location-autosuggest" style="position:absolute; background-color:white; width:310px; border:1px solid #8F8F8F; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;"></ul>
   		</div><!--BAR ENDS-->
 
-			<span style="font-size:24px; color:gray; line-height:30px;">Use Shoutbound to organize group<br>travel plans and get travel advice<br>from friends and family.</span>
+			<span style="font-size:24px; color:gray; line-height:30px;">Use Shoutbound to organize group<br/>travel plans and get travel advice<br/>from friends and family.</span>
 		</div>
-		
-		<div style="clear"></div>		
 	
 	</div><!--LEFT ENDS-->
 	
 	<!--RIGHT-->
-	<div style="display:inline-block;">
+	<div style="">
   	<img src="<?=site_url('images/stockphoto.jpg')?>" width="470" height="407"/>
-  </div><!--RIGHT ENDS--> 
-	  	  	
-</div><!--TOP ENDS-->
- 
+  </div><!--RIGHT ENDS-->
+  
+</div><!-- WRAPPER ENDS -->
+</div><!-- CONTENT ENDS -->
+	  	  	 
 <!--BOTTOM-->  		  		 		
-<div id="bottom" style="background-color:#EBE7E0; padding-top:30px; padding-bottom:30px; border-top:1px solid #BDB8AD; border-bottom:1px solid #BDB8AD;">
+<div id="bottom" style="background-color:#EBE7E0; padding:30px 0; border-top:1px solid #BDB8AD; border-bottom:1px solid #BDB8AD;">
 
 	<div id="panel" style="height:170px; padding:30px 0px 30px 0px; width:914px; margin:auto; background-color:white; -moz-box-shadow: 2px 2px 2px 2px gray; -webkit-box-shadow: 2px 2px 2px 2px gray; box-shadow: 2px 2px 2px 2px gray; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px solid #C8C8C8; text-align:center;">
 	
-		<div style="float:left; display:inline-block; margin-left:35px; padding-right:29px; width:240px;"><h2>Create a trip</h2><br><p>Coming to see New York? Dreaming of exploring Tibet? Create a trip for all your travel plans and dreams!</p>
+		<div style="float:left; margin-left:35px; padding-right:29px; width:240px;"><h2>Create a trip</h2><br/><p>Coming to see New York? Dreaming of exploring Tibet? Create a trip for all your travel plans and dreams!</p>
 		</div>
 	
-		<div style="display:inline-block; float:left; padding-left:30px; padding-right:29px; border-right:1px solid #C8C8C8; border-left:1px solid #C8C8C8; width:240px;"><h2>Build your trip</h2><br><p>Invite friends and family to join you on your trips or give you travel advice. Shoutbound organizes and records their responses all in one place.</p>
+		<div style="float:left; padding-left:30px; padding-right:29px; border-right:1px solid #C8C8C8; border-left:1px solid #C8C8C8; width:240px;"><h2>Build your trip</h2><br/><p>Invite friends and family to join you on your trips or give you travel advice. Shoutbound organizes and records their responses all in one place.</p>
 		</div>
 		
-		<div style="display:inline-block; float:left; margin-left:30px; padding-right:35px; width:240px;"><h2>Go!</h2><br><p>Use Shoutbound to remember, discover, and experience all the great places your friends and family recommended for you!</p>
+		<div style="float:left; margin-left:30px; padding-right:35px; width:240px;"><h2>Go!</h2><br/><p>Use Shoutbound to remember, discover, and experience all the great places your friends and family recommended for you!</p>
 		</div>
 		
 	</div>	
-		
 </div><!-- BOTTOM ENDS -->
 
-<div style="clear"></div>
-
-<!--FOOTER-->
-<div>
-	<? $this->load->view('footer')?>
-</div><!--FOOTER ENDS-->
+<? $this->load->view('footer')?>
 
 
 <script>
@@ -155,7 +142,7 @@ $this->load->view('core_header', $header_args);
       
     /*key navigation through elements*/
     if (keyCode == arrow.up || keyCode == arrow.down) {
-      var results = $('#auto-loc-list ul li');
+      var results = $('#location-autosuggest li');
   
       var current = results.filter('.selected'),
           next;
