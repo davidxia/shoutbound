@@ -27,11 +27,21 @@ $this->load->view('core_header', $header_args);
   -moz-border-radius: 5px;
   border: 1px solid black;
 }
+#trip-creation-form fieldset {
+  margin-bottom:20px;
+  border-bottom:1px solid #AAA;
+  padding-bottom:20px;
+}
 label.error {
   color: red;
   vertical-align: top;
   font-size: 13px;
   float: right;
+}
+#location-autosuggest li:hover {
+  background-color: #E0E0FF;
+  cursor: pointer;
+  font-weight: bold;
 }
 </style>
 </head>
@@ -47,15 +57,15 @@ label.error {
         
         
           <!-- PLACE DATES FIELD -->
-          <fieldset style="position:relative; margin-bottom:15px; border-bottom:1px solid #AAA; padding-bottom:20px;">
+          <fieldset style="position:relative;">
             <div style="display:inline-block; margin-bottom:5px;">Destinations</div>
             <div id="dates-header" style="display:inline-block; visibility:hidden; margin-left:290px; margin-bottom:5px;">Dates (optional)</div>
-            <div id="destinations_dates" style="position:relative;">
-              <a id="add-destination" href="" style="position:absolute; top:35px; left:2px;">+ Add destination</a><a id="subtract-destination" href="" style="position:absolute; top:5px; left:-15px;">[-]</a>
+            <div id="destinations_dates" style="position:relative; margin-bottom:10px;">
+              <a id="add-destination" href="" style="position:absolute; top:15px; left:-15px; font-size:13px;">[+]</a><a id="subtract-destination" href="" style="position:absolute; top:-2px; left:-15px;">[-]</a>
               <div class="field destination" style="margin-bottom:10px; float:left; position:relative; width:372px;">
                 <span class="label-and-errors">
                   <label for="address0"></label>
-                  <span class="error-message" style="position:absolute; top:-18px; left:120px;"></span>
+                  <span class="error-message"></span>
                 </span>
                 <input type="text" id="address" class="destination-input" name="address" style="width:360px;" autocomplete=off
         			    <? if ($destination):?>
@@ -82,7 +92,6 @@ label.error {
                 <label for="startdate">from</label> <input id="startdate" class="startdate" name="startdate" type="text" size="10"/> <label for="enddate">to</label> <input id="enddate" class="enddate" name="enddate" type="text" size="10" />
               </div>
             </div>
-  
           </fieldset><!-- PLACE DATES FIELD ENDS -->
           
   
@@ -97,9 +106,9 @@ label.error {
               </span>
               <input id="trip_name" name="trip_name" class="required" type="text" style="width:360px; margin-top:5px; margin-bottom:10px;" />
             </div>
-             <div class="field" style="margin-top:10px; border-bottom:1px solid #AAA; padding-bottom:10px;">
+             <div class="field" style="margin-top:10px; padding-bottom:10px;">
               <span class="label-and-errors">
-                <label for="description">Trip description (optional)<span id="chars-left" style="margin-left:50px; color:gray;">140 characters left</span></label>
+                <label for="description">Trip description</label>
                 <span class="error-message"></span>
                 <div class="clear"></div>
               </span>
@@ -107,103 +116,10 @@ label.error {
             </div>
           </fieldset><!-- SUMMARY  FIELD ENDS -->
 
-          <!-- PLANNERS ADVISORS FIELD -->
-          <!--<fieldset style="border-width:0; border-color:transparent;">
-            <div style="border-bottom:1px solid #AAA;">
-              <div class="field" style="margin-top: 10px; display:inline-block;">
-	              <span class="label-and-errors">
-	                <label for="invites">INVITE OTHERS (emails, separated by comma)</label>
-	                <span class="error-message"></span>
-	                <div class="clear"></div>
-	              </span>
-	              <input  id="invites" name="invites" type="text" style="width:360px; margin-top:5px;"/>
-              </div>
-	            <div class="field" style="margin-left:40px; margin-top: 10px; display:inline-block">
-	              <span class="label-and-errors">
-	                <label for="deadline">DEADLINE (optional)</label>
-	                <span class="error-message"></span>
-	                <div class="clear"></div>
-	              </span>
-	              <input id="deadline" name="deadline" type="text" size="10" style="margin-top:5px; margin-bottom:10px;"/>
-              </div>
-
-              <div class="field" style="margin-top: 10px; display:inline-block;">
-	              <span class="label-and-errors">
-	                <label for="advisors">ASK FOR SUGGESTIONS (emails, separated by comma)</label>
-	                <span class="error-message"></span>
-	                <div class="clear"></div>
-	              </span>
-	              <input  id="advisors" name="advisors" type="text" style="width:360px; margin-top:5px;"/>
-              </div>
-
-              <br/><br/>
-              <label for="private" style="color:navy; font-size:14px;">PRIVATE</label>
-              <input type="checkbox" name="private" id="private" value="1"/>
-            </div>
-
-          </fieldset>--><!-- PLANNERS ADVISORS FIELD ENDS -->
-          
-  
-  
-          <!-- INTERESTS FIELD -->
-          <!--
-          <fieldset id="interests-field" style="position:relative;">
-            <div class="field" style="margin-left:10px; margin-top: 10px;">
-              <span class="label-and-errors">
-                <label for="trip-interests">On my trip, I'm interested in (optional)</label>
-                <span class="error-message"></span>
-                <div class="clear"></div>
-              </span>
-              <textarea  id="trip-interests" name="trip-interests" style="width:380px; height:56px;"></textarea>
-            </div>
-            
-            
-            <div class="field" style="margin-left:10px; margin-top: 10px; margin-bottom:10px;">
-              <span class="label-and-errors">
-                I want suggestions for:
-                <span class="error-message"></span>
-                <div class="clear"></div>
-              </span>
-              <table style="margin-top:10px; margin-left:20px;">
-                <tbody>
-                  <tr>
-                    <td class="checkbox-name"><label for="accommodation">Accommodation</label></td>
-                    <td class="padding-right"><input type="checkbox" name="accommodation" id="accommodation" value="accommodation" /></td>
-                    <td class="checkbox-name"><label for="local-attractions">Local attractions</label></td>
-                    <td class="padding-right"><input type="checkbox" name="local-attractions" id="local-attractions" value="local-attractions" /></td>
-                    <td class="checkbox-name"><label for="other">Other</label></td>
-                    <td><input type="checkbox" name="other" id="other" value="other" /></td>
-                  </tr>
-                  <tr>
-                    <td class="checkbox-name"><label for="restaurants">Restaurants</label></td>
-                    <td class="padding-right"><input type="checkbox" name="restaurants" id="restaurants" value="accommodation" /></td>
-                    <td class="checkbox-name"><label for="bars-nightlife">Bars/nightlife</label></td>
-                    <td class="padding-right"><input type="checkbox" name="bars-nightlife" id="bars-nightlife" value="bars-nightlife" /></td>
-                  </tr>
-                  <tr>
-                    <td class="checkbox-name"><label for="landmarks">Natural features</label></td>
-                    <td class="padding-right"><input type="checkbox" name="landmarks" id="landmarks" value="accommodation" /></td>
-                    <td class="checkbox-name"><label for="activities-events">Activities/events</label></td>
-                    <td class="padding-right"><input type="checkbox" name="activities-events" id="activities-events" value="activities-events" /></td>
-                  </tr>
-                  <tr>
-                    <td class="checkbox-name"><label for="shopping">Shopping</label></td>
-                    <td class="padding-right"><input type="checkbox" name="shopping" id="shopping" value="accommodation" /></td>
-                    <td class="checkbox-name"><label for="landmarks">Landmarks</label></td>
-                    <td class="padding-right"><input type="checkbox" name="landmarks" id="landmarks" value="landmarks" /></td>
-                  </tr>
-                </tbody>
-              </table>
-              <textarea id="other-textbox" style="position:absolute; right:185px; top:150px; width:200px; height:63px; display:none;"></textarea>
-            </div>
-  
-          </fieldset>-->
-          <!-- INTERESTS FIELD ENDS -->
   
           <div style="margin-top:10px;">
             <button id="create-submit" class="blue-button" type="submit">Create</button>
           </div>
-          <div style="clear:both;"></div>
         </form><!-- TRIP CREATION FORM ENDS -->
       </div><!-- CONTENT ENDS -->
     </div><!-- WRAPPER ENDS -->
@@ -305,11 +221,6 @@ label.error {
       $(this).datepicker();
     });
     $('#deadline').datepicker(); 
-    
-    
-    $('#description').keyup(function() {
-      $('#chars-left').html(140 - $(this).val().length+' characters left');
-    });
   });
   
 
@@ -347,8 +258,8 @@ label.error {
               if (status == google.maps.GeocoderStatus.OK && result[0]) {
                 if ($(domInput).next().attr('id') != 'auto-loc-list') {
                 	var html = [];
-                	html[0] = '<div id="auto-loc-list" style="position:absolute; left:22px; background:white; opacity:0.9;">';
-                	html[1] = '<ul id="location-autosuggest"></ul>';
+                	html[0] = '<div id="auto-loc-list" style="position:absolute; background:white; width:372px;">';
+                	html[1] = '<ul id="location-autosuggest" style="border:1px solid #8F8F8F; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;"></ul>';
                 	html[2] = '</div>';
                 	html = html.join('');
                 	$(html).insertAfter($(domInput));
@@ -385,8 +296,8 @@ label.error {
   
   // selectable dropdown list
   map.listResult = function(resultItem, domInput) {
-    var li = $('<li style="padding-left:10px;"></li>');
-    li.html('<a href="#" style="text-decoration:none; line-height:30px; padding-top:5px; color:black;">'+resultItem.formatted_address+'</a>');
+    var li = $('<li style="padding:0 10px 0 7px;"></li>');
+    li.html('<a href="#" style="text-decoration:none; line-height:30px; color:black;">'+resultItem.formatted_address+'</a>');
     li.click(function(){
       map.clickGeocodeResult(resultItem, domInput);
       return false;
@@ -402,6 +313,4 @@ label.error {
     $(domInput).parents('div.destination').next().css('visibility', 'visible');
     $('#dates-header').css('visibility', 'visible');
   };
-
-
 </script>

@@ -7,13 +7,7 @@ class Trips extends CI_Controller
     {
         parent::__construct();
     }
-    
         
-    function facebook_test()
-    {
-        $this->load->view('facebook_test');
-    }
-    
     
  	  function confirm_create()
  	  {
