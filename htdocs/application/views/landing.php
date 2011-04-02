@@ -189,6 +189,12 @@ $this->load->view('core_header', $header_args);
     }
   });
   
+  
+  // remove selected formatting on mouseover
+  $('#location-autosuggest').mouseover(function() {
+    $(this).children().removeClass('selected');
+  });
+  
 
   ///////////////////////////////////////
   // load geocoder for destination field
