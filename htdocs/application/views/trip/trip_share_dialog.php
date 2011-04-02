@@ -70,7 +70,7 @@
 
 </style>
 
-<div id="trip-share-popup" style="padding:15px; background:rgba(82, 82, 82, 0.7); border-radius: 8px; -webkit-border-radius:8px; -moz-border-radius:8px;">
+<div id="trip-share-popup" style="padding:10px; background:rgba(82, 82, 82, 0.7); border-radius: 8px; -webkit-border-radius:8px; -moz-border-radius:8px;">
 
 
   <div style="background-color:#FAFAFA;height:475px;width:320px;padding:10px 10px 10px 10px;">

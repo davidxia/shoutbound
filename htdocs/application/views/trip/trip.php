@@ -388,10 +388,7 @@ li.suggestion.highlighted{
     }());
   </script>	
   
-  <div id="div-to-popup" style="display:none;">
-    <div id="trip-invite-popup" style="width:466px; padding:10px; background:rgba(82, 82, 82, 0.7); border-radius: 5px; -webkit-border-radius:5px; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; border-bottom-right-radius: 5px 5px; border-bottom-left-radius: 5px 5px;">
-    </div>
-  </div>
+  <div id="div-to-popup" style="display:none;"></div>
 
     
       <!-- TRIP SUMMARY -->

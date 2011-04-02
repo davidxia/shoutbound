@@ -1,6 +1,6 @@
-var invite = {};
+var share = {};
 
-invite.rsvp_yes = function() {
+share.rsvp_yes = function() {
   if (typeof(uid) === 'undefined') {
     alert('you must login to do this');
   }
@@ -40,7 +40,7 @@ invite.rsvp_yes = function() {
             $('#rsvp_buttons').addClass('moved');
             $('#rsvp_buttons').append('<a href="#" id="rsvp_no_button">I\'m out</a>');
             $('#rsvp_no_button').click(function() {
-              invite.rsvp_no();
+              share.rsvp_no();
               return false;
             });
           });
@@ -53,7 +53,7 @@ invite.rsvp_yes = function() {
 }
 
 
-invite.rsvp_no = function() {
+share.rsvp_no = function() {
   if (typeof(uid) === 'undefined') {
     alert('you must login to do this');
   }
@@ -95,7 +95,7 @@ invite.rsvp_no = function() {
             //$('#rsvp_buttons').removeClass('moved');
             $('#rsvp_buttons').empty().append('<a href="#" id="rsvp_yes_button">I\'m in</a>');
             $('#rsvp_yes_button').click(function() {
-              invite.rsvp_yes();
+              share.rsvp_yes();
               return false;
             });
           });
@@ -106,7 +106,7 @@ invite.rsvp_no = function() {
 }
 
     
-invite.showShareDialog = function(shareRole) {
+share.showShareDialog = function(shareRole) {
   var postData = {
     tripId: tripId,
     shareRole: shareRole
@@ -118,33 +118,33 @@ invite.showShareDialog = function(shareRole) {
     success: function(response) {
       var r = $.parseJSON(response);
       $('#div-to-popup').empty().append(r.data).bPopup({follow:false, opacity:0});
-      invite.bindButtons(shareRole);
+      share.bindButtons(shareRole);
     }
   });
 }
   
   
-invite.bindButtons = function(shareRole) {
-  $('#shoutbound-share').bind('click', invite.FriendSelector);
+share.bindButtons = function(shareRole) {
+  $('#shoutbound-share').bind('click', share.FriendSelector);
   $('#facebook-share').click(function() {
-    invite.facebookMessage(shareRole);
+    share.facebookMessage(shareRole);
     return false;
   });
   $('#fb-share-wall').click(function() {
-    invite.facebookWallPost(shareRole);
+    share.facebookWallPost(shareRole);
     return false;
   });
   $('#twitter-share').click(function() {
-    invite.tweet(shareRole);
+    share.tweet(shareRole);
     return false;
   });
   $('#email-share').click(function() {
-    invite.emailShare();
+    share.emailShare();
     return false;
   });
 
   $('#trip-share-confirm').click(function() {
-    invite.confirmShare(shareRole);
+    share.confirmShare(shareRole);
     return false;
   });
   $('#trip-share-cancel').click(function() {
@@ -165,7 +165,7 @@ invite.bindButtons = function(shareRole) {
 }
 
 
-invite.FriendSelector = function() {
+share.FriendSelector = function() {
   $('#friends').toggle();
   $('#share-methods').toggle();
   $('#trip-share-toolbar').toggle();
@@ -173,11 +173,11 @@ invite.FriendSelector = function() {
 }
   
 
-invite.facebookMessage = function(shareRole) {
+share.facebookMessage = function(shareRole) {
   FB.getLoginStatus(function(response) {
     if (response.session) {
       var to = 1;
-      var shareKey = invite.generateShareKey(shareRole, 2, 'fb');
+      var shareKey = share.generateShareKey(shareRole, 2, 'fb');
       if (shareRole == 2) {
         var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
       } else if (shareRole == 1) {
@@ -190,7 +190,7 @@ invite.facebookMessage = function(shareRole) {
       FB.login(function(response) {
         if (response.session) {
           var to = 1;
-          var shareKey = invite.generateShareKey(shareRole, 2, 'fb');
+          var shareKey = share.generateShareKey(shareRole, 2, 'fb');
           if (shareRole == 2) {
             var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
           } else if (shareRole == 1) {
@@ -207,10 +207,10 @@ invite.facebookMessage = function(shareRole) {
 }
 
 
-invite.facebookWallPost = function(shareRole) {
+share.facebookWallPost = function(shareRole) {
   FB.getLoginStatus(function(response) {
     if (response.session) {
-      var shareKey = invite.generateShareKey(shareRole, 2, 'fb');
+      var shareKey = share.generateShareKey(shareRole, 2, 'fb');
       if (shareRole == 2) {
         var message = 'Come with me on this trip I\'m planning.';
       } else if (shareRole == 1) {
@@ -234,7 +234,7 @@ invite.facebookWallPost = function(shareRole) {
       FB.login(function(response) {
         if (response.session) {
           var to = 1;
-          var shareKey = invite.generateShareKey(shareRole, 2, 'fb');
+          var shareKey = share.generateShareKey(shareRole, 2, 'fb');
           if (shareRole == 2) {
             var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
           } else if (shareRole == 1) {
@@ -262,8 +262,8 @@ invite.facebookWallPost = function(shareRole) {
 }
 
 
-invite.tweet = function(shareRole) {
-  var shareKey = invite.generateShareKey(shareRole, 2, 'tw');
+share.tweet = function(shareRole) {
+  var shareKey = share.generateShareKey(shareRole, 2, 'tw');
   if (shareRole == 2) {
     var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
   } else if (shareRole == 1) {
@@ -279,14 +279,14 @@ invite.tweet = function(shareRole) {
 }
 
 
-invite.emailShare = function() {
+share.emailShare = function() {
   $('#share-methods').toggle();
   $('#email-input').toggle();
   $('#trip-share-toolbar').toggle();
 }
 
 
-invite.confirmShare = function(shareRole) {  
+share.confirmShare = function(shareRole) {  
   var uids = [];
   $('.friend-capsule').each(function() {
     if ($.data(this, 'selected')) {
@@ -308,7 +308,7 @@ invite.confirmShare = function(shareRole) {
       url: baseUrl+'trip_shares/send_email',
       data: postData,
       success: function(r) {
-        invite.displaySuccessDialog(r);
+        share.displaySuccessDialog(r);
       }
     });
   } else {
@@ -323,8 +323,8 @@ invite.confirmShare = function(shareRole) {
       url: baseUrl+'trip_shares/ajax_share_trip',
       data: postData,
       success: function(r) {
-        invite.displaySuccessDialog(r);
-        invite.sendEmail(uids, shareRole);
+        share.displaySuccessDialog(r);
+        share.sendEmail(uids, shareRole);
       }
     });
   }
@@ -334,7 +334,7 @@ invite.confirmShare = function(shareRole) {
 }
 
 
-invite.displaySuccessDialog = function(r) {
+share.displaySuccessDialog = function(r) {
   $('#div-to-popup').empty();
   $('#div-to-popup').append(r);
   $('#div-to-popup').bPopup();
@@ -344,7 +344,7 @@ invite.displaySuccessDialog = function(r) {
 }
 
 
-invite.sendEmail = function(uids, shareRole) {
+share.sendEmail = function(uids, shareRole) {
   var postData = {
     uid: uid,
     tripId: tripId,
@@ -360,7 +360,7 @@ invite.sendEmail = function(uids, shareRole) {
 }
 
 
-invite.generateShareKey = function(shareRole, shareMedium, targetId) {
+share.generateShareKey = function(shareRole, shareMedium, targetId) {
   var postData = {
     tripId: tripId,
     shareRole: shareRole,
@@ -390,19 +390,19 @@ invite.generateShareKey = function(shareRole, shareMedium, targetId) {
 
 $(document).ready(function() {
   $('#rsvp_yes_button').click(function() {
-    invite.rsvp_yes();
+    share.rsvp_yes();
     return false;
   });
   $('#rsvp_no_button').click(function() {
-    invite.rsvp_no();
+    share.rsvp_no();
     return false;
   });
   $('#invite-others-button').live('click', function() {
-    invite.showShareDialog(2);
+    share.showShareDialog(2);
     return false;
   });
   $('#get-suggestions-button').live('click', function() {
-    invite.showShareDialog(1);
+    share.showShareDialog(1);
     return false;
   });
 });
