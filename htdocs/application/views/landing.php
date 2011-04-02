@@ -45,27 +45,12 @@ $this->load->view('core_header', $header_args);
 	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
 }
-#auto-loc-list ul li:hover {
+#auto-loc-list .selected, #auto-loc-list li:hover {
+  font-weight:bold;
   background-color: #E0E0FF;
   cursor:pointer;
 }
-.selected {
-  font-weight:bold;
-  background-color: #E0E0FF;
-}
-
-h2{
-	font-weight:normal;
-	font-size:24px;
-}
-
-p{
-	font-size:16px;
-	color:gray;
-	line-height:22px;
-}
-
-</style> 
+</style>
 
 </head>
 
@@ -80,20 +65,20 @@ p{
 	<div style="display:inline-block; width:450px; float:left; margin-left:20px;">
 				
 		<div style="text-align:left; margin-top:65px;">
-			<span style="font-size:52px; line-height:58px; font-weight:bold;">Collaborative<br>travel planning.</span>
+			<span style="font-size:52px; line-height:58px; font-weight:bold;">Collaborative<br/>travel planning.</span>
 
 		<!--BAR-->
-		<div style="line-height:45px; height:45px; width:95%; margin-top:20px; margin-bottom:20px;">
-		  <form id="create-trip" action="trips/create" method="post" style="position:relative; -moz-box-shadow: 0 0 5px 5px #A6A9AD; -webkit-box-shadow: 0 0 5px 5px #A6A9AD; box-shadow: 0 0 5px 5px #A6A9AD; height:45px; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;">
+		<div style="line-height:45px; height:45px; width:400px; margin-top:20px; margin-bottom:20px;">
+		  <form id="create-trip" action="trips/create" method="post" style="position:relative; height:45px;">
 		    <label for="destination" style="position:absolute; font-size:20px; color:navy; z-index:1; background-color:white; height:45px; padding-left:10px; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;"><span>Where do you want to go?</span></label>
-			  <input type="text" id="destination" name="destination" autocomplete="off" style="position:absolute; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; height:37px; width:76%; margin-right:70px; padding-left:10px; font-size:20px; color:#000080; z-index:2; background:transparent; border:#BDB8AD;"/>
+			  <input type="text" id="destination" name="destination" autocomplete="off" style="position:absolute; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; height:33px; width:313px; margin-right:70px; padding-left:10px; font-size:20px; color:#000080; z-index:2; background:transparent; border:1px solid #8F8F8F;"/>
 			  <input type="hidden" id="destination_lat" name="destination_lat"/>
         <input type="hidden" id="destination_lng" name="destination_lng"/>
 			  <button id="lets-go" type="submit">Let&rsquo;s go!</button>
 		  </form>
   		  
 		    <!-- AUTO LOC LIST -->
-				<div id="auto-loc-list" style="position:relative; background-color:white; opacity:0.9; width:570px; text-align:left;">
+				<div id="auto-loc-list" style="position:absolute; background-color:white;width:310px; border:1px solid #8F8F8F; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;">
 		    	<ul id="location-autosuggest"></ul>
 		  	</div> <!--AUTO LOC LIST ENDS -->
 	  	
@@ -170,31 +155,31 @@ p{
       
     /*key navigation through elements*/
     if (keyCode == arrow.up || keyCode == arrow.down) {
-      var $results = $('#auto-loc-list ul li');
+      var results = $('#auto-loc-list ul li');
   
-      var $current = $results.filter('.selected'),
-          $next;
+      var current = results.filter('.selected'),
+          next;
   
       switch (keyCode) {
         case arrow.up:
-          $next = $current.prev();
+          next = current.prev();
           break;
         case arrow.down:
-          if (!$results.hasClass('selected')) {
-            $results.first().addClass('selected');
+          if (!results.hasClass('selected')) {
+            results.first().addClass('selected');
           }
-          $next = $current.next();
+          next = current.next();
           break;
       }
   
       //only check next element if up and down key pressed
-      if ($next.is('li')) {
-        $current.removeClass('selected');
-        $next.addClass('selected');
+      if (next.is('li')) {
+        current.removeClass('selected');
+        next.addClass('selected');
       }
   
       //update text in searchbar
-      if ($results.hasClass('selected')) {
+      if (results.hasClass('selected')) {
         $('#destination').val($('.selected').text());
         $('#destination_lat').val($('.selected').children('a').attr('lat'));
         $('#destination_lng').val($('.selected').children('a').attr('lng'));
@@ -212,13 +197,13 @@ p{
   
   $('#destination').bind('keydown keypress', function(e) {
     var keyCode = e.keyCode || e.which,
-      arrow = {up: 38, down: 40};
+      arrow = {up: 38};
     
-    if (keyCode == arrow.up || keyCode == arrow.enter) {
+    if (keyCode == arrow.up) {
       e.preventDefault();
     }
   });
-
+  
 
   ///////////////////////////////////////
   // load geocoder for destination field

@@ -38,10 +38,10 @@ label.error {
   font-size: 13px;
   float: right;
 }
-#location-autosuggest li:hover {
+#auto-loc-list .selected, #auto-loc-list li:hover {
+  font-weight:bold;
   background-color: #E0E0FF;
-  cursor: pointer;
-  font-weight: bold;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -151,6 +151,8 @@ label.error {
   
   
   $(document).ready(function() {
+    $('#address').focus();
+  
     // dates for 1st destination appear if it's filled in
     if ($('#lat').val() != '') {
       //console.log($('#lat').val());
@@ -165,9 +167,9 @@ label.error {
       afterClone: function(clone) {
         clone.find('input').val('');
         clone.find('.dates').css('visibility', 'hidden');
+        clone.find('.destination-input').focus();
       }
     });
-    
     
     // jquery form validation plugin
     $('#trip-creation-form').validate({
@@ -224,6 +226,69 @@ label.error {
   });
   
 
+  // allows user to use up/down arrows to select from autosuggest list
+  $('.destination-input').keyup(function(e) {
+    var destination = $(this);
+    var keyCode = e.keyCode || e.which,
+        arrow = {up: 38, down: 40};
+      
+    /*key navigation through elements*/
+    if (keyCode == arrow.up || keyCode == arrow.down) {
+      var results = $('#auto-loc-list ul li');
+  
+      var current = results.filter('.selected'),
+          next;
+      
+      switch (keyCode) {
+        case arrow.up:
+          next = current.prev();
+          break;
+        case arrow.down:
+          if (!results.hasClass('selected')) {
+            results.first().addClass('selected');
+          }
+          next = current.next();
+          break;
+      }
+  
+      //only check next element if up and down key pressed
+      if (next.is('li')) {
+        current.removeClass('selected');
+        next.addClass('selected');
+      }
+  
+      //update text in searchbar
+      if (results.hasClass('selected')) {
+        destination.val($('.selected').text());
+        destination.siblings('.destination_lat').val($('.selected').children('a').attr('lat'));
+        destination.siblings('.destination_lng').val($('.selected').children('a').attr('lng'));
+      }
+  
+      //set cursor position
+      if (keyCode === arrow.up) {
+        return false;
+      }
+
+      return;
+    }
+  });
+
+
+  $('.destination-input').bind('keydown keypress', function(e) {
+    var keyCode = e.keyCode || e.which,
+      arrow = {up: 38, enter: 13};
+    
+    if (keyCode == arrow.up || keyCode == arrow.enter) {
+      e.preventDefault();
+    }
+    if (keyCode == arrow.enter) {
+      $('#auto-loc-list').remove();
+      var dates = $(this).parent().next();
+      dates.css('visibility', 'visible');
+      dates.children('.startdate').focus();
+    }    
+  });
+  
 
   ///////////////////////////////////////
   // load geocoder for destination field
@@ -245,7 +310,7 @@ label.error {
     $('input.destination-input').live('keyup', function(e) {
       var keyCode = e.keyCode || e.which;
       // ignore arrow keys
-      if (keyCode!==37 && keyCode!==38 && keyCode!==39 && keyCode!==40) {
+      if (keyCode!==37 && keyCode!==38 && keyCode!==39 && keyCode!==40 && keyCode!==13) {
         var domInput = this;
         map.delay(function() {
           // new geocoder to convert address/name into latlng co-ords
@@ -258,8 +323,8 @@ label.error {
               if (status == google.maps.GeocoderStatus.OK && result[0]) {
                 if ($(domInput).next().attr('id') != 'auto-loc-list') {
                 	var html = [];
-                	html[0] = '<div id="auto-loc-list" style="position:absolute; background:white; width:372px;">';
-                	html[1] = '<ul id="location-autosuggest" style="border:1px solid #8F8F8F; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;"></ul>';
+                	html[0] = '<div id="auto-loc-list" style="position:absolute; background:white; width:372px; border:1px solid #8F8F8F; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; z-index:10;">';
+                	html[1] = '<ul id="location-autosuggest"></ul>';
                 	html[2] = '</div>';
                 	html = html.join('');
                 	$(html).insertAfter($(domInput));
@@ -297,7 +362,7 @@ label.error {
   // selectable dropdown list
   map.listResult = function(resultItem, domInput) {
     var li = $('<li style="padding:0 10px 0 7px;"></li>');
-    li.html('<a href="#" style="text-decoration:none; line-height:30px; color:black;">'+resultItem.formatted_address+'</a>');
+    li.html('<a href="#" style="text-decoration:none; line-height:30px; color:black;" lat="'+resultItem.geometry.location.lat()+'" lng="'+resultItem.geometry.location.lng()+'">'+resultItem.formatted_address+'</a>');
     li.click(function(){
       map.clickGeocodeResult(resultItem, domInput);
       return false;
