@@ -2,7 +2,6 @@
 $header_args = array(
     'title' => 'Sign Up | Shoutbound',
     'css_paths' => array(
-        'css/signup_login.css',
     ),
     'js_paths' => array(
         'js/jquery/validate.min.js',

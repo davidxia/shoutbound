@@ -1,8 +1,4 @@
 <style type="text/css">
-#trip-share-popup{
-	font-family:font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-}
-
 #trip-share-confirm{
   width:75px;
   color:white;

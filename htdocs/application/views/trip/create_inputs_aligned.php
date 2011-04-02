@@ -32,12 +32,6 @@ $this->load->view('core_header', $header_args);
   border-bottom:1px solid #AAA;
   padding-bottom:20px;
 }
-label.error {
-  color: red;
-  vertical-align: top;
-  font-size: 13px;
-  float: right;
-}
 #location-autosuggest .selected, #location-autosuggest li:hover {
   font-weight:bold;
   background-color: #E0E0FF;
@@ -135,11 +129,9 @@ label.error {
   function showLoginSignupDialog() {
     $.ajax({
       url: '<?=site_url('users/login_signup')?>',
-      success: function(response) {
-        var r = $.parseJSON(response);
-        $('#div-to-popup').empty();
-        $('#div-to-popup').append(r.data);
-        $('#div-to-popup').bPopup();
+      success: function(r) {
+        var r = $.parseJSON(r);
+        $('#div-to-popup').empty().append(r.data).bPopup({follow:false, opacity:0});
       }
     });
   }

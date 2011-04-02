@@ -154,9 +154,7 @@ function showLoginSignupDialog() {
     url: '<?=site_url('users/login_signup')?>',
     success: function(r) {
       var r = $.parseJSON(r);
-      $('#div-to-popup').empty();
-      $('#div-to-popup').append(r.data);
-      $('#div-to-popup').bPopup();
+      $('#div-to-popup').empty().append(r.data).bPopup({follow:false, opacity:0});
     }
   });
 }
