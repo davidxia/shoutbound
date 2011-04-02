@@ -64,6 +64,10 @@ p{
 
 a, a:visited{
 	text-decoration:none;
+	color: #0095CD;
+}
+a:hover{
+  color: #007EAD;
 }
 
 ol, ul {

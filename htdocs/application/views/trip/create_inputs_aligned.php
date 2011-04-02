@@ -167,6 +167,7 @@ label.error {
       afterClone: function(clone) {
         clone.find('input').val('');
         clone.find('.dates').css('visibility', 'hidden');
+        // TODO: why doesn't this work?
         clone.find('.destination-input').focus();
       }
     });
