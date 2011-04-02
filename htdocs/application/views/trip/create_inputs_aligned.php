@@ -38,7 +38,7 @@ label.error {
   font-size: 13px;
   float: right;
 }
-#auto-loc-list .selected, #auto-loc-list li:hover {
+#location-autosuggest .selected, #location-autosuggest li:hover {
   font-weight:bold;
   background-color: #E0E0FF;
   cursor:pointer;
@@ -53,21 +53,21 @@ label.error {
     <div id="div-to-popup" style="background-color:white; display:none;"></div>
 		  
         <!-- TRIP CREATION FORM -->
-        <form id="trip-creation-form" action="confirm_create" method="post" style="position:relative; width:650px; margin:0 auto;">
+        <form id="trip-creation-form" action="confirm_create" method="post" style="position:relative; width:576px; margin:0 auto;">
         
         
           <!-- PLACE DATES FIELD -->
           <fieldset style="position:relative;">
             <div style="display:inline-block; margin-bottom:5px;">Destinations</div>
-            <div id="dates-header" style="display:inline-block; visibility:hidden; margin-left:290px; margin-bottom:5px;">Dates (optional)</div>
+            <div id="dates-header" style="display:inline-block; visibility:hidden; margin-left:230px; margin-bottom:5px;">Dates (optional)</div>
             <div id="destinations_dates" style="position:relative; margin-bottom:10px;">
               <a id="add-destination" href="" style="position:absolute; top:15px; left:-15px; font-size:13px;">[+]</a><a id="subtract-destination" href="" style="position:absolute; top:-2px; left:-15px;">[-]</a>
-              <div class="field destination" style="margin-bottom:10px; float:left; position:relative; width:372px;">
+              <div class="field destination" style="margin-bottom:10px; float:left; position:relative; width:312px;">
                 <span class="label-and-errors">
                   <label for="address0"></label>
                   <span class="error-message"></span>
                 </span>
-                <input type="text" id="address" class="destination-input" name="address" style="width:360px;" autocomplete=off
+                <input type="text" id="address" class="destination-input" name="address" style="width:300px;" autocomplete=off
         			    <? if ($destination):?>
         			      <? echo 'value="'.$destination.'"'?>
                   <? endif;?>
@@ -84,7 +84,7 @@ label.error {
                 />
               </div>
               
-              <div class="field dates" style="width:251px; margin-left:385px; visibility:hidden;">
+              <div class="field dates" style="width:251px; margin-left:325px; visibility:hidden;">
                 <span class="label-and-errors">
                   <span class="error-message"></span>
                   <div class="clear"></div>
@@ -97,14 +97,14 @@ label.error {
   
   
           <!-- SUMMARY FIELD -->
-          <fieldset id="summary-field" style="width:372px;">
+          <fieldset id="summary-field" style="width:576px;">
             <div class="field trip_name">
               <span class="label-and-errors">
                 <label for="trip_name">Trip name</label>
                 <span class="error-message"></span>
                 <div class="clear"></div>
               </span>
-              <input id="trip_name" name="trip_name" class="required" type="text" style="width:360px; margin-top:5px; margin-bottom:10px;" />
+              <input id="trip_name" name="trip_name" class="required" type="text" style="width:564px; margin-top:5px; margin-bottom:10px;" />
             </div>
              <div class="field" style="margin-top:10px; padding-bottom:10px;">
               <span class="label-and-errors">
@@ -112,7 +112,7 @@ label.error {
                 <span class="error-message"></span>
                 <div class="clear"></div>
               </span>
-              <textarea id="description" name="description" style="width:360px; height:56px; font-size:14px; margin-top:5px;"></textarea>
+              <textarea id="description" name="description" style="width:564px; height:56px; font-size:14px; margin-top:5px; resize:none;"></textarea>
             </div>
           </fieldset><!-- SUMMARY  FIELD ENDS -->
 
@@ -234,7 +234,7 @@ label.error {
       
     /*key navigation through elements*/
     if (keyCode == arrow.up || keyCode == arrow.down) {
-      var results = $('#auto-loc-list ul li');
+      var results = $('#location-autosuggest li');
   
       var current = results.filter('.selected'),
           next;
@@ -282,7 +282,7 @@ label.error {
       e.preventDefault();
     }
     if (keyCode == arrow.enter) {
-      $('#auto-loc-list').remove();
+      $('#location-autosuggest').remove();
       var dates = $(this).parent().next();
       dates.css('visibility', 'visible');
       dates.children('.startdate').focus();
@@ -321,11 +321,9 @@ label.error {
           if (query.length > 1) {
             geocoder.geocode({'address': query}, function(result, status) {
               if (status == google.maps.GeocoderStatus.OK && result[0]) {
-                if ($(domInput).next().attr('id') != 'auto-loc-list') {
+                if ($(domInput).next().attr('id') != 'location-autosuggest') {
                 	var html = [];
-                	html[0] = '<div id="auto-loc-list" style="position:absolute; background:white; width:372px; border:1px solid #8F8F8F; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; z-index:10;">';
-                	html[1] = '<ul id="location-autosuggest"></ul>';
-                	html[2] = '</div>';
+                	html[1] = '<ul id="location-autosuggest" style="position:absolute; background:white; width:310px; border:1px solid #8F8F8F; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; z-index:10;"></ul>';
                 	html = html.join('');
                 	$(html).insertAfter($(domInput));
                 } else {
@@ -372,7 +370,7 @@ label.error {
 
   map.clickGeocodeResult = function(resultItem, domInput) {
     $(domInput).val(resultItem.formatted_address);
-    $('#auto-loc-list').remove();
+    $('#location-autosuggest').remove();
     $(domInput).siblings('input.destination_lat').val(resultItem.geometry.location.lat());
     $(domInput).siblings('input.destination_lng').val(resultItem.geometry.location.lng());
     $(domInput).parents('div.destination').next().css('visibility', 'visible');

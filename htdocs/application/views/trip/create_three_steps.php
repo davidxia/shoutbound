@@ -83,8 +83,7 @@ $this->load->view('core_header', $header_args);
 </style>
  
  
-<?=$this->load->view('core_header_end')?>
-
+</head>
 	<body>
     <div id="wrapper" style="margin: 0 auto; width:960px;">
       <?=$this->load->view('header')?>

@@ -288,11 +288,15 @@ class Trips extends CI_Controller
 
         if ($i == 1)
         {
-            $this->load->view('trip/create_1', $view_data);
+            $this->load->view('trip/create_inputs_aligned', $view_data);
         }
         elseif ($i == 2)
         {
-            $this->load->view('trip/create_2', $view_data);
+            $this->load->view('trip/create', $view_data);
+        }
+        elseif ($i == 3)
+        {
+            $this->load->view('trip/create_three_steps', $view_data);
         }
     }
     

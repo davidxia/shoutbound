@@ -59,10 +59,9 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('wrapper_content')?>
 			
 	<!--LEFT-->
-	<div style="width:470px; float:left; padding-left:20px;">
+	<div style="width:470px; float:left; padding:65px 0 0 20px;">
 				
-		<div style="text-align:left; margin-top:65px;">
-			<span style="font-size:52px; line-height:58px; font-weight:bold;">Collaborative<br/>travel planning.</span>
+		<h2 style="font-size:52px; line-height:58px; font-weight:bold;">Collaborative travel planning.</h2>
 
 		<!--BAR-->
 		<div style="line-height:45px; height:45px; width:400px; margin-top:20px; margin-bottom:20px;">
@@ -74,12 +73,11 @@ $this->load->view('core_header', $header_args);
 			  <button id="lets-go" type="submit">Let&rsquo;s go!</button>
 		  </form>
   		  
-  	    <!-- AUTO LOC LIST -->
-      	<ul id="location-autosuggest" style="position:absolute; background-color:white; width:310px; border:1px solid #8F8F8F; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;"></ul>
-  		</div><!--BAR ENDS-->
+	    <!-- AUTO LOC LIST -->
+    	<ul id="location-autosuggest" style="position:absolute; background-color:white; width:310px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;"></ul>
+		</div><!--BAR ENDS-->
 
-			<span style="font-size:24px; color:gray; line-height:30px;">Use Shoutbound to organize group<br/>travel plans and get travel advice<br/>from friends and family.</span>
-		</div>
+		<h3 style="font-size:24px; color:gray; line-height:30px; font-weight:normal;">Use Shoutbound to organize group<br/>travel plans and get travel advice<br/>from friends and family.</h3>
 	
 	</div><!--LEFT ENDS-->
 	
@@ -236,7 +234,7 @@ $this->load->view('core_header', $header_args);
     if (query.length > 1) {
       geocoder.geocode({'address': query}, map.returnGeocodeResult);
     } else {
-    	$('#location-autosuggest').html('');
+    	$('#location-autosuggest').html('').css('border', '0');
     }
   };
   
@@ -244,7 +242,7 @@ $this->load->view('core_header', $header_args);
   // this callback function is passed the geocoderResult object
   map.returnGeocodeResult = function(result, status) {
     if (status == google.maps.GeocoderStatus.OK && result[0]) {
-    	$('#location-autosuggest').empty();
+    	$('#location-autosuggest').empty().css('border', '1px solid #8F8F8F');
     	for (var i=0; i<result.length; i++) {
     		map.listResult(result[i]);
     	}
