@@ -27,7 +27,7 @@ class Twitter {
      *  @author Ben Sekulowicz-Barclay
      */
 
-    public function __construct($params = array()) {
+    public function __construct() {
         // @DEBUG
         $CI =& get_instance();
         
@@ -37,8 +37,10 @@ class Twitter {
         $CI->load->library('session');
         
         // Get the required keys/tokens/secrets from the params/session ...
-        $this->consumer_key         = element('consumer_key', $params);
-        $this->consumer_secret      = element('consumer_secret', $params);
+        $CI->config->load('twitter');
+        
+        $this->consumer_key         = $CI->config->item('tw_consumer_key');
+        $this->consumer_secret      = $CI->config->item('tw_consumer_secret');
         $this->oauth_token          = $CI->session->userdata('oauth_token');
         $this->oauth_token_secret   = $CI->session->userdata('oauth_token_secret');
         $this->oauth_verifier       = $CI->input->get('oauth_verifier');

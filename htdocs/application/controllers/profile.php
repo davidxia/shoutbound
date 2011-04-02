@@ -227,13 +227,12 @@ class Profile extends CI_Controller
     
     public function twitter_data()
     {
-        $this->load->library('twitter', array(
-            'consumer_key' => '0h2gWxHXRXPlRBWQ9GDA',
-            'consumer_secret' => 'sdix5fACGWK1tZU3v6CmvVEcel1VhOZhwZo0iyFYXo'
-        ));
+        $this->load->library('twitter');
         if (is_object($req = $this->twitter->authenticate())) {
             // Do something with the $req you received ...
-            print_r($req);
+            //print_r($req);
+            $r = $this->twitter->get($req->oauth_token, $req->oauth_token_secret, 'http://api.twitter.com/1/statuses/user_timeline.json');
+            print_r($r);
         }
         
     }
