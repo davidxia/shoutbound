@@ -9,7 +9,7 @@ class Profile extends CI_Controller
 		}
 		
 
-    function index($pid = FALSE)
+    public function index($pid = FALSE)
     {
         $u = new User();
         $uid = $u->get_logged_in_status();
@@ -133,7 +133,7 @@ class Profile extends CI_Controller
     }
     
     
-    function edit()
+    public function edit()
     {
         $u = new User();
         $uid = $u->get_logged_in_status();
@@ -152,7 +152,7 @@ class Profile extends CI_Controller
     }
     
     
-    function profile_pic_uploadify()
+    public function profile_pic_uploadify()
     {
         if ( ! empty($_FILES)) {
             $uid = $this->input->post('uid');
@@ -188,7 +188,7 @@ class Profile extends CI_Controller
     }
     
     
-    function history()
+    public function history()
     {
         $view_data = array(
             'user' => $u->stored,
@@ -198,7 +198,7 @@ class Profile extends CI_Controller
     }
     
     
-    function facebook_history()
+    public function facebook_history()
     {
         $this->load->library('facebook');
         $fbdata = $this->facebook->api('/me?fields=name,location,hometown,education,work');
@@ -225,32 +225,17 @@ class Profile extends CI_Controller
     }
     
     
-    function twitter_data()
+    public function twitter_data()
     {
-        $this->load->library('session');
-        $this->config->load('twitter');
+        $this->load->library('twitter', array(
+            'consumer_key' => '0h2gWxHXRXPlRBWQ9GDA',
+            'consumer_secret' => 'sdix5fACGWK1tZU3v6CmvVEcel1VhOZhwZo0iyFYXo'
+        ));
+        if (is_object($req = $this->twitter->authenticate())) {
+            // Do something with the $req you received ...
+            print_r($req);
+        }
         
-        $params = array('key'=>$this->config->item('tw_consumer_key'), 'secret'=>$this->config->item('tw_consumer_secret'));
-        $this->load->library('twitter_oauth', $params);
-        
-        $response = $this->twitter_oauth->get_request_token(site_url('profile/twitter_test'));
-        
-        $this->session->set_userdata('token_secret', $response['token_secret']);
-        redirect($response['redirect']);
-    }
-    
-    
-    function twitter_test()
-    {
-        $this->load->library('session');
-        $this->config->load('twitter');
-
-        $params = array('key'=>$this->config->item('tw_consumer_key'), 'secret'=>$this->config->item('tw_consumer_secret'));
-        $this->load->library('twitter_oauth', $params);
-        
-        $response = $this->twitter_oauth->get_access_token(false, $this->session->userdata('token_secret'));
-        
-        print_r($response);
     }
 }
 
