@@ -743,9 +743,9 @@ li.suggestion.highlighted{
             if (r.loggedin) {
               var userId = r.loggedin;
               var postData = {
-                userId: userId,
+                //userId: userId,
                 tripId: tripId,
-                text: $('#message-box').val(),
+                text: $('#message-box').val()
               }
               
               $.ajax({
@@ -779,7 +779,7 @@ li.suggestion.highlighted{
               var userId = r.loggedin;
 
               var postData = {
-                userId: userId,
+                //userId: userId,
                 tripId: tripId,
                 name: $('#location-name').val(),
                 text: $('#message-box').val(),

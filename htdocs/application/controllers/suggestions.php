@@ -1,19 +1,32 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Suggestions extends CI_Controller
 {
     
+    public $user;
+    
     function __construct()
     {
-      	parent::__construct();
-    }
+        parent::__construct();
+        $u = new User();
+        $uid = $u->get_logged_in_status();
+        if ($uid)
+        {
+            $u->get_by_id($uid);
+            $this->user = $u->stored;
+        }
+        else
+        {
+            redirect('/');
+        }
+		}
 
 
     function ajax_save_suggestion()
     {
         $s = new Suggestion();
         
-        $s->user_id = $this->input->post('userId');
+        $s->user_id = $this->user->id;
         $s->trip_id = $this->input->post('tripId');
         $s->name = $this->input->post('name');
         $s->text = $this->input->post('text');

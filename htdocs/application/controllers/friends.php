@@ -1,26 +1,32 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Friends extends CI_Controller
 {
+    
+    public $user;
     
     function __construct()
     {
         parent::__construct();
         $u = new User();
-        if ( ! $u->get_logged_in_status())
+        $uid = $u->get_logged_in_status();
+        if ($uid)
         {
-            redirect('/');
+            $u->get_by_id($uid);
+            $this->user = $u->stored;
+        }
+        else
+        {
+            custom_404();
+            return;
         }
     }
     
     
     function edit()
     {
-        $uid = get_cookie('uid');       
         $u = new User();
-        $u->get_by_id($uid);
-        
-        $user= $u->stored;
+        $u->get_by_id($this->user->id);
 
         // get pending friend requests
         // get array of friends relations to the user
@@ -48,9 +54,9 @@ class Friends extends CI_Controller
         }
 
         $view_data = array(
-            'user' => $user,
+            'user' => $this->user,
             'pending_friends' => $pending_friends,
-                           );
+        );
 
         $this->load->view('friends', $view_data);
     }
@@ -58,9 +64,8 @@ class Friends extends CI_Controller
     
     function ajax_add_friend()
     {
-        $uid = get_cookie('uid');       
         $u = new User();
-        $u->get_by_id($uid);
+        $u->get_by_id($this->user->id);
         
         $fid = $this->input->post('friendId');
         $f = new User();
@@ -79,9 +84,8 @@ class Friends extends CI_Controller
     
     function ajax_accept_request()
     {
-        $uid = get_cookie('uid');
         $u = new User();
-        $u->get_by_id($uid);
+        $u->get_by_id($this->user->id);
 
         $fid = $this->input->post('friendId');
         $f = new User();

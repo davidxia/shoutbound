@@ -1,18 +1,31 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Replies extends CI_Controller
 {
     
+    public $user;
+    
     function __construct()
     {
-    	  parent::__construct();
-    }
+        parent::__construct();
+        $u = new User();
+        $uid = $u->get_logged_in_status();
+        if ($uid)
+        {
+            $u->get_by_id($uid);
+            $this->user = $u->stored;
+        }
+        else
+        {
+            redirect('/');
+        }
+		}
 
 
     function ajax_save_reply()
     {
         $r = new Reply();
-        $r->user_id = $this->input->post('userId');
+        $r->user_id = $this->user->id;
         $r->message_id = $this->input->post('messageId');
         $r->suggestion_id = $this->input->post('suggestionId');
         $r->text = $this->input->post('text');
@@ -20,15 +33,12 @@ class Replies extends CI_Controller
                 
         if ($r->save())
         {
-            $u = new User();
-            $u->get_by_id($r->user_id);
-            
             json_success(array(
                 'id' => $r->id,
                 'text' => $this->input->post('text'),
                 'created' => time()-72,
-                'userName' => $u->name,
-                'uid' => $u->id
+                'userName' => $this->user->name,
+                'uid' => $this->user->id,
             ));
         }
     }

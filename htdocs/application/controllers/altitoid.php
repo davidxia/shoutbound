@@ -3,18 +3,23 @@
 class Altitoid extends CI_Controller
 {
     
+    public $user;
+
     function __construct()
     {
         parent::__construct();
+        $u = new User();
+        $uid = $u->get_logged_in_status();
+        if ($uid)
+        {
+            $u->get_by_id($uid);
+            $this->user = $u->stored;
+        }
     }
 
 
     function index()
     {
-        $u = new User();
-        $uid = $u->get_logged_in_status();
-        $u->get_by_id($uid);
-        
         $up = new Upload();
         $up->get();
         
@@ -25,7 +30,7 @@ class Altitoid extends CI_Controller
         }
         
         $view_data = array(
-            'user' => $u->stored,
+            'user' => $this->user,
             'uploads' => $uploads,
         );
         

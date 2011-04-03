@@ -1,26 +1,25 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Landing extends CI_Controller
 {
 
+    public $user;
+    
     function __construct()
     {
-    	  parent::__construct();
-    }
-
-
-    function index()
-    {
+        parent::__construct();
         $u = new User();        
         if ($u->get_logged_in_status())
         {
             redirect('/home');
         }
-        else
-        {
-            $view_data = array('is_landing' => 1);
-            $this->load->view('landing', $view_data);
-        }
+		}
+
+
+    function index()
+    {
+        $view_data = array('is_landing' => 1);
+        $this->load->view('landing', $view_data);
     }
 
 }

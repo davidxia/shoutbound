@@ -10,7 +10,7 @@
     <? endif;?>
     
     <div class="nav" style="position:absolute; right:0; top:0;">
-      <? if (isset($user)):?>
+      <? if (isset($user->id)):?>
         <a href="<?=site_url('home')?>">Home</a>
         <a href="<?=site_url('profile')?>">Profile</a>
         <a href="<?=site_url('settings')?>">Settings</a>

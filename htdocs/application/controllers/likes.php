@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Likes extends CI_Controller
 {
@@ -20,52 +20,45 @@ class Likes extends CI_Controller
         $message_id ? $type_id=$message_id : $type_id=$suggestion_id;
         
         $l = new Like();
-        //if ($suggestionId)
-        //{
-            $l->where($type, $type_id)->where('user_id', $user_id)->update('is_like', $is_like);
-            if ($l->db->affected_rows() == 1)
+        $l->where($type, $type_id)->where('user_id', $user_id)->update('is_like', $is_like);
+        if ($l->db->affected_rows() == 1)
+        {
+            $u = new User();
+            $u->get_by_id($user_id);
+            
+            json_success(array(
+                'userName' => $u->name,
+                'isLike' => $is_like,
+                'uid' => $user_id
+            ));
+        }
+        elseif ($l->db->affected_rows() == 0)
+        {
+            $l->clear();
+            $l->user_id = $user_id;
+            if ($type == 'message_id')
+            {
+                $l->message_id = $type_id;
+            }
+            elseif ($type == 'suggestion_id')
+            {
+                $l->suggestion_id = $type_id;
+            }
+            $l->is_like = $is_like;
+            $l->created = time()-72;
+                    
+            if ($l->save())
             {
                 $u = new User();
                 $u->get_by_id($user_id);
                 
                 json_success(array(
-                    //'id' => $l->id,
                     'userName' => $u->name,
                     'isLike' => $is_like,
                     'uid' => $user_id
                 ));
             }
-            elseif ($l->db->affected_rows() == 0)
-            {
-                $l->clear();
-                $l->user_id = $user_id;
-                if ($type == 'message_id')
-                {
-                    $l->message_id = $type_id;
-                }
-                elseif ($type == 'suggestion_id')
-                {
-                    $l->suggestion_id = $type_id;
-                }
-                $l->is_like = $is_like;
-                $l->created = time()-72;
-                        
-                if ($l->save())
-                {
-                    $u = new User();
-                    $u->get_by_id($user_id);
-                    
-                    json_success(array(
-                        //'id' => $l->id,
-                        'userName' => $u->name,
-                        'isLike' => $is_like,
-                        'uid' => $user_id
-                    ));
-                }
-            }
-        //}
-        
-        
+        }
     }    
 }
 

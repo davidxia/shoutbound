@@ -1,6 +1,7 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Login extends CI_Controller {
+class Login extends CI_Controller
+{
  
     function __construct()
     {
@@ -23,7 +24,6 @@ class Login extends CI_Controller {
     function email_login()
     {
         $u = new User();
-
         $u->email = $this->input->post('email');
         $u->password = $this->input->post('password');
 
@@ -126,8 +126,6 @@ class Login extends CI_Controller {
             }
             
         }
-     
-        //json_success(array());
     }
 
 }

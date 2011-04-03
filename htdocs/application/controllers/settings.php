@@ -1,27 +1,35 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Settings extends CI_Controller
 {
+
+    public $user;
     
     function __construct()
     {
-    	  parent::__construct();
+        parent::__construct();
         $u = new User();
-        if ( ! $u->get_logged_in_status())
+        $uid = $u->get_logged_in_status();
+        if ($uid)
         {
-            redirect('/');            
+            $u->get_by_id($uid);
+            $this->user = $u->stored;
         }
-    }
+        else
+        {
+            redirect('/');
+        }
+		}
     
 
     function index()
     {
         $u = new User();
-        $u->get_by_id(get_cookie('uid'));
+        $u->get_by_id($this->user->id);
         $u->settings->get();
 
         $view_data = array(
-            'user' => $u->stored,
+            'user' => $this->user,
             'settings' => $u->settings->stored,
         );
         
