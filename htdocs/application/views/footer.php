@@ -1,16 +1,17 @@
 <div class="footer">
   <div class="wrapper">
-    <span class="copy" style="float:right; color:#BABABA;">&copy; <?=date('Y')?> Shoutbound</span>
-    <a href="http://www.shoutbound.com/story" style="color:#008EB4; text-decoration:none; margin-right:20px">Story</a>
-    <a href="http://www.shoutbound.com/team" style="color:#008EB4; text-decoration:none; margin-right:20px">Team</a>
-    <a href="http://www.shoutbound.com/values" style="color:#008EB4; text-decoration:none; margin-right:20px">Values</a>
-    <a href="http://blog.shoutbound.com/" style="color:#008EB4; text-decoration:none; margin-right:20px">Blog</a>
-    <a href="http://www.shoutbound.com/press" style="color:#008EB4; text-decoration:none; margin-right:20px">Press</a>
-    <a href="http://www.shoutbound.com/contact" style="color:#008EB4; text-decoration:none; margin-right:20px">Contact</a>
-    <a href="http://www.shoutbound.com/terms" style="color:#008EB4; text-decoration:none; margin-right:20px">Terms &amp; Privacy</a>
+    <span class="copy">&copy; <?=date('Y')?> Shoutbound</span>
+    <a class="marg-right" href="<?=site_url('about')?>">About</a>
+    <a class="marg-right" href="<?=site_url('about/story')?>">Story</a>
+    <a class="marg-right" href="<?=site_url('about/team')?>">Team</a>
+    <a class="marg-right" href="<?=site_url('about/values')?>">Values</a>
+    <a class="marg-right" href="http://blog.shoutbound.com/">Blog</a>
+    <a class="marg-right" href="<?=site_url('press')?>">Press</a>
+    <a class="marg-right" href="<?=site_url('about/contact')?>">Contact</a>
+    <!--<a href="http://www.shoutbound.com/terms">Terms &amp; Privacy</a>-->
     Join us on
-    <a href="http://www.facebook.com/pages/Shoutbound/150065021716235" style="color:#008EB4; text-decoration:none;">Facebook</a>,
-    <a href="http://twitter.com/shoutbound" style="color:#008EB4; text-decoration:none;">Twitter</a>,
-    and <a href="http://www.youtube.com/shoutbound" style="color:#008EB4; text-decoration:none;">YouTube</a>
+    <a href="http://www.facebook.com/pages/Shoutbound/150065021716235">Facebook</a>
+    and <a href="http://twitter.com/shoutbound">Twitter</a>
+    <!--and <a href="http://www.youtube.com/shoutbound">YouTube</a>-->
   </div>
 </div>

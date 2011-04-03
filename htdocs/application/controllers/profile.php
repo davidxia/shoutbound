@@ -231,7 +231,7 @@ class Profile extends CI_Controller
         if (is_object($req = $this->twitter->authenticate())) {
             // Do something with the $req you received ...
             //print_r($req);
-            $r = $this->twitter->get($req->oauth_token, $req->oauth_token_secret, 'http://api.twitter.com/1/statuses/user_timeline.json');
+            $r = $this->twitter->post($req->oauth_token, $req->oauth_token_secret, 'http://api.twitter.com/1/statuses/update.xml', array('status'=> 'yayayya'));
             print_r($r);
         }
         

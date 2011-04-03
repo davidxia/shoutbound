@@ -9,10 +9,23 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
+html, body {
+  -webkit-text-size-adjust: none;
+  min-width: 980px;
+}
+
 .header {
-  font-size: 14px;
-  height: 60px;
+  height: 50px;
   display: block;
+}
+
+.header .nav a {
+  margin-left:20px;
+  display:block;
+  float:left;
+  padding:15px 0;
+  line-height:20px;
+  font-size:13px;
 }
 
 .content {
@@ -22,9 +35,17 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 .footer {
   clear: both;
   z-index: 10;
-  font-size: 12px;
+  font-size: 13px;
   padding: 25px 0 80px;
   border-top: 1px solid #BDB8AD;
+}
+
+.footer a.marg-right {
+  margin-right: 20px;
+}
+
+.footer .copy {
+  float: right;
 }
 
 .wrapper {
@@ -64,10 +85,10 @@ p{
 
 a, a:visited{
 	text-decoration:none;
-	color: #0095CD;
+	color: #007EAD;
 }
 a:hover{
-  color: #007EAD;
+  color: #0095CD;
 }
 
 ol, ul {
@@ -95,19 +116,23 @@ input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
 input[type="submit"] {
   cursor: pointer;
 }
+
 #signup-form input[type=text], #signup-form input[type=password],
 #login-form input[type=text], #login-form input[type=password] {
 	width: 380px;
 	padding: 9px;
 }
+
 fieldset {
   border-width: 0;
   border-color: transparent;
 }
+
 label.error {
   color: red;
   font-size: 13px;
 }
+
 
 
 /* buttons
