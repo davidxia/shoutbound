@@ -3,22 +3,29 @@
 class Trips extends CI_Controller
 {
     
+    public $user;
+    
     function __construct()
     {
         parent::__construct();
-    }
+        $u = new User();
+        $uid = $u->get_logged_in_status();
+        if ($uid)
+        {
+            $u->get_by_id($uid);
+            $this->user = $u->stored;
+        }
+		}
         
     
- 	  function confirm_create()
+ 	  public function confirm_create()
  	  {
-        $u = new User();
-        if ( ! $u->get_logged_in_status() OR getenv('REQUEST_METHOD') == 'GET')
+        if ( ! isset($this->user->id) OR getenv('REQUEST_METHOD') == 'GET')
         {
             custom_404();
             return;
         }
-        $uid = get_cookie('uid');
-        $u->get_by_id($uid);
+        //$uid = get_cookie('uid');
         
         $post = $this->input->post('destinations_dates');
         $post = $post['destinations_dates'];
@@ -32,6 +39,9 @@ class Trips extends CI_Controller
         }
         $t->is_private = ($post['private'] == 1) ? 1 : 0;
                 
+        $u = new User();
+        $u->get_by_id($this->user->id);
+
         if ($t->save() AND $u->save($t)
             AND $t->set_join_field($u, 'role', 3)
             AND $t->set_join_field($u, 'rsvp', 3))
@@ -80,13 +90,13 @@ class Trips extends CI_Controller
 
                 $response = $this->sendgrid_email->send_mail(
                     array($email),
-                    $u->name.' invited you on a trip on Shoutbound!',
-                    '<h4>'.$u->name.
+                    $this->user->name.' invited you on a trip on Shoutbound!',
+                    '<h4>'.$this->user->name.
                         ' invited you to a trip on Shoutbound</h4>'.$post['description'].
                         '<br/><a href="'.site_url('trips/share/'.$t->id.'/'.$share_key).
                         '">To see the trip, click here.</a>'.
                         '<br/>Have fun!<br/>Team Shoutbound',
-                    $u->name.
+                    $this->user->name.
                         ' invited you to a trip on Shoutbound'.$post['description'].
                         '<br/><a href="'.site_url('trips/share/'.$t->id.'/'.$share_key).
                         '">To see the trip, click here.</a>'.
@@ -117,11 +127,11 @@ class Trips extends CI_Controller
         }
         
         $u = new User();
-        $uid = $u->get_logged_in_status();
-        if ($uid)
+        //$uid = $u->get_logged_in_status();
+        if (isset($this->user))
         {
-            $u->get_by_id($uid);
-            $user = $u->stored;
+            $u->get_by_id($this->user->id);
+            //$user = $u->stored;
             
             // get user's relation to this trip
             $u->trip->include_join_fields()->get_by_id($trip_id);
@@ -163,6 +173,7 @@ class Trips extends CI_Controller
         $creator = $u->stored;
         
         // get users who are trip planners and rsvped yes
+        $trip_goers = array();
         $u->where_join_field('trip', 'rsvp', 3)->where_in_join_field('trip', 'role', array(2,3))->get_by_related_trip('id', $trip_id);
         foreach ($u->all as $other_user)
         {
@@ -264,7 +275,7 @@ class Trips extends CI_Controller
             'trip' => $t->stored,
             'creator' => $creator,
             'destinations' => $destinations,
-            'user' => $user,
+            'user' => $this->user,
             'user_role' => $user_role,
             'user_rsvp' => $user_rsvp,
             'wall_items' => $wall_items,
@@ -277,18 +288,18 @@ class Trips extends CI_Controller
     }
     
     
-    function create($i=1)
+    public function create($i=1)
     {        
-        $u = new User();
-        $uid = $u->get_logged_in_status();
-        $u->get_by_id($uid);
+        //$u = new User();
+        //$uid = $u->get_logged_in_status();
+        //$u->get_by_id($this->user->id);
 
-        $view_data = array('user' => $u->stored,
+        $view_data = array('user' => $this->user,
                            'destination' => $this->input->post('destination'),
                            'destination_lat' => $this->input->post('destination_lat'),
                            'destination_lng' => $this->input->post('destination_lng'),
                            'is_landing' => 1,
-                          );
+        );
 
         if ($i == 1)
         {
@@ -305,8 +316,9 @@ class Trips extends CI_Controller
     }
     
     
-    function ajax_trip_create()
+    public function ajax_trip_create()
     {
+        /*
         $u = new User();
         if ( ! $u->get_logged_in_status())
         {
@@ -314,6 +326,14 @@ class Trips extends CI_Controller
         }
         $uid = get_cookie('uid');
         $u->get_by_id($uid);
+        */
+        
+        if ( ! isset($this->user))
+        {
+            redirect('/');
+        }
+        $u = new User();
+        $u->get_by_id($this->user->id);
 
         $t = new Trip();
         $t->name = $this->input->post('tripName');
@@ -326,15 +346,14 @@ class Trips extends CI_Controller
     }
 
     
-    function ajax_rsvp_yes()
+    public function ajax_rsvp_yes()
     {
-        $u = new User();
-        $uid = $u->get_logged_in_status();
-        if ( ! $uid)
+        if ( ! isset($this->user))
         {
-            redirect('/');            
+            redirect('/');
         }
-        $u->get_by_id($uid);
+        $u = new User();
+        $u->get_by_id($this->user->id);
         
         $t = new Trip();
         $t->get_by_id($this->input->post('tripId'));
@@ -346,15 +365,14 @@ class Trips extends CI_Controller
     }
     
     
-    function ajax_rsvp_no()
+    public function ajax_rsvp_no()
     {
-        $u = new User();
-        $uid = $u->get_logged_in_status();
-        if ( ! $uid)
+        if ( ! isset($this->user))
         {
-            redirect('/');            
+            redirect('/');
         }
-        $u->get_by_id($uid);
+        $u = new User();
+        $u->get_by_id($this->user->id);
         
         $t = new Trip();
         $t->get_by_id($this->input->post('tripId'));
@@ -366,7 +384,7 @@ class Trips extends CI_Controller
     }
 
             
-    function share($trip_id, $share_key)
+    public function share($trip_id, $share_key)
     {        
         $ts = new Trip_share();
         $trip_share = $ts->get_tripshare_by_tripid_sharekey($trip_id, $share_key);
@@ -392,29 +410,31 @@ class Trips extends CI_Controller
     }
     
     
-    function delete($trip_id)
+    public function delete($trip_id=FALSE)
     {
-        $u = new User();
-        if ( ! $u->get_logged_in_status())
+        if ( ! (isset($this->user) OR $trip_id))
         {
-            redirect('/');            
+            custom_404();
+            return;
         }
-        $uid = get_cookie('uid');
-        $u->get_by_id($uid);
+        $u = new User();
+        $u->get_by_id($this->user->id);
         
         $t = new Trip();
         //check if trip exists in trips table and is active, ie not deleted
         $t->get_by_id($trip_id);
         if ( ! $t->active)
         {
-            redirect('/');
+            custom_404();
+            return;
         }
 
         //check if user is the creator, redirect to home page otherwise
         $u->trip->include_join_fields()->get_by_id($trip_id);
         if ($u->trip->join_role != 3)
         {
-            redirect('/');
+            custom_404();
+            return;
         }
 
         $t->where('id', $trip_id)->update('active', 0);
@@ -422,22 +442,23 @@ class Trips extends CI_Controller
     }    
     
 
-    function verify_share_cookie($trip_id)
+    private function verify_share_cookie($trip_id)
     {
         $received_invites = json_decode(get_cookie('received_invites'));
-        $share_key = $received_invites->$trip_id;
-
-        $ts = new Trip_share();
-        $ts->where('trip_id', $trip_id)->get();
-        
-        foreach ($ts->all as $trip_share)
+        $share_key = (isset($received_invites->$trip_id)) ? $received_invites->$trip_id : FALSE;
+        if ($share_key)
         {
-            if (md5('alea iacta est'.$trip_share->share_key) == $share_key)
+            $ts = new Trip_share();
+            $ts->where('trip_id', $trip_id)->get();
+            
+            foreach ($ts as $trip_share)
             {
-                return TRUE;
+                if (md5('alea iacta est'.$trip_share->share_key) == $share_key)
+                {
+                    return TRUE;
+                }
             }
         }
-        
         return FALSE;
     }
     
