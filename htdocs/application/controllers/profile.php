@@ -242,15 +242,22 @@ class Profile extends CI_Controller
         $this->load->library('twitter');
         if (is_object($r = $this->twitter->authenticate()))
         {
+            // TODO: store access token somewhere so we don't have to get new one everytime??
             $tweets = $this->twitter->get($r->oauth_token, $r->oauth_token_secret, 'http://api.twitter.com/1/statuses/user_timeline.json', array('count'=>'200'));
             foreach ($tweets as $tweet)
             {
                 if (isset($tweet->place))
                 {
-                    echo json_encode($tweet->place->bounding_box->coordinates[0]);
+                    $geodata = json_encode($tweet->place->bounding_box->coordinates[0]);
                 }
             }
         }
+        
+        $view_data = array(
+            'geodata' => $geodata,
+        );
+        
+        $this->load->view('twitter_geohist', $view_data);
         
     }
 }
