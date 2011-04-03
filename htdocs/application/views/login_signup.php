@@ -179,9 +179,9 @@
   $('#signup-submit').click(function() {
     if ($('#signup-form').valid()) {
       var postData = {
-        name: $('#signup_name').val(),
-        email: $('#signup_email').val(),
-        password: $('#password_create').val()
+        signupName: $('#signup_name').val(),
+        signupEmail: $('#signup_email').val(),
+        signupPw: $('#signup_pw').val()
       };
       
       $.ajax({

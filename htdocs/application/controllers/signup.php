@@ -43,9 +43,9 @@ class Signup extends CI_Controller
     function ajax_create_user()
     {
 		    $u = new User();
-		    $u->name = $this->input->post('signup_name');
-		    $u->email = $this->input->post('signup_email');
-		    $u->password = md5('davidxia'.$this->input->post('signup_pw').'isgodamongmen');
+		    $u->name = $this->input->post('signupName');
+		    $u->email = $this->input->post('signupEmail');
+		    $u->password = md5('davidxia'.$this->input->post('signupPw').'isgodamongmen');
 		    $u->created = time()-72;
 
         if ($u->save())

@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Users extends CI_Controller
 {
@@ -8,13 +8,8 @@ class Users extends CI_Controller
         parent::__construct();        
     }
  
-    function index()
-    {
-        $this->load->view('facebook_test');
-    }
-    
-    
-    function logout()
+
+    public function logout()
     {
         $u = new User();
         $u->logout();
@@ -22,7 +17,7 @@ class Users extends CI_Controller
     }
                 
 
-    function ajax_get_logged_in_status()
+    public function ajax_get_logged_in_status()
     {
         $u = new User();
         $uid = $u->get_logged_in_status();
@@ -38,9 +33,9 @@ class Users extends CI_Controller
     }
     
     
-    function login_signup()
+    public function login_signup()
     {
-        $render_string = $this->load->view('login_signup', $view_data, true);
+        $render_string = $this->load->view('login_signup', '', true);
         json_success(array('data'=>$render_string));
     }
 }
