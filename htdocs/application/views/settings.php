@@ -44,7 +44,7 @@ $this->load->view('core_header', $header_args);
         
         <br>
         
-        <input type="submit" id="save-settings" name="save-settings" value="Save" />
+        <input type="submit" id="save-settings" class="blue-button" name="save-settings" value="Save" />
       
       </form>
       

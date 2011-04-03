@@ -28,6 +28,7 @@ class Profile extends CI_Controller
             $profile = $u->stored;
             $user = $u->stored;
             $pid = $uid;
+            $is_friend = -1;
         }
         elseif ( ! $uid)
         {
@@ -74,6 +75,10 @@ class Profile extends CI_Controller
                 {
                     $is_friend = 2;
                 }
+            }
+            else
+            {
+                $is_friend = -1;
             }
         }
 

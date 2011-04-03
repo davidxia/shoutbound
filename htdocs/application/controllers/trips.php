@@ -210,7 +210,7 @@ class Trips extends CI_Controller
                 $message->stored->likes[$like->user_id] = $like->is_like;
             }
             $uids_likes = array_count_values($message->stored->likes);
-            $message->stored->num_likes = $uids_likes['1'];
+            $message->stored->num_likes = (isset($uids_likes['1'])) ? $uids_likes['1'] : 0;
 
             $wall_items[] = $message->stored;
         }        
@@ -244,7 +244,7 @@ class Trips extends CI_Controller
                 $suggestion->stored->likes[$like->user_id] = $like->is_like;
             }
             $uids_likes = array_count_values($suggestion->stored->likes);
-            $suggestion->stored->num_likes = $uids_likes['1'];
+            $suggestion->stored->num_likes = (isset($uids_likes['1'])) ? $uids_likes['1'] : 0;
 
             $wall_items[] = $suggestion->stored;
             $suggestions[] = $suggestion->stored;
