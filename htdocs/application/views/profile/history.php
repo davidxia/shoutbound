@@ -54,8 +54,7 @@ $this->load->view('core_header', $header_args);
     FB.login(function(response) {
       if (response.session) {
         $.ajax({
-          type: 'POST',
-          url: '<?=site_url('profile/facebook_history')?>',
+          url: '<?=site_url('profile/facebook_geohist')?>',
           success: function(r) {
             $('#places').html(r);
           }
@@ -70,8 +69,7 @@ $this->load->view('core_header', $header_args);
   
   $('#import-tw-data').click(function() {
     $.ajax({
-      type: 'POST',
-      url: '<?=site_url('profile/twitter_data')?>',
+      url: '<?=site_url('profile/twitter_geohist')?>',
       success: function(r) {
         $('#places').html(r);
       }

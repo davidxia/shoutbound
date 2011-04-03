@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Profile extends CI_Controller
 {
@@ -198,7 +198,7 @@ class Profile extends CI_Controller
     }
     
     
-    public function facebook_history()
+    public function facebook_geohist()
     {
         $this->load->library('facebook');
         $fbdata = $this->facebook->api('/me?fields=name,location,hometown,education,work');
@@ -225,14 +225,19 @@ class Profile extends CI_Controller
     }
     
     
-    public function twitter_data()
+    public function twitter_geohist()
     {
         $this->load->library('twitter');
-        if (is_object($req = $this->twitter->authenticate())) {
-            // Do something with the $req you received ...
-            //print_r($req);
-            $r = $this->twitter->post($req->oauth_token, $req->oauth_token_secret, 'http://api.twitter.com/1/statuses/update.xml', array('status'=> 'yayayya'));
-            print_r($r);
+        if (is_object($r = $this->twitter->authenticate()))
+        {
+            $tweets = $this->twitter->get($r->oauth_token, $r->oauth_token_secret, 'http://api.twitter.com/1/statuses/user_timeline.json', array('count'=>'200'));
+            foreach ($tweets as $tweet)
+            {
+                if (isset($tweet->place))
+                {
+                    echo json_encode($tweet->place->bounding_box->coordinates[0]);
+                }
+            }
         }
         
     }

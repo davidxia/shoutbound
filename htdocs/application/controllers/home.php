@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Home extends CI_Controller
 {
@@ -135,9 +135,9 @@ class Home extends CI_Controller
     }
     
     
-    function facebook_test2()
+    function fb_request_form()
     {
-        $this->load->view('facebook_test2');
+        $this->load->view('fb_request_form');
     }
     
     
