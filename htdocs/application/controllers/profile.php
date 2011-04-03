@@ -209,19 +209,31 @@ class Profile extends CI_Controller
         ));
         //print_r($checkins); echo '<br/><br/>';
         
+        
         $places = array();
-        $places[] = $fbdata['location']['name'];
-        $places[] = $fbdata['hometown']['name'];
-        foreach ($fbdata['education'] as $education)
+        if ($fbdata['location']['name'])
         {
-            $places[] = $education['school']['name'];
+            $places[] = $fbdata['location']['name'];
         }
-        foreach ($fbdata['work'] as $work)
+        if ($fbdata['hometown']['name'])
         {
-            $places[] = $work['location']['name'];
-        }        
-        $places = json_encode($places);
-        print_r($places);
+            $places[] = $fbdata['hometown']['name'];
+        }
+        if ($fbdata['education'])
+        {
+            foreach ($fbdata['education'] as $education)
+            {
+                $places[] = $education['school']['name'];
+            }        
+        }
+        if ($fbdata['work'])
+        {
+            foreach ($fbdata['work'] as $work)
+            {
+                $places[] = $work['location']['name'];
+            }
+        }
+        echo json_encode($places);
     }
     
     
