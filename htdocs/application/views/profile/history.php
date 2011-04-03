@@ -41,7 +41,7 @@ $this->load->view('core_header', $header_args);
     <a href="#" id="import-tw-data">import twitter data</a>
     
     <div id="places"></div>
-    
+        
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
 

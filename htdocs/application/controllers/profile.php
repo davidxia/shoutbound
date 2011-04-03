@@ -2,20 +2,29 @@
 
 class Profile extends CI_Controller
 {
+
+    public $user;
     
     function __construct()
     {
         parent::__construct();
+        $u = new User();
+        $uid = $u->get_logged_in_status();
+        if ($uid)
+        {
+            $u->get_by_id($uid);
+            $this->user = $u->stored;
+        }
 		}
 		
 
     public function index($pid = FALSE)
     {
-        $u = new User();
-        $uid = $u->get_logged_in_status();
+        //$u = new User();
+        //$uid = $u->get_logged_in_status();
 
         // if user not logged in and no profile specified, return 404
-        if ( ! ($pid OR $uid))
+        if ( ! ($pid OR $this->user))
         {
             custom_404();
             return;
@@ -24,14 +33,15 @@ class Profile extends CI_Controller
         // if no profile number specified, show user's own profile
         if ( ! $pid)
         {
-            $u->get_by_id($uid);
-            $profile = $u->stored;
-            $user = $u->stored;
-            $pid = $uid;
+            //$u->get_by_id($uid);
+            $profile = $this->user;
+            //$user = $this->user;
+            $pid = $this->user->id;
             $is_friend = -1;
         }
-        elseif ( ! $uid)
+        elseif ( ! $this->user)
         {
+            $u = new User();
             $u->get_by_id($pid);
             if ( ! $u->id)
             {
@@ -39,11 +49,13 @@ class Profile extends CI_Controller
                 return;
             }
             $profile = $u->stored;
-            $user = FALSE;
+            $is_friend = -1;
+            //$user = FALSE;
         }
         // if profile specified and user's logged in
         else
         {
+            $u = new User();
             $u->get_by_id($pid);
             if ( ! $u->id)
             {
@@ -51,19 +63,20 @@ class Profile extends CI_Controller
                 return;
             }
             $profile = $u->stored;
-            $u->get_by_id($uid);
-            $user = $u->stored;
+            //$u->get_by_id($uid);
+            //$user = $this->user;
 
-            if ($pid != $uid)
+            if ($pid != $this->user->id)
             {
+                $u->get_by_id($this->user->id);
                 $u->related_user->where('id', $pid)->get();
                 
                 // get profile user's friendship status with this user
                 $f = new User();
                 $f->get_by_id($pid);
-                $f->related_user->where('id', $uid)->get();
-                
-                if ( ! $u->related_user->id)
+                $f->related_user->where('id', $this->user->id)->get();
+
+                if ( ! isset($u->related_user->id))
                 {
                     $is_friend = 0;
                 }
@@ -84,6 +97,7 @@ class Profile extends CI_Controller
 
         // get active trips for which profile is a planner or creator and rsvp is yes
         $trips = array();
+        $u = new User();
         $u->get_by_id($pid);
 
         $u->trip->where('active', 1)->where_in_join_field('user', 'role', array(2,3))->where_join_field('user', 'rsvp', 3)->get();
@@ -127,7 +141,7 @@ class Profile extends CI_Controller
         }
         
         $view_data = array(
-            'user' => $user,
+            'user' => $this->user,
             'profile' => $profile,
             'trips' => $trips,
             'friends' => $friends,
@@ -140,17 +154,18 @@ class Profile extends CI_Controller
     
     public function edit()
     {
-        $u = new User();
-        $uid = $u->get_logged_in_status();
-        if ( ! $uid )
+        //$u = new User();
+        //$uid = $u->get_logged_in_status();
+        if ( ! $this->user)
         {
-            redirect('/');
+            custom_404();
+            return;
         }
         
-        $u->get_by_id($uid);
+        //$u->get_by_id($uid);
         
         $view_data = array(
-            'user' => $u->stored,
+            'user' => $this->user,
         );
  			               
         $this->load->view('profile/edit', $view_data);
@@ -196,7 +211,7 @@ class Profile extends CI_Controller
     public function history()
     {
         $view_data = array(
-            'user' => $u->stored,
+            'user' => $this->user,
         );
 
         $this->load->view('profile/history', $view_data);
