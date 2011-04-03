@@ -280,6 +280,8 @@ class Profile extends CI_Controller
         $this->load->view('twitter_geohist', $view_data);
         
     }
+    
+    
 }
 
 /* End of file profile.php */

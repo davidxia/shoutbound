@@ -3,20 +3,27 @@
 class Trip_shares extends CI_Controller
 {
     
+    public $user;
+    
     function __construct()
     {
         parent::__construct();
-    }
-    
-    
-    function generate_share_key($trip_id, $share_role, $share_medium, $target_id, $is_claimed)
-    {
         $u = new User();
-        if ( ! $u->get_logged_in_status())
+        $uid = $u->get_logged_in_status();
+        if ($uid)
         {
-            redirect('/');            
+            $u->get_by_id($uid);
+            $this->user = $u->stored;
         }
-
+        else
+        {
+            redirect('/');
+        }
+		}
+    
+    
+    public function generate_share_key($trip_id, $share_role, $share_medium, $target_id, $is_claimed)
+    {
         $ts = new Trip_share();
         $ts->trip_id = $trip_id;
         $ts->share_role = $share_role;
@@ -28,14 +35,8 @@ class Trip_shares extends CI_Controller
     }
     
     
-    function ajax_generate_share_key()
+    public function ajax_generate_share_key()
     {
-        $u = new User();
-        if ( ! $u->get_logged_in_status())
-        {
-            redirect('/');            
-        }
-
         $ts = new Trip_share();
         $ts->trip_id = $this->input->post('tripId');
         $ts->share_role = $this->input->post('shareRole');
@@ -55,11 +56,11 @@ class Trip_shares extends CI_Controller
     }
 
 
-    function send_email()
+    public function send_email()
     {
-        $u = new User();
-        $u->get_by_id($this->input->post('uid'));
-        $sender = $u->name;
+        //$u = new User();
+        //$u->get_by_id($this->input->post('uid'));
+        $sender = $this->user->name;
         
         $this->load->library('sendgrid_email');
         
@@ -67,6 +68,7 @@ class Trip_shares extends CI_Controller
         {
             $uids = json_decode($this->input->post('uids'));
             
+            $u = new User();
             foreach ($uids as $uid)
             {
                 $u->get_by_id($uid);
@@ -119,7 +121,7 @@ class Trip_shares extends CI_Controller
     }
     
     
-    function generate_html_email($user_name, $trip_id, $share_key)
+    private function generate_html_email($user_name, $trip_id, $share_key)
     {
         $html = '<h4>'.$user_name.' invited you to a trip on Shoutbound</h4>'.
             '<br/><a href="'.site_url('trips/share/'.$trip_id.'/'.$share_key).'">'.
@@ -130,7 +132,7 @@ class Trip_shares extends CI_Controller
     }
     
     
-    function generate_text_email($user_name, $trip_id, $share_key)
+    private function generate_text_email($user_name, $trip_id, $share_key)
     {
         $text = $user_name.' invited you to a trip on Shoutbound'.
             '<br/><a href="'.site_url('trips/share/'.$trip_id.'/'.$share_key).'">'.
@@ -141,23 +143,16 @@ class Trip_shares extends CI_Controller
     }
     
     
-    function ajax_share_trip()
-    {
-        $u = new User();
-        $uid = $u->get_logged_in_status();
-        if ( ! $uid)
-        {
-            redirect('/');            
-        }
-        $u->get_by_id($uid);
-        
+    public function ajax_share_trip()
+    {        
         $trip_id = $this->input->post('tripId');
         
         $t = new Trip();
         $t->get_by_id($trip_id);
 
         $uids = json_decode($this->input->post('uids'));
-                
+
+        $u = new User();
         foreach ($uids as $uid)
         {
             $u->get_by_id($uid);
@@ -179,15 +174,10 @@ class Trip_shares extends CI_Controller
     }
     
 
-    function ajax_trip_share_dialog()
+    public function ajax_trip_share_dialog()
     {
         $u = new User();
-        if ( ! $u->get_logged_in_status())
-        {
-            redirect('/');            
-        }
-        $uid = get_cookie('uid');
-        $u->get_by_id($uid);
+        $u->get_by_id($this->user->id);
         
         // get Shoutbound friends not related to this trip
         $u->related_user->get();

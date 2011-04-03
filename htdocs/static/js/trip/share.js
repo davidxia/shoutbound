@@ -346,7 +346,7 @@ share.displaySuccessDialog = function(r) {
 
 share.sendEmail = function(uids, shareRole) {
   var postData = {
-    uid: uid,
+    //uid: uid,
     tripId: tripId,
     uids: uids,
     shareRole: shareRole

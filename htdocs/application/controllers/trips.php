@@ -100,7 +100,7 @@ class Trips extends CI_Controller
  	  }
 
 
-    function index($trip_id = FALSE)
+    public function index($trip_id = FALSE)
     {
         if ( ! $trip_id)
         {
@@ -215,6 +215,7 @@ class Trips extends CI_Controller
             $wall_items[] = $message->stored;
         }        
         
+        $suggestions = array();
         $s = new Suggestion();
         $s->order_by('created', 'desc');
         $s->where('trip_id', $trip_id)->where('active', 1)->get();
@@ -250,8 +251,11 @@ class Trips extends CI_Controller
             $suggestions[] = $suggestion->stored;
         }
         
-        $this->load->helper('quicksort');
-        _quicksort($wall_items);
+        if (isset($wall_items[0]))
+        {
+            $this->load->helper('quicksort');
+            _quicksort($wall_items);
+        }
         
         $ts = new Trip_share();
         $is_shared = ($ts->where('trip_id', $t->id)->count()) ? 1 : 0;
