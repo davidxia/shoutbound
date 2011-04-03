@@ -59,25 +59,25 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('wrapper_content')?>
 			
 	<!--LEFT-->
-	<div style="width:470px; float:left; padding:65px 0 0 20px;">
+	<div style="width:450px; float:left; padding:20px; margin-top:45px;">
 				
 		<h2 style="font-size:52px; line-height:58px; font-weight:bold;">Collaborative travel planning.</h2>
 
 		<!--BAR-->
 		<div style="line-height:45px; height:45px; width:400px; margin-top:20px; margin-bottom:20px;">
 		  <form id="create-trip" action="trips/create" method="post" style="position:relative; height:45px;">
-		    <label for="destination" style="position:absolute; font-size:20px; color:navy; z-index:1; background-color:white; height:45px; padding-left:10px; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;"><span>Where do you want to go?</span></label>
-			  <input type="text" id="destination" name="destination" autocomplete="off" style="position:absolute; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; height:33px; width:313px; margin-right:70px; padding-left:10px; font-size:20px; color:#000080; z-index:2; background:transparent; border:1px solid #8F8F8F;"/>
+		    <label for="destination" style="position:absolute; font-size:20px; color:#007EAD; z-index:1; background-color:white; height:45px; padding-left:12px; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;"><span>Where do you want to go?</span></label>
+			  <input type="text" id="destination" name="destination" autocomplete="off" style="position:absolute; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; height:33px; width:313px; margin-right:70px; padding-left:10px; font-size:20px; z-index:2; background:transparent; border:1px solid #8F8F8F;"/>
 			  <input type="hidden" id="destination_lat" name="destination_lat"/>
         <input type="hidden" id="destination_lng" name="destination_lng"/>
 			  <button id="lets-go" type="submit">Let&rsquo;s go!</button>
 		  </form>
   		  
 	    <!-- AUTO LOC LIST -->
-    	<ul id="location-autosuggest" style="position:absolute; background-color:white; width:310px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;"></ul>
+    	<ul id="location-autosuggest" style="position:absolute; background-color:white; width:309px; -moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; border-bottom-right-radius:5px; border-bottom-left-radius:5px;"></ul>
 		</div><!--BAR ENDS-->
 
-		<h3 style="font-size:24px; color:gray; line-height:30px; font-weight:normal;">Use Shoutbound to organize group<br/>travel plans and get travel advice<br/>from friends and family.</h3>
+		<h3 style="font-size:24px; color:gray; font-weight:normal;">Use Shoutbound to organize group travel plans and get travel advice from friends and family.</h3>
 	
 	</div><!--LEFT ENDS-->
 	
@@ -263,7 +263,7 @@ $this->load->view('core_header', $header_args);
   // selectable dropdown list
   map.listResult = function(resultItem) {
     var li = $('<li style="line-height:25px; padding-left:10px;"></li>');
-    li.html('<a href="#" style="text-decoration:none; color:navy; font-size:18px;" lat="'+resultItem.geometry.location.lat()+'" lng="'+resultItem.geometry.location.lng()+'">'+resultItem.formatted_address+'</a>');
+    li.html('<a href="#" style="font-size:18px;" lat="'+resultItem.geometry.location.lat()+'" lng="'+resultItem.geometry.location.lng()+'">'+resultItem.formatted_address+'</a>');
     
     li.click(function(){
       map.clickGeocodeResult(resultItem);
