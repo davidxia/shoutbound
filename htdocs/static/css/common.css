@@ -14,6 +14,10 @@ html, body {
   min-width: 980px;
 }
 
+::selection, ::-moz-selection {
+  background: #F4EED7;
+}
+
 .header {
   height: 50px;
   display: block;
