@@ -64,6 +64,7 @@ class Home extends CI_Controller
         }
         
         // get suggestions for both user's trips and her friends trips
+        $news_feed_items = array();
         foreach ($trips as $trip)
         {
             $trip_ids[] = $trip->id;
@@ -99,9 +100,11 @@ class Home extends CI_Controller
             }
         }        
         
-        
-        $this->load->helper('quicksort');
-        _quicksort($news_feed_items);
+        if (isset($news_feed_items[0]))
+        {
+            $this->load->helper('quicksort');
+            _quicksort($news_feed_items);
+        }
         
         // get pending friend requests
         // get array of friends relations to the user
