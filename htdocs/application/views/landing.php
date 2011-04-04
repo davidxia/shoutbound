@@ -249,8 +249,19 @@ $this->load->view('core_header', $header_args);
   map.returnGeocodeResult = function(result, status) {
     if (status == google.maps.GeocoderStatus.OK && result[0]) {
     	$('#location-autosuggest').empty().css('border', '1px solid #8F8F8F');
+    	var exclude = ['street_address', 'route', 'intersection', 'neighborhood', 'premise', 'subpremise', 'postal_code', 'airport'];
     	for (var i=0; i<result.length; i++) {
-    		map.listResult(result[i]);
+    		//console.log(result[i].types);
+    		var match = false;
+        for (var j=0; j<8; j++) {
+          if (jQuery.inArray(exclude[j], result[i].types)!=-1) {
+            match = true;
+          }
+        }
+        //console.log(match);
+        if (!match) {
+          map.listResult(result[i]);
+        }
     	}
     } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
     	$('#location-autosuggest').html('Aw, we couldn\'t find that place.');

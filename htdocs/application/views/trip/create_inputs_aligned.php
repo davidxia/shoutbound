@@ -59,7 +59,7 @@ $this->load->view('core_header', $header_args);
               <div class="field destination" style="margin-bottom:10px; float:left; position:relative; width:312px;">
                 <span class="label-and-errors">
                   <label for="address0"></label>
-                  <span class="error-message"></span>
+                  <span class="error-message" style="float:right;"></span>
                 </span>
                 <input type="text" id="address" class="destination-input" name="address" style="width:300px;" autocomplete=off
         			    <? if ($destination):?>
@@ -80,7 +80,7 @@ $this->load->view('core_header', $header_args);
               
               <div class="field dates" style="width:251px; margin-left:325px; visibility:hidden;">
                 <span class="label-and-errors">
-                  <span class="error-message"></span>
+                  <span class="error-message" style="float:right;"></span>
                   <div class="clear"></div>
                 </span>
                 <label for="startdate">from</label> <input id="startdate" class="startdate" name="startdate" type="text" size="10"/> <label for="enddate">to</label> <input id="enddate" class="enddate" name="enddate" type="text" size="10" />
@@ -95,7 +95,7 @@ $this->load->view('core_header', $header_args);
             <div class="field trip_name">
               <span class="label-and-errors">
                 <label for="trip_name">Trip name</label>
-                <span class="error-message"></span>
+                <span class="error-message" style="float:right;"></span>
                 <div class="clear"></div>
               </span>
               <input id="trip_name" name="trip_name" class="required" type="text" style="width:564px; margin-top:5px; margin-bottom:10px;" />
@@ -103,7 +103,7 @@ $this->load->view('core_header', $header_args);
              <div class="field" style="margin-top:10px; padding-bottom:10px;">
               <span class="label-and-errors">
                 <label for="description">Trip description</label>
-                <span class="error-message"></span>
+                <span class="error-message" style="float:right;"></span>
                 <div class="clear"></div>
               </span>
               <textarea id="description" name="description" style="width:564px; height:56px; font-size:14px; margin-top:5px; resize:none;"></textarea>

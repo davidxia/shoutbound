@@ -323,6 +323,46 @@ class Profile extends CI_Controller
     }
     
     
+    public function flickr_test()
+    {
+        $params = array(
+            'api_key' => 'd78a7c1d0670efe5f00cbf953251f50f',
+            'secret' => 'd081991f6eb0f0e2',
+            'die_on_error' => 'false'
+        );
+        
+        $this->load->library('phpflickr', $params);
+        
+        $f = new phpFlickr('d78a7c1d0670efe5f00cbf953251f50f');
+        /*
+        $recent = $f->photos_getRecent();
+        //print_r($recent);
+        
+        $photo = $recent['photos']['photo'][0];
+        $owner = $f->people_getInfo($photo['owner']);
+        echo "<a href='http://www.flickr.com/photos/" . $photo['owner'] . "/" . $photo['id'] . "/'>";
+        echo $photo['title'];
+        echo "</a> Owner: ";
+        echo "<a href='http://www.flickr.com/people/" . $photo['owner'] . "/'>";
+        echo $owner['username'];
+        echo "</a><br>";
+        */
+        $args = array(
+            //'has_geo' => '1',
+            'lat' => '-9.1',
+            'lon' => '-75',
+            //'is_getty' => '1',
+        );
+        
+        $results = $f->photos_search($args);
+        print_r($results);
+        foreach ($results['photo'] as $photo)
+        {
+            echo "<a href='http://www.flickr.com/photos/" . $photo['owner'] . "/" . $photo['id'] . "/'>";
+            echo $photo['title'];
+            echo '<br/>';
+        }
+    }
 }
 
 /* End of file profile.php */
