@@ -282,6 +282,47 @@ class Profile extends CI_Controller
     }
     
     
+    public function foursquare_geohist()
+    {
+        $this->load->library('epifoursquare');
+        $clientId = 'ALCPEQ3OQEJ2WHTJOAPL0YWWYB4KMFFFVK5WHDMIF0YMROYZ';
+        $clientSecret = 'OZC0TGXEGSSPDBPWTCSKVUOZFF3B1JA1AOR3GF5DXM5AU34R';
+        
+        $fsObj = new Epifoursquare($clientId, $clientSecret);
+        $redirectUrl = 'http://dev.shoutbound.com/david/profile/foursquare_callback';
+        $url = $fsObj->getAuthorizeUrl($redirectUrl);
+        echo "<a href=\"$url\">Click here</a>";
+        echo '<br/><br/>';
+    }
+    
+    
+    public function foursquare_callback()
+    {
+        $this->load->library('epifoursquare');
+        $clientId = 'ALCPEQ3OQEJ2WHTJOAPL0YWWYB4KMFFFVK5WHDMIF0YMROYZ';
+        $clientSecret = 'OZC0TGXEGSSPDBPWTCSKVUOZFF3B1JA1AOR3GF5DXM5AU34R';
+        $redirectUrl = 'http://dev.shoutbound.com/david/profile/foursquare_callback';
+
+        $fsObj = new Epifoursquare($clientId, $clientSecret);
+        // exchange the request token for an access token
+        $token = $fsObj->getAccessToken($_GET['code'], $redirectUrl);
+        //print_r($token).'<br/><br/>';
+        // you can store $token->access_token in your database
+        $fsObj->setAccessToken($token->access_token);
+        $res = $fsObj->get('/users/self/checkins');
+        $checkins = $res->response->checkins->items;
+        
+        foreach ($checkins as $checkin)
+        {
+            echo $checkin->venue->name.' '.
+                $checkin->createdAt.' '.
+                $checkin->venue->location->lat.' '.
+                $checkin->venue->location->lng.'<br/><br/>';
+        }
+        
+    }
+    
+    
 }
 
 /* End of file profile.php */
