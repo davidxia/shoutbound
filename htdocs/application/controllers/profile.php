@@ -309,6 +309,7 @@ class Profile extends CI_Controller
         //print_r($token).'<br/><br/>';
         // you can store $token->access_token in your database
         $fsObj->setAccessToken($token->access_token);
+        /*
         $res = $fsObj->get('/users/self/checkins');
         $checkins = $res->response->checkins->items;
         
@@ -319,7 +320,21 @@ class Profile extends CI_Controller
                 $checkin->venue->location->lat.' '.
                 $checkin->venue->location->lng.'<br/><br/>';
         }
+        */
+        // try to get place data from foursquare
+        $params = array(
+            'll'=>'40.71,-74.01',
+            'query'=>'ace hotel',
+        );
         
+        $res = $fsObj->get('/venues/search', $params);
+        $places = $res->response->groups[0]->items;
+        foreach ($places as $place)
+        {
+            echo 'name: '.$place->name.', address: ', $place->location->address.', '.
+                $place->location->city.', '.
+                'distance: '.$place->location->distance.'<br/><br/>';
+        }
     }
     
     
@@ -348,14 +363,14 @@ class Profile extends CI_Controller
         echo "</a><br>";
         */
         $args = array(
-            //'has_geo' => '1',
-            'lat' => '-9.1',
-            'lon' => '-75',
+            'has_geo' => '1',
+            'lat' => '40.75058',
+            'lon' => '-73.99358000000001',
             //'is_getty' => '1',
         );
         
         $results = $f->photos_search($args);
-        print_r($results);
+        //print_r($results);
         foreach ($results['photo'] as $photo)
         {
             echo "<a href='http://www.flickr.com/photos/" . $photo['owner'] . "/" . $photo['id'] . "/'>";
