@@ -18,22 +18,30 @@ html, body {
   background: #F4EED7;
 }
 
-.header {
-  height: 50px;
+.header{
+	background-color: #333; 
+	padding-top:5px;
+	border-bottom:2px solid black;
+	margin-bottom:20px;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#454545', endColorstr='#1E1E1E');
+	background: -webkit-gradient(linear, left top, left bottom, from(#454545), to(#1E1E1E));
+	background: -moz-linear-gradient(top,  #454545,  #1E1E1E); 
+}
+
+.header, .header .wrapper, .header .nav a{
+  height: 35px;
+  line-height:35px;
   display: block;
 }
 
 .header .nav a {
-  margin-left:20px;
-  display:block;
+  margin-left:21px;
   float:left;
-  padding:15px 0;
-  line-height:20px;
   font-size:13px;
 }
 
 .content {
-  padding: 30px 0 70px;
+  padding: 10px 0 50px;
 }
 
 .footer {
@@ -41,6 +49,7 @@ html, body {
   z-index: 10;
   font-size: 13px;
   padding: 25px 0 20px;
+  border-top:1px solid #FAFAFA;
 }
 
 .footer a.marg-right {
@@ -59,17 +68,23 @@ html, body {
 .header .wrapper {
   position: relative;
 }
+
 h1{
 	font-size:30px;
 	font-weight:bold;
+	color:black;
 }
 
 h2{
-	font-size:10px;
+	font-size:18px;
+	line-height:22px;
+	font-weight:bold;
+	color:black;
 }
 
 h3{
-	font-size:15px;
+	font-size:18px;
+	line-height:22px;
 	font-weight:bold;
 	color:#005B75;
 }
@@ -81,25 +96,42 @@ h4{
 
 h5{
 	font-size:16px;
+	line-height:22px;
 	color:black;
 }
 
 p.subtext{
 	font-size:12px;
 	color:#5B5B5B;
-	line-height:14px;
+	line-height:16px;
 }
 
 p.regular{
-	font-size:14px;
-	color:black;
-	line-height:16px;
+	font-size:15px;
+	color:#333;
+	line-height:20px;
+}
+
+p.description{
+	font-size:16px;
+	line-height:22px;
+	color:#333;
 }
 
 a, a:visited{
 	text-decoration:none;
-	color: #007EAD;
+	color: #19558D;
 }
+
+#wall-post-button a, #wall-post-button a:visited{
+	text-decoration:none;
+	color:white;
+}
+
+.header a, .header a:visited{
+	color:white;
+}
+
 a:hover{
   color: #0095CD;
 }
@@ -151,11 +183,11 @@ label.error {
 #create-trip-button {
   color:white;
   display:block;
-  height:41px;
-  width: 154px;
-  line-height:41px;
+  height:30px;
+  width: 115px;
+  line-height:30px;
   text-align:center;
-  font-size:14px;
+  font-size:13px;
   text-decoration:none;
   background:-webkit-gradient(linear, left top, left bottom, from(#E0E0E0), to(#888888));
   background:-moz-linear-gradient(top, #E0E0E0 , #888888);
@@ -164,9 +196,6 @@ label.error {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
-  position: relative;
-  top: 3px;
-  left: 300px;
 }
 #create-trip-button:hover {
   background: #ffad32;
