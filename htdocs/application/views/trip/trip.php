@@ -187,7 +187,7 @@ $this->load->view('core_header', $header_args);
 					 		<!-- WALL CONTENT -->
 			        <ul id="wall-content">
 			          <? foreach ($wall_items as $wall_item):?>
-			            <? if ($wall_item->lat):?>
+			            <? if (isset($wall_item->lat)):?>
 			              <li id="wall-suggestion-<?=$wall_item->id?>" class="suggestion">
 			                <div class="wall-location-name"><?=$wall_item->name?></div>
 			                <div>Suggested by <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a></div>
@@ -206,10 +206,10 @@ $this->load->view('core_header', $header_args);
 			                  <div class="remove-wall-item" suggestionId="<?=$wall_item->id?>"></div>
 			                <? endif;?>
 			                <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
-			                <? if ($wall_item->likes[$user->id] != 1):?>
-			                  <span class="like">Like</span>
+			                <? if (isset($wall_item->likes[$user->id]) AND $wall_item->likes[$user->id] != 0):?>
+			                  <span class="unlike" style="cursor:pointer;">Unlike</span>
 			                <? else:?>
-			                  <span class="unlike">Unlike</span>
+			                  <span class="like" style="cursor:pointer;">Like</span>
 			                <? endif;?>
 			                <span class="num-likes">
 			                <? if ($wall_item->num_likes == 1):?>
@@ -239,10 +239,10 @@ $this->load->view('core_header', $header_args);
 			                <span class="wall-item-text"><?=$wall_item->text?></span>
 			                <br/>
 			                <abbr class="timeago" title="<?=$wall_item->created?>"><?=$wall_item->created?></abbr>
-			                <? if ($wall_item->likes[$user->id] != 1):?>
-			                  <span class="like" style="cursor:pointer;">Like</span>
-			                <? else:?>
+			                <? if (isset($wall_item->likes[$user->id]) AND $wall_item->likes[$user->id] != 0):?>
 			                  <span class="unlike" style="cursor:pointer;">Unlike</span>
+			                <? else:?>
+			                  <span class="like" style="cursor:pointer;">Like</span>
 			                <? endif;?>
 			                <span class="num-likes">
 			                <? if ($wall_item->num_likes == 1):?>
