@@ -62,47 +62,46 @@ $this->load->view('core_header', $header_args);
 				<div class="item-header"><h3>Itinerary</h3></div>
 				<div id="itinerary"><!--ITINERARY START-->															
 					<div class="right-item-content"><!--ITINERARY CONTENT-->         	
-	          <? foreach ($destinations as $destination):?>
-	            <p class="regular"><?=$destination->address?></p>
+            <? foreach ($destinations as $destination):?>
+              <div class="destination-dates">
+  	            <p class="regular"><?=$destination->address?></p>
+  	            <p class="subtext">
+  		            <? if ($destination->startdate AND $destination->enddate):?>
+  		              <?=date('n/d/y', $destination->startdate)?> to <?=date('n/d/y', $destination->enddate)?>
+  		            <? elseif ($destination->startdate AND ! $destination->enddate):?>
+  		              <?=date('n/d/y', $destination->startdate)?> to (No date set)
+  		            <? elseif ( ! $destination->startdate AND $destination->enddate):?>
+  		              (No date set) to <?=date('n/d/y', $destination->enddate)?>
+  		            <? else:?>
+  		              No dates set
+  		            <? endif;?>
+  		          </p>
+  		        </div>
 	          <? endforeach;?>
-	          	
-		       		<div id="destination-start-dates">
-		          <p class="subtext"><? foreach ($destinations as $destination):?>
-		            <? if ($destination->startdate AND $destination->enddate):?>
-		              <?=date('n/d/y', $destination->startdate)?> to <?=date('n/d/y', $destination->enddate)?>
-		            <? elseif ($destination->startdate AND ! $destination->enddate):?>
-		              <?=date('n/d/y', $destination->startdate)?> to (No date set)
-		            <? elseif ( ! $destination->startdate AND $destination->enddate):?>
-		              (No date set) to <?=date('n/d/y', $destination->enddate)?>
-		            <? else:?>
-		              No dates set
-		            <? endif;?>
-		          	<? endforeach;?></p>
-							</div>		          
 	     			     			                          																							
-							<div id="trip_goers"><!--TRIP GOERS-->         			
-		          	<div id="num_trip_goers">          			              		
-		              <? if (count($trip_goers) == 1):?>
-		              <div id="num"><p class="subtext"><?=count($trip_goers)?> person is going on this trip.</div>                
-		              <? else:?>              		
-		              <div id="num"><p class="subtext"><?=count($trip_goers)?> people are going on this trip.</div>
-		              <? endif;?>           
-		          	</div>  
-          	        		          			                     
-						    <? if ($trip_goers):?>
-			            <? foreach ($trip_goers as $trip_goer):?>
-			            	<div class="trip_goer" uid="<?=$trip_goer->id?>">
-			                <a href="<?=site_url('profile/'.$trip_goer->id)?>"><img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" height="35" width="35"/></a>
-			              </div>
-			            <? endforeach;?>
-				         <? endif;?>
-			          
-			          <div style="clear:both;"></div>
-			          
-			          <p class="subtext">This trip was created by <a href="<?=site_url('profile/'.$creator->id)?>" style="text-decoration:none; color:navy;"><?=$creator->name?></a></p>	              			
-    			
-    					</div><!--TRIP GOERS END-->
-	    			</div><!--ITINERARY CONTENT END-->										
+						<div id="trip_goers"><!--TRIP GOERS-->         			
+	          	<div id="num_trip_goers">          			              		
+	              <? if (count($trip_goers) == 1):?>
+	              <span id="num"><p class="subtext"><?=count($trip_goers)?> person is going on this trip.</span>
+	              <? else:?>              		
+	              <div id="num"><p class="subtext"><?=count($trip_goers)?> people are going on this trip.</div>
+	              <? endif;?>           
+	          	</div>  
+        	        		          			                     
+					    <? if ($trip_goers):?>
+		            <? foreach ($trip_goers as $trip_goer):?>
+		            	<div class="trip_goer" uid="<?=$trip_goer->id?>">
+		                <a href="<?=site_url('profile/'.$trip_goer->id)?>"><img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" height="35" width="35"/></a>
+		              </div>
+		            <? endforeach;?>
+			         <? endif;?>
+		          
+		          <div style="clear:both;"></div>
+		          
+		          <p class="subtext">This trip was created by <a href="<?=site_url('profile/'.$creator->id)?>" style="text-decoration:none; color:navy;"><?=$creator->name?></a></p>	              			
+  			
+  					</div><!--TRIP GOERS END-->
+    			</div><!--ITINERARY CONTENT END-->										
 	    								
 				</div><!--ITINERARY END-->
 																	
@@ -338,12 +337,7 @@ $this->load->view('core_header', $header_args);
     <? endfor;?>
   ];
   
-  
-  // expand post area
-  $('#message-box').focus(function() {
-    expandMessageBox();
-  });
-  
+    
   $.fn.labelFader = function() {
     var f = function() {
       var $this = $(this);
