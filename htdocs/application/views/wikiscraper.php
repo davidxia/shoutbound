@@ -4,7 +4,6 @@ $header_args = array(
     'css_paths' => array(
     ),
     'js_paths' => array(
-        'js/jquery/validate.min.js',
     )
 );
 
@@ -21,13 +20,15 @@ $this->load->view('core_header', $header_args);
         <label for="query">Search for a place</label>
         <input type="text" id="query" name="query"/>
       </fieldset>
-      <input type="submit" id="query-submit" class="blue-button" name="query-submit" value="Search" />
+      <button type="submit" id="query-submit" class="blue-button" name="query-submit">Search</button>
     </form>
     
-    <div id="name"></div>
-    <div id="abstract"></div>
-    <div id="lat"></div>
-    <div id="lng"></div>
+    <div id="loading-div"><img src="<?=site_url('images/ajax-loader.gif')?>" width="32" height="32"/></div>
+    
+    <div id="name" class="info"></div>
+    <div id="abstract" class="info"></div>
+    <div id="lat" class="info"></div>
+    <div id="lng" class="info"></div>
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
   
@@ -38,7 +39,7 @@ $this->load->view('core_header', $header_args);
 <script type="text/javascript">
 function dbpediaQuery() {
   if ($('#query').val() != '') {
-    $('#response-text').html('');
+    $('.info').html('');
     
     var postData = {
       query: $('#query').val()
@@ -64,6 +65,16 @@ function dbpediaQuery() {
   }
   return false;
 }
+
+$('#loading-div')
+  .hide()  // hide it initially
+  .ajaxStart(function() {
+    $(this).show();
+  })
+  .ajaxStop(function() {
+    $(this).hide();
+  })
+;
 
 $(document).ready(function() {
   $('#query-submit').click(dbpediaQuery);
