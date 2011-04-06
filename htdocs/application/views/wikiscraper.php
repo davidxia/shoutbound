@@ -51,12 +51,17 @@ function dbpediaQuery() {
       data: postData,
       success: function(r) {
         var r = $.parseJSON(r);
-        if (r.results.bindings.length != 0) {
-          console.log(r.results);
-          $('#name').html(r.results.bindings[0].label.value);
-          $('#abstract').html(r.results.bindings[0].abstract.value);
-          $('#lat').html(r.results.bindings[0].lat.value);
-          $('#lng').html(r.results.bindings[0].long.value);
+        //console.log(r);
+        if (r) {
+          $('#name').html(r.label.value);
+          var abstract = r.abstract.value;
+          // add ellipses if abstract doesn't end with period
+          if ( ! abstract.match(/\.$/)) {
+            abstract += '...';
+          }
+          $('#abstract').html(abstract);
+          $('#lat').html(r.lat.value);
+          $('#lng').html(r.long.value);
         } else {
           $('#name').html('sorry, we couldn\'t find any info on that');
         }

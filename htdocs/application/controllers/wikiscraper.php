@@ -19,15 +19,15 @@ class Wikiscraper extends CI_Controller
     {   
         $query = urlencode($this->input->post('query'));
         
-        $query_timeout = 99;
+        $query_timeout = 5;
         $handle = popen('/usr/bin/python /home/david/wikiscraper/dbpedia_test.py '.$query, 'r');
         stream_set_blocking($handle, TRUE);
         stream_set_timeout($handle, $query_timeout);
         
-        $info = fread($handle, 9999999);
+        $info = fread($handle, 4096);
         pclose($handle);
         echo $info;
-    }    
+    }
 
 }
 

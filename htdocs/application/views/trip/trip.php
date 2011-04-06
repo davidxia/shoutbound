@@ -357,8 +357,8 @@ $this->load->view('core_header', $header_args);
 
 
   function textAreaAdjust(o) {
-    o.style.height = "8px";
-    o.style.height = (8+o.scrollHeight)+"px";
+    //o.style.height = "8px";
+    o.style.height = (o.scrollHeight)+"px";
 	}
 
   $(document).ready(function() {
