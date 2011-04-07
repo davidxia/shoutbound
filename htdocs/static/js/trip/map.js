@@ -59,7 +59,7 @@ map.loadGoogleMap = function() {
 
 
 map.displayDestinationMarkers = function() {
-  var bounds = new google.maps.LatLngBounds();
+  //var bounds = new google.maps.LatLngBounds();
   for (var key in map.destination_markers) {
     if (map.destination_markers.hasOwnProperty(key)) {
       var markerLatLng = new google.maps.LatLng(map.destination_markers[key]['lat'], map.destination_markers[key]['lng']);
@@ -70,12 +70,12 @@ map.displayDestinationMarkers = function() {
         icon: new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/shoutbound_marker.png')
       });
       // extend bounds to include this marker
-      bounds.extend(markerLatLng);
+      //bounds.extend(markerLatLng);
     }
   }
-  if (map.destination_markers.length !== 0) {
-    map.googleMap.fitBounds(bounds);
-  }
+  //if (map.destination_markers.length !== 0) {
+    //map.googleMap.fitBounds(bounds);
+  //}
 }
 
 
@@ -261,7 +261,7 @@ map.saveMarkerData = function() {
 
 
 map.displayWallMarkers = function() {
-  var bounds = new google.maps.LatLngBounds();
+  //var bounds = new google.maps.LatLngBounds();
   for (var key in Wall.wall_markers) {
     if (Wall.wall_markers.hasOwnProperty(key)) {
       var markerLatLng = new google.maps.LatLng(Wall.wall_markers[key]['lat'], Wall.wall_markers[key]['lng']);
@@ -271,12 +271,12 @@ map.displayWallMarkers = function() {
         position: markerLatLng
       });
       // extend bounds to include this marker
-      bounds.extend(markerLatLng);
+      //bounds.extend(markerLatLng);
     }
   }
-  if ( ! Wall.wall_markers.length == 0) {
-    map.googleMap.fitBounds(bounds);
-  }
+  //if ( ! Wall.wall_markers.length == 0) {
+    //map.googleMap.fitBounds(bounds);
+  //}
   map.loadWallListeners();
   map.loadMarkerListeners();
 };
