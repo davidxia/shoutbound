@@ -5,6 +5,27 @@ map.infoWindow = null;
 map.markers = {};
 map.newMarker = null;
 
+map.fixMapPos = function() {
+  var sidebar    = $('#map-container'),
+      win        = $(window),
+      offset     = sidebar.offset(),
+      topPadding = 15;
+      
+  win.scroll(function() {
+    if (win.scrollTop() > offset.top) {
+      sidebar.stop().animate({
+        marginTop: win.scrollTop() - offset.top + topPadding
+      }, {
+        duration: 200
+      });
+    } else {
+      sidebar.stop().animate({
+        marginTop: 0
+      });
+    }
+  });
+};
+
 map.loadGoogleMapScript = function() {
   var script = document.createElement('script');
   script.type = 'text/javascript';
@@ -325,4 +346,5 @@ map.openMarkerInfoWindow = function(i){
 
 $(document).ready(function() {
   map.loadGoogleMapScript();
+  map.fixMapPos();
 });
