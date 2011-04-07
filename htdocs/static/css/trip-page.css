@@ -7,14 +7,13 @@
 	background-color:white;
 }
 
-#trip-widget, #message-box-container{
-	background-color:#F4EED7;
+/*#trip-widget, */#message-box-container{
+	background-color:#EDF0F9;
 }
 
 #itinerary, #map-shell, .item-header{
-	background-color:#EAEAEA;
+	background-color:#EDF0F9;
 }
-
 
 /*Content*/
 .content .wrapper{
@@ -59,8 +58,8 @@
 }
 
 #trip_description{
-	padding:2px 5px 10px 5px;
-	/*border-bottom:3px solid gray;*/
+	padding:2px 5px 18px 5px;
+	border-bottom:2px solid #DADADA;
 }
 
 #trip-wall{
@@ -105,6 +104,7 @@ textarea#message-box{
 #trip-widget{
 	padding:8px 5px 8px 5px;
 	border-top:1px solid #DADADA;
+	margin-top:1px;
 }
 
 #countdown-container{
