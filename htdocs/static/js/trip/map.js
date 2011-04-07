@@ -5,6 +5,7 @@ map.infoWindow = null;
 map.markers = {};
 map.newMarker = null;
 
+/*
 map.fixMapPos = function() {
   var sidebar    = $('#map-container'),
       win        = $(window),
@@ -25,6 +26,7 @@ map.fixMapPos = function() {
     }
   });
 };
+*/
 
 map.loadGoogleMapScript = function() {
   var script = document.createElement('script');
@@ -346,5 +348,5 @@ map.openMarkerInfoWindow = function(i){
 
 $(document).ready(function() {
   map.loadGoogleMapScript();
-  map.fixMapPos();
+  //map.fixMapPos();
 });

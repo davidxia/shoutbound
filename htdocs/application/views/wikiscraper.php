@@ -62,6 +62,7 @@ function dbpediaQuery() {
           $('#abstract').html(abstract);
           $('#lat').html(r.lat.value);
           $('#lng').html(r.long.value);
+          $('#lng').after('<img src="'+r.thumbnail.value+'"/>');
         } else {
           $('#name').html('sorry, we couldn\'t find any info on that');
         }
