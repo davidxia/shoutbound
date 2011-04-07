@@ -4,6 +4,7 @@ $header_args = array(
     'css_paths' => array(
     ),
     'js_paths' => array(
+        'js/jquery/jquery.expander.js',
     )
 );
 
@@ -29,6 +30,7 @@ $this->load->view('core_header', $header_args);
     <div id="abstract" class="info"></div>
     <div id="lat" class="info"></div>
     <div id="lng" class="info"></div>
+    
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
   
@@ -40,6 +42,7 @@ $this->load->view('core_header', $header_args);
 function dbpediaQuery() {
   if ($('#query').val() != '') {
     $('.info').html('');
+    $('.thumbnail').remove();
     
     var postData = {
       query: $('#query').val()
@@ -60,9 +63,12 @@ function dbpediaQuery() {
             abstract += '...';
           }
           $('#abstract').html(abstract);
+          textShorten($('#abstract'));
           $('#lat').html(r.lat.value);
           $('#lng').html(r.long.value);
-          $('#lng').after('<img src="'+r.thumbnail.value+'"/>');
+          //var img = new Image();
+          //img.src = r.thumbnail.value;
+          $('#lng').after('<img src="'+r.thumbnail.value+'" class="thumbnail"/>');
         } else {
           $('#name').html('sorry, we couldn\'t find any info on that');
         }
@@ -81,6 +87,12 @@ $('#loading-div')
     $(this).hide();
   })
 ;
+
+function textShorten(o) {
+  o.expander({
+    slicePoint: 300
+  });
+}
 
 $(document).ready(function() {
   $('#query-submit').click(dbpediaQuery);
