@@ -52,13 +52,13 @@ class Wallitem extends DataMapper
         ),
     );
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
     
     
-    function get_replies()
+    public function get_replies()
     {
         $this->wallitem->get();
         $replies = array();

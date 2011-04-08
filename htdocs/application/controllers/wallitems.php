@@ -36,6 +36,28 @@ class Wallitems extends CI_Controller
         
     }
     
+    function save_place_trip()
+    {
+        $place_id = 3;
+        $p = new Place();
+        $p->get_by_id($place_id);
+
+        $t = new Trip();
+        $t->get_by_id(2);
+        
+        if ($p->id)
+        {
+            $t->save_place_trip($p, time()-72, time()-72);
+            echo 'trips place updated';
+        }
+        else
+        {
+            echo 'there is no such place';
+        }
+        
+    }
+    
+    
 }
 
 /* End of file suggestions.php */
