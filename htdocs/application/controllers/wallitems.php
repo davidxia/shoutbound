@@ -31,9 +31,9 @@ class Wallitems extends CI_Controller
         $t->wallitem->where('parent_id', NULL)->get();
         foreach ($t->wallitem as $wallitem)
         {
-            $wi = new Wallitem();
-            $wi->get_by_id($wallitem->id);
-            $replies = $wi->get_replies();
+            //$wi = new Wallitem();
+            //$wi->get_by_id($wallitem->id);
+            $replies = $wallitem->get_replies();
             $wallitem->stored->replies = $replies;
             $wallitems[] = $wallitem->stored;
         }

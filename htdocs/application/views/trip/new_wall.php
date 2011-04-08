@@ -21,16 +21,33 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>  
     
-    USER NAME <?=$user->name?>
-    <br/>
-    TRIP NAME <?=$trip->name?>
-    <br/>
-    DESTINATIONS <br/>
-    <? foreach($destinations as $destination):?>
-      <?=$destination->name?><br/>
-    <? endforeach;?>
-    WALLITEMS <br/>
+    USER NAME: <?=$user->name?>
     
+    <br/><br/>
+    
+    TRIP NAME: <?=$trip->name?>
+    
+    <br/><br/>
+    
+    DESTINATIONS:
+    <br/>
+    <? foreach($destinations as $destination):?>
+      <?=$destination->name?>
+      <br/>
+    <? endforeach;?>
+    
+    <br/>
+    
+    WALLITEMS:
+    <br/>
+    <? foreach ($wallitems as $wallitem):?>
+      <?=$wallitem->content?>
+      <br/>
+      <? foreach ($wallitem->replies as $reply):?>
+        ----><?=$reply->content?>
+        <br/>
+      <? endforeach;?>
+    <? endforeach;?>
         
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->

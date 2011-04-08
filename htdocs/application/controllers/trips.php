@@ -30,13 +30,24 @@ class Trips extends CI_Controller
 		        $destinations[] = $place->stored;
 		    }
 		    
+		    $wallitems = array();
+        $t->wallitem->where('parent_id', NULL)->get();
+        foreach ($t->wallitem as $wallitem)
+        {
+            //$wi = new Wallitem();
+            //$wi->get_by_id($wallitem->id);
+            $replies = $wallitem->get_replies();
+            $wallitem->stored->replies = $replies;
+            $wallitems[] = $wallitem->stored;
+        }
+		    
         $view_data = array(
             'trip' => $t->stored,
             'destinations' => $destinations,
             'user' => $this->user,
             //'user_role' => $user_role,
             //'user_rsvp' => $user_rsvp,
-            //'wallitems' => $wallitems,
+            'wallitems' => $wallitems,
         );
 
 		    $this->load->view('trip/new_wall', $view_data);
