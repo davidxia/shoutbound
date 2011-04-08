@@ -24,6 +24,26 @@ class Wallitems extends CI_Controller
 
     function index()
     {
+        $t = new Trip();
+        $t->get_by_id(2);
+        $wallitems = array();
+        
+        $t->wallitem->where('parent_id', NULL)->get();
+        foreach ($t->wallitem as $wallitem)
+        {
+            $wi = new Wallitem();
+            $wi->get_by_id($wallitem->id);
+            $replies = $wi->get_replies();
+            $wallitem->stored->replies = $replies;
+            $wallitems[] = $wallitem->stored;
+        }
+        
+        foreach ($wallitems as $wallitem)
+        {
+            print_r($wallitem);
+            echo '<br/><br/>';
+        }
+        /*
         $wi = new Wallitem();
         $wi->get_by_id(1);
         $replies = $wi->get_replies();
@@ -32,7 +52,7 @@ class Wallitems extends CI_Controller
             print_r($reply);
             echo '<br/><br/>';
         }
-        
+        */
         
     }
     
