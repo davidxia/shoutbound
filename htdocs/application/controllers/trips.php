@@ -16,6 +16,42 @@ class Trips extends CI_Controller
             $this->user = $u->stored;
         }
 		}
+		
+		
+		public function new_wall($trip_id)
+		{
+		    $t = new Trip();
+		    $t->get_by_id($trip_id);
+		    
+		    $destinations = array();
+		    $t->place->get();
+		    foreach ($t->place as $place)
+		    {
+		        $destinations[] = $place->stored;
+		    }
+		    
+		    $wallitems = array();
+        $t->wallitem->where('parent_id', NULL)->get();
+        foreach ($t->wallitem as $wallitem)
+        {
+            //$wi = new Wallitem();
+            //$wi->get_by_id($wallitem->id);
+            $replies = $wallitem->get_replies();
+            $wallitem->stored->replies = $replies;
+            $wallitems[] = $wallitem->stored;
+        }
+		    
+        $view_data = array(
+            'trip' => $t->stored,
+            'destinations' => $destinations,
+            'user' => $this->user,
+            //'user_role' => $user_role,
+            //'user_rsvp' => $user_rsvp,
+            'wallitems' => $wallitems,
+        );
+
+		    $this->load->view('trip/new_wall', $view_data);
+		}
         
     
  	  public function confirm_create()
