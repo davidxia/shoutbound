@@ -35,6 +35,10 @@ class Wallitems extends CI_Controller
             //$wi->get_by_id($wallitem->id);
             $replies = $wallitem->get_replies();
             $wallitem->stored->replies = $replies;
+            
+            $places = $wallitem->get_places();
+            $wallitem->stored->places = $places;
+            
             $wallitems[] = $wallitem->stored;
         }
         
@@ -75,6 +79,26 @@ class Wallitems extends CI_Controller
             echo 'there is no such place';
         }
         
+    }
+    
+    
+    public function save_place_wallitem()
+    {
+        $place_id = 3;
+        $p = new Place();
+        $p->get_by_id($place_id);
+        
+        $wi = new Wallitem();
+        $wi->get_by_id(1);
+        
+        if ($p->id AND $wi->save($p))
+        {
+            echo 'place saved to wallitem';
+        }
+        else
+        {
+            echo 'not saved';
+        }
     }
     
     

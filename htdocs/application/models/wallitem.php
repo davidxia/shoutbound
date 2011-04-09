@@ -69,6 +69,19 @@ class Wallitem extends DataMapper
         
         return $replies;
     }
+    
+    
+    public function get_places()
+    {
+        $this->place->get();
+        $places = array();
+        foreach ($this->place as $place)
+        {
+            $places[] = $place->stored;
+        }
+        
+        return $places;
+    }
 }
 
 /* End of file wallitem.php */

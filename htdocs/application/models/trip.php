@@ -28,6 +28,19 @@ class Trip extends DataMapper {
     }
     
     
+    public function get_places()
+    {
+        $this->place->get();
+        $places = array();
+        foreach ($this->place as $place)
+        {
+            $places[] = $place->stored;
+        }
+        
+        return $places;
+    }
+
+
     // checks if trip is associated with place
     // if so it updates start and enddates
     // if not it adds new row in places_trips table

@@ -41,10 +41,10 @@ $this->load->view('core_header', $header_args);
     WALLITEMS:
     <br/>
     <? foreach ($wallitems as $wallitem):?>
-      <?=$wallitem->content?>
+      CONTENT: <?=$wallitem->content?> place: <? print_r($wallitem->places)?>
       <br/>
       <? foreach ($wallitem->replies as $reply):?>
-        ----><?=$reply->content?>
+        --------->CONTENT: <?=$reply->content?>
         <br/>
       <? endforeach;?>
     <? endforeach;?>

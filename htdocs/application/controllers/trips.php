@@ -23,21 +23,16 @@ class Trips extends CI_Controller
 		    $t = new Trip();
 		    $t->get_by_id($trip_id);
 		    
-		    $destinations = array();
-		    $t->place->get();
-		    foreach ($t->place as $place)
-		    {
-		        $destinations[] = $place->stored;
-		    }
+		    $destinations = $t->get_places();
 		    
 		    $wallitems = array();
         $t->wallitem->where('parent_id', NULL)->get();
         foreach ($t->wallitem as $wallitem)
         {
-            //$wi = new Wallitem();
-            //$wi->get_by_id($wallitem->id);
             $replies = $wallitem->get_replies();
             $wallitem->stored->replies = $replies;
+            
+            $wallitem->stored->places = $wallitem->get_places();
             $wallitems[] = $wallitem->stored;
         }
 		    
@@ -54,6 +49,27 @@ class Trips extends CI_Controller
 		}
         
     
+    public function wallitem_preg()
+    {
+        $wi = new Wallitem();
+        $wi->get_by_id(1);
+        echo $wi->content.'<br/>';
+        
+        $content = preg_replace_callback('<place id="(\d+)">',
+            create_function('$matches',
+                '$p = new Place();
+                 $p->get_by_id($matches[1]); 
+                 return \'a href="#" address="\'.$p->address.\'" lat="\'.$p->lat.\'" lng="\'.$p->lng.\'"\';'),
+            $wi->content);
+            
+        $content = str_replace('</place>', '</a>', $content);
+        
+        print_r($content);
+        
+
+    }
+         	  
+ 	  
  	  public function confirm_create()
  	  {
         if ( ! isset($this->user->id) OR getenv('REQUEST_METHOD') == 'GET')
