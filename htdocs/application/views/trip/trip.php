@@ -3,7 +3,7 @@ $header_args = array(
     'title' => $trip->name.' | Shoutbound',
     'css_paths'=>array(
         'css/jquery.countdown.css',
-        'css/trip-page.css'
+        'css/trip-page.css',
     ),
     'js_paths'=>array(
         'js/trip/map.js',
@@ -14,7 +14,7 @@ $header_args = array(
         'js/jquery/color.js',
         'js/jquery/scrollto.js',
         'js/jquery/timeago.js',
-        'js/jquery/jquery.countdown.min.js'
+        'js/jquery/jquery.countdown.min.js',    
     )
 );
 
@@ -34,6 +34,7 @@ $this->load->view('core_header', $header_args);
   
   map.lat = <?=$destinations[0]->lat?>;
   map.lng = <?=$destinations[0]->lng?>;
+  
 </script>
 
 </head>
@@ -64,7 +65,7 @@ $this->load->view('core_header', $header_args);
 					<div class="right-item-content"><!--ITINERARY CONTENT-->         	
             <? foreach ($destinations as $destination):?>
               <div class="destination-dates">
-  	            <p class="regular"><?=$destination->address?></p>
+  	            <a href="#"><?=$destination->address?></a>
   	            <p class="subtext">
   		            <? if ($destination->startdate AND $destination->enddate):?>
   		              <?=date('n/d/y', $destination->startdate)?> to <?=date('n/d/y', $destination->enddate)?>
@@ -122,7 +123,7 @@ $this->load->view('core_header', $header_args);
 				<div id="trip-name">
 					<h1><?=$trip->name?></h1>
 				</div> 
-				<div id="trip_description"><p class="description"><?=$trip->description?></p></div>							
+				<div id="trip_description"><p><?=$trip->description?></p></div>							
 						
 				<div id="widget-and-wall"><!--WIDGET AND WALL START-->
 						
@@ -152,7 +153,7 @@ $this->load->view('core_header', $header_args);
 								
 								<!--IF USER IS INVITED AND PREVIOUSLY RSVP'D NO, DISPLAY RSVP BUTTONS-->
 								<? elseif ($user_rsvp == 1):?>
-		              You're being lame and said no, but you can still change your mind.
+		              You said no, but you can still change your mind.
 		              <div id="rsvp_buttons">
 		                <a href="#" id="rsvp_yes_button">I'm in</a>
 		                <a href="#" id="rsvp_no_button">I'm out</a>		                
@@ -165,9 +166,8 @@ $this->load->view('core_header', $header_args);
 		          <? endif;?><!--END-->					
 						        
 		          <? if ($user_rsvp == 3):?>
-	              <div class="invsugg_btns">
-	                <p class="regular">You can <a href="#" id="invite-others-button">Invite</a>  other people to join this trip.  You should <a href="#" id="get-suggestions-button">Share</a> this trip with other people to get advice, ideas and recommendations.
-	              
+	              <div class="console">
+	                <p class="regular">Get advice, ideas and recommendations for this trip by <a href="#" id="get-suggestions-button">Sharing</a> it with other people. You can also <a href="#" id="invite-others-button">Invite</a>  other people to join you this trip.  	              
 			            <a href="#" id="rsvp_no_button">I'm out</a>
                            
 		              <? if ($user_role == 3):?>
@@ -176,26 +176,51 @@ $this->load->view('core_header', $header_args);
 		             </div>
 		            
 		          <? else:?>		          	
-	          		<div class="invsugg_btns">
-			          	<p class="regular">Help <a href="<?=site_url('profile/'.$creator->id)?>" style="text-decoration:none; color:navy;"><?=$creator->name?></a> plan this trip by adding your thoughts and <a href="#" id="get-suggestions-button">Sharing</a> this trip with other people.</p>
+	          		<div class="console">
+			          	<p class="regular">Help <a href="<?=site_url('profile/'.$creator->id)?>"><?=$creator->name?></a> plan this trip by adding your thoughts and <a href="#" id="get-suggestions-button">Sharing</a> this trip with other people.</p>
 			          </div>
 		          <? endif;?>	            				
 						</div><!--WIDGET END-->									
 															
 						<div id="trip-wall"><!--WALL START-->
 					 		<!-- WALL CONTENT -->
-			        <ul id="wall-content">
+					 		
+					 		<!--WALL ITEM-->
+			        <div class="wall-item">
+			         <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" alt="Profile picture" width="20" height="20" style="display:inline; float:left; margin-right:5px;"/>
+			         <a href="#" class="wall-item-author">Samantha Appleseed</a>			         		           <div class="clear:both"></div>
+		           <div class="wall-item-content">			           
+			           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>			           
+			         </div>			         
+			         <div class="actionbar">
+			           <div class="actionbar-item">
+			             <a href="#" class="add-comment">Add comment</a> 
+			           </div>
+			           <div class="actionbar-item"> 			         
+  			           <a href="#" class="add-comment">Like</a><!--UNLIKE ALSO NEEDS TO GO HERE-->
+  			         </div>
+  			         <div class="actionbar-item">
+  			           <span class="num-likes">4 people like this</span>
+  			         </div>
+  			         <div class="actionbar-item">
+  			           <span class="timestamp">Apr 4, 2011</span>
+  			         </div>
+			         </div>
+			         
+			       </div><!--WALL ITEM END-->   
+			        
 			          <? foreach ($wall_items as $wall_item):?>
-			            <? if (isset($wall_item->lat)):?>
+			          
+			            <? if (isset($wall_item->lat)):?><!--SUGGESTIONS-->
 			              <li id="wall-suggestion-<?=$wall_item->id?>" class="suggestion">
-			                <div class="wall-location-name"><?=$wall_item->name?></div>
-			                <div>Suggested by <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a></div>
+			                <p class="regular"><a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author"><?=$wall_item->user_name?></a></p>
+			                <div class="wall-location-name"><p class="regular"><?=$wall_item->name?></p></div>
+			                
 			                <span class="wall-location-address" style="display:none;"><?=$wall_item->address?></span>
 			                <span class="wall-location-phone" style="display:none;"><?=$wall_item->phone?></span>
 			                
 			                <? if ($wall_item->text):?>
-			                  <br/>
-			                  <?=$wall_item->text?>
+			                  <p class="regular"><?=$wall_item->text?></p>
 			                <? endif;?>
 			                <!--<div class="rating-panel">
 			                  <a href="#" class="like">Like</a>
@@ -204,17 +229,18 @@ $this->load->view('core_header', $header_args);
 			                <? if ($user_role >= 2):?>
 			                  <div class="remove-wall-item" suggestionId="<?=$wall_item->id?>"></div>
 			                <? endif;?>
-			                <abbr class="timeago" title="<?=$wall_item->created?>" style="color:#777; font-size: 12px;"><?=$wall_item->created?></abbr>
-			                <? if (isset($wall_item->likes[$user->id]) AND $wall_item->likes[$user->id] != 0):?>
-			                  <span class="unlike" style="cursor:pointer;">Unlike</span>
+			                <abbr class="timeago" title="<?=$wall_item->created?>"
+			                 <p class="subtext"><?=$wall_item->created?></p></abbr>
+			                <? if (isset($user) AND isset($wall_item->likes[$user->id]) AND $wall_item->likes[$user->id] != 0):?>
+			                  <span class="unlike"><p class="regular">Unlike</p></span>
 			                <? else:?>
-			                  <span class="like" style="cursor:pointer;">Like</span>
+			                  <span class="like"><p class="regular">Like</p></span>
 			                <? endif;?>
 			                <span class="num-likes">
 			                <? if ($wall_item->num_likes == 1):?>
-			                  1 person likes this
+			                  <p class="subtext">1 person likes this</p>
 			                <? elseif ($wall_item->num_likes >= 1):?>
-			                  <?=$wall_item->num_likes?> people like this
+			                  <p class="subtext"><?=$wall_item->num_likes?> people like this</p>
 			                <? endif;?>
 			                </span>
 			                
@@ -235,10 +261,10 @@ $this->load->view('core_header', $header_args);
 			                <? if ($user_role >= 2):?>
 			                  <div class="remove-wall-item" messageId="<?=$wall_item->id?>"></div>
 			                <? endif;?>
-			                <span class="wall-item-text"><?=$wall_item->text?></span>
+			                <span class="wall-item-text"><p class="regular"><?=$wall_item->text?></p></span>
 			                <br/>
 			                <abbr class="timeago" title="<?=$wall_item->created?>"><?=$wall_item->created?></abbr>
-			                <? if (isset($wall_item->likes[$user->id]) AND $wall_item->likes[$user->id] != 0):?>
+			                <? if (isset($user) AND isset($wall_item->likes[$user->id]) AND $wall_item->likes[$user->id] != 0):?>
 			                  <span class="unlike" style="cursor:pointer;">Unlike</span>
 			                <? else:?>
 			                  <span class="like" style="cursor:pointer;">Like</span>
@@ -356,10 +382,10 @@ $this->load->view('core_header', $header_args);
   };
 
 
-  function textAreaAdjust(o) {
+  /*function textAreaAdjust(o) {
     //o.style.height = "8px";
     o.style.height = (o.scrollHeight)+"px";
-	}
+	}*/
 
   $(document).ready(function() {
     $('#message-box').labelFader();
@@ -367,11 +393,11 @@ $this->load->view('core_header', $header_args);
     $('#link-input-box').labelFader();
   });
   
-  /*Expand message box area dynamically*/
+  /*Expand message box area dynamically
   
   $('#message-box').keyup(function() {
   	textAreaAdjust(this);
-  });
+  });*/
   
   
   /*function expandMessageBox() {
@@ -700,6 +726,7 @@ $this->load->view('core_header', $header_args);
       }
     });
   });
+  
 </script>
 
 </body> 

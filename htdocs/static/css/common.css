@@ -11,11 +11,8 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 
 html, body {
   -webkit-text-size-adjust: none;
-  min-width: 980px;
-}
-
-::selection, ::-moz-selection {
-
+  min-width: 960px;
+  overflow-x:hidden;
 }
 
 .header{
@@ -98,25 +95,19 @@ p.subtext{
 	line-height:16px;
 }
 
-p.regular{
+p{
 	font-size:14px;
 	color:#333;
 	line-height:20px;
 }
 
-p.description{
-	font-size:16px;
-	line-height:22px;
-	color:#333;
-}
-
 a, a:visited{
 	text-decoration:none;
-	color: #3F4BA6;
+	color: #003DF5;
 }
 
 a:hover{
-  color: #313A81;
+  color: #0030C2;
 }
 
 ol, ul {

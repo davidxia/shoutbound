@@ -7,40 +7,30 @@
 	background-color:white;
 }
 
-/*#trip-widget, */#message-box-container{
-	background-color:#EDF0F9;
-}
+/*#message-box-container{
+	background-color:#EAEAEA;
+}*/
 
 #itinerary, #map-shell, .item-header{
 	background-color:#EDF0F9;
 }
 
+/*#trip-widget{
+  background-color:#FBF7E6;
+}*/
+
 /*Content*/
-.content .wrapper{
-	-moz-border-radius-topright: 10px;
-	-moz-border-radius-topleft: 10px;
-	-webkit-border-top-right-radius: 10px;
-	-webkit-border-top-left-radius: 10px;
-	border-top-right-radius: 10px 10px;
-	border-top-left-radius: 10px 10px;
-}
 
 #trip-name{
-	padding:0px 5px 0px 5px;
+	padding:0px 0px 0px 0px;
 	width:560px;
-	-moz-border-radius-topright: 10px;
-	-moz-border-radius-topleft: 10px;
-	-webkit-border-top-right-radius: 10px;
-	-webkit-border-top-left-radius: 10px;
-	border-top-right-radius: 10px 10px;
-	border-top-left-radius: 10px 10px;
 }
 
 /*Left*/
 
 #trip-col-left-shell{
 	width: 570px;
-	padding:0px 5px 5px 5px;
+	padding:0px 0px 0px 10px;
 }
 
 #trip-col-left-content{
@@ -51,25 +41,17 @@
 
 .message, .suggestion{
 	padding:10px 0px 10px 0px;
-	margin:5px 0px 0px 0px;
-	border-top: 1px solid #DADADA;
-	font-size:15px;
-	line-height:20px;
+	margin:5px 0px 4px 0px;
+	border-bottom: 1px solid #EAEAEA;
 }
 
 #trip_description{
-	padding:2px 5px 18px 5px;
-	border-bottom:2px solid #DADADA;
-}
-
-#trip-wall{
-	margin-top:3px;
-	/*border-top:3px solid gray;*/
-	padding-top:10px;
+	padding:5px 0px 10px 0px;
+	border-bottom:3px solid #CACACA;
 }
 
 #widget-and-wall{
-	min-height:425px;
+	min-height:400px;
 	background-color:white;
 }
 
@@ -87,10 +69,8 @@
 textarea#message-box{
 	width:548px;
 	min-height:60px;
-	font-size:14px;
-	color:#1E1E1E;
-	line-height:20px;
-  border: 1px solid #DADADA;
+	color:#333;
+  border: 1px solid #333;
   border-radius: 0px;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
@@ -102,9 +82,9 @@ textarea#message-box{
 }
 
 #trip-widget{
-	padding:8px 5px 8px 5px;
-	border-top:1px solid #DADADA;
-	margin-top:1px;
+	padding:5px 0px 5px 0px;
+	border-top:1px solid #EAEAEA;
+	margin:1px 0px 0px 0px;
 }
 
 #countdown-container{
@@ -118,6 +98,10 @@ textarea#message-box{
 #itinerary, #map-shell{
 	width:350px;
 	padding:5px;
+}
+
+#itinerary{
+  position:relative;
 }
 
 #trip-col-right{
@@ -155,18 +139,128 @@ textarea#message-box{
 	display:inline;
 }
 
-#map-container{
-	position:relative;
-	top:25px;
-}
+/*map*/
+
+/*#map-container{
+  position:fixed;
+  top:250px;
+}*/
 
 #map-canvas{
 	height:350px;
 }
 
 #map-shell input {
-  font-size: 14px;
   width: 200px;
+}
+
+/*wall*/
+
+#input-container{
+  border: 1px solid black;
+  float: left;
+  position: relative;
+  display: inline;
+  width: 99.5%;
+}
+#location-autosuggest{
+  text-align: left;
+  padding-left: 12px;
+}
+
+#comment-container{
+  position: relative;
+  float: left;
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 95%;
+  text-align: left;
+}
+#comment-input{
+  width: 96%;
+}
+#submit-wall{
+  float: right;
+  border: 1px solid black;
+}
+#auto-loc-list ul li a{
+  display: block;
+  text-decoration: none;
+  color: #000000;
+  line-height: 1.5em;
+  border-bottom: 1px solid #CCCCCC;
+  cursor: pointer;
+}
+#auto-loc-list ul li a:hover {
+  background-color: #E0E0FF;
+}
+
+#wall-text-input {
+  width: 50%;
+}
+
+.wall-item-content{
+  padding:5px 0px 5px 0px;
+}
+
+.wall-item{
+  padding:15px 0px 15px 0px;
+  margin:5px 0px 5px 0px;
+  border-top:1px solid #EAEAEA;
+}
+
+.destination-dates a, .wall-item-author a{
+  font-size:14px;
+}
+
+.wall-item-author{
+  line-height:20px;
+  display:inline;
+}
+
+li.suggestion {
+  cursor: pointer;
+  background: white;
+  -webkit-transition: background-color linear .2s;
+  -moz-transition: background-color linear .2s;
+  -o-transition: background-color linear .2s;
+  transition: background-color linear .2s;
+}
+li.suggestion:hover{
+  background: #EAEAEA;
+	-webkit-transition: background-color linear .2s;
+	-moz-transition: background-color linear .2s;
+  -o-transition: background-color linear .2s;
+  transition: background-color linear .2s;
+}
+li.suggestion.highlighted{
+  background: #EAEAEA;
+	-webkit-transition: background-color linear .2s;
+	-moz-transition: background-color linear .2s;
+  -o-transition: background-color linear .2s;
+  transition: background-color linear .2s;
+}
+.remove-wall-item {
+  background-image: url(/david/images/delete_button.png);
+  height: 15px;
+  width: 15px;
+  opacity: 0;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.actionbar-item{
+  display:inline;
+  margin-right:12px;
+  font-size:15px;
+  line-height:20px;
+}
+
+.timestamp{
+  color:#737373;
 }
 
 /*Content END*/
@@ -240,137 +334,6 @@ textarea#message-box{
   background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }*/
-
-#share-trip {
-  font-size: 1.5em;
-  margin-top: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #EDEDED;
-}
-#share-trip a:link {
-  text-decoration: none;
-}
-#make-suggestion:hover, #write-message:hover{
-  text-decoration: underline;
-}
-#input-container{
-  border: 1px solid black;
-  float: left;
-  position: relative;
-  display: inline;
-  width: 99.5%;
-}
-#location-autosuggest{
-  text-align: left;
-  padding-left: 12px;
-}
-#place-type-dropdown{
-  float: left;
-  position: relative;
-  margin-top: 20px;
-  margin-left: 10px;
-  text-align: left;
-  width: 95%;
-}
-#place-good-for{
-  float: left;
-  margin-left: 10px;
-  margin-top: 20px;
-  text-align: left;
-  width: 95%;
-}
-#comment-container{
-  position: relative;
-  float: left;
-  margin-left: 10px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  width: 95%;
-  text-align: left;
-}
-#comment-input{
-  width: 96%;
-}
-#submit-wall{
-  float: right;
-  border: 1px solid black;
-}
-#auto-loc-list ul li a{
-  display: block;
-  text-decoration: none;
-  color: #000000;
-  line-height: 1.5em;
-  border-bottom: 1px solid #CCCCCC;
-  cursor: pointer;
-}
-#auto-loc-list ul li a:hover {
-  background-color: #E0E0FF;
-}
-
-#wall-text-input {
-  width: 50%;
-}
-#wall-content {
-  overflow-x: hidden;
-}
-li.suggestion {
-  cursor: pointer;
-  background: white;
-  -webkit-transition: background-color linear .2s;
-  -moz-transition: background-color linear .2s;
-  -o-transition: background-color linear .2s;
-  transition: background-color linear .2s;
-}
-li.suggestion:hover{
-  background: #EAEAEA;
-	-webkit-transition: background-color linear .2s;
-	-moz-transition: background-color linear .2s;
-  -o-transition: background-color linear .2s;
-  transition: background-color linear .2s;
-}
-li.suggestion.highlighted{
-  background: #EAEAEA;
-	-webkit-transition: background-color linear .2s;
-	-moz-transition: background-color linear .2s;
-  -o-transition: background-color linear .2s;
-  transition: background-color linear .2s;
-}
-.remove-wall-item {
-  background-image: url(/david/images/delete_button.png);
-  height: 15px;
-  width: 15px;
-  opacity: 0;
-  cursor: pointer;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.checkbox-name {
-  text-align: right;
-  padding-right: 10px;
-}
-.padding-right {
-  padding-right: 20px;
-}
-.friend-capsule .friend-name {
-  color:#222;
-}
-.friend-capsule:hover {
-  background: #e7ebf5;
-  border-radius: 3px;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-}
-.friend-capsule:hover .friend-name {
-  color: #000;
-}
-.friend-capsule.share-selected {
-  background: #526ea6;
-}
-.friend-capsule.share-selected .friend-name {
-  color: #fff;
-}
 
 #wall-post-button {
   position:relative;
