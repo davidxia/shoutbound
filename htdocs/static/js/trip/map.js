@@ -5,7 +5,6 @@ map.infoWindow = null;
 map.markers = {};
 map.newMarker = null;
 
-/*
 map.fixMapPos = function() {
   var sidebar    = $('#map-container'),
       win        = $(window),
@@ -26,7 +25,6 @@ map.fixMapPos = function() {
     }
   });
 };
-*/
 
 map.loadGoogleMapScript = function() {
   var script = document.createElement('script');
@@ -47,7 +45,7 @@ map.loadGoogleMap = function() {
       style: google.maps.ZoomControlStyle.LARGE,
       //position: google.maps.ControlPosition.LEFT_TOP
     },
-  	zoom: 7,
+  	zoom: 11,
   	center: new google.maps.LatLng(map.lat, map.lng),
   	mapTypeId: google.maps.MapTypeId.ROADMAP,    
     scrollwheel: false
@@ -348,5 +346,5 @@ map.openMarkerInfoWindow = function(i){
 
 $(document).ready(function() {
   map.loadGoogleMapScript();
-  //map.fixMapPos();
+  map.fixMapPos();
 });
