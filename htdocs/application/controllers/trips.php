@@ -26,13 +26,24 @@ class Trips extends CI_Controller
 		    $destinations = $t->get_places();
 		    
 		    $wallitems = array();
+        
         $t->wallitem->where('parent_id', NULL)->get();
         foreach ($t->wallitem as $wallitem)
         {
-            $replies = $wallitem->get_replies();
-            $wallitem->stored->replies = $replies;
+            // generate html for wallitem's places
+            $wallitem->get_places();
             
-            $wallitem->stored->places = $wallitem->get_places();
+            // get replies and attach their places
+            $r = $wallitem->get_replies();
+            $replies = array();
+            foreach ($r as $reply)
+            {
+                $reply->get_places();
+                $replies[] = $reply->stored;
+            }
+            
+            // packages each wallitem with replies into separate array
+            $wallitem->stored->replies = $replies;
             $wallitems[] = $wallitem->stored;
         }
 		    
@@ -40,34 +51,11 @@ class Trips extends CI_Controller
             'trip' => $t->stored,
             'destinations' => $destinations,
             'user' => $this->user,
-            //'user_role' => $user_role,
-            //'user_rsvp' => $user_rsvp,
             'wallitems' => $wallitems,
         );
 
 		    $this->load->view('trip/new_wall', $view_data);
 		}
-        
-    
-    public function wallitem_preg()
-    {
-        $wi = new Wallitem();
-        $wi->get_by_id(1);
-        echo $wi->content.'<br/>';
-        
-        $content = preg_replace_callback('<place id="(\d+)">',
-            create_function('$matches',
-                '$p = new Place();
-                 $p->get_by_id($matches[1]); 
-                 return \'a href="#" address="\'.$p->address.\'" lat="\'.$p->lat.\'" lng="\'.$p->lng.\'"\';'),
-            $wi->content);
-            
-        $content = str_replace('</place>', '</a>', $content);
-        
-        print_r($content);
-        
-
-    }
          	  
  	  
  	  public function confirm_create()

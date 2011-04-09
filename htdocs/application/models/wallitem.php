@@ -58,29 +58,32 @@ class Wallitem extends DataMapper
     }
     
     
+    public function get_places()
+    {
+        $this->stored->content = preg_replace_callback('/<place id="(\d+)">/',
+            create_function('$matches',
+                '$p = new Place();
+                 $p->get_by_id($matches[1]);
+                 return \'<a href="#" address="\'.$p->address.\'" lat="\'.$p->lat.\'" lng="\'.$p->lng.\'">\';'),
+            $this->stored->content);
+            
+        $this->stored->content = str_replace('</place>', '</a>', $this->stored->content);
+        //return $this->content;
+    }
+    
+
     public function get_replies()
     {
         $this->wallitem->get();
+        /*
         $replies = array();
         foreach ($this->wallitem as $wallitem)
         {
             $replies[] = $wallitem->stored;
         }
-        
-        return $replies;
-    }
-    
-    
-    public function get_places()
-    {
-        $this->place->get();
-        $places = array();
-        foreach ($this->place as $place)
-        {
-            $places[] = $place->stored;
-        }
-        
-        return $places;
+        */
+        return $this->wallitem;
+        //return $replies;
     }
 }
 
