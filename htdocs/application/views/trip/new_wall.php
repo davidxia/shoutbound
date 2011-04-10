@@ -69,6 +69,8 @@ $this->load->view('core_header', $header_args);
       <textarea id="wallitem-input"></textarea>
       <div id="wallitem-post-button"><a href="#">Add</a></div>
     </div><!-- ITEM INPUT CONTAINER ENDS -->
+    
+    <input type="text" id="place-autosuggest"/>
 
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
@@ -78,6 +80,44 @@ $this->load->view('core_header', $header_args);
 <script type="text/javascript">
   // convert unix timestamps to time ago
   $('abbr.timeago').timeago();
+  
+  
+  // create namespace for geocoder
+  var sbgeocoder = {};
+  
+  // autosuggest place from database
+  $('#place-autosuggest').keyup(function(e) {
+    var keyCode = e.keyCode || e.which;
+    // ignore arrow keys
+    if (keyCode!==37 && keyCode!==38 && keyCode!==39 && keyCode!==40) {
+      delay(sbgeocoder.geocodeQuery, 150);
+      //console.log($(this).val());
+    }
+  });
+
+  // delay geocoder api for 1 second of keyboard inactivity
+  delay = (function() {
+    var timer = 0;
+    return function(callback, ms){
+      clearTimeout (timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+  
+
+  sbgeocoder.geocodeQuery = function() {
+    var query = $('#place-autosuggest').val().trim();
+    if (query.length > 1) {
+      $.ajax({
+        type: 'POST',
+        url: '<?=site_url('places/')?>',
+        data: query
+      });
+    } else {
+    	$('#place-autosuggest').html('').css('border', '0');
+    }
+  };
+
 
   $('#wallitem-post-button').click(function() {
     // distinguish between message and suggestion
