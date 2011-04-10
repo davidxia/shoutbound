@@ -211,7 +211,6 @@
       success: function(r) {
         var r = $.parseJSON(r);
         if (r.loggedin) {
-          //$('#trip-creation-form').submit();
           loginSignupSuccess();
         } else {
           $('#login-error').html('Wrong email or password.');

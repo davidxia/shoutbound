@@ -5,24 +5,21 @@ $header_args = array(
         'css/trip-page.css',
     ),
     'js_paths'=>array(
+        'js/jquery/popup.js',
+        'js/jquery/validate.min.js',
         'js/jquery/timeago.js',
     )
 );
 
 $this->load->view('core_header', $header_args);
-?>
-
-<!-- JAVASCRIPT CONSTANTS --> 
-<script type="text/javascript">
-  var baseUrl = "<?=site_url()?>";
-</script>
-  
+?>  
 </head>
 
 <body>
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>  
-    
+    <div id="div-to-popup" style="background-color:white; display:none;"></div>
+
     USER NAME: <?=$user->name?>
     
     <br/><br/>
@@ -75,31 +72,52 @@ $this->load->view('core_header', $header_args);
         success: function(r) {
           var r = $.parseJSON(r);
           if (r.loggedin) {
-            var postData = {
-              tripId: 2,
-              content: $('#wallitem-input').val()
-            };
-            
-            $.ajax({
-              type: 'POST',
-              url: '<?=site_url('wallitems/ajax_save')?>',
-              data: postData,
-              success: function(r) {
-                var r = $.parseJSON(r);
-                displayWallitem(r);
-                $('abbr.timeago').timeago();
-                $('#wallitem-input').val('');
-              }
-            });
-            
+            postWallitem();
           } else {
-            alert('please login to post on the wall');
+            showLoginSignupDialog();
           }
         }
       });
     }
     return false;
   });
+
+
+  function showLoginSignupDialog() {
+    $.ajax({
+      url: '<?=site_url('users/login_signup')?>',
+      success: function(r) {
+        var r = $.parseJSON(r);
+        $('#div-to-popup').empty().append(r.data).bPopup({follow:false, opacity:0});
+      }
+    });
+  }
+
+
+  function loginSignupSuccess() {
+    $('#div-to-popup').empty();
+    postWallitem();
+  }
+
+  
+  function postWallitem() {
+    var postData = {
+      tripId: 2,
+      content: $('#wallitem-input').val()
+    };
+    
+    $.ajax({
+      type: 'POST',
+      url: '<?=site_url('wallitems/ajax_save')?>',
+      data: postData,
+      success: function(r) {
+        var r = $.parseJSON(r);
+        displayWallitem(r);
+        $('abbr.timeago').timeago();
+        $('#wallitem-input').val('');
+      }
+    });  
+  }
 
 
   function displayWallitem(r) {
