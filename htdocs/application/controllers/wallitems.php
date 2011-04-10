@@ -20,6 +20,31 @@ class Wallitems extends CI_Controller
             redirect('/');
         }
 		}
+		
+		
+		public function ajax_save()
+		{
+		    $wi = new Wallitem();
+		    $wi->trip_id = $this->input->post('tripId');
+		    $wi->user_id = $this->user->id;
+		    $wi->content = $this->input->post('content');
+		    $wi->parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : NULL;
+		    $wi->created = time()-72;
+		    if ($wi->save())
+		    {
+            json_success(array(
+                'id' => $wi->id,
+                'userName' => $this->user->name,
+                'userId' => $this->user->id,
+                'content' => $this->input->post('content'),
+                'created' => time()-72,
+            ));
+		    }
+		    else
+		    {
+		        json_error('something broke, tell David');
+		    }
+		}
 
 
     function index()
