@@ -37,18 +37,31 @@ $this->load->view('core_header', $header_args);
     
     <br/>
     
+    <!-- WALL CONTENT -->
     <div id="wall-content">
       WALLITEMS:
-      <br/>
       <? foreach ($wallitems as $wallitem):?>
-        CONTENT: <?=$wallitem->content?>
-        <br/>
-        <? foreach ($wallitem->replies as $reply):?>
-          --------->CONTENT: <?=$reply->content?>
+        <!-- WALLITEM -->
+        <div class="wallitem" id="wallitem-<?=$wallitem->id?>">
+          AUTHOR: <?=$wallitem->user_name?>
+          CONTENT: <?=$wallitem->content?>
+          CREATED: <abbr class="timeago" title="<?=$wallitem->created?>"><?=$wallitem->created?></abbr>
+          LIKE
+          REPLY
           <br/>
-        <? endforeach;?>
+          <? foreach ($wallitem->replies as $reply):?>
+            <!-- WALLITEM REPLY -->
+            <div class="reply" id="wallitem-<?=$wallitem->id?>">
+              --------->AUTHOR: <?=$reply->user_name?>
+              CONTENT: <?=$reply->content?>
+              CREATED: <abbr class="timeago" title="<?=$reply->created?>"><?=$reply->created?></abbr>
+              LIKE
+            </div><!-- WALLITEM REPLY ENDS -->
+          <? endforeach;?>
+        </div><!-- WALLITEM ENDS -->
       <? endforeach;?>
-    </div>
+    </div><!-- WALL CONTENT ENDS -->
+    
     
     <!-- ITEM INPUT CONTAINER -->
     <div id="wallitem-input-container;">
@@ -63,6 +76,9 @@ $this->load->view('core_header', $header_args);
 
 
 <script type="text/javascript">
+  // convert unix timestamps to time ago
+  $('abbr.timeago').timeago();
+
   $('#wallitem-post-button').click(function() {
     // distinguish between message and suggestion
     if ($('#wallitem-input').val().length != 0) {

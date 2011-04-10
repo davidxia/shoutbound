@@ -58,6 +58,14 @@ class Wallitem extends DataMapper
     }
     
     
+    public function get_creator()
+    {
+        $u = new User();
+        $u->get_by_id($this->stored->user_id);
+        $this->stored->user_name = $u->name;
+    }
+    
+    
     public function get_places()
     {
         $this->stored->content = preg_replace_callback('/<place id="(\d+)">/',

@@ -30,6 +30,8 @@ class Trips extends CI_Controller
         $t->wallitem->where('parent_id', NULL)->get();
         foreach ($t->wallitem as $wallitem)
         {
+            // get creator's name
+            $wallitem->get_creator();
             // generate html for wallitem's places
             $wallitem->get_places();
             
@@ -38,6 +40,9 @@ class Trips extends CI_Controller
             $replies = array();
             foreach ($r as $reply)
             {
+                // get creator's name
+                $reply->get_creator();
+                // generate html for wallitem's places
                 $reply->get_places();
                 $replies[] = $reply->stored;
             }
