@@ -72,7 +72,7 @@ class Wallitem extends DataMapper
             create_function('$matches',
                 '$p = new Place();
                  $p->get_by_id($matches[1]);
-                 return \'<a href="#" address="\'.$p->address.\'" lat="\'.$p->lat.\'" lng="\'.$p->lng.\'">\';'),
+                 return \'<a class="place" href="#" address="\'.$p->address.\'" lat="\'.$p->lat.\'" lng="\'.$p->lng.\'">\';'),
             $this->stored->content);
             
         $this->stored->content = str_replace('</place>', '</a>', $this->stored->content);
