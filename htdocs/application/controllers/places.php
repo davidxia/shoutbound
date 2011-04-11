@@ -12,22 +12,17 @@ class Places extends CI_Controller
     function ajax_autosuggest()
     {
         $p = new Place();
-        $r->user_id = $this->user->id;
-        $r->message_id = $this->input->post('messageId');
-        $r->suggestion_id = $this->input->post('suggestionId');
-        $r->text = $this->input->post('text');
-        $r->created = time()-72;
-                
-        if ($r->save())
+        $p->ilike('name', $this->input->post('query'))->limit(10)->get();
+        
+        $places = array();
+        foreach ($p as $place)
         {
-            json_success(array(
-                'id' => $r->id,
-                'text' => $this->input->post('text'),
-                'created' => time()-72,
-                'userName' => $this->user->name,
-                'uid' => $this->user->id,
-            ));
+            $places[] = $place->name;
         }
+
+        json_success(array(
+            'places' => $places,
+        ));
     }
     
     

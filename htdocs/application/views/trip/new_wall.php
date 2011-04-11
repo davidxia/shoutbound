@@ -71,6 +71,7 @@ $this->load->view('core_header', $header_args);
     </div><!-- ITEM INPUT CONTAINER ENDS -->
     
     <input type="text" id="place-autosuggest"/>
+    <div id="autosuggestions">places: </div>
 
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
@@ -90,8 +91,7 @@ $this->load->view('core_header', $header_args);
     var keyCode = e.keyCode || e.which;
     // ignore arrow keys
     if (keyCode!==37 && keyCode!==38 && keyCode!==39 && keyCode!==40) {
-      delay(sbgeocoder.geocodeQuery, 150);
-      //console.log($(this).val());
+      delay(sbgeocoder.geocodeQuery, 300);
     }
   });
 
@@ -107,11 +107,23 @@ $this->load->view('core_header', $header_args);
 
   sbgeocoder.geocodeQuery = function() {
     var query = $('#place-autosuggest').val().trim();
+
     if (query.length > 1) {
+      var postData = {
+        query: query
+      };
+      
       $.ajax({
         type: 'POST',
-        url: '<?=site_url('places/')?>',
-        data: query
+        url: '<?=site_url('places/ajax_autosuggest')?>',
+        data: postData,
+        success: function(r) {
+          var r = $.parseJSON(r);
+          $('#autosuggestions').empty();
+          for (var i=0; i<r.places.length; i++) {
+            $('#autosuggestions').append('<div>'+r.places[i]+'</div>');
+          }
+        }
       });
     } else {
     	$('#place-autosuggest').html('').css('border', '0');
@@ -120,7 +132,6 @@ $this->load->view('core_header', $header_args);
 
 
   $('#wallitem-post-button').click(function() {
-    // distinguish between message and suggestion
     if ($('#wallitem-input').val().length != 0) {
       $.ajax({
         type: 'POST',
