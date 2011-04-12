@@ -168,10 +168,10 @@ $this->load->view('core_header', $header_args);
 		          <? if ($user_rsvp == 3):?>
 	              <div class="console">
 	                <p class="regular">Get advice, ideas and recommendations for this trip by <a href="#" id="get-suggestions-button">Sharing</a> it with other people. You can also <a href="#" id="invite-others-button">Invite</a>  other people to join you this trip.  	              
-			            <a href="#" id="rsvp_no_button">I'm out</a>
+			            <!--<a href="#" id="rsvp_no_button">I'm out</a>-->
                            
 		              <? if ($user_role == 3):?>
-			            <a id="deletebutton" style="" href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete this trip</a></p>                    
+			            <!--<a id="deletebutton" style="" href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete this trip</a></p>-->                    
 			         		<? endif;?>	              
 		             </div>
 		            
@@ -185,33 +185,11 @@ $this->load->view('core_header', $header_args);
 						<div id="trip-wall"><!--WALL START-->
 					 		<!-- WALL CONTENT -->
 					 		
-					 		<!--WALL ITEM-->
-			        <div class="wall-item">
-			         <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" alt="Profile picture" width="20" height="20" style="display:inline; float:left; margin-right:5px;"/>
-			         <a href="#" class="wall-item-author">Samantha Appleseed</a>			         		           <div class="clear:both"></div>
-		           <div class="wall-item-content">			           
-			           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>			           
-			         </div>			         
-			         <div class="actionbar">
-			           <div class="actionbar-item">
-			             <a href="#" class="add-comment">Add comment</a> 
-			           </div>
-			           <div class="actionbar-item"> 			         
-  			           <a href="#" class="add-comment">Like</a><!--UNLIKE ALSO NEEDS TO GO HERE-->
-  			         </div>
-  			         <div class="actionbar-item">
-  			           <span class="num-likes">4 people like this</span>
-  			         </div>
-  			         <div class="actionbar-item">
-  			           <span class="timestamp">Apr 4, 2011</span>
-  			         </div>
-			         </div>
-			         
-			       </div><!--WALL ITEM END-->   
-			        
-			          <? foreach ($wall_items as $wall_item):?>
+					 		    <!-- WALL CONTENT -->
+    <div id="wall-content">
+     <? foreach ($wall_items as $wall_item):?>
 			          
-			            <? if (isset($wall_item->lat)):?><!--SUGGESTIONS-->
+			 <? if (isset($wall_item->lat)):?><!--SUGGESTIONS-->
 			              <li id="wall-suggestion-<?=$wall_item->id?>" class="suggestion">
 			                <p class="regular"><a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author"><?=$wall_item->user_name?></a></p>
 			                <div class="wall-location-name"><p class="regular"><?=$wall_item->name?></p></div>
@@ -290,21 +268,19 @@ $this->load->view('core_header', $header_args);
 			            <? endif;?>
 			          <? endforeach;?>		          
 			          
-			        </ul><!-- WALL CONTENT ENDS -->
-	        	</div> <!--WALL ENDS-->
-	        </div><!--WIDGET AND WALL ENDS-->  
-	             
-	        <div id="add-to-wall">
-	        	<!-- WALL INPUT CONTAINER -->
-		        <div id="wall-input-container;">
-		        	<label for="message-box"><h2>Add Message:</h2></label>
-		          	<div id="message-box-container">		            
-		            	<textarea id="message-box"></textarea>
-		        			
-		        		</div>
-		        		<div id="wall-post-button"><a href="#">Add</a></div>
-		          </div>
-		          
+			        </ul><!-- WALL CONTENT ENDS -->		 		
+					 		
+    </div><!--WIDGET AND WALL ENDS-->  
+	  
+	  
+	  <div id="add-to-wall">
+  	  <!-- ITEM INPUT CONTAINER -->
+      <div id="wallitem-input-container;">
+        <label for="wallitem-input"><h2>Add:</h2></label>
+        <textarea id="wallitem-input"></textarea>
+        <div id="wallitem-post-button"><a href="#">Add</a></div>
+      </div><!-- ITEM INPUT CONTAINER ENDS -->
+	  </div>
 		                     
 		          <!-- LOCATION SEARCH -->
 		          <!-- <div id="location-search">

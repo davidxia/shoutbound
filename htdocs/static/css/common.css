@@ -20,9 +20,9 @@ html, body {
 	border-bottom:1px solid black;
   display: block;
   height: 40px;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#687073', endColorstr='#151D37');
-	background: -webkit-gradient(linear, left top, left bottom, from(#687073), to(#151D37));
-	background: -moz-linear-gradient(top,  #687073,  #151D37); 
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#44494B', endColorstr='#0E1325');
+	background: -webkit-gradient(linear, left top, left bottom, from(#44494B), to(#0E1325));
+	background: -moz-linear-gradient(top,  #44494B,  #0E1325); 
 }
 
 .header .nav a {
@@ -64,6 +64,17 @@ html, body {
 
 .header .wrapper {
   position: relative;
+}
+
+.item-header{
+	padding:10px 10px 0px 10px;
+	width:200px;
+	-moz-border-radius-topright: 10px;
+	-moz-border-radius-topleft: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-webkit-border-top-left-radius: 10px;
+	border-top-right-radius: 10px 10px;
+	border-top-left-radius: 10px 10px;
 }
 
 h1{

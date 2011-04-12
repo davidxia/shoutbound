@@ -10,7 +10,6 @@ $header_args = array(
 $this->load->view('core_header', $header_args);
 ?>
 
-
 <style type="text/css">
 #add-friend-button {
   color:white;
@@ -51,106 +50,92 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('wrapper_content')?>
 
       <!-- LEFT COLUMN -->
-      <div style="float:left; width:640px; margin-right:20px;">
-        <div style="background-color: #F9F9F9; border:1px solid #CCC; margin-bottom:13px; padding:10px; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;">
-          <div style="float:left; margin-right:10px; padding:5px; background-color:white; border: 1px solid #CCC; position:relative;">
-            <a href="#" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="110" height="110"/></a>
-            <a href="<?=site_url('profile/edit')?>" id="edit-profile-pic" style="position:absolute; top:5px; right:0; font-size:12px; background-color:black; color:white; display:none;">change picture</a>
+      <div id="profile-left-col">
+      
+        <div id="profile-top-bar">
+          <div id="profile-pic-container" style="position:relative; display:inline;">
+            <a href="#" id="profile-pic" style="cursor:pointer;"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="110" height="110"/></a>
+            <a href="<?=site_url('profile/edit')?>" id="edit-profile-pic" style="position:absolute; top:-95px; left:0px; font-size:12px; background-color:black; color:white; display:none;">change picture</a>
           </div>
-          <div style="background-color:#E6E6E6; padding:10px; margin-left:133px; height:102px;">
-            <h1 style="color:#444; font-size:20px; font-weight:bold; margin-left:7px;"><?=$profile->name?></h1>
-            <h2 style="color:#666; font-size:13px; margin:3px 8px 0 8px;">current location</h2>
-            <div style="border-bottom: 1px solid #CCC; margin-top:8px; height:1px;"></div>
-            <ul style="border-top: 1px solid white;">
-              <li style="float:left; width:147px; margin:5px 0 0 8px; border-right:1px dotted #CCC;">
-                <span style="font-size:8.5px;">TRIPS PLANNED</span>
-                <strong style="color:#444; font-size:39px; font-weight:bold; display:block;">
-                  <?=count($trips)?>
-                </strong>
-              </li>
-              <li style="float:left; width:146px; margin:5px 0 0 8px; border-right:1px dotted #CCC;">
-                <span style="font-size:8.5px;">TRIPS DONE</span>
-                <strong style="color:#444; font-size:39px; font-weight:bold; display:block;">12</strong>
-              </li>
-              <!--<li style="float:left; width:146px; margin:5px 0 0 8px;">
-                <span style="font-size:8.5px;">DISSIDENTS KILLED</span>
-                <strong style="color:#444; font-size:39px; font-weight:bold; display:block;">139</strong>
-              </li>-->
-            </ul>
-          </div>
-        </div>
-        
-        <!-- NEWS FEED CONTAINER -->
-        <div>
-          <!-- CONTAINER HEADER -->
-          <div style="background: #0CBADF; border-bottom: 1px solid rgba(0, 0, 0, .1); font-weight: bold; height: 16px; padding: 8px 10px; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; border-radius: 5px 5px 0px 0px; border-radius: 5px 5px 0px 0px;">
-            <p style="border-right: 1px solid #329CC3; line-height: 15px; float:left; font-size:15px; text-align:center; padding:0 15px; color:white;">
-              <a href="#" style="color:white; text-decoration:none;">Posts</a>
-            </p>
           
-          </div><!-- CONTAINER HEADER ENDS -->
-          <div style="border-left: 1px solid #CCC; border-right: 1px solid #CCC;">
-            <div style="padding-bottom:5px; background: #F9F9F9; border-bottom: 1px solid #CCC; border-top: 1px solid white; padding: 15px;">
-              
-            </div>
-          </div>
+          <h2><?=$profile->name?></h2>         
         </div>
-        
-      </div><!-- LEFT COLUMN ENDS -->
-      
-      
+            
+        <div id="feed-container">Feed<!--FEED CONTAINER-->
+          <div id="news-feed">
+            <? if ( ! $news_feed_items):?>
+              <div style="padding:0px 0px 20px 20px;">You haven't had any activity yet.  Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a>.</div>
+            <? else:?>
+              <ul style="margin: 0px 20px 0px 20px;">
+                <? foreach($news_feed_items as $news_feed_item):?>
+                  <li id="wall-item-<?=$news_feed_item->id?>">
+                  <? if ($news_feed_item->is_location):?>
+                    <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>" style="float:left;"><img src="<?=static_sub('profile_pics/'.$news_feed_item->profile_pic)?>" height="50" width="50"/></a>
+                    <div style="display:table-cell; line-height:18px;">
+                      <?=$news_feed_item->user_name?> suggested <span style="font-weight:bold;"><?=$news_feed_item->name?></span>
+                      <br/>
+                      for <a href="<?=site_url('trips/'.($news_feed_item->trip_id))?>"><?=$news_feed_item->trip_name?></a>
+                      <br/>
+                      <abbr class="timeago" title="<?=$news_feed_item->created?>" style="font-size:10px;"><?=$news_feed_item->created?></abbr>
+                    </div>
+                  <? else:?>
+                    <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>" style="float:left;"><img src="<?=static_sub('profile_pics/'.$news_feed_item->profile_pic)?>" height="50" width="50"/></a>
+                    <div style="display:table-cell; line-height:18px;">
+                      <?=$news_feed_item->user_name?> wrote <span style="font-weight:bold;"><?=$news_feed_item->text?></span>
+                      <br/>
+                      on <a href="<?=site_url('trips/'.($news_feed_item->trip_id))?>"><?=$news_feed_item->trip_name?></a>
+                      <br/>
+                      <abbr class="timeago" title="<?=$news_feed_item->created?>" style="font-size:10px;"><?=$news_feed_item->created?></abbr>
+                    </div>
+                  <? endif;?>
+                  </li>
+                <? endforeach;?>
+              </ul>
+            <? endif;?>
+  			   </div><!-- NEWS FEED ENDS -->
+        </div><!--FEED CONTAINER ENDS-->
+             
       <!-- RIGHT COLUMN -->
-      <div id="rightcol" style="float:left; width:300px;">
+      <div id="profile-right-col">
         <? if ($user AND $is_friend===0):?>
-          <a href="#" id="add-friend-button">ADD AS FRIEND</a>
+          <a href="#" id="add-friend-button">FOLLOW</a>
         <? elseif ($user AND $is_friend==1):?>
-          FRIEND REQUEST SENT; put a link here to cancel
+          You now follow [username]!
         <? elseif ($user AND $is_friend==2):?>
-          YOU ARE FRIENDS; put link here to edit friends
+          YOU FOLLOW [username]
         <? endif;?>
+        
         <!-- TRIPS CONTAINER -->
-        <div>
-          <div style="background: #0CBADF; border-bottom: 1px solid rgba(0, 0, 0, .1); font-weight: bold; padding: 8px 10px; border-radius: 5px 5px 0 0; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; -webkit-border-radius:5px 5px 0 0; -webkit-text-stroke: 1px transparent; color:white;">
-            Trips (<?=count($trips)?>)
-          </div>
-          <!-- TRIPS -->
-          <div style="border-radius:0 0 5px 5px; background-color: #F9F9F9; border: 1px solid #CCC; margin-bottom: 13px;">
-            <div style="border-bottom: 1px solid #CCC; border-top: 1px solid white; padding: 10px;">
-              <? foreach ($trips as $trip):?>
-              <h3 style="font-size: 13px; height: 14px; line-height: 14px; margin:1px 0 2px;">
-                <a href="<?=site_url('trips/'.$trip->id)?>" style="text-decoration:none; font-weight:bold; color: #2398C9;"><?=$trip->name?></a>
-              </h3>
-              <p style="font-size:13px;"><?=$trip->destinations[0]->address?></p>
-              <? endforeach;?>
-            </div>
-          </div><!-- TRIPS END -->
+        <div id="profile-page-trips-container">
+          <div id="profile-page-trips-list-header">
+            Trips: (<?=count($trips)?>)
+          </div>  
+          <div id="profile-page-trips-list-content"><!-- TRIPS -->
+            <? foreach ($trips as $trip):?>
+              <h3><a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a></h3>
+              <p><?=$trip->destinations[0]->address?></p>
+            <? endforeach;?>
+          </div><!-- TRIPS LIST END -->
         </div><!-- TRIPS CONTAINER ENDS -->
 
         <!-- FRIENDS CONTAINER -->
         <div>
-          <div style="background: #0CBADF; border-bottom: 1px solid rgba(0, 0, 0, .1); font-weight: bold; padding: 8px 10px; border-radius: 5px 5px 0 0; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; -webkit-border-radius:5px 5px 0 0; -webkit-text-stroke: 1px transparent; color:white;">
+          <div>
             Friends (<?=count($friends)?>)
           </div>
-          <!-- TRIPS -->
-          <div style="border-radius:0 0 5px 5px; background-color: #F9F9F9; border: 1px solid #CCC; margin-bottom: 13px;">
-            <div style="border-bottom: 1px solid #CCC; border-top: 1px solid white; padding: 10px;">
-              <? foreach ($friends as $friend):?>
-              <h3 style="font-size: 13px; height: 14px; line-height: 14px; margin:1px 0 2px;">
-                <a href="<?=site_url('profile/'.$friend->id)?>" style="text-decoration:none; font-weight:bold; color: #2398C9;"><?=$friend->name?></a>
-              </h3>
-              <? endforeach;?>
-            </div>
-          </div><!-- FRIENDS END -->
-        </div><!-- TRIPS CONTAINER ENDS -->
+          <div>
+            <? foreach ($friends as $friend):?>
+            <h3><a href="<?=site_url('profile/'.$friend->id)?>"><?=$friend->name?></a></h3>
+            <? endforeach;?>
+          </div>
+        </div><!-- FRIENDS CONTAINER END -->
+          
       </div><!-- RIGHT COLUMN ENDS -->
       
       <div style="clear:both;"></div>
-      
-      
+            
     </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
-
-
 
 
   <?=$this->load->view('footer')?>
