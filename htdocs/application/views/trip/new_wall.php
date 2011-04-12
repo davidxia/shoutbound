@@ -37,8 +37,8 @@ $this->load->view('core_header', $header_args);
     
     <br/>
     
-    <!-- WALL CONTENT -->
-    <div id="wall-content">
+    <!-- WALL -->
+    <div id="wall">
       WALLITEMS:
       <? foreach ($wallitems as $wallitem):?>
         <!-- WALLITEM -->
@@ -60,15 +60,15 @@ $this->load->view('core_header', $header_args);
           <? endforeach;?>
         </div><!-- WALLITEM ENDS -->
       <? endforeach;?>
-    </div><!-- WALL CONTENT ENDS -->
+    </div><!-- WALL ENDS -->
     
     
-    <!-- ITEM INPUT CONTAINER -->
+    <!-- WALLITEM INPUT CONTAINER -->
     <div id="wallitem-input-container;">
       <label for="wallitem-input"><h2>Add Message:</h2></label>
       <textarea id="wallitem-input"></textarea>
       <div id="wallitem-post-button"><a href="#">Add</a></div>
-    </div><!-- ITEM INPUT CONTAINER ENDS -->
+    </div><!-- WALLITEM INPUT CONTAINER ENDS -->
     
     <input type="text" id="place-autosuggest"/>
     <div id="autosuggestions">places: </div>
@@ -206,9 +206,3 @@ $this->load->view('core_header', $header_args);
 
 </body>
 </head>
-
-
-
-	
-
-

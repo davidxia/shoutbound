@@ -114,41 +114,12 @@ class Trips extends CI_Controller
 		{
 		    $t = new Trip();
 		    $t->get_by_id($trip_id);
-		    
-		    $destinations = $t->get_places();
-		    
-		    $wallitems = array();
-        
-        $t->wallitem->where('parent_id', NULL)->get();
-        foreach ($t->wallitem as $wallitem)
-        {
-            // get creator's name
-            $wallitem->get_creator();
-            // generate html for wallitem's places
-            $wallitem->get_places();
-            
-            // get replies and attach their places
-            $r = $wallitem->get_replies();
-            $replies = array();
-            foreach ($r as $reply)
-            {
-                // get creator's name
-                $reply->get_creator();
-                // generate html for wallitem's places
-                $reply->get_places();
-                $replies[] = $reply->stored;
-            }
-            
-            // packages each wallitem with replies into separate array
-            $wallitem->stored->replies = $replies;
-            $wallitems[] = $wallitem->stored;
-        }
-		    
+		    		    
         $view_data = array(
             'trip' => $t->stored,
-            'destinations' => $destinations,
+            'destinations' => $t->get_places(),
             'user' => $this->user,
-            'wallitems' => $wallitems,
+            'wallitems' => $t->get_wallitems(),
         );
 
 		    $this->load->view('trip/new_wall', $view_data);
@@ -209,109 +180,26 @@ class Trips extends CI_Controller
                 $user_rsvp = 2;
             }
         }
-        
-        // get trip's creator
-        $creator = $t->get_creator();
-        
-        // get users who are trip planners and rsvped yes
-        $trip_goers = $t->get_goers();
-                
-        // get trip's destinations
-        $destinations = $t->get_places();
-
-        // get active suggestions and messages for this trip
-        // also get corresponding replies
-        $wall_items = array();
-        
-        $m = new Message();
-        $m->order_by('created', 'desc');
-        $m->where('trip_id', $trip_id)->where('active', 1)->get();
-        foreach ($m as $message)
-        {
-            $message->stored->user_id = $u->get_by_id($message->user_id)->id;
-            $message->stored->user_name = $u->name;
-            $message->stored->replies = array();
-            $message->stored->likes = array();
-            
-            $r = new Reply();
-            $r->order_by('created', 'desc');
-            $r->where('message_id', $message->id)->where('active', 1)->get();
-            foreach ($r as $reply)
-            {
-                $u->get_by_id($reply->user_id);
-                $reply->stored->user_name = $u->name;
-                $message->stored->replies[] = $reply->stored;
-            }
-            
-            $l = new Like();
-            $l->where('message_id', $message->id)->get();
-            foreach ($l as $like)
-            {
-                $u->get_by_id($like->user_id);
-                $like->stored->user_name = $u->name;
-                $message->stored->likes[$like->user_id] = $like->is_like;
-            }
-            $uids_likes = array_count_values($message->stored->likes);
-            $message->stored->num_likes = (isset($uids_likes['1'])) ? $uids_likes['1'] : 0;
-
-            $wall_items[] = $message->stored;
-        }        
-        
-        $suggestions = array();
-        $s = new Suggestion();
-        $s->order_by('created', 'desc');
-        $s->where('trip_id', $trip_id)->where('active', 1)->get();
-        foreach ($s as $suggestion)
-        {
-            $suggestion->stored->user_id = $u->get_by_id($suggestion->user_id)->id;
-            $suggestion->stored->user_name = $u->name;
-            $suggestion->stored->replies = array();
-            $suggestion->stored->likes = array();
-
-            $r = new Reply();
-            $r->order_by('created', 'desc');
-            $r->where('suggestion_id', $suggestion->id)->where('active', 1)->get();
-            foreach ($r as $reply)
-            {
-                $u->get_by_id($reply->user_id);
-                $reply->stored->user_name = $u->name;
-                $suggestion->stored->replies[] = $reply->stored;
-            }
-
-            $l = new Like();
-            $l->where('suggestion_id', $suggestion->id)->get();
-            foreach ($l as $like)
-            {
-                $u->get_by_id($like->user_id);
-                $like->stored->user_name = $u->name;
-                $suggestion->stored->likes[$like->user_id] = $like->is_like;
-            }
-            $uids_likes = array_count_values($suggestion->stored->likes);
-            $suggestion->stored->num_likes = (isset($uids_likes['1'])) ? $uids_likes['1'] : 0;
-
-            $wall_items[] = $suggestion->stored;
-            $suggestions[] = $suggestion->stored;
-        }
-        
+        /*        
         if (isset($wall_items[0]))
         {
             $this->load->helper('quicksort');
             _quicksort($wall_items);
         }
+        */
         
         $ts = new Trip_share();
         $is_shared = ($ts->where('trip_id', $t->id)->count()) ? 1 : 0;
         
         $view_data = array(
             'trip' => $t->stored,
-            'creator' => $creator,
-            'destinations' => $destinations,
+            'creator' => $t->get_creator(),
+            'destinations' => $t->get_places(),
             'user' => $this->user,
             'user_role' => $user_role,
             'user_rsvp' => $user_rsvp,
-            'wall_items' => $wall_items,
-            'suggestions' => $suggestions,
-            'trip_goers' => $trip_goers,
+            'wallitems' => $t->get_wallitems(),
+            'trip_goers' => $t->get_goers(),
             'is_shared' => $is_shared,
         );
  			               
@@ -321,15 +209,12 @@ class Trips extends CI_Controller
     
     public function create($i=1)
     {        
-        //$u = new User();
-        //$uid = $u->get_logged_in_status();
-        //$u->get_by_id($this->user->id);
-
-        $view_data = array('user' => $this->user,
-                           'destination' => $this->input->post('destination'),
-                           'destination_lat' => $this->input->post('destination_lat'),
-                           'destination_lng' => $this->input->post('destination_lng'),
-                           'is_landing' => 1,
+        $view_data = array(
+            'user' => $this->user,
+            'destination' => $this->input->post('destination'),
+            'destination_lat' => $this->input->post('destination_lat'),
+            'destination_lng' => $this->input->post('destination_lng'),
+            'is_landing' => 1,
         );
 
         if ($i == 1)
@@ -348,17 +233,7 @@ class Trips extends CI_Controller
     
     
     public function ajax_trip_create()
-    {
-        /*
-        $u = new User();
-        if ( ! $u->get_logged_in_status())
-        {
-            redirect('/');
-        }
-        $uid = get_cookie('uid');
-        $u->get_by_id($uid);
-        */
-        
+    {        
         if ( ! isset($this->user))
         {
             redirect('/');

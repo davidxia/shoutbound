@@ -55,8 +55,6 @@ $this->load->view('core_header', $header_args);
   </script>	
   
   <div id="div-to-popup" style="display:none;"></div>
-
-	<div id="trip-content"><!--TRIPCONTENT START-->
 			  
 			<div id="trip-col-right"><!--TRIPCOLRIGHT START-->
 				<div class="item-header"><h3>Itinerary</h3></div>
@@ -117,199 +115,109 @@ $this->load->view('core_header', $header_args);
 				<!--MAP END-->
 				
 			</div><!--TRIPCOLRIGHT END-->
-								
-			<div id="trip-col-left-shell"><!--TRIPCOLLEFTSHELL START-->				      
-				<div id="trip-name">
-					<h1><?=$trip->name?></h1>
-				</div> 
-				<div id="trip_description"><p><?=$trip->description?></p></div>							
-						
-				<div id="widget-and-wall"><!--WIDGET AND WALL START-->
-						
-						<div id="trip-widget"><!--WIDGET START--> 
-												
-							<!--IF USER IS INVITED, DISPLAY RSVP STATUS-->
-							<? if ($user_role >= 2):?>
-		            <div id="rsvp_status">    
-		              <? if ($user_rsvp == 3):?>
-		                <!--<h3>You're going on this trip</h3>-->
-		              <? elseif ($user_rsvp == 2):?>
-		                <p class="regular">You've been invited on this trip!</p>
-		              <? elseif ($user_rsvp == 1):?>
-		                <p class="regular">You've been invited on this trip!</p>
-		              <? endif;?>
-		            </div>
-		            
-			          <!--IF USER IS INVITED AND AWAITING RSVP, DISPLAY RSVP BUTTONS-->
-			          <? if ($user_rsvp == 2):?>
-		              <div id="rsvp_buttons">
-		                <a href="#" id="rsvp_yes_button">I'm in</a>
-		                <a href="#" id="rsvp_no_button">I'm out</a>		                
-		              </div>
-		              <div id="countdown-container"><p class="regular">Time left to respond:</p>
-		               	<div id="countdown"></div>                  
-									</div>
-								
-								<!--IF USER IS INVITED AND PREVIOUSLY RSVP'D NO, DISPLAY RSVP BUTTONS-->
-								<? elseif ($user_rsvp == 1):?>
-		              You said no, but you can still change your mind.
-		              <div id="rsvp_buttons">
-		                <a href="#" id="rsvp_yes_button">I'm in</a>
-		                <a href="#" id="rsvp_no_button">I'm out</a>		                
-		              </div>
-		              <div id="countdown-container"><p class="regular">Time left to respond:</p>
-		               	<div id="countdown"></div>                  
-									</div>
-		            <? endif;?>
-		            
-		          <? endif;?><!--END-->					
-						        
-		          <? if ($user_rsvp == 3):?>
-	              <div class="console">
-	                <p class="regular">Get advice, ideas and recommendations for this trip by <a href="#" id="get-suggestions-button">Sharing</a> it with other people. You can also <a href="#" id="invite-others-button">Invite</a>  other people to join you this trip.  	              
-			            <!--<a href="#" id="rsvp_no_button">I'm out</a>-->
-                           
-		              <? if ($user_role == 3):?>
-			            <!--<a id="deletebutton" style="" href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete this trip</a></p>-->                    
-			         		<? endif;?>	              
-		             </div>
-		            
-		          <? else:?>		          	
-	          		<div class="console">
-			          	<p class="regular">Help <a href="<?=site_url('profile/'.$creator->id)?>"><?=$creator->name?></a> plan this trip by adding your thoughts and <a href="#" id="get-suggestions-button">Sharing</a> this trip with other people.</p>
-			          </div>
-		          <? endif;?>	            				
-						</div><!--WIDGET END-->									
+
+    <!--TRIPCOLLEFTSHELL START-->
+    <div id="trip-col-left-shell">
+			<div id="trip-name">
+				<h1><?=$trip->name?></h1>
+			</div> 
+			<div id="trip_description"><p><?=$trip->description?></p></div>							
+				
+    	<div id="trip-widget"><!--WIDGET START--> 
+    		<!--IF USER IS INVITED, DISPLAY RSVP STATUS-->
+    		<? if ($user_role >= 2):?>
+          <div id="rsvp_status">    
+            <? if ($user_rsvp == 3):?>
+              <!--<h3>You're going on this trip</h3>-->
+            <? elseif ($user_rsvp == 2):?>
+              <p class="regular">You've been invited on this trip!</p>
+            <? elseif ($user_rsvp == 1):?>
+              <p class="regular">You've been invited on this trip!</p>
+            <? endif;?>
+          </div>
+          
+          <!--IF USER IS INVITED AND AWAITING RSVP, DISPLAY RSVP BUTTONS-->
+          <? if ($user_rsvp == 2):?>
+            <div id="rsvp_buttons">
+              <a href="#" id="rsvp_yes_button">I'm in</a>
+              <a href="#" id="rsvp_no_button">I'm out</a>		                
+            </div>
+            <div id="countdown-container"><p class="regular">Time left to respond:</p>
+             	<div id="countdown"></div>                  
+    				</div>
+    			
+    			<!--IF USER IS INVITED AND PREVIOUSLY RSVP'D NO, DISPLAY RSVP BUTTONS-->
+    			<? elseif ($user_rsvp == 1):?>
+            You said no, but you can still change your mind.
+            <div id="rsvp_buttons">
+              <a href="#" id="rsvp_yes_button">I'm in</a>
+              <a href="#" id="rsvp_no_button">I'm out</a>		                
+            </div>
+            <div id="countdown-container"><p class="regular">Time left to respond:</p>
+             	<div id="countdown"></div>                  
+    				</div>
+          <? endif;?>
+          
+        <? endif;?><!--END-->					
+    	        
+        <? if ($user_rsvp == 3):?>
+          <div class="console">
+            <p class="regular">Get advice, ideas and recommendations for this trip by <a href="#" id="get-suggestions-button">Sharing</a> it with other people. You can also <a href="#" id="invite-others-button">Invite</a>  other people to join you this trip.  	              
+            <!--<a href="#" id="rsvp_no_button">I'm out</a>-->
+                     
+            <? if ($user_role == 3):?>
+            <!--<a id="deletebutton" style="" href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete this trip</a></p>-->                    
+         		<? endif;?>	              
+           </div>
+          
+        <? else:?>		          	
+      		<div class="console">
+          	<p class="regular">Help <a href="<?=site_url('profile/'.$creator->id)?>"><?=$creator->name?></a> plan this trip by adding your thoughts and <a href="#" id="get-suggestions-button">Sharing</a> this trip with other people.</p>
+          </div>
+        <? endif;?>	            				
+    	</div><!--WIDGET END-->									
 															
-						<div id="trip-wall"><!--WALL START-->
-					 		<!-- WALL CONTENT -->
+
+      <!-- WALL -->
+      <div id="wall">
+      <? foreach ($wallitems as $wallitem):?>
+        <div class="wallitem" id="wallitem-<?=$wallitem->id?>">
+          <div class="author">
+            <?=$wallitem->user_name?>
+          </div>
+          <div class="content">
+            <?=$wallitem->content?>
+          </div>
+          <abbr class="timeago" title="<?=$wallitem->created?>"><?=$wallitem->created?></abbr>
+          <div class="like">LIKE</div>
+          <div class="reply-button">REPLY</div>
+          <? foreach ($wallitem->replies as $reply):?>
+            <div class="reply" id="wallitem-<?=$wallitem->id?>">
+              <div class="author">
+                <?=$reply->user_name?>
+              </div>
+              <div class="content">
+                <?=$reply->content?>
+              </div>
+              <abbr class="timeago" title="<?=$reply->created?>"><?=$reply->created?></abbr>
+              <div class="like">LIKE</div>
+            </div>
+          <? endforeach;?>
+        </div>
+      <? endforeach;?>
+      </div><!-- WALL ENDS -->
 					 		
-					 		    <!-- WALL CONTENT -->
-    <div id="wall-content">
-     <? foreach ($wall_items as $wall_item):?>
-			          
-			 <? if (isset($wall_item->lat)):?><!--SUGGESTIONS-->
-			              <li id="wall-suggestion-<?=$wall_item->id?>" class="suggestion">
-			                <p class="regular"><a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author"><?=$wall_item->user_name?></a></p>
-			                <div class="wall-location-name"><p class="regular"><?=$wall_item->name?></p></div>
-			                
-			                <span class="wall-location-address" style="display:none;"><?=$wall_item->address?></span>
-			                <span class="wall-location-phone" style="display:none;"><?=$wall_item->phone?></span>
-			                
-			                <? if ($wall_item->text):?>
-			                  <p class="regular"><?=$wall_item->text?></p>
-			                <? endif;?>
-			                <!--<div class="rating-panel">
-			                  <a href="#" class="like">Like</a>
-			                  <span class="num-likes"><?=$wall_item->votes?></span> likes
-			                </div>-->
-			                <? if ($user_role >= 2):?>
-			                  <div class="remove-wall-item" suggestionId="<?=$wall_item->id?>"></div>
-			                <? endif;?>
-			                <abbr class="timeago" title="<?=$wall_item->created?>"
-			                 <p class="subtext"><?=$wall_item->created?></p></abbr>
-			                <? if (isset($user) AND isset($wall_item->likes[$user->id]) AND $wall_item->likes[$user->id] != 0):?>
-			                  <span class="unlike"><p class="regular">Unlike</p></span>
-			                <? else:?>
-			                  <span class="like"><p class="regular">Like</p></span>
-			                <? endif;?>
-			                <span class="num-likes">
-			                <? if ($wall_item->num_likes == 1):?>
-			                  <p class="subtext">1 person likes this</p>
-			                <? elseif ($wall_item->num_likes >= 1):?>
-			                  <p class="subtext"><?=$wall_item->num_likes?> people like this</p>
-			                <? endif;?>
-			                </span>
-			                
-			                <a href="#" class="reply">reply</a>
-			                <ul class="wall-replies" style="margin-left:10px;">
-			                  <? foreach ($wall_item->replies as $reply):?>
-			                    <li id="wall-reply-<?=$reply->id?>" class="reply">
-			                      <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author"><?=$reply->user_name?></a>: <?=$reply->text?>
-			                      <br/>
-			                      <abbr class="timeago" title="<?=$reply->created?>" style="color:#777; font-size: 12px;"><?=$reply->created?></abbr>
-			                    </li>
-			                  <? endforeach;?>
-			                </ul>
-			              </li>
-			            <? else:?>
-			              <li id="wall-message-<?=$wall_item->id?>" class="message">
-			                <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$wall_item->user_name?></a>
-			                <? if ($user_role >= 2):?>
-			                  <div class="remove-wall-item" messageId="<?=$wall_item->id?>"></div>
-			                <? endif;?>
-			                <span class="wall-item-text"><p class="regular"><?=$wall_item->text?></p></span>
-			                <br/>
-			                <abbr class="timeago" title="<?=$wall_item->created?>"><?=$wall_item->created?></abbr>
-			                <? if (isset($user) AND isset($wall_item->likes[$user->id]) AND $wall_item->likes[$user->id] != 0):?>
-			                  <span class="unlike" style="cursor:pointer;">Unlike</span>
-			                <? else:?>
-			                  <span class="like" style="cursor:pointer;">Like</span>
-			                <? endif;?>
-			                <span class="num-likes">
-			                <? if ($wall_item->num_likes == 1):?>
-			                  1 person likes this
-			                <? elseif ($wall_item->num_likes >= 1):?>
-			                  <?=$wall_item->num_likes?> people like this
-			                <? endif;?>
-			                </span>
-			                
-			                <a href="#" class="reply">reply</a>
-			                <ul class="wall-replies">
-			                  <? foreach ($wall_item->replies as $reply):?>
-			                    <li id="wall-reply-<?=$reply->id?>" class="reply">
-			                      <a href="<?=site_url('profile/'.$wall_item->user_id)?>" class="wall-item-author" style="text-decoration:none;"><?=$reply->user_name?></a>: <?=$reply->text?>
-			                      <abbr class="timeago" title="<?=$reply->created?>"><?=$reply->created?></abbr>
-			                    </li>
-			                  <? endforeach;?>
-			                </ul>
-			              </li>
-			            <? endif;?>
-			          <? endforeach;?>		          
-			          
-			        </ul><!-- WALL CONTENT ENDS -->		 		
-					 		
-    </div><!--WIDGET AND WALL ENDS-->  
-	  
-	  
-	  <div id="add-to-wall">
-  	  <!-- ITEM INPUT CONTAINER -->
-      <div id="wallitem-input-container;">
-        <label for="wallitem-input"><h2>Add:</h2></label>
+      <!-- WALLITEM INPUT CONTAINER -->
+      <div id="wallitem-input-container;" style="position:relative;">
+        <label for="wallitem-input" style="position:absolute; padding:5px;">
+          <span>Add message</span>
+        </label>
         <textarea id="wallitem-input"></textarea>
         <div id="wallitem-post-button"><a href="#">Add</a></div>
-      </div><!-- ITEM INPUT CONTAINER ENDS -->
-	  </div>
-		                     
-		          <!-- LOCATION SEARCH -->
-		          <!-- <div id="location-search">
-		            <label for="location-search-box"><span>Location (optional)</span></label>
-		            <input type="hidden" class="location-data" id="location-name" name="location-name" />
-		            <input type="hidden" class="location-data" id="location-phone" name="location-phone" />
-		            <input type="hidden" class="location-data" id="location-lat" name="location-lat" />
-		            <input type="hidden" class="location-data" id="location-lng" name="location-lng" />
-		            <input type="text" id="location-search-box"/>-->
-		            <!-- AUTO LOC LIST -->
-		            <!--<div id="auto-loc-list">
-		              <ul id="location-autosuggest"></ul>
-		            </div>--><!-- AUTO LOC LIST ENDS -->
-		            <!--<div id="marker-notification" style="position:absolute; top:-65px; right:-400px; z-index:1000; display:none; color:white; background-color:black; opacity:0.8; -moz-box-shadow: 2px 2px 5px black; -webkit-box-shadow: 2px 2px 5px black; box-shadow: 2px 2px 5px black; padding:10px;">You can drag and drop the pin anywhere you want.</div>
-		            <div style="clear:both;"></div>
-		          </div>--><!-- LOCATION SEARCH ENDS -->
-		                        
-		          <!--<div id="link-input">
-		            <label for="link-input-box"><span>Link (optional)</span></label>
-		            <input type="text" id="link-input-box"/>
-		          </div>-->
-		          
-		        </div><!-- WALL INPUT CONTAINER -->
-	        	
-	        </div><!--ADD TO WALL END-->
+      </div><!-- WALLITEM INPUT CONTAINER ENDS -->
 		        	
-				</div><!--TRIPCOLLEFTCONTENT END-->
-			</div><!--TRIPCOLLEFTSHELL END-->
+    </div><!-- TRIPCOLLEFTSHELL ENDS -->
 			
-		</div><!--TRIPCONTENT END-->
 
 	</div><!-- WRAPPER ENDS --> 
 </div><!-- CONTENT ENDS -->
@@ -329,15 +237,16 @@ $this->load->view('core_header', $header_args);
     <? endfor;?>
   ];
 
+  /*
   Wall.wall_markers = [
-    <? for($i=0, $count=count($suggestions); $i<$count; $i++):?>
+    <? for ($i=0, $count=count($suggestions); $i<$count; $i++):?>
       {"suggestionId": <?=$suggestions[$i]->id?>, "lat": <?=$suggestions[$i]->lat?>, "lng": <?=$suggestions[$i]->lng?>}
       <? if($i < $count-1):?>
         ,
       <? endif;?>
     <? endfor;?>
   ];
-  
+  */
     
   $.fn.labelFader = function() {
     var f = function() {
@@ -357,30 +266,9 @@ $this->load->view('core_header', $header_args);
   };
 
 
-  /*function textAreaAdjust(o) {
-    //o.style.height = "8px";
-    o.style.height = (o.scrollHeight)+"px";
-	}*/
-
   $(document).ready(function() {
-    $('#message-box').labelFader();
-    $('#location-search-box').labelFader();
-    $('#link-input-box').labelFader();
+    $('#wallitem-input').labelFader();
   });
-  
-  /*Expand message box area dynamically
-  
-  $('#message-box').keyup(function() {
-  	textAreaAdjust(this);
-  });*/
-  
-  
-  /*function expandMessageBox() {
-    $('#message-box').html('').css('height', '50px');
-    $('#location-search').show();
-    $('#link-input').show();
-    $('#wall-post-button').css('display', 'block');
-  }*/
   
   
   // change background color of wall item on hover

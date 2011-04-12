@@ -60,6 +60,39 @@ class Trip extends DataMapper {
         
         return $places;
     }
+    
+    
+    public function get_wallitems()
+    {
+		    $wallitems = array();
+		    
+        $this->wallitem->where('parent_id', NULL)->get();
+        foreach ($this->wallitem as $wallitem)
+        {
+            // get creator's name
+            $wallitem->get_creator();
+            // generate html for wallitem's places
+            $wallitem->get_places();
+            
+            // get replies and attach their places
+            $r = $wallitem->get_replies();
+            $replies = array();
+            foreach ($r as $reply)
+            {
+                // get creator's name
+                $reply->get_creator();
+                // generate html for wallitem's places
+                $reply->get_places();
+                $replies[] = $reply->stored;
+            }
+            
+            // packages each wallitem with replies into separate array
+            $wallitem->stored->replies = $replies;
+            $wallitems[] = $wallitem->stored;
+        }
+        
+        return $wallitems;
+    }
 
 
     // checks if trip is associated with place

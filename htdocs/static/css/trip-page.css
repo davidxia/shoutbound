@@ -3,14 +3,6 @@
 	background-color:white;
 }
 
-#trip-wall{
-	background-color:white;
-}
-
-/*#message-box-container{
-	background-color:#EAEAEA;
-}*/
-
 #itinerary, #map-shell, .item-header{
 	background-color:#EDF0F9;
 }
@@ -50,12 +42,7 @@
 	border-bottom:3px solid #CACACA;
 }
 
-#widget-and-wall{
-	min-height:400px;
-	background-color:white;
-}
-
-#add-to-wall{
+#wallitem-post-button{
 	margin:5px 0px 0px 0px;
 	border-top:1px solid #EAEAEA;
 	padding-top:10px;
