@@ -72,6 +72,8 @@ $this->load->view('core_header', $header_args);
 </body>
 <script type="text/javascript">
   $(document).ready(function() {
+    $('#email').focus();
+    
     $('#fb_login_button').click(function() {
       FB.login(function(response) {
         if (response.session) {
@@ -90,7 +92,7 @@ $this->load->view('core_header', $header_args);
       };
       
       $.ajax({
-        url: "<?=site_url('login/email_login')?>",
+        url: '<?=site_url('login/email_login')?>',
         type: 'POST',
         data: postData,
         success: function(response) {
@@ -110,7 +112,7 @@ $this->load->view('core_header', $header_args);
 
 	function facebookLogin() {
     $.ajax({
-      url: "<?=site_url('login/ajax_facebook_login')?>",
+      url: '<?=site_url('login/ajax_facebook_login')?>',
       success: function(response) {
         var r = $.parseJSON(response);
         if (r.existingUser) {
@@ -125,9 +127,9 @@ $this->load->view('core_header', $header_args);
 	
 	function updateFBFriends() {
     $.ajax({
-      url: "<?=site_url('login/ajax_update_fb_friends')?>",
+      url: '<?=site_url('login/ajax_update_fb_friends')?>',
       success: function() {
-        window.location = "<?=site_url('/')?>";
+        window.location = '<?=site_url('/')?>';
       }
     });
 	}
@@ -140,7 +142,7 @@ $this->load->view('core_header', $header_args);
     $('#div-to-popup').bPopup();  
 
     $.ajax({
-      url: "<?=site_url('signup/ajax_create_fb_user')?>",
+      url: '<?=site_url('signup/ajax_create_fb_user')?>',
       success: function(response) {
         var r = $.parseJSON(response);
         if ( ! r.error) {

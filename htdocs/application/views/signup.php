@@ -82,6 +82,8 @@ $this->load->view('core_header', $header_args);
 
 <script type="text/javascript">
   $(document).ready(function() {
+    $('#name').focus();
+  
     $('#fb_login_button').click(function() {
       FB.login(function(response) {
         if (response.session) {
