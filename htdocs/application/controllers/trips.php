@@ -187,10 +187,7 @@ class Trips extends CI_Controller
             _quicksort($wall_items);
         }
         */
-        
-        $ts = new Trip_share();
-        $is_shared = ($ts->where('trip_id', $t->id)->count()) ? 1 : 0;
-        
+                
         $view_data = array(
             'trip' => $t->stored,
             'creator' => $t->get_creator(),
@@ -200,7 +197,6 @@ class Trips extends CI_Controller
             'user_rsvp' => $user_rsvp,
             'wallitems' => $t->get_wallitems(),
             'trip_goers' => $t->get_goers(),
-            'is_shared' => $is_shared,
         );
  			               
         $this->load->view('trip/trip', $view_data);

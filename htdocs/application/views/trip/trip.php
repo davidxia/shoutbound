@@ -15,6 +15,7 @@ $header_args = array(
         'js/jquery/scrollto.js',
         'js/jquery/timeago.js',
         'js/jquery/jquery.countdown.min.js',    
+        'js/jquery/validate.min.js',
     )
 );
 
@@ -28,9 +29,8 @@ $this->load->view('core_header', $header_args);
   var staticSub = "<?=static_sub()?>";
   var tripId = <?=$trip->id?>;
   <? if ($user):?>
-      var uid = <?=$user->id?>;
+    var uid = <?=$user->id?>;
   <? endif;?>
-  var isShared = <?=$is_shared?>;
   
   map.lat = <?=$destinations[0]->lat?>;
   map.lng = <?=$destinations[0]->lng?>;
@@ -248,180 +248,12 @@ $this->load->view('core_header', $header_args);
   ];
   */
     
-  $.fn.labelFader = function() {
-    var f = function() {
-      var $this = $(this);
-      if ($this.val()) {
-        $this.siblings('label').children('span').hide();
-      } else {
-        $this.siblings('label').children('span').fadeIn('fast');
-      }
-    };
-    this.focus(f);
-    this.blur(f);
-    this.keyup(f);
-    this.change(f);
-    this.each(f);
-    return this;
-  };
-
-
-  $(document).ready(function() {
-    $('#wallitem-input').labelFader();
-  });
   
-  
-  // change background color of wall item on hover
-  $('#wall-content').children('li').hover(
-    function() {
-      $(this).children('.remove-wall-item').css('opacity', 1);
-    },
-    function() {
-      $(this).children('.remove-wall-item').css('opacity', 0);
-    }
-  );
-  
-  // convert unix timestamps to time ago
-  $('abbr.timeago').timeago();
-  
-  
-  $(document).ready(function() {
-    // if trip isn't shared, trigger invite others popup
-    if (isShared == 0) {
-      $('#invite-others-button').trigger('click');
-    }
-    
-    $('#wall-post-button').click(function() {
-      // distinguish between message and suggestion
-      if ($('#location-name').val().length==0 || $('#location-lat').val().length==0 || $('#location-lng').val().length==0) {
-        $.ajax({
-          type: 'POST',
-          url: baseUrl+'users/ajax_get_logged_in_status',
-          success: function(response) {
-            var r = $.parseJSON(response);
-            if (r.loggedin) {
-              var userId = r.loggedin;
-              var postData = {
-                //userId: userId,
-                tripId: tripId,
-                text: $('#message-box').val()
-              }
-              
-              $.ajax({
-                type: 'POST',
-                url: baseUrl+'messages/ajax_save_message',
-                data: postData,
-                success: function(response) {
-                  var r = $.parseJSON(response);
-                  displayMessage(r);
-                  $('abbr.timeago').timeago();
-                  $('#message-box').val('');
-                }
-              });
-              
-            } else {
-              alert('please login to post on the wall');
-            }
-          }
-        });
-        return false;
-        
-      } else {
-      
-        $.ajax({
-          type: 'POST',
-          url: baseUrl+'users/ajax_get_logged_in_status',
-          success: function(response) {
-            var r = $.parseJSON(response);
-            // if user is logged in, save the suggestion
-            if (r.loggedin) {
-              var userId = r.loggedin;
-
-              var postData = {
-                //userId: userId,
-                tripId: tripId,
-                name: $('#location-name').val(),
-                text: $('#message-box').val(),
-                lat: $('#location-lat').val(),
-                lng: $('#location-lng').val(),
-                address: $('#location-search-box').val(),
-                phone: $('#location-phone').val()
-              };
-              
-              $.ajax({
-                type: 'POST',
-                url: baseUrl+'suggestions/ajax_save_suggestion',
-                data: postData,
-                success: function(response) {
-                  var r = $.parseJSON(response);
-                  alert('suggestion saved, please refresh page to see it; suggestion id'+r['id']);
-                }
-              });
-              
-            } else {
-              alert('please login to post on the wall');
-            }
-          }
-        });
-        
-        return false;
-      }
-      
-    });
-  });
-  
-  
-  function displayMessage(r) {
-    var html = [];
-    html[0] = '<li id="wall-message-'+r.id+'" class="" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA; position:relative;">';
-    html[1] = '<a href="#" class="wall-item-author" style="text-decoration:none;">';
-    html[2] = r.userName;
-    html[3] = '</a>';
-    html[4] = ' <div class="remove-wall-item" messageId="'+r.id+'"></div>';
-    html[5] = '<span class="wall-item-text">'+r.text+'</span>';
-    html[6] = '<br/>';
-    html[7] = '<abbr class="timeago" title="'+r.created+'" style="color:#777; font-size: 12px;">'+r.created+'</abbr>';
-    html[8] = '</li>';
-    html = html.join('');
-    
-    $('#wall-content').prepend(html);
-    
+  function loginSignupSuccess() {
+    $('#div-to-popup').empty();
+    wall.postWallitem();
   }
 
-  // ajax remove wall items
-  $('.remove-wall-item').click(function() {
-    // TODO: ask user to confirm removal
-    // remove wall item
-    if ($(this).attr('suggestionId')) {
-      var suggestionId = $(this).attr('suggestionId');
-      $.ajax({
-        type: 'POST',
-        url: baseUrl+'suggestions/remove_suggestion',
-        data: {
-          suggestionId: suggestionId
-        },
-        success: function(response){
-          var r = $.parseJSON(response);
-          $('#wall-suggestion-'+r.suggestionId).fadeOut(1000);
-        }
-      });
-      // also remove corresponding map marker
-      map.markers[suggestionId].setMap(null);
-    } else if ($(this).attr('messageId')) {
-      var messageId = $(this).attr('messageId');
-      $.ajax({
-        type: 'POST',
-        url: baseUrl+'messages/remove_message',
-        data: {
-          messageId: messageId
-        },
-        success: function(response){
-          var r = $.parseJSON(response);
-          $('#wall-message-'+r.messageId).fadeOut(1000);
-        }
-      });
-    }
-  });
   
   // show countdown clock
   var deadline = new Date(<?=$trip->response_deadline?>*1000);
