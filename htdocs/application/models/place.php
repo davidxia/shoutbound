@@ -12,9 +12,9 @@ class Place extends DataMapper
             'rules' => array('required', 'trim')
         ),
         array(
-            'field' => 'address',
-            'label' => 'Address',
-            'rules' => array('required', 'trim')
+            'field' => 'ascii_name',
+            'label' => 'Ascii Name',
+            'rules' => array('trim')
         ),
         array(
             'field' => 'lat',

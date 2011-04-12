@@ -69,6 +69,9 @@ $this->load->view('core_header', $header_args);
       <textarea id="wallitem-input"></textarea>
       <div id="wallitem-post-button"><a href="#">Add</a></div>
     </div><!-- ITEM INPUT CONTAINER ENDS -->
+    
+    <input type="text" id="place-autosuggest"/>
+    <div id="autosuggestions">places: </div>
 
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
@@ -78,9 +81,57 @@ $this->load->view('core_header', $header_args);
 <script type="text/javascript">
   // convert unix timestamps to time ago
   $('abbr.timeago').timeago();
+  
+  
+  // create namespace for geocoder
+  var sbgeocoder = {};
+  
+  // autosuggest place from database
+  $('#place-autosuggest').keyup(function(e) {
+    var keyCode = e.keyCode || e.which;
+    // ignore arrow keys
+    if (keyCode!==37 && keyCode!==38 && keyCode!==39 && keyCode!==40) {
+      delay(sbgeocoder.geocodeQuery, 300);
+    }
+  });
+
+  // delay geocoder api for 1 second of keyboard inactivity
+  delay = (function() {
+    var timer = 0;
+    return function(callback, ms){
+      clearTimeout (timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+  
+
+  sbgeocoder.geocodeQuery = function() {
+    var query = $('#place-autosuggest').val().trim();
+
+    if (query.length > 1) {
+      var postData = {
+        query: query
+      };
+      
+      $.ajax({
+        type: 'POST',
+        url: '<?=site_url('places/ajax_autosuggest')?>',
+        data: postData,
+        success: function(r) {
+          var r = $.parseJSON(r);
+          $('#autosuggestions').empty();
+          for (var i=0; i<r.places.length; i++) {
+            $('#autosuggestions').append('<div>'+r.places[i]+'</div>');
+          }
+        }
+      });
+    } else {
+    	$('#place-autosuggest').html('').css('border', '0');
+    }
+  };
+
 
   $('#wallitem-post-button').click(function() {
-    // distinguish between message and suggestion
     if ($('#wallitem-input').val().length != 0) {
       $.ajax({
         type: 'POST',
