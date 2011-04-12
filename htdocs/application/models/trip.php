@@ -28,12 +28,33 @@ class Trip extends DataMapper {
     }
     
     
+    public function get_creator()
+    {
+        $this->user->where_join_field($this, 'rsvp', 3)->where_join_field($this, 'role', 3)->get();
+        return $this->user->stored;
+    }
+    
+    
+    public function get_goers()
+    {
+        $users = array();
+        $this->user->where_join_field($this, 'rsvp', 3)->where_in_join_field($this, 'role', array(2,3))->get();
+        foreach ($this->user as $user)
+        {
+            $users[] = $user->stored;
+        }
+        return $users;
+    }
+
+
     public function get_places()
     {
-        $this->place->get();
+        $this->place->include_join_fields()->get();
         $places = array();
         foreach ($this->place as $place)
         {
+            $place->stored->startdate = $place->join_startdate;
+            $place->stored->enddate = $place->join_enddate;
             $places[] = $place->stored;
         }
         

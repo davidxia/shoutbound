@@ -34,7 +34,6 @@ $this->load->view('core_header', $header_args);
   
   map.lat = <?=$destinations[0]->lat?>;
   map.lng = <?=$destinations[0]->lng?>;
-  
 </script>
 
 </head>
@@ -65,7 +64,7 @@ $this->load->view('core_header', $header_args);
 					<div class="right-item-content"><!--ITINERARY CONTENT-->         	
             <? foreach ($destinations as $destination):?>
               <div class="destination-dates">
-  	            <a href="#"><?=$destination->address?></a>
+  	            <a href="#"><?=$destination->name?></a>
   	            <p class="subtext">
   		            <? if ($destination->startdate AND $destination->enddate):?>
   		              <?=date('n/d/y', $destination->startdate)?> to <?=date('n/d/y', $destination->enddate)?>
@@ -80,7 +79,7 @@ $this->load->view('core_header', $header_args);
   		        </div>
 	          <? endforeach;?>
 	     			     			                          																							
-						<div id="trip_goers"><!--TRIP GOERS-->         			
+						<div id="trip_goers"><!--TRIP GOERS-->  
 	          	<div id="num_trip_goers">          			              		
 	              <? if (count($trip_goers) == 1):?>
 	              <span id="num"><p class="subtext"><?=count($trip_goers)?> person is going on this trip.</span>

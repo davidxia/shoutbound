@@ -3,7 +3,7 @@
 class Place extends DataMapper
 {
     
-    public $has_many = array('trip', 'wallitem');
+    public $has_many = array('trip');
 
     var $validation = array(
         array(

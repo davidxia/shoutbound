@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class User extends DataMapper
 {
@@ -50,7 +50,7 @@ class User extends DataMapper
     ////////////////////////////////////////////////////////////
     // Logging Users in and out
 
-    function get_logged_in_status()
+    public function get_logged_in_status()
     {
         $uid = get_cookie('uid');
         $key = get_cookie('key');
@@ -66,13 +66,13 @@ class User extends DataMapper
     }
     
 
-    function get_sig($uid, $key)
+    public function get_sig($uid, $key)
     {
         return md5($uid . '~nokonmyballz~' . $key);
     }
     
     
-    function login($uid)
+    public function login($uid)
     {
         set_cookie('uid', $uid, 7200);
         $key = mt_rand(100000, 999999);
@@ -82,7 +82,7 @@ class User extends DataMapper
     }
 
 
-    function logout()
+    public function logout()
     {
         delete_cookie('uid');
         delete_cookie('key');
@@ -90,7 +90,7 @@ class User extends DataMapper
     }
     
     
-    function email_login()
+    public function email_login()
     {
         // Create a temporary user object
         $u = new User();
@@ -107,6 +107,20 @@ class User extends DataMapper
         {
             return FALSE;
         }
+    }
+    
+    
+    public function get_role_by_tripid($trip_id)
+    {
+        $this->trip->include_join_fields()->get_by_id($trip_id);
+        return $this->trip->join_role;
+    }
+
+
+    public function get_rsvp_by_tripid($trip_id)
+    {
+        $this->trip->include_join_fields()->get_by_id($trip_id);
+        return $this->trip->join_rsvp;
     }
 }
 

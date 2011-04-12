@@ -9,14 +9,13 @@ class Wallitem extends DataMapper
         'parent' => array(
             'class' => 'wallitem',
             'other_field' => 'wallitem'
-        )
+        ),
     );
     
     public $has_many = array(
-        'place',
         'wallitem' => array(
             'other_field' => 'parent'
-        )
+        ),
     );
 
     var $validation = array(

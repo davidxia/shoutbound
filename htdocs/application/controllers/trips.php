@@ -16,52 +16,7 @@ class Trips extends CI_Controller
             $this->user = $u->stored;
         }
 		}
-		
-		
-		public function new_wall($trip_id)
-		{
-		    $t = new Trip();
-		    $t->get_by_id($trip_id);
-		    
-		    $destinations = $t->get_places();
-		    
-		    $wallitems = array();
-        
-        $t->wallitem->where('parent_id', NULL)->get();
-        foreach ($t->wallitem as $wallitem)
-        {
-            // get creator's name
-            $wallitem->get_creator();
-            // generate html for wallitem's places
-            $wallitem->get_places();
-            
-            // get replies and attach their places
-            $r = $wallitem->get_replies();
-            $replies = array();
-            foreach ($r as $reply)
-            {
-                // get creator's name
-                $reply->get_creator();
-                // generate html for wallitem's places
-                $reply->get_places();
-                $replies[] = $reply->stored;
-            }
-            
-            // packages each wallitem with replies into separate array
-            $wallitem->stored->replies = $replies;
-            $wallitems[] = $wallitem->stored;
-        }
-		    
-        $view_data = array(
-            'trip' => $t->stored,
-            'destinations' => $destinations,
-            'user' => $this->user,
-            'wallitems' => $wallitems,
-        );
-
-		    $this->load->view('trip/new_wall', $view_data);
-		}
-         	  
+		         	  
  	  
  	  public function confirm_create()
  	  {
@@ -153,6 +108,51 @@ class Trips extends CI_Controller
             redirect('trips/'.$t->id);
         }      
  	  }
+ 	  
+ 	  
+		public function new_wall($trip_id)
+		{
+		    $t = new Trip();
+		    $t->get_by_id($trip_id);
+		    
+		    $destinations = $t->get_places();
+		    
+		    $wallitems = array();
+        
+        $t->wallitem->where('parent_id', NULL)->get();
+        foreach ($t->wallitem as $wallitem)
+        {
+            // get creator's name
+            $wallitem->get_creator();
+            // generate html for wallitem's places
+            $wallitem->get_places();
+            
+            // get replies and attach their places
+            $r = $wallitem->get_replies();
+            $replies = array();
+            foreach ($r as $reply)
+            {
+                // get creator's name
+                $reply->get_creator();
+                // generate html for wallitem's places
+                $reply->get_places();
+                $replies[] = $reply->stored;
+            }
+            
+            // packages each wallitem with replies into separate array
+            $wallitem->stored->replies = $replies;
+            $wallitems[] = $wallitem->stored;
+        }
+		    
+        $view_data = array(
+            'trip' => $t->stored,
+            'destinations' => $destinations,
+            'user' => $this->user,
+            'wallitems' => $wallitems,
+        );
+
+		    $this->load->view('trip/new_wall', $view_data);
+		}
 
 
     public function index($trip_id = FALSE)
@@ -172,16 +172,13 @@ class Trips extends CI_Controller
         }
         
         $u = new User();
-        //$uid = $u->get_logged_in_status();
         if (isset($this->user))
         {
             $u->get_by_id($this->user->id);
-            //$user = $u->stored;
             
             // get user's relation to this trip
-            $u->trip->include_join_fields()->get_by_id($trip_id);
-            $user_role = $u->trip->join_role;
-            $user_rsvp = $u->trip->join_rsvp;
+            $user_role = $u->get_role_by_tripid($trip_id);
+            $user_rsvp = $u->get_rsvp_by_tripid($trip_id);
             
             // if no relation, check if user has invite cookie with correct access key
             // redirect to home page if neither
@@ -213,25 +210,14 @@ class Trips extends CI_Controller
             }
         }
         
-        // get creator
-        $u->where_join_field('trip', 'rsvp', 3)->where_join_field('trip', 'role', 3)->get_by_related_trip('id', $trip_id);
-        $creator = $u->stored;
+        // get trip's creator
+        $creator = $t->get_creator();
         
         // get users who are trip planners and rsvped yes
-        $trip_goers = array();
-        $u->where_join_field('trip', 'rsvp', 3)->where_in_join_field('trip', 'role', array(2,3))->get_by_related_trip('id', $trip_id);
-        foreach ($u->all as $other_user)
-        {
-            $trip_goers[] = $other_user->stored;
-        }
-        
+        $trip_goers = $t->get_goers();
+                
         // get trip's destinations
-        $d = new Destination();
-        $d->where('trip_id', $trip_id)->get();
-        foreach ($d->all as $destination)
-        {
-            $destinations[] = $destination->stored;
-        }
+        $destinations = $t->get_places();
 
         // get active suggestions and messages for this trip
         // also get corresponding replies
