@@ -218,7 +218,7 @@ li.suggestion.highlighted{
   -o-transition: background-color linear .2s;
   transition: background-color linear .2s;
 }
-.remove-wall-item {
+.remove-wallitem {
   background-image: url(/david/images/delete_button.png);
   height: 15px;
   width: 15px;

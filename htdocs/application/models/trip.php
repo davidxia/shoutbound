@@ -66,7 +66,7 @@ class Trip extends DataMapper {
     {
 		    $wallitems = array();
 		    
-        $this->wallitem->where('parent_id', NULL)->get();
+        $this->wallitem->where('parent_id', NULL)->where('active', 1)->get();
         foreach ($this->wallitem as $wallitem)
         {
             // get creator's name

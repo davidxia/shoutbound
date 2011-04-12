@@ -81,7 +81,7 @@ class Wallitem extends DataMapper
 
     public function get_replies()
     {
-        $this->wallitem->get();
+        $this->wallitem->where('active', 1)->get();
         /*
         $replies = array();
         foreach ($this->wallitem as $wallitem)

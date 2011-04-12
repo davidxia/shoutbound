@@ -45,9 +45,27 @@ class Wallitems extends CI_Controller
 		        json_error('something broke, tell David');
 		    }
 		}
+		
+
+		public function ajax_remove()
+		{
+		    $wi = new Wallitem();
+		    $wi->get_by_id($this->input->post('id'));
+		    $wi->active = 0;
+		    if ($wi->save())
+		    {
+            json_success(array(
+                'id' => $wi->id,
+            ));
+		    }
+		    else
+		    {
+		        json_error('something broke, tell David');
+		    }
+		}
 
 
-    function index()
+    public function index()
     {
         $t = new Trip();
         $t->get_by_id(2);

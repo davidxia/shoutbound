@@ -28,7 +28,7 @@ class Users extends CI_Controller
         }
         else
         {
-            json_success(array('loggedin'=>FALSE));        
+            json_success(array('loggedin'=>0));        
         }
     }
     

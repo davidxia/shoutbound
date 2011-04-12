@@ -181,7 +181,7 @@ $this->load->view('core_header', $header_args);
       <!-- WALL -->
       <div id="wall">
       <? foreach ($wallitems as $wallitem):?>
-        <div class="wallitem" id="wallitem-<?=$wallitem->id?>">
+        <div class="wallitem" id="wallitem-<?=$wallitem->id?>" style="position:relative;">
           <div class="author">
             <?=$wallitem->user_name?>
           </div>
@@ -189,10 +189,11 @@ $this->load->view('core_header', $header_args);
             <?=$wallitem->content?>
           </div>
           <abbr class="timeago" title="<?=$wallitem->created?>"><?=$wallitem->created?></abbr>
-          <div class="like">LIKE</div>
-          <div class="reply-button">REPLY</div>
+          <a class="like-button" href="#">LIKE</a>
+          <a class="reply-button" href="#">REPLY</a>
+          <div class="remove-wallitem"></div>
           <? foreach ($wallitem->replies as $reply):?>
-            <div class="reply" id="wallitem-<?=$wallitem->id?>">
+            <div class="wallitem reply" id="wallitem-<?=$reply->id?>" style="position:relative;">
               <div class="author">
                 <?=$reply->user_name?>
               </div>
@@ -200,12 +201,14 @@ $this->load->view('core_header', $header_args);
                 <?=$reply->content?>
               </div>
               <abbr class="timeago" title="<?=$reply->created?>"><?=$reply->created?></abbr>
-              <div class="like">LIKE</div>
+              <a class="like-button" href="#">LIKE</a>
+              <div class="remove-wallitem"></div>
             </div>
           <? endforeach;?>
         </div>
       <? endforeach;?>
       </div><!-- WALL ENDS -->
+      
 					 		
       <!-- WALLITEM INPUT CONTAINER -->
       <div id="wallitem-input-container;" style="position:relative;">
@@ -248,6 +251,21 @@ $this->load->view('core_header', $header_args);
   ];
   */
     
+
+  function getLoggedInStatus() {
+    var loggedin;
+    $.ajax({
+      async: false,
+      type: 'POST',
+      url: baseUrl+'users/ajax_get_logged_in_status',
+      success: function(r) {
+        var r = $.parseJSON(r);
+        loggedin = r.loggedin;
+      }
+    });
+    return loggedin;
+  };
+
   
   function loginSignupSuccess() {
     $('#div-to-popup').empty();
@@ -258,6 +276,8 @@ $this->load->view('core_header', $header_args);
   // show countdown clock
   var deadline = new Date(<?=$trip->response_deadline?>*1000);
   $('#countdown').countdown({until: deadline});
+  
+  
   
   $('a.like').click(function() {
     var suggestionId = $(this).parent().parent().attr('id');
@@ -286,74 +306,6 @@ $this->load->view('core_header', $header_args);
   });
   
   
-  // reply to wall posts
-  $('.reply').click(function() {
-    $(this).siblings('.reply-box').remove();
-    var parentElement = $(this).parent();
-    var parentId = parentElement.attr('id');
-    
-    var regex = /^.+-(.+)-(\d+)/;
-    var match = regex.exec(parentId);
-    if (match[1] == 'message') {
-      var messageId = match[2];
-    } else if (match[1] == 'suggestion') {
-      var suggestionId = match[2];
-    }
-    var replyBox = $('<div class="reply-box"><textarea style="height:14px; display:block; overflow:hidden; resize:none; line-height:13px; width:300px;"></textarea></div>');
-    $(this).after(replyBox);
-    replyBox.children('textarea').focus();
-
-    // hitting enter posts the reply
-    replyBox.children('textarea').keydown(function(e) {
-      var keyCode = e.keyCode || e.which,
-          enter = 13;
-      if (keyCode == enter) {
-        e.preventDefault();
-        var replyText = replyBox.children('textarea').val();
-
-        $.ajax({
-          type: 'POST',
-          url: baseUrl+'users/ajax_get_logged_in_status',
-          success: function(response) {
-            var r = $.parseJSON(response);
-            if (r.loggedin) {
-              var postData = {
-                userId: r.loggedin,
-                messageId: messageId,
-                suggestionId: suggestionId,
-                text: replyText
-              };
-              
-              $.ajax({
-                type: 'POST',
-                url: baseUrl+'replies/ajax_save_reply',
-                data: postData,
-                success: function(r) {
-                  var r = $.parseJSON(r);
-                  $('.reply-box').remove();
-                  var html = [];
-                  html[0] = '<li id="wall-reply-'+r.id+'" class="reply">';
-                  html[1] = '<a href="'+baseUrl+'profile/'+r.uid+'" class="wall-item-author" style="text-decoration:none;">';
-                  html[2] = r.userName;
-                  html[3] = '</a>';
-                  html[4] = ': '+r.text;
-                  html[5] = ' <abbr class="timeago" title="'+r.created+'" style="color:#777; font-size: 12px;">'+r.created+'</abbr>';
-                  html[6] = '</li>';
-                  html = html.join('')
-                  
-                  parentElement.children('.wall-replies').prepend(html);
-                  $('abbr.timeago').timeago();
-                }
-              });
-            }
-          }
-        });
-        
-      }
-    });
-    
-    return false;
-  });
   
   
   $('.like, .unlike').click(function() {
