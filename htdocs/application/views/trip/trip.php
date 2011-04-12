@@ -6,6 +6,7 @@ $header_args = array(
         'css/trip-page.css',
     ),
     'js_paths'=>array(
+        'js/user/loginSignup.js',
         'js/trip/map.js',
         'js/trip/wall.js',
         'js/trip/share.js',
@@ -250,21 +251,6 @@ $this->load->view('core_header', $header_args);
     <? endfor;?>
   ];
   */
-    
-
-  function getLoggedInStatus() {
-    var loggedin;
-    $.ajax({
-      async: false,
-      type: 'POST',
-      url: baseUrl+'users/ajax_get_logged_in_status',
-      success: function(r) {
-        var r = $.parseJSON(r);
-        loggedin = r.loggedin;
-      }
-    });
-    return loggedin;
-  };
 
   
   function loginSignupSuccess() {

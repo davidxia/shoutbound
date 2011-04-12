@@ -5,6 +5,7 @@ $header_args = array(
         'css/excite-bike/jquery-ui-1.8.10.custom.css',
     ),
     'js_paths'=>array(
+        'js/user/loginSignup.js',
         'js/jquery/validate.min.js',
         'js/jquery/jquery-ui-1.8.10.custom.min.js',
         'js/jquery/popup.js',
@@ -124,30 +125,12 @@ $this->load->view('core_header', $header_args);
 	</body>
 </html>
 
-<script type="text/javascript">
-  
-  function showLoginSignupDialog() {
-    $.ajax({
-      url: '<?=site_url('users/login_signup')?>',
-      success: function(r) {
-        var r = $.parseJSON(r);
-        $('#div-to-popup').empty().append(r.data).bPopup({follow:false, opacity:0});
-      }
-    });
-  }
-  
-  
-  function loginSignupSuccess() {
-    $('#trip-creation-form').submit();
-  }
-  
-  
+<script type="text/javascript">  
   $(document).ready(function() {
     $('#address').focus();
   
     // dates for 1st destination appear if it's filled in
     if ($('#lat').val() != '') {
-      //console.log($('#lat').val());
       $('#dates-header').css('visibility', 'visible');
       $('.dates').css('visibility', 'visible');
     }
@@ -191,22 +174,16 @@ $this->load->view('core_header', $header_args);
     // if user isn't logged in, login/signup dialogue pops up
     $('#create-submit').click(function() {
       if ($('#trip-creation-form').valid()) {
-        $.ajax({
-          url: baseUrl+'users/ajax_get_logged_in_status',
-          success: function(r) {
-            var r = $.parseJSON(r);
-            if (r.loggedin) {
-              $('#trip-creation-form').submit();
-            } else {
-              showLoginSignupDialog();
-            }
-          }
-        });
+        var loggedin = loginSignup.getStatus();
+        if (loggedin) {
+          $('#trip-creation-form').submit();
+        } else {
+          loginSignup.showDialog('create trip');
+        }
       }
       return false;
     });
     
-        
     
     // datepicker jquery plugin
     $('.startdate').live('focus', function() {

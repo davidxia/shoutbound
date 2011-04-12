@@ -85,13 +85,13 @@
   // and submits the trip creation form; if they aren't existing user
   // call ajax_create_fb_user to create their account, check for errors,
   // then submit trip creation form
-	function facebookLogin() {
+	function facebookLogin(callback) {
     $.ajax({
       url: '<?=site_url('login/ajax_facebook_login')?>',
       success: function(r) {
         var r = $.parseJSON(r);
         if (r.existingUser) {
-          updateFBFriends();
+          updateFBFriends(callback);
         } else {
           showAccountCreationDialog();
         }
@@ -100,17 +100,17 @@
 	}
 	
 	
-	function updateFBFriends() {
+	function updateFBFriends(callback) {
     $.ajax({
       url: '<?=site_url('login/ajax_update_fb_friends')?>',
       success: function() {
-        $('#trip-creation-form').submit();
+        loginSignup.success(callback);
       }
     });
 	}
 	
 
-  function showAccountCreationDialog() {
+  function showAccountCreationDialog(callback) {
     $('#div-to-popup').empty();
     var html = 'Creating your Shoutbound account...';
     $('#div-to-popup').append(html);
@@ -123,7 +123,7 @@
         if (r.error) {
           alert(r.message);
         } else {
-          $('#trip-creation-form').submit();
+          loginSignup.success(callback);
         }
       }
     });
@@ -134,7 +134,7 @@
     $('#fb_login_button').click(function() {
       FB.login(function(response) {
         if (response.session) {
-          facebookLogin();
+          facebookLogin('<?=$callback?>', '<?=$id?>');
         } else {
           alert('you failed to log in');
         }
@@ -175,7 +175,7 @@
     }
   });
   
-  // use ajax to submit form, get user's id, then create trip
+
   $('#signup-submit').click(function() {
     if ($('#signup-form').valid()) {
       var postData = {
@@ -188,14 +188,14 @@
         type: 'POST',
         data: postData,
         url: '<?=site_url('signup/ajax_create_user')?>',
-        // once user is created and logged in, submit create trip form
         success: function() {
-          loginSignupSuccess();
+          loginSignup.success('<?=$callback?>', '<?=$id?>');
         }
       });
     }
     return false;
   });
+  
   
   $('#login-submit').click(function() {
     var postData = {
@@ -207,11 +207,10 @@
       type: 'POST',
       data: postData,
       url: '<?=site_url('login/ajax_email_login')?>',
-      // once user is logged in, submit create trip form
       success: function(r) {
         var r = $.parseJSON(r);
         if (r.loggedin) {
-          loginSignupSuccess();
+          loginSignup.success('<?=$callback?>', '<?=$id?>');
         } else {
           $('#login-error').html('Wrong email or password.');
         }

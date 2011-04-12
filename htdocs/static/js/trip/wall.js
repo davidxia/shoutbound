@@ -41,25 +41,14 @@ wall.showRemove = function() {
 wall.loadPostButton = function() {
   $('#wallitem-post-button').click(function() {
     if ($('#wallitem-input').val().length != 0) {
-      var loggedin = getLoggedInStatus();
+      var loggedin = loginSignup.getStatus();
       if (loggedin) {
         wall.postWallitem();
       } else {
-        wall.showLoginSignupDialog();
+        loginSignup.showDialog('wall post');
       }
     }
     return false;
-  });
-};
-
-
-wall.showLoginSignupDialog = function() {
-  $.ajax({
-    url: baseUrl+'users/login_signup',
-    success: function(r) {
-      var r = $.parseJSON(r);
-      $('#div-to-popup').empty().append(r.data).bPopup({follow:false, opacity:0});
-    }
   });
 };
 
@@ -156,14 +145,14 @@ wall.loadReplyEnter = function(replyInput) {
         enter = 13;
     if (keyCode == enter) {
       e.preventDefault();
-      var loggedin = getLoggedInStatus();
+      var loggedin = loginSignup.getStatus();
+      var regex = /^wallitem-(\d+)$/;
+      var match = regex.exec(replyInput.parent().parent().attr('id'));
+      var parentId = match[1];
       if (loggedin) {
-        var regex = /^wallitem-(\d+)$/;
-        var match = regex.exec(replyInput.parent().parent().attr('id'));
-        var parentId = match[1];
         wall.postReply(parentId);
       } else {
-        wall.showLoginSignupDialog();
+        loginSignup.showDialog('wall reply', parentId);
       }
     }
   });
@@ -184,8 +173,14 @@ wall.postReply = function(parentId) {
     success: function(r) {
       var r = $.parseJSON(r);
       wall.displayWallitem(r);
+      wall.removeReplyBox(parentId);
     }
   });  
+};
+
+
+wall.removeReplyBox = function(parentId) {
+  $('#wallitem-'+parentId).find('.reply-box').remove();
 };
 
 

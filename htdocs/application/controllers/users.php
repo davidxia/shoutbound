@@ -35,7 +35,12 @@ class Users extends CI_Controller
     
     public function login_signup()
     {
-        $render_string = $this->load->view('login_signup', '', true);
+        $view_data = array(
+            'callback' => $this->input->post('callback'),
+            'id' => $this->input->post('id'),
+        );
+
+        $render_string = $this->load->view('login_signup', $view_data, true);
         json_success(array('data'=>$render_string));
     }
 }
