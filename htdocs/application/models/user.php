@@ -110,6 +110,32 @@ class User extends DataMapper
     }
     
     
+    public function get_trips()
+    {
+        $this->trip->where('active', 1)->where_in_join_field('user', 'role', array(2,3))->get();
+        return $this->trip;
+    }
+    
+    
+    public function get_advising_trips()
+    {
+        $this->trip->where('active', 1)->where_in_join_field('user', 'role', 1)->get();
+        return $this->trip;
+    }
+    
+    
+    public function get_news_feed_items()
+    {
+        $news_feed_items = array();
+        $this->trip->where('active', 1)->get();
+        foreach ($this->trip as $trip)
+        {
+            $news_feed_items[] = $trip->get_wallitems();
+        }
+        return $news_feed_items;
+    }
+
+    
     public function get_role_by_tripid($trip_id)
     {
         $this->trip->include_join_fields()->get_by_id($trip_id);

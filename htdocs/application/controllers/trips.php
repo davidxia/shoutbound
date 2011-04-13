@@ -37,7 +37,7 @@ class Trips extends CI_Controller
         {
             $t->response_deadline = mktime(0, 0, 0, $deadline['month'], $deadline['day'], $deadline['year']);
         }
-        $t->is_private = ($post['private'] == 1) ? 1 : 0;
+        //$t->is_private = ($post['private'] == 1) ? 1 : 0;
                 
         $u = new User();
         $u->get_by_id($this->user->id);
@@ -47,31 +47,31 @@ class Trips extends CI_Controller
             AND $t->set_join_field($u, 'rsvp', 3))
         {
             // save trip's destinations and dates
-            $d = new Destination();
+            $p = new Place();
             foreach ($post as $key => $value)
             {
                 if (is_array($value))
                 {
-                    $d->clear();
-                    $d->trip_id = $t->id;
-                    $d->address = $post[$key]['address'];
-                    $d->lat = $post[$key]['lat'];
-                    $d->lng = $post[$key]['lng'];
-                    
+                    $p->clear();
+                    //$p->trip_id = $t->id;
+                    $p->name = $post[$key]['address'];
+                    $p->lat = $post[$key]['lat'];
+                    $p->lng = $post[$key]['lng'];
+                    $p->save();
+                    $t->save($p);
+                                        
                     // gets each destination's startdate and enddate and stores as unix time
                     // TODO: callback method for better client side validation?
                     $startdate = date_parse_from_format('n/j/Y', $post[$key]['startdate']);
                     if (checkdate($startdate['month'], $startdate['day'], $startdate['year']))
                     {
-                        $d->startdate = mktime(0, 0, 0, $startdate['month'], $startdate['day'], $startdate['year']);
+                        $t->set_join_field($p, 'startdate', $startdate);
                     }
                     $enddate = date_parse_from_format('n/j/Y', $post[$key]['enddate']);
                     if (checkdate($enddate['month'], $enddate['day'], $enddate['year']))
                     {
-                        $d->enddate = mktime(0, 0, 0, $enddate['month'], $enddate['day'], $enddate['year']);
+                        $t->set_join_field($p, 'enddate', $enddate);
                     }
-                    
-                    $d->save();
                 }
             }
             

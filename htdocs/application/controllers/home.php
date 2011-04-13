@@ -3,101 +3,56 @@
 class Home extends CI_Controller
 {
     
+    public $user;
+    
     function __construct()
     {
         parent::__construct();
         $u = new User();
-        if ( ! $u->get_logged_in_status())
+        $uid = $u->get_logged_in_status();
+        if ($uid)
         {
-            redirect('/');
+            $u->get_by_id($uid);
+            $this->user = $u;
         }
-        // TODO: maybe some friend detection here
-    }
+		}
 	
 
     function index()
     {
-        $uid = get_cookie('uid');       
-        $u = new User();
-        $u->get_by_id($uid);
-        
         $t = new Trip();
         
         // get active trips for which user is a planner or creator and rsvp is yes
+        $temp = $this->user->get_trips();
         $trips = array();
-        $u->trip->where('active', 1)->where_in_join_field('user', 'role', array(2,3))->get();
-        $users = new User();
-        foreach ($u->trip as $trip)
+        foreach ($temp as &$trip)
         {
-            // get creator and planners who are going on this trip
-            $users->where_join_field('trip', 'rsvp', 3)->where_in_join_field('trip', 'role', array(2,3))->get_by_related_trip('id', $trip->id);
-            $trip->stored->users = array();
-            foreach ($users as $user)
-            {
-                $trip->stored->users[] = $user->stored;
-            }
-            
-            // get trip's destinations
-            $d = new Destination();
-            $d->where('trip_id', $trip->id)->get();
-            $trip->stored->destinations = array();
-            foreach ($d as $destination)
-            {
-                $trip->stored->destinations[] = $destination->stored;
-            }
-
+            $trip->stored->users = $trip->get_goers();
+            $trip->stored->places = $trip->get_places();
             $trips[] = $trip->stored;
         }
-        
+
         // get active trips for which user is an advisor
+        $temp = $this->user->get_advising_trips();
         $advising_trips = array();
-        $u->trip->where('active', 1)->where_join_field('user', 'role', 1)->get();
-        foreach ($u->trip as $trip)
+        foreach ($temp as &$trip)
         {
-            // get creators and planners who are going on this trip
-            $users->where_join_field('trip', 'rsvp', 3)->where_in_join_field('trip', 'role', array(2,3))->get_by_related_trip('id', $trip->id);
-            foreach ($users as $user)
-            {
-                $trip->stored->users[] = $user->stored;
-            }
+            $trip->stored->users = $trip->get_goers();
+            $trip->stored->places = $trip->get_places();
             $advising_trips[] = $trip->stored;
         }
         
         // get suggestions for both user's trips and her friends trips
-        $news_feed_items = array();
+        $news_feed_items = $this->user->get_news_feed_items();
+        print_r($news_feed_items);
+
+        /*        
         foreach ($trips as $trip)
         {
             $trip_ids[] = $trip->id;
         }
         if ( ! empty($trip_ids))
         {
-            $s = new Suggestion();
-            $s->order_by('created', 'desc');
-            $s->where_in('trip_id', $trip_ids)->where('active', 1)->get();
-            foreach ($s as $suggestion)
-            {
-                //$suggestion->stored->user_fid = $u->get_by_id($suggestion->user_id)->fid;
-                $suggestion->stored->user_name = $u->name;
-                $suggestion->stored->profile_pic = $u->profile_pic;
-                $suggestion->stored->trip_name = $t->get_by_id($suggestion->trip_id)->name;
-                $suggestion->stored->is_location = 1;
-                $news_feed_items[] = $suggestion->stored;
-            }
-            
-            
-            // get messages for both user's trips and her friends trips
-            $m = new Message();
-            $m->order_by('created', 'desc');
-            $m->where_in('trip_id', $trip_ids)->where('active', 1)->get();
-            foreach ($m as $message)
-            {
-                //$message->stored->user_fid = $u->get_by_id($message->user_id)->fid;
-                $message->stored->user_name = $u->name;
-                $message->stored->profile_pic = $u->profile_pic;
-                $message->stored->trip_name = $t->get_by_id($message->trip_id)->name;
-                $message->stored->is_location = 0;
-                $news_feed_items[] = $message->stored;
-            }
         }        
         
         if (isset($news_feed_items[0]))
@@ -134,6 +89,7 @@ class Home extends CI_Controller
                            );
                           
         $this->load->view('home', $view_data);
+        */
         
     }
     

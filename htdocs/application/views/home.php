@@ -85,14 +85,14 @@ $this->load->view('core_header', $header_args);
                     <div class="user-trip-name">
                       <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
                     </div>
-                    <? foreach ($trip->destinations as $destination):?>
+                    <? foreach ($trip->places as $place):?>
                       <ul class="trip-content" style="margin-top:5px;">
                         <li class="trip-place" style="float:left; font-size:12px;">
-                          <?=$destination->address?>
+                          <?=$place->name?>
                         </li>
                         <li class="trip-startdate" style="float:left; margin-left:20px; font-size:12px;">
-                          <? if ($destination->startdate):?>
-                            <?=date('n/d/y', $destination->startdate)?>
+                          <? if ($place->startdate):?>
+                            <?=date('n/d/y', $place->startdate)?>
                           <? else:?>
                             no date set yet
                           <? endif;?>                                              
