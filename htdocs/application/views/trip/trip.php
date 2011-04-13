@@ -58,12 +58,13 @@ $this->load->view('core_header', $header_args);
   <div id="div-to-popup" style="display:none;"></div>
 			  
 			<div id="trip-col-right"><!--TRIPCOLRIGHT START-->
-				<div class="item-header">Itinerary</div>
+				<div class="item-header"><h3>Itinerary</h3></div>
 				<div id="itinerary"><!--ITINERARY START-->															
 					<div class="right-item-content"><!--ITINERARY CONTENT-->         	
             <? foreach ($destinations as $destination):?>
               <div class="destination-dates">
   	            <a href="#"><?=$destination->name?></a>
+  	            <p class="subtext">
   		            <? if ($destination->startdate AND $destination->enddate):?>
   		              <?=date('n/d/y', $destination->startdate)?> to <?=date('n/d/y', $destination->enddate)?>
   		            <? elseif ($destination->startdate AND ! $destination->enddate):?>
@@ -73,30 +74,30 @@ $this->load->view('core_header', $header_args);
   		            <? else:?>
   		              No dates set
   		            <? endif;?>
+  		          </p>
   		        </div>
 	          <? endforeach;?>
 	     			     			                          																							
 						<div id="trip_goers"><!--TRIP GOERS-->  
 	          	<div id="num_trip_goers">          			              		
 	              <? if (count($trip_goers) == 1):?>
-	              <span id="num"><?=count($trip_goers)?> person is going on this trip.</span>
+	              <span id="num"><p class="subtext"><?=count($trip_goers)?> person is going on this trip.</span>
 	              <? else:?>              		
-	              <div id="num"><?=count($trip_goers)?> people are going on this trip.</div>
+	              <div id="num"><p class="subtext"><?=count($trip_goers)?> people are going on this trip.</div>
 	              <? endif;?>           
 	          	</div>  
         	        		          			                     
 					    <? if ($trip_goers):?>
 		            <? foreach ($trip_goers as $trip_goer):?>
 		            	<div class="trip_goer" uid="<?=$trip_goer->id?>">
-		                <a href="<?=site_url('profile/'.$trip_goer->id)?>"><img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" height="30" width="30"/></a>
+		                <a href="<?=site_url('profile/'.$trip_goer->id)?>"><img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" height="35" width="35"/></a>
 		              </div>
 		            <? endforeach;?>
 			         <? endif;?>
 		          
 		          <div style="clear:both;"></div>
 		          
-		          <div>This trip was created by <a href="<?=site_url('profile/'.$creator->id)?>"><?=$creator->name?></a></div>	       
-       			
+		          <p class="subtext">This trip was created by <a href="<?=site_url('profile/'.$creator->id)?>" style="text-decoration:none; color:navy;"><?=$creator->name?></a></p>	              			
   			
   					</div><!--TRIP GOERS END-->
     			</div><!--ITINERARY CONTENT END-->										
@@ -105,7 +106,7 @@ $this->load->view('core_header', $header_args);
 																	
 				<!--MAP START-->
 				<div id="map-container">
-					<div class="item-header">Map</div>	
+					<div class="item-header"><h3>Map</h3></div>	
 					<div id="map-shell">
 						<div class="right-item-content">				
 							<div id="map-canvas"></div>
@@ -119,20 +120,20 @@ $this->load->view('core_header', $header_args);
     <!--TRIPCOLLEFTSHELL START-->
     <div id="trip-col-left-shell">
 			<div id="trip-name">
-				<?=$trip->name?>
+				<h1><?=$trip->name?></h1>
 			</div> 
-			<div id="trip_description"><?=$trip->description?></div>							
+			<div id="trip_description"><p><?=$trip->description?></p></div>							
 				
     	<div id="trip-widget"><!--WIDGET START--> 
     		<!--IF USER IS INVITED, DISPLAY RSVP STATUS-->
     		<? if ($user_role >= 2):?>
           <div id="rsvp_status">    
             <? if ($user_rsvp == 3):?>
-              <!--You're going on this trip-->
+              <!--<h3>You're going on this trip</h3>-->
             <? elseif ($user_rsvp == 2):?>
-              You've been invited on this trip!
+              <p class="regular">You've been invited on this trip!</p>
             <? elseif ($user_rsvp == 1):?>
-              You've been invited on this trip!
+              <p class="regular">You've been invited on this trip!</p>
             <? endif;?>
           </div>
           
@@ -142,7 +143,7 @@ $this->load->view('core_header', $header_args);
               <a href="#" id="rsvp_yes_button">I'm in</a>
               <a href="#" id="rsvp_no_button">I'm out</a>		                
             </div>
-            <div id="countdown-container">Time left to respond:
+            <div id="countdown-container"><p class="regular">Time left to respond:</p>
              	<div id="countdown"></div>                  
     				</div>
     			
@@ -153,7 +154,7 @@ $this->load->view('core_header', $header_args);
               <a href="#" id="rsvp_yes_button">I'm in</a>
               <a href="#" id="rsvp_no_button">I'm out</a>		                
             </div>
-            <div id="countdown-container">Time left to respond:
+            <div id="countdown-container"><p class="regular">Time left to respond:</p>
              	<div id="countdown"></div>                  
     				</div>
           <? endif;?>
@@ -162,17 +163,17 @@ $this->load->view('core_header', $header_args);
     	        
         <? if ($user_rsvp == 3):?>
           <div class="console">
-            Get advice, ideas and recommendations for this trip by <a href="#" id="get-suggestions-button">Sharing</a> it with other people. You can also <a href="#" id="invite-others-button">Invite</a>  other people to join you this trip.  	              
+            <p class="regular">Get advice, ideas and recommendations for this trip by <a href="#" id="get-suggestions-button">Sharing</a> it with other people. You can also <a href="#" id="invite-others-button">Invite</a>  other people to join you this trip.  	              
             <!--<a href="#" id="rsvp_no_button">I'm out</a>-->
                      
             <? if ($user_role == 3):?>
-            <!--<a id="deletebutton" style="" href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete this trip</a>-->                    
+            <!--<a id="deletebutton" style="" href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete this trip</a></p>-->                    
          		<? endif;?>	              
            </div>
           
         <? else:?>		          	
       		<div class="console">
-          	Help <a href="<?=site_url('profile/'.$creator->id)?>"><?=$creator->name?></a> plan this trip by adding your thoughts and <a href="#" id="get-suggestions-button">Sharing</a> this trip with other people.
+          	<p class="regular">Help <a href="<?=site_url('profile/'.$creator->id)?>"><?=$creator->name?></a> plan this trip by adding your thoughts and <a href="#" id="get-suggestions-button">Sharing</a> this trip with other people.</p>
           </div>
         <? endif;?>	            				
     	</div><!--WIDGET END-->									
@@ -181,35 +182,27 @@ $this->load->view('core_header', $header_args);
       <!-- WALL -->
       <div id="wall">
       <? foreach ($wallitems as $wallitem):?>
-        <div class="wallitem" id="wallitem-<?=$wallitem->id?>">
-          <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" height="30" width="30"/>
-          <div class="author" style="margin-left:2px;">
-            <?=$wallitem->user_name?>
+        <div class="wallitem" id="wallitem-<?=$wallitem->id?>" style="position:relative;">
+          <div class="author">
+            <?=$wallitem->user->name?>
           </div>
           <div class="content">
             <?=$wallitem->content?>
           </div>
-          <div class="actionbar">
-            <a class="reply-button" href="#">Add comment</a>           
-            <a class="like-button" href="#">Like</a>
-            <span class="num-likes">num-likes people like this</span>
-            <abbr class="timeago" title="<?=$wallitem->created?>"><?=$wallitem->created?></abbr>            
-          </div>
-          
+          <abbr class="timeago" title="<?=$wallitem->created?>"><?=$wallitem->created?></abbr>
+          <a class="like-button" href="#">LIKE</a>
+          <a class="reply-button" href="#">REPLY</a>
           <div class="remove-wallitem"></div>
           <? foreach ($wallitem->replies as $reply):?>
-            <div class="wallitem reply" id="wallitem-<?=$reply->id?>">
-              <span class="author">
-                <?=$reply->user_name?>:
-              </span>
-              <span class="content">
-                <?=$reply->content?>
-              </span>
-              <div class="actionbar">               
-                <a class="like-button" href="#">Like</a>
-                <span class="num-likes">num-likes people like this</span>
-                <abbr class="timeago" title="<?=$reply->created?>"><?=$reply->created?></abbr>
+            <div class="wallitem reply" id="wallitem-<?=$reply->id?>" style="position:relative;">
+              <div class="author">
+                <?=$reply->user->name?>
               </div>
+              <div class="content">
+                <?=$reply->content?>
+              </div>
+              <abbr class="timeago" title="<?=$reply->created?>"><?=$reply->created?></abbr>
+              <a class="like-button" href="#">LIKE</a>
               <div class="remove-wallitem"></div>
             </div>
           <? endforeach;?>
@@ -219,8 +212,8 @@ $this->load->view('core_header', $header_args);
       
 					 		
       <!-- WALLITEM INPUT CONTAINER -->
-      <div id="wallitem-input-container">
-        <label for="wallitem-input" id="wallitem-input-label">
+      <div id="wallitem-input-container;" style="position:relative;">
+        <label for="wallitem-input" style="position:absolute; padding:5px;">
           <span>Add message</span>
         </label>
         <textarea id="wallitem-input"></textarea>

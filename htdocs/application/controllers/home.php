@@ -31,6 +31,7 @@ class Home extends CI_Controller
             $trip->stored->places = $trip->get_places();
             $trips[] = $trip->stored;
         }
+        //print_r($trips);
 
         // get active trips for which user is an advisor
         $temp = $this->user->get_advising_trips();
