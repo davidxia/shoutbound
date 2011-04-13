@@ -79,9 +79,9 @@ $this->load->view('core_header', $header_args);
 						<div id="trip_goers"><!--TRIP GOERS-->  
 	          	<div id="num_trip_goers">          			              		
 	              <? if (count($trip_goers) == 1):?>
-	              <span id="num"><?=count($trip_goers)?> person is going on this trip.</span>
+	              <span id="num"><?=count($trip_goers)?></span> person is going on this trip.
 	              <? else:?>              		
-	              <div id="num"><?=count($trip_goers)?> people are going on this trip.</div>
+	              <span id="num"><?=count($trip_goers)?></span> people are going on this trip.
 	              <? endif;?>           
 	          	</div>  
         	        		          			                     
@@ -150,8 +150,7 @@ $this->load->view('core_header', $header_args);
     			<? elseif ($user_rsvp == 1):?>
             You said no, but you can still change your mind.
             <div id="rsvp_buttons">
-              <a href="#" id="rsvp_yes_button">I'm in</a>
-              <a href="#" id="rsvp_no_button">I'm out</a>		                
+              <a href="#" id="rsvp_yes_button">I'm in</a>	                
             </div>
             <div id="countdown-container">Time left to respond:
              	<div id="countdown"></div>                  
