@@ -1,6 +1,6 @@
 /*colors*/
 #itinerary, #map-shell, .item-header{
-	background-color:#EDF0F9;
+	background-color:#DEE4F7;
 }
 
 /*Content*/
@@ -28,7 +28,7 @@
 
 #trip_description{
 	padding:5px 0px 10px 0px;
-	border-bottom:2px solid #CACACA;
+	border-bottom:2px solid #aaaaaa;
 	font-size:15px;
 	line-height:20px
 }
@@ -55,8 +55,8 @@ textarea#wallitem-input{
 
 #trip-widget{
 	padding:5px 0px 5px 0px;
-	border-top:1px solid #CACACA;
-	border-bottom:1px solid #CACACA;
+	border-top:1px solid #aaaaaa;
+	border-bottom:1px solid #aaaaaa;
 	margin:1px 0px 1px 0px;
   font-size:13px;
 	color:#333;
@@ -183,7 +183,7 @@ textarea#wallitem-input{
 #wall{
   font-size:13px;
   line-height:19px;
-  border-top:2px solid #CACACA;
+  border-top:2px solid #aaaaaa;
   min-height:200px;
 }
 
