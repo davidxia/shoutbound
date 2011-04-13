@@ -60,8 +60,8 @@ class Wallitem extends DataMapper
     public function get_creator()
     {
         $u = new User();
-        $u->get_by_id($this->stored->user_id);
-        $this->stored->user_name = $u->name;
+        $u->get_by_id($this->user_id);
+        $this->stored->user = $u->stored;
     }
     
     
@@ -91,6 +91,14 @@ class Wallitem extends DataMapper
         */
         return $this->wallitem;
         //return $replies;
+    }
+    
+    
+    public function get_trip()
+    {
+        $t = new Trip();
+        $t->get_by_id($this->trip_id);
+        $this->stored->trip = $t->stored;
     }
 }
 

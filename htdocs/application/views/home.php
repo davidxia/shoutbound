@@ -44,25 +44,14 @@ $this->load->view('core_header', $header_args);
             <ul style="margin: 0px 20px 0px 20px;">
               <? foreach($news_feed_items as $news_feed_item):?>
                 <li id="wall-item-<?=$news_feed_item->id?>" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
-                <? if ($news_feed_item->is_location):?>
-                  <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>" style="margin-right:10px; float:left;"><img src="<?=static_sub('profile_pics/'.$news_feed_item->profile_pic)?>" height="50" width="50"/></a>
+                  <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>" style="margin-right:10px; float:left;"><img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" height="50" width="50"/></a>
                   <div style="display:table-cell; line-height:18px;">
-                    <?=$news_feed_item->user_name?> suggested <span style="font-weight:bold;"><?=$news_feed_item->name?></span>
+                    <?=$news_feed_item->user->name?> wrote <span style="font-weight:bold;"><?=$news_feed_item->content?></span>
                     <br/>
-                    for <a href="<?=site_url('trips/'.($news_feed_item->trip_id))?>"><?=$news_feed_item->trip_name?></a>
+                    on <a href="<?=site_url('trips/'.($news_feed_item->trip_id))?>"><?=$news_feed_item->trip->name?></a>
                     <br/>
                     <abbr class="timeago" title="<?=$news_feed_item->created?>" style="font-size:10px;"><?=$news_feed_item->created?></abbr>
                   </div>
-                <? else:?>
-                  <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>" style="margin-right:10px; float:left;"><img src="<?=static_sub('profile_pics/'.$news_feed_item->profile_pic)?>" height="50" width="50"/></a>
-                  <div style="display:table-cell; line-height:18px;">
-                    <?=$news_feed_item->user_name?> wrote <span style="font-weight:bold;"><?=$news_feed_item->text?></span>
-                    <br/>
-                    on <a href="<?=site_url('trips/'.($news_feed_item->trip_id))?>"><?=$news_feed_item->trip_name?></a>
-                    <br/>
-                    <abbr class="timeago" title="<?=$news_feed_item->created?>" style="font-size:10px;"><?=$news_feed_item->created?></abbr>
-                  </div>
-                <? endif;?>
                 </li>
               <? endforeach;?>
             </ul>

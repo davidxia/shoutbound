@@ -44,50 +44,28 @@ class Home extends CI_Controller
         
         // get suggestions for both user's trips and her friends trips
         $news_feed_items = $this->user->get_news_feed_items();
-        print_r($news_feed_items);
-        if ($news_feed_items)
-        {
-            $this->load->helper('quicksort');
-            _quicksort($news_feed_items);
-        }
-        print_r($news_feed_items);
-        
-        /*        
-        foreach ($trips as $trip)
-        {
-            $trip_ids[] = $trip->id;
-        }
-        if ( ! empty($trip_ids))
-        {
-        }        
-        
-        if (isset($news_feed_items[0]))
-        {
-            $this->load->helper('quicksort');
-            _quicksort($news_feed_items);
-        }
+        //print_r($news_feed_items);
         
         // get pending friend requests
         // get array of friends relations to the user
-        $u->get_by_id($uid);
-        $u->user->get();
+        $this->user->user->get();
         $rels_to = array();
-        foreach ($u->user as $rel_to)
+        foreach ($this->user->user as $rel_to)
         {
             $rels_to[] = $rel_to->id;
         }
         // compare with array of friend relations from the user
         // TODO: is there a better way of doing this? like with a 'where' clause in one datamapper call?
-        $u->related_user->get();
+        $this->user->related_user->get();
         $rels_from = array();
-        foreach ($u->related_user as $rel_from)
+        foreach ($this->user->related_user as $rel_from)
         {
             $rels_from[] = $rel_from->id;
         }
         $num_friend_requests = count(array_diff($rels_to, $rels_from));
 
         
-        $view_data = array('user' => $u->stored,
+        $view_data = array('user' => $this->user->stored,
                            'trips' => $trips,
                            'advising_trips' => $advising_trips,
                            'news_feed_items' => $news_feed_items,
@@ -95,8 +73,6 @@ class Home extends CI_Controller
                            );
                           
         $this->load->view('home', $view_data);
-        */
-        
     }
     
     

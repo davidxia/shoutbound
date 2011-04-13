@@ -127,8 +127,6 @@ class User extends DataMapper
     
     public function get_news_feed_items()
     {
-        $news_feed_items = array();
-        
         // get trips associated with user
         $trip_ids = array();
         foreach ($this->trip->where('active', 1)->get() as $trip)
@@ -140,6 +138,8 @@ class User extends DataMapper
         $wi = new Wallitem();
         foreach ($wi->where('active', 1)->where_in('trip_id', $trip_ids)->where('user_id !=', $this->id)->get() as $wallitem)
         {
+            $wallitem->get_creator();
+            $wallitem->get_trip();
             $trip_wallitems[] = $wallitem->stored;
         }
         
@@ -154,11 +154,18 @@ class User extends DataMapper
         $reply_wallitems = array();
         foreach ($wi->where_in('parent_id', $wallitem_ids)->where('user_id !=', $this->id)->get() as $wallitem)
         {
+            $wallitem->get_creator();
+            $wallitem->get_trip();
             $reply_wallitems[] = $wallitem->stored;
         }
-          
         
-        return array_merge($trip_wallitems, $reply_wallitems);
+        $news_feed_items = array_merge($trip_wallitems, $reply_wallitems);
+        if ($news_feed_items)
+        {
+            $this->load->helper('quicksort');
+            _quicksort($news_feed_items);
+        }
+        return $news_feed_items;
     }
 
     
