@@ -162,10 +162,10 @@ $this->load->view('core_header', $header_args);
         <? if ($user_rsvp == 3):?>
           <div class="console">
             Get advice, ideas and recommendations for this trip by <a href="#" id="get-suggestions-button">Sharing</a> it with other people. You can also <a href="#" id="invite-others-button">Invite</a>  other people to join you this trip.  	              
-            <!--<a href="#" id="rsvp_no_button">I'm out</a>-->
+            <a href="#" id="rsvp_no_button">I'm out</a>
                      
             <? if ($user_role == 3):?>
-            <!--<a id="deletebutton" style="" href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete this trip</a>-->                    
+            <a id="deletebutton" style="" href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete this trip</a>                    
          		<? endif;?>	              
            </div>
           
