@@ -123,13 +123,13 @@ wall.removeWallitem = function(id) {
 wall.clickReply = function() {
   $('.reply-button').click(function() {
     $(this).siblings('.reply-box').remove();
-    var parentId = $(this).parent().parent().attr('id');
+    var parentId = $(this).parent().attr('id');
     var regex = /^wallitem-(\d+)$/;
     var match = regex.exec(parentId);
     parentId = match[1];
 
-    var replyBox = $('<div class="reply-box"><textarea style="min-height:65px; display:block; overflow:hidden; line-height:19px; width:350px; margin:3px 0px 2px 25px; font-size:13px; color:#333;"></textarea></div>');
-    $(this).parent().after(replyBox);
+    var replyBox = $('<div class="reply-box"><textarea style="height:14px; display:block; overflow:hidden; resize:none; line-height:13px; width:400px;"></textarea></div>');
+    $(this).after(replyBox);
     var replyInput = replyBox.children('textarea');
     replyInput.focus();
     wall.loadReplyEnter(replyInput);

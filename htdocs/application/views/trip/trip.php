@@ -184,7 +184,11 @@ $this->load->view('core_header', $header_args);
       <? foreach ($wallitems as $wallitem):?>
         <div class="wallitem" id="wallitem-<?=$wallitem->id?>" style="position:relative;">
           <div class="author">
+<<<<<<< HEAD
             <?=$wallitem->user->name?>
+=======
+            <?=$wallitem->user_name?>
+>>>>>>> 371809b... styled wall
           </div>
           <div class="content">
             <?=$wallitem->content?>
@@ -196,7 +200,11 @@ $this->load->view('core_header', $header_args);
           <? foreach ($wallitem->replies as $reply):?>
             <div class="wallitem reply" id="wallitem-<?=$reply->id?>" style="position:relative;">
               <div class="author">
+<<<<<<< HEAD
                 <?=$reply->user->name?>
+=======
+                <?=$reply->user_name?>
+>>>>>>> 371809b... styled wall
               </div>
               <div class="content">
                 <?=$reply->content?>

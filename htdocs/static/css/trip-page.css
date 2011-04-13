@@ -13,27 +13,31 @@
 /*Left*/
 
 #trip-col-left-shell{
-	width: 520px;
-	padding:0px 0px 0px 30px;
+	width: 570px;
+	padding:0px 0px 0px 10px;
 }
 
 #trip-col-left-content{
-	width:510px;
+	width:560px;
 	padding:0px 5px 5px 5px;
 	background-color:white;
+}
+
+.message, .suggestion{
+	padding:10px 0px 10px 0px;
+	margin:5px 0px 4px 0px;
+	border-bottom: 1px solid #EAEAEA;
 }
 
 #trip_description{
 	padding:5px 0px 10px 0px;
 	border-bottom:3px solid #CACACA;
-	font-size:15px;
-	line-height:20px
 }
 
-#trip-name{
-  font-size:22px;
-  line-height:26px;
-  font-weight:bold;
+#wallitem-post-button{
+	margin:5px 0px 0px 0px;
+	border-top:1px solid #EAEAEA;
+	padding-top:10px;
 }
 
 #message-box-container{
@@ -42,7 +46,7 @@
 }
 
 textarea#wallitem-input{
-	width:498px;
+	width:548px;
 	min-height:60px;
 	color:#333;
   border: 1px solid #333;
@@ -58,12 +62,17 @@ textarea#wallitem-input{
 
 #trip-widget{
 	padding:5px 0px 5px 0px;
+<<<<<<< HEAD
 	border-top:1px solid #CACACA;
 	border-bottom:1px solid #CACACA;
 	margin:1px 0px 1px 0px;
   font-size:13px;
 	color:#333;
 	line-height:18px;
+=======
+	border-top:1px solid #EAEAEA;
+	margin:1px 0px 0px 0px;
+>>>>>>> 371809b... styled wall
 }
 
 #countdown-container{
@@ -74,6 +83,7 @@ textarea#wallitem-input{
 
 /*Right*/
 
+<<<<<<< HEAD
 .destination-dates, #num_trip_goers, #rsvp_status, #countdown-container, #console, #itinerary, #map, .item-header{
 	font-size:13px;
 	color:#333;
@@ -84,6 +94,8 @@ textarea#wallitem-input{
   font-weight:bold;
 }
 
+=======
+>>>>>>> 371809b... styled wall
 #itinerary, #map-shell{
 	width:350px;
 	padding:5px;
@@ -179,10 +191,11 @@ textarea#wallitem-input{
   width: 50%;
 }
 
-#wall .content{
+.wall-item-content{
   padding:5px 0px 5px 0px;
 }
 
+<<<<<<< HEAD
 #wall{
   font-size:13px;
   line-height:19px;
@@ -191,33 +204,20 @@ textarea#wallitem-input{
 }
 
 .wallitem{
+=======
+.wall-item{
+>>>>>>> 371809b... styled wall
   padding:15px 0px 15px 0px;
   border-top:1px solid #EAEAEA;
-  position:relative;
 }
 
-.author-container{
-  height:30px;
-  line-height:30px;
+.destination-dates a, .wall-item-author a{
+  font-size:14px;
 }
 
-.author{
+.wall-item-author{
+  line-height:20px;
   display:inline;
-  font-weight:bold;
-}
-
-#wallitem-input-label{
-  position:absolute;
-  padding:5px;
-  font-size:13px;
-  line-height:19px;
-  font-color:#333;
-}
-
-#wallitem-input-container{
-  padding:10px 5px 5px 5px;
-  border-top:1px solid #EAEAEA;
-  position:relative;
 }
 
 li.suggestion {
@@ -253,15 +253,18 @@ li.suggestion.highlighted{
   right: 0;
 }
 
-.like-button, .reply-button, .timeago, .num-likes{
+.actionbar-item{
   display:inline;
   margin-right:12px;
+  font-size:15px;
+  line-height:20px;
 }
 
 .timeago{
   color:#737373;
 }
 
+<<<<<<< HEAD
 .wallitem .reply{
   position:relative;
   padding:5px 40px 5px 25px;
@@ -269,6 +272,8 @@ li.suggestion.highlighted{
   border:none;
 }
 
+=======
+>>>>>>> 371809b... styled wall
 /*Content END*/
 
 /*Buttons*/
@@ -341,40 +346,37 @@ li.suggestion.highlighted{
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }*/
 
-#wallitem-post-button{
-  float:right;
-  width: 100px;
-  height:25px;
+#wall-post-button {
+  position:relative;
+  left:445px;
+  top:5px;
+  width: 120px;
+  height:30px;
   cursor: pointer;
-  line-height:25px;
+  line-height:30px;
   text-align:center;
   text-decoration:none;
-	border: solid 1px #333;
+	color: white;
+	border: solid 1px #0076a3;
 	background: #0095cd;
 	background: -webkit-gradient(linear, left top, left bottom, from(#44749D), to(#navy));
 	background: -moz-linear-gradient(top,  #44749D,  #navy);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#44749D', endColorstr='#navy');
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
 }
-#wallitem-post-button:hover {
+#wall-post-button:hover {
 	background: #007ead;
 	background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
 	background: -moz-linear-gradient(top,  #0095cc,  #00678e);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
 }
-#wallitem-post-button:active {
+#wall-post-button:active {
 	color: #80bed6;
 	background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
 	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
-}
-
-#wallitem-post-button a{
-  color:white;
-  font-size:13px;
-  font-weight:bold;
 }
 
 #rsvp_yes_button{
