@@ -1,7 +1,7 @@
 <!-- HEADER -->
 <div class="header">
   <div class="wrapper">
-    <h1 style="position:absolute; top:5px; left:10;">
+    <h1 style="position:absolute; margin:5px 0px 0px 30px;">
       <a href="<?=site_url('/')?>"><img src="<?=site_url('images/logo_header.png')?>" alt="Shoutbound" width="60" height="35" style="display:block;"/></a>
     </h1>
         

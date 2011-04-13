@@ -150,8 +150,7 @@ $this->load->view('core_header', $header_args);
     			<? elseif ($user_rsvp == 1):?>
             You said no, but you can still change your mind.
             <div id="rsvp_buttons">
-              <a href="#" id="rsvp_yes_button">I'm in</a>
-              <a href="#" id="rsvp_no_button">I'm out</a>		                
+              <a href="#" id="rsvp_yes_button">I'm in</a>	                
             </div>
             <div id="countdown-container">Time left to respond:
              	<div id="countdown"></div>                  
