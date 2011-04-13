@@ -7,6 +7,7 @@ class User extends DataMapper
 
     public $has_many = array(
       'trip',
+      'wallitem',
       'friend',
       'related_user' => array(
         'class' => 'user',
@@ -127,12 +128,37 @@ class User extends DataMapper
     public function get_news_feed_items()
     {
         $news_feed_items = array();
-        $this->trip->where('active', 1)->get();
-        foreach ($this->trip as $trip)
+        
+        // get trips associated with user
+        $trip_ids = array();
+        foreach ($this->trip->where('active', 1)->get() as $trip)
         {
-            $news_feed_items[] = $trip->get_wallitems();
+            $trip_ids[] = $trip->id;
         }
-        return $news_feed_items;
+        // get these trips' most recent wallitems excluding user's own
+        $trip_wallitems = array();
+        $wi = new Wallitem();
+        foreach ($wi->where('active', 1)->where_in('trip_id', $trip_ids)->where('user_id !=', $this->id)->get() as $wallitem)
+        {
+            $trip_wallitems[] = $wallitem->stored;
+        }
+        
+        // get wallitems that are replies to user's wallitems
+        $wallitem_ids = array();
+        $this->wallitem->where('active', 1)->get();
+        foreach ($this->wallitem as $wallitem)
+        {
+            $wallitem_ids[] = $wallitem->id;
+        }
+        $wi = new Wallitem();
+        $reply_wallitems = array();
+        foreach ($wi->where_in('parent_id', $wallitem_ids)->where('user_id !=', $this->id)->get() as $wallitem)
+        {
+            $reply_wallitems[] = $wallitem->stored;
+        }
+          
+        
+        return array_merge($trip_wallitems, $reply_wallitems);
     }
 
     

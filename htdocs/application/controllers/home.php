@@ -45,7 +45,13 @@ class Home extends CI_Controller
         // get suggestions for both user's trips and her friends trips
         $news_feed_items = $this->user->get_news_feed_items();
         print_r($news_feed_items);
-
+        if ($news_feed_items)
+        {
+            $this->load->helper('quicksort');
+            _quicksort($news_feed_items);
+        }
+        print_r($news_feed_items);
+        
         /*        
         foreach ($trips as $trip)
         {
