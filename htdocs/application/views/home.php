@@ -12,15 +12,9 @@ $this->load->view('core_header', $header_args);
 
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
-  var baseUrl = "<?=site_url(); ?>";
+  var baseUrl = '<?=site_url()?>';
 </script>
 
-<style type="text/css">
-.content{
-	font-size:14px;
-	line-height:18px;
-}
-</style>
 </head>
 
 <body>
@@ -54,7 +48,7 @@ $this->load->view('core_header', $header_args);
                     <?=date('n/d/y', $place->startdate)?>
                   <? else:?>
                     no date set yet
-                  <? endif;?>                                              
+                  <? endif;?>               
                 <? endforeach;?>
               </div>
               <? foreach ($trip->users as $trip_user):?>                       	                       
@@ -139,5 +133,4 @@ $this->load->view('core_header', $header_args);
 <script type="text/javascript">
   $('abbr.timeago').timeago();
 </script>
-
 </html>

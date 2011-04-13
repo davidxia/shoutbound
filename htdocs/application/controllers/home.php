@@ -31,7 +31,6 @@ class Home extends CI_Controller
             $trip->stored->places = $trip->get_places();
             $trips[] = $trip->stored;
         }
-        //print_r($trips);
 
         // get active trips for which user is an advisor
         $temp = $this->user->get_advising_trips();
@@ -45,7 +44,6 @@ class Home extends CI_Controller
         
         // get suggestions for both user's trips and her friends trips
         $news_feed_items = $this->user->get_news_feed_items();
-        //print_r($news_feed_items);
         
         // get pending friend requests
         // get array of friends relations to the user
@@ -66,12 +64,13 @@ class Home extends CI_Controller
         $num_friend_requests = count(array_diff($rels_to, $rels_from));
 
         
-        $view_data = array('user' => $this->user->stored,
-                           'trips' => $trips,
-                           'advising_trips' => $advising_trips,
-                           'news_feed_items' => $news_feed_items,
-                           'num_friend_requests' => $num_friend_requests,
-                           );
+        $view_data = array(
+            'user' => $this->user->stored,
+            'trips' => $trips,
+            'advising_trips' => $advising_trips,
+            'news_feed_items' => $news_feed_items,
+            'num_friend_requests' => $num_friend_requests,
+        );
                           
         $this->load->view('home', $view_data);
     }

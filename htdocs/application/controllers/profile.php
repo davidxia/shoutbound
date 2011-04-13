@@ -20,9 +20,6 @@ class Profile extends CI_Controller
 
     public function index($pid = FALSE)
     {
-        //$u = new User();
-        //$uid = $u->get_logged_in_status();
-
         // if user not logged in and no profile specified, return 404
         if ( ! ($pid OR $this->user))
         {
@@ -33,9 +30,7 @@ class Profile extends CI_Controller
         // if no profile number specified, show user's own profile
         if ( ! $pid)
         {
-            //$u->get_by_id($uid);
             $profile = $this->user;
-            //$user = $this->user;
             $pid = $this->user->id;
             $is_friend = -1;
         }
@@ -50,7 +45,6 @@ class Profile extends CI_Controller
             }
             $profile = $u->stored;
             $is_friend = -1;
-            //$user = FALSE;
         }
         // if profile specified and user's logged in
         else
@@ -63,8 +57,6 @@ class Profile extends CI_Controller
                 return;
             }
             $profile = $u->stored;
-            //$u->get_by_id($uid);
-            //$user = $this->user;
 
             if ($pid != $this->user->id)
             {
@@ -95,50 +87,23 @@ class Profile extends CI_Controller
             }
         }
 
-        // get active trips for which profile is a planner or creator and rsvp is yes
-        $trips = array();
+        // get active trips for which user is a planner or creator and rsvp is yes
         $u = new User();
         $u->get_by_id($pid);
-
-        $u->trip->where('active', 1)->where_in_join_field('user', 'role', array(2,3))->where_join_field('user', 'rsvp', 3)->get();
-        foreach ($u->trip as $trip)
+        $temp = $u->get_trips();
+        $trips = array();
+        foreach ($temp as &$trip)
         {
-            // get trip's destinations
-            $d = new Destination();
-            $d->where('trip_id', $trip->id)->get();
-            $trip->stored->destinations = array();
-            foreach ($d->all as $destination)
-            {
-                $trip->stored->destinations[] = $destination->stored;
-            }
-
+            $trip->stored->users = $trip->get_goers();
+            $trip->stored->places = $trip->get_places();
             $trips[] = $trip->stored;
         }
         
-        // get profile's Shoutbound friends (we shouldn't display their FB friends publicly)
-        $friends = array();
-        // get array of friends relations to the user
-        $u->user->get();
-        $rels_to = array();
-        foreach ($u->user as $rel_to)
-        {
-            $rels_to[] = $rel_to->id;
-        }
-        // get array of friend relations from the user
-        // TODO: is there a better way of doing this? like with a 'where' clause in one datamapper call?
-        $u->related_user->get();
-        $rels_from = array();
-        foreach ($u->related_user as $rel_from)
-        {
-            $rels_from[] = $rel_from->id;
-        }
-        $friend_ids = array_intersect($rels_to, $rels_from);
-        
-        foreach ($friend_ids as $friend_id)
-        {
-            $u->get_by_id($friend_id);
-            $friends[] = $u->stored;
-        }
+        // get profile's friends
+        $friends = $u->get_friends();
+                
+        // get profile's recent activity
+        $profile_feed_items = $u->get_profile_feed_items();
         
         $view_data = array(
             'user' => $this->user,
@@ -146,23 +111,21 @@ class Profile extends CI_Controller
             'trips' => $trips,
             'friends' => $friends,
             'is_friend' => $is_friend,
+            'profile_feed_items' => $profile_feed_items,
         );
-        
+
         $this->load->view('profile/profile', $view_data);
+        //print_r($profile_feed_items);
     }
     
     
     public function edit()
     {
-        //$u = new User();
-        //$uid = $u->get_logged_in_status();
         if ( ! $this->user)
         {
             custom_404();
             return;
         }
-        
-        //$u->get_by_id($uid);
         
         $view_data = array(
             'user' => $this->user,

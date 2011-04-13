@@ -181,6 +181,55 @@ class User extends DataMapper
         $this->trip->include_join_fields()->get_by_id($trip_id);
         return $this->trip->join_rsvp;
     }
+    
+    
+    public function get_friends()
+    {
+        // get profile's Shoutbound friends (we shouldn't display their FB friends publicly)
+        // get array of friends relations to the user
+        $this->user->get();
+        $rels_to = array();
+        foreach ($this->user as $rel_to)
+        {
+            $rels_to[] = $rel_to->id;
+        }
+        // get array of friend relations from the user
+        // TODO: is there a better way of doing this? like with a 'where' clause in one datamapper call?
+        $this->related_user->get();
+        $rels_from = array();
+        foreach ($this->related_user as $rel_from)
+        {
+            $rels_from[] = $rel_from->id;
+        }
+        $friend_ids = array_intersect($rels_to, $rels_from);
+        
+        $f = new User();
+        $friends = array();
+        foreach ($friend_ids as $friend_id)
+        {
+            $f->get_by_id($friend_id);
+            $friends[] = $f->stored;
+        }
+        
+        return $friends;
+    }
+    
+    
+    public function get_profile_feed_items()
+    {
+        // get user's most recent wallitems
+        $wallitems = array();
+        $this->wallitem->where('active', 1)->order_by('created', 'desc')->get();
+        foreach ($this->wallitem as $wallitem)
+        {
+            // generate html for wallitem's places
+            $wallitem->get_places();
+            $wallitem->get_trip();
+            $wallitems[] = $wallitem->stored;
+        }
+        
+        return $wallitems;
+    }
 }
 
 /* End of file user.php */
