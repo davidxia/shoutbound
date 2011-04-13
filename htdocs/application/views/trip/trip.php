@@ -183,11 +183,9 @@ $this->load->view('core_header', $header_args);
           <a href="<?=site_url('profile/'.$wallitem->user_id)?>">
             <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" height="30" width="30"/>
           </a>
-          <div class="author" style="margin-left:2px;">
-            <a href="<?=site_url('profile/'.$wallitem->user_id)?>">
-              <?=$wallitem->user->name?>
-            </a>
-          </div>
+          <a href="<?=site_url('profile/'.$wallitem->user_id)?>" class="author" style="margin-left:2px;">
+            <?=$wallitem->user->name?>
+          </a>
           <div class="content">
             <?=$wallitem->content?>
           </div>
@@ -207,9 +205,7 @@ $this->load->view('core_header', $header_args);
           <div class="remove-wallitem"></div>
           <? foreach ($wallitem->replies as $reply):?>
             <div class="wallitem reply" id="wallitem-<?=$reply->id?>">
-              <span class="author">
-                <?=$reply->user->name?>:
-              </span>
+              <a href="<?=site_url('profile/'.$reply->user_id)?>" class="author"><?=$reply->user->name?></a>:
               <span class="content">
                 <?=$reply->content?>
               </span>

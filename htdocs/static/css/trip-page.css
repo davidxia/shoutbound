@@ -193,13 +193,7 @@ textarea#wallitem-input{
   position:relative;
 }
 
-.author-container{
-  height:30px;
-  line-height:30px;
-}
-
 .author{
-  display:inline;
   font-weight:bold;
 }
 

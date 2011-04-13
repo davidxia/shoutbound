@@ -25,16 +25,15 @@ wall.showTimeago = function() {
 
 
 wall.showRemove = function() {
-  $('.wallitem').hover(
-    function() {
+  $('.wallitem').live('mouseover mouseout', function(event) {
+    if (event.type == 'mouseover') {
       $(this).children('.remove-wallitem').css('opacity', 1);
       $(this).siblings('.remove-wallitem').css('opacity', 0);
-    },
-    function() {
+    } else {
       $(this).children('.remove-wallitem').css('opacity', 0);
       $(this).siblings('.remove-wallitem').css('opacity', 1);
     }
-  );
+  });
 };
 
 
@@ -73,25 +72,48 @@ wall.postWallitem = function() {
 
 wall.displayWallitem = function(r) {
   var html = [];
-  html[0] = '<div class="wallitem" id="wallitem-'+r.id+'">';
-  html[1] = '<div class="author">';
-  html[2] = r.userName;
-  html[3] = '</div>';
-  html[4] = ' <div class="remove-wallitem"></div>';
-  html[5] = '<div class="content">'+r.content+'</div>';
-  html[6] = '<br/>';
-  html[7] = '<abbr class="timeago" title="'+r.created+'">'+r.created+'</abbr>';
-  html[8] = '</div>';
+  if (r.parentId) {
+    html[0] = '<div class="wallitem reply" id="wallitem-'+r.id+'">';
+    html[1] = '<a href="'+baseUrl+'profile/'+r.userId+'" class="author">'+r.userName+'</a>: ';
+    html[2] = '<span class="content">'+r.content+'</span>';
+    html[3] = '<div class="actionbar">';
+    html[4] = '<a class="like-button" href="#">Like</a>';
+    html[5] = '<span class="num-likes"></span>';
+    html[6] = '<abbr class="timeago" title="'+r.created+'">'+r.created+'</abbr>';
+    html[7] = '</div>';
+    html[8] = '<div class="remove-wallitem"></div>';
+    html[9] = '</div>';    
+  } else {
+    html[0] = '<div class="wallitem" id="wallitem-'+r.id+'">';
+    html[1] = '<a href="'+baseUrl+'profile/'+r.userId+'">';
+    html[2] = '<img src="'+staticSub+'profile_pics/'+r.userPic+'" height="30" width="30"/>';
+    html[3] = '</a>';
+    html[5] = '<a href="'+baseUrl+'profile/'+r.userId+'" class="author">'+r.userName+'</a>';
+    html[7] = '<div class="content">'+r.content+'</div>';
+    html[8] = '<div class="actionbar">';
+    html[9] = '<a class="reply-button" href="#">Add comment</a>';
+    html[10] = '<a class="like-button" href="#">Like</a>';
+    html[11] = '<span class="num-likes"></span>';
+    html[12] = '<abbr class="timeago" title="'+r.created+'">'+r.created+'</abbr>';
+    html[13] = '</div>';
+    html[14] = '<div class="remove-wallitem"></div>';
+    html[15] = '</div>';
+  }
   html = html.join('');
   
-  $('#wall').append(html);
+  if (r.parentId) {
+    $('#wallitem-'+r.parentId).append(html);
+  } else {
+    $('#wall').append(html);  
+    $('#wallitem-input').val('');
+  }
   $('abbr.timeago').timeago();
-  $('#wallitem-input').val('');
+  wall.bindLike();
 };
 
 
 wall.bindRemove = function() {
-  $('.remove-wallitem').click(function() {
+  $('.remove-wallitem').live('click', function() {
     // TODO: ask user to confirm removal
     var regex = /^wallitem-(\d+)$/;
     var match = regex.exec($(this).parent().attr('id'));
@@ -120,10 +142,10 @@ wall.removeWallitem = function(id) {
 };
 
 
-wall.clickReply = function() {
+wall.bindReply = function() {
   $('.reply-button').click(function() {
     $(this).siblings('.reply-box').remove();
-    var parentId = $(this).parent().attr('id');
+    var parentId = $(this).parent().parent().attr('id');
     var regex = /^wallitem-(\d+)$/;
     var match = regex.exec(parentId);
     parentId = match[1];
@@ -147,7 +169,7 @@ wall.loadReplyEnter = function(replyInput) {
       e.preventDefault();
       var loggedin = loginSignup.getStatus();
       var regex = /^wallitem-(\d+)$/;
-      var match = regex.exec(replyInput.parent().parent().attr('id'));
+      var match = regex.exec(replyInput.parent().parent().parent().attr('id'));
       var parentId = match[1];
       if (loggedin) {
         wall.postReply(parentId);
@@ -174,6 +196,7 @@ wall.postReply = function(parentId) {
       var r = $.parseJSON(r);
       wall.displayWallitem(r);
       wall.removeReplyBox(parentId);
+      wall.bindLike();
     }
   });  
 };
@@ -283,6 +306,6 @@ $(document).ready(function() {
   $('#wallitem-input').labelFader();
   wall.bindPostButton();
   wall.bindRemove();
-  wall.clickReply();
+  wall.bindReply();
   wall.bindLike();
 });
