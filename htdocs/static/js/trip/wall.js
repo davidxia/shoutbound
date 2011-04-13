@@ -38,7 +38,7 @@ wall.showRemove = function() {
 };
 
 
-wall.loadPostButton = function() {
+wall.bindPostButton = function() {
   $('#wallitem-post-button').click(function() {
     if ($('#wallitem-input').val().length != 0) {
       var loggedin = loginSignup.getStatus();
@@ -90,7 +90,7 @@ wall.displayWallitem = function(r) {
 };
 
 
-wall.loadRemove = function() {
+wall.bindRemove = function() {
   $('.remove-wallitem').click(function() {
     // TODO: ask user to confirm removal
     var regex = /^wallitem-(\d+)$/;
@@ -190,8 +190,21 @@ wall.bindLike = function() {
     if (loggedin) {
       var regex = /^wallitem-(\d+)$/;
       var match = regex.exec($(this).parent().parent().attr('id'));
-      var id = match[1];
-      wall.saveLike(id);
+      var wallitemId = match[1];
+      wall.saveLike(wallitemId, 1);
+    } else {
+      loginSignup.showDialog('wall post');
+    }
+    return false;
+  });
+
+  $('a.unlike-button').live('click', function() {
+    var loggedin = loginSignup.getStatus();
+    if (loggedin) {
+      var regex = /^wallitem-(\d+)$/;
+      var match = regex.exec($(this).parent().parent().attr('id'));
+      var wallitemId = match[1];
+      wall.saveLike(wallitemId, 0);
     } else {
       loginSignup.showDialog('wall post');
     }
@@ -200,9 +213,10 @@ wall.bindLike = function() {
 };
 
 
-wall.saveLike = function(id) {
+wall.saveLike = function(wallitemId, isLike) {
   var postData = {
-    id: id
+    wallitemId: wallitemId,
+    isLike: isLike
   };
   
   $.ajax({
@@ -212,10 +226,7 @@ wall.saveLike = function(id) {
     success: function(r) {
       var r = $.parseJSON(r);
       if (r.success) {
-        wall.displayLike(id);
-        var numLikes = $(this).siblings('.num-likes');
-        
-        //numLikes.html(n+1);
+        wall.displayLike(r.wallitemId, r.isLike);
       } else {
         alert('something broken. Tell David to fix it.');
       }
@@ -224,19 +235,52 @@ wall.saveLike = function(id) {
 };
 
 
-wall.displayLike = function(id) {
-  var numLikes = $('#wallitem-'+id).find('span.num-likes').html();
-  var regex = /^(\d+)$/;
-  var match = regex.exec($(this).parent().parent().attr('id'));
-  var n = parseInt(numLikes.html());
+wall.displayLike = function(wallitemId, isLike) {
+  var numLikes = $('#wallitem-'+wallitemId).children('div.actionbar').children('span.num-likes');
+  var html = numLikes.html();
+  var regex = /^\d+/;
+  var match = regex.exec(html);
+  var n = match[0];
+  if (isLike == 1 && match == null) {
+    numLikes.html('1 person likes this');
+  } else if (isLike == 1) {
+    if (n == 1) {
+      numLikes.html('2 people like this');
+    } else {
+      n++;
+      numLikes.html(n+' people like this');
+    }
+  } else if (isLike == 0) {
+    if (n == 2) {
+      numLikes.html('1 person likes this');
+    } else {
+      n--;
+      numLikes.html(n+' people like this');
+    }
+  }
+  wall.unbindLike(wallitemId, isLike);
 };
+
+
+wall.unbindLike = function(wallitemId, isLike) {
+  console.log(isLike);
+  var actionbar = $('#wallitem-'+wallitemId).children('div.actionbar');
+  if (isLike) {  
+    var like = actionbar.children('a.like-button');
+    like.unbind().removeClass('like-button').addClass('unlike-button').html('Unlike');
+  } else {
+    var unlike = actionbar.children('a.unlike-button');
+    unlike.unbind().removeClass('unlike-button').addClass('like-button').html('Like');  
+  }
+};
+
 
 $(document).ready(function() {
   wall.showTimeago();
   wall.showRemove();
   $('#wallitem-input').labelFader();
-  wall.loadPostButton();
-  wall.loadRemove();
+  wall.bindPostButton();
+  wall.bindRemove();
   wall.clickReply();
   wall.bindLike();
 });

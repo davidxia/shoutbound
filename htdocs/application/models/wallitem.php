@@ -113,6 +113,8 @@ class Wallitem extends DataMapper
         $t->get_by_id($this->trip_id);
         $this->stored->trip = $t->stored;
     }
+    
+    
 }
 
 /* End of file wallitem.php */

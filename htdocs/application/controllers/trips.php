@@ -182,7 +182,7 @@ class Trips extends CI_Controller
             'wallitems' => $t->get_wallitems(),
             'trip_goers' => $t->get_goers(),
         );
- 			               
+        //print_r($t->get_wallitems());
         $this->load->view('trip/trip', $view_data);
     }
     

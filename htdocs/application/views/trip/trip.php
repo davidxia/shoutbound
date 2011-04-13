@@ -156,7 +156,7 @@ $this->load->view('core_header', $header_args);
     				</div>
           <? endif;?>
           
-        <? endif;?><!--END-->					
+        <? endif;?><!--END-->
     	        
         <? if ($user_rsvp == 3):?>
           <div class="console">
@@ -180,24 +180,28 @@ $this->load->view('core_header', $header_args);
       <div id="wall">
       <? foreach ($wallitems as $wallitem):?>
         <div class="wallitem" id="wallitem-<?=$wallitem->id?>">
-          <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" height="30" width="30"/>
+          <a href="<?=site_url('profile/'.$wallitem->user_id)?>">
+            <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" height="30" width="30"/>
+          </a>
           <div class="author" style="margin-left:2px;">
-            <?=$wallitem->user->name?>
+            <a href="<?=site_url('profile/'.$wallitem->user_id)?>">
+              <?=$wallitem->user->name?>
+            </a>
           </div>
           <div class="content">
             <?=$wallitem->content?>
           </div>
           <div class="actionbar">
             <a class="reply-button" href="#">Add comment</a>           
-            <a class="like-button" href="#">Like</a>
-            <span class="num-likes">
-              <? $num_likes = count($wallitem->likes);?>
-              <? if ($num_likes == 1):?>
-                <?=$num_likes?> person likes this
-              <? elseif ($num_likes > 1):?>
-                <?=$num_likes?> people like this
-              <? endif;?>
-            </span>
+            <? $is_liked = 0; foreach ($wallitem->likes as $like):?><? if ($like->user_id == $user->id):?>
+              <? $is_liked = 1;?>
+            <? endif;?><? endforeach;?>
+            <? if ($is_liked == 0):?>
+              <a class="like-button" href="#">Like</a>
+            <? else:?>
+              <a class="unlike-button" href="#">Unlike</a>
+            <? endif;?>
+            <span class="num-likes"><? $num_likes = count($wallitem->likes);?><? if ($num_likes == 1):?><?=$num_likes?> person likes this<? elseif ($num_likes > 1):?><?=$num_likes?> people like this<? endif;?></span>
             <abbr class="timeago" title="<?=$wallitem->created?>"><?=$wallitem->created?></abbr>            
           </div>
           <div class="remove-wallitem"></div>
@@ -210,15 +214,15 @@ $this->load->view('core_header', $header_args);
                 <?=$reply->content?>
               </span>
               <div class="actionbar">               
-                <a class="like-button" href="#">Like</a>
-                <span class="num-likes">
-                  <? $num_likes = count($reply->likes);?>
-                  <? if ($num_likes == 1):?>
-                    <?=$num_likes?> person likes this
-                  <? elseif ($num_likes > 1):?>
-                    <?=$num_likes?> people like this
-                  <? endif;?>
-                </span>
+                <? $is_liked = 0; foreach ($reply->likes as $like):?><? if ($like->user_id == $user->id):?>
+                  <? $is_liked = 1;?>
+                <? endif;?><? endforeach;?>
+                <? if ($is_liked == 0):?>
+                  <a class="like-button" href="#">Like</a>
+                <? else:?>
+                  <a class="unlike-button" href="#">Unlike</a>
+                <? endif;?>
+                <span class="num-likes"><? $num_likes = count($reply->likes);?><? if ($num_likes == 1):?><?=$num_likes?> person likes this<? elseif ($num_likes > 1):?><?=$num_likes?> people like this<? endif;?></span>
                 <abbr class="timeago" title="<?=$reply->created?>"><?=$reply->created?></abbr>
               </div>
               <div class="remove-wallitem"></div>

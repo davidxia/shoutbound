@@ -145,6 +145,43 @@ class Wallitems extends CI_Controller
     }
     
     
+    public function ajax_save_like()
+    {
+        $wallitem_id = $this->input->post('wallitemId');
+        $user_id = $this->user->id;
+        $is_like = $this->input->post('isLike');
+        
+        $l = new Like();
+        $l->where('wallitem_id', $wallitem_id)->where('user_id', $user_id)->update('is_like', $is_like);
+        if ($l->db->affected_rows() == 1)
+        {
+            json_success(array(
+                'wallitemId' => $wallitem_id,
+                'isLike' => $is_like,
+                'userId' => $this->user->id,
+                'userName' => $this->user->name,
+            ));
+        }
+        elseif ($l->db->affected_rows() == 0)
+        {
+            $l->clear();
+            $l->wallitem_id = $wallitem_id;
+            $l->user_id = $user_id;
+            $l->is_like = $is_like;
+            $l->created = time()-72;
+                    
+            if ($l->save())
+            {
+                json_success(array(
+                    'wallitemId' => $wallitem_id,
+                    'isLike' => $is_like,
+                    'userId' => $this->user->id,
+                    'userName' => $this->user->name,
+                ));
+            }
+        }
+    }
+
 }
 
 /* End of file suggestions.php */
