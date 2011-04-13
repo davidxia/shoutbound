@@ -41,15 +41,14 @@ loginSignup.success = function(callback, id, param) {
       $('#trip-creation-form').submit();
       break;
     case 'wall post':
-      $('#div-to-popup').empty();
       wall.postWallitem();
+      window.location.reload();
       break;
     case 'wall reply':
-      $('#div-to-popup').empty();
       wall.postReply(id);
+      window.location.reload();
       break;
     case 'wall like':
-      $('#div-to-popup').empty();
       wall.saveLike(id, param);
       window.location.reload();
       break;
