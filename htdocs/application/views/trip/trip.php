@@ -193,7 +193,7 @@ $this->load->view('core_header', $header_args);
           </div>
           <div class="actionbar">
             <a class="reply-button" href="#">Add comment</a>           
-            <? $is_liked = 0; foreach ($wallitem->likes as $like):?><? if ($like->user_id==$user->id AND $like->is_like==1):?>
+            <? $is_liked = 0; foreach ($wallitem->likes as $like):?><? if (isset($user) AND $like->user_id==$user->id AND $like->is_like==1):?>
               <? $is_liked = 1;?>
             <? endif;?><? endforeach;?>
             <? if ($is_liked == 0):?>
@@ -214,7 +214,7 @@ $this->load->view('core_header', $header_args);
                 <?=$reply->content?>
               </span>
               <div class="actionbar">               
-                <? $is_liked = 0; foreach ($reply->likes as $like):?><? if ($like->user_id==$user->id AND $like->is_like==1):?>
+                <? $is_liked = 0; foreach ($reply->likes as $like):?><? if (isset($user) AND $like->user_id==$user->id AND $like->is_like==1):?>
                   <? $is_liked = 1;?>
                 <? endif;?><? endforeach;?>
                 <? if ($is_liked == 0):?>

@@ -15,10 +15,11 @@ loginSignup.getStatus = function() {
 };
 
 
-loginSignup.showDialog = function (callback, id) {
+loginSignup.showDialog = function (callback, id, param) {
   var postData = {
     callback: callback,
-    id: id
+    id: id,
+    param: param
   };
   
   $.ajax({
@@ -33,7 +34,7 @@ loginSignup.showDialog = function (callback, id) {
 };
 
 
-loginSignup.success = function(callback, id) {
+loginSignup.success = function(callback, id, param) {
   var id = id;
   switch (callback) {
     case 'create trip':
@@ -46,6 +47,11 @@ loginSignup.success = function(callback, id) {
     case 'wall reply':
       $('#div-to-popup').empty();
       wall.postReply(id);
+      break;
+    case 'wall like':
+      $('#div-to-popup').empty();
+      wall.saveLike(id, param);
+      window.location.reload();
       break;
   }
 };

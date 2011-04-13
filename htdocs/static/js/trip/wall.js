@@ -188,13 +188,13 @@ wall.bindLike = function() {
   $('a.like-button, a.unlike-button').unbind();
   $('a.like-button').click(function() {
     var loggedin = loginSignup.getStatus();
+    var regex = /^wallitem-(\d+)$/;
+    var match = regex.exec($(this).parent().parent().attr('id'));
+    var wallitemId = match[1];
     if (loggedin) {
-      var regex = /^wallitem-(\d+)$/;
-      var match = regex.exec($(this).parent().parent().attr('id'));
-      var wallitemId = match[1];
       wall.saveLike(wallitemId, 1);
     } else {
-      loginSignup.showDialog('wall post');
+      loginSignup.showDialog('wall like', wallitemId, 1);
     }
     return false;
   });
@@ -207,7 +207,7 @@ wall.bindLike = function() {
       var wallitemId = match[1];
       wall.saveLike(wallitemId, 0);
     } else {
-      loginSignup.showDialog('wall post');
+      loginSignup.showDialog('wall like', wallitemId, 0);
     }
     return false;
   });

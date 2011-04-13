@@ -134,7 +134,7 @@
     $('#fb_login_button').click(function() {
       FB.login(function(response) {
         if (response.session) {
-          facebookLogin('<?=$callback?>', '<?=$id?>');
+          facebookLogin('<?=$callback?>', '<?=$id?>', '<?=$param?>');
         } else {
           alert('you failed to log in');
         }
@@ -189,7 +189,7 @@
         data: postData,
         url: '<?=site_url('signup/ajax_create_user')?>',
         success: function() {
-          loginSignup.success('<?=$callback?>', '<?=$id?>');
+          loginSignup.success('<?=$callback?>', '<?=$id?>', '<?=$param?>');
         }
       });
     }
@@ -210,7 +210,7 @@
       success: function(r) {
         var r = $.parseJSON(r);
         if (r.loggedin) {
-          loginSignup.success('<?=$callback?>', '<?=$id?>');
+          loginSignup.success('<?=$callback?>', '<?=$id?>', '<?=$param?>');
         } else {
           $('#login-error').html('Wrong email or password.');
         }
