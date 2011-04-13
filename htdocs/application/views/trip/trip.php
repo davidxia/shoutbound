@@ -132,7 +132,7 @@ $this->load->view('core_header', $header_args);
             <? elseif ($user_rsvp == 2):?>
               You've been invited on this trip!
             <? elseif ($user_rsvp == 1):?>
-              You've been invited on this trip!
+              You can change your mind copy goes here
             <? endif;?>
           </div>
           
@@ -148,7 +148,6 @@ $this->load->view('core_header', $header_args);
     			
     			<!--IF USER IS INVITED AND PREVIOUSLY RSVP'D NO, DISPLAY RSVP BUTTONS-->
     			<? elseif ($user_rsvp == 1):?>
-            You said no, but you can still change your mind.
             <div id="rsvp_buttons">
               <a href="#" id="rsvp_yes_button">I'm in</a>	                
             </div>
@@ -269,36 +268,7 @@ $this->load->view('core_header', $header_args);
   $('#countdown').countdown({until: deadline});
   
   
-  
-  $('a.like').click(function() {
-    var suggestionId = $(this).parent().parent().attr('id');
-    suggestionId = suggestionId.match(/\d/)[0];
-    var numLikes = $(this).siblings('.num-likes');
-    
-    var postData = {
-      suggestionId: suggestionId
-    };
-    
-    $.ajax({
-      type: 'POST',
-      url: baseUrl+'suggestions/ajax_like_suggestion',
-      data: postData,
-      success: function(response) {
-        var r = $.parseJSON(response);
-        if (r.success) {
-          var n = parseInt(numLikes.html());
-          numLikes.html(n+1);
-        } else {
-          alert('something\'s broken. Tell David to fix it.');
-        }
-      }
-    });
-    return false;
-  });
-  
-  
-  
-  
+
   $('.like, .unlike').click(function() {
     var likeElement = $(this),
         isLike;
