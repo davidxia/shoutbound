@@ -39,7 +39,7 @@ share.rsvpSuccess = function(r) {
     // change rsvp status
     //$('#rsvp_status').html("You're going on this trip");
     // fade in avatar
-    var html = '<div class="trip_goer" style="display:none; float:left; margin-right:10px;" uid="'+uid+'"><img src="'+staticSub+'profile_pics/'+r.profilePic+'" height="50" width="50"></div>';
+    var html = '<div class="trip_goer" style="display:none;" uid="'+uid+'"><a href="'+baseUrl+'profile/'+uid+'"><img src="'+staticSub+'profile_pics/'+r.profilePic+'" height="30" width="30"></a></div>';
     $(html).insertAfter('#num_trip_goers').fadeIn('slow');
     // increase number by one
     $('#num').html(function() {
