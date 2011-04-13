@@ -259,17 +259,6 @@ $this->load->view('core_header', $header_args);
     <? endfor;?>
   ];
 
-  /*
-  Wall.wall_markers = [
-    <? for ($i=0, $count=count($suggestions); $i<$count; $i++):?>
-      {"suggestionId": <?=$suggestions[$i]->id?>, "lat": <?=$suggestions[$i]->lat?>, "lng": <?=$suggestions[$i]->lng?>}
-      <? if($i < $count-1):?>
-        ,
-      <? endif;?>
-    <? endfor;?>
-  ];
-  */
-
   
   function loginSignupSuccess() {
     $('#div-to-popup').empty();
@@ -279,76 +268,7 @@ $this->load->view('core_header', $header_args);
   
   // show countdown clock
   var deadline = new Date(<?=$trip->response_deadline?>*1000);
-  $('#countdown').countdown({until: deadline});
-  
-  
-
-  $('.like, .unlike').click(function() {
-    var likeElement = $(this),
-        isLike;
-    likeElement.hasClass('like') ? isLike=1 : isLike=0;
-    var wallItem = $(this).parent();
-    var wallItemId = wallItem.attr('id');
-    
-    var regex = /^.+-(.+)-(\d+)/;
-    var match = regex.exec(wallItemId);
-    if (match[1] == 'message') {
-      var messageId = match[2];
-    } else if (match[1] == 'suggestion') {
-      var suggestionId = match[2];
-    }
-    
-    $.ajax({
-      type: 'POST',
-      url: baseUrl+'users/ajax_get_logged_in_status',
-      success: function(r) {
-        var r = $.parseJSON(r);
-        if (r.loggedin) {
-          var postData = {
-            userId: r.loggedin,
-            messageId: messageId,
-            suggestionId: suggestionId,
-            isLike: isLike
-          };
-          
-          $.ajax({
-            type: 'POST',
-            url: baseUrl+'likes/ajax_save_like',
-            data: postData,
-            success: function(r) {
-              var r = $.parseJSON(r);
-              likeElement.toggleClass('like');
-              likeElement.toggleClass('unlike');
-              if (isLike) {
-                likeElement.html('Unlike');
-                var numLikes = likeElement.next().html();
-                if (numLikes != '') {
-                  regex = /^(\d+).*/;
-                  match = regex.exec(numLikes);
-                  numLikes = parseInt(match[1])+1;
-                  likeElement.next().html(numLikes+'people like this');
-                } else {
-                  likeElement.next().html('1 person likes this');
-                }
-              } else {
-                likeElement.html('Like');
-                var numLikes = likeElement.next().html();
-                regex = /^(\d+).*/;
-                match = regex.exec(numLikes);
-                numLikes = parseInt(match[1])-1;
-                if (numLikes >= 2) {
-                  likeElement.next().html(numLikes+'people like this');
-                } else if (numLikes == 2) {
-                  likeElement.next().html('1 person likes this');
-                }
-              }
-            }
-          });
-        }
-      }
-    });
-  });
-  
+  $('#countdown').countdown({until: deadline});  
 </script>
 
 </body> 
