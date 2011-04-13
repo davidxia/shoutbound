@@ -190,7 +190,14 @@ $this->load->view('core_header', $header_args);
           <div class="actionbar">
             <a class="reply-button" href="#">Add comment</a>           
             <a class="like-button" href="#">Like</a>
-            <span class="num-likes">num-likes people like this</span>
+            <span class="num-likes">
+              <? $num_likes = count($wallitem->likes);?>
+              <? if ($num_likes == 1):?>
+                <?=$num_likes?> person likes this
+              <? elseif ($num_likes > 1):?>
+                <?=$num_likes?> people like this
+              <? endif;?>
+            </span>
             <abbr class="timeago" title="<?=$wallitem->created?>"><?=$wallitem->created?></abbr>            
           </div>
           <div class="remove-wallitem"></div>
@@ -204,7 +211,14 @@ $this->load->view('core_header', $header_args);
               </span>
               <div class="actionbar">               
                 <a class="like-button" href="#">Like</a>
-                <span class="num-likes">num-likes people like this</span>
+                <span class="num-likes">
+                  <? $num_likes = count($reply->likes);?>
+                  <? if ($num_likes == 1):?>
+                    <?=$num_likes?> person likes this
+                  <? elseif ($num_likes > 1):?>
+                    <?=$num_likes?> people like this
+                  <? endif;?>
+                </span>
                 <abbr class="timeago" title="<?=$reply->created?>"><?=$reply->created?></abbr>
               </div>
               <div class="remove-wallitem"></div>
