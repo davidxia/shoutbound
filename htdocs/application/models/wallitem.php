@@ -94,6 +94,19 @@ class Wallitem extends DataMapper
     }
     
     
+    public function get_likes()
+    {
+        $l = new Like();
+        $l->where('wallitem_id', $this->id)->get();
+        $likes = array();
+        foreach ($l as $like)
+        {
+            $likes[] = $like->stored;
+        }
+        $this->stored->likes = $likes;
+    }
+    
+    
     public function get_trip()
     {
         $t = new Trip();

@@ -54,7 +54,7 @@ share.rsvpSuccess = function(r) {
     // fade out then remove yes button, replace with no button, and bind with click
     $('#rsvp_yes_button').fadeOut(300, function() {
       $(this).remove();
-      $('#rsvp_status').empty();
+      $('#rsvp_status').html('');
       $('div.console').empty().html('Get advice, ideas and recommendations for this trip by <a href="#" id="get-suggestions-button">Sharing</a> it with other people. You can also <a href="#" id="invite-others-button">Invite</a>  other people to join you this trip. ');
       $('#rsvp_buttons').empty();//.append('<a href="#" id="rsvp_no_button">I\'m out</a>');
       //$('#rsvp_no_button').click(function() {
@@ -67,7 +67,7 @@ share.rsvpSuccess = function(r) {
     // unbind click event
     $('#rsvp_no_button').unbind();
     // change rsvp status
-    $('#rsvp_status').html("You're out, but you can still change your mind.");
+    $('#rsvp_status').html('You said no copy goes here');
     // remove invite and ask for suggestions button
     $('#invsugg_btn_cont').remove();
     // fade out avatar then remove
@@ -77,9 +77,9 @@ share.rsvpSuccess = function(r) {
     // decrease number by one
     $('#num').html(function(){
       if (parseInt($(this).html()) == 2) {
-        $('#num_trip_goers').html('<span id="num">1</span> PERSON IS GOING ON THIS TRIP:');
+        $('#num_trip_goers').html('<span id="num">1</span> people are going.');
       } else if (parseInt($(this).html()) == 1) {
-        $('#num_trip_goers').html('<span id="num">0</span> PEOPLE ARE GOING ON THIS TRIP:');
+        $('#num_trip_goers').html('<span id="num">0</span> person is going.');
       } else {
         return parseInt($(this).html())-1;
       }

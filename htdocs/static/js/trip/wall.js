@@ -184,6 +184,26 @@ wall.removeReplyBox = function(parentId) {
 };
 
 
+wall.bindLike = function() {
+  $('a.like-button').live('click', function() {
+    var loggedin = loginSignup.getStatus();
+    if (loggedin) {
+      var regex = /^wallitem-(\d+)$/;
+      var match = regex.exec($(this).parent().parent().attr('id'));
+      var id = match[1];
+      wall.saveLike(id);
+    } else {
+      loginSignup.showDialog('wall post');
+    }
+    return false;
+  });
+};
+
+
+wall.saveLike = function(id) {
+  console.log(id);
+};
+
 $(document).ready(function() {
   wall.showTimeago();
   wall.showRemove();
@@ -191,4 +211,5 @@ $(document).ready(function() {
   wall.loadPostButton();
   wall.loadRemove();
   wall.clickReply();
+  wall.bindLike();
 });
