@@ -1,15 +1,7 @@
 /*colors*/
-#trip-name, #trip_description, #trip-col-left-shell{
-	background-color:white;
-}
-
 #itinerary, #map-shell, .item-header{
 	background-color:#EDF0F9;
 }
-
-/*#trip-widget{
-  background-color:#FBF7E6;
-}*/
 
 /*Content*/
 
@@ -66,8 +58,9 @@ textarea#wallitem-input{
 
 #trip-widget{
 	padding:5px 0px 5px 0px;
-	border-top:1px solid #EAEAEA;
-	margin:1px 0px 0px 0px;
+	border-top:1px solid #CACACA;
+	border-bottom:1px solid #CACACA;
+	margin:1px 0px 1px 0px;
   font-size:13px;
 	color:#333;
 	line-height:18px;
@@ -81,12 +74,15 @@ textarea#wallitem-input{
 
 /*Right*/
 
-.destination-dates, #num_trip_goers, #rsvp_status, #countdown-container, #console{
+.destination-dates, #num_trip_goers, #rsvp_status, #countdown-container, #console, #itinerary, #map, .item-header{
 	font-size:13px;
 	color:#333;
-	line-height:18px;
+	line-height:19px;
 }
 
+.item-header{
+  font-weight:bold;
+}
 
 #itinerary, #map-shell{
 	width:350px;
@@ -190,11 +186,12 @@ textarea#wallitem-input{
 #wall{
   font-size:13px;
   line-height:19px;
+  border-top:3px solid #CACACA;
+  min-height:200px;
 }
 
 .wallitem{
   padding:15px 0px 15px 0px;
-  margin:5px 0px 5px 0px;
   border-top:1px solid #EAEAEA;
   position:relative;
 }
@@ -267,7 +264,7 @@ li.suggestion.highlighted{
 
 .wallitem .reply{
   position:relative;
-  padding:3px 40px 3px 25px;
+  padding:5px 40px 5px 25px;
   position:relative;
   border:none;
 }
