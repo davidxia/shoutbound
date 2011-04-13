@@ -193,7 +193,7 @@ $this->load->view('core_header', $header_args);
           </div>
           <div class="actionbar">
             <a class="reply-button" href="#">Add comment</a>           
-            <? $is_liked = 0; foreach ($wallitem->likes as $like):?><? if ($like->user_id == $user->id):?>
+            <? $is_liked = 0; foreach ($wallitem->likes as $like):?><? if ($like->user_id==$user->id AND $like->is_like==1):?>
               <? $is_liked = 1;?>
             <? endif;?><? endforeach;?>
             <? if ($is_liked == 0):?>
@@ -201,7 +201,7 @@ $this->load->view('core_header', $header_args);
             <? else:?>
               <a class="unlike-button" href="#">Unlike</a>
             <? endif;?>
-            <span class="num-likes"><? $num_likes = count($wallitem->likes);?><? if ($num_likes == 1):?><?=$num_likes?> person likes this<? elseif ($num_likes > 1):?><?=$num_likes?> people like this<? endif;?></span>
+            <span class="num-likes"><? $num_likes = 0; foreach($wallitem->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><?=$num_likes?> person likes this<? elseif ($num_likes > 1):?><?=$num_likes?> people like this<? endif;?></span>
             <abbr class="timeago" title="<?=$wallitem->created?>"><?=$wallitem->created?></abbr>            
           </div>
           <div class="remove-wallitem"></div>
@@ -214,7 +214,7 @@ $this->load->view('core_header', $header_args);
                 <?=$reply->content?>
               </span>
               <div class="actionbar">               
-                <? $is_liked = 0; foreach ($reply->likes as $like):?><? if ($like->user_id == $user->id):?>
+                <? $is_liked = 0; foreach ($reply->likes as $like):?><? if ($like->user_id==$user->id AND $like->is_like==1):?>
                   <? $is_liked = 1;?>
                 <? endif;?><? endforeach;?>
                 <? if ($is_liked == 0):?>
@@ -222,7 +222,7 @@ $this->load->view('core_header', $header_args);
                 <? else:?>
                   <a class="unlike-button" href="#">Unlike</a>
                 <? endif;?>
-                <span class="num-likes"><? $num_likes = count($reply->likes);?><? if ($num_likes == 1):?><?=$num_likes?> person likes this<? elseif ($num_likes > 1):?><?=$num_likes?> people like this<? endif;?></span>
+                <span class="num-likes"><? $num_likes = 0; foreach($reply->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><?=$num_likes?> person likes this<? elseif ($num_likes > 1):?><?=$num_likes?> people like this<? endif;?></span>
                 <abbr class="timeago" title="<?=$reply->created?>"><?=$reply->created?></abbr>
               </div>
               <div class="remove-wallitem"></div>
