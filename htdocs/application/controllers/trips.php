@@ -230,7 +230,7 @@ class Trips extends CI_Controller
     
     public function ajax_trip_create()
     {        
-        if ( ! isset($this->user))
+        if ( ! isset($this->user->id))
         {
             redirect('/');
         }
@@ -247,10 +247,33 @@ class Trips extends CI_Controller
         }        
     }
 
+
+    public function ajax_save_rsvp()
+    {
+        if ( ! isset($this->user->id))
+        {
+            redirect('/');
+        }
+        $u = new User();
+        $u->get_by_id($this->user->id);
+        
+        $t = new Trip();
+        $t->get_by_id($this->input->post('tripId'));
+        
+        $rsvp = $this->input->post('rsvp');
+        if ($t->set_join_field($u, 'rsvp', $rsvp))
+        {
+            json_success(array(
+                'profilePic'=>$u->profile_pic,
+                'rsvp' => $rsvp,
+            ));
+        }        
+    }
+
     
     public function ajax_rsvp_yes()
     {
-        if ( ! isset($this->user))
+        if ( ! isset($this->user->id))
         {
             redirect('/');
         }

@@ -1,107 +1,109 @@
 var share = {};
 
-share.rsvp_yes = function() {
-  if (typeof(uid) === 'undefined') {
-    alert('you must login to do this');
-  }
-  else {
-    var post_data = {
-      tripId: tripId,
-      uid: uid
-    };
-  
-    $.ajax({
-      type: 'POST',
-      url: baseUrl+'trips/ajax_rsvp_yes',
-      data: post_data,
-      success: function(r) {
-        var r = $.parseJSON(r);
-        if (r.success) {
-          // unbind click event
-          $('#rsvp_yes_button').unbind();
-          // change rsvp status
-          $('#rsvp_status').html("You're going on this trip");
-          // fade in avatar
-          var html = '<div class="trip_goer" style="display:none; float:left; margin-right:10px;" uid="'+uid+'"><img src="'+staticSub+'profile_pics/'+r.profilePic+'" height="50" width="50"></div>';
-          $(html).insertAfter('#num_trip_goers').fadeIn('slow');
-          // increase number by one
-          $('#num').html(function() {
-            if (parseInt($(this).html()) == 1) {
-              $('#num_trip_goers').html('<span id="num">2</span> PEOPLE ARE GOING ON THIS TRIP:');
-            } else if (parseInt($(this).html()) == 0) {
-              $('#num_trip_goers').html('<span id="num">1</span> PERSON IS GOING ON THIS TRIP:');
-            } else {
-              return parseInt($(this).html())+1;
-            }
-          })
-          // fade out then remove yes button, replace with no button, and bind with click
-          $('#rsvp_yes_button').fadeOut(300, function() {
-            $(this).remove();
-            $('#rsvp_buttons').addClass('moved');
-            $('#rsvp_buttons').append('<a href="#" id="rsvp_no_button">I\'m out</a>');
-            $('#rsvp_no_button').click(function() {
-              share.rsvp_no();
-              return false;
-            });
-          });
-          $('#rsvp_status').after('<div id="invsugg_btn_cont"><div style="margin: 15px 0;"><a href="#" id="invite-others-button" style="float:left; margin-right:10px; ">Invite</a><div style="display:inline-block; font-size:14px; height:30px;">Invite others<br/>to join this trip!</div></div><div style="margin:15px 0;"><a href="#" id="get-suggestions-button" style="display:inline-block; float:left; margin-right:10px;">Share</a><div style="display:inline-block; font-size:14px; height:30px;">Share this trip<br/>with others!</div></div></div>');
-          $('#countdown-container').remove();
-        }
-      }
-    });
+share.rsvpYes = function() {
+  var loggedin = loginSignup.getStatus();
+  if (loggedin) {
+    share.saveRsvp(3)
+  } else {
+    loginSignup.showDialog('rsvp', 3);
   }
 }
 
 
-share.rsvp_no = function() {
-  if (typeof(uid) === 'undefined') {
-    alert('you must login to do this');
-  }
-  else {
-    var post_data = {
-      tripId: tripId,
-      uid: uid
-    };
+share.saveRsvp = function(rsvp) {
+  var postData = {
+    tripId: tripId,
+    rsvp: rsvp
+  };
   
-    $.ajax({
-      type: 'POST',
-      url: baseUrl+'trips/ajax_rsvp_no',
-      data: post_data,
-      success: function(r) {
-        if ($.parseJSON(r)['success']) {
-          // unbind click event
-          $('#rsvp_no_button').unbind();
-          // change rsvp status
-          $('#rsvp_status').html("You're out, but you can still change your mind.");
-          // remove invite and ask for suggestions button
-          $('#invsugg_btn_cont').remove();
-          // fade out avatar then remove
-          $('div[uid="'+uid+'"]').fadeOut('slow', function(){
-            $(this).remove();
-          });
-          // decrease number by one
-          $('#num').html(function(){
-            if (parseInt($(this).html()) == 2) {
-              $('#num_trip_goers').html('<span id="num">1</span> PERSON IS GOING ON THIS TRIP:');
-            } else if (parseInt($(this).html()) == 1) {
-              $('#num_trip_goers').html('<span id="num">0</span> PEOPLE ARE GOING ON THIS TRIP:');
-            } else {
-              return parseInt($(this).html())-1;
-            }
-          })
-          // fade out no button, remove, and replace with yes button, bind with click
-          $('#rsvp_no_button').fadeOut(300, function(){
-            $(this).remove();
-            //$('#rsvp_buttons').removeClass('moved');
-            $('#rsvp_buttons').empty().append('<a href="#" id="rsvp_yes_button">I\'m in</a>');
-            $('#rsvp_yes_button').click(function() {
-              share.rsvp_yes();
-              return false;
-            });
-          });
-        }
+  $.ajax({
+    type: 'POST',
+    url: baseUrl+'trips/ajax_save_rsvp',
+    data: postData,
+    success: function(r) {
+      var r = $.parseJSON(r);
+      if (r.success) {
+        share.rsvpSuccess(r);
+      } else {
+        alert('something broke tell David');
       }
+    }
+  });
+};
+
+
+share.rsvpSuccess = function(r) {
+  if (r.rsvp == 3) {
+    // unbind click event
+    $('#rsvp_yes_button').unbind();
+    // change rsvp status
+    $('#rsvp_status').html("You're going on this trip");
+    // fade in avatar
+    var html = '<div class="trip_goer" style="display:none; float:left; margin-right:10px;" uid="'+uid+'"><img src="'+staticSub+'profile_pics/'+r.profilePic+'" height="50" width="50"></div>';
+    $(html).insertAfter('#num_trip_goers').fadeIn('slow');
+    // increase number by one
+    $('#num').html(function() {
+      if (parseInt($(this).html()) == 1) {
+        $('#num_trip_goers').html('<span id="num">2</span> PEOPLE ARE GOING ON THIS TRIP:');
+      } else if (parseInt($(this).html()) == 0) {
+        $('#num_trip_goers').html('<span id="num">1</span> PERSON IS GOING ON THIS TRIP:');
+      } else {
+        return parseInt($(this).html())+1;
+      }
+    })
+    // fade out then remove yes button, replace with no button, and bind with click
+    $('#rsvp_yes_button').fadeOut(300, function() {
+      $(this).remove();
+      $('#rsvp_buttons').addClass('moved');
+      $('#rsvp_buttons').append('<a href="#" id="rsvp_no_button">I\'m out</a>');
+      $('#rsvp_no_button').click(function() {
+        share.rsvpNo();
+        return false;
+      });
     });
+    $('#rsvp_status').after('<div id="invsugg_btn_cont"><div style="margin: 15px 0;"><a href="#" id="invite-others-button" style="float:left; margin-right:10px; ">Invite</a><div style="display:inline-block; font-size:14px; height:30px;">Invite others<br/>to join this trip!</div></div><div style="margin:15px 0;"><a href="#" id="get-suggestions-button" style="display:inline-block; float:left; margin-right:10px;">Share</a><div style="display:inline-block; font-size:14px; height:30px;">Share this trip<br/>with others!</div></div></div>');
+    $('#countdown-container').remove();
+  } else {
+    // unbind click event
+    $('#rsvp_no_button').unbind();
+    // change rsvp status
+    $('#rsvp_status').html("You're out, but you can still change your mind.");
+    // remove invite and ask for suggestions button
+    $('#invsugg_btn_cont').remove();
+    // fade out avatar then remove
+    $('div[uid="'+uid+'"]').fadeOut('slow', function(){
+      $(this).remove();
+    });
+    // decrease number by one
+    $('#num').html(function(){
+      if (parseInt($(this).html()) == 2) {
+        $('#num_trip_goers').html('<span id="num">1</span> PERSON IS GOING ON THIS TRIP:');
+      } else if (parseInt($(this).html()) == 1) {
+        $('#num_trip_goers').html('<span id="num">0</span> PEOPLE ARE GOING ON THIS TRIP:');
+      } else {
+        return parseInt($(this).html())-1;
+      }
+    })
+    // fade out no button, remove, and replace with yes button, bind with click
+    $('#rsvp_no_button').fadeOut(300, function(){
+      $(this).remove();
+      //$('#rsvp_buttons').removeClass('moved');
+      $('#rsvp_buttons').empty().append('<a href="#" id="rsvp_yes_button">I\'m in</a>');
+      $('#rsvp_yes_button').click(function() {
+        share.rsvpYes();
+        return false;
+      });
+    });
+  }
+};
+
+
+share.rsvpNo = function() {
+  var loggedin = loginSignup.getStatus();
+  if (loggedin) {
+    share.saveRsvp(1)
+  } else {
+    loginSignup.showDialog('rsvp', 1);
   }
 }
 
@@ -390,11 +392,11 @@ share.generateShareKey = function(shareRole, shareMedium, targetId) {
 
 $(document).ready(function() {
   $('#rsvp_yes_button').click(function() {
-    share.rsvp_yes();
+    share.rsvpYes();
     return false;
   });
   $('#rsvp_no_button').click(function() {
-    share.rsvp_no();
+    share.rsvpNo();
     return false;
   });
   $('#invite-others-button').live('click', function() {
