@@ -184,7 +184,7 @@ $this->load->view('core_header', $header_args);
         <div class="wallitem" id="wallitem-<?=$wallitem->id?>">
           <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" height="30" width="30"/>
           <div class="author" style="margin-left:2px;">
-            <?=$wallitem->user_name?>
+            <?=$wallitem->user->name?>
           </div>
           <div class="content">
             <?=$wallitem->content?>
@@ -195,12 +195,11 @@ $this->load->view('core_header', $header_args);
             <span class="num-likes">num-likes people like this</span>
             <abbr class="timeago" title="<?=$wallitem->created?>"><?=$wallitem->created?></abbr>            
           </div>
-          
           <div class="remove-wallitem"></div>
           <? foreach ($wallitem->replies as $reply):?>
             <div class="wallitem reply" id="wallitem-<?=$reply->id?>">
               <span class="author">
-                <?=$reply->user_name?>:
+                <?=$reply->user->name?>:
               </span>
               <span class="content">
                 <?=$reply->content?>
