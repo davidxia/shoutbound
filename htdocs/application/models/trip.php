@@ -85,6 +85,8 @@ class Trip extends DataMapper {
                 $reply->get_creator();
                 // generate html for wallitem's places
                 $reply->get_places();
+                // get number of likes
+                $reply->get_likes();
                 $replies[] = $reply->stored;
             }
             
