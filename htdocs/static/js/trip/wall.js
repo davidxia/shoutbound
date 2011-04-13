@@ -201,7 +201,34 @@ wall.bindLike = function() {
 
 
 wall.saveLike = function(id) {
-  console.log(id);
+  var postData = {
+    id: id
+  };
+  
+  $.ajax({
+    type: 'POST',
+    url: baseUrl+'wallitems/ajax_save_like',
+    data: postData,
+    success: function(r) {
+      var r = $.parseJSON(r);
+      if (r.success) {
+        wall.displayLike(id);
+        var numLikes = $(this).siblings('.num-likes');
+        
+        //numLikes.html(n+1);
+      } else {
+        alert('something broken. Tell David to fix it.');
+      }
+    }
+  });
+};
+
+
+wall.displayLike = function(id) {
+  var numLikes = $('#wallitem-'+id).find('span.num-likes').html();
+  var regex = /^(\d+)$/;
+  var match = regex.exec($(this).parent().parent().attr('id'));
+  var n = parseInt(numLikes.html());
 };
 
 $(document).ready(function() {
