@@ -184,6 +184,24 @@ wall.removeReplyBox = function(parentId) {
 };
 
 
+wall.bindLike = function() {
+  $('a.like-button').live('click', function() {
+    var loggedin = loginSignup.getStatus();
+    if (loggedin) {
+      var id = $(this).parent().parent().attr('id');
+      wall.saveLike(id);
+    } else {
+      loginSignup.showDialog('wall post');
+    }
+    return false;
+  });
+};
+
+
+wall.saveLike = function(id) {
+  console.log(id);
+};
+
 $(document).ready(function() {
   wall.showTimeago();
   wall.showRemove();
@@ -191,4 +209,5 @@ $(document).ready(function() {
   wall.loadPostButton();
   wall.loadRemove();
   wall.clickReply();
+  wall.bindLike();
 });
