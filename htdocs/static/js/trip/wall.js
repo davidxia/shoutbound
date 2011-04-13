@@ -188,7 +188,9 @@ wall.bindLike = function() {
   $('a.like-button').live('click', function() {
     var loggedin = loginSignup.getStatus();
     if (loggedin) {
-      var id = $(this).parent().parent().attr('id');
+      var regex = /^wallitem-(\d+)$/;
+      var match = regex.exec($(this).parent().parent().attr('id'));
+      var id = match[1];
       wall.saveLike(id);
     } else {
       loginSignup.showDialog('wall post');

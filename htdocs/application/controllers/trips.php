@@ -109,22 +109,6 @@ class Trips extends CI_Controller
         }      
  	  }
  	  
- 	  
-		public function new_wall($trip_id)
-		{
-		    $t = new Trip();
-		    $t->get_by_id($trip_id);
-		    		    
-        $view_data = array(
-            'trip' => $t->stored,
-            'destinations' => $t->get_places(),
-            'user' => $this->user,
-            'wallitems' => $t->get_wallitems(),
-        );
-
-		    $this->load->view('trip/new_wall', $view_data);
-		}
-
 
     public function index($trip_id = FALSE)
     {

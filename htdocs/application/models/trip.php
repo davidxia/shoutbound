@@ -73,6 +73,8 @@ class Trip extends DataMapper {
             $wallitem->get_creator();
             // generate html for wallitem's places
             $wallitem->get_places();
+            // get number of likes
+            $wallitem->get_likes();
             
             // get replies and attach their places
             $r = $wallitem->get_replies();
