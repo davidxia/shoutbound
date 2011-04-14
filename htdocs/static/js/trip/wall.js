@@ -150,8 +150,8 @@ wall.bindReply = function() {
     var match = regex.exec(parentId);
     parentId = match[1];
 
-    var replyBox = $('<div class="reply-box"><textarea style="height:14px; display:block; overflow:hidden; resize:none; line-height:13px; width:400px;"></textarea></div>');
-    $(this).after(replyBox);
+    var replyBox = $('<div class="reply-box" style="margin-left:24px;"><textarea style="height:14px; display:block; overflow:hidden; resize:none; line-height:13px; width:445px;"></textarea></div>');
+    $(this).parent().append(replyBox);
     var replyInput = replyBox.children('textarea');
     replyInput.focus();
     wall.loadReplyEnter(replyInput);
