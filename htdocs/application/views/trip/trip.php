@@ -12,8 +12,6 @@ $header_args = array(
         'js/trip/share.js',
         'js/jquery/popup.js',
         'js/jquery/jquery.color.js',
-        //'js/trip/extras.js',
-        //'js/jquery/scrollto.js',
         'js/jquery/timeago.js',
         'js/jquery/jquery.countdown.min.js',    
         'js/jquery/validate.min.js',
@@ -26,12 +24,9 @@ $this->load->view('core_header', $header_args);
 
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
-  var baseUrl = "<?=site_url()?>";
-  var staticSub = "<?=static_sub()?>";
+  var baseUrl = '<?=site_url()?>';
+  var staticSub = '<?=static_sub()?>';
   var tripId = <?=$trip->id?>;
-  <? if ($user):?>
-    var uid = <?=$user->id?>;
-  <? endif;?>
   
   map.lat = <?=$destinations[0]->lat?>;
   map.lng = <?=$destinations[0]->lng?>;
