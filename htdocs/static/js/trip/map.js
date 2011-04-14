@@ -111,24 +111,17 @@ map.displayWallMarkers = function(i, lat, lng) {
   // Origins, anchor positions and coordinates of the marker
   // increase in the X direction to the right and in
   // the Y direction down.
-  var image = new google.maps.MarkerImage('http://code.google.com/apis/maps/documentation/javascript/examples/images/beachflag.png',
-      // This marker is 20 pixels wide by 32 pixels tall.
-      new google.maps.Size(20, 32),
-      // The origin for this image is 0,0.
+  var image = new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/marker_sprite.png',
+      // 20px width, 34px height
+      new google.maps.Size(20, 34),
+      // origin at 0,0
       new google.maps.Point(0,0),
-      // The anchor for this image is the base of the flagpole at 0,32.
-      new google.maps.Point(0, 32));
-  var shadow = new google.maps.MarkerImage('http://code.google.com/apis/maps/documentation/javascript/examples/images/beachflag_shadow.png',
-      // The shadow image is larger in the horizontal dimension
-      // while the position and offset are the same as for the main image.
-      new google.maps.Size(37, 32),
-      new google.maps.Point(0,0),
-      new google.maps.Point(0, 32));
-      // Shapes define the clickable region of the icon.
-      // The type defines an HTML <area> element 'poly' which
-      // traces out a polygon as a series of X,Y points. The final
-      // coordinate closes the poly by connecting to the first
-      // coordinate.
+      // anchor at 10,34.
+      new google.maps.Point(10, 34));
+  var shadow = new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/marker_sprite.png',
+      new google.maps.Size(25, 20),
+      new google.maps.Point(40, 14),
+      new google.maps.Point(0, 20));
   var xxx = new google.maps.MarkerImage({
     url: 'http://dev.shoutbound.com/david/images/marker_sprite.png'
   });
@@ -145,6 +138,16 @@ map.displayWallMarkers = function(i, lat, lng) {
 
 map.loadMarkerListeners = function(marker, i) {
   google.maps.event.addListener(marker, 'click', function() {
+    // change marker icon
+    var image = new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/marker_sprite.png',
+      new google.maps.Size(20, 34),
+      new google.maps.Point(20,0),
+      new google.maps.Point(10, 34));
+    marker.setOptions({
+      icon: image
+    });
+    
+    // highlight corresponding wallitem text
     var placeText = $('a.place:eq('+i+')');
     placeText.animate({
       backgroundColor: '#fffb2c',
@@ -157,7 +160,7 @@ map.loadMarkerListeners = function(marker, i) {
       });
     });
     
-    // scrolls window to corresponding wallitem
+    // scroll window to corresponding wallitem
     window.scrollTo(0, placeText.parent().parent().offset().top);
   });
 };
