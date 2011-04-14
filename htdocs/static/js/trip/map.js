@@ -115,7 +115,7 @@ map.displayWallMarkers = function(i, lat, lng) {
       // 20px width, 34px height
       new google.maps.Size(20, 34),
       // origin at 0,0
-      new google.maps.Point(0,0),
+      new google.maps.Point(0, 0),
       // anchor at 10,34.
       new google.maps.Point(10, 34));
   var shadow = new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/marker_sprite.png',
@@ -141,11 +141,12 @@ map.loadMarkerListeners = function(marker, i) {
     // change marker icon
     var image = new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/marker_sprite.png',
       new google.maps.Size(20, 34),
-      new google.maps.Point(20,0),
+      new google.maps.Point(20, 0),
       new google.maps.Point(10, 34));
     marker.setOptions({
       icon: image
     });
+    
     
     // highlight corresponding wallitem text
     var placeText = $('a.place:eq('+i+')');
@@ -155,8 +156,17 @@ map.loadMarkerListeners = function(marker, i) {
       /*$(this).animate({
         backgroundColor: '#ffffff'
       }, 250)*/
-      $(document).click(function() {
-        placeText.css({'background-color': '#ffffff'})
+      $(document).one('click', function() {
+        placeText.css({'background-color': '#ffffff'});
+        console.log('d');
+        
+        image = new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/marker_sprite.png',
+          new google.maps.Size(20, 34),
+          new google.maps.Point(0, 0),
+          new google.maps.Point(10, 34));
+        marker.setOptions({
+          icon: image
+        });
       });
     });
     
@@ -164,7 +174,6 @@ map.loadMarkerListeners = function(marker, i) {
     window.scrollTo(0, placeText.parent().parent().offset().top);
   });
 };
-
 
 
 $(document).ready(function() {
