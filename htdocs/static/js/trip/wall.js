@@ -263,9 +263,10 @@ wall.displayLike = function(wallitemId, isLike) {
   var actionbar = $('#wallitem-'+wallitemId).children('div.actionbar');
   var numLikes = actionbar.children('span.num-likes');
   var regex = /^\d+/;
+  console.log(numLikes);
   var match = regex.exec(numLikes.html());
   if (isLike == 1 && match == null) {
-    actionbar.children('abbr.timeago').before('1 person likes this');
+    actionbar.children('abbr.timeago').before('<span class="num-likes">1 person likes this</span>');
   } else if (isLike == 1) {
     var n = match[0];
     if (n == 1) {

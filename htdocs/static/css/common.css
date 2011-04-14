@@ -16,14 +16,16 @@ html, body {
 }
 
 .header{
-	background-color: #292929; 
-	border-bottom:1px solid black;
+	background-color: #1D2D6E;
+	border-bottom:2px solid #BABABA;
   display: block;
   height: 40px;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#424242', endColorstr='#292929');
-	background: -webkit-gradient(linear, left top, left bottom, from(#424242), to(#292929));
-	background: -moz-linear-gradient(top,  #424242,  #292929); 
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#25398C', endColorstr='#1D2D6E');
+	background: -webkit-gradient(linear, left top, left bottom, from(#25398C), to(#1D2D6E));
+	background: -moz-linear-gradient(top,  #25398C,  #1D2D6E); 
 }
+
+/*1B2A66 10193D*/
 
 .header .nav a {
   color: white;
@@ -45,7 +47,7 @@ html, body {
   clear: both;
   z-index: 10;
   font-size: 13px;
-  padding: 25px 0 20px;
+  padding: 60px 0 10px;
   border-top:1px solid #FAFAFA;
 }
 

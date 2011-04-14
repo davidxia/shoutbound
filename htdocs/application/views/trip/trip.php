@@ -12,6 +12,8 @@ $header_args = array(
         'js/trip/share.js',
         'js/jquery/popup.js',
         'js/jquery/jquery.color.js',
+        //'js/trip/extras.js',
+        //'js/jquery/scrollto.js',
         'js/jquery/timeago.js',
         'js/jquery/jquery.countdown.min.js',    
         'js/jquery/validate.min.js',
@@ -24,9 +26,12 @@ $this->load->view('core_header', $header_args);
 
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
-  var baseUrl = '<?=site_url()?>';
-  var staticSub = '<?=static_sub()?>';
+  var baseUrl = "<?=site_url()?>";
+  var staticSub = "<?=static_sub()?>";
   var tripId = <?=$trip->id?>;
+  <? if ($user):?>
+    var uid = <?=$user->id?>;
+  <? endif;?>
   
   map.lat = <?=$destinations[0]->lat?>;
   map.lng = <?=$destinations[0]->lng?>;
@@ -175,15 +180,16 @@ $this->load->view('core_header', $header_args);
       <div id="wall">
       <? foreach ($wallitems as $wallitem):?>
         <div class="wallitem" id="wallitem-<?=$wallitem->id?>">
-          <a href="<?=site_url('profile/'.$wallitem->user_id)?>">
-            <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" height="30" width="30"/>
-          </a>
-          <a href="<?=site_url('profile/'.$wallitem->user_id)?>" class="author" style="margin-left:2px;">
-            <?=$wallitem->user->name?>
-          </a>
           <div class="content">
             <?=$wallitem->content?>
-          </div>
+          </div>         
+          <a class="wallitem-profile-pic" href="<?=site_url('profile/'.$wallitem->user_id)?>">
+            <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" height="38" width="38"/>
+          </a>
+          
+          <a href="<?=site_url('profile/'.$wallitem->user_id)?>" class="author">
+            <?=$wallitem->user->name?>
+          </a>          
           <div class="actionbar">
             <a class="reply-button" href="#">Add comment</a>           
             <? $is_liked = 0; foreach ($wallitem->likes as $like):?><? if (isset($user) AND $like->user_id==$user->id AND $like->is_like==1):?>
@@ -194,18 +200,16 @@ $this->load->view('core_header', $header_args);
             <? else:?>
               <a class="unlike-button" href="#">Unlike</a>
             <? endif;?>
-            <span class="num-likes"><? $num_likes = 0; foreach($wallitem->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><?=$num_likes?> person likes this<? elseif ($num_likes > 1):?><?=$num_likes?> people like this<? endif;?></span>
+            <? $num_likes = 0; foreach($wallitem->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><span class="num-likes"><?=$num_likes?> person likes this</span><? elseif ($num_likes > 1):?><span class="num-likes"><?=$num_likes?> people like this</span><? endif;?>
             <abbr class="timeago" title="<?=$wallitem->created?>"><?=$wallitem->created?></abbr>            
           </div>
-          <? if ($user):?>
-            <div class="remove-wallitem"></div>
-          <? endif;?>
+          <div class="remove-wallitem"></div>
           <? foreach ($wallitem->replies as $reply):?>
             <div class="wallitem reply" id="wallitem-<?=$reply->id?>">
-              <a href="<?=site_url('profile/'.$reply->user_id)?>" class="author"><?=$reply->user->name?></a>:
-              <span class="content">
+              <div class="content">
                 <?=$reply->content?>
-              </span>
+              </div>
+              <a href="<?=site_url('profile/'.$reply->user_id)?>" class="author"><?=$reply->user->name?></a>
               <div class="actionbar">               
                 <? $is_liked = 0; foreach ($reply->likes as $like):?><? if (isset($user) AND $like->user_id==$user->id AND $like->is_like==1):?>
                   <? $is_liked = 1;?>
@@ -215,12 +219,10 @@ $this->load->view('core_header', $header_args);
                 <? else:?>
                   <a class="unlike-button" href="#">Unlike</a>
                 <? endif;?>
-                <span class="num-likes"><? $num_likes = 0; foreach($reply->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><?=$num_likes?> person likes this<? elseif ($num_likes > 1):?><?=$num_likes?> people like this<? endif;?></span>
+            <? $num_likes = 0; foreach($reply->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><span class="num-likes"><?=$num_likes?> person likes this</span><? elseif ($num_likes > 1):?><span class="num-likes"><?=$num_likes?> people like this</span><? endif;?>
                 <abbr class="timeago" title="<?=$reply->created?>"><?=$reply->created?></abbr>
               </div>
-              <? if ($user):?>
-                <div class="remove-wallitem"></div>
-              <? endif;?>
+              <div class="remove-wallitem"></div>
             </div>
           <? endforeach;?>
         </div>

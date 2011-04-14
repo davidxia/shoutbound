@@ -16,12 +16,12 @@
 /*Left*/
 
 #trip-col-left-shell{
-	width: 520px;
+	width: 550px;
 	padding:0px 0px 0px 30px;
 }
 
 #trip-col-left-content{
-	width:510px;
+	width:540px;
 	padding:0px 5px 5px 5px;
 	background-color:white;
 }
@@ -39,7 +39,7 @@
 }
 
 textarea#wallitem-input{
-	width:498px;
+	width:538px;
 	min-height:60px;
 	color:#333;
   border: 1px solid #333;
@@ -82,7 +82,7 @@ textarea#wallitem-input{
 }
 
 #itinerary, #map-shell{
-	width:350px;
+	width:320px;
 	padding:5px;
 }
 
@@ -119,7 +119,7 @@ textarea#wallitem-input{
 /*map*/
 
 #map-canvas{
-	height:350px;
+	height:320px;
 }
 
 #map-shell input {
@@ -186,17 +186,13 @@ textarea#wallitem-input{
   font-size:13px;
   line-height:19px;
   border-top:2px solid #aaaaaa;
-  min-height:200px;
+  min-height:350px;
 }
 
 .wallitem{
   padding:15px 0px 15px 0px;
   border-top:1px solid #EAEAEA;
   position:relative;
-}
-
-.author{
-  font-weight:bold;
 }
 
 #wallitem-input-label{
@@ -211,6 +207,15 @@ textarea#wallitem-input{
   padding:10px 5px 5px 5px;
   border-top:1px solid #EAEAEA;
   position:relative;
+}
+
+.wallitem-profile-pic{
+  float:left;
+  margin:0px 10px 0px 0px;
+}
+
+.actionbar{
+  background-color:#FAFAFA;
 }
 
 li.suggestion {
@@ -246,7 +251,7 @@ li.suggestion.highlighted{
   right: 0;
 }
 
-.like-button, .reply-button, .timeago, .num-likes{
+.like-button, .unlike-button, .reply-button, .timeago, .num-likes{
   display:inline;
   margin-right:12px;
 }
@@ -257,9 +262,13 @@ li.suggestion.highlighted{
 
 .wallitem .reply{
   position:relative;
-  padding:5px 40px 5px 25px;
+  padding:5px 40px 5px 48px;
   position:relative;
   border:none;
+}
+
+.wallitem .reply .actionbar{
+  margin-left:12px;
 }
 
 /*Content END*/
