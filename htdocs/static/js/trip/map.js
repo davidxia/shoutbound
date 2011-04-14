@@ -5,25 +5,29 @@ map.infoWindow = null;
 map.markers = {};
 map.newMarker = null;
 
+
 map.fixMapPos = function() {
-  var sidebar    = $('#map-container'),
-      win        = $(window),
-      offset     = sidebar.offset(),
-      topPadding = 15;
-      
-  win.scroll(function() {
-    if (win.scrollTop() > offset.top) {
-      sidebar.stop().animate({
-        marginTop: win.scrollTop() - offset.top + topPadding
-      }, {
-        duration: 200
-      });
-    } else {
-      sidebar.stop().animate({
-        marginTop: 0
-      });
-    }
+  var top =$('#map-container').offset().top - parseFloat($('#map-container').css('marginTop').replace(/auto/, 0));
+  var didScroll = false;
+  $(window).scroll(function () {
+    didScroll = true;
   });
+  
+  setInterval(function() {
+    if (didScroll) {
+      didScroll = false;
+      // what is the y position of the scroll?
+      var y = $(window).scrollTop();    
+      // whether that's below the start of article?
+      if (y >= top) {
+        // if so, add the fixed class
+        $('#map-container').addClass('fixed');
+      } else {
+        // otherwise, remove it
+        $('#map-container').removeClass('fixed');
+      }
+    }
+  }, 100);
 };
 
 
@@ -157,6 +161,6 @@ map.loadMarkerListeners = function(marker, i) {
 
 
 $(document).ready(function() {
-  map.loadGoogleMapScript();
   map.fixMapPos();
+  map.loadGoogleMapScript();
 });

@@ -115,12 +115,8 @@ textarea#wallitem-input{
 	display:inline;
 }
 
-/*map*/
 
-/*#map-container{
-  position:fixed;
-  top:250px;
-}*/
+/*map*/
 
 #map-canvas{
 	height:350px;
@@ -129,6 +125,12 @@ textarea#wallitem-input{
 #map-shell input {
   width: 200px;
 }
+
+.fixed{
+  position: fixed;
+  top: 0px;
+}
+
 
 /*wall*/
 
