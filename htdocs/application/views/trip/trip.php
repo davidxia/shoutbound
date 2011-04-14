@@ -88,7 +88,7 @@ $this->load->view('core_header', $header_args);
 					    <? if ($trip_goers):?>
 		            <? foreach ($trip_goers as $trip_goer):?>
 		            	<div class="trip_goer" uid="<?=$trip_goer->id?>">
-		                <a href="<?=site_url('profile/'.$trip_goer->id)?>"><img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" height="30" width="30"/></a>
+		                <a href="<?=site_url('profile/'.$trip_goer->id)?>"><img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="trip-page-avatar" height="38" width="38"/></a>
 		              </div>
 		            <? endforeach;?>
 			         <? endif;?>
@@ -183,14 +183,16 @@ $this->load->view('core_header', $header_args);
           <div class="content">
             <?=$wallitem->content?>
           </div>         
-          <a class="wallitem-profile-pic" href="<?=site_url('profile/'.$wallitem->user_id)?>">
-            <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" height="38" width="38"/>
-          </a>
+
           
-          <a href="<?=site_url('profile/'.$wallitem->user_id)?>" class="author">
-            <?=$wallitem->user->name?>
-          </a>          
           <div class="actionbar">
+            <a class="wallitem-profile-pic" href="<?=site_url('profile/'.$wallitem->user_id)?>">
+              <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="trip-page-avatar" height="22" width="22"/>
+            </a>
+            
+            <a href="<?=site_url('profile/'.$wallitem->user_id)?>" class="author">
+              <?=$wallitem->user->name?>
+            </a> 
             <a class="reply-button" href="#">Add comment</a>           
             <? $is_liked = 0; foreach ($wallitem->likes as $like):?><? if (isset($user) AND $like->user_id==$user->id AND $like->is_like==1):?>
               <? $is_liked = 1;?>
@@ -202,15 +204,16 @@ $this->load->view('core_header', $header_args);
             <? endif;?>
             <? $num_likes = 0; foreach($wallitem->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><span class="num-likes"><?=$num_likes?> person likes this</span><? elseif ($num_likes > 1):?><span class="num-likes"><?=$num_likes?> people like this</span><? endif;?>
             <abbr class="timeago" title="<?=$wallitem->created?>"><?=$wallitem->created?></abbr>            
-          </div>
+
+          </div> 
           <div class="remove-wallitem"></div>
           <? foreach ($wallitem->replies as $reply):?>
             <div class="wallitem reply" id="wallitem-<?=$reply->id?>">
               <div class="content">
                 <?=$reply->content?>
               </div>
-              <a href="<?=site_url('profile/'.$reply->user_id)?>" class="author"><?=$reply->user->name?></a>
-              <div class="actionbar">               
+              <div class="actionbar">
+                <a href="<?=site_url('profile/'.$reply->user_id)?>" class="author"><?=$reply->user->name?></a>             
                 <? $is_liked = 0; foreach ($reply->likes as $like):?><? if (isset($user) AND $like->user_id==$user->id AND $like->is_like==1):?>
                   <? $is_liked = 1;?>
                 <? endif;?><? endforeach;?>
