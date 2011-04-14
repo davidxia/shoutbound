@@ -157,8 +157,8 @@ map.loadMarkerListeners = function(marker, i) {
         backgroundColor: '#ffffff'
       }, 250)*/
       $(document).one('click', function() {
+        // reset text and marker icon when user clicks elsewhere
         placeText.css({'background-color': '#ffffff'});
-        console.log('d');
         
         image = new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/marker_sprite.png',
           new google.maps.Size(20, 34),
