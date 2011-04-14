@@ -197,7 +197,9 @@ $this->load->view('core_header', $header_args);
             <span class="num-likes"><? $num_likes = 0; foreach($wallitem->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><?=$num_likes?> person likes this<? elseif ($num_likes > 1):?><?=$num_likes?> people like this<? endif;?></span>
             <abbr class="timeago" title="<?=$wallitem->created?>"><?=$wallitem->created?></abbr>            
           </div>
-          <div class="remove-wallitem"></div>
+          <? if ($user):?>
+            <div class="remove-wallitem"></div>
+          <? endif;?>
           <? foreach ($wallitem->replies as $reply):?>
             <div class="wallitem reply" id="wallitem-<?=$reply->id?>">
               <a href="<?=site_url('profile/'.$reply->user_id)?>" class="author"><?=$reply->user->name?></a>:
@@ -216,7 +218,9 @@ $this->load->view('core_header', $header_args);
                 <span class="num-likes"><? $num_likes = 0; foreach($reply->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><?=$num_likes?> person likes this<? elseif ($num_likes > 1):?><?=$num_likes?> people like this<? endif;?></span>
                 <abbr class="timeago" title="<?=$reply->created?>"><?=$reply->created?></abbr>
               </div>
-              <div class="remove-wallitem"></div>
+              <? if ($user):?>
+                <div class="remove-wallitem"></div>
+              <? endif;?>
             </div>
           <? endforeach;?>
         </div>
