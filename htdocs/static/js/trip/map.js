@@ -108,9 +108,35 @@ map.showDestinationMarkers = function() {
 
 map.displayWallMarkers = function(i, lat, lng) {
   var markerLatLng = new google.maps.LatLng(lat, lng);
+  // Origins, anchor positions and coordinates of the marker
+  // increase in the X direction to the right and in
+  // the Y direction down.
+  var image = new google.maps.MarkerImage('http://code.google.com/apis/maps/documentation/javascript/examples/images/beachflag.png',
+      // This marker is 20 pixels wide by 32 pixels tall.
+      new google.maps.Size(20, 32),
+      // The origin for this image is 0,0.
+      new google.maps.Point(0,0),
+      // The anchor for this image is the base of the flagpole at 0,32.
+      new google.maps.Point(0, 32));
+  var shadow = new google.maps.MarkerImage('http://code.google.com/apis/maps/documentation/javascript/examples/images/beachflag_shadow.png',
+      // The shadow image is larger in the horizontal dimension
+      // while the position and offset are the same as for the main image.
+      new google.maps.Size(37, 32),
+      new google.maps.Point(0,0),
+      new google.maps.Point(0, 32));
+      // Shapes define the clickable region of the icon.
+      // The type defines an HTML <area> element 'poly' which
+      // traces out a polygon as a series of X,Y points. The final
+      // coordinate closes the poly by connecting to the first
+      // coordinate.
+  var xxx = new google.maps.MarkerImage({
+    url: 'http://dev.shoutbound.com/david/images/marker_sprite.png'
+  });
   var marker = new google.maps.Marker({
     map: map.googleMap,
-    position: markerLatLng
+    position: markerLatLng,
+    icon: image,
+    shadow: shadow
   });
   
   map.loadMarkerListeners(marker, i);
@@ -121,11 +147,14 @@ map.loadMarkerListeners = function(marker, i) {
   google.maps.event.addListener(marker, 'click', function() {
     var placeText = $('a.place:eq('+i+')');
     placeText.animate({
-      backgroundColor: 'yellow'
-    }, 1000, function() {
-      $(this).animate({
+      backgroundColor: '#fffb2c',
+    }, 250, function() {
+      /*$(this).animate({
         backgroundColor: '#ffffff'
-      }, 1000)
+      }, 250)*/
+      $(document).click(function() {
+        placeText.css({'background-color': '#ffffff'})
+      });
     });
     
     // scrolls window to corresponding wallitem

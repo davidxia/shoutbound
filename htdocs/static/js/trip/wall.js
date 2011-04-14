@@ -260,12 +260,12 @@ wall.saveLike = function(wallitemId, isLike) {
 
 
 wall.displayLike = function(wallitemId, isLike) {
-  var numLikes = $('#wallitem-'+wallitemId).children('div.actionbar').children('span.num-likes');
-  var html = numLikes.html();
+  var actionbar = $('#wallitem-'+wallitemId).children('div.actionbar');
+  var numLikes = actionbar.children('span.num-likes');
   var regex = /^\d+/;
-  var match = regex.exec(html);
+  var match = regex.exec(numLikes.html());
   if (isLike == 1 && match == null) {
-    numLikes.html('1 person likes this');
+    actionbar.children('abbr.timeago').before('1 person likes this');
   } else if (isLike == 1) {
     var n = match[0];
     if (n == 1) {
