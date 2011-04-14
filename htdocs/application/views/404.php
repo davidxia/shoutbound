@@ -1,13 +1,33 @@
-<!DOCTYPE html> 
-<html xmlns="http://www.w3.org/1999/xhtml"> 
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-  <title>Shoutbound</title>
+<?php
+$header_args = array(
+    'title' => 'Oh Snap! | Shoutbound',
+    'css_paths'=>array(
+    ),
+    'js_paths'=>array(
+        'js/user/settings.js'
+    )
+);
+
+$this->load->view('core_header', $header_args);
+?>
+
+<!-- JAVASCRIPT CONSTANTS --> 
+<script type="text/javascript">
+  var baseUrl = "<?=site_url()?>";
+</script>
+  
 </head>
 
 <body>
-  
-  <img src="<?=static_sub('chenchen_face.jpg')?>" width="604" height="453"/>
+  <? $this->load->view('header')?>
+  <? $this->load->view('wrapper_content')?>
 
-</body> 
-</html>
+    <img src="<?=static_sub('chenchen_face.jpg')?>" width="604" height="453"/>
+      
+  </div><!-- CONTENT ENDS -->
+  </div><!-- WRAPPER ENDS -->
+
+  <? $this->load->view('footer')?>
+
+</body>
+</head>
