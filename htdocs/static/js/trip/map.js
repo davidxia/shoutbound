@@ -107,26 +107,6 @@ map.showDestinationMarkers = function() {
 
 
 map.displayWallMarkers = function(i, lat, lng) {
-  /*
-  //var bounds = new google.maps.LatLngBounds();
-  for (var key in wall.wallMarkers) {
-    if (wall.wallMarkers.hasOwnProperty(key)) {
-      var markerLatLng = new google.maps.LatLng(wall.wallMarkers[key]['lat'], wall.wallMarkers[key]['lng']);
-      // add each new marker object to Map.markers array
-      map.markers[wall.wallMarkers[key]['suggestionId']] = new google.maps.Marker({
-        map: map.googleMap,
-        position: markerLatLng
-      });
-      // extend bounds to include this marker
-      //bounds.extend(markerLatLng);
-    }
-  }
-  //if ( ! wall.wallMarkers.length == 0) {
-    //map.googleMap.fitBounds(bounds);
-  //}
-  map.loadWallListeners();
-  map.loadMarkerListeners();
-  */
   var markerLatLng = new google.maps.LatLng(lat, lng);
   var marker = new google.maps.Marker({
     map: map.googleMap,
@@ -134,28 +114,23 @@ map.displayWallMarkers = function(i, lat, lng) {
   });
   
   map.loadMarkerListeners(marker, i);
-  /*
-  google.maps.event.addListener(marker, 'click', function() {
-    map.infoWindow.setContent(address);
-    map.infoWindow.open(map.googleMap, marker);
-  });
-  */
 };
 
 
 map.loadMarkerListeners = function(marker, i) {
   google.maps.event.addListener(marker, 'click', function() {
-    //map.infoWindow.setContent(address);
-    //map.infoWindow.open(map.googleMap, marker);
-    $('a.place:eq('+i+')').animate({
+    var placeText = $('a.place:eq('+i+')');
+    placeText.animate({
       backgroundColor: 'yellow'
     }, 1000, function() {
       $(this).animate({
         backgroundColor: '#ffffff'
       }, 1000)
     });
+    
+    // scrolls window to corresponding wallitem
+    window.scrollTo(0, placeText.parent().parent().offset().top);
   });
-  //map.openMarkerInfoWindow(i);
 };
 
 
