@@ -169,7 +169,7 @@ map.loadMarkerListeners = function(marker, i) {
     });
     
     // scroll window to corresponding wallitem
-    $(wall.scrollElem).animate({scrollTop: placeText.parent().parent().offset().top}, 750);
+    $(wall.scrollElem).animate({scrollTop: placeText.parent().parent().offset().top}, 500);
   });
 };
 
