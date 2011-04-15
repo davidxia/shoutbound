@@ -332,12 +332,13 @@ wall.bindPlaces = function(marker, i) {
         });
       });
     });
-
+    
     return false;
   });
 };
 
-// use the first element that is "scrollable"
+
+// use the first element that is scrollable
 wall.scrollableElement = function(els) {
   for (var i = 0, argLength = arguments.length; i <argLength; i++) {
     var el = arguments[i],
