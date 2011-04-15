@@ -497,7 +497,7 @@ wall.scrollableElement = function(els) {
 }
 
 
-/*wall.bindAtKey = function() {
+wall.bindAtKey = function() {
   var isShift = false;
   
   $('#wallitem-input').keyup(function(e) {
@@ -511,77 +511,69 @@ wall.scrollableElement = function(els) {
       isShift = true;
     }
     if (keyCode == 50 && isShift) {
-      //wall.showPlaceInput();
-      isShift = false;
-      return false;
-    }
-  });  
-};
-*/
-
-wall.something = function() {
-  $('#wallitem-input').live('keydown', wall.bindAtKey);
-  //$('.edit_comment_body, .reply_body', $('#comments_list')).live('keydown', reference_popup);
-  $('#references_popup').live('keyup.autocomplete', function () {
-      $(this).autocomplete({
-          select: function (e, data) {
-              var target = $('#' + $(this).data('target')),
-                  ref_placeholder = $('#ref_placeholder');
-              ref_placeholder.before('@' + data.item.value)
-              placeCursorBefore(ref_placeholder[0]);
-              var e = $.Event('keydown');
-              e.keyCode = 27;
-              $(this).trigger(e);
-              target.focus();
-              return false;
-          },
-          source: REFERENCE_PATH
-      });
-  }).live('keydown', function (e) {
-      var target = $('#' + $(this).data('target'));
-      if (e.keyCode == 27) {
-          $('#ref_placeholder').remove();
-          $(this).val('').autocomplete('destroy');
-          $('#mention').hide();
-      }
-  });
-  $('#mention_escape').live('click', function () {
-      var e = $.Event('keydown');
-      e.keyCode = 27;
-      $('#references_popup').trigger(e);
-  });
-};
-
-
-wall.bindAtKey = function (e) {
-  if (e.keyCode == 50 && e.shiftKey) {
-      insertTextAtCursor('<span id="ref_placeholder">...</span>')
+      wall.insertTextAtCursor('<span id="placeholder">...</span>')
+      
       $(this).html(Encoder.htmlDecode($(this).html()));
-      var placeholder_offset = $('#ref_placeholder').offset();
+      
+      var placeholder_offset = $('#placeholder').offset();
       $('#mention').css({
-          top: placeholder_offset.top - 7,
-          left: placeholder_offset.left
+        top: placeholder_offset.top,
+        left: placeholder_offset.left
       }).show();
       $('#references_popup').data('target', $(this).attr('id')).focus();
+      isShift = false;
+      wall.autocomplete();
       return false;
-  }
+    }
+  });
 };
 
 
-
-function insertTextAtCursor(text) {
-    var sel, range, html;
-    if (window.getSelection) {
-        sel = window.getSelection();
-        if (sel.getRangeAt && sel.rangeCount) {
-            range = sel.getRangeAt(0);
-            range.insertNode(document.createTextNode(text));
-        }
-    } else if (document.selection && document.selection.createRange) {
-        range = document.selection.createRange();
-        range.pasteHTML(text);
+wall.insertTextAtCursor = function(text) {
+  var sel, range, html;
+  if (window.getSelection) {
+    sel = window.getSelection();
+    if (sel.getRangeAt && sel.rangeCount) {
+      range = sel.getRangeAt(0);
+      range.insertNode(document.createTextNode(text));
     }
+  } else if (document.selection && document.selection.createRange) {
+    range = document.selection.createRange();
+    range.pasteHTML(text);
+  }
 }
+
+
+wall.autocomplete = function() {
+  $('#references_popup').live('keyup.autocomplete', function () {
+    $(this).autocomplete({
+      select: function (e, data) {
+        var target = $('#' + $(this).data('target')),
+            placeholder = $('#placeholder');
+        placeholder.before('@' + data.item.value)
+        placeCursorBefore(placeholder[0]);
+        var e = $.Event('keydown');
+        e.keyCode = 27;
+        $(this).trigger(e);
+        target.focus();
+        return false;
+      },
+      source: REFERENCE_PATH
+    });
+  }).live('keydown', function (e) {
+    var target = $('#' + $(this).data('target'));
+    if (e.keyCode == 27) {
+      $('#placeholder').remove();
+      $(this).val('').autocomplete('destroy');
+      $('#mention').hide();
+    }
+  });
+  $('#mention_escape').live('click', function () {
+    var e = $.Event('keydown');
+    e.keyCode = 27;
+    $('#references_popup').trigger(e);
+  });
+};
 
 
 $(document).ready(function() {
@@ -592,5 +584,5 @@ $(document).ready(function() {
   wall.bindRemove();
   wall.bindReply();
   wall.bindLike();
-  wall.something();
+  wall.bindAtKey();
 });
