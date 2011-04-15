@@ -2,9 +2,8 @@ var map = {};
 
 map.googleMap = null;
 map.infoWindow = null;
-map.markers = {};
-map.newMarker = null;
-
+//map.markers = {};
+//map.newMarker = null;
 
 map.fixMapPos = function() {
   var top =$('#map-container').offset().top - parseFloat($('#map-container').css('marginTop').replace(/auto/, 0));
@@ -74,13 +73,12 @@ map.loadGoogleMap = function() {
   // create infoWindow object for map
   map.infoWindow = new google.maps.InfoWindow();
 
-  // display location-based wall posts as markers on map
-  //if (typeof wall.wallMarkers != 'undefined') {
-    //map.displayWallMarkers();
-  //}
   $('a.place').each(function(i) {
     map.displayWallMarkers(i, $(this).attr('lat'), $(this).attr('lng'));
   });
+  
+  // use the first element that is scrollable
+  wall.scrollElem = wall.scrollableElement('html', 'body');
 };
 
 
@@ -89,7 +87,7 @@ map.showDestinationMarkers = function() {
   for (var key in map.destination_markers) {
     if (map.destination_markers.hasOwnProperty(key)) {
       var markerLatLng = new google.maps.LatLng(map.destination_markers[key]['lat'], map.destination_markers[key]['lng']);
-      // add each new marker object to Map.markers array
+      // add each new marker object to map.markers array
       new google.maps.Marker({
         map: map.googleMap,
         position: markerLatLng,
@@ -133,6 +131,7 @@ map.displayWallMarkers = function(i, lat, lng) {
   });
   
   map.loadMarkerListeners(marker, i);
+  wall.bindPlaces(marker, i);
 };
 
 
@@ -146,7 +145,6 @@ map.loadMarkerListeners = function(marker, i) {
     marker.setOptions({
       icon: image
     });
-    
     
     // highlight corresponding wallitem text
     var placeText = $('a.place:eq('+i+')');
@@ -171,9 +169,10 @@ map.loadMarkerListeners = function(marker, i) {
     });
     
     // scroll window to corresponding wallitem
-    window.scrollTo(0, placeText.parent().parent().offset().top);
+    $(wall.scrollElem).animate({scrollTop: placeText.parent().parent().offset().top}, 750);
   });
 };
+
 
 
 $(document).ready(function() {

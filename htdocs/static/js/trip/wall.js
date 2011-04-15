@@ -1,5 +1,7 @@
 var wall = {};
 
+wall.scrollElem = null;
+
 $.fn.labelFader = function() {
   var f = function() {
     var $this = $(this);
@@ -142,12 +144,12 @@ wall.removeWallitem = function(id) {
 
 wall.bindReply = function() {
   $('.reply-button').click(function() {
-    $(this).siblings('.reply-box').remove();
     var parentId = $(this).parent().parent().attr('id');
     var regex = /^wallitem-(\d+)$/;
     var match = regex.exec(parentId);
     parentId = match[1];
-
+    
+    wall.removeReplyBox(parentId);
     var replyBox = $('<div class="reply-box" style="margin-left:48px;"><textarea style="height:14px; display:block; overflow:hidden; resize:none; line-height:13px; width:450px;"></textarea></div>');
     $(this).parent().parent().append(replyBox);
     var replyInput = replyBox.children('textarea');
@@ -297,6 +299,62 @@ wall.unbindLike = function(wallitemId, isLike) {
   }
   wall.bindLike();
 };
+
+
+wall.bindPlaces = function(marker, i) {
+  $('a.place:eq('+i+')').click(function() {
+    $(document).trigger('click');
+    map.googleMap.panTo(marker.getPosition());
+    var image = new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/marker_sprite.png',
+      new google.maps.Size(20, 34),
+      new google.maps.Point(20, 0),
+      new google.maps.Point(10, 34));
+    marker.setOptions({
+      icon: image
+    });
+
+    // highlight corresponding wallitem text
+    var placeText = $(this);
+    placeText.animate({
+      backgroundColor: '#fffb2c',
+    }, 250, function() {
+      $(document).one('click', function() {
+        // reset text and marker icon when user clicks elsewhere
+        placeText.css({'background-color': '#ffffff'});
+        console.log(placeText);
+        
+        image = new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/marker_sprite.png',
+          new google.maps.Size(20, 34),
+          new google.maps.Point(0, 0),
+          new google.maps.Point(10, 34));
+        marker.setOptions({
+          icon: image
+        });
+      });
+    });
+
+    return false;
+  });
+};
+
+// use the first element that is "scrollable"
+wall.scrollableElement = function(els) {
+  for (var i = 0, argLength = arguments.length; i <argLength; i++) {
+    var el = arguments[i],
+        $scrollElement = $(el);
+    if ($scrollElement.scrollTop()> 0) {
+      return el;
+    } else {
+      $scrollElement.scrollTop(1);
+      var isScrollable = $scrollElement.scrollTop()> 0;
+      $scrollElement.scrollTop(0);
+      if (isScrollable) {
+        return el;
+      }
+    }
+  }
+  return [];
+}
 
 
 $(document).ready(function() {
