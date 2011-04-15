@@ -238,12 +238,13 @@ $this->load->view('core_header', $header_args);
         <label for="wallitem-input" id="wallitem-input-label">
           <span>Add message</span>
         </label>
-        <textarea id="wallitem-input"></textarea>
+        <div contenteditable="true" id="wallitem-input" style="border:1px solid #333; min-height:60px;color:#333;"><br/></div>
         <div id="wallitem-post-button"><a href="#">Add</a></div>
       </div><!-- WALLITEM INPUT CONTAINER ENDS -->
 		        	
     </div><!-- TRIPCOLLEFTSHELL ENDS -->
 			
+    <div id="mention" style="background:#222; position:absolute; z-index:99; padding:5px;display:none;"><input id="references_popup" type="text" style="float:left; width:150px;border:none;"/></div>
 
 	</div><!-- WRAPPER ENDS --> 
 </div><!-- CONTENT ENDS -->
