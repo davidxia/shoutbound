@@ -258,7 +258,7 @@ li.suggestion.highlighted{
   right: 0;
 }
 
-.like-button, .unlike-button, .reply-button, .timeago, .num-likes{
+.author, .like-button, .unlike-button, .reply-button, .timeago, .num-likes{
   display:inline;
   margin-right:12px;
 }
