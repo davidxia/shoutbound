@@ -241,7 +241,12 @@ $this->load->view('core_header', $header_args);
 		        	
     </div><!-- TRIPCOLLEFTSHELL ENDS -->
 			
-    <div id="autocomplete-box" style="background:#222; position:absolute; z-index:99; padding:5px;display:none;"><input id="autocomplete-input" type="text" style="float:left; width:150px;border:none;"/></div>
+    <div id="autocomplete-box" style="background:#222; position:absolute; z-index:99; padding:3px;display:none;">
+      <input id="autocomplete-input" type="text" style="width:150px;border:none;border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px; padding:3px;"/>
+      <a id="autocomplete-close" href="#">
+        <img alt="close" src="<?=site_url('images/white_x.png')?>" width="10" height="9"/>
+      </a>
+    </div>
 
 	</div><!-- WRAPPER ENDS --> 
 </div><!-- CONTENT ENDS -->

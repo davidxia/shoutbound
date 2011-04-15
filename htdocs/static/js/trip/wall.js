@@ -511,18 +511,18 @@ wall.bindAtKey = function() {
       isShift = true;
     }
     if (keyCode == 50 && isShift) {
-      wall.insertTextAtCursor('<span id="placeholder">...</span>')
-      
+      wall.insertTextAtCursor('<span id="placeholder">...</span>');
       $(this).html(Encoder.htmlDecode($(this).html()));
       
-      var placeholder_offset = $('#placeholder').offset();
+      var offset = $('#placeholder').offset();
       $('#autocomplete-box').css({
-        top: placeholder_offset.top,
-        left: placeholder_offset.left
+        top: offset.top,
+        left: offset.left
       }).show();
+      
       $('#autocomplete-input').data('target', $(this).attr('id')).focus();
-      isShift = false;
       wall.autocomplete();
+      isShift = false;
       return false;
     }
   });
@@ -545,8 +545,8 @@ wall.insertTextAtCursor = function(text) {
 
 
 wall.autocomplete = function() {
-  $('#autocomplete-input').live('keyup.autocomplete', function () {
-    $(this).autocomplete({
+  $('#autocomplete-input').keyup(function () {
+    /*$(this).autocomplete({
       select: function (e, data) {
         var target = $('#' + $(this).data('target')),
             placeholder = $('#placeholder');
@@ -559,22 +559,45 @@ wall.autocomplete = function() {
         return false;
       },
       source: REFERENCE_PATH
-    });
-  }).live('keydown', function (e) {
-    var target = $('#' + $(this).data('target'));
-    if (e.keyCode == 27) {
-      $('#placeholder').remove();
-      $(this).val('').autocomplete('destroy');
-      $('#mention').hide();
+    });*/
+  }).keydown(function(e) {
+    //var target = $('#' + $(this).data('target'));
+    var keyCode = e.keyCode || e.which;
+    if (keyCode == 27) {
+      placeholder = $('#placeholder');
+      wall.putCursorBefore(placeholder[0]);
+      placeholder.remove();
+      //$(this).val('').autocomplete('destroy');
+      $('#autocomplete-box').hide();
+      //$('#wallitem-input').focus();
     }
   });
-  $('#mention_escape').live('click', function () {
+  
+  $('#autocomplete-close').click(function() {
     var e = $.Event('keydown');
     e.keyCode = 27;
     $('#autocomplete-input').trigger(e);
+    return false;
   });
 };
 
+
+wall.putCursorBefore = function(ele) {
+  if (!ele) return;
+  var sel, range;
+  if (window.getSelection && document.createRange) {
+    range = document.createRange();
+    range.selectNode(ele);
+    range.collapse(true);
+    sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  } else if (document.body.createTextRange) {
+    range = document.body.createTextRange();
+    range.moveToElementText(ele);
+    range.select();
+  }
+};
 
 $(document).ready(function() {
   wall.showTimeago();
