@@ -248,6 +248,7 @@ class Trips extends CI_Controller
         if ($t->set_join_field($u, 'rsvp', $rsvp))
         {
             json_success(array(
+                'userId' => $u->id,
                 'profilePic'=>$u->profile_pic,
                 'rsvp' => $rsvp,
             ));

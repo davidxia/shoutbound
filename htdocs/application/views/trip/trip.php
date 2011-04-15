@@ -26,12 +26,9 @@ $this->load->view('core_header', $header_args);
 
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
-  var baseUrl = "<?=site_url()?>";
-  var staticSub = "<?=static_sub()?>";
+  var baseUrl = '<?=site_url()?>';
+  var staticSub = '<?=static_sub()?>';
   var tripId = <?=$trip->id?>;
-  <? if ($user):?>
-    var uid = <?=$user->id?>;
-  <? endif;?>
   
   map.lat = <?=$destinations[0]->lat?>;
   map.lng = <?=$destinations[0]->lng?>;
@@ -244,7 +241,7 @@ $this->load->view('core_header', $header_args);
 		        	
     </div><!-- TRIPCOLLEFTSHELL ENDS -->
 			
-    <div id="mention" style="background:#222; position:absolute; z-index:99; padding:5px;display:none;"><input id="references_popup" type="text" style="float:left; width:150px;border:none;"/></div>
+    <div id="autocomplete-box" style="background:#222; position:absolute; z-index:99; padding:5px;display:none;"><input id="autocomplete-input" type="text" style="float:left; width:150px;border:none;"/></div>
 
 	</div><!-- WRAPPER ENDS --> 
 </div><!-- CONTENT ENDS -->

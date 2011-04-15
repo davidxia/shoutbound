@@ -39,7 +39,7 @@ share.rsvpSuccess = function(r) {
     // change rsvp status
     //$('#rsvp_status').html("You're going on this trip");
     // fade in avatar
-    var html = '<div class="trip_goer" style="display:none;" uid="'+uid+'"><a href="'+baseUrl+'profile/'+uid+'"><img src="'+staticSub+'profile_pics/'+r.profilePic+'" height="30" width="30"></a></div>';
+    var html = '<div class="trip_goer" style="display:none;" uid="'+r.userId+'"><a href="'+baseUrl+'profile/'+r.userId+'"><img src="'+staticSub+'profile_pics/'+r.profilePic+'" height="30" width="30"></a></div>';
     $(html).insertAfter('#num_trip_goers').fadeIn('slow');
     // increase number by one
     $('#num').html(function() {
@@ -71,7 +71,7 @@ share.rsvpSuccess = function(r) {
     // remove invite and ask for suggestions button
     $('#invsugg_btn_cont').remove();
     // fade out avatar then remove
-    $('div[uid="'+uid+'"]').fadeOut('slow', function(){
+    $('div[uid="'+r.userId+'"]').fadeOut('slow', function(){
       $(this).remove();
     });
     // decrease number by one

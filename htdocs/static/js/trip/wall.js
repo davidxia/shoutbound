@@ -516,11 +516,11 @@ wall.bindAtKey = function() {
       $(this).html(Encoder.htmlDecode($(this).html()));
       
       var placeholder_offset = $('#placeholder').offset();
-      $('#mention').css({
+      $('#autocomplete-box').css({
         top: placeholder_offset.top,
         left: placeholder_offset.left
       }).show();
-      $('#references_popup').data('target', $(this).attr('id')).focus();
+      $('#autocomplete-input').data('target', $(this).attr('id')).focus();
       isShift = false;
       wall.autocomplete();
       return false;
@@ -545,7 +545,7 @@ wall.insertTextAtCursor = function(text) {
 
 
 wall.autocomplete = function() {
-  $('#references_popup').live('keyup.autocomplete', function () {
+  $('#autocomplete-input').live('keyup.autocomplete', function () {
     $(this).autocomplete({
       select: function (e, data) {
         var target = $('#' + $(this).data('target')),
@@ -571,7 +571,7 @@ wall.autocomplete = function() {
   $('#mention_escape').live('click', function () {
     var e = $.Event('keydown');
     e.keyCode = 27;
-    $('#references_popup').trigger(e);
+    $('#autocomplete-input').trigger(e);
   });
 };
 
