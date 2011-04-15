@@ -59,8 +59,6 @@ map.listResult = function(resultItem) {
     map.dropMapMarker(resultItem);
     $('.place_name').html(resultItem.address_components[0].long_name);
     $('#place_type_dropdown').removeClass('hidden');
-    $('#place_good_for').removeClass('hidden');
-    $('#comment_container').removeClass('hidden');
     $('#marker-notification').show();
     setTimeout("$('#marker-notification').hide();", 15000);
     return false;
@@ -100,8 +98,6 @@ map.dropMapMarker = function(resultItem) {
     // TODO: how to put into separate function??
     google.maps.event.addListener(map.infoWindow, 'domready', function() {
       $('#infowindow-add').click(function() {
-        $('#category').show();
-        $('#good-for').show();
         map.saveMarkerData();
         $(this).unbind();
         map.infoWindow.close();
@@ -140,8 +136,6 @@ map.updateInfoWindow = function() {
       google.maps.event.addListener(map.infoWindow, 'domready', function() {
         $('#infowindow-add').click(function() {
           $('#location-search-box').val(results[0].formatted_address);
-          $('#category').show();
-          $('#good-for').show();
           map.saveMarkerData();
           $(this).unbind();
           map.infoWindow.close();
@@ -155,8 +149,6 @@ map.updateInfoWindow = function() {
       google.maps.event.addListener(map.infoWindow, 'domready', function() {
         $('#infowindow-add').click(function() {
           $('#location-search-box').val($('#infowindow-address').val());
-          $('#category').show();
-          $('#good-for').show();
           map.saveMarkerData();
           $(this).unbind();
           map.infoWindow.close();
@@ -164,42 +156,5 @@ map.updateInfoWindow = function() {
         });
       });
     }
-  });
-};
-
-
-map.loadWallListeners = function() {
-  for (var i=0; i<wall.wallMarkers.length; i++) {
-    // google 'javascript closures in for-loops' to understand what the hell is going on here
-    document.getElementById('wall-suggestion-'+wall.wallMarkers[i]['suggestionId']).onclick = (function(value){
-      return function(){
-        if (map.newMarker) {
-          map.newMarker.setMap(null);
-        }
-        var locationName = $(this).children('.wall-location-name').html();
-        var locationAddress = $(this).children('.wall-location-address').html();
-        var locationPhone = $(this).children('.wall-location-phone').html();
-        map.infoWindow.setContent('<div style="min-height:30px;">'+locationName+'<br/>'+locationAddress+'<br/>'+locationPhone+'</div>');
-        map.infoWindow.open(map.googleMap, map.markers[wall.wallMarkers[value]['suggestionId']]);
-      }                
-    })(i);
-  }
-};
-
-
-
-
-// TODO: how to consolidate these two functions?
-map.openMarkerInfoWindow = function(i){
-  google.maps.event.addListener(map.markers[wall.wallMarkers[i]['suggestionId']], 'click', function() {
-    $('.location_based').removeClass('highlighted');
-    var locationName = $('#wall-suggestion-'+wall.wallMarkers[i]['suggestionId']).children('.wall-location-name').html();
-    var locationAddress = $('#wall-suggestion-'+wall.wallMarkers[i]['suggestionId']).children('.wall-location-address').html();
-    var locationPhone = $('#wall-suggestion-'+wall.wallMarkers[i]['suggestionId']).children('.wall-location-phone').html();
-    map.infoWindow.setContent('<div style="min-height:30px;">'+locationName+'<br/>'+locationAddress+'<br/>'+locationPhone+'</div>');
-    map.infoWindow.open(map.googleMap, map.markers[wall.wallMarkers[i]['suggestionId']]);
-    $('#wall-content').scrollTo($('#wall-suggestion-'+wall.wallMarkers[i]['suggestionId']), 500);
-    $('.location-based').removeClass('highlighted');
-    $('#wall-suggestion-'+wall.wallMarkers[i]['suggestionId']).addClass('highlighted');
   });
 };

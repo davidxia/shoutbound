@@ -546,6 +546,8 @@ wall.insertTextAtCursor = function(text) {
 
 wall.autocomplete = function() {
   $('#autocomplete-input').keyup(function () {
+    console.log($(this).val());
+    
     /*$(this).autocomplete({
       select: function (e, data) {
         var target = $('#' + $(this).data('target')),
@@ -569,6 +571,7 @@ wall.autocomplete = function() {
       placeholder.remove();
       //$(this).val('').autocomplete('destroy');
       $('#autocomplete-box').hide();
+      $('#autocomplete-input').val('');
       //$('#wallitem-input').focus();
     }
   });
@@ -598,6 +601,7 @@ wall.putCursorBefore = function(ele) {
     range.select();
   }
 };
+
 
 $(document).ready(function() {
   wall.showTimeago();
