@@ -546,7 +546,22 @@ wall.insertTextAtCursor = function(text) {
 
 wall.autocomplete = function() {
   $('#autocomplete-input').keyup(function () {
-    console.log($(this).val());
+    var query = $(this).val();
+    console.log(query);
+    
+    var postData = {
+      query: query
+    };
+    
+    $.ajax({
+      type: 'POST',
+      url: baseUrl+'places/ajax_autosuggest',
+      data: postData,
+      success: function(r) {
+        var r = $.parseJSON(r);
+        console.log(r);
+      }
+    });
     
     /*$(this).autocomplete({
       select: function (e, data) {

@@ -9,23 +9,65 @@ class Places extends CI_Controller
 		}
 
 
-    function ajax_autosuggest()
+    public function ajax_autosuggest()
     {
-        $p = new Place();
-        $p->ilike('name', $this->input->post('query'))->limit(10)->get();
+        //$query = $this->input->post('query');
+        $query = 'jak';
         
-        $places = array();
-        foreach ($p as $place)
+        $this->load->library('Mc');
+        
+        $key = 'places_by_query:'.$query;
+        $val = $this->mc->get($key);
+        
+        var_dump($key);
+        echo '<br/><br/>';
+        
+        if ($val === false)
         {
-            $places[] = $place->name;
-        }
+            $p = new Place();
+            $p->ilike('name', $query, 'after')->limit(10)->get();
+            
+            $val = array();
+            foreach ($p as $place)
+            {
+                $val[] = $place->name;
+            }
 
-        json_success(array(
-            'places' => $places,
-        ));
+            $this->mc->set($key, $val);
+
+            json_success(array(
+                'places' => $val,
+                'cached' => 0
+            ));
+            //$sql = 'SELECT * FROM trips WHERE tripid = ?';
+            //$v = array($tripid);
+            //$rows = $this->mdb->select($sql, $v);
+            //$val = $rows[0];
+        }
+        else
+        {
+            json_success(array(
+                'places' => $val,
+                'cached' => 1
+            ));
+        }
     }
     
-    
+    public function mytest()
+    {
+        $this->load->library('Mc');
+        
+        $key = 'places_by_query:'.'jak';
+        $val = array('jakarta', 'jabberwokky');
+        //print_r($val);
+        
+        $this->mc->set($key, $val);
+        $val = $this->mc->get($key);
+        
+        print_r($val);
+        
+            
+    }
 }
 
 /* End of file places.php */
