@@ -545,24 +545,28 @@ wall.insertTextAtCursor = function(text) {
 
 
 wall.autocomplete = function() {
-  $('#autocomplete-input').keyup(function () {
-    var query = $(this).val();
-    console.log(query);
-    
-    var postData = {
-      query: query
-    };
-    
-    $.ajax({
-      type: 'POST',
-      url: baseUrl+'places/ajax_autosuggest',
-      data: postData,
-      success: function(r) {
-        var r = $.parseJSON(r);
-        console.log(r);
-      }
-    });
-    
+  $('#autocomplete-input').keyup(function(e) {
+    var keyCode = e.keyCode || e.which;
+    // ignore non-char keys
+    var nonChars = [9, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 45, 91, 93, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 144];
+    var query = $.trim($(this).val());
+    if ($.inArray(keyCode, nonChars)==-1 && query.length>2) {
+      var postData = {
+        query: query
+      };
+      console.log(query);
+      /*
+      $.ajax({
+        type: 'POST',
+        url: baseUrl+'places/ajax_autosuggest',
+        data: postData,
+        success: function(r) {
+          var r = $.parseJSON(r);
+          console.log(r);
+        }
+      });
+      */
+    }
     /*$(this).autocomplete({
       select: function (e, data) {
         var target = $('#' + $(this).data('target')),

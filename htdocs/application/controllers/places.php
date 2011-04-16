@@ -12,7 +12,7 @@ class Places extends CI_Controller
     public function ajax_autosuggest()
     {
         //$query = $this->input->post('query');
-        $query = 'jak';
+        $query = 'new';
         
         $this->load->library('Mc');
         
@@ -39,10 +39,6 @@ class Places extends CI_Controller
                 'places' => $val,
                 'cached' => 0
             ));
-            //$sql = 'SELECT * FROM trips WHERE tripid = ?';
-            //$v = array($tripid);
-            //$rows = $this->mdb->select($sql, $v);
-            //$val = $rows[0];
         }
         else
         {
@@ -59,7 +55,7 @@ class Places extends CI_Controller
         
         $key = 'places_by_query:'.'jak';
         $val = array('jakarta', 'jabberwokky');
-        //print_r($val);
+        print_r($val);
         
         $this->mc->set($key, $val);
         $val = $this->mc->get($key);
