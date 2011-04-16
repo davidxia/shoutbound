@@ -222,7 +222,7 @@ $this->load->view('core_header', $header_args);
     });
   };
 
-  // delay geocoder api for 1 second of keyboard inactivity
+  // delay geocoder api for x ms of keyboard inactivity
   map.delay = (function() {
     var timer = 0;
     return function(callback, ms){

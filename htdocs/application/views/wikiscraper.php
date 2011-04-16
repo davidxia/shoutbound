@@ -79,7 +79,7 @@ function dbpediaQuery() {
 }
 
 $('#loading-div')
-  .hide()  // hide it initially
+  .hide()
   .ajaxStart(function() {
     $(this).show();
   })

@@ -37,7 +37,7 @@ class Mc
     }
 
 
-    function get($key, $serialize=TRUE)
+    public function get($key, $serialize=TRUE)
     {
         if (empty($this->connected_servers))
         {
@@ -54,7 +54,7 @@ class Mc
     }
 
 
-    function set($key, $val, $expire=FALSE, $serialize=TRUE)
+    public function set($key, $val, $expire=FALSE, $serialize=TRUE)
     {
         if (empty($this->connected_servers))
         {
@@ -72,7 +72,7 @@ class Mc
     }
 
 
-    function delete($key, $when=0)
+    public function delete($key, $when=0)
     {
         if (empty($this->connected_servers))
         {
@@ -82,7 +82,7 @@ class Mc
     }
 
 
-    function increment($key)
+    public function increment($key)
     {
         if (empty($this->connected_servers))
         {
@@ -92,7 +92,7 @@ class Mc
     }
 
     
-    function decrement($key)
+    public function decrement($key)
     {
         if (empty($this->connected_servers))
         {

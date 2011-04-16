@@ -551,21 +551,8 @@ wall.autocomplete = function() {
     var nonChars = [9, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 45, 91, 93, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 144];
     var query = $.trim($(this).val());
     if ($.inArray(keyCode, nonChars)==-1 && query.length>2) {
-      var postData = {
-        query: query
-      };
-      console.log(query);
-      /*
-      $.ajax({
-        type: 'POST',
-        url: baseUrl+'places/ajax_autosuggest',
-        data: postData,
-        success: function(r) {
-          var r = $.parseJSON(r);
-          console.log(r);
-        }
-      });
-      */
+      var f = function () {wall.placeAutocomplete(query);};
+      wall.delay(f, 250);
     }
     /*$(this).autocomplete({
       select: function (e, data) {
@@ -591,7 +578,6 @@ wall.autocomplete = function() {
       //$(this).val('').autocomplete('destroy');
       $('#autocomplete-box').hide();
       $('#autocomplete-input').val('');
-      //$('#wallitem-input').focus();
     }
   });
   
@@ -622,6 +608,44 @@ wall.putCursorBefore = function(ele) {
 };
 
 
+wall.delay = (function() {
+  var timer = 0;
+  return function(callback, ms){
+    clearTimeout (timer);
+    timer = setTimeout(callback, ms);
+  };
+})();
+
+
+wall.placeAutocomplete = function(query) {
+  var postData = {
+    query: query
+  };
+  
+  $.ajax({
+    type: 'POST',
+    url: baseUrl+'places/ajax_autosuggest',
+    data: postData,
+    success: function(r) {
+      var r = $.parseJSON(r);
+      console.log(r);
+    }
+  });
+};
+
+
+wall.loadingSpinner = function() {
+  $('#loading-places')
+    .hide()
+    .ajaxStart(function() {
+      $(this).show();
+    })
+    .ajaxStop(function() {
+      $(this).hide();
+    })
+  ;
+};
+
 $(document).ready(function() {
   wall.showTimeago();
   wall.showRemove();
@@ -631,4 +655,5 @@ $(document).ready(function() {
   wall.bindReply();
   wall.bindLike();
   wall.bindAtKey();
+  wall.loadingSpinner();
 });
