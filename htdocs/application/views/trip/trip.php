@@ -232,9 +232,6 @@ $this->load->view('core_header', $header_args);
 					 		
       <!-- WALLITEM INPUT CONTAINER -->
       <div id="wallitem-input-container">
-        <label for="wallitem-input" id="wallitem-input-label">
-          <span>Add message</span>
-        </label>
         <div contenteditable="true" id="wallitem-input" style="border:1px solid #333; min-height:60px;color:#333;"><br/></div>
         <div id="wallitem-post-button"><a href="#">Add</a></div>
       </div><!-- WALLITEM INPUT CONTAINER ENDS -->
