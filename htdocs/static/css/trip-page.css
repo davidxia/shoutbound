@@ -225,28 +225,6 @@ textarea#wallitem-input{
   padding:2px 0px;
 }
 
-li.suggestion {
-  cursor: pointer;
-  background: white;
-  -webkit-transition: background-color linear .2s;
-  -moz-transition: background-color linear .2s;
-  -o-transition: background-color linear .2s;
-  transition: background-color linear .2s;
-}
-li.suggestion:hover{
-  background: #EAEAEA;
-	-webkit-transition: background-color linear .2s;
-	-moz-transition: background-color linear .2s;
-  -o-transition: background-color linear .2s;
-  transition: background-color linear .2s;
-}
-li.suggestion.highlighted{
-  background: #EAEAEA;
-	-webkit-transition: background-color linear .2s;
-	-moz-transition: background-color linear .2s;
-  -o-transition: background-color linear .2s;
-  transition: background-color linear .2s;
-}
 .remove-wallitem {
   background-image: url(/david/images/delete_button.png);
   height: 15px;
@@ -272,6 +250,10 @@ li.suggestion.highlighted{
   padding:5px 40px 5px 48px;
   position:relative;
   border:none;
+}
+
+#autocomplete-results div:hover{
+  background-color:#E0E0FF;
 }
 
 /*Content END*/

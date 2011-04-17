@@ -247,6 +247,7 @@ $this->load->view('core_header', $header_args);
       <a id="autocomplete-close" href="#">
         <img alt="close" src="<?=site_url('images/white_x.png')?>" width="10" height="9"/>
       </a>
+      <div id="autocomplete-results" style="display:none; position:absolute; top28px; width:400px; border:1px solid #DDD; cursor:pointer; padding:2px; z-index:100; background:white; font-size:13px;"></div>
     </div>
 
 	</div><!-- WRAPPER ENDS --> 

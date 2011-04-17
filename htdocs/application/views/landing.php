@@ -45,10 +45,9 @@ $this->load->view('core_header', $header_args);
 	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
 }
-#location-autosuggest .selected, #location-autosuggest li:hover {
+#place-autocomplete .selected, #place-autocomplete li:hover {
   font-weight:bold;
   background-color: #E0E0FF;
-  cursor:pointer;
 }
 </style>
 
@@ -74,7 +73,7 @@ $this->load->view('core_header', $header_args);
 		  </form>
   		  
 	    <!-- AUTO LOC LIST -->
-    	<ul id="location-autosuggest" style="position:absolute; background-color:white; width:309px; -moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; border-bottom-right-radius:5px; border-bottom-left-radius:5px;"></ul>
+    	<ul id="place-autocomplete" style="position:absolute; background-color:white; width:309px; -moz-border-radius-bottomleft:5px; -moz-border-radius-bottomright:5px; border-bottom-right-radius:5px; border-bottom-left-radius:5px; cursor:pointer;"></ul>
 		</div><!--BAR ENDS-->
 
 		<h3 style="font-size:24px; color:gray; font-weight:normal;">Use Shoutbound to organize group travel plans and get travel advice from friends and family.</h3>
@@ -140,7 +139,7 @@ $this->load->view('core_header', $header_args);
       
     /*key navigation through elements*/
     if (keyCode == arrow.up || keyCode == arrow.down) {
-      var results = $('#location-autosuggest li');
+      var results = $('#place-autocomplete li');
   
       var current = results.filter('.selected'),
           next;
@@ -191,7 +190,7 @@ $this->load->view('core_header', $header_args);
   
   
   // remove selected formatting on mouseover
-  $('#location-autosuggest').mouseover(function() {
+  $('#place-autocomplete').mouseover(function() {
     $(this).children().removeClass('selected');
   });
   
@@ -240,7 +239,7 @@ $this->load->view('core_header', $header_args);
     if (query.length > 1) {
       geocoder.geocode({'address': query}, map.returnGeocodeResult);
     } else {
-    	$('#location-autosuggest').html('').css('border', '0');
+    	$('#place-autocomplete').html('').css('border', '0');
     }
   };
   
@@ -248,25 +247,23 @@ $this->load->view('core_header', $header_args);
   // this callback function is passed the geocoderResult object
   map.returnGeocodeResult = function(result, status) {
     if (status == google.maps.GeocoderStatus.OK && result[0]) {
-    	$('#location-autosuggest').empty().css('border', '1px solid #8F8F8F');
+    	$('#place-autocomplete').empty().css('border', '1px solid #8F8F8F');
     	var exclude = ['street_address', 'route', 'intersection', 'neighborhood', 'premise', 'subpremise', 'postal_code', 'airport'];
     	for (var i=0; i<result.length; i++) {
-    		//console.log(result[i].types);
     		var match = false;
         for (var j=0; j<8; j++) {
           if (jQuery.inArray(exclude[j], result[i].types)!=-1) {
             match = true;
           }
         }
-        //console.log(match);
         if (!match) {
           map.listResult(result[i]);
         }
     	}
     } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-    	$('#location-autosuggest').html('Aw, we couldn\'t find that place.');
+    	$('#place-autocomplete').html('Aw, we couldn\'t find that place.');
     } else {
-    	$('#location-autosuggest').html(status);
+    	$('#place-autocomplete').html(status);
     }
   };
   
@@ -280,12 +277,12 @@ $this->load->view('core_header', $header_args);
       map.clickGeocodeResult(resultItem);
       return false;
     });
-    $('#location-autosuggest').append(li);
+    $('#place-autocomplete').append(li);
   };
 
   map.clickGeocodeResult = function(resultItem) {
     $('#destination').val(resultItem.formatted_address);
-    //$('#location-autosuggest').empty();
+    //$('#place-autocomplete').empty();
     $('#destination_lat').val(resultItem.geometry.location.lat());
     $('#destination_lng').val(resultItem.geometry.location.lng());
     $('#create-trip').submit();

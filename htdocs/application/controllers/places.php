@@ -9,7 +9,7 @@ class Places extends CI_Controller
 		}
 
 
-    public function ajax_autosuggest()
+    public function ajax_autocomplete()
     {
         $this->load->library('Mc');
 
@@ -18,7 +18,7 @@ class Places extends CI_Controller
         $key = 'places_by_query:'.$query;
         $val = $this->mc->get($key);
         
-        if ($val === false)
+        if ($val === FALSE)
         {
             $p = new Place();
             $p->ilike('name', $query, 'after')->limit(10)->get();
@@ -26,7 +26,7 @@ class Places extends CI_Controller
             $val = array();
             foreach ($p as $place)
             {
-                $val[] = $place->name;
+                $val[$place->id] = $place->name;
             }
 
             $this->mc->set($key, $val);

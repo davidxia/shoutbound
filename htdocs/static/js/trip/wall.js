@@ -578,6 +578,7 @@ wall.autocomplete = function() {
       //$(this).val('').autocomplete('destroy');
       $('#autocomplete-box').hide();
       $('#autocomplete-input').val('');
+      $('#autocomplete-results').empty();
     }
   });
   
@@ -624,17 +625,17 @@ wall.placeAutocomplete = function(query) {
   
   $.ajax({
     type: 'POST',
-    url: baseUrl+'places/ajax_autosuggest',
+    url: baseUrl+'places/ajax_autocomplete',
     data: postData,
     success: function(r) {
       var r = $.parseJSON(r);
-      console.log(r);
+      wall.listPlaces(r.places);
     }
   });
 };
 
 
-wall.loadingSpinner = function() {
+wall.bindPlacesSpinner = function() {
   $('#loading-places')
     .hide()
     .ajaxStart(function() {
@@ -646,6 +647,28 @@ wall.loadingSpinner = function() {
   ;
 };
 
+
+wall.listPlaces = function(places) {
+  var parent = $('#autocomplete-results');
+  parent.empty().show();
+  //console.log(places);
+  for (var id in places) {
+    var div = $('<div></div>');
+    div.html('<a href="#">'+places[id]+'</a>');
+    div.click(function() {
+      wall.autocompleteClick($(this));
+      //console.log($(this));
+      return false;
+    });
+    parent.append(div);
+  }
+};
+
+
+wall.autocompleteClick = function(name) {
+  console.log(name);
+};
+
 $(document).ready(function() {
   wall.showTimeago();
   wall.showRemove();
@@ -655,5 +678,5 @@ $(document).ready(function() {
   wall.bindReply();
   wall.bindLike();
   wall.bindAtKey();
-  wall.loadingSpinner();
+  wall.bindPlacesSpinner();
 });
