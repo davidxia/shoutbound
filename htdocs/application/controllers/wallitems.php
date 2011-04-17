@@ -32,13 +32,14 @@ class Wallitems extends CI_Controller
 		    $wi->created = time()-72;
 		    if ($wi->save())
 		    {
+		        $parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : 0;
             json_success(array(
                 'id' => $wi->id,
                 'userName' => $this->user->name,
                 'userId' => $this->user->id,
                 'userPic' => $this->user->profile_pic,
                 'content' => $this->input->post('content'),
-                'parentId' => $this->input->post('parentId'),
+                'parentId' => $parent_id,
                 'created' => time()-72,
             ));
 		    }

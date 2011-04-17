@@ -12,8 +12,6 @@ $header_args = array(
         'js/trip/share.js',
         'js/jquery/popup.js',
         'js/jquery/jquery.color.js',
-        //'js/trip/extras.js',
-        //'js/jquery/scrollto.js',
         'js/jquery/timeago.js',
         'js/jquery/jquery.countdown.min.js',    
         'js/jquery/validate.min.js',

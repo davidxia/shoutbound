@@ -70,7 +70,7 @@ wall.showRemove = function() {
 
 wall.bindPostButton = function() {
   $('#wallitem-post-button').click(function() {
-    if ($('#wallitem-input').val().length != 0) {
+    if ($('#wallitem-input').html().length > 0) {
       var loggedin = loginSignup.getStatus();
       if (loggedin) {
         wall.postWallitem();
@@ -83,21 +83,30 @@ wall.bindPostButton = function() {
 };
 
 
+wall.getContentEditableText = function(id) {
+  var ce = $('<pre />').html($('#' + id).html());
+  if ($.browser.webkit)
+    ce.find('div').replaceWith(function() { return '\n' + this.innerHTML; });
+  if ($.browser.msie)
+    ce.find('p').replaceWith(function() { return this.innerHTML + '<br>'; });
+  if ($.browser.mozilla || $.browser.opera || $.browser.msie)
+    ce.find('br').replaceWith('\n');
+  return ce.text();
+}
+
+
 wall.postWallitem = function() {
-  var postData = {
-    tripId: tripId,
-    content: $('#wallitem-input').val()
-  };
+  var text = wall.getContentEditableText('wallitem-input');
   
   $.ajax({
     type: 'POST',
     url: baseUrl+'wallitems/ajax_save',
-    data: postData,
+    data: {tripId:tripId, content:text},
     success: function(r) {
       var r = $.parseJSON(r);
       wall.displayWallitem(r);
     }
-  });  
+  });
 };
 
 
@@ -134,7 +143,7 @@ wall.displayWallitem = function(r) {
     $('#wallitem-'+r.parentId).append(html);
   } else {
     $('#wall').append(html);  
-    $('#wallitem-input').val('');
+    $('#wallitem-input').html('');
   }
   $('abbr.timeago').timeago();
   wall.bindLike();

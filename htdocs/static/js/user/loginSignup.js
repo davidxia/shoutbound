@@ -15,7 +15,7 @@ loginSignup.getStatus = function() {
 };
 
 
-loginSignup.showDialog = function (callback, id, param) {
+loginSignup.showDialog = function(callback, id, param) {
   var postData = {
     callback: callback,
     id: id,
