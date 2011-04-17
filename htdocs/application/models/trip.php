@@ -71,6 +71,8 @@ class Trip extends DataMapper {
         {
             // get creator's name
             $wallitem->get_creator();
+            // convert \n to <br/>
+            $wallitem->convert_nl();
             // generate html for wallitem's places
             $wallitem->get_places();
             // get number of likes
@@ -83,6 +85,7 @@ class Trip extends DataMapper {
             {
                 // get creator's name
                 $reply->get_creator();
+                $reply->convert_nl();
                 // generate html for wallitem's places
                 $reply->get_places();
                 // get number of likes

@@ -70,10 +70,12 @@ wall.showRemove = function() {
 
 wall.bindPostButton = function() {
   $('#wallitem-post-button').click(function() {
-    if ($('#wallitem-input').html().length > 0) {
+  //console.log(wall.getContentEditableText('wallitem-input').trim().length);
+  var text = wall.getContentEditableText('wallitem-input').trim();
+    if (text.length > 0) {
       var loggedin = loginSignup.getStatus();
       if (loggedin) {
-        wall.postWallitem();
+        wall.postWallitem(text);
       } else {
         loginSignup.showDialog('wall post');
       }
@@ -95,9 +97,7 @@ wall.getContentEditableText = function(id) {
 }
 
 
-wall.postWallitem = function() {
-  var text = wall.getContentEditableText('wallitem-input');
-  
+wall.postWallitem = function(text) {
   $.ajax({
     type: 'POST',
     url: baseUrl+'wallitems/ajax_save',

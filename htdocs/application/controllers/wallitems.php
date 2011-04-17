@@ -38,7 +38,7 @@ class Wallitems extends CI_Controller
                 'userName' => $this->user->name,
                 'userId' => $this->user->id,
                 'userPic' => $this->user->profile_pic,
-                'content' => $this->input->post('content'),
+                'content' => nl2br($this->input->post('content')),
                 'parentId' => $parent_id,
                 'created' => time()-72,
             ));

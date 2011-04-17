@@ -65,6 +65,12 @@ class Wallitem extends DataMapper
     }
     
     
+    public function convert_nl()
+    {
+        $this->stored->content = nl2br($this->stored->content);
+    }
+    
+    
     public function get_places()
     {
         $this->stored->content = preg_replace_callback('/<place id="(\d+)">/',
