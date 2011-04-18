@@ -70,12 +70,10 @@ wall.showRemove = function() {
 
 wall.bindPostButton = function() {
   $('#wallitem-post-button').click(function() {
-  //console.log(wall.getContentEditableText('wallitem-input').trim().length);
-  var text = wall.getContentEditableText('wallitem-input').trim();
-    if (text.length > 0) {
+    if (wall.getContentEditableText('wallitem-input').trim().length > 0) {
       var loggedin = loginSignup.getStatus();
       if (loggedin) {
-        wall.postWallitem(text);
+        wall.postWallitem();
       } else {
         loginSignup.showDialog('wall post');
       }
@@ -97,7 +95,19 @@ wall.getContentEditableText = function(id) {
 }
 
 
-wall.postWallitem = function(text) {
+wall.postWallitem = function() {
+  var text = wall.getContentEditableText('wallitem-input').trim();
+  //console.log(text);
+  var matches = text.match(/@\S+/g);
+  for (i in matches) {
+    var name = matches[i].replace(/@/, '');
+    var id = $('#autocomplete-results').data(name);
+    name = name.replace(/-/g, ' ');
+    //console.log('<place id="'+id+'">'+name+'</place>');
+    text = text.replace(matches[i], '<place id="'+id+'">'+name+'</place>');
+  }
+  //console.log(text);
+
   $.ajax({
     type: 'POST',
     url: baseUrl+'wallitems/ajax_save',
@@ -121,7 +131,7 @@ wall.displayWallitem = function(r) {
         html[5] = '<abbr class="timeago" title="'+r.created+'">'+r.created+'</abbr>';
       html[6] = '</div>';
       html[7] = '<div class="remove-wallitem"></div>';
-    html[9] = '</div>';    
+    html[8] = '</div>';    
   } else {
     html[0] = '<div class="wallitem" id="wallitem-'+r.id+'">';
       html[1] = '<div class="content">'+r.content+'</div>';
@@ -557,7 +567,7 @@ wall.autocompleteClick = function(id, name) {
   e.keyCode = 27;
   $('#autocomplete-input').trigger(e);
   $('#autocomplete-results').data(name, id);
-  console.log($('#autocomplete-results').data());
+  //console.log($('#autocomplete-results').data());
   return false;
 };
 
