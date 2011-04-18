@@ -13,7 +13,7 @@ class Trip_shares extends CI_Controller
         if ($uid)
         {
             $u->get_by_id($uid);
-            $this->user = $u->stored;
+            $this->user = $u;
         }
         else
         {
@@ -59,8 +59,6 @@ class Trip_shares extends CI_Controller
 
     public function send_email()
     {
-        //$u = new User();
-        //$u->get_by_id($this->input->post('uid'));
         $sender = $this->user->name;
         
         $this->load->library('sendgrid_email');
@@ -177,11 +175,9 @@ class Trip_shares extends CI_Controller
 
     public function ajax_trip_share_dialog()
     {
-        $u = new User();
-        $u->get_by_id($this->user->id);
-        
+        /*
         // get Shoutbound friends not related to this trip
-        $u->related_user->get();
+        $this->user->related_user->get();
         // get user ids associated with this trip
         $t = new Trip();
         $t->get_by_id($this->input->post('tripId'));
@@ -192,16 +188,17 @@ class Trip_shares extends CI_Controller
             $trip_uids[] = $user->id;
         }
         $uninvited_sb_friends = array();
-        foreach ($u->related_user as $sb_friend)
+        foreach ($this->user->related_user as $sb_friend)
         {
             if ( ! in_array($sb_friend->id, $trip_uids))
             {
                 $uninvited_sb_friends[] = $sb_friend->stored;
             }
         }
-                
+        */
+        
         $view_data = array(
-            'uninvited_sb_friends' => $uninvited_sb_friends,
+            //'uninvited_sb_friends' => $uninvited_sb_friends,
             'share_role' => $this->input->post('shareRole')
         );
         

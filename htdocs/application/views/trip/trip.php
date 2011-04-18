@@ -37,18 +37,6 @@ $this->load->view('core_header', $header_args);
 <body>
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
-  <div id="fb-root"></div>
-  <script>
-    window.fbAsyncInit = function() {
-      FB.init({appId: '136139119767617', status: true, cookie: true, xfbml: true});
-    };
-    (function() {
-      var e = document.createElement('script'); e.async = true;
-      e.src = document.location.protocol +
-          '//connect.facebook.net/en_US/all.js';
-      document.getElementById('fb-root').appendChild(e);
-    }());
-  </script>	
   
   <div id="div-to-popup" style="display:none;"></div>
 			  
@@ -155,7 +143,7 @@ $this->load->view('core_header', $header_args);
     	        
         <? if ($user_rsvp == 3):?>
           <div class="console">
-            Get advice, ideas and recommendations for this trip by <a href="#" id="get-suggestions-button">Sharing</a> it with other people. You can also <a href="#" id="invite-others-button">Invite</a>  other people to join you this trip.  	              
+            Get advice, ideas and recommendations for this trip by <a href="#" id="get-suggestions-button">sharing</a> it with other people. You can also <a href="#" id="invite-others-button">invite</a>  other people to join you this trip.  	              
             <a href="#" id="rsvp_no_button">I'm out</a>
                      
             <? if ($user_role == 3):?>
@@ -165,7 +153,7 @@ $this->load->view('core_header', $header_args);
           
         <? else:?>		          	
       		<div class="console">
-          	Help <a href="<?=site_url('profile/'.$creator->id)?>"><?=$creator->name?></a> plan this trip by adding your thoughts and <a href="#" id="get-suggestions-button">Sharing</a> this trip with other people.
+          	Help <a href="<?=site_url('profile/'.$creator->id)?>"><?=$creator->name?></a> plan this trip by adding your thoughts and <a href="#" id="get-suggestions-button">sharing</a> this trip with other people.
           </div>
         <? endif;?>	            				
     	</div><!--WIDGET END-->									

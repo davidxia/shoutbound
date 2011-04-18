@@ -22,16 +22,11 @@ $(function() {
 });
 
 
-share.saveRsvp = function(rsvp) {
-  var postData = {
-    tripId: tripId,
-    rsvp: rsvp
-  };
-  
+share.saveRsvp = function(rsvp) {  
   $.ajax({
     type: 'POST',
     url: baseUrl+'trips/ajax_save_rsvp',
-    data: postData,
+    data: {tripId:tripId, rsvp:rsvp},
     success: function(r) {
       var r = $.parseJSON(r);
       if (r.success) {
@@ -111,31 +106,23 @@ share.rsvpSuccess = function(r) {
 
     
 share.showShareDialog = function(shareRole) {
-  var postData = {
-    tripId: tripId,
-    shareRole: shareRole
-  };
   $.ajax({
     type: 'POST',
     url: baseUrl+'trip_shares/ajax_trip_share_dialog',
-    data: postData,
+    data: {tripId:tripId, shareRole:shareRole},
     success: function(response) {
       var r = $.parseJSON(response);
       $('#div-to-popup').empty().append(r.data).bPopup({follow:false, opacity:0});
       share.bindButtons(shareRole);
     }
   });
-}
+};
   
   
 share.bindButtons = function(shareRole) {
   $('#shoutbound-share').bind('click', share.FriendSelector);
   $('#facebook-share').click(function() {
-    share.facebookMessage(shareRole);
-    return false;
-  });
-  $('#fb-share-wall').click(function() {
-    share.facebookWallPost(shareRole);
+    share.facebookShare(shareRole);
     return false;
   });
   $('#twitter-share').click(function() {
@@ -166,7 +153,7 @@ share.bindButtons = function(shareRole) {
     }
     return false;
   });
-}
+};
 
 
 share.FriendSelector = function() {
@@ -174,96 +161,22 @@ share.FriendSelector = function() {
   $('#share-methods').toggle();
   $('#trip-share-toolbar').toggle();
   return false;
-}
+};
   
 
-share.facebookMessage = function(shareRole) {
-  FB.getLoginStatus(function(response) {
-    if (response.session) {
-      var to = 1;
-      var shareKey = share.generateShareKey(shareRole, 2, 'fb');
-      if (shareRole == 2) {
-        var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
-      } else if (shareRole == 1) {
-        var message = 'Help me plan my trip: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
-      }
-      
-      var url = 'http://www.facebook.com/messages/'+to+'?msg_prefill='+message;
-      window.open(url);
-    } else {
-      FB.login(function(response) {
-        if (response.session) {
-          var to = 1;
-          var shareKey = share.generateShareKey(shareRole, 2, 'fb');
-          if (shareRole == 2) {
-            var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
-          } else if (shareRole == 1) {
-            var message = 'Help me plan my trip: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
-          }
-          var url = 'http://www.facebook.com/messages/'+to+'?msg_prefill='+message;
-          window.open(url);
-        }
-      });    
-    }
-  });
+share.facebookShare = function(shareRole) {
+  var shareKey = share.generateShareKey(shareRole, 2, 'fb');
+  var url = 'http://www.facebook.com/sharer.php?u='+baseUrl+'trips/share/'+tripId+'/'+shareKey;
+  var window_specs = 'toolbar=0, status=0, width=626, height=436';
+  
+  var x = Math.ceil((window.screen.availHeight/2)-100);
+  var y = Math.ceil(150);
+  var popup = window.open(url, '_blank', window_specs);
+  popup.moveTo(x,y);
+  
   $('#div-to-popup').bPopup().close();
   return false;
-}
-
-
-share.facebookWallPost = function(shareRole) {
-  FB.getLoginStatus(function(response) {
-    if (response.session) {
-      var shareKey = share.generateShareKey(shareRole, 2, 'fb');
-      if (shareRole == 2) {
-        var message = 'Come with me on this trip I\'m planning.';
-      } else if (shareRole == 1) {
-        var message = 'Help me plan my trip.';
-      }
-      FB.ui({
-        method: 'feed',
-        name: message,
-        link: baseUrl+'trips/share/'+tripId+'/'+shareKey,
-        picture: baseUrl+'images/sb_logo_75.jpg',
-        caption: 'Shoutbound is bi-winning, duh.',
-        description: 'David Xia is a god.',
-        message: message
-      },
-      function(r) {
-        if (r && r.post_id) {
-          $('#div-to-popup').bPopup().close();
-        }
-      });
-    } else {
-      FB.login(function(response) {
-        if (response.session) {
-          var to = 1;
-          var shareKey = share.generateShareKey(shareRole, 2, 'fb');
-          if (shareRole == 2) {
-            var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
-          } else if (shareRole == 1) {
-            var message = 'Help me plan my trip: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
-          }
-          FB.ui({
-            method: 'feed',
-            name: message,
-            link: baseUrl+'trips/share/'+tripId+'/'+shareKey,
-            picture: baseUrl+'images/sb_logo_75.jpg',
-            caption: 'Shoutbound is bi-winning, duh.',
-            description: 'David Xia is a god.',
-            message: message
-          },
-          function(r) {
-            if (r && r.post_id) {
-              $('#div-to-popup').bPopup().close();
-            }
-          });
-        }
-      });    
-    }
-  });
-  return false;
-}
+};
 
 
 share.tweet = function(shareRole) {
@@ -280,14 +193,14 @@ share.tweet = function(shareRole) {
   
   $('#div-to-popup').bPopup().close();
   return false;
-}
+};
 
 
 share.emailShare = function() {
   $('#share-methods').toggle();
   $('#email-input').toggle();
   $('#trip-share-toolbar').toggle();
-}
+};
 
 
 share.confirmShare = function(shareRole) {  
@@ -335,7 +248,7 @@ share.confirmShare = function(shareRole) {
     
   $('#div-to-popup').bPopup().close();
   return false;
-}
+};
 
 
 share.displaySuccessDialog = function(r) {
@@ -345,7 +258,7 @@ share.displaySuccessDialog = function(r) {
   $('.success').click(function() {
     $('#div-to-popup').bPopup().close();
   });  
-}
+};
 
 
 share.sendEmail = function(uids, shareRole) {
@@ -361,7 +274,7 @@ share.sendEmail = function(uids, shareRole) {
     url: baseUrl+'trip_shares/send_email',
     data: postData,
   });
-}
+};
 
 
 share.generateShareKey = function(shareRole, shareMedium, targetId) {
@@ -389,10 +302,10 @@ share.generateShareKey = function(shareRole, shareMedium, targetId) {
   } else {
     alert(r.message);
   }
-}
+};
 
 
-$(document).ready(function() {
+$(function() {
   $('#invite-others-button').live('click', function() {
     share.showShareDialog(2);
     return false;
