@@ -62,19 +62,20 @@ map.loadGoogleMap = function() {
   // mark trip's destinations on map
   map.showDestinationMarkers();
 
-  
   // change viewport to saved latlngbounds
   //var sw = new google.maps.LatLng(map.sBound, map.wBound);
   //var ne = new google.maps.LatLng(map.nBound, map.eBound);
   //var savedLatLngBounds = new google.maps.LatLngBounds(sw, ne);
   //map.googleMap.fitBounds(savedLatLngBounds);
-  
     
   // create infoWindow object for map
   map.infoWindow = new google.maps.InfoWindow();
 
-  $('a.place').each(function(i) {
-    map.displayWallMarkers(i, $(this).attr('lat'), $(this).attr('lng'));
+  // waits till map is set so bounds can be extended to include markers
+  google.maps.event.addListenerOnce(map.googleMap, 'bounds_changed', function() {
+    $('a.place').each(function(i) {
+      map.displayWallMarkers(i, $(this).attr('lat'), $(this).attr('lng'));
+    });
   });
   
   // use the first element that is scrollable
@@ -100,8 +101,7 @@ map.showDestinationMarkers = function() {
   //if (map.destination_markers.length !== 0) {
     //map.googleMap.fitBounds(bounds);
   //}
-}
-
+};
 
 
 map.displayWallMarkers = function(i, lat, lng) {
@@ -125,6 +125,12 @@ map.displayWallMarkers = function(i, lat, lng) {
     icon: image,
     shadow: shadow
   });
+  
+  var bounds = map.googleMap.getBounds();
+  if (!bounds.contains(markerLatLng)) {
+    bounds.extend(markerLatLng);
+    map.googleMap.fitBounds(bounds);
+  }
   
   map.loadMarkerListeners(marker, i);
   wall.bindPlaces(marker, i);
@@ -164,6 +170,13 @@ map.loadMarkerListeners = function(marker, i) {
     $(wall.scrollElem).animate({scrollTop: placeText.parent().parent().offset().top}, 500);
   });
 };
+
+
+map.fitWallMarkers = function() {
+  var bounds = map.googleMap.getBounds();
+  bounds.extend(markerLatLng);
+};
+
 
 
 $(document).ready(function() {
