@@ -182,7 +182,7 @@ $this->load->view('core_header', $header_args);
           
           <div class="actionbar">
             <a class="wallitem-profile-pic" href="<?=site_url('profile/'.$wallitem->user_id)?>">
-              <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="trip-page-avatar" height="22" width="22"/>
+              <img src="<?=static_sub('profile_pics/'.$wallitem->user->profile_pic)?>" class="trip-page-avatar" height="22" width="22"/>
             </a>
             
             <a href="<?=site_url('profile/'.$wallitem->user_id)?>" class="author">
