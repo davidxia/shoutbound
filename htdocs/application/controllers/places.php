@@ -13,8 +13,7 @@ class Places extends CI_Controller
     {
         $this->load->library('Mc');
 
-        //$query = $this->input->post('query');
-        $query = 'jakarta';
+        $query = $this->input->post('query');
         $key = 'places_by_query:'.$query;
         $val = $this->mc->get($key);
         
@@ -26,7 +25,7 @@ class Places extends CI_Controller
             $val = array();
             foreach ($p as $place)
             {
-                $val[$place->id] = $place->name;
+                $val[$place->id] = $place->name.', '.$place->admin1_code;
             }
 
             $this->mc->set($key, $val);
@@ -49,8 +48,8 @@ class Places extends CI_Controller
     {
         $this->load->library('Mc');
         
-        $key = 'places_by_query:'.'jak';
-        $val = array('jakarta', 'jabberwokky');
+        $key = 'places_by_query:'.'nantucket';
+        //$val = array('jakarta', 'jabberwokky');
         //print_r($val);
         
         //$this->mc->set($key, $val);
@@ -58,8 +57,6 @@ class Places extends CI_Controller
         $val = $this->mc->get($key);
         
         print_r($val);
-        
-            
     }
 }
 

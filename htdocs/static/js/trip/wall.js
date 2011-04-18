@@ -97,7 +97,7 @@ wall.getContentEditableText = function(id) {
 
 wall.postWallitem = function() {
   var text = wall.getContentEditableText('wallitem-input').trim();
-  var matches = text.match(/@[\w-]+/g);
+  var matches = text.match(/@[\w-']+/g);
   for (i in matches) {
     var name = matches[i].replace(/@/, '');
     var id = $('#autocomplete-results').data(name);
