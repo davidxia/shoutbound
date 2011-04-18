@@ -1,7 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-function _quicksort(&$array)
+function _quicksort(&$array, $desc_order=FALSE)
 {
+    // default to ordering by asc unix time created
     $cur = 1;
     $stack[1]['l'] = 0;
     $stack[1]['r'] = count($array)-1;
@@ -23,11 +24,22 @@ function _quicksort(&$array)
             // right from $tmp are with bigger ones
             do
             {
-                while ($array[$i]->created > $tmp->created)
-                $i++;
-                
-                while ($tmp->created > $array[$j]->created)
-                $j--;
+                if ($desc_order)
+                {
+                    while ($array[$i]->created > $tmp->created)
+                    $i++;
+                    
+                    while ($tmp->created > $array[$j]->created)
+                    $j--;                
+                }
+                else
+                {
+                    while ($array[$i]->created < $tmp->created)
+                    $i++;
+                    
+                    while ($tmp->created < $array[$j]->created)
+                    $j--;
+                }
                 
                 // swap elements from the two sides
                 if ($i <= $j)

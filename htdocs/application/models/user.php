@@ -170,7 +170,7 @@ class User extends DataMapper
         if ($news_feed_items)
         {
             $this->load->helper('quicksort');
-            _quicksort($news_feed_items);
+            _quicksort($news_feed_items, TRUE);
         }
         return $news_feed_items;
     }
