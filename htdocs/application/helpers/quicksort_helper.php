@@ -28,7 +28,6 @@ function _quicksort(&$array, $desc_order=FALSE)
                 {
                     while ($array[$i]->created > $tmp->created)
                     $i++;
-                    
                     while ($tmp->created > $array[$j]->created)
                     $j--;                
                 }
@@ -36,7 +35,6 @@ function _quicksort(&$array, $desc_order=FALSE)
                 {
                     while ($array[$i]->created < $tmp->created)
                     $i++;
-                    
                     while ($tmp->created < $array[$j]->created)
                     $j--;
                 }

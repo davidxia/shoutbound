@@ -94,7 +94,7 @@ $this->load->view('core_header', $header_args);
     
       <div id="profile-top-bar">
         <div id="profile-pic-container" style="position:relative; display:inline;">
-          <a href="#" id="profile-pic" style="cursor:pointer;"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="110" height="110"/></a>
+          <a href="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="110" height="110"/></a>
           <a href="<?=site_url('profile/edit')?>" id="edit-profile-pic" style="position:absolute; top:-95px; left:0px; font-size:12px; background-color:black; color:white; display:none;">change picture</a>
         </div>
         
@@ -144,25 +144,24 @@ $this->load->view('core_header', $header_args);
     return false;
   });
   
-  
-  $('#profile-pic').hover(
-    function() {
-      $('#edit-profile-pic').show();
-    },
-    function() {
-      $('#edit-profile-pic').hide();
-    }
-  );
-  
-  
-  $('#edit-profile-pic').hover(
-    function() {
-      $('#edit-profile-pic').show();
-    },
-    function() {
-      $('#edit-profile-pic').hide();
-    }
-  );
+  if (<?=$is_friend?> == -1) {
+    $('#profile-pic').hover(
+      function() {
+        $('#edit-profile-pic').show();
+      },
+      function() {
+        $('#edit-profile-pic').hide();
+      }
+    );
+    $('#edit-profile-pic').hover(
+      function() {
+        $('#edit-profile-pic').show();
+      },
+      function() {
+        $('#edit-profile-pic').hide();
+      }
+    );  
+  }
 </script>
 
 </body> 
