@@ -107,22 +107,18 @@ map.showDestinationMarkers = function() {
 map.displayWallMarkers = function(i, lat, lng) {
   var markerLatLng = new google.maps.LatLng(lat, lng);
   // Origins, anchor positions and coordinates of the marker
-  // increase in the X direction to the right and in
-  // the Y direction down.
-  var image = new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/marker_sprite.png',
+  // increase in X direction to the right in Y direction down.
+  var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
       // 20px width, 34px height
       new google.maps.Size(20, 34),
       // origin at 0,0
       new google.maps.Point(0, 0),
       // anchor at 10,34.
       new google.maps.Point(10, 34));
-  var shadow = new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/marker_sprite.png',
+  var shadow = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
       new google.maps.Size(25, 20),
       new google.maps.Point(40, 14),
       new google.maps.Point(0, 20));
-  var xxx = new google.maps.MarkerImage({
-    url: 'http://dev.shoutbound.com/david/images/marker_sprite.png'
-  });
   var marker = new google.maps.Marker({
     map: map.googleMap,
     position: markerLatLng,
@@ -138,7 +134,7 @@ map.displayWallMarkers = function(i, lat, lng) {
 map.loadMarkerListeners = function(marker, i) {
   google.maps.event.addListener(marker, 'click', function() {
     // change marker icon
-    var image = new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/marker_sprite.png',
+    var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
       new google.maps.Size(20, 34),
       new google.maps.Point(20, 0),
       new google.maps.Point(10, 34));
@@ -151,14 +147,11 @@ map.loadMarkerListeners = function(marker, i) {
     placeText.animate({
       backgroundColor: '#fffb2c',
     }, 250, function() {
-      /*$(this).animate({
-        backgroundColor: '#ffffff'
-      }, 250)*/
       $(document).one('click', function() {
         // reset text and marker icon when user clicks elsewhere
         placeText.css({'background-color': '#ffffff'});
         
-        image = new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/marker_sprite.png',
+        image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
           new google.maps.Size(20, 34),
           new google.maps.Point(0, 0),
           new google.maps.Point(10, 34));
@@ -167,12 +160,10 @@ map.loadMarkerListeners = function(marker, i) {
         });
       });
     });
-    
     // scroll window to corresponding wallitem
     $(wall.scrollElem).animate({scrollTop: placeText.parent().parent().offset().top}, 500);
   });
 };
-
 
 
 $(document).ready(function() {

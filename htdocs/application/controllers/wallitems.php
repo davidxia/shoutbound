@@ -33,12 +33,23 @@ class Wallitems extends CI_Controller
 		    if ($wi->save())
 		    {
 		        $parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : 0;
+		        
+		        $content = nl2br($this->input->post('content'));
+            $content = preg_replace_callback('/<place id="(\d+)">/',
+                create_function('$matches',
+                    '$p = new Place();
+                     $p->get_by_id($matches[1]);
+                     return \'<a class="place" href="#" address="\'.$p->name.\'" lat="\'.$p->lat.\'" lng="\'.$p->lng.\'">\';'),
+                $content);
+                
+            $content = str_replace('</place>', '</a>', $content);
+
             json_success(array(
                 'id' => $wi->id,
                 'userName' => $this->user->name,
                 'userId' => $this->user->id,
                 'userPic' => $this->user->profile_pic,
-                'content' => nl2br($this->input->post('content')),
+                'content' => $content,
                 'parentId' => $parent_id,
                 'created' => time()-72,
             ));

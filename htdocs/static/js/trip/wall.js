@@ -97,16 +97,13 @@ wall.getContentEditableText = function(id) {
 
 wall.postWallitem = function() {
   var text = wall.getContentEditableText('wallitem-input').trim();
-  //console.log(text);
-  var matches = text.match(/@\S+/g);
+  var matches = text.match(/@[\w-]+/g);
   for (i in matches) {
     var name = matches[i].replace(/@/, '');
     var id = $('#autocomplete-results').data(name);
     name = name.replace(/-/g, ' ');
-    //console.log('<place id="'+id+'">'+name+'</place>');
     text = text.replace(matches[i], '<place id="'+id+'">'+name+'</place>');
   }
-  //console.log(text);
 
   $.ajax({
     type: 'POST',
@@ -157,6 +154,10 @@ wall.displayWallitem = function(r) {
   }
   $('abbr.timeago').timeago();
   wall.bindLike();
+  
+  var a = $(html).find('a.place');
+  var i = $('a.place').length-1;
+  map.displayWallMarkers(i, a.attr('lat'), a.attr('lng'));
 };
 
 

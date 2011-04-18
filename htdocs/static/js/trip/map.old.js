@@ -1,19 +1,3 @@
-// bind onkeyup event to location-search-box
-$('#location-search-box').keyup(function() {
-  map.delay(map.geocodeLocationQuery, 200);
-});
-
-
-// delay geocoder api for 1/5 second of keyboard inactivity
-map.delay = (function() {
-  var timer = 0;
-  return function(callback, ms){
-    clearTimeout (timer);
-    timer = setTimeout(callback, ms);
-  };
-})();
-
-
 map.geocodeLocationQuery = function() {
   // new geocoder to convert address/name into latlng co-ords
   var geocoder = new google.maps.Geocoder();
