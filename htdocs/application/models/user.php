@@ -127,6 +127,8 @@ class User extends DataMapper
     
     public function get_news_feed_items()
     {
+        $wi = new Wallitem();
+
         // get trips associated with user
         $trip_ids = array();
         foreach ($this->trip->where('active', 1)->get() as $trip)
@@ -135,12 +137,14 @@ class User extends DataMapper
         }
         // get these trips' most recent wallitems excluding user's own
         $trip_wallitems = array();
-        $wi = new Wallitem();
-        foreach ($wi->where('active', 1)->where_in('trip_id', $trip_ids)->where('user_id !=', $this->id)->get() as $wallitem)
+        if ( ! empty($trip_ids))
         {
-            $wallitem->get_creator();
-            $wallitem->get_trip();
-            $trip_wallitems[] = $wallitem->stored;
+            foreach ($wi->where('active', 1)->where_in('trip_id', $trip_ids)->where('user_id !=', $this->id)->get() as $wallitem)
+            {
+                $wallitem->get_creator();
+                $wallitem->get_trip();
+                $trip_wallitems[] = $wallitem->stored;
+            }
         }
         
         // get wallitems that are replies to user's wallitems
@@ -150,13 +154,16 @@ class User extends DataMapper
         {
             $wallitem_ids[] = $wallitem->id;
         }
-        $wi = new Wallitem();
         $reply_wallitems = array();
-        foreach ($wi->where_in('parent_id', $wallitem_ids)->where('user_id !=', $this->id)->get() as $wallitem)
+        if ( ! empty($wallitem_ids))
         {
-            $wallitem->get_creator();
-            $wallitem->get_trip();
-            $reply_wallitems[] = $wallitem->stored;
+            $wi->clear();
+            foreach ($wi->where_in('parent_id', $wallitem_ids)->where('user_id !=', $this->id)->get() as $wallitem)
+            {
+                $wallitem->get_creator();
+                $wallitem->get_trip();
+                $reply_wallitems[] = $wallitem->stored;
+            }        
         }
         
         $news_feed_items = array_merge($trip_wallitems, $reply_wallitems);
