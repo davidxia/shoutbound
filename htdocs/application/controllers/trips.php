@@ -13,7 +13,7 @@ class Trips extends CI_Controller
         if ($uid)
         {
             $u->get_by_id($uid);
-            $this->user = $u->stored;
+            $this->user = $u;
         }
 		}
 		         	  
@@ -33,18 +33,20 @@ class Trips extends CI_Controller
         $t = new Trip();
         $t->name = $post['trip_name'];
         $t->description = $post['description'];
+        /*
         $deadline = date_parse_from_format('n/j/Y', $post['deadline']);
         {
             $t->response_deadline = mktime(0, 0, 0, $deadline['month'], $deadline['day'], $deadline['year']);
         }
+        */
         //$t->is_private = ($post['private'] == 1) ? 1 : 0;
                 
-        $u = new User();
-        $u->get_by_id($this->user->id);
+        //$u = new User();
+        //$u->get_by_id($this->user->id);
 
-        if ($t->save() AND $u->save($t)
-            AND $t->set_join_field($u, 'role', 3)
-            AND $t->set_join_field($u, 'rsvp', 3))
+        if ($t->save() AND $this->user->save($t)
+            AND $t->set_join_field($this->user, 'role', 3)
+            AND $t->set_join_field($this->user, 'rsvp', 3))
         {
             // save trip's destinations and dates
             $p = new Place();
@@ -53,29 +55,27 @@ class Trips extends CI_Controller
                 if (is_array($value))
                 {
                     $p->clear();
-                    //$p->trip_id = $t->id;
                     $p->name = $post[$key]['address'];
                     $p->lat = $post[$key]['lat'];
                     $p->lng = $post[$key]['lng'];
                     $p->save();
                     $t->save($p);
-                                        
                     // gets each destination's startdate and enddate and stores as unix time
                     // TODO: callback method for better client side validation?
                     $startdate = date_parse_from_format('n/j/Y', $post[$key]['startdate']);
                     if (checkdate($startdate['month'], $startdate['day'], $startdate['year']))
                     {
-                        $t->set_join_field($p, 'startdate', $startdate);
+                        $t->set_join_field($p, 'startdate', strtotime($startdate['day'].'-'.$startdate['month'].'-'.$startdate['year']));
                     }
                     $enddate = date_parse_from_format('n/j/Y', $post[$key]['enddate']);
                     if (checkdate($enddate['month'], $enddate['day'], $enddate['year']))
                     {
-                        $t->set_join_field($p, 'enddate', $enddate);
+                        $t->set_join_field($p, 'enddate', strtotime($enddate['day'].'-'.$enddate['month'].'-'.$enddate['year']));
                     }
                 }
             }
-            
             // send emails to planners
+            /*
             $this->load->library('sendgrid_email');
             $emails = explode(',', $post['invites']);
             foreach ($emails as $email)
@@ -103,6 +103,7 @@ class Trips extends CI_Controller
                         '<br/>Have fun!<br/>Team Shoutbound'
                 );
             }
+            */
             
             // TODO: success callback to ensure all destinations were saved?
             redirect('trips/'.$t->id);
@@ -126,14 +127,12 @@ class Trips extends CI_Controller
             return;
         }
         
-        $u = new User();
-        if (isset($this->user))
+        if (isset($this->user->id))
         {
-            $u->get_by_id($this->user->id);
-            
+            $user = $this->user->stored;
             // get user's relation to this trip
-            $user_role = $u->get_role_by_tripid($trip_id);
-            $user_rsvp = $u->get_rsvp_by_tripid($trip_id);
+            $user_role = $this->user->get_role_by_tripid($trip_id);
+            $user_rsvp = $this->user->get_rsvp_by_tripid($trip_id);
             
             // if no relation, check if user has invite cookie with correct access key
             // redirect to home page if neither
@@ -145,6 +144,7 @@ class Trips extends CI_Controller
         }
         else
         {
+            $user = NULL;
             // if user is not logged in and no invite cookie
             if ( ! $this->verify_share_cookie($trip_id))
             {
@@ -164,19 +164,12 @@ class Trips extends CI_Controller
                 $user_rsvp = 2;
             }
         }
-        /*        
-        if (isset($wall_items[0]))
-        {
-            $this->load->helper('quicksort');
-            _quicksort($wall_items);
-        }
-        */
                 
         $view_data = array(
             'trip' => $t->stored,
             'creator' => $t->get_creator(),
             'destinations' => $t->get_places(),
-            'user' => $this->user,
+            'user' => $user,
             'user_role' => $user_role,
             'user_rsvp' => $user_rsvp,
             'wallitems' => $t->get_wallitems(),
@@ -189,8 +182,9 @@ class Trips extends CI_Controller
     
     public function create($i=1)
     {        
+        $user = ($this->user) ? $this->user->stored : NULL;
         $view_data = array(
-            'user' => $this->user,
+            'user' => $user,
             'destination' => $this->input->post('destination'),
             'destination_lat' => $this->input->post('destination_lat'),
             'destination_lng' => $this->input->post('destination_lng'),
@@ -209,23 +203,23 @@ class Trips extends CI_Controller
         {
             $this->load->view('trip/create_three_steps', $view_data);
         }
+        
     }
     
     
     public function ajax_trip_create()
-    {        
-        if ( ! isset($this->user->id))
+    {
+        if ( ! ($this->user->id AND $this->input->post('tripName')))
         {
-            redirect('/');
+            custom_404();
+            return;
         }
-        $u = new User();
-        $u->get_by_id($this->user->id);
 
         $t = new Trip();
         $t->name = $this->input->post('tripName');
-        if ($t->save() AND $u->save($t)
-            AND $t->set_join_field($u, 'role', 2)
-            AND $t->set_join_field($u, 'rsvp', 3))
+        if ($t->save() AND $this->user->save($t)
+            AND $t->set_join_field($this->user, 'role', 2)
+            AND $t->set_join_field($this->user, 'rsvp', 3))
         {
             json_success(array('tripId' => $t->id));
         }        
@@ -234,62 +228,23 @@ class Trips extends CI_Controller
 
     public function ajax_save_rsvp()
     {
-        if ( ! isset($this->user->id))
+        if ( ! ($this->user->id AND $this->input->post('tripId')))
         {
-            redirect('/');
+            custom_404();
+            return;
         }
-        $u = new User();
-        $u->get_by_id($this->user->id);
         
         $t = new Trip();
         $t->get_by_id($this->input->post('tripId'));
         
         $rsvp = $this->input->post('rsvp');
-        if ($t->set_join_field($u, 'rsvp', $rsvp))
+        if ($t->set_join_field($this->user, 'rsvp', $rsvp))
         {
             json_success(array(
-                'userId' => $u->id,
-                'profilePic'=>$u->profile_pic,
+                'userId' => $this->user->id,
+                'profilePic' => $this->user->profile_pic,
                 'rsvp' => $rsvp,
             ));
-        }        
-    }
-
-    
-    public function ajax_rsvp_yes()
-    {
-        if ( ! isset($this->user->id))
-        {
-            redirect('/');
-        }
-        $u = new User();
-        $u->get_by_id($this->user->id);
-        
-        $t = new Trip();
-        $t->get_by_id($this->input->post('tripId'));
-        
-        if ($t->set_join_field($u, 'rsvp', 3))
-        {
-            json_success(array('profilePic'=>$u->profile_pic));
-        }        
-    }
-    
-    
-    public function ajax_rsvp_no()
-    {
-        if ( ! isset($this->user))
-        {
-            redirect('/');
-        }
-        $u = new User();
-        $u->get_by_id($this->user->id);
-        
-        $t = new Trip();
-        $t->get_by_id($this->input->post('tripId'));
-        
-        if ($t->set_join_field($u, 'rsvp', 1))
-        {
-            json_success(array());
         }        
     }
 
@@ -322,13 +277,11 @@ class Trips extends CI_Controller
     
     public function delete($trip_id=FALSE)
     {
-        if ( ! (isset($this->user) OR $trip_id))
+        if ( ! ($this->user->id OR $trip_id))
         {
             custom_404();
             return;
         }
-        $u = new User();
-        $u->get_by_id($this->user->id);
         
         $t = new Trip();
         //check if trip exists in trips table and is active, ie not deleted
@@ -340,8 +293,8 @@ class Trips extends CI_Controller
         }
 
         //check if user is the creator, redirect to home page otherwise
-        $u->trip->include_join_fields()->get_by_id($trip_id);
-        if ($u->trip->join_role != 3)
+        $this->user->trip->include_join_fields()->get_by_id($trip_id);
+        if ($this->user->trip->join_role != 3)
         {
             custom_404();
             return;

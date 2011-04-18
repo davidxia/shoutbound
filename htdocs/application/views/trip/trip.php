@@ -51,7 +51,7 @@ $this->load->view('core_header', $header_args);
   </script>	
   
   <div id="div-to-popup" style="display:none;"></div>
-			  <a href="#" id="mytest">click HERE</a>
+			  
 			<div id="trip-col-right"><!--TRIPCOLRIGHT START-->
 				<div class="item-header">Itinerary</div>
 				<div id="itinerary"><!--ITINERARY START-->															
@@ -262,17 +262,11 @@ $this->load->view('core_header', $header_args);
       <? endif;?>
     <? endfor;?>
   ];
-
   
-  function loginSignupSuccess() {
-    $('#div-to-popup').empty();
-    wall.postWallitem();
-  }
-
   
   // show countdown clock
-  var deadline = new Date(<?=$trip->response_deadline?>*1000);
-  $('#countdown').countdown({until: deadline});  
+  //var deadline = new Date(<?=$trip->response_deadline?>*1000);
+  //$('#countdown').countdown({until: deadline});  
 </script>
 
 </body> 

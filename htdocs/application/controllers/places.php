@@ -25,7 +25,7 @@ class Places extends CI_Controller
             $val = array();
             foreach ($p as $place)
             {
-                $val[$place->id] = $place->name.', '.$place->admin1_code;
+                $val[$place->id] = $place->name;
             }
 
             $this->mc->set($key, $val);
@@ -48,7 +48,7 @@ class Places extends CI_Controller
     {
         $this->load->library('Mc');
         
-        $key = 'places_by_query:'.'nantucket';
+        $key = 'places_by_query:'.'budapest';
         //$val = array('jakarta', 'jabberwokky');
         //print_r($val);
         

@@ -1,13 +1,25 @@
 var share = {};
 
-share.rsvpYes = function() {
-  var loggedin = loginSignup.getStatus();
-  if (loggedin) {
-    share.saveRsvp(3)
-  } else {
-    loginSignup.showDialog('rsvp', 3);
-  }
-}
+$(function() {
+  $('#rsvp_yes_button').click(function() {
+    var loggedin = loginSignup.getStatus();
+    if (loggedin) {
+      share.saveRsvp(3);
+    } else {
+      loginSignup.showDialog('rsvp', 3);
+    }
+    return false;
+  });
+  $('#rsvp_no_button').click(function() {
+    var loggedin = loginSignup.getStatus();
+    if (loggedin) {
+      share.saveRsvp(1);
+    } else {
+      loginSignup.showDialog('rsvp', 1);
+    }
+    return false;
+  });
+});
 
 
 share.saveRsvp = function(rsvp) {
@@ -96,16 +108,6 @@ share.rsvpSuccess = function(r) {
     });
   }
 };
-
-
-share.rsvpNo = function() {
-  var loggedin = loginSignup.getStatus();
-  if (loggedin) {
-    share.saveRsvp(1)
-  } else {
-    loginSignup.showDialog('rsvp', 1);
-  }
-}
 
     
 share.showShareDialog = function(shareRole) {
@@ -391,14 +393,6 @@ share.generateShareKey = function(shareRole, shareMedium, targetId) {
 
 
 $(document).ready(function() {
-  $('#rsvp_yes_button').click(function() {
-    share.rsvpYes();
-    return false;
-  });
-  $('#rsvp_no_button').click(function() {
-    share.rsvpNo();
-    return false;
-  });
   $('#invite-others-button').live('click', function() {
     share.showShareDialog(2);
     return false;

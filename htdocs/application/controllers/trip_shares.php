@@ -17,7 +17,8 @@ class Trip_shares extends CI_Controller
         }
         else
         {
-            redirect('/');
+            custom_404();
+            return;
         }
 		}
     
