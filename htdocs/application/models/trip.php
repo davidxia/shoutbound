@@ -65,6 +65,7 @@ class Trip extends DataMapper {
     public function get_wallitems()
     {
 		    $wallitems = array();
+        $this->load->helper('quicksort');
 		    
         $this->wallitem->where('parent_id', NULL)->where('active', 1)->get();
         foreach ($this->wallitem as $wallitem)
@@ -93,11 +94,19 @@ class Trip extends DataMapper {
                 $replies[] = $reply->stored;
             }
             
+            if ($replies)
+            {
+                _quicksort($replies);
+            }
             // packages each wallitem with replies into separate array
             $wallitem->stored->replies = $replies;
             $wallitems[] = $wallitem->stored;
         }
         
+        if ($wallitems)
+        {
+            _quicksort($wallitems);
+        }
         return $wallitems;
     }
 
