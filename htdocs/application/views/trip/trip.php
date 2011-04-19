@@ -46,7 +46,7 @@ $this->load->view('core_header', $header_args);
 					<div class="right-item-content"><!--ITINERARY CONTENT-->         	
             <? foreach ($destinations as $destination):?>
               <div class="destination-dates">
-  	            <a href="#"><?=$destination->name?></a>
+  	            <a class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="#"><?=$destination->name?></a>
   		            <? if ($destination->startdate AND $destination->enddate):?>
   		              <?=date('n/d/y', $destination->startdate)?> to <?=date('n/d/y', $destination->enddate)?>
   		            <? elseif ($destination->startdate AND ! $destination->enddate):?>
@@ -241,19 +241,6 @@ $this->load->view('core_header', $header_args);
 <? $this->load->view('footer')?>
 
 <script type="text/javascript">
-  // output wall markers to page so Map.display_wall_markers function can display them once google map loads
-  // only put a comma after each item in the array if it's not the last one
-  // TODO: is there a better way to do the comma thing?
-  map.destination_markers = [
-    <? for($i=0, $count=count($destinations); $i<$count; $i++):?>
-      {"lat": <?=$destinations[$i]->lat?>, "lng": <?=$destinations[$i]->lng?>}
-      <? if($i < $count-1):?>
-        ,
-      <? endif;?>
-    <? endfor;?>
-  ];
-  
-  
   // show countdown clock
   //var deadline = new Date(<?=$trip->response_deadline?>*1000);
   //$('#countdown').countdown({until: deadline});  

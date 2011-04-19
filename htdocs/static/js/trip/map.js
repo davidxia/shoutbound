@@ -59,19 +59,17 @@ map.loadGoogleMap = function() {
   // display map inside map-canvas element
   map.googleMap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   
-  // mark trip's destinations on map
-  map.showDestinationMarkers();
+  // mark trip destinations on map
+  google.maps.event.addListenerOnce(map.googleMap, 'bounds_changed', function() {
+    $('a.destination').each(function() {
+      map.showDestMarkers($(this).attr('lat'), $(this).attr('lng'));
+    });
+  });
 
-  // change viewport to saved latlngbounds
-  //var sw = new google.maps.LatLng(map.sBound, map.wBound);
-  //var ne = new google.maps.LatLng(map.nBound, map.eBound);
-  //var savedLatLngBounds = new google.maps.LatLngBounds(sw, ne);
-  //map.googleMap.fitBounds(savedLatLngBounds);
-    
   // create infoWindow object for map
   map.infoWindow = new google.maps.InfoWindow();
 
-  // waits till map is set so bounds can be extended to include markers
+  // waits until map is set so bounds can be extended to include markers
   google.maps.event.addListenerOnce(map.googleMap, 'bounds_changed', function() {
     $('a.place').each(function(i) {
       map.displayWallMarkers(i, $(this).attr('lat'), $(this).attr('lng'));
@@ -83,24 +81,33 @@ map.loadGoogleMap = function() {
 };
 
 
-map.showDestinationMarkers = function() {
-  //var bounds = new google.maps.LatLngBounds();
-  for (var key in map.destination_markers) {
-    if (map.destination_markers.hasOwnProperty(key)) {
-      var markerLatLng = new google.maps.LatLng(map.destination_markers[key]['lat'], map.destination_markers[key]['lng']);
-      // add each new marker object to map.markers array
-      new google.maps.Marker({
-        map: map.googleMap,
-        position: markerLatLng,
-        icon: new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/shoutbound_marker.png')
-      });
-      // extend bounds to include this marker
-      //bounds.extend(markerLatLng);
-    }
+map.showDestMarkers = function(lat, lng) {
+  var markerLatLng = new google.maps.LatLng(lat, lng);
+  // Origins, anchor positions and coordinates of the marker
+  // increase in X direction to the right in Y direction down.
+  var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+      // 20px width, 34px height
+      new google.maps.Size(20, 34),
+      // origin at 0,0
+      new google.maps.Point(0, 0),
+      // anchor at 10,34.
+      new google.maps.Point(10, 34));
+  var shadow = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+      new google.maps.Size(25, 20),
+      new google.maps.Point(40, 14),
+      new google.maps.Point(0, 20));
+  var marker = new google.maps.Marker({
+    map: map.googleMap,
+    position: markerLatLng,
+    icon: image,
+    shadow: shadow
+  });
+  
+  var bounds = map.googleMap.getBounds();
+  if (!bounds.contains(markerLatLng)) {
+    bounds.extend(markerLatLng);
+    map.googleMap.fitBounds(bounds);
   }
-  //if (map.destination_markers.length !== 0) {
-    //map.googleMap.fitBounds(bounds);
-  //}
 };
 
 

@@ -262,17 +262,10 @@ share.displaySuccessDialog = function(r) {
 
 
 share.sendEmail = function(uids, shareRole) {
-  var postData = {
-    //uid: uid,
-    tripId: tripId,
-    uids: uids,
-    shareRole: shareRole
-  };
-  
   $.ajax({
     type: 'POST',
     url: baseUrl+'trip_shares/send_email',
-    data: postData,
+    data: {tripId:tripId, uids:uids, shareRole:shareRole},
   });
 };
 
