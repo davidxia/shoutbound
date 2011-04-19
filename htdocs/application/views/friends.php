@@ -10,24 +10,15 @@ $this->load->view('core_header', $header_args);
 ?>
 
 </head>
-
-<body style="background:white url('<?=site_url('images/trip_page_background.png')?>') repeat-x 0 0;">
-
-  <?=$this->load->view('header')?>
-  
-  <div class="wrapper" style="margin:0 auto; width:960px;">
-    <div class="content" style="padding-bottom:80px;">
+<body>
+  <? $this->load->view('header')?>
+  <? $this->load->view('wrapper_content')?>
+        
       
-      You have friend requests pending from
-      <br/>
-      <? foreach ($pending_friends as $pending_friend):?>
-        <div uid="<?=$pending_friend->id?>"><?=$pending_friend->name?> <a id="accept-request" href="#">Accept</a> <a id="ignore-request" href="#">Ignore</a></div>
-      <? endforeach;?>
-      
-    </div><!-- CONTENT ENDS -->
+  </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
 
-  <?=$this->load->view('footer')?>
+  <? $this->load->view('footer')?>
   
 <script type="text/javascript">
   $('#accept-request').click(function() {
@@ -51,9 +42,5 @@ $this->load->view('core_header', $header_args);
     return false;
   });
 </script>
-
-
-
 </body>
 </head>
-

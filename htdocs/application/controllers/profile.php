@@ -92,8 +92,8 @@ class Profile extends CI_Controller
             $trips[] = $trip->stored;
         }
         
-        // get profile's followers
         $u->get_followers();
+        $u->get_following();
                 
         // get profile's recent activity
         $profile_feed_items = $u->get_profile_feed_items();
@@ -106,8 +106,8 @@ class Profile extends CI_Controller
             'profile_feed_items' => $profile_feed_items,
         );
 
-        //$this->load->view('profile/profile', $view_data);
-        print_r($profile_feed_items);
+        $this->load->view('profile/profile', $view_data);
+        //print_r($profile_feed_items);
     }
     
     

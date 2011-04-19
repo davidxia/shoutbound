@@ -75,19 +75,31 @@ $this->load->view('core_header', $header_args);
         </div><!-- TRIPS LIST END -->
       </div><!-- TRIPS CONTAINER ENDS -->
 
-      <!-- FRIENDS CONTAINER -->
+      <!-- FOLLOWERS CONTAINER -->
       <div>
         <div>
-          Friends (<?=count($friends)?>)
+          Followers (<?=count($profile->followers)?>)
         </div>
         <div>
-          <? foreach ($friends as $friend):?>
-          <h3><a href="<?=site_url('profile/'.$friend->id)?>"><?=$friend->name?></a></h3>
+          <? foreach ($profile->followers as $follower):?>
+          <h3><a href="<?=site_url('profile/'.$follower->id)?>"><?=$follower->name?></a></h3>
           <? endforeach;?>
         </div>
-      </div><!-- FRIENDS CONTAINER END -->
+      </div><!-- FOLLOWERS CONTAINER ENDS -->
         
+      <!-- FOLLOWING CONTAINER -->
+      <div>
+        <div>
+          Following (<?=count($profile->following)?>)
+        </div>
+        <div>
+          <? foreach ($profile->following as $following):?>
+          <h3><a href="<?=site_url('profile/'.$following->id)?>"><?=$following->name?></a></h3>
+          <? endforeach;?>
+        </div>
+      </div><!-- FOLLOWING CONTAINER ENDS -->
     </div><!-- RIGHT COLUMN ENDS -->
+
 
     <!-- LEFT COLUMN -->
     <div id="profile-left-col" style="width:520px;">
