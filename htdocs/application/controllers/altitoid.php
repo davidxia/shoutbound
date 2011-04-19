@@ -13,7 +13,7 @@ class Altitoid extends CI_Controller
         if ($uid)
         {
             $u->get_by_id($uid);
-            $this->user = $u->stored;
+            $this->user = $u;
         }
     }
 
@@ -30,7 +30,7 @@ class Altitoid extends CI_Controller
         }
         
         $view_data = array(
-            'user' => $this->user,
+            'user' => $this->user->stored,
             'uploads' => $uploads,
         );
         

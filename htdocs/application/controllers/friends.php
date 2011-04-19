@@ -13,7 +13,7 @@ class Friends extends CI_Controller
         if ($uid)
         {
             $u->get_by_id($uid);
-            $this->user = $u->stored;
+            $this->user = $u;
         }
         else
         {
@@ -23,55 +23,34 @@ class Friends extends CI_Controller
     }
     
     
-    function edit()
+    public function edit()
     {
-        $u = new User();
-        $u->get_by_id($this->user->id);
-
-        // get pending friend requests
-        // get array of friends relations to the user
-        $u->user->get();
-        $rels_to = array();
-        foreach ($u->user as $rel_to)
-        {
-            $rels_to[] = $rel_to->id;
-        }
-        // compare with array of friend relations from the user
-        // TODO: is there a better way of doing this? like with a 'where' clause in one datamapper call?
-        $u->related_user->get();
-        $rels_from = array();
-        foreach ($u->related_user as $rel_from)
-        {
-            $rels_from[] = $rel_from->id;
-        }
-        $pending_friends_ids = array_diff($rels_to, $rels_from);
-        
-        $pending_friends = array();
-        foreach ($pending_friends_ids as $uid)
-        {
-            $u->get_by_id($uid);
-            $pending_friends[] = $u->stored;
-        }
+        $this->user->get_followers();
+        $this->user->get_following();
 
         $view_data = array(
-            'user' => $this->user,
-            'pending_friends' => $pending_friends,
+            'user' => $this->user->stored,
         );
 
-        $this->load->view('friends', $view_data);
+        //$this->load->view('friends', $view_data);
+        print_r($this->user->stored);
     }
     
     
-    function ajax_add_friend()
+    public function mytest()
     {
-        $u = new User();
-        $u->get_by_id($this->user->id);
-        
+        $this->user->get_following();
+        print_r($this->user->stored);
+    }
+    
+    
+    public function ajax_add_friend()
+    {
         $fid = $this->input->post('friendId');
         $f = new User();
         $f->get_by_id($fid);
         
-        if ($f->save($u))
+        if ($f->save($this->user))
         {
             echo 1;
         }
@@ -84,14 +63,11 @@ class Friends extends CI_Controller
     
     function ajax_accept_request()
     {
-        $u = new User();
-        $u->get_by_id($this->user->id);
-
         $fid = $this->input->post('friendId');
         $f = new User();
         $f->get_by_id($fid);
 
-        if ($f->save($u))
+        if ($f->save($this->user))
         {
             echo 1;
         }

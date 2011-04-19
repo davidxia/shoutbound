@@ -1,12 +1,10 @@
 var map = {};
 
-map.googleMap = null;
-map.infoWindow = null;
-//map.markers = {};
-//map.newMarker = null;
+map.googleMap;
+map.infoWindow;
 
 $(function() {
-  var top =$('#map-container').offset().top - parseFloat($('#map-container').css('marginTop').replace(/auto/, 0));
+  var top = $('#map-container').offset().top - parseFloat($('#map-container').css('marginTop').replace(/auto/, 0));
   var didScroll = false;
   $(window).scroll(function () {
     didScroll = true;

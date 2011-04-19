@@ -222,6 +222,26 @@ class User extends DataMapper
     }
     
     
+    public function get_followers()
+    {
+        $this->stored->followers = array();
+        foreach ($this->user->get() as $follower)
+        {
+            $this->stored->followers[] = $follower->stored;
+        }
+    }
+    
+    
+    public function get_following()
+    {
+        $this->stored->following = array();
+        foreach ($this->related_user->get() as $following)
+        {
+            $this->stored->following[] = $following->stored;
+        }
+    }
+
+
     public function get_profile_feed_items()
     {
         // get user's most recent wallitems
