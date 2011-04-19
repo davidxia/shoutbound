@@ -110,10 +110,16 @@ class User extends DataMapper
         }
     }
     
-    
     public function get_trips()
     {
         $this->trip->where('active', 1)->where_in_join_field('user', 'role', array(2,3))->get();
+        return $this->trip;
+    }
+
+    
+    public function get_rsvp_yes_trips()
+    {
+        $this->trip->where('active', 1)->where_in_join_field('user', 'role', array(2,3))->where_join_field('user', 'rsvp', 3)->get();
         return $this->trip;
     }
     
@@ -189,7 +195,7 @@ class User extends DataMapper
         return $this->trip->join_rsvp;
     }
     
-    
+    /*
     public function get_friends()
     {
         // get profile's Shoutbound friends (we shouldn't display their FB friends publicly)
@@ -220,7 +226,7 @@ class User extends DataMapper
         
         return $friends;
     }
-    
+    */
     
     public function get_followers()
     {

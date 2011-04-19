@@ -13,7 +13,7 @@ class Profile extends CI_Controller
         if ($uid)
         {
             $u->get_by_id($uid);
-            $this->user = $u->stored;
+            $this->user = $u;
         }
 		}
 		
@@ -21,22 +21,26 @@ class Profile extends CI_Controller
     public function index($pid = FALSE)
     {
         // if user not logged in and no profile specified, return 404
-        if ( ! ($pid OR $this->user))
+        if ( ! ($pid OR isset($this->user->id)))
         {
             custom_404();
             return;
         }
-        
+
+        $u = new User();
         // if no profile number specified, show user's own profile
         if ( ! $pid)
         {
-            $profile = $this->user;
+            $user = $this->user->stored;
+            $profile = $this->user->stored;
             $pid = $this->user->id;
-            $is_friend = -1;
+            $u->get_by_id($pid);
+            $is_self = TRUE;
+            $is_following = FALSE;
         }
-        elseif ( ! $this->user)
+        elseif ( ! isset($this->user->id))
         {
-            $u = new User();
+            $user = NULL;
             $u->get_by_id($pid);
             if ( ! $u->id)
             {
@@ -44,12 +48,12 @@ class Profile extends CI_Controller
                 return;
             }
             $profile = $u->stored;
-            $is_friend = -1;
+            $is_following = FALSE;
         }
         // if profile specified and user's logged in
         else
         {
-            $u = new User();
+            $user = $this->user->stored;
             $u->get_by_id($pid);
             if ( ! $u->id)
             {
@@ -57,40 +61,29 @@ class Profile extends CI_Controller
                 return;
             }
             $profile = $u->stored;
-
+            
+            // if profile is not user's own, check if he's following this other user
             if ($pid != $this->user->id)
             {
-                $u->get_by_id($this->user->id);
-                $u->related_user->where('id', $pid)->get();
-                
-                // get profile user's friendship status with this user
-                $f = new User();
-                $f->get_by_id($pid);
-                $f->related_user->where('id', $this->user->id)->get();
-
-                if ( ! isset($u->related_user->id))
+                $this->user->related_user->where('id', $pid)->get();
+                if ( ! isset($this->user->related_user->id))
                 {
-                    $is_friend = 0;
+                    $is_following = FALSE;
                 }
-                elseif ($u->related_user->id AND ! $f->related_user->id)
+                else
                 {
-                    $is_friend = 1;
-                }
-                elseif ($u->related_user->id AND $f->related_user->id)
-                {
-                    $is_friend = 2;
+                    $is_following = TRUE;
                 }
             }
             else
             {
-                $is_friend = -1;
+                $is_self = TRUE;
+                $is_following = FALSE;
             }
         }
 
-        // get active trips for which user is a planner or creator and rsvp is yes
-        $u = new User();
-        $u->get_by_id($pid);
-        $temp = $u->get_trips();
+        // get active trips for which profile is planner or creator and rsvp is yes
+        $temp = $u->get_rsvp_yes_trips();
         $trips = array();
         foreach ($temp as &$trip)
         {
@@ -99,23 +92,22 @@ class Profile extends CI_Controller
             $trips[] = $trip->stored;
         }
         
-        // get profile's friends
-        $friends = $u->get_friends();
+        // get profile's followers
+        $u->get_followers();
                 
         // get profile's recent activity
         $profile_feed_items = $u->get_profile_feed_items();
         
         $view_data = array(
-            'user' => $this->user,
+            'user' => $user,
             'profile' => $profile,
             'trips' => $trips,
-            'friends' => $friends,
-            'is_friend' => $is_friend,
+            'is_following' => $is_following,
             'profile_feed_items' => $profile_feed_items,
         );
 
-        $this->load->view('profile/profile', $view_data);
-        //print_r($profile_feed_items);
+        //$this->load->view('profile/profile', $view_data);
+        print_r($profile_feed_items);
     }
     
     
