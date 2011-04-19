@@ -71,7 +71,9 @@ $this->load->view('core_header', $header_args);
 					    <? if ($trip_goers):?>
 		            <? foreach ($trip_goers as $trip_goer):?>
 		            	<div class="trip_goer" uid="<?=$trip_goer->id?>">
-		                <a href="<?=site_url('profile/'.$trip_goer->id)?>"><img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="trip-page-avatar" height="38" width="38"/></a>
+		                <a href="<?=site_url('profile/'.$trip_goer->id)?>">
+		                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="trip-page-avatar" alt="<?=$trip_goer->name?>" height="38" width="38"/>
+		                </a>
 		              </div>
 		            <? endforeach;?>
 			         <? endif;?>
@@ -255,6 +257,37 @@ $this->load->view('core_header', $header_args);
   // show countdown clock
   //var deadline = new Date(<?=$trip->response_deadline?>*1000);
   //$('#countdown').countdown({until: deadline});  
+
+  $(function() {
+    var delay;
+    $('.trip-page-avatar').mouseover(function() {
+      var img = $(this);
+      
+      delay = setTimeout(function() {
+        var title = img.attr('alt');
+
+        // element location and dimensions
+        var element_offset = img.offset(),
+            element_top = element_offset.top,
+            element_left = element_offset.left,
+            element_height = img.height(),
+            element_width = img.width();
+        
+        var tooltip = $('<div class="tooltip_container"><div class="tooltip_interior">'+title+'</div></div>');
+        $('body').append(tooltip);
+    
+        // tooltip dimensions
+        var tooltip_height  = tooltip.height();
+        var tooltip_width = tooltip.width();
+        tooltip.css({ top: (element_top + element_height + 3) + 'px' });
+        tooltip.css({ left: (element_left - (tooltip_width / 2) + (element_width / 2)) + 'px' });
+      }, 200);
+    }).mouseout(function() {
+      $('.tooltip_container').remove();
+      clearTimeout(delay);
+    });
+  });
+  
 </script>
 
 </body> 
