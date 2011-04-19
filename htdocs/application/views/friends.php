@@ -13,7 +13,20 @@ $this->load->view('core_header', $header_args);
 <body>
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
-        
+  
+    <div>
+      Followers
+      <? foreach ($user->followers as $follower):?>
+        <div><a href="<?=site_url('profile/'.$follower->id)?>"><?=$follower->name?></a></div>
+      <? endforeach;?>
+    </div>
+    
+    <div>
+      Following
+      <? foreach ($user->following as $following):?>
+        <div><a href="<?=site_url('profile/'.$following->id)?>"><?=$following->name?></a></div>
+      <? endforeach;?>
+    </div>
       
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->

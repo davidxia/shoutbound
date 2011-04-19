@@ -32,8 +32,8 @@ class Friends extends CI_Controller
             'user' => $this->user->stored,
         );
 
-        //$this->load->view('friends', $view_data);
-        print_r($this->user->stored);
+        $this->load->view('friends', $view_data);
+        //print_r($this->user->stored);
     }
     
     
