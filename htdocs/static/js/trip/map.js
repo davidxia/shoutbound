@@ -5,7 +5,7 @@ map.infoWindow = null;
 //map.markers = {};
 //map.newMarker = null;
 
-map.fixMapPos = function() {
+$(function() {
   var top =$('#map-container').offset().top - parseFloat($('#map-container').css('marginTop').replace(/auto/, 0));
   var didScroll = false;
   $(window).scroll(function () {
@@ -27,15 +27,15 @@ map.fixMapPos = function() {
       }
     }
   }, 100);
-};
+});
 
 
-map.loadGoogleMapScript = function() {
+$(function() {
   var script = document.createElement('script');
   script.type = 'text/javascript';
   script.src = 'http://maps.google.com/maps/api/js?sensor=false&callback=map.loadGoogleMap';
   document.body.appendChild(script);
-};
+});
 
 
 map.loadGoogleMap = function() {
@@ -113,14 +113,9 @@ map.showDestMarkers = function(lat, lng) {
 
 map.displayWallMarkers = function(i, lat, lng) {
   var markerLatLng = new google.maps.LatLng(lat, lng);
-  // Origins, anchor positions and coordinates of the marker
-  // increase in X direction to the right in Y direction down.
   var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
-      // 20px width, 34px height
       new google.maps.Size(20, 34),
-      // origin at 0,0
       new google.maps.Point(0, 0),
-      // anchor at 10,34.
       new google.maps.Point(10, 34));
   var shadow = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
       new google.maps.Size(25, 20),
@@ -183,10 +178,3 @@ map.fitWallMarkers = function() {
   var bounds = map.googleMap.getBounds();
   bounds.extend(markerLatLng);
 };
-
-
-
-$(document).ready(function() {
-  map.fixMapPos();
-  map.loadGoogleMapScript();
-});

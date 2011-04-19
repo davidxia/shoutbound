@@ -50,12 +50,12 @@ var wall = {};
 wall.scrollElem;
 
 // convert unix timestamps to time ago
-wall.showTimeago = function() {
+$(function() {
   $('abbr.timeago').timeago();
-};
+});
 
 
-wall.showRemove = function() {
+$(function() {
   $('.wallitem').live('mouseover mouseout', function(event) {
     if (event.type == 'mouseover') {
       $(this).children('.remove-wallitem').css('opacity', 1);
@@ -65,10 +65,10 @@ wall.showRemove = function() {
       $(this).siblings('.remove-wallitem').css('opacity', 1);
     }
   });
-};
+});
 
 
-wall.bindPostButton = function() {
+$(function() {
   $('#wallitem-post-button').click(function() {
     if (wall.getContentEditableText('wallitem-input').trim().length > 0) {
       var loggedin = loginSignup.getStatus();
@@ -80,7 +80,7 @@ wall.bindPostButton = function() {
     }
     return false;
   });
-};
+});
 
 
 wall.getContentEditableText = function(id) {
@@ -161,7 +161,7 @@ wall.displayWallitem = function(r) {
 };
 
 
-wall.bindRemove = function() {
+$(function() {
   $('.remove-wallitem').live('click', function() {
     // TODO: ask user to confirm removal
     var regex = /^wallitem-(\d+)$/;
@@ -181,7 +181,7 @@ wall.bindRemove = function() {
       }
     });
   });
-};
+});
 
 
 wall.removeWallitem = function(id) {
@@ -191,7 +191,7 @@ wall.removeWallitem = function(id) {
 };
 
 
-wall.bindReply = function() {
+$(function() {
   $('.reply-button').click(function() {
     var parentId = $(this).parent().parent().attr('id');
     var regex = /^wallitem-(\d+)$/;
@@ -206,7 +206,7 @@ wall.bindReply = function() {
     wall.loadReplyEnter(replyInput);
     return false;
   });
-};
+});
 
 
 // hitting enter posts the reply
@@ -405,7 +405,7 @@ wall.scrollableElement = function(els) {
 }
 
 
-wall.bindAtKey = function() {
+$(function() {
   var isShift = false;
   
   $('#wallitem-input').keyup(function(e) {
@@ -434,7 +434,7 @@ wall.bindAtKey = function() {
       return false;
     }
   });
-};
+});
 
 
 wall.insertTextAtCursor = function(text) {
@@ -530,7 +530,7 @@ wall.placeAutocomplete = function(query) {
 };
 
 
-wall.bindPlacesSpinner = function() {
+$(function() {
   $('#loading-places')
     .hide()
     .ajaxStart(function() {
@@ -540,7 +540,7 @@ wall.bindPlacesSpinner = function() {
       $(this).hide();
     })
   ;
-};
+});
 
 
 wall.listPlaces = function(places) {
@@ -573,12 +573,5 @@ wall.autocompleteClick = function(id, name) {
 };
 
 $(document).ready(function() {
-  wall.showTimeago();
-  wall.showRemove();
-  wall.bindPostButton();
-  wall.bindRemove();
-  wall.bindReply();
   wall.bindLike();
-  wall.bindAtKey();
-  wall.bindPlacesSpinner();
 });
