@@ -32,9 +32,9 @@ class Profile extends CI_Controller
         if ( ! $pid)
         {
             $user = $this->user->stored;
-            $profile = $this->user->stored;
             $pid = $this->user->id;
             $u->get_by_id($pid);
+            $profile = $u->stored;
             $is_self = TRUE;
             $is_following = FALSE;
         }
@@ -65,6 +65,7 @@ class Profile extends CI_Controller
             // if profile is not user's own, check if he's following this other user
             if ($pid != $this->user->id)
             {
+                $is_self = FALSE;
                 $this->user->related_user->where('id', $pid)->get();
                 if ( ! isset($this->user->related_user->id))
                 {
@@ -92,6 +93,7 @@ class Profile extends CI_Controller
             $trips[] = $trip->stored;
         }
         
+        // $profile is a reference to $u->stored, so weird!
         $u->get_followers();
         $u->get_following();
                 
@@ -101,13 +103,14 @@ class Profile extends CI_Controller
         $view_data = array(
             'user' => $user,
             'profile' => $profile,
-            'trips' => $trips,
+            'is_self' => $is_self,
             'is_following' => $is_following,
+            'trips' => $trips,
             'profile_feed_items' => $profile_feed_items,
         );
 
         $this->load->view('profile/profile', $view_data);
-        //print_r($profile_feed_items);
+        //print_r($profile);
     }
     
     

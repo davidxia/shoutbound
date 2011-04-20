@@ -52,12 +52,12 @@ $this->load->view('core_header', $header_args);
 
     <!-- RIGHT COLUMN -->
     <div id="profile-right-col" style="float:right;">
-      <? if ($user AND $is_friend===0):?>
-        <a href="#" id="add-friend-button">FOLLOW</a>
-      <? elseif ($user AND $is_friend==1):?>
-        You now follow <?=$profile->name?>
-      <? elseif ($user AND $is_friend==2):?>
-        YOU FOLLOW <?=$profile->name?> and he stalks you
+      <? if ($user AND !$is_self):?>
+        <? if ( ! $is_following):?>
+          <a href="#" id="add-friend-button">FOLLOW</a>
+        <? else:?>
+          You are following this dude.
+        <? endif;?>
       <? endif;?>
       
       <!-- TRIPS CONTAINER -->
