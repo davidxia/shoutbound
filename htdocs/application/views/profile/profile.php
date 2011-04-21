@@ -4,15 +4,22 @@ $header_args = array(
     'css_paths'=>array(
     ),
     'js_paths'=>array(
+        'js/profile/profile_map.js',
         'js/jquery/timeago.js',
     )
 );
 
 $this->load->view('core_header', $header_args);
 ?>
+<!-- JAVASCRIPT CONSTANTS --> 
+<script type="text/javascript">
+  var baseUrl = '<?=site_url()?>';
+  map.lat = <?=$profile->destinations[0]->lat?>;
+  map.lng = <?=$profile->destinations[0]->lng?>;
+</script>
 
 <style type="text/css">
-#add-friend-button {
+#follow {
   color:white;
   display:block;
   height:30px;
@@ -30,13 +37,13 @@ $this->load->view('core_header', $header_args);
   border-radius: 5px;
   margin-bottom: 13px;
 }
-#add-friend-button:hover {
+#follow:hover {
   background: #ffad32;
   background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
   background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');
 }
-#add-friend-button:active {
+#follow:active {
   background: #ff8132;
   background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
   background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
@@ -51,26 +58,40 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('wrapper_content')?>
 
     <!-- RIGHT COLUMN -->
-    <div id="profile-right-col" style="float:right;">
+    <div id="profile-col-right" style="float:right;">
       <? if ($user AND !$is_self):?>
         <? if ( ! $is_following):?>
-          <a href="#" id="add-friend-button">FOLLOW</a>
+          <a href="#" id="follow">FOLLOW</a>
         <? else:?>
-          You are following this dude.
+          Following
         <? endif;?>
       <? endif;?>
       
+      <!-- MAP -->
+      <div style="display:none;">
+        <? foreach ($profile->destinations as $destination):?>
+          <a class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>"></a>
+        <? endforeach;?>
+      </div>
+      <div id="map-shell" style="padding:5px;">
+        <div class="right-item-content" style="background-color:white; padding:3px; border:1px solid #EAEAEA;">
+          <div id="map-canvas" style="height:312px;"></div>
+        </div>
+      </div>
+      
       <!-- TRIPS CONTAINER -->
-      <div id="profile-page-trips-container">
+      <div id="profile-page-trips-container" style="width:320px;">
         <div id="profile-page-trips-list-header">
           Trips: (<?=count($trips)?>)
         </div>  
         <div id="profile-page-trips-list-content"><!-- TRIPS -->
           <? foreach ($trips as $trip):?>
-            <h3><a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a></h3>
-            <? foreach ($trip->places as $place):?>
-              <?=$place->name?>
-            <? endforeach;?>
+            <div class="trip">
+              <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
+              <? foreach ($trip->places as $place):?>
+                <span class="destination" lat="<?=$place->lat?>" lng="<?=$place->lng?>"><?=$place->name?></span>
+              <? endforeach;?>
+            </div>
           <? endforeach;?>
         </div><!-- TRIPS LIST END -->
       </div><!-- TRIPS CONTAINER ENDS -->
@@ -82,7 +103,9 @@ $this->load->view('core_header', $header_args);
         </div>
         <div>
           <? foreach ($profile->followers as $follower):?>
-          <h3><a href="<?=site_url('profile/'.$follower->id)?>"><?=$follower->name?></a></h3>
+          <div class="follower">
+            <a href="<?=site_url('profile/'.$follower->id)?>"><?=$follower->name?></a>
+          </div>
           <? endforeach;?>
         </div>
       </div><!-- FOLLOWERS CONTAINER ENDS -->
@@ -94,7 +117,9 @@ $this->load->view('core_header', $header_args);
         </div>
         <div>
           <? foreach ($profile->following as $following):?>
-          <h3><a href="<?=site_url('profile/'.$following->id)?>"><?=$following->name?></a></h3>
+          <div class="following">
+            <a href="<?=site_url('profile/'.$following->id)?>"><?=$following->name?></a>
+          </div>
           <? endforeach;?>
         </div>
       </div><!-- FOLLOWING CONTAINER ENDS -->
@@ -102,7 +127,7 @@ $this->load->view('core_header', $header_args);
 
 
     <!-- LEFT COLUMN -->
-    <div id="profile-left-col" style="width:520px;">
+    <div id="profile-col-left" style="width:520px;">
     
       <div id="profile-top-bar">
         <div id="profile-pic-container" style="position:relative; display:inline;">
@@ -133,30 +158,24 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('footer')?>
 
 <script type="text/javascript">
+$(function() {
   $('abbr.timeago').timeago();
+});
 
-  $('#add-friend-button').click(function() {
-    var postData = {
-      friendId: <?=$profile->id?>
-    };
-    
-    $.ajax({
-      type: 'POST',
-      url: '<?=site_url('friends/ajax_add_friend')?>',
-      data: postData,
-      success: function(data) {
+  $('#follow').click(function() {
+    $.post('<?=site_url('friends/ajax_add_following')?>', {profileId: <?=$profile->id?>},
+      function(data) {
         if (data == 1) {
-          $('#add-friend-button').remove();
-          $('#rightcol').prepend('FRIEND REQUEST SENT');
+          $('#follow').remove();
+          $('#profile-col-right').prepend('Following');
         } else {
           alert('something broken, tell David');
         }
-      }
-    });
+      });
     return false;
   });
-  
-  if (<?=$is_friend?> == -1) {
+
+  <? if ($is_self):?>
     $('#profile-pic').hover(
       function() {
         $('#edit-profile-pic').show();
@@ -173,7 +192,7 @@ $this->load->view('core_header', $header_args);
         $('#edit-profile-pic').hide();
       }
     );  
-  }
+  <? endif;?>
 </script>
 
 </body> 

@@ -48,6 +48,7 @@ class Profile extends CI_Controller
                 return;
             }
             $profile = $u->stored;
+            $is_self = FALSE;
             $is_following = FALSE;
         }
         // if profile specified and user's logged in
@@ -96,6 +97,7 @@ class Profile extends CI_Controller
         // $profile is a reference to $u->stored, so weird!
         $u->get_followers();
         $u->get_following();
+        $u->get_destinations();
                 
         // get profile's recent activity
         $profile_feed_items = $u->get_profile_feed_items();

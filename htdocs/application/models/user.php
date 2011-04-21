@@ -8,6 +8,7 @@ class User extends DataMapper
     public $has_many = array(
       'trip',
       'wallitem',
+      'place',
       'friend',
       'related_user' => array(
         'class' => 'user',
@@ -262,6 +263,16 @@ class User extends DataMapper
         }
         
         return $wallitems;
+    }
+    
+    
+    public function get_destinations()
+    {
+        $this->stored->destinations = array();
+        foreach ($this->places->get() as $destination)
+        {
+            $this->stored->destinations[] = $destination->stored;
+        }
     }
 }
 
