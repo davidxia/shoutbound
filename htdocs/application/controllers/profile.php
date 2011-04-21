@@ -132,6 +132,35 @@ class Profile extends CI_Controller
     }
     
     
+    public function places_test()
+    {
+        $post = $this->input->post('places_dates');
+        $post = $post['places_dates'];
+        print_r($post);
+        
+        foreach ($post as $key => $value)
+        {
+            /*
+            $p->get_by_id($post[$key]['id']);
+            $this->user->save($p);
+            */
+            // gets each place's startdate and enddate and stores as unix time
+            $startdate = date_parse_from_format('n/j/Y', $post[$key]['startdate']);
+            if (checkdate($startdate['month'], $startdate['day'], $startdate['year']))
+            {
+                //$this->user->set_join_field($p, 'startdate', strtotime($startdate['day'].'-'.$startdate['month'].'-'.$startdate['year']));
+                echo strtotime($startdate['day'].'-'.$startdate['month'].'-'.$startdate['year']).'<br/>';
+            }
+            $enddate = date_parse_from_format('n/j/Y', $post[$key]['enddate']);
+            if (checkdate($enddate['month'], $enddate['day'], $enddate['year']))
+            {
+                //$this->user->set_join_field($p, 'enddate', strtotime($enddate['day'].'-'.$enddate['month'].'-'.$enddate['year']));
+                echo strtotime($enddate['day'].'-'.$enddate['month'].'-'.$enddate['year']).'<br/>';
+            }
+        }
+    }
+    
+    
     public function profile_pic_uploadify()
     {
         if ( ! empty($_FILES)) {

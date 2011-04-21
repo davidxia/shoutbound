@@ -464,7 +464,6 @@ wall.autocomplete = function() {
       wall.delay(f, 250);
     }
   }).keydown(function(e) {
-    //var target = $('#' + $(this).data('target'));
     var keyCode = e.keyCode || e.which;
     if (keyCode == 27) {
       placeholder = $('#placeholder');
@@ -514,14 +513,10 @@ wall.delay = (function() {
 
 
 wall.placeAutocomplete = function(query) {
-  var postData = {
-    query: query
-  };
-  
   $.ajax({
     type: 'POST',
     url: baseUrl+'places/ajax_autocomplete',
-    data: postData,
+    data: {query:query},
     success: function(r) {
       var r = $.parseJSON(r);
       wall.listPlaces(r.places);

@@ -155,9 +155,6 @@ $this->load->view('core_header', $header_args);
         },
         enddate: {
           date: true
-        },
-        description: {
-          maxlength: 140
         }
       },
       messages: {

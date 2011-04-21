@@ -14,8 +14,6 @@ $this->load->view('core_header', $header_args);
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
-  map.lat = <?=$profile->destinations[0]->lat?>;
-  map.lng = <?=$profile->destinations[0]->lng?>;
 </script>
 
 <style type="text/css">
@@ -73,6 +71,9 @@ $this->load->view('core_header', $header_args);
           <a class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>"></a>
         <? endforeach;?>
       </div>
+      <? if ($user AND $is_self):?>
+        <a href="<?=site_url('profile/edit')?>">Show off</a> where you've been.
+      <? endif;?>
       <div id="map-shell" style="padding:5px;">
         <div class="right-item-content" style="background-color:white; padding:3px; border:1px solid #EAEAEA;">
           <div id="map-canvas" style="height:312px;"></div>
