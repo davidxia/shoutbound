@@ -20,11 +20,6 @@ $this->load->view('core_header', $header_args);
 <body>
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
-      
-    <? if ($num_friend_requests):?>
-      You have <a href="<?=site_url('friends/edit')?>"><?=$num_friend_requests?> friend requests</a>
-    <? endif;?>
-        
 
 		<!-- TRIPS COLUMN -->
 		<div style="float:right; width:350px;">
@@ -96,34 +91,52 @@ $this->load->view('core_header', $header_args);
 		
 		</div><!-- TRIPS COLUMN ENDS -->
 
+    
+    <!-- LEFT COLUMN -->
+    <div style="width:520px;">
+      <div>
+        <form id="item-post-form">
+          <fieldset>
+            <textarea id="item-input" style="width:510px; height:100px;"></textarea>
+            <select name="trip-selection" multiple size=5>
+              <option value="mushrooms">mushrooms
+              <option value="greenpeppers">green peppers
+              <option value="onions">onions
+              <option value="tomatoes">tomatoes
+              <option value="olives">olives
+            </select>
+            <input type="submit" value="submit"/>
+          </fieldset>
+        </form>
+      </div>
+      
+      <!-- NEWS FEED -->
+  		<div id="news-feed" style="-moz-box-shadow: 0px 0px 2px gray; -webkit-box-shadow: 0px 0px 2px gray; box-shadow: 0px 0px 2px gray; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px solid #C8C8C8;">
+  			<div style="background-color:#C6D4E1; line-height:30px; height:30px; margin-bottom:15px; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; border-radius: 5px 5px 0px 0px; border-radius: 5px 5px 0px 0px; border-bottom: 1px solid #C8C8C8;">
+  				<span style="font-size:16px; padding-left:10px; font-weight:bold;">Recent activity</span>
+  			</div>
+        <? if ( ! $news_feed_items):?>
+          <div style="padding:0px 0px 20px 20px;">You haven't had any activity yet.  Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a>.</div>
+        <? else:?>
+          <ul style="margin: 0px 20px 0px 20px;">
+            <? foreach($news_feed_items as $news_feed_item):?>
+              <li id="wall-item-<?=$news_feed_item->id?>" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
+                <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>" style="margin-right:10px; float:left;"><img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" height="50" width="50"/></a>
+                <div style="display:table-cell; line-height:18px;">
+                  <?=$news_feed_item->user->name?> wrote <span style="font-weight:bold;"><?=$news_feed_item->content?></span>
+                  <br/>
+                  on <a href="<?=site_url('trips/'.($news_feed_item->trip_id))?>"><?=$news_feed_item->trip->name?></a>
+                  <br/>
+                  <abbr class="timeago" title="<?=$news_feed_item->created?>" style="font-size:10px;"><?=$news_feed_item->created?></abbr>
+                </div>
+              </li>
+            <? endforeach;?>
+          </ul>
+        <? endif;?>
+  		</div><!-- NEWS FEED ENDS -->
+    </div><!-- LEFT COLUMN ENDS -->
 
-    <!-- NEWS FEED -->
-		<div id="news-feed" style="background-color:white; -moz-box-shadow: 0px 0px 2px gray; -webkit-box-shadow: 0px 0px 2px gray; box-shadow: 0px 0px 2px gray; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px solid #C8C8C8; width:520px;">
-			<div style="background-color:#C6D4E1; line-height:30px; height:30px; margin-bottom:15px; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; border-radius: 5px 5px 0px 0px; border-radius: 5px 5px 0px 0px; border-bottom: 1px solid #C8C8C8;">
-				<span style="font-size:16px; padding-left:10px; font-weight:bold;">Recent activity</span>
-			</div>
-      <? if ( ! $news_feed_items):?>
-        <div style="padding:0px 0px 20px 20px;">You haven't had any activity yet.  Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a>.</div>
-      <? else:?>
-        <ul style="margin: 0px 20px 0px 20px;">
-          <? foreach($news_feed_items as $news_feed_item):?>
-            <li id="wall-item-<?=$news_feed_item->id?>" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
-              <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>" style="margin-right:10px; float:left;"><img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" height="50" width="50"/></a>
-              <div style="display:table-cell; line-height:18px;">
-                <?=$news_feed_item->user->name?> wrote <span style="font-weight:bold;"><?=$news_feed_item->content?></span>
-                <br/>
-                on <a href="<?=site_url('trips/'.($news_feed_item->trip_id))?>"><?=$news_feed_item->trip->name?></a>
-                <br/>
-                <abbr class="timeago" title="<?=$news_feed_item->created?>" style="font-size:10px;"><?=$news_feed_item->created?></abbr>
-              </div>
-            </li>
-          <? endforeach;?>
-        </ul>
-      <? endif;?>
-		</div><!-- NEWS FEED ENDS -->
-  			
-
-    </div><!-- MAIN ENDS -->
+  </div><!-- MAIN ENDS -->
   </div><!-- WRAPPER ENDS -->
 
   <? $this->load->view('footer')?>

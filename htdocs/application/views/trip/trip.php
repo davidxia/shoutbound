@@ -32,6 +32,70 @@ $this->load->view('core_header', $header_args);
   map.lng = <?=$destinations[0]->lng?>;
 </script>
 
+<style type="text/css">
+#follow {
+  color:white;
+  display:block;
+  height:30px;
+  line-height:30px;
+  text-align:center;
+  font-weight:bold;
+  font-size:11px;
+  text-decoration:none;
+  background:-webkit-gradient(linear, left top, left bottom, from(#F90), to(#FF6200));
+  background:-moz-linear-gradient(top, #F90, #FF6200);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#F90', endColorstr='#FF6200');
+  border: 1px solid #E55800;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  margin-bottom: 13px;
+}
+#follow:hover {
+  background: #ffad32;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
+  background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');
+}
+#follow:active {
+  background: #ff8132;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
+  background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
+}
+
+#unfollow {
+  color:white;
+  display:block;
+  height:30px;
+  line-height:30px;
+  text-align:center;
+  font-weight:bold;
+  font-size:11px;
+  text-decoration:none;
+  background:-webkit-gradient(linear, left top, left bottom, from(#F42A2A), to(#DA0D0D));
+  background:-moz-linear-gradient(top, #F42A2A, #DA0D0D);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#F42A2A', endColorstr='#DA0D0D');
+  border: 1px solid #E55800;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  margin-bottom: 13px;
+}
+#unfollow:hover {
+  background: #ffad32;
+  background: -webkit-gradient(linear, left top, left bottom, from(#F42A2A), to(#DA0D0D));
+  background: -moz-linear-gradient(top,  #F42A2A,  #DA0D0D);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F42A2A', endColorstr='#DA0D0D');
+}
+#unfollow:active {
+  background: #ff8132;
+  background: -webkit-gradient(linear, left top, left bottom, from(#F42A2A), to(#DA0D0D));
+  background: -moz-linear-gradient(top,  #F42A2A,  #DA0D0D);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F42A2A', endColorstr='#DA0D0D');
+}
+</style>
+
 </head>
 
 <body>
@@ -41,6 +105,16 @@ $this->load->view('core_header', $header_args);
   <div id="div-to-popup" style="display:none;"></div>
 			  
 			<div id="trip-col-right"><!--TRIPCOLRIGHT START-->
+        <? if ( ! $user_role):?>
+          <a href="#" id="follow">FOLLOW</a>
+        <? elseif ($user_role == 3):?>
+          <a href="#" id="delete-trip">DELETE</a>
+        <? elseif ($user_role == 2):?>
+          <a href="#">I'M OUT</a>
+        <? elseif ($user_role == 1):?>
+          <a href="#" id="unfollow">UNFOLLOW</a>
+        <? endif;?>
+        
 				<div class="item-header">Itinerary</div>
 				<div id="itinerary"><!--ITINERARY START-->															
 					<div class="right-item-content"><!--ITINERARY CONTENT-->         	
@@ -243,7 +317,37 @@ $this->load->view('core_header', $header_args);
 <script type="text/javascript">
   // show countdown clock
   //var deadline = new Date(<?=$trip->response_deadline?>*1000);
-  //$('#countdown').countdown({until: deadline});  
+  //$('#countdown').countdown({until: deadline});
+  
+  $(function() {
+    $('#follow').live('click', function() {
+      var button = $(this);
+      var role = 1;
+      $.post(baseUrl+'trips/ajax_save_role', {tripId:tripId, role:role},
+        function(r) {
+          if (r == 1) {
+            button.attr('id', 'unfollow').text('UNFOLLOW');
+          }
+        });
+      return false;
+    });
+  });
+  
+  
+  $(function() {
+    $('#unfollow').live('click', function() {
+      var button = $(this);
+      var role = 0;
+      $.post(baseUrl+'trips/ajax_save_role', {tripId:tripId, role:role},
+        function(r) {
+          if (r == 1) {
+            button.attr('id', 'follow').text('FOLLOW');
+          }
+        });
+      return false;
+    });
+  });
+  
 
   $(function() {
     var delay;

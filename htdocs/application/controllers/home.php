@@ -15,6 +15,10 @@ class Home extends CI_Controller
             $u->get_by_id($uid);
             $this->user = $u;
         }
+        else
+        {
+            redirect('/');
+        }
 		}
 	
 
@@ -45,31 +49,12 @@ class Home extends CI_Controller
         // get suggestions for both user's trips and her friends trips
         $news_feed_items = $this->user->get_news_feed_items();
         
-        // get pending friend requests
-        // get array of friends relations to the user
-        $this->user->user->get();
-        $rels_to = array();
-        foreach ($this->user->user as $rel_to)
-        {
-            $rels_to[] = $rel_to->id;
-        }
-        // compare with array of friend relations from the user
-        // TODO: is there a better way of doing this? like with a 'where' clause in one datamapper call?
-        $this->user->related_user->get();
-        $rels_from = array();
-        foreach ($this->user->related_user as $rel_from)
-        {
-            $rels_from[] = $rel_from->id;
-        }
-        $num_friend_requests = count(array_diff($rels_to, $rels_from));
-
         
         $view_data = array(
             'user' => $this->user->stored,
             'trips' => $trips,
             'advising_trips' => $advising_trips,
             'news_feed_items' => $news_feed_items,
-            'num_friend_requests' => $num_friend_requests,
         );
                           
         $this->load->view('home', $view_data);
