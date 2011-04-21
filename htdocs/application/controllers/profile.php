@@ -132,30 +132,23 @@ class Profile extends CI_Controller
     }
     
     
-    public function places_test()
+    public function ajax_save_user_places()
     {
         $post = $this->input->post('places_dates');
         $post = $post['places_dates'];
-        print_r($post);
         
+        $p = new Place();
         foreach ($post as $key => $value)
         {
-            /*
-            $p->get_by_id($post[$key]['id']);
+            //$p->clear();
+            $p->get_by_id($post[$key]['place_id']);
             $this->user->save($p);
-            */
-            // gets each place's startdate and enddate and stores as unix time
-            $startdate = date_parse_from_format('n/j/Y', $post[$key]['startdate']);
-            if (checkdate($startdate['month'], $startdate['day'], $startdate['year']))
+            
+            // gets each place's date and stores as unix time
+            $date = date_parse_from_format('n/j/Y', $post[$key]['date']);
+            if (checkdate($date['month'], $date['day'], $date['year']))
             {
-                //$this->user->set_join_field($p, 'startdate', strtotime($startdate['day'].'-'.$startdate['month'].'-'.$startdate['year']));
-                echo strtotime($startdate['day'].'-'.$startdate['month'].'-'.$startdate['year']).'<br/>';
-            }
-            $enddate = date_parse_from_format('n/j/Y', $post[$key]['enddate']);
-            if (checkdate($enddate['month'], $enddate['day'], $enddate['year']))
-            {
-                //$this->user->set_join_field($p, 'enddate', strtotime($enddate['day'].'-'.$enddate['month'].'-'.$enddate['year']));
-                echo strtotime($enddate['day'].'-'.$enddate['month'].'-'.$enddate['year']).'<br/>';
+                $this->user->set_join_field($p, 'timestamp', strtotime($date['day'].'-'.$date['month'].'-'.$date['year']));
             }
         }
     }

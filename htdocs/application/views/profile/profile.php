@@ -4,7 +4,7 @@ $header_args = array(
     'css_paths'=>array(
     ),
     'js_paths'=>array(
-        'js/profile/profile_map.js',
+        'js/profile/map.js',
         'js/jquery/timeago.js',
     )
 );

@@ -469,7 +469,6 @@ wall.autocomplete = function() {
       placeholder = $('#placeholder');
       wall.putCursorBefore(placeholder[0]);
       placeholder.remove();
-      //$(this).val('').autocomplete('destroy');
       $('#autocomplete-box').hide();
       autocompInput.val('');
       $('#autocomplete-results').empty().hide();

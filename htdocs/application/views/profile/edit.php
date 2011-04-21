@@ -6,7 +6,9 @@ $header_args = array(
         'css/excite-bike/jquery-ui-1.8.10.custom.css',
     ),
     'js_paths'=>array(
+        'js/profile/edit.js',
         'js/jquery/jquery-dynamic-form.js',
+        'js/jquery/validate.min.js',
         'js/uploadify/swfobject.js',
         'js/uploadify/jquery.uploadify.v2.1.4.min.js',
         'js/jquery/jquery-ui-1.8.10.custom.min.js',
@@ -18,6 +20,7 @@ $this->load->view('core_header', $header_args);
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
+  var uid = <?=$user->id?>;
 </script>
 </head>
 
@@ -26,7 +29,7 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('wrapper_content')?>
     
     <h2>Where I've been</h2>
-    <form id="been-to-form" action="places_test" method="post">
+    <form id="been-to-form" action="ajax_save_user_places" method="post">
       <fieldset>
         <div style="display:inline-block; margin-bottom:5px;">Places</div>
         <div style="display:inline-block; margin-left:230px; margin-bottom:5px;">Dates (optional)</div>
@@ -39,17 +42,17 @@ $this->load->view('core_header', $header_args);
               <span class="error-message" style="float:right;"></span>
             </span>
             <input type="text" id="place" class="place-input" name="place" style="width:300px;" autocomplete=off/>
-            <input type="hidden" name="id"/>
+            <input type="hidden" class="place_id" name="place_id"/>
           </div>
           
           <div class="field dates" style="width:251px; margin-left:325px;">
             <span class="label-and-errors">
               <span class="error-message" style="float:right;"></span>
             </span>
-            <label for="startdate">from</label> <input id="startdate" class="startdate" name="startdate" type="text" size="10"/> 
-            <label for="enddate">to</label> <input id="enddate" class="enddate" name="enddate" type="text" size="10"/>
+            <label for="date">date</label> <input id="date" class="date" name="date" type="text" size="10"/> 
           </div>
         </div>
+        <!--<a id="save-been-to" href="#">Save</a>-->
         <input type="submit" value="submit"/>
       </fieldset>
     </form>
@@ -68,57 +71,5 @@ $this->load->view('core_header', $header_args);
 
   <? $this->load->view('footer')?>
   
-<script type="text/javascript">
-$(function() {
-  $('#file_upload').uploadify({
-    'uploader'       : baseUrl+'static/js/uploadify/uploadify.swf',
-    'script'         : baseUrl+'profile/profile_pic_uploadify',
-    'scriptData'     : {'uid':<?=$user->id?>},
-    'cancelImg'      : baseUrl+'images/cancel.png',
-    'queueID'        : 'custom-queue',
-    'removeCompleted': false,
-    'auto'           : true,
-    'sizeLimit'      : 32000000,
-    'fileExt'        : '*.jpg;*.gif;*.png',
-    'fileDesc'       : 'Image Files'
-  });
-});
-
-
-// dynamic form plugin for multiple destinations
-$('#places_dates').dynamicForm('#add-place', '#subtract-place', {
-  limit: 5,
-  afterClone: function(clone) {
-    // TODO: why doesn't this work?
-    clone.find('.place-input').focus();
-  }
-});
-
-
-// datepicker jquery plugin
-$('.startdate').live('focus', function() {
-  $(this).datepicker();
-});
-$('.enddate').live('focus', function() {
-  $(this).datepicker();
-});
-
-
-// jquery form validation plugin
-$('#been-to-form').validate({
-  rules: {
-    startdate: {
-      date: true
-    },
-    enddate: {
-      date: true
-    }
-  },
-  errorPlacement: function(error, element) {
-    error.appendTo( element.siblings('.label-and-errors').children('.error-message') );
-  }
-});
-</script>
-
 </body>
 </head>
