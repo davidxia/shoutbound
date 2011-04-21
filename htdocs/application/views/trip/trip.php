@@ -108,7 +108,8 @@ $this->load->view('core_header', $header_args);
         <? if ( ! $user_role):?>
           <a href="#" id="follow">FOLLOW</a>
         <? elseif ($user_role == 3):?>
-          <a href="#" id="delete-trip">DELETE</a>
+          <a href="#" id="invite-others-button">INVITE OTHERS</a>
+          <a id="delete-trip" href="#">DELETE</a>
         <? elseif ($user_role == 2):?>
           <a href="#">I'M OUT</a>
         <? elseif ($user_role == 1):?>
@@ -219,13 +220,8 @@ $this->load->view('core_header', $header_args);
     	        
         <? if ($user_rsvp == 3):?>
           <div class="console">
-            Get advice, ideas and recommendations for this trip by <a href="#" id="get-suggestions-button">sharing</a> it with other people. You can also <a href="#" id="invite-others-button">invite</a>  other people to join you this trip.  	              
-            <a href="#" id="rsvp_no_button">I'm out</a>
-                     
-            <? if ($user_role == 3):?>
-            <a id="deletebutton" style="" href="<?=site_url('trips/delete').'/'.$trip->id?>">Delete this trip</a>                    
-         		<? endif;?>	              
-           </div>
+            Get advice, ideas and recommendations for this trip by <a href="#" id="get-suggestions-button">sharing</a> it with other people.
+          </div>
           
         <? else:?>		          	
       		<div class="console">
@@ -349,6 +345,15 @@ $this->load->view('core_header', $header_args);
   });
   
 
+  $(function() {
+    $('#delete-trip').click(function() {
+      if (confirm ('Are you sure you want to delete this awesome trip?')) {
+        window.location = "<?=site_url('trips/delete').'/'.$trip->id?>";
+      }
+      return false;
+    });
+  });
+  
   $(function() {
     var delay;
     $('.trip-page-avatar').mouseover(function() {

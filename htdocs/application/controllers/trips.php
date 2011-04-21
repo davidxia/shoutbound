@@ -227,6 +227,28 @@ class Trips extends CI_Controller
     }
 
 
+    public function ajax_save_role()
+    {
+        if ( ! isset($this->user->id) OR getenv('REQUEST_METHOD') == 'GET')
+        {
+            custom_404();
+            return;
+        }
+        
+        $t = new Trip();
+        $t->get_by_id($this->input->post('tripId'));
+        if ($t->save($this->user))
+        {
+            $t->set_join_field($this->user, 'role', $this->input->post('role'));
+            echo 1;
+        }
+        else
+        {
+            echo 0;
+        }
+    }
+
+
     public function ajax_save_rsvp()
     {
         if ( ! ($this->user->id AND $this->input->post('tripId')))
@@ -304,29 +326,7 @@ class Trips extends CI_Controller
         $t->where('id', $trip_id)->update('active', 0);
         redirect('/');
     }
-    
-    
-    public function ajax_save_role()
-    {
-        if ( ! isset($this->user->id) OR getenv('REQUEST_METHOD') == 'GET')
-        {
-            custom_404();
-            return;
-        }
         
-        $t = new Trip();
-        $t->get_by_id($this->input->post('tripId'));
-        if ($t->save($this->user))
-        {
-            $t->set_join_field($this->user, 'role', $this->input->post('role'));
-            echo 1;
-        }
-        else
-        {
-            echo 0;
-        }
-    }
-    
 
     private function verify_share_cookie($trip_id)
     {

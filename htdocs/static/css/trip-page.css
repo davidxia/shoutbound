@@ -374,7 +374,7 @@ textarea#wallitem-input{
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }
 
-#deletebutton{
+#delete-trip{
   width:85px;
   color:white;
   height:20px;
@@ -392,14 +392,14 @@ textarea#wallitem-input{
   border-radius: 5px;
   display:inline-block;
 }
-#deletebutton:hover {
+#delete-trip:hover {
   background: green;
   background: -webkit-gradient(linear, left top, left bottom, from(#A80000), to(#980000));
   background: -moz-linear-gradient(top,  #A80000,  #980000);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#A80000', endColorstr='#980000');
 }
 
-#deletebutton:active {
+#delete-trip:active {
   background: #ff8132;
   background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
   background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
