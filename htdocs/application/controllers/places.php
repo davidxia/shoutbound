@@ -20,12 +20,12 @@ class Places extends CI_Controller
         if ($val === FALSE)
         {
             $p = new Place();
-            $p->ilike('name', $query, 'after')->limit(10)->get();
+            $p->ilike('ascii_name', $query, 'after')->limit(10)->get();
             
             $val = array();
             foreach ($p as $place)
             {
-                $val[$place->id] = $place->name;
+                $val[$place->id] = $place->ascii_name;
             }
 
             $this->mc->set($key, $val);

@@ -30,7 +30,7 @@ class Trip extends DataMapper {
     
     public function get_creator()
     {
-        $this->user->where_join_field($this, 'rsvp', 3)->where_join_field($this, 'role', 3)->get();
+        $this->user->where_join_field($this, 'rsvp', 9)->where_join_field($this, 'role', 10)->get();
         return $this->user->stored;
     }
     
@@ -38,7 +38,7 @@ class Trip extends DataMapper {
     public function get_goers()
     {
         $users = array();
-        $this->user->where_join_field($this, 'rsvp', 3)->where_in_join_field($this, 'role', array(2,3))->get();
+        $this->user->where_join_field($this, 'rsvp', 9)->where_in_join_field($this, 'role', array(5,10))->get();
         foreach ($this->user as $user)
         {
             $users[] = $user->stored;

@@ -64,9 +64,10 @@ $this->load->view('core_header', $header_args);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }
 
-#unfollow {
+#unfollow, #share {
   color:white;
-  display:block;
+  display:inline-block;
+  width:150px;
   height:30px;
   line-height:30px;
   text-align:center;
@@ -82,13 +83,13 @@ $this->load->view('core_header', $header_args);
   border-radius: 5px;
   margin-bottom: 13px;
 }
-#unfollow:hover {
+#unfollow:hover, #share:hover {
   background: #ffad32;
   background: -webkit-gradient(linear, left top, left bottom, from(#F42A2A), to(#DA0D0D));
   background: -moz-linear-gradient(top,  #F42A2A,  #DA0D0D);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F42A2A', endColorstr='#DA0D0D');
 }
-#unfollow:active {
+#unfollow:active, #share:active {
   background: #ff8132;
   background: -webkit-gradient(linear, left top, left bottom, from(#F42A2A), to(#DA0D0D));
   background: -moz-linear-gradient(top,  #F42A2A,  #DA0D0D);
@@ -106,14 +107,24 @@ $this->load->view('core_header', $header_args);
 			  
 			<div id="trip-col-right"><!--TRIPCOLRIGHT START-->
         <? if ( ! $user_role):?>
-          <a href="#" id="follow">FOLLOW</a>
-        <? elseif ($user_role == 3):?>
+          <? if ($user_rsvp == 0):?>
+            <a href="#" id="follow">FOLLOW</a>
+          <? elseif ($user_rsvp == 3):?>
+            <a href="#" id="unfollow">UNFOLLOW</a><a href="#" id="share">SHARE</a>
+          <? endif;?>
+        <? elseif ($user_role == 5):?>
+          <? if ($user_rsvp == 0):?>
+            <a href="#" id="rsvp_yes_button">I'M IN</a><a href="#" id="follow">FOLLOW</a><a href="#" id="share">SHARE</a>
+          <? elseif ($user_rsvp == 3):?>
+            <a href="#" id="rsvp_yes_button">I'M IN</a><a href="#" id="unfollow">UNFOLLOW</a><a href="#" id="share">SHARE</a>
+          <? elseif ($user_rsvp == 6):?>
+            <a href="#" id="rsvp_yes_button">I'M IN</a><a href="#" id="rsvp_no_button">I'M OUT</a><a href="#" id="share">SHARE</a>
+          <? elseif ($user_rsvp == 9):?>
+            <a href="#" id="rsvp_no_button">I'M OUT</a><a href="#" id="share">SHARE</a>
+          <? endif;?>
+        <? elseif ($user_role == 10):?>
           <a href="#" id="invite-others-button">INVITE OTHERS</a>
           <a id="delete-trip" href="#">DELETE</a>
-        <? elseif ($user_role == 2):?>
-          <a href="#">I'M OUT</a>
-        <? elseif ($user_role == 1):?>
-          <a href="#" id="unfollow">UNFOLLOW</a>
         <? endif;?>
         
 				<div class="item-header">Itinerary</div>
@@ -186,46 +197,26 @@ $this->load->view('core_header', $header_args);
     	<div id="trip-widget"><!--WIDGET START--> 
     		<!--IF USER IS INVITED, DISPLAY RSVP STATUS-->
     		<? if ($user_role >= 2):?>
-          <div id="rsvp_status">    
-            <? if ($user_rsvp == 3):?>
-              <!--You're going on this trip-->
-            <? elseif ($user_rsvp == 2):?>
-              You've been invited on this trip!
-            <? elseif ($user_rsvp == 1):?>
-              You can change your mind copy goes here
-            <? endif;?>
-          </div>
-          
           <!--IF USER IS INVITED AND AWAITING RSVP, DISPLAY RSVP BUTTONS-->
           <? if ($user_rsvp == 2):?>
-            <div id="rsvp_buttons">
-              <a href="#" id="rsvp_yes_button">I'm in</a>
-              <a href="#" id="rsvp_no_button">I'm out</a>		                
-            </div>
             <div id="countdown-container">Time left to respond:
              	<div id="countdown"></div>                  
     				</div>
-    			
-    			<!--IF USER IS INVITED AND PREVIOUSLY RSVP'D NO, DISPLAY RSVP BUTTONS-->
     			<? elseif ($user_rsvp == 1):?>
-            <div id="rsvp_buttons">
-              <a href="#" id="rsvp_yes_button">I'm in</a>	                
-            </div>
             <div id="countdown-container">Time left to respond:
              	<div id="countdown"></div>                  
     				</div>
           <? endif;?>
-          
-        <? endif;?><!--END-->
+        <? endif;?>
     	        
         <? if ($user_rsvp == 3):?>
           <div class="console">
-            Get advice, ideas and recommendations for this trip by <a href="#" id="get-suggestions-button">sharing</a> it with other people.
+            Get advice, ideas and recommendations for this trip by sharing it.
           </div>
           
         <? else:?>		          	
       		<div class="console">
-          	Help <a href="<?=site_url('profile/'.$creator->id)?>"><?=$creator->name?></a> plan this trip by adding your thoughts and <a href="#" id="get-suggestions-button">sharing</a> this trip with other people.
+          	Help <a href="<?=site_url('profile/'.$creator->id)?>"><?=$creator->name?></a> plan this trip by adding your thoughts and share this trip with other people.
           </div>
         <? endif;?>	            				
     	</div><!--WIDGET END-->									
@@ -314,35 +305,6 @@ $this->load->view('core_header', $header_args);
   // show countdown clock
   //var deadline = new Date(<?=$trip->response_deadline?>*1000);
   //$('#countdown').countdown({until: deadline});
-  
-  $(function() {
-    $('#follow').live('click', function() {
-      var button = $(this);
-      var role = 1;
-      $.post(baseUrl+'trips/ajax_save_role', {tripId:tripId, role:role},
-        function(r) {
-          if (r == 1) {
-            button.attr('id', 'unfollow').text('UNFOLLOW');
-          }
-        });
-      return false;
-    });
-  });
-  
-  
-  $(function() {
-    $('#unfollow').live('click', function() {
-      var button = $(this);
-      var role = 0;
-      $.post(baseUrl+'trips/ajax_save_role', {tripId:tripId, role:role},
-        function(r) {
-          if (r == 1) {
-            button.attr('id', 'follow').text('FOLLOW');
-          }
-        });
-      return false;
-    });
-  });
   
 
   $(function() {

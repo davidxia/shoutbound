@@ -1,21 +1,33 @@
 var share = {};
 
+
 $(function() {
-  $('#rsvp_yes_button').click(function() {
+  $('#follow').live('click', function() {
+    share.saveRsvp(3);
+    return false;
+  });
+  
+  $('#unfollow').live('click', function() {
+    share.saveRsvp(0);
+    return false;
+  });
+  
+  $('#rsvp_yes_button').live('click', function() {
     var loggedin = loginSignup.getStatus();
     if (loggedin) {
-      share.saveRsvp(3);
+      share.saveRsvp(9);
     } else {
       loginSignup.showDialog('rsvp', 3);
     }
     return false;
   });
-  $('#rsvp_no_button').click(function() {
+  
+  $('#rsvp_no_button').live('click', function() {
     var loggedin = loginSignup.getStatus();
     if (loggedin) {
-      share.saveRsvp(1);
+      share.saveRsvp(0);
     } else {
-      loginSignup.showDialog('rsvp', 1);
+      loginSignup.showDialog('rsvp', 0);
     }
     return false;
   });
@@ -23,28 +35,19 @@ $(function() {
 
 
 share.saveRsvp = function(rsvp) {  
-  $.ajax({
-    type: 'POST',
-    url: baseUrl+'trips/ajax_save_rsvp',
-    data: {tripId:tripId, rsvp:rsvp},
-    success: function(r) {
+  $.post(baseUrl+'trips/ajax_save_rsvp', {tripId:tripId, rsvp:rsvp},
+    function(r) {
       var r = $.parseJSON(r);
-      if (r.success) {
-        share.rsvpSuccess(r);
-      } else {
-        alert('something broke tell David');
-      }
-    }
-  });
+      console.log(r);
+    });
 };
 
-
+/*
 share.rsvpSuccess = function(r) {
   if (r.rsvp == 3) {
     // unbind click event
     $('#rsvp_yes_button').unbind();
     // change rsvp status
-    //$('#rsvp_status').html("You're going on this trip");
     // fade in avatar
     var html = '<div class="trip_goer" style="display:none;" uid="'+r.userId+'"><a href="'+baseUrl+'profile/'+r.userId+'"><img src="'+staticSub+'profile_pics/'+r.profilePic+'" height="30" width="30"></a></div>';
     $(html).insertAfter('#num_trip_goers').fadeIn('slow');
@@ -61,8 +64,7 @@ share.rsvpSuccess = function(r) {
     // fade out then remove yes button, replace with no button, and bind with click
     $('#rsvp_yes_button').fadeOut(300, function() {
       $(this).remove();
-      $('#rsvp_status').html('');
-      $('div.console').empty().html('Get advice, ideas and recommendations for this trip by <a href="#" id="get-suggestions-button">Sharing</a> it with other people. You can also <a href="#" id="invite-others-button">Invite</a>  other people to join you this trip. ');
+      $('div.console').empty().html('Get advice, ideas and recommendations for this trip by <a href="#" id="share">Sharing</a> it with other people. You can also <a href="#" id="invite-others-button">Invite</a>  other people to join you this trip. ');
       $('#rsvp_buttons').empty();//.append('<a href="#" id="rsvp_no_button">I\'m out</a>');
       //$('#rsvp_no_button').click(function() {
         //share.rsvpNo();
@@ -74,7 +76,6 @@ share.rsvpSuccess = function(r) {
     // unbind click event
     $('#rsvp_no_button').unbind();
     // change rsvp status
-    $('#rsvp_status').html('You said no copy goes here');
     // remove invite and ask for suggestions button
     $('#invsugg_btn_cont').remove();
     // fade out avatar then remove
@@ -103,7 +104,7 @@ share.rsvpSuccess = function(r) {
     });
   }
 };
-
+*/
     
 share.showShareDialog = function(shareRole) {
   $.ajax({
@@ -303,7 +304,7 @@ $(function() {
     share.showShareDialog(2);
     return false;
   });
-  $('#get-suggestions-button').live('click', function() {
+  $('#share').live('click', function() {
     share.showShareDialog(1);
     return false;
   });

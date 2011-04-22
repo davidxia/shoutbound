@@ -45,8 +45,8 @@ class Trips extends CI_Controller
         //$u->get_by_id($this->user->id);
 
         if ($t->save() AND $this->user->save($t)
-            AND $t->set_join_field($this->user, 'role', 3)
-            AND $t->set_join_field($this->user, 'rsvp', 3))
+            AND $t->set_join_field($this->user, 'role', 10)
+            AND $t->set_join_field($this->user, 'rsvp', 9))
         {
             // save trip's destinations and dates
             $p = new Place();
@@ -160,8 +160,8 @@ class Trips extends CI_Controller
             // if user is not logged in but has invite cookie
             else
             {
-                $user_role = 2;
-                $user_rsvp = 2;
+                $user_role = 5;
+                $user_rsvp = 6;
             }
         }
                 
@@ -219,39 +219,17 @@ class Trips extends CI_Controller
         $t = new Trip();
         $t->name = $this->input->post('tripName');
         if ($t->save() AND $this->user->save($t)
-            AND $t->set_join_field($this->user, 'role', 2)
-            AND $t->set_join_field($this->user, 'rsvp', 3))
+            AND $t->set_join_field($this->user, 'role', 10)
+            AND $t->set_join_field($this->user, 'rsvp', 9))
         {
             json_success(array('tripId' => $t->id));
         }        
     }
 
 
-    public function ajax_save_role()
-    {
-        if ( ! isset($this->user->id) OR getenv('REQUEST_METHOD') == 'GET')
-        {
-            custom_404();
-            return;
-        }
-        
-        $t = new Trip();
-        $t->get_by_id($this->input->post('tripId'));
-        if ($t->save($this->user))
-        {
-            $t->set_join_field($this->user, 'role', $this->input->post('role'));
-            echo 1;
-        }
-        else
-        {
-            echo 0;
-        }
-    }
-
-
     public function ajax_save_rsvp()
     {
-        if ( ! ($this->user->id AND $this->input->post('tripId')))
+        if ( ! isset($this->user->id) OR !$this->input->post('tripId') OR getenv('REQUEST_METHOD') == 'GET')
         {
             custom_404();
             return;
@@ -259,16 +237,51 @@ class Trips extends CI_Controller
         
         $t = new Trip();
         $t->get_by_id($this->input->post('tripId'));
-        
+        $t->user->include_join_fields()->where('user_id', $this->user->id)->get();
+        $role = $t->user->join_role;
         $rsvp = $this->input->post('rsvp');
-        if ($t->set_join_field($this->user, 'rsvp', $rsvp))
+        
+        // if prior record exists in table trips_users
+        if (isset($role))
         {
+            if ($rsvp <= 3)
+            {
+                $t->set_join_field($this->user, 'rsvp', $rsvp);
+                json_success(array(
+                    'userId' => $this->user->id,
+                    'profilePic' => $this->user->profile_pic,
+                    'rsvp' => $rsvp,
+                ));
+            }
+            // to be able to rsvp higher than 3, user must be a planner
+            elseif ($rsvp > 3 AND $role == 5)
+            {
+                $t->set_join_field($this->user, 'rsvp', $rsvp);
+                json_success(array(
+                    'userId' => $this->user->id,
+                    'profilePic' => $this->user->profile_pic,
+                    'rsvp' => $rsvp,
+                ));
+            }
+            else
+            {
+                echo 0;
+            }
+        }
+        // if no prior relation, make user a follower
+        elseif ($t->save($this->user))
+        {
+            $t->set_join_field($this->user, 'rsvp', 3);
             json_success(array(
                 'userId' => $this->user->id,
                 'profilePic' => $this->user->profile_pic,
                 'rsvp' => $rsvp,
             ));
-        }        
+        }
+        else
+        {
+            echo 0;
+        }
     }
 
             
@@ -317,7 +330,7 @@ class Trips extends CI_Controller
 
         //check if user is the creator, redirect to home page otherwise
         $this->user->trip->include_join_fields()->get_by_id($trip_id);
-        if ($this->user->trip->join_role != 3)
+        if ($this->user->trip->join_role != 10)
         {
             custom_404();
             return;

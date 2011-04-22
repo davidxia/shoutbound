@@ -113,14 +113,14 @@ class User extends DataMapper
     
     public function get_trips()
     {
-        $this->trip->where('active', 1)->where_in_join_field('user', 'role', array(2,3))->get();
+        $this->trip->where('active', 1)->where_in_join_field('user', 'role', array(5,10))->get();
         return $this->trip;
     }
 
     
     public function get_rsvp_yes_trips()
     {
-        $this->trip->where('active', 1)->where_in_join_field('user', 'role', array(2,3))->where_join_field('user', 'rsvp', 3)->get();
+        $this->trip->where('active', 1)->where_in_join_field('user', 'role', array(5,10))->where_join_field('user', 'rsvp', 9)->get();
         return $this->trip;
     }
     
