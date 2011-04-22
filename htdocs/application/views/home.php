@@ -45,10 +45,10 @@ $this->load->view('core_header', $header_args);
 		  <!-- USERS TRIPS -->
       <div id="user-trips" style="background-color:white; -moz-box-shadow: 0px 0px 2px gray; -webkit-box-shadow: 0px 0px 2px gray; box-shadow: 0px 0px 2px gary; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px solid #C8C8C8; margin-bottom:20px;">
 				<div style="background-color:#C6D4E1; line-height:30px; height:30px; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; border-radius: 5px 5px 0px 0px; border-radius: 5px 5px 0px 0px; border-bottom: 1px solid #C8C8C8;">
-  				<span style="font-size:16px; padding-left:10px; font-weight:bold; color:black;">Your trips</span>
+  				<span style="font-size:16px; padding-left:10px; font-weight:bold; color:black;">Trips</span>
 				</div>
 				<? if (empty($trips)):?>
-          <div style="padding:0px 0px 20px 20px;">You don't have any trips yet.  Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a>.</div>
+          <div style="padding:0px 0px 20px 20px;">You don't have any trips yet. Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a>.</div>
         <? else:?>
           <? foreach ($trips as $trip):?>
             <div class="home-users-trip" style="margin:10px; border-bottom:1px solid #BABABA;">
@@ -78,18 +78,18 @@ $this->load->view('core_header', $header_args);
       <!-- FRIENDS TRIPS -->
       <div id="home-friends-trips" style="background-color:white; -moz-box-shadow: 0px 0px 2px gray; -webkit-box-shadow: 0px 0px 2px gray; box-shadow: 0px 0px 2px gary; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px solid #C8C8C8;">
 				<div style="background-color:#C6D4E1; line-height:30px; height:30px; margin-bottom:15px; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; border-radius: 5px 5px 0px 0px; border-radius: 5px 5px 0px 0px; border-bottom: 1px solid #C8C8C8;">
-  				<span style="font-size:16px; padding-left:10px; font-weight:bold;color:black;">Your friends' trips</span>
+  				<span style="font-size:16px; padding-left:10px; font-weight:bold;color:black;">Following</span>
 				</div>
-				<? if (empty($advising_trips)):?>
-          <div style="margin-left:20px; padding-bottom:20px;">You haven't been invited to any <br>trips yet.</div>
+				<? if ( ! $following_trips):?>
+          <div style="margin-left:20px; padding-bottom:20px;">You haven't been invited to any trips yet.</div>
         <? else:?>
-          <? foreach ($advising_trips as $advising_trip):?>
+          <? foreach ($following_trips as $following_trip):?>
             <div class="home-friends-trip" style="margin:10px; border-bottom:1px solid #BABABA;">
               <div>
-                <a href="<?=site_url('trips/'.$advising_trip->id)?>"><?=$advising_trip->name?></a>
+                <a href="<?=site_url('trips/'.$following_trip->id)?>"><?=$following_trip->name?></a>
               </div>
               <div>
-                <? foreach ($advising_trip->places as $place):?>
+                <? foreach ($following_trip->places as $place):?>
                   <?=$place->name?>
                   <? if ($place->startdate):?>
                     <?=date('n/d/y', $place->startdate)?>
@@ -98,9 +98,9 @@ $this->load->view('core_header', $header_args);
                   <? endif;?>                                              
                 <? endforeach;?>
               </div>
-              <? foreach ($advising_trip->users as $trip_user):?>                       	                       
-                <a href="<?=site_url('profile/'.$trip_user->id)?>">
-                  <img src="<?=static_sub('profile_pics/'.$trip_user->profile_pic)?>" height="32" width="32"/>
+              <? foreach ($following_trip->goers as $trip_goer):?>                       	                       
+                <a href="<?=site_url('profile/'.$trip_goer->id)?>">
+                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="avatar" height="32" width="32" alt="<?=$trip_goer->name?>"/>
                 </a>
               <? endforeach;?>
             </div>
@@ -135,7 +135,7 @@ $this->load->view('core_header', $header_args);
   				<span style="font-size:16px; padding-left:10px; font-weight:bold;">Recent activity</span>
   			</div>
         <? if ( ! $news_feed_items):?>
-          <div style="padding:0px 0px 20px 20px;">You haven't had any activity yet.  Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a>.</div>
+          <div style="padding:0px 0px 20px 20px;">You haven't had any activity yet.  Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a> and adding suggestions above.</div>
         <? else:?>
           <ul style="margin: 0px 20px 0px 20px;">
             <? foreach($news_feed_items as $news_feed_item):?>

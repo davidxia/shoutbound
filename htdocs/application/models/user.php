@@ -125,9 +125,9 @@ class User extends DataMapper
     }
     
     
-    public function get_advising_trips()
+    public function get_following_trips()
     {
-        $this->trip->where('active', 1)->where_in_join_field('user', 'role', 1)->get();
+        $this->trip->where('active', 1)->where_in_join_field('user', 'rsvp', 3)->get();
         return $this->trip;
     }
     

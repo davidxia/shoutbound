@@ -36,14 +36,14 @@ class Home extends CI_Controller
             $trips[] = $trip->stored;
         }
 
-        // get active trips for which user is an advisor
-        $temp = $this->user->get_advising_trips();
-        $advising_trips = array();
+        // get active trips user is following
+        $temp = $this->user->get_following_trips();
+        $following_trips = array();
         foreach ($temp as &$trip)
         {
             $trip->get_goers();
             $trip->stored->places = $trip->get_places();
-            $advising_trips[] = $trip->stored;
+            $following_trips[] = $trip->stored;
         }
         
         // get suggestions for both user's trips and her friends trips
@@ -53,7 +53,7 @@ class Home extends CI_Controller
         $view_data = array(
             'user' => $this->user->stored,
             'trips' => $trips,
-            'advising_trips' => $advising_trips,
+            'following_trips' => $following_trips,
             'news_feed_items' => $news_feed_items,
         );
                           
