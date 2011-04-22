@@ -209,7 +209,7 @@ $this->load->view('core_header', $header_args);
           <? endif;?>
         <? endif;?>
     	        
-        <? if ($user_rsvp == 3):?>
+        <? if ($user_rsvp == 9):?>
           <div class="console">
             Get advice, ideas and recommendations for this trip by sharing it.
           </div>
