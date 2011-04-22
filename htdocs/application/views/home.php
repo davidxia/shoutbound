@@ -81,7 +81,7 @@ $this->load->view('core_header', $header_args);
   				<span style="font-size:16px; padding-left:10px; font-weight:bold;color:black;">Following</span>
 				</div>
 				<? if ( ! $following_trips):?>
-          <div style="margin-left:20px; padding-bottom:20px;">You haven't been invited to any trips yet.</div>
+          <div style="margin-left:20px; padding-bottom:20px;">Find exciting trips by seeing what others are up to.</div>
         <? else:?>
           <? foreach ($following_trips as $following_trip):?>
             <div class="home-friends-trip" style="margin:10px; border-bottom:1px solid #BABABA;">
@@ -135,7 +135,7 @@ $this->load->view('core_header', $header_args);
   				<span style="font-size:16px; padding-left:10px; font-weight:bold;">Recent activity</span>
   			</div>
         <? if ( ! $news_feed_items):?>
-          <div style="padding:0px 0px 20px 20px;">You haven't had any activity yet.  Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a> and adding suggestions above.</div>
+          <div style="padding:0px 0px 20px 20px;">You haven't had any activity yet. Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a>, <a href="#">adding suggestions above</a>, <a href="#">following others</a>, <a href="#">following other trips</a>, or <a href="#">following a place</a>.</div>
         <? else:?>
           <ul style="margin: 0px 20px 0px 20px;">
             <? foreach($news_feed_items as $news_feed_item):?>
