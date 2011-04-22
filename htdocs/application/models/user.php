@@ -195,6 +195,10 @@ class User extends DataMapper
         $news_feed_items = array_merge($trip_wallitems, $reply_wallitems, $user_wallitems);
         if ($news_feed_items)
         {
+            // remove duplicates
+            $this->load->helper('dedup');
+            dedup($news_feed_items);
+            
             $this->load->helper('quicksort');
             _quicksort($news_feed_items, TRUE);
         }

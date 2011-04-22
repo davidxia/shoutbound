@@ -58,6 +58,7 @@ class Home extends CI_Controller
         );
                           
         $this->load->view('home', $view_data);
+        //print_r($news_feed_items);
     }
     
     
