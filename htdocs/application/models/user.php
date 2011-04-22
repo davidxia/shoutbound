@@ -173,7 +173,26 @@ class User extends DataMapper
             }        
         }
         
-        $news_feed_items = array_merge($trip_wallitems, $reply_wallitems);
+        // get posts from people user follows
+        $user_ids = array();
+        foreach ($this->related_user->get() as $following)
+        {
+            $user_ids[] = $following->id;
+        }
+        // get these users' most recent wallitems
+        $user_wallitems = array();
+        if ( ! empty($user_ids))
+        {
+            foreach ($wi->where('active', 1)->get() as $wallitem)
+            {
+                $wallitem->get_creator();
+                $wallitem->get_trip();
+                $user_wallitems[] = $wallitem->stored;
+            }
+        }
+
+        
+        $news_feed_items = array_merge($trip_wallitems, $reply_wallitems, $user_wallitems);
         if ($news_feed_items)
         {
             $this->load->helper('quicksort');
