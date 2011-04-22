@@ -175,37 +175,34 @@ class Trip_shares extends CI_Controller
 
     public function ajax_trip_share_dialog()
     {
-        /*
-        // get Shoutbound friends not related to this trip
+        // get user's following not already invited to this trip
         $this->user->related_user->get();
         // get user ids associated with this trip
         $t = new Trip();
         $t->get_by_id($this->input->post('tripId'));
-        $t->user->get();        
-        // create array of friends not associated with this trip
-        foreach ($t->user as $user)
+        // create array of following already invited to this trip
+        foreach ($t->user->get() as $user)
         {
             $trip_uids[] = $user->id;
         }
-        $uninvited_sb_friends = array();
-        foreach ($this->user->related_user as $sb_friend)
+        $uninvited_followings = array();
+        foreach ($this->user->related_user as $following)
         {
-            if ( ! in_array($sb_friend->id, $trip_uids))
+            if ( ! in_array($following->id, $trip_uids))
             {
-                $uninvited_sb_friends[] = $sb_friend->stored;
+                $uninvited_followings[] = $following->stored;
             }
         }
-        */
+        
         
         $view_data = array(
-            //'uninvited_sb_friends' => $uninvited_sb_friends,
-            'share_role' => $this->input->post('shareRole')
+            'uninvited_followings' => $uninvited_followings,
+            'share_role' => $this->input->post('shareRole'),
         );
         
         $render_string = $this->load->view('trip/trip_share_dialog', $view_data, true);
         json_success(array('data' => $render_string));
     }
-
 }
 
 /* End of file trip_shares.php */

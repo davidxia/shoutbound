@@ -78,18 +78,18 @@
       <? endif;?>
     </div>
     
-    <!--<div id="friends" style="padding:10px 0px 10px 0px;  border-bottom:1px solid #C8C8C8;"><span style="font-size:16px;font-weight:bold;">Friends on Shoutbound:</span>
+    <div id="friends" style="padding:10px 0px 10px 0px;  border-bottom:1px solid #C8C8C8;"><span style="font-size:16px;font-weight:bold;">Friends on Shoutbound:</span>
       <ul style="overflow-y:auto;">
-        <? foreach ($uninvited_sb_friends as $sb_friend):?>
-          <li uid="<?=$sb_friend->id?>" class="friend-capsule" style="height:64px; width:134px; margin:3px; cursor:pointer; float:left;">
+        <? foreach ($uninvited_followings as $uninvited_following):?>
+          <li uid="<?=$uninvited_following->id?>" class="friend-capsule" style="height:64px; width:134px; margin:3px; cursor:pointer; float:left;">
             <a href="#" style="display:block; height:56px; padding:4px; border-spacing:0; text-decoration:none;">
-              <span style="border:1px solid #E0E0E0; margin-right:5px; padding:2px; display:block; height:50px; width:50px; background-image: url(http://graph.facebook.com/<?=$sb_friend->fid?>/picture?type=square); background-position:2px 2px; background-repeat:no-repeat; float:left;"></span>
-              <span class="friend-name" style="font-size:11px; float:left; display:block; width:65px; margin-top:2px;"><?=$sb_friend->name?></span>
+              <img src="<?=static_sub('profile_pics/'.$uninvited_following->profile_pic)?>" width="50" height="50" style="border:1px solid #E0E0E0; margin-right:5px; padding:2px; display:block; height:50px; width:50px; float:left;"/>
+              <span class="friend-name" style="font-size:11px; float:left; display:block; width:65px; margin-top:2px;"><?=$uninvited_following->name?></span>
             </a>
           </li>
         <? endforeach;?>
     	</ul>
-    </div>-->
+    </div>
 
     <div id="share-methods">
       <div style="font-size:16px; font-weight:bold; padding:10px 0px 10px 0px; border-bottom:1px solid #C8C8C8;">via <a href="#" id="facebook-share">Facebook</a></div>

@@ -123,7 +123,7 @@ $this->load->view('core_header', $header_args);
             <a href="#" id="rsvp_no_button">I'M OUT</a><a href="#" id="share">SHARE</a>
           <? endif;?>
         <? elseif ($user_role == 10):?>
-          <a href="#" id="invite-others-button">INVITE OTHERS</a>
+          <a href="#" id="invite-others-button">INVITE OTHERS</a><a href="#" id="share">SHARE</a>
           <a id="delete-trip" href="#">DELETE</a>
         <? endif;?>
         
