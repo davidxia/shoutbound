@@ -127,6 +127,10 @@ class Trips extends CI_Controller
             return;
         }
         
+        $t->get_creator();
+        $t->get_followers();
+        $t->get_goers();
+        
         if (isset($this->user->id))
         {
             $user = $this->user->stored;
@@ -167,17 +171,15 @@ class Trips extends CI_Controller
                 
         $view_data = array(
             'trip' => $t->stored,
-            'creator' => $t->get_creator(),
             'destinations' => $t->get_places(),
             'user' => $user,
             'user_role' => $user_role,
             'user_rsvp' => $user_rsvp,
             'wallitems' => $t->get_wallitems(),
-            'trip_goers' => $t->get_goers(),
         );
         
         $this->load->view('trip/trip', $view_data);
-        //print_r($user_role);
+        //print_r($t->stored);
     }
     
     

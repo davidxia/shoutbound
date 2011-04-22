@@ -63,7 +63,9 @@
   background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }
-
+.share-selected{
+  background-color:aqua;
+}
 </style>
 
 <div id="trip-share-popup" style="padding:10px; background:rgba(82, 82, 82, 0.7); border-radius: 8px; -webkit-border-radius:8px; -moz-border-radius:8px;">
@@ -78,7 +80,7 @@
       <? endif;?>
     </div>
     
-    <div id="friends" style="padding:10px 0px 10px 0px;  border-bottom:1px solid #C8C8C8;"><span style="font-size:16px;font-weight:bold;">Friends on Shoutbound:</span>
+    <div id="friends" style="padding:10px 0px 10px 0px;  border-bottom:1px solid #C8C8C8;"><span style="font-size:16px;font-weight:bold;">Following on Shoutbound:</span>
       <ul style="overflow-y:auto;">
         <? foreach ($uninvited_followings as $uninvited_following):?>
           <li uid="<?=$uninvited_following->id?>" class="friend-capsule" style="height:64px; width:134px; margin:3px; cursor:pointer; float:left;">
@@ -111,9 +113,9 @@
 
     <div id="trip-share-toolbar" style="margin:10px 0px 10px 0px;">
       <a href="#" id="trip-share-confirm">
-	      <? if ($share_role == 2):?>
+	      <? if ($share_role == 5):?>
 	          Invite
-	        <? elseif ($share_role == 1):?>
+	        <? elseif ($share_role == 0):?>
 	          Share
 	        <? endif;?>
       </a>

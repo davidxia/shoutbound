@@ -65,9 +65,9 @@ $this->load->view('core_header', $header_args);
                   <? endif;?>               
                 <? endforeach;?>
               </div>
-              <? foreach ($trip->users as $trip_user):?>                       	                       
-                <a href="<?=site_url('profile/'.$trip_user->id)?>">
-                  <img src="<?=static_sub('profile_pics/'.$trip_user->profile_pic)?>" class="avatar" height="32" width="32" alt="<?=$trip_user->name?>"/>
+              <? foreach ($trip->goers as $trip_goer):?>                       	                       
+                <a href="<?=site_url('profile/'.$trip_goer->id)?>">
+                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="avatar" height="32" width="32" alt="<?=$trip_goer->name?>"/>
                 </a>
               <? endforeach;?>
             </div>

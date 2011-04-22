@@ -95,6 +95,46 @@ $this->load->view('core_header', $header_args);
   background: -moz-linear-gradient(top,  #F42A2A,  #DA0D0D);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F42A2A', endColorstr='#DA0D0D');
 }
+
+ul.tabs {
+	list-style: none;
+	height: 32px; /*--Set height of tabs--*/
+	font-size:13px;
+	font-weight:bold;
+}
+ul.tabs li {
+	float: left;
+	height: 31px; /*--Subtract 1px from the height of the unordered list--*/
+	line-height: 31px; /*--Vertically aligns the text within the tab--*/
+	padding:10px 10px 0px 10px;
+	border-left: none;
+	overflow: hidden;
+	position: relative;
+	background: #e0e0e0;
+}
+ul.tabs li a {
+	color: #000;
+	display: block;
+	outline: none;
+}
+ul.tabs li a:hover {
+	background: #ccc;
+}
+html ul.tabs li.active, html ul.tabs li.active a:hover  { /*--Makes sure that the active tab does not listen to the hover properties--*/
+	background: #DEE4F7;
+	border-bottom: 1px solid #DEE4F7; /*--Makes the active tab look like it's connected with its content--*/
+}
+.tab_container {
+	border-top: none;
+}
+.tab_content {
+  padding:5px;
+  position:relative;
+  margin-bottom:20px;
+  background-color:#DEE4F7;
+  font-size:13px;
+  width:320px;	
+}
 </style>
 
 </head>
@@ -127,8 +167,13 @@ $this->load->view('core_header', $header_args);
           <a id="delete-trip" href="#">DELETE</a>
         <? endif;?>
         
-				<div class="item-header">Itinerary</div>
-				<div id="itinerary"><!--ITINERARY START-->															
+        <ul class="tabs">
+          <li><a href="#itinerary">Itinerary</a></li>
+          <li><a href="#followers">Followers</a></li>
+        </ul>
+        
+        <div class="tab_container">
+          <div id="itinerary" class="tab_content">
 					<div class="right-item-content"><!--ITINERARY CONTENT-->         	
             <? foreach ($destinations as $destination):?>
               <div class="destination-dates">
@@ -147,32 +192,44 @@ $this->load->view('core_header', $header_args);
 	     			     			                          																							
 						<div id="trip_goers"><!--TRIP GOERS-->  
 	          	<div id="num_trip_goers">          			              		
-	              <? if (count($trip_goers) == 1):?>
-	              <span id="num"><?=count($trip_goers)?></span> person is going on this trip.
+	              <? $num_trip_goers = count($trip->goers); if ($num_trip_goers == 1):?>
+	              <span id="num"><?=$num_trip_goers?></span> person is going on this trip.
 	              <? else:?>              		
-	              <span id="num"><?=count($trip_goers)?></span> people are going on this trip.
+	              <span id="num"><?=$num_trip_goers?></span> people are going on this trip.
 	              <? endif;?>           
 	          	</div>  
         	        		          			                     
-					    <? if ($trip_goers):?>
-		            <? foreach ($trip_goers as $trip_goer):?>
-		            	<div class="trip_goer" uid="<?=$trip_goer->id?>">
-		                <a href="<?=site_url('profile/'.$trip_goer->id)?>">
-		                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="avatar" alt="<?=$trip_goer->name?>" height="38" width="38"/>
-		                </a>
-		              </div>
-		            <? endforeach;?>
-			         <? endif;?>
+	            <? foreach ($trip->goers as $trip_goer):?>
+	            	<div class="trip_goer" uid="<?=$trip_goer->id?>">
+	                <a href="<?=site_url('profile/'.$trip_goer->id)?>">
+	                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="avatar" alt="<?=$trip_goer->name?>" height="38" width="38"/>
+	                </a>
+	              </div>
+	            <? endforeach;?>
 		          
 		          <div style="clear:both;"></div>
 		          
-		          <div>This trip was created by <a href="<?=site_url('profile/'.$creator->id)?>"><?=$creator->name?></a></div>	       
-       			
-  			
+		          <div>This trip was created by <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a></div>	       
   					</div><!--TRIP GOERS END-->
     			</div><!--ITINERARY CONTENT END-->										
-	    								
-				</div><!--ITINERARY END-->
+          </div>
+          
+          <div id="followers" class="tab_content">
+  					<div class="right-item-content"><!--ITINERARY CONTENT-->         	
+            <? foreach ($trip->followers as $trip_follower):?>
+            	<div class="trip_follower" uid="<?=$trip_follower->id?>">
+                <a href="<?=site_url('profile/'.$trip_follower->id)?>">
+                  <img src="<?=static_sub('profile_pics/'.$trip_follower->profile_pic)?>" class="avatar" alt="<?=$trip_follower->name?>" height="38" width="38"/>
+                </a>
+              </div>
+            <? endforeach;?>
+            <? if ( ! $trip->followers):?>
+              No followers...yet
+            <? endif;?>
+            </div>
+          </div>
+        </div>
+
 																	
 				<!--MAP START-->
 				<div id="map-container">
@@ -216,7 +273,7 @@ $this->load->view('core_header', $header_args);
           
         <? else:?>		          	
       		<div class="console">
-          	Help <a href="<?=site_url('profile/'.$creator->id)?>"><?=$creator->name?></a> plan this trip by adding your thoughts and share this trip with other people.
+          	Help <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a> plan this trip by adding your thoughts and share this trip with other people.
           </div>
         <? endif;?>	            				
     	</div><!--WIDGET END-->									
@@ -345,7 +402,25 @@ $this->load->view('core_header', $header_args);
       clearTimeout(delay);
     });
   });
+
+  $(function() {
+  	//When page loads...
+  	$(".tab_content").hide(); //Hide all content
+  	$("ul.tabs li:first").addClass("active").show(); //Activate first tab
+  	$(".tab_content:first").show(); //Show first tab content
   
+  	//On Click Event
+  	$("ul.tabs li").click(function() {
+  
+  		$("ul.tabs li").removeClass("active"); //Remove any "active" class
+  		$(this).addClass("active"); //Add "active" class to selected tab
+  		$(".tab_content").hide(); //Hide all tab content
+  
+  		var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+  		$(activeTab).fadeIn(); //Fade in the active ID content
+  		return false;
+  	});
+  });
 </script>
 
 </body> 

@@ -1,5 +1,5 @@
 /*colors*/
-#itinerary, #map-shell, .item-header{
+#map-shell, .item-header{
 	background-color:#DEE4F7;
 }
 
@@ -88,7 +88,7 @@ textarea#wallitem-input{
   font-size:.97em;
 }
 
-.destination-dates, #num_trip_goers, #rsvp_status, #countdown-container, #console, #itinerary, #map, .item-header{
+.destination-dates, #num_trip_goers, #rsvp_status, #countdown-container, #console, #map, .item-header{
 	font-size:13px;
 	color:#333;
 	line-height:19px;
@@ -98,14 +98,9 @@ textarea#wallitem-input{
   font-weight:bold;
 }
 
-#itinerary, #map-shell{
+#map-shell{
 	width:320px;
 	padding:5px;
-}
-
-#itinerary{
-  position:relative;
-  margin-bottom:20px;
 }
 
 #trip-col-right{

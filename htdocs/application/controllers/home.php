@@ -31,7 +31,7 @@ class Home extends CI_Controller
         $trips = array();
         foreach ($temp as &$trip)
         {
-            $trip->stored->users = $trip->get_goers();
+            $trip->get_goers();
             $trip->stored->places = $trip->get_places();
             $trips[] = $trip->stored;
         }
@@ -41,7 +41,7 @@ class Home extends CI_Controller
         $advising_trips = array();
         foreach ($temp as &$trip)
         {
-            $trip->stored->users = $trip->get_goers();
+            $trip->get_goers();
             $trip->stored->places = $trip->get_places();
             $advising_trips[] = $trip->stored;
         }

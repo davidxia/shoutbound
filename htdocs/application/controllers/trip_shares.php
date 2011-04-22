@@ -158,7 +158,7 @@ class Trip_shares extends CI_Controller
             if ($t->save($u))
             {
                 $t->set_join_field($u, 'role', $this->input->post('shareRole'));
-                $t->set_join_field($u, 'rsvp', 2);
+                $t->set_join_field($u, 'rsvp', 6);
             }
         }
         

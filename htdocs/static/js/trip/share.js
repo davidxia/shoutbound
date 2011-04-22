@@ -301,11 +301,11 @@ share.generateShareKey = function(shareRole, shareMedium, targetId) {
 
 $(function() {
   $('#invite-others-button').live('click', function() {
-    share.showShareDialog(2);
+    share.showShareDialog(5);
     return false;
   });
   $('#share').live('click', function() {
-    share.showShareDialog(1);
+    share.showShareDialog(0);
     return false;
   });
 });
