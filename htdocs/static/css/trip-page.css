@@ -226,12 +226,12 @@ textarea#wallitem-input{
   position:relative;
 }
 
-.wallitem .trip-page-avatar{
+.wallitem .avatar{
   float:left;
   margin:0px 10px 0px 0px;
 }
 
-.trip-page-avatar{
+.avatar{
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   border-radius: 4px

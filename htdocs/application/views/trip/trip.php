@@ -158,7 +158,7 @@ $this->load->view('core_header', $header_args);
 		            <? foreach ($trip_goers as $trip_goer):?>
 		            	<div class="trip_goer" uid="<?=$trip_goer->id?>">
 		                <a href="<?=site_url('profile/'.$trip_goer->id)?>">
-		                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="trip-page-avatar" alt="<?=$trip_goer->name?>" height="38" width="38"/>
+		                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="avatar" alt="<?=$trip_goer->name?>" height="38" width="38"/>
 		                </a>
 		              </div>
 		            <? endforeach;?>
@@ -233,7 +233,7 @@ $this->load->view('core_header', $header_args);
           
           <div class="actionbar">
             <a class="wallitem-profile-pic" href="<?=site_url('profile/'.$wallitem->user_id)?>">
-              <img src="<?=static_sub('profile_pics/'.$wallitem->user->profile_pic)?>" class="trip-page-avatar" height="22" width="22"/>
+              <img src="<?=static_sub('profile_pics/'.$wallitem->user->profile_pic)?>" class="avatar" height="22" width="22" alt="<?=$trip_goer->name?>"/>
             </a>
             
             <a href="<?=site_url('profile/'.$wallitem->user_id)?>" class="author">
@@ -318,7 +318,7 @@ $this->load->view('core_header', $header_args);
   
   $(function() {
     var delay;
-    $('.trip-page-avatar').mouseover(function() {
+    $('.avatar').mouseover(function() {
       var img = $(this);
       
       delay = setTimeout(function() {

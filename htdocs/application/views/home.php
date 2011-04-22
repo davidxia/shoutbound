@@ -15,6 +15,25 @@ $this->load->view('core_header', $header_args);
   var baseUrl = '<?=site_url()?>';
 </script>
 
+<style type="text/css">
+.tooltip_container{
+  position:absolute;
+  background:url(/david/images/dark_arrow.png) 50% 0 no-repeat;
+  padding:7px 0 0 0;
+  z-index:500;
+}
+.tooltip_interior{
+  font-size:12px;
+  background:url(/david/images/tooltip.png);
+  color:white;
+  padding:3px 6px;
+}
+.tooltip_interior div{
+  margin-top:2px;
+  font-size:.97em;
+}
+</style>
+
 </head>
 
 <body>
@@ -48,7 +67,7 @@ $this->load->view('core_header', $header_args);
               </div>
               <? foreach ($trip->users as $trip_user):?>                       	                       
                 <a href="<?=site_url('profile/'.$trip_user->id)?>">
-                  <img src="<?=static_sub('profile_pics/'.$trip_user->profile_pic)?>" height="32" width="32"/>
+                  <img src="<?=static_sub('profile_pics/'.$trip_user->profile_pic)?>" class="avatar" height="32" width="32" alt="<?=$trip_user->name?>"/>
                 </a>
               <? endforeach;?>
             </div>
@@ -145,5 +164,36 @@ $this->load->view('core_header', $header_args);
 
 <script type="text/javascript">
   $('abbr.timeago').timeago();
+  
+  $(function() {
+    var delay;
+    $('.avatar').mouseover(function() {
+      var img = $(this);
+      
+      delay = setTimeout(function() {
+        var title = img.attr('alt');
+
+        // element location and dimensions
+        var element_offset = img.offset(),
+            element_top = element_offset.top,
+            element_left = element_offset.left,
+            element_height = img.height(),
+            element_width = img.width();
+        
+        var tooltip = $('<div class="tooltip_container"><div class="tooltip_interior">'+title+'</div></div>');
+        $('body').append(tooltip);
+    
+        // tooltip dimensions
+        var tooltip_height  = tooltip.height();
+        var tooltip_width = tooltip.width();
+        tooltip.css({ top: (element_top + element_height + 3) + 'px' });
+        tooltip.css({ left: (element_left - (tooltip_width / 2) + (element_width / 2)) + 'px' });
+      }, 200);
+    }).mouseout(function() {
+      $('.tooltip_container').remove();
+      clearTimeout(delay);
+    });
+  });
+
 </script>
 </html>
