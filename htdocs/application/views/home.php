@@ -6,6 +6,7 @@ $header_args = array(
         'css/home.css',
     ),
     'js_paths'=> array(
+        'js/user/home.js',
         'js/jquery/jquery-ui-1.8.11.custom.min.js',
         'js/jquery/multiselect.min.js',
         'js/jquery/timeago.js',
@@ -71,7 +72,7 @@ $this->load->view('core_header', $header_args);
               </div>
               <? foreach ($trip->goers as $trip_goer):?>                       	                       
                 <a href="<?=site_url('profile/'.$trip_goer->id)?>">
-                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="avatar" height="32" width="32" alt="<?=$trip_goer->name?>"/>
+                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" height="32" width="32" alt="<?=$trip_goer->name?>"/>
                 </a>
               <? endforeach;?>
             </div>
@@ -104,7 +105,7 @@ $this->load->view('core_header', $header_args);
               </div>
               <? foreach ($following_trip->goers as $trip_goer):?>                       	                       
                 <a href="<?=site_url('profile/'.$trip_goer->id)?>">
-                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="avatar" height="32" width="32" alt="<?=$trip_goer->name?>"/>
+                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" height="32" width="32" alt="<?=$trip_goer->name?>"/>
                 </a>
               <? endforeach;?>
             </div>
@@ -146,7 +147,7 @@ $this->load->view('core_header', $header_args);
             <? foreach($news_feed_items as $news_feed_item):?>
               <li id="wall-item-<?=$news_feed_item->id?>" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
                 <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>" style="margin-right:10px; float:left;">
-                  <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" class="avatar" height="50" width="50" alt="<?=$news_feed_item->user->name?>"/>
+                  <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" class="tooltip" height="50" width="50" alt="<?=$news_feed_item->user->name?>"/>
                 </a>
                 <div style="display:table-cell; line-height:18px;">
                   <?=$news_feed_item->user->name?> wrote <span style="font-weight:bold;"><?=$news_feed_item->content?></span>
@@ -170,67 +171,6 @@ $this->load->view('core_header', $header_args);
 </body>
 
 <script type="text/javascript">
-  $(function() {
-    $('#trip-selection').multiselect();
-  });
-  
-  
-  $(function() {
-    $('#post-item').click(function() {
-      var text = getContentEditableText('item-input').trim();
-      if (text.length > 0) {
-        postItem(text);
-      }
-      return false;
-    });
-  });
 
-  $('abbr.timeago').timeago();
-  
-  $(function() {
-    var delay;
-    $('.avatar').mouseover(function() {
-      var img = $(this);
-      
-      delay = setTimeout(function() {
-        var title = img.attr('alt');
-
-        // element location and dimensions
-        var element_offset = img.offset(),
-            element_top = element_offset.top,
-            element_left = element_offset.left,
-            element_height = img.height(),
-            element_width = img.width();
-        
-        var tooltip = $('<div class="tooltip_container"><div class="tooltip_interior">'+title+'</div></div>');
-        $('body').append(tooltip);
-    
-        // tooltip dimensions
-        var tooltip_height  = tooltip.height();
-        var tooltip_width = tooltip.width();
-        tooltip.css({ top: (element_top + element_height + 3) + 'px' });
-        tooltip.css({ left: (element_left - (tooltip_width / 2) + (element_width / 2)) + 'px' });
-      }, 200);
-    }).mouseout(function() {
-      $('.tooltip_container').remove();
-      clearTimeout(delay);
-    });
-  });
-
-  getContentEditableText = function(id) {
-    var ce = $('<pre />').html($('#' + id).html());
-    if ($.browser.webkit)
-      ce.find('div').replaceWith(function() { return '\n' + this.innerHTML; });
-    if ($.browser.msie)
-      ce.find('p').replaceWith(function() { return this.innerHTML + '<br>'; });
-    if ($.browser.mozilla || $.browser.opera || $.browser.msie)
-      ce.find('br').replaceWith('\n');
-    return ce.text();
-  }
-  
-  postItem = function(text) {
-    console.log(text);
-    console.log('select');
-  }
 </script>
 </html>
