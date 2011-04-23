@@ -283,7 +283,7 @@ html ul.tabs li.active, html ul.tabs li.active a:hover  { /*--Makes sure that th
       <div id="wall">
       <? foreach ($wallitems as $wallitem):?>
         <div class="wallitem" id="wallitem-<?=$wallitem->id?>">
-          <div class="content">
+          <div class="postcontent">
             <?=$wallitem->content?>
           </div>         
 
@@ -312,7 +312,7 @@ html ul.tabs li.active, html ul.tabs li.active a:hover  { /*--Makes sure that th
           <div class="remove-wallitem"></div>
           <? foreach ($wallitem->replies as $reply):?>
             <div class="wallitem reply" id="wallitem-<?=$reply->id?>">
-              <div class="content">
+              <div class="postcontent">
                 <?=$reply->content?>
               </div>
               <div class="actionbar">
