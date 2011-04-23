@@ -5,16 +5,16 @@
   line-height:30px;
   text-align:center;
   font-weight:bold;
-  font-size:11px;
+  font-size:14px;
   text-decoration:none;
-  background:-webkit-gradient(linear, left top, left bottom, from(#F90), to(#FF6200));
-  background:-moz-linear-gradient(top, #F90, #FF6200);
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#F90', endColorstr='#FF6200');
-  border: 1px solid #E55800;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  margin-bottom: 13px;
+  background:-webkit-gradient(linear, left top, left bottom, from(#32D02F), to(#239121));
+  background:-moz-linear-gradient(top, #32D02F, #239121);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#32D02F', endColorstr='#239121');
+  border: 1px solid #555;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  width:160px;
 }
 #follow:hover {
   background: #ffad32;
@@ -43,12 +43,12 @@
 }
 
 #profile-col-right{
-  width:320px;
+  width:340px;
   float:right;
 }
 
 #profile-pic-container{
-  padding:8px;
+  padding:5px;
   border:1px solid #EAEAEA;
   height:125px;
   width:125px;
@@ -62,8 +62,9 @@
 }
 
 #follow-and-stats-container{
-  width:320px;
+  width:340px;
   float:right;
+  margin-top:38px;
 }
 
 #profile-main-content-container{
@@ -174,6 +175,8 @@ ul.stats-list li a{
 
 #map-shell{
   position:relative;
-  top:10px;
+  top:46px;
   padding:5px;
+  border:1px solid #CACACA;
 }
+
