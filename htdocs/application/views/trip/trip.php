@@ -28,8 +28,8 @@ $this->load->view('core_header', $header_args);
   var staticSub = '<?=static_sub()?>';
   var tripId = <?=$trip->id?>;
   
-  map.lat = <?=$destinations[0]->lat?>;
-  map.lng = <?=$destinations[0]->lng?>;
+  map.lat = <?=$trip->places[0]->lat?>;
+  map.lng = <?=$trip->places[0]->lng?>;
 </script>
 
 <style type="text/css">
@@ -175,7 +175,7 @@ html ul.tabs li.active, html ul.tabs li.active a:hover  { /*--Makes sure that th
         <div class="tab_container">
           <div id="itinerary" class="tab_content">
 					<div class="right-item-content"><!--ITINERARY CONTENT-->         	
-            <? foreach ($destinations as $destination):?>
+            <? foreach ($trip->places as $destination):?>
               <div class="destination-dates">
   	            <a class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="#"><?=$destination->name?></a>
   		            <? if ($destination->startdate AND $destination->enddate):?>
