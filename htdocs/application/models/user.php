@@ -186,7 +186,7 @@ class User extends DataMapper
         $user_wallitems = array();
         if ( ! empty($user_ids))
         {
-            foreach ($wi->where('active', 1)->get() as $wallitem)
+            foreach ($wi->where('active', 1)->where_in('user_id', $user_ids)->get() as $wallitem)
             {
                 $wallitem->get_creator();
                 $wallitem->get_trips();

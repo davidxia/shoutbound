@@ -170,6 +170,5 @@ $this->load->view('core_header', $header_args);
   </div><!-- WRAPPER ENDS -->
 
   <? $this->load->view('footer')?>
-
 </body>
 </html>
