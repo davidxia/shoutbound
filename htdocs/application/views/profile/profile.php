@@ -58,9 +58,7 @@ $this->load->view('core_header', $header_args);
           <div id="profile-feed-tab-content" class="main-tab-content">
             <? foreach ($profile_feed_items as $profile_feed_item):?>
               <div class="profile-feed-item">
-                <? foreach ($profile_feed_item->trips as $trip):?>
-                <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
-                <? endforeach;?>
+                <a href="<?=site_url('trips/'.$profile_feed_item->trip->id)?>"><?=$profile_feed_item->trip->name?></a>
                 <div class="content">
                   <?=$profile_feed_item->content?>
                 </div>
