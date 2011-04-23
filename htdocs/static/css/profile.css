@@ -71,32 +71,28 @@
 ul.main-tabs{
 	float: left;
 	list-style: none;
-	height: 35px;
+	height: 36px;
 	border-bottom: 1px solid #CACACA;
-	border-left: 1px solid #CACACA;
 	width: 560px;
+	padding-left:20px;
 }
 
 ul.main-tabs li{
   float: left;
-	height: 34px; /*--Subtract 1px from the height of the unordered list--*/
-	line-height: 34px; /*--Vertically aligns the text within the tab--*/
-	border: 1px solid #CACACA;
+	height: 35px; /*--Subtract 1px from the height of the unordered list--*/
+	line-height: 35px; /*--Vertically aligns the text within the tab--*/
 	border-left: none;
 	margin-bottom: -1px; /*--Pull the list item down 1px--*/
 	overflow: hidden;
 	position: relative;
-	/*border-top-left-radius:5px;
-	border-top-right-radius:5px;
-	-moz-border-radius-topleft:5px;
-	-moz-border-radius-topright:5px;*/
+	padding-top:2px;
 }
 
 ul.main-tabs li a{
   text-decoration: none;
 	display: block;
 	padding: 0 20px;
-	border: 1px solid #fff; /*--Gives the bevel look with a 1px white border inside the list item--*/
+	/*border: 1px solid white;*/
 	outline: none;
 }
 
@@ -105,13 +101,37 @@ ul.main-tabs li:hover{
 	text-decoration:none;
 }
 
-ul.tabs li a:hover {
-	background: #ccc;
+ul.main-tabs li a:hover {
+	background: #FAFAFA;
 }
 
-html ul.main-taps li.active, html ul.main-tabs li.active a:hover  { /*--Makes sure that the active tab does not listen to the hover properties--*/
-	background: white;
-	border-bottom: 1px solid white; /*--Makes the active tab look like it's connected with its content--*/
+ul.main-tabs li.active{ 
+	border-bottom: 1px solid white; 
 	font-weight:bold;
+	border-left:1px solid #CACACA;
+	border-right:1px solid #CACACA;
+	border-top:1px solid #CACACA;
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+	-moz-border-radius-topleft:5px;
+	-moz-border-radius-topright:5px;
 }
+
+ul.main-tabs li.active a{
+  color:#333;
+}
+
+ul.main-tabs li.active a:hover  {
+  background:white;
+	border-bottom: 1px solid white; 
+	font-weight:bold;
+	cursor:default;
+	color:#333;
+}
+
+.tab-conatiner{
+  clear:both;
+  
+}
+
 

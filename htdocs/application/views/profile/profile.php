@@ -52,30 +52,34 @@ $this->load->view('core_header', $header_args);
           <li><a href="#">Following</a></li>
           <li><a href="#">Followers</a></li>
         </ul>
+        
+        <div class="tab-container"><!--TAB CONTAINER-->
               
-        <div id="profile-feed-tab-content" class="main-tab-content" style="display:none">
-          <? foreach ($profile_feed_items as $profile_feed_item):?>
-            <div class="profile-feed-item">
-              <a href="<?=site_url('trips/'.$profile_feed_item->trip->id)?>"><?=$profile_feed_item->trip->name?></a>
-              <div class="content">
-                <?=$profile_feed_item->content?>
+          <div id="profile-feed-tab-content" class="main-tab-content">
+            <? foreach ($profile_feed_items as $profile_feed_item):?>
+              <div class="profile-feed-item">
+                <a href="<?=site_url('trips/'.$profile_feed_item->trip->id)?>"><?=$profile_feed_item->trip->name?></a>
+                <div class="content">
+                  <?=$profile_feed_item->content?>
+                </div>
+                <abbr class="timeago" title="<?=$profile_feed_item->created?>"><?=$profile_feed_item->created?></abbr>
               </div>
-              <abbr class="timeago" title="<?=$profile_feed_item->created?>"><?=$profile_feed_item->created?></abbr>
-            </div>
-          <? endforeach;?>
-        </div>
-        
-        <div id="profile-posts-tab-content" class="main-tab-content">
-        
-        </div>
-        
-        <div id="profile-following-tab-content" class="main-tab-content">
-        
-        </div>
-        
-        <div id="profile-followers-tab-content" class="main-tab-content">
-        
-        </div>
+            <? endforeach;?>
+          </div>
+          
+          <div id="profile-posts-tab-content" class="main-tab-content">
+          
+          </div>
+          
+          <div id="profile-following-tab-content" class="main-tab-content">
+          
+          </div>
+          
+          <div id="profile-followers-tab-content" class="main-tab-content">
+          
+          </div>
+          
+        </div><!--TAB CONTAINER END-->
               
       
       </div><!--PROFILE MAIN CONTENT END-->
@@ -197,6 +201,29 @@ $(function() {
       }
     );  
   <? endif;?>
+  
+$(document).ready(function() {
+
+	//When page loads...
+	$(".main-tab-content").hide(); //Hide all content
+	$("ul.main-tabs li:first").addClass("active").show(); //Activate first tab
+	$(".main-tab-content:first").show(); //Show first tab content
+
+	//On Click Event
+	$("ul.main-tabs li").click(function() {
+
+		$("ul.main-tabs li").removeClass("active"); //Remove any "active" class
+		$(this).addClass("active"); //Add "active" class to selected tab
+		$(".main-tab-content").hide(); //Hide all tab content
+
+		var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+		$(activeTab).fadeIn(); //Fade in the active ID content
+		return false;
+	});
+
+});  
+  
+  
 </script>
 
 </body> 
