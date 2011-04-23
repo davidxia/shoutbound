@@ -192,6 +192,7 @@ textarea#wallitem-input{
 
 #wall .content{
   padding:0px;
+  min-height:0px;
 }
 
 #wall{

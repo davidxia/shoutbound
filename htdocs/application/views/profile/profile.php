@@ -46,16 +46,14 @@ $this->load->view('core_header', $header_args);
       <!--PROFILE MAIN CONTENT-->      
       <div id="profile-main-content-container">
       
-        <div id="profile-main-content-navbar">
-          <ul>
-            <li class="selected"><a href="#">Feed</a></li>
-            <li><a href="#">Posts</a></li>
-            <li><a href="#">Following</a></li>
-            <li><a href="#">Followers</a></li>
-          </ul>
-        </div>
-      
-        <div id="profile-feed">
+        <ul class="main-tabs">
+          <li class="active"><a href="#">Activity</a></li>
+          <li><a href="#">Posts</a></li>
+          <li><a href="#">Following</a></li>
+          <li><a href="#">Followers</a></li>
+        </ul>
+              
+        <div id="profile-feed-tab-content" class="main-tab-content" style="display:none">
           <? foreach ($profile_feed_items as $profile_feed_item):?>
             <div class="profile-feed-item">
               <a href="<?=site_url('trips/'.$profile_feed_item->trip->id)?>"><?=$profile_feed_item->trip->name?></a>
@@ -67,6 +65,17 @@ $this->load->view('core_header', $header_args);
           <? endforeach;?>
         </div>
         
+        <div id="profile-posts-tab-content" class="main-tab-content">
+        
+        </div>
+        
+        <div id="profile-following-tab-content" class="main-tab-content">
+        
+        </div>
+        
+        <div id="profile-followers-tab-content" class="main-tab-content">
+        
+        </div>
               
       
       </div><!--PROFILE MAIN CONTENT END-->

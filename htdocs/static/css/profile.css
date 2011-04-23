@@ -68,30 +68,50 @@
   height:30px; 
 }
 
-#profile-main-content-navbar li{
-	list-style-type: none;
-	float:left;
-	height:32px;
+ul.main-tabs{
+	float: left;
+	list-style: none;
+	height: 35px;
+	border-bottom: 1px solid #CACACA;
+	border-left: 1px solid #CACACA;
+	width: 560px;
 }
 
-#profile-main-content-navbar li{
-	margin-right:15px;
-	height:32px;
-	width:50px;
-	line-height:32px;
-	border-top-left-radius:5px;
+ul.main-tabs li{
+  float: left;
+	height: 34px; /*--Subtract 1px from the height of the unordered list--*/
+	line-height: 34px; /*--Vertically aligns the text within the tab--*/
+	border: 1px solid #CACACA;
+	border-left: none;
+	margin-bottom: -1px; /*--Pull the list item down 1px--*/
+	overflow: hidden;
+	position: relative;
+	/*border-top-left-radius:5px;
+	border-top-right-radius:5px;
 	-moz-border-radius-topleft:5px;
-	border-bottom-left-radius:5px;
-	-moz-border-radius-bottomleft:5px;
+	-moz-border-radius-topright:5px;*/
 }
 
-#profile-main-content-navbar li:hover{
+ul.main-tabs li a{
+  text-decoration: none;
+	display: block;
+	padding: 0 20px;
+	border: 1px solid #fff; /*--Gives the bevel look with a 1px white border inside the list item--*/
+	outline: none;
+}
+
+ul.main-tabs li:hover{
 	background-color:#FAFAFA;
 	text-decoration:none;
 }
 
-#profile-main-content-navbar li.selected{
-	background-color:#BABABA;
+ul.tabs li a:hover {
+	background: #ccc;
+}
+
+html ul.main-taps li.active, html ul.main-tabs li.active a:hover  { /*--Makes sure that the active tab does not listen to the hover properties--*/
+	background: white;
+	border-bottom: 1px solid white; /*--Makes the active tab look like it's connected with its content--*/
 	font-weight:bold;
 }
 
