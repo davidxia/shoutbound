@@ -62,7 +62,7 @@ $this->load->view('core_header', $header_args);
           </div>
           
           <div id="path" class="main-tab-content">
-            <? foreach ($trips as $trip):?>
+            <? foreach ($profile->rsvp_yes_trips as $trip):?>
               <div class="trip">
                 <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
                 <? foreach ($trip->places as $place):?>
@@ -127,7 +127,7 @@ $this->load->view('core_header', $header_args);
       
       <div id="profile-stats-container">
         <ul class="stats-list">
-          <li><a href="#path" class="trip-count"><? $num_trips=count($trips); echo $num_trips;?><span class="stat-label">Trips</span></a></li>
+          <li><a href="#path" class="trip-count"><? $num_rsvp_yes_trips=count($profile->rsvp_yes_trips); echo $num_rsvp_yes_trips;?><span class="stat-label">Trips</span></a></li>
           <li class="border-left"><a href="#posts" class="post-count">50<span class="stat-label">Posts</span></a></li>
           <li class="border-left"><a href="#following" class="following-count"><? $num_following=count($profile->following); echo $num_following;?><span class="stat-label">Following</span></a></li>
           <li class="border-left"><a href="#followers" class="followers-count"><? $num_followers=count($profile->followers); echo $num_followers;?><span class="stat-label">Followers</span></a></li>

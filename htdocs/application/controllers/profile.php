@@ -86,11 +86,10 @@ class Profile extends CI_Controller
 
         
         // $profile is a reference to $u->stored, so weird!
-        $u->get_posts();
         $u->get_rsvp_yes_trips();
-        //$trips = $u->get_trips();
-        $u->get_followers();
+        $u->get_posts();
         $u->get_following();
+        $u->get_followers();
         $u->get_destinations();
         
         $view_data = array(
@@ -98,8 +97,6 @@ class Profile extends CI_Controller
             'profile' => $profile,
             'is_self' => $is_self,
             'is_following' => $is_following,
-            //'trips' => $trips,
-            //'activity_items' => $activity_items,
         );
 
         $this->load->view('profile/profile', $view_data);
