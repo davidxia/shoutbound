@@ -1,0 +1,60 @@
+#follow {
+  color:white;
+  display:block;
+  height:30px;
+  line-height:30px;
+  text-align:center;
+  font-weight:bold;
+  font-size:11px;
+  text-decoration:none;
+  background:-webkit-gradient(linear, left top, left bottom, from(#F90), to(#FF6200));
+  background:-moz-linear-gradient(top, #F90, #FF6200);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#F90', endColorstr='#FF6200');
+  border: 1px solid #E55800;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  margin-bottom: 13px;
+}
+#follow:hover {
+  background: #ffad32;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
+  background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');
+}
+#follow:active {
+  background: #ff8132;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
+  background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
+}
+
+#profile-top-bar{
+  height:150px;
+  width:560px;
+  border-bottom:2px solid #777;
+}
+
+#profile-col-left{
+  width:560px;
+  float:left;
+}
+
+#profile-col-right{
+  width:320px;
+  float:right;
+}
+
+#profile-pic-container{
+  padding:5px;
+  border:1px solid #EAEAEA;
+  height:125px;
+  width:125px;
+  margin-right:10px;
+  float:left;
+}
+
+#profile-user-info{
+  width:425px;
+  display:inline;
+}
