@@ -37,6 +37,16 @@ class User extends DataMapper
             'rules' => array('required', 'trim', 'unique', 'valid_email')
         ),
         array(
+            'field' => 'bio',
+            'label' => 'Biography',
+            'rules' => array('trim')
+        ),
+        array(
+            'field' => 'url',
+            'label' => 'Personal URL',
+            'rules' => array('trim')
+        ),
+        array(
             'field' => 'created',
             'label' => 'Created',
             'rules' => array('required')
