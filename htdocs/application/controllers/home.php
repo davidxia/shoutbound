@@ -64,8 +64,18 @@ class Home extends CI_Controller
     
     public function ajax_post_item()
     {
+        $text = $this->input->post('text');
+        $trip_ids = $this->input->post('tripIds');
         
+        $t = new Trip();
+        foreach ($trip_ids as $trip_id)
+        {
+            $t->get_by_id($trip_id);
+            //$t->
+        }
+        json_success(array('text' => $text, 'tripIds' => $trip_ids));
     }
+    
     
     function fb_request_form()
     {

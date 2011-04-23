@@ -149,10 +149,10 @@ class User extends DataMapper
         $trip_wallitems = array();
         if ( ! empty($trip_ids))
         {
-            foreach ($wi->where('active', 1)->where_in('trip_id', $trip_ids)->where('user_id !=', $this->id)->get() as $wallitem)
+            foreach ($wi->where('active', 1)->where_in_join_field('trip_id', $trip_ids)->where('user_id !=', $this->id)->get() as $wallitem)
             {
                 $wallitem->get_creator();
-                $wallitem->get_trip();
+                $wallitem->get_trips();
                 $trip_wallitems[] = $wallitem->stored;
             }
         }
@@ -171,7 +171,7 @@ class User extends DataMapper
             foreach ($wi->where_in('parent_id', $wallitem_ids)->where('user_id !=', $this->id)->get() as $wallitem)
             {
                 $wallitem->get_creator();
-                $wallitem->get_trip();
+                $wallitem->get_trips();
                 $reply_wallitems[] = $wallitem->stored;
             }        
         }
@@ -189,7 +189,7 @@ class User extends DataMapper
             foreach ($wi->where('active', 1)->get() as $wallitem)
             {
                 $wallitem->get_creator();
-                $wallitem->get_trip();
+                $wallitem->get_trips();
                 $user_wallitems[] = $wallitem->stored;
             }
         }
@@ -284,7 +284,7 @@ class User extends DataMapper
         {
             // generate html for wallitem's places
             $wallitem->get_places();
-            $wallitem->get_trip();
+            $wallitem->get_trips();
             $wallitems[] = $wallitem->stored;
         }
         

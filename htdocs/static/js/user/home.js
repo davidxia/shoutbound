@@ -63,10 +63,13 @@ getContentEditableText = function(id) {
 
 
 postItem = function(text) {
-  console.log(text);
+  //console.log(text);
   var tripIds = $("select").multiselect("getChecked").map(function(){
      return this.value;
   }).get();
   console.log(tripIds);
-  $.post('')
+  $.post(baseUrl+'home/ajax_post_item', {text:text, tripIds:tripIds},
+    function (d) {
+      console.log(d);
+    });
 }

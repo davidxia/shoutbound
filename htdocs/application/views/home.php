@@ -152,7 +152,10 @@ $this->load->view('core_header', $header_args);
                 <div style="display:table-cell; line-height:18px;">
                   <?=$news_feed_item->user->name?> wrote <span style="font-weight:bold;"><?=$news_feed_item->content?></span>
                   <br/>
-                  on <a href="<?=site_url('trips/'.($news_feed_item->trip_id))?>"><?=$news_feed_item->trip->name?></a>
+                  on 
+                  <? foreach($news_feed_item->trips as $trip):?>
+                    <a href="<?=site_url('trips/'.($trip->id))?>"><?=$trip->name?></a>
+                  <? endforeach;?>
                   <br/>
                   <abbr class="timeago" title="<?=$news_feed_item->created?>" style="font-size:10px;"><?=$news_feed_item->created?></abbr>
                 </div>

@@ -5,7 +5,6 @@ class Wallitem extends DataMapper
         
     public $has_one = array(
         'user',
-        'trip',
         'parent' => array(
             'class' => 'wallitem',
             'other_field' => 'wallitem'
@@ -13,6 +12,7 @@ class Wallitem extends DataMapper
     );
     
     public $has_many = array(
+        'trip',
         'wallitem' => array(
             'other_field' => 'parent'
         ),
@@ -113,11 +113,13 @@ class Wallitem extends DataMapper
     }
     
     
-    public function get_trip()
+    public function get_trips()
     {
-        $t = new Trip();
-        $t->get_by_id($this->trip_id);
-        $this->stored->trip = $t->stored;
+        $this->stored->trips = array();
+        foreach ($this->trips->where('active', 1)->get() as $trip)
+        {
+            $this->stored->trips[] = $trip->stored;
+        }
     }
     
     
