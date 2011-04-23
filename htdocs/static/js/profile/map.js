@@ -62,3 +62,79 @@ map.showDestMarkers = function(lat, lng) {
     map.googleMap.fitBounds(bounds);
   }
 };
+
+
+$(function() {
+  $('abbr.timeago').timeago();
+});
+
+
+$(function() {
+  if (isSelf) {
+    $('#profile-pic-container').hover(
+      function() {
+        $('#edit-profile-pic').show();
+      },
+      function() {
+        $('#edit-profile-pic').hide();
+      }
+    );
+    $('#edit-profile-pic').hover(
+      function() {
+        $('#edit-profile-pic').show();
+      },
+      function() {
+        $('#edit-profile-pic').hide();
+      }
+    );
+  }
+});
+
+
+$('#follow').click(function() {
+  $.post(baseUrl+'friends/ajax_add_following', {profileId:profileId},
+    function(data) {
+      if (data == 1) {
+        $('#follow').remove();
+        $('#profile-col-right').prepend('Following');
+      } else {
+        alert('something broken, tell David');
+      }
+    });
+  return false;
+});
+
+
+$(document).ready(function() {
+	$(".main-tab-content").hide();
+	$("ul.main-tabs li:first").addClass("active").show(); //Activate first tab
+	$(".main-tab-content:first").show(); //Show first tab content
+
+	//On Click Event
+	$("ul.main-tabs li").click(function() {
+
+		$("ul.main-tabs li").removeClass("active"); //Remove any "active" class
+		$(this).addClass("active"); //Add "active" class to selected tab
+		$(".main-tab-content").hide(); //Hide all tab content
+
+		var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+		$(activeTab).show(); //Fade in the active ID content
+		return false;
+	});
+
+
+  //On Click Event-James
+	$("ul.stats-list li a").click(function() {
+
+    $("ul.main-tabs li").removeClass("active");
+		var activeTab = $(this).attr('href');
+		console.log(activeTab);
+		$(".main-tab-content").hide();
+
+		var activeTab = $(this).attr("href");
+    $('.main-tabs').find('a[href='+activeTab+']').parent().addClass('active');
+		$(activeTab).show();
+		return false;
+	});
+
+});  

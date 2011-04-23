@@ -15,6 +15,8 @@ $this->load->view('core_header', $header_args);
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
+  var profileId = '<?=$profile->id?>';
+  var isSelf = <?=$is_self?>;
 </script>
   
 </head>
@@ -26,9 +28,9 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('wrapper_content')?>
 
       <div id="profile-top-bar"><!--TOP BAR-->
-        <div id="profile-pic-container">
+        <div id="profile-pic-container" style="position:relative;">
           <a href="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="125" height="125"/></a>
-          <a href="<?=site_url('profile/edit')?>" id="edit-profile-pic" style="position:absolute; top:-95px; left:0px; font-size:12px; background-color:black; color:white; display:none;">change picture</a>
+          <a href="<?=site_url('profile/edit')?>" id="edit-profile-pic" style="position:absolute; top:0px; left:0px; font-size:12px; background-color:black; color:white; display:none;">change picture</a>
         </div>
         
         <div id="profile-user-info">
@@ -167,82 +169,6 @@ $this->load->view('core_header', $header_args);
 </div><!-- HEADER CONTENT WRAPPER ENDS-->
 
   <? $this->load->view('footer')?>
-
-<script type="text/javascript">
-$(function() {
-  $('abbr.timeago').timeago();
-});
-
-  $('#follow').click(function() {
-    $.post('<?=site_url('friends/ajax_add_following')?>', {profileId: <?=$profile->id?>},
-      function(data) {
-        if (data == 1) {
-          $('#follow').remove();
-          $('#profile-col-right').prepend('Following');
-        } else {
-          alert('something broken, tell David');
-        }
-      });
-    return false;
-  });
-
-  <? if ($is_self):?>
-    $('#profile-pic').hover(
-      function() {
-        $('#edit-profile-pic').show();
-      },
-      function() {
-        $('#edit-profile-pic').hide();
-      }
-    );
-    $('#edit-profile-pic').hover(
-      function() {
-        $('#edit-profile-pic').show();
-      },
-      function() {
-        $('#edit-profile-pic').hide();
-      }
-    );  
-  <? endif;?>
-  
-$(document).ready(function() {
-
-	//When page loads...
-	$(".main-tab-content").hide(); //Hide all content
-	$("ul.main-tabs li:first").addClass("active").show(); //Activate first tab
-	$(".main-tab-content:first").show(); //Show first tab content
-
-	//On Click Event
-	$("ul.main-tabs li").click(function() {
-
-		$("ul.main-tabs li").removeClass("active"); //Remove any "active" class
-		$(this).addClass("active"); //Add "active" class to selected tab
-		$(".main-tab-content").hide(); //Hide all tab content
-
-		var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
-		$(activeTab).show(); //Fade in the active ID content
-		return false;
-	});
-
-
-  //On Click Event-James
-	$("ul.stats-list li a").click(function() {
-
-    $("ul.main-tabs li").removeClass("active");
-		var activeTab = $(this).attr('href');
-		console.log(activeTab);
-		$(".main-tab-content").hide();
-
-		var activeTab = $(this).attr("href");
-    $('.main-tabs').find('a[href='+activeTab+']').parent().addClass('active');
-		$(activeTab).show();
-		return false;
-	});
-
-});  
-  
-  
-</script>
 
 </body> 
 </html>
