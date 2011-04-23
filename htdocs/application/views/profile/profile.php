@@ -38,9 +38,6 @@ $this->load->view('core_header', $header_args);
           <h1><?=$profile->name?></h1>
           <div id="bio">User bio here </div>
           <div id="personal-url">User URL here</div>
-          Trips: <? $num_trips=count($trips); echo $num_trips;?>
-          Following: <? $num_following=count($profile->following); echo $num_following;?>
-          Followers: <? $num_followers=count($profile->followers); echo $num_followers;?>
         </div>
         
       </div><!--TOP BAR END-->     
@@ -50,7 +47,7 @@ $this->load->view('core_header', $header_args);
       
         <ul class="main-tabs">
           <li><a href="#activity">Activity</a></li>
-          <li><a href="#trail">Trail</a></li>
+          <li><a href="#path">Path</a></li>
           <li><a href="#posts">Posts</a></li>
           <li><a href="#following">Following</a></li>
           <li><a href="#followers">Followers</a></li>
@@ -64,7 +61,7 @@ $this->load->view('core_header', $header_args);
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
           </div>
           
-          <div id="trail" class="main-tab-content">
+          <div id="path" class="main-tab-content">
             <? foreach ($trips as $trip):?>
               <div class="trip">
                 <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
@@ -116,13 +113,27 @@ $this->load->view('core_header', $header_args);
     
     <!-- RIGHT COLUMN -->
     <div id="profile-col-right">
-      <? if ($user AND !$is_self):?>
-        <? if ( ! $is_following):?>
-          <a href="#" id="follow">FOLLOW</a>
-        <? else:?>
-          Following
+    
+      <!--FOLLOW BUTTON + STATS-->
+      <div id="follow-button-container">
+        <? if ($user AND !$is_self):?>
+          <? if ( ! $is_following):?>
+            <a href="#" id="follow">FOLLOW</a>
+          <? else:?>
+            Following
+          <? endif;?>
         <? endif;?>
-      <? endif;?>
+      </div>
+      
+      <div id="profile-stats-container">
+        <ul class="stats-list">
+          <li><a href="#path" class="trip-count"><? $num_trips=count($trips); echo $num_trips;?><span class="stat-label">Trips</span></a></li>
+          <li class="border-left"><a href="#posts" class="post-count">50<span class="stat-label">Posts</span></a></li>
+          <li class="border-left"><a href="#following" class="following-count"><? $num_following=count($profile->following); echo $num_following;?><span class="stat-label">Following</span></a></li>
+          <li class="border-left"><a href="#followers" class="followers-count"><? $num_followers=count($profile->followers); echo $num_followers;?><span class="stat-label">Followers</span></a></li>
+        </ul>
+        
+      </div><!-- FOLLOW BUTTON + STATS END-->         
       
       <!-- MAP -->
       <div style="display:none;">
@@ -130,59 +141,15 @@ $this->load->view('core_header', $header_args);
           <a class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>"></a>
         <? endforeach;?>
       </div>
-      <? if ($user AND $is_self):?>
+      <!--<? if ($user AND $is_self):?>
         <a href="<?=site_url('profile/edit')?>">Show off</a> where you've been.
-      <? endif;?>
+      <? endif;?>-->
       <div id="map-shell" style="padding:5px;">
         <div class="right-item-content" style="background-color:white; padding:3px; border:1px solid #EAEAEA;">
           <div id="map-canvas" style="height:312px;"></div>
         </div>
-      </div>
+      </div><!--MAP ENDS-->
       
-      <!-- TRIPS CONTAINER -->
-      <div id="trips-container" style="width:320px;">
-        <div id="trips-list-header">
-          Trips: (<?=$num_trips?>)
-        </div>  
-        <div id="trips-list-content"><!-- TRIPS -->
-          <? foreach ($trips as $trip):?>
-            <div class="trip">
-              <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
-              <? foreach ($trip->places as $place):?>
-                <span class="destination" lat="<?=$place->lat?>" lng="<?=$place->lng?>"><?=$place->name?></span>
-              <? endforeach;?>
-            </div>
-          <? endforeach;?>
-        </div><!-- TRIPS LIST END -->
-      </div><!-- TRIPS CONTAINER ENDS -->
-
-      <!-- FOLLOWERS CONTAINER -->
-      <div>
-        <div>
-          Followers (<?=$num_followers?>)
-        </div>
-        <div>
-          <? foreach ($profile->followers as $follower):?>
-          <div class="follower">
-            <a href="<?=site_url('profile/'.$follower->id)?>"><?=$follower->name?></a>
-          </div>
-          <? endforeach;?>
-        </div>
-      </div><!-- FOLLOWERS CONTAINER ENDS -->
-        
-      <!-- FOLLOWING CONTAINER -->
-      <div>
-        <div>
-          Following (<?=$num_following?>)
-        </div>
-        <div>
-          <? foreach ($profile->following as $following):?>
-          <div class="following">
-            <a href="<?=site_url('profile/'.$following->id)?>"><?=$following->name?></a>
-          </div>
-          <? endforeach;?>
-        </div>
-      </div><!-- FOLLOWING CONTAINER ENDS -->
     </div><!-- RIGHT COLUMN ENDS -->
             
   </div><!-- CONTENT ENDS -->
@@ -244,6 +211,21 @@ $(document).ready(function() {
 
 		var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
 		$(activeTab).show(); //Fade in the active ID content
+		return false;
+	});
+
+
+  //On Click Event-James
+	$("ul.stats-list li").click(function() {
+
+    $("ul.main-tabs li").removeClass("active");
+		var activeTab = $(this).find('a').attr('href');
+		console.log(activeTab);
+		$(".main-tab-content").hide();
+
+		var activeTab = $(this).find("a").attr("href");
+    $('.main-tabs').find('a[href='+activeTab+']').parent().addClass('active');
+		$(activeTab).show();
 		return false;
 	});
 

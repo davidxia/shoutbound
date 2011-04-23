@@ -77,7 +77,6 @@
 }
 
 ul.main-tabs{
-	float: left;
 	list-style: none;
 	height: 36px;
 	border-bottom: 1px solid #CACACA;
@@ -137,7 +136,33 @@ ul.main-tabs li.active a:hover  {
 
 .tab-conatiner{
   clear:both;
-  
 }
 
+ul.stats-list{
+	list-style: none;
+	height: 60px;
+	width: 320px;
+}
+
+ul.stats-list li{
+  float: left;
+  padding:2px 12px;
+}
+
+li.border-left{
+  border-left:1px solid #CACACA;
+}
+
+ul.stats-list li a{
+  color:#6C2B9C;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.stat-label{
+  color:#505050;
+  font-size:12px;
+  display:block;
+  font-weight:normal;
+}
 
