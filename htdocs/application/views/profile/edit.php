@@ -64,8 +64,8 @@ $this->load->view('core_header', $header_args);
             <label for="date">date</label> <input id="date" class="date" name="date" type="text" size="10"/> 
           </div>
         </div>
-        <!--<a id="save-been-to" href="#">Save</a>-->
-        <input type="submit" value="submit"/>
+        <a id="save-been-to" href="#">Save</a>
+        <!--<input type="submit" value="submit"/>-->
       </fieldset>
     </form>
     

@@ -29,14 +29,14 @@ $(function() {
       });
     return false;
   });
-});
 
-/*$(function() {
   $('#save-been-to').click(function() {
-    $('#been-to-form').submit();
+    //$('#been-to-form').submit();
+    var placesDates = $('[name^="places_dates[places_dates]["]');
+    console.log(placesDates);
     return false;
   });
-});*/
+});
 
 
 // datepicker jquery plugin
