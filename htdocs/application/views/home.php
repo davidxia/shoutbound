@@ -2,9 +2,13 @@
 $header_args = array(
     'title' => 'Shoutbound',
     'css_paths'=> array(
+        'css/excite-bike/jquery-ui-1.8.11.custom.css',
+        'css/home.css',
     ),
     'js_paths'=> array(
-        'js/jquery/timeago.js'
+        'js/jquery/jquery-ui-1.8.11.custom.min.js',
+        'js/jquery/multiselect.min.js',
+        'js/jquery/timeago.js',
     )
 );
 $this->load->view('core_header', $header_args);
@@ -117,7 +121,7 @@ $this->load->view('core_header', $header_args);
         <form id="item-post-form">
           <fieldset>
             <div contenteditable="true" id="item-input" style="min-height:100px; border:1px solid #333; color:#333;"></div>
-            <select name="trip-selection" multiple size=5>
+            <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
               <? foreach ($trips as $trip):?>
               <option value="<?=$trip->id?>"><?=$trip->name?>
               <? endforeach;?>
@@ -166,6 +170,11 @@ $this->load->view('core_header', $header_args);
 </body>
 
 <script type="text/javascript">
+  $(function() {
+    $('#trip-selection').multiselect();
+  });
+  
+  
   $(function() {
     $('#post-item').click(function() {
       var text = getContentEditableText('item-input').trim();
