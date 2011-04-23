@@ -33,7 +33,7 @@
   height:150px;
   width:600px;
   border-bottom:2px solid #777;
-  padding-bottom:16px;
+  padding-bottom:10px;
   float:left;
 }
 
@@ -67,7 +67,7 @@
 }
 
 #profile-main-content-container{
-  padding:8px 0px 5px 0px;
+  padding:10px 0px 5px 0px;
 }
 
 #profile-main-content-navbar{
@@ -102,7 +102,7 @@ ul.main-tabs li{
 ul.main-tabs li a{
   text-decoration: none;
 	display: block;
-	padding: 0 20px;
+	padding: 0 30px;
 	/*border: 1px solid white;*/
 	outline: none;
 }
@@ -174,5 +174,6 @@ ul.stats-list li a{
 
 #map-shell{
   position:relative;
-  top:45px;
+  top:10px;
+  padding:5px;
 }

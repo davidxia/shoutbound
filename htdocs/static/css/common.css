@@ -14,7 +14,7 @@ html, body {
   min-width: 960px;
   overflow-x:hidden;
   height:100%;
-  font-size:15px;
+  font-size:14px;
 	line-height:20px;
 	font-color:#333;
 }
@@ -101,7 +101,7 @@ html, body {
 h1{
   color:#404040;
   font-size: 30px;
-  line-height: 36px;
+  line-height: 38px;
 }
 
 h2{

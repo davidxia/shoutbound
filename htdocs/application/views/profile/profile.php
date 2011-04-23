@@ -53,7 +53,7 @@ $this->load->view('core_header', $header_args);
         <div id="stats-container">
           <ul class="stats-list">
             <li><a href="#path" class="trip-count"><? $num_rsvp_yes_trips=count($profile->rsvp_yes_trips); echo $num_rsvp_yes_trips;?><span class="stat-label">Trips</span></a></li>
-            <li class="border-left"><a href="#posts" class="post-count">50<span class="stat-label">Posts</span></a></li>
+            <li class="border-left"><a href="#posts" class="post-count"><?=count($profile->posts)?><span class="stat-label">Posts</span></a></li>
             <li class="border-left"><a href="#following" class="following-count"><? $num_following=count($profile->following); echo $num_following;?><span class="stat-label">Following</span></a></li>
             <li class="border-left"><a href="#followers" class="followers-count"><? $num_followers=count($profile->followers); echo $num_followers;?><span class="stat-label">Followers</span></a></li>
           </ul>        
@@ -147,9 +147,8 @@ $this->load->view('core_header', $header_args);
       <!--<? if ($user AND $is_self):?>
         <a href="<?=site_url('profile/edit')?>">Show off</a> where you've been.
       <? endif;?>-->
-      <div id="map-shell" style="padding:5px;">
-        <div class="right-item-content" style="background-color:white; padding:3px; border:1px solid #EAEAEA;">
-          <div id="map-canvas" style="height:312px;"></div>
+      <div id="map-shell">
+          <div id="map-canvas" style="height:330px;"></div>
         </div>
       </div><!--MAP ENDS-->
       
@@ -219,14 +218,14 @@ $(document).ready(function() {
 
 
   //On Click Event-James
-	$("ul.stats-list li").click(function() {
+	$("ul.stats-list li a").click(function() {
 
     $("ul.main-tabs li").removeClass("active");
-		var activeTab = $(this).find('a').attr('href');
+		var activeTab = $(this).attr('href');
 		console.log(activeTab);
 		$(".main-tab-content").hide();
 
-		var activeTab = $(this).find("a").attr("href");
+		var activeTab = $(this).attr("href");
     $('.main-tabs').find('a[href='+activeTab+']').parent().addClass('active');
 		$(activeTab).show();
 		return false;
