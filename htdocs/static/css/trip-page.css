@@ -190,7 +190,7 @@ textarea#wallitem-input{
   width: 50%;
 }
 
-#wall .content{
+.postcontent{
   padding:0px;
   min-height:0px;
 }

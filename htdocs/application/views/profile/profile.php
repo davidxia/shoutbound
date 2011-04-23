@@ -47,21 +47,21 @@ $this->load->view('core_header', $header_args);
       <div id="profile-main-content-container">
       
         <ul class="main-tabs">
-          <li class="active"><a href="#">Activity</a></li>
-          <li><a href="#">Posts</a></li>
-          <li><a href="#">Following</a></li>
-          <li><a href="#">Followers</a></li>
+          <li><a href="#activity">Activity</a></li>
+          <li><a href="#posts">Posts</a></li>
+          <li><a href="#following">Following</a></li>
+          <li><a href="#followers">Followers</a></li>
         </ul>
         
         <div class="tab-container"><!--TAB CONTAINER-->
               
-          <div id="profile-feed-tab-content" class="main-tab-content">
+          <div id="activity" class="main-tab-content">
             <? foreach ($profile_feed_items as $profile_feed_item):?>
               <div class="profile-feed-item">
                 <? foreach ($profile_feed_item->trips as $trip):?>
                 <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
                 <? endforeach;?>
-                <div class="content">
+                <div class="postcontent">
                   <?=$profile_feed_item->content?>
                 </div>
                 <abbr class="timeago" title="<?=$profile_feed_item->created?>"><?=$profile_feed_item->created?></abbr>
@@ -69,16 +69,16 @@ $this->load->view('core_header', $header_args);
             <? endforeach;?>
           </div>
           
-          <div id="profile-posts-tab-content" class="main-tab-content">
-          
+          <div id="posts" class="main-tab-content">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
           </div>
           
-          <div id="profile-following-tab-content" class="main-tab-content">
-          
+          <div id="following" class="main-tab-content">
+                    giat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
           </div>
           
-          <div id="profile-followers-tab-content" class="main-tab-content">
-          
+          <div id="followers" class="main-tab-content">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea = nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
           </div>
           
         </div><!--TAB CONTAINER END-->
@@ -219,7 +219,7 @@ $(document).ready(function() {
 		$(".main-tab-content").hide(); //Hide all tab content
 
 		var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
-		$(activeTab).fadeIn(); //Fade in the active ID content
+		$(activeTab).show(); //Fade in the active ID content
 		return false;
 	});
 
