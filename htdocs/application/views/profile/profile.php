@@ -25,10 +25,7 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
 
-    <!-- LEFT COLUMN -->
-    <div id="profile-col-left">
-    
-      <div id="profile-top-bar">
+      <div id="profile-top-bar"><!--TOP BAR-->
         <div id="profile-pic-container">
           <a href="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="125" height="125"/></a>
           <a href="<?=site_url('profile/edit')?>" id="edit-profile-pic" style="position:absolute; top:-95px; left:0px; font-size:12px; background-color:black; color:white; display:none;">change picture</a>
@@ -36,11 +33,38 @@ $this->load->view('core_header', $header_args);
         
         <div id="profile-user-info">
           <h1><?=$profile->name?></h1>
-          <div id="bio">User bio here </div>
-          <div id="personal-url">User URL here</div>
+          <div id="bio"><?=$profile->bio?></div>
+          <div id="personal-url"><a href="<?=$profile->url?>" target="_blank"><?=$profile->url?></a></div>
         </div>
         
-      </div><!--TOP BAR END-->     
+      </div><!--TOP BAR END-->
+      
+     <!--FOLLOW BUTTON + STATS-->
+      <div id="follow-and-stats-container">
+        <div id="follow-button">
+          <? if ($user AND !$is_self):?>
+            <? if ( ! $is_following):?>
+              <a href="#" id="follow">FOLLOW</a>
+            <? else:?>
+              Following
+            <? endif;?>
+          <? endif;?>
+        </div>        
+        <div id="stats-container">
+          <ul class="stats-list">
+            <li><a href="#path" class="trip-count"><? $num_rsvp_yes_trips=count($profile->rsvp_yes_trips); echo $num_rsvp_yes_trips;?><span class="stat-label">Trips</span></a></li>
+            <li class="border-left"><a href="#posts" class="post-count">50<span class="stat-label">Posts</span></a></li>
+            <li class="border-left"><a href="#following" class="following-count"><? $num_following=count($profile->following); echo $num_following;?><span class="stat-label">Following</span></a></li>
+            <li class="border-left"><a href="#followers" class="followers-count"><? $num_followers=count($profile->followers); echo $num_followers;?><span class="stat-label">Followers</span></a></li>
+          </ul>        
+        </div>
+        
+      </div><!-- FOLLOW BUTTON + STATS END-->  
+    
+    <div style="clear:both"></div>  
+
+    <!-- LEFT COLUMN -->
+    <div id="profile-col-left">    
       
       <!--PROFILE MAIN CONTENT-->      
       <div id="profile-main-content-container">
@@ -112,28 +136,7 @@ $this->load->view('core_header', $header_args);
     </div><!--LEFT COLUMN END-->
     
     <!-- RIGHT COLUMN -->
-    <div id="profile-col-right">
-    
-      <!--FOLLOW BUTTON + STATS-->
-      <div id="follow-button-container">
-        <? if ($user AND !$is_self):?>
-          <? if ( ! $is_following):?>
-            <a href="#" id="follow">FOLLOW</a>
-          <? else:?>
-            Following
-          <? endif;?>
-        <? endif;?>
-      </div>
-      
-      <div id="profile-stats-container">
-        <ul class="stats-list">
-          <li><a href="#path" class="trip-count"><? $num_rsvp_yes_trips=count($profile->rsvp_yes_trips); echo $num_rsvp_yes_trips;?><span class="stat-label">Trips</span></a></li>
-          <li class="border-left"><a href="#posts" class="post-count">50<span class="stat-label">Posts</span></a></li>
-          <li class="border-left"><a href="#following" class="following-count"><? $num_following=count($profile->following); echo $num_following;?><span class="stat-label">Following</span></a></li>
-          <li class="border-left"><a href="#followers" class="followers-count"><? $num_followers=count($profile->followers); echo $num_followers;?><span class="stat-label">Followers</span></a></li>
-        </ul>
-        
-      </div><!-- FOLLOW BUTTON + STATS END-->         
+    <div id="profile-col-right">      
       
       <!-- MAP -->
       <div style="display:none;">

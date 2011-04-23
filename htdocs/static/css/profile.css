@@ -34,6 +34,7 @@
   width:600px;
   border-bottom:2px solid #777;
   padding-bottom:16px;
+  float:left;
 }
 
 #profile-col-left{
@@ -58,6 +59,11 @@
 #profile-user-info{
   width:480px;
   display:inline;
+}
+
+#follow-and-stats-container{
+  width:320px;
+  float:right;
 }
 
 #profile-main-content-container{
@@ -146,7 +152,7 @@ ul.stats-list{
 
 ul.stats-list li{
   float: left;
-  padding:2px 12px;
+  padding:2px 10px;
 }
 
 li.border-left{
@@ -166,3 +172,7 @@ ul.stats-list li a{
   font-weight:normal;
 }
 
+#map-shell{
+  position:relative;
+  top:45px;
+}
