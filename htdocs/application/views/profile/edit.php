@@ -3,7 +3,7 @@ $header_args = array(
     'title' => 'Edit profile | Shoutbound',
     'css_paths'=>array(
         'css/uploadify.css',
-        'css/excite-bike/jquery-ui-1.8.10.custom.css',
+        'css/excite-bike/jquery-ui-1.8.11.custom.css',
     ),
     'js_paths'=>array(
         'js/profile/edit.js',
@@ -11,7 +11,7 @@ $header_args = array(
         'js/jquery/validate.min.js',
         'js/uploadify/swfobject.js',
         'js/uploadify/jquery.uploadify.v2.1.4.min.js',
-        'js/jquery/jquery-ui-1.8.10.custom.min.js',
+        'js/jquery/jquery-ui-1.8.11.custom.min.js',
     )
 );
 

@@ -116,15 +116,16 @@ $this->load->view('core_header', $header_args);
       <div>
         <form id="item-post-form">
           <fieldset>
-            <textarea id="item-input" style="width:510px; height:100px;"></textarea>
+            <div contenteditable="true" id="item-input" style="min-height:100px; border:1px solid #333; color:#333;"></div>
             <select name="trip-selection" multiple size=5>
-              <option value="mushrooms">mushrooms
-              <option value="greenpeppers">green peppers
-              <option value="onions">onions
-              <option value="tomatoes">tomatoes
-              <option value="olives">olives
+              <? foreach ($trips as $trip):?>
+              <option value="<?=$trip->id?>"><?=$trip->name?>
+              <? endforeach;?>
+              <? foreach ($following_trips as $trip):?>
+              <option value="<?=$trip->id?>"><?=$trip->name?>
+              <? endforeach;?>
             </select>
-            <input type="submit" value="submit"/>
+            <a id="post-item" href="#">Post</a>
           </fieldset>
         </form>
       </div>
@@ -140,7 +141,9 @@ $this->load->view('core_header', $header_args);
           <ul style="margin: 0px 20px 0px 20px;">
             <? foreach($news_feed_items as $news_feed_item):?>
               <li id="wall-item-<?=$news_feed_item->id?>" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
-                <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>" style="margin-right:10px; float:left;"><img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" height="50" width="50"/></a>
+                <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>" style="margin-right:10px; float:left;">
+                  <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" class="avatar" height="50" width="50" alt="<?=$news_feed_item->user->name?>"/>
+                </a>
                 <div style="display:table-cell; line-height:18px;">
                   <?=$news_feed_item->user->name?> wrote <span style="font-weight:bold;"><?=$news_feed_item->content?></span>
                   <br/>
@@ -163,6 +166,16 @@ $this->load->view('core_header', $header_args);
 </body>
 
 <script type="text/javascript">
+  $(function() {
+    $('#post-item').click(function() {
+      var text = getContentEditableText('item-input').trim();
+      if (text.length > 0) {
+        postItem(text);
+      }
+      return false;
+    });
+  });
+
   $('abbr.timeago').timeago();
   
   $(function() {
@@ -195,5 +208,20 @@ $this->load->view('core_header', $header_args);
     });
   });
 
+  getContentEditableText = function(id) {
+    var ce = $('<pre />').html($('#' + id).html());
+    if ($.browser.webkit)
+      ce.find('div').replaceWith(function() { return '\n' + this.innerHTML; });
+    if ($.browser.msie)
+      ce.find('p').replaceWith(function() { return this.innerHTML + '<br>'; });
+    if ($.browser.mozilla || $.browser.opera || $.browser.msie)
+      ce.find('br').replaceWith('\n');
+    return ce.text();
+  }
+  
+  postItem = function(text) {
+    console.log(text);
+    console.log('select');
+  }
 </script>
 </html>

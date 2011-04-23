@@ -127,8 +127,8 @@
   </div>
 </div>
 
-<link rel="stylesheet" href="<?=site_url('static/css/excite-bike/jquery-ui-1.8.10.custom.css')?>" type="text/css" media="screen" charset="utf-8"/></script>
-<script type="text/javascript" src="<?=site_url('static/js/jquery/jquery-ui-1.8.10.custom.min.js')?>"></script>
+<link rel="stylesheet" href="<?=site_url('static/css/excite-bike/jquery-ui-1.8.11.custom.css')?>" type="text/css" media="screen" charset="utf-8"/></script>
+<script type="text/javascript" src="<?=site_url('static/js/jquery/jquery-ui-1.8.11.custom.min.js')?>"></script>
 
 <script type="text/javascript">
   $('#deadline').datepicker();

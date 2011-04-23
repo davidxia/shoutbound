@@ -62,6 +62,11 @@ class Home extends CI_Controller
     }
     
     
+    public function ajax_post_item()
+    {
+        
+    }
+    
     function fb_request_form()
     {
         $this->load->view('fb_request_form');
