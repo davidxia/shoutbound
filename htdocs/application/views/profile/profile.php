@@ -38,7 +38,9 @@ $this->load->view('core_header', $header_args);
           <h1><?=$profile->name?></h1>
           <div id="bio">User bio here </div>
           <div id="personal-url">User URL here</div>
-          <div style="clear:both"></div>
+          Trips: <? $num_trips=count($trips); echo $num_trips;?>
+          Following: <? $num_following=count($profile->following); echo $num_following;?>
+          Followers: <? $num_followers=count($profile->followers); echo $num_followers;?>
         </div>
         
       </div><!--TOP BAR END-->     
@@ -48,37 +50,59 @@ $this->load->view('core_header', $header_args);
       
         <ul class="main-tabs">
           <li><a href="#activity">Activity</a></li>
+          <li><a href="#trail">Trail</a></li>
           <li><a href="#posts">Posts</a></li>
           <li><a href="#following">Following</a></li>
           <li><a href="#followers">Followers</a></li>
         </ul>
         
+        <div style="clear:both"></div>
+        
         <div class="tab-container"><!--TAB CONTAINER-->
               
           <div id="activity" class="main-tab-content">
-            <? foreach ($profile_feed_items as $profile_feed_item):?>
-              <div class="profile-feed-item">
-                <? foreach ($profile_feed_item->trips as $trip):?>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </div>
+          
+          <div id="trail" class="main-tab-content">
+            <? foreach ($trips as $trip):?>
+              <div class="trip">
                 <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
+                <? foreach ($trip->places as $place):?>
+                  <span class="destination" lat="<?=$place->lat?>" lng="<?=$place->lng?>"><?=$place->name?></span>
                 <? endforeach;?>
-                <div class="postcontent">
-                  <?=$profile_feed_item->content?>
-                </div>
-                <abbr class="timeago" title="<?=$profile_feed_item->created?>"><?=$profile_feed_item->created?></abbr>
               </div>
             <? endforeach;?>
           </div>
           
           <div id="posts" class="main-tab-content">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <? foreach ($profile->posts as $post):?>
+              <div class="profile-feed-item">
+                <? foreach ($post->trips as $trip):?>
+                <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
+                <? endforeach;?>
+                <div class="postcontent">
+                  <?=$post->content?>
+                </div>
+                <abbr class="timeago" title="<?=$post->created?>"><?=$post->created?></abbr>
+              </div>
+            <? endforeach;?>
           </div>
           
           <div id="following" class="main-tab-content">
-                    giat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <? foreach ($profile->following as $following):?>
+            <div class="following">
+              <a href="<?=site_url('profile/'.$following->id)?>"><?=$following->name?></a>
+            </div>
+            <? endforeach;?>
           </div>
           
           <div id="followers" class="main-tab-content">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea = nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <? foreach ($profile->followers as $follower):?>
+            <div class="follower">
+              <a href="<?=site_url('profile/'.$follower->id)?>"><?=$follower->name?></a>
+            </div>
+            <? endforeach;?>
           </div>
           
         </div><!--TAB CONTAINER END-->
@@ -116,11 +140,11 @@ $this->load->view('core_header', $header_args);
       </div>
       
       <!-- TRIPS CONTAINER -->
-      <div id="profile-page-trips-container" style="width:320px;">
-        <div id="profile-page-trips-list-header">
-          Trips: (<?=count($trips)?>)
+      <div id="trips-container" style="width:320px;">
+        <div id="trips-list-header">
+          Trips: (<?=$num_trips?>)
         </div>  
-        <div id="profile-page-trips-list-content"><!-- TRIPS -->
+        <div id="trips-list-content"><!-- TRIPS -->
           <? foreach ($trips as $trip):?>
             <div class="trip">
               <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
@@ -135,7 +159,7 @@ $this->load->view('core_header', $header_args);
       <!-- FOLLOWERS CONTAINER -->
       <div>
         <div>
-          Followers (<?=count($profile->followers)?>)
+          Followers (<?=$num_followers?>)
         </div>
         <div>
           <? foreach ($profile->followers as $follower):?>
@@ -149,7 +173,7 @@ $this->load->view('core_header', $header_args);
       <!-- FOLLOWING CONTAINER -->
       <div>
         <div>
-          Following (<?=count($profile->following)?>)
+          Following (<?=$num_following?>)
         </div>
         <div>
           <? foreach ($profile->following as $following):?>

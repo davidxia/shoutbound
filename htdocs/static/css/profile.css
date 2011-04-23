@@ -33,6 +33,7 @@
   height:150px;
   width:600px;
   border-bottom:2px solid #777;
+  padding-bottom:16px;
 }
 
 #profile-col-left{
@@ -42,16 +43,15 @@
 
 #profile-col-right{
   width:320px;
-  /*float:right;*/
-  margin-left:10000px;
+  float:right;
 }
 
 #profile-pic-container{
-  padding:5px;
+  padding:8px;
   border:1px solid #EAEAEA;
   height:125px;
   width:125px;
-  margin-right:10px;
+  margin-right:12px;
   float:left;
 }
 
@@ -61,11 +61,19 @@
 }
 
 #profile-main-content-container{
-  padding:20px 0px 5px 0px;
+  padding:8px 0px 5px 0px;
 }
 
 #profile-main-content-navbar{
   height:30px; 
+}
+
+.tab-container{
+ padding:20px;
+ border-left:1px solid #CACACA;
+ border-bottom:1px solid #CACACA;
+ border-right:1px solid #CACACA;
+ min-height:600px; 
 }
 
 ul.main-tabs{
@@ -73,7 +81,7 @@ ul.main-tabs{
 	list-style: none;
 	height: 36px;
 	border-bottom: 1px solid #CACACA;
-	width: 580px;
+	width: 600px;
 }
 
 ul.main-tabs li{

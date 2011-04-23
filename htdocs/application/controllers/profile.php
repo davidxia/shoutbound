@@ -95,12 +95,11 @@ class Profile extends CI_Controller
         }
         
         // $profile is a reference to $u->stored, so weird!
+        $u->get_posts();
+        $trips = $u->get_trips();
         $u->get_followers();
         $u->get_following();
         $u->get_destinations();
-                
-        // get profile's recent activity
-        $profile_feed_items = $u->get_profile_feed_items();
         
         $view_data = array(
             'user' => $user,
@@ -108,11 +107,11 @@ class Profile extends CI_Controller
             'is_self' => $is_self,
             'is_following' => $is_following,
             'trips' => $trips,
-            'profile_feed_items' => $profile_feed_items,
+            //'activity_items' => $activity_items,
         );
 
         $this->load->view('profile/profile', $view_data);
-        //print_r($profile_feed_items);
+        //print_r($trips);
     }
     
     

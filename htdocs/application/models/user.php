@@ -275,20 +275,18 @@ class User extends DataMapper
     }
 
 
-    public function get_profile_feed_items()
+    public function get_posts()
     {
-        // get user's most recent wallitems
-        $wallitems = array();
+        // get user's most recent posts
+        $this->stored->posts = array();
         $this->wallitem->where('active', 1)->order_by('created', 'desc')->get();
         foreach ($this->wallitem as $wallitem)
         {
             // generate html for wallitem's places
             $wallitem->get_places();
             $wallitem->get_trips();
-            $wallitems[] = $wallitem->stored;
+            $this->stored->posts[] = $wallitem->stored;
         }
-        
-        return $wallitems;
     }
     
     
