@@ -59,6 +59,9 @@ class User extends DataMapper
         $sig = get_cookie('sig');
         if ($sig == $this->get_sig($uid, $key))
         {
+            set_cookie('uid', $uid, 7200);
+            set_cookie('key', $key, 7200);
+            set_cookie('sig', $sig, 7200);
             return $uid;
         }
         else
