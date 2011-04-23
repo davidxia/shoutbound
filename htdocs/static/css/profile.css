@@ -31,18 +31,19 @@
 
 #profile-top-bar{
   height:150px;
-  width:560px;
+  width:600px;
   border-bottom:2px solid #777;
 }
 
 #profile-col-left{
-  width:560px;
+  width:600px;
   float:left;
 }
 
 #profile-col-right{
   width:320px;
-  float:right;
+  /*float:right;*/
+  margin-left:10000px;
 }
 
 #profile-pic-container{
@@ -55,6 +56,42 @@
 }
 
 #profile-user-info{
-  width:425px;
+  width:480px;
   display:inline;
 }
+
+#profile-main-content-container{
+  padding:20px 0px 5px 0px;
+}
+
+#profile-main-content-navbar{
+  height:30px; 
+}
+
+#profile-main-content-navbar li{
+	list-style-type: none;
+	float:left;
+	height:32px;
+}
+
+#profile-main-content-navbar li{
+	margin-right:15px;
+	height:32px;
+	width:50px;
+	line-height:32px;
+	border-top-left-radius:5px;
+	-moz-border-radius-topleft:5px;
+	border-bottom-left-radius:5px;
+	-moz-border-radius-bottomleft:5px;
+}
+
+#profile-main-content-navbar li:hover{
+	background-color:#FAFAFA;
+	text-decoration:none;
+}
+
+#profile-main-content-navbar li.selected{
+	background-color:#BABABA;
+	font-weight:bold;
+}
+
