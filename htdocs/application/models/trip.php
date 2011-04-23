@@ -57,18 +57,15 @@ class Trip extends DataMapper {
 
     public function get_places()
     {
-        $this->place->include_join_fields()->get();
-        $places = array();
-        foreach ($this->place as $place)
+        $this->stored->places = array();
+        foreach ($this->place->include_join_fields()->get() as $place)
         {
             $place->stored->startdate = $place->join_startdate;
             $place->stored->enddate = $place->join_enddate;
-            $places[] = $place->stored;
+            $this->stored->places[] = $place->stored;
         }
-        
-        return $places;
     }
-    
+        
     
     public function get_wallitems()
     {

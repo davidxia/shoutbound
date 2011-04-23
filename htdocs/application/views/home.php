@@ -52,16 +52,16 @@ $this->load->view('core_header', $header_args);
 				<div style="background-color:#C6D4E1; line-height:30px; height:30px; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; border-radius: 5px 5px 0px 0px; border-radius: 5px 5px 0px 0px; border-bottom: 1px solid #C8C8C8;">
   				<span style="font-size:16px; padding-left:10px; font-weight:bold; color:black;">Trips</span>
 				</div>
-				<? if (empty($trips)):?>
+				<? if (empty($user->rsvp_yes_trips)):?>
           <div style="padding:0px 0px 20px 20px;">You don't have any trips yet. Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a>.</div>
         <? else:?>
-          <? foreach ($trips as $trip):?>
+          <? foreach ($user->rsvp_yes_trips as $rsvp_yes_trip):?>
             <div class="home-users-trip" style="margin:10px; border-bottom:1px solid #BABABA;">
               <div>
-                <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
+                <a href="<?=site_url('trips/'.$rsvp_yes_trip->id)?>"><?=$rsvp_yes_trip->name?></a>
               </div>
               <div>
-                <? foreach ($trip->places as $place):?>
+                <? foreach ($rsvp_yes_trip->places as $place):?>
                   <?=$place->name?>
                   <? if ($place->startdate):?>
                     <?=date('n/d/y', $place->startdate)?>
@@ -70,7 +70,7 @@ $this->load->view('core_header', $header_args);
                   <? endif;?>               
                 <? endforeach;?>
               </div>
-              <? foreach ($trip->goers as $trip_goer):?>                       	                       
+              <? foreach ($rsvp_yes_trip->goers as $trip_goer):?>                       	                       
                 <a href="<?=site_url('profile/'.$trip_goer->id)?>">
                   <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" height="32" width="32" alt="<?=$trip_goer->name?>"/>
                 </a>
@@ -85,10 +85,10 @@ $this->load->view('core_header', $header_args);
 				<div style="background-color:#C6D4E1; line-height:30px; height:30px; margin-bottom:15px; -moz-border-radius-topright: 5px; -moz-border-radius-topleft: 5px; border-radius: 5px 5px 0px 0px; border-radius: 5px 5px 0px 0px; border-bottom: 1px solid #C8C8C8;">
   				<span style="font-size:16px; padding-left:10px; font-weight:bold;color:black;">Following</span>
 				</div>
-				<? if ( ! $following_trips):?>
+				<? if ( ! $user->following_trips):?>
           <div style="margin-left:20px; padding-bottom:20px;">Find exciting trips by seeing what others are up to.</div>
         <? else:?>
-          <? foreach ($following_trips as $following_trip):?>
+          <? foreach ($user->following_trips as $following_trip):?>
             <div class="home-friends-trip" style="margin:10px; border-bottom:1px solid #BABABA;">
               <div>
                 <a href="<?=site_url('trips/'.$following_trip->id)?>"><?=$following_trip->name?></a>
