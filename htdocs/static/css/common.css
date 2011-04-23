@@ -99,9 +99,9 @@ html, body {
 }
 
 h1{
-	font-size:34px;
-	font-weight:bold;
-	color:black;
+  color:#404040;
+  font-size: 30px;
+  line-height: 36px;
 }
 
 h2{

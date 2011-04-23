@@ -43,20 +43,39 @@ $this->load->view('core_header', $header_args);
         
       </div><!--TOP BAR END-->     
       
-      <div id="profile-feed">
-        <? foreach ($profile_feed_items as $profile_feed_item):?>
-          <div class="profile-feed-item">
-            <a href="<?=site_url('trips/'.$profile_feed_item->trip->id)?>"><?=$profile_feed_item->trip->name?></a>
-            <div class="content">
-              <?=$profile_feed_item->content?>
+      <!--PROFILE MAIN CONTENT-->      
+      <div id="profile-main-content-container">
+      
+        <div id="profile-main-content-navbar">
+          <ul>
+            <li class="selected"><a href="#">Feed</a></li>
+            <li><a href="#">Posts</a></li>
+            <li><a href="#">Following</a></li>
+            <li><a href="#">Followers</a></li>
+          </ul>
+        </div>
+      
+        <div id="profile-feed">
+          <? foreach ($profile_feed_items as $profile_feed_item):?>
+            <div class="profile-feed-item">
+              <a href="<?=site_url('trips/'.$profile_feed_item->trip->id)?>"><?=$profile_feed_item->trip->name?></a>
+              <div class="content">
+                <?=$profile_feed_item->content?>
+              </div>
+              <abbr class="timeago" title="<?=$profile_feed_item->created?>"><?=$profile_feed_item->created?></abbr>
             </div>
-            <abbr class="timeago" title="<?=$profile_feed_item->created?>"><?=$profile_feed_item->created?></abbr>
-          </div>
-        <? endforeach;?>
-      </div>
-    </div>
+          <? endforeach;?>
+        </div>
+        
+              
+      
+      </div><!--PROFILE MAIN CONTENT END-->
+      
+      
+
+    </div><!--LEFT COLUMN END-->
     
-        <!-- RIGHT COLUMN -->
+    <!-- RIGHT COLUMN -->
     <div id="profile-col-right">
       <? if ($user AND !$is_self):?>
         <? if ( ! $is_following):?>
