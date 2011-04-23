@@ -115,6 +115,9 @@ $this->load->view('core_header', $header_args);
           <div id="following" class="main-tab-content">
             <? foreach ($profile->following as $following):?>
             <div class="following">
+              <a href="<?=site_url('profile/'.$following->id)?>">
+                <img src="<?=static_sub('profile_pics/'.$following->profile_pic)?>" class="tooltip" width="50" height="50" alt="<?=$following->name?>"/>
+              </a>
               <a href="<?=site_url('profile/'.$following->id)?>"><?=$following->name?></a>
             </div>
             <? endforeach;?>
@@ -123,6 +126,9 @@ $this->load->view('core_header', $header_args);
           <div id="followers" class="main-tab-content">
             <? foreach ($profile->followers as $follower):?>
             <div class="follower">
+              <a href="<?=site_url('profile/'.$follower->id)?>">
+                <img src="<?=static_sub('profile_pics/'.$follower->profile_pic)?>" class="tooltip" width="50" height="50" alt="<?=$follower->name?>"/>
+              </a>
               <a href="<?=site_url('profile/'.$follower->id)?>"><?=$follower->name?></a>
             </div>
             <? endforeach;?>
