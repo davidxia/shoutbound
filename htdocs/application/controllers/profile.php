@@ -142,10 +142,26 @@ class Profile extends CI_Controller
     }
     
     
+    public function ajax_save_profile()
+    {
+        $this->user->bio = $this->input->post('bio');
+        $this->user->url = $this->input->post('url');
+        if ($this->user->save())
+        {
+            json_success(array('bio' => $this->input->post('bio'), 'url' => $this->input->post('url')));
+        }
+        else
+        {
+            json_error('something broke, tell David to fix');
+        }
+    }
+    
+    
     public function profile_pic_uploadify()
     {
         if ( ! empty($_FILES)) {
-            $uid = $this->input->post('uid');
+            //$uid = $this->input->post('uid');
+            $uid = $this->user->id;
           	$tempFile = $_FILES['Filedata']['tmp_name'];
           	list($width, $height, $type, $attr) = getimagesize($_FILES['Filedata']['tmp_name']);
           	

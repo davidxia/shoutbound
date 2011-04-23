@@ -15,6 +15,22 @@ $(function() {
 });
 
 
+$(function() {
+  $('#save-profile').click(function() {
+    var bio = $('#bio'),
+        url = $('#url');
+        
+    $.post(baseUrl+'profile/ajax_save_profile', {bio:bio.val(), url:url.val()},
+      function(d) {
+        var d = $.parseJSON(d);
+        bio.val(d.bio);
+        url.val(d.url);
+        alert('saved');
+      });
+    return false;
+  });
+});
+
 /*$(function() {
   $('#save-been-to').click(function() {
     $('#been-to-form').submit();

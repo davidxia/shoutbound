@@ -28,6 +28,18 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
     
+    <h2>Edit profile</h2>
+    <form id="edit-profile">
+      <fieldset>
+        <label for="bio">Bio</label>
+        <input type="text" id="bio" value="<?=$user->bio?>"/>
+        <br/>
+        <label for="url">Website</label>
+        <input type="text" id="url" value="<?=$user->url?>"/>
+      </fieldset>
+      <a href="#" id="save-profile">Save</a>
+    </form>
+    
     <h2>Where I've been</h2>
     <form id="been-to-form" action="ajax_save_user_places" method="post">
       <fieldset>
