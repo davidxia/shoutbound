@@ -105,7 +105,7 @@ $('#follow').click(function() {
 });
 
 
-$(document).ready(function() {
+$(function() {
 	$(".main-tab-content").hide();
 	$("ul.main-tabs li:first").addClass("active").show(); //Activate first tab
 	$(".main-tab-content:first").show(); //Show first tab content
@@ -137,4 +137,35 @@ $(document).ready(function() {
 		return false;
 	});
 
-});  
+});
+
+
+$(function() {
+  var delay;
+  $('.tooltip').mouseover(function() {
+    var img = $(this);
+    
+    delay = setTimeout(function() {
+      var title = img.attr('alt');
+
+      // element location and dimensions
+      var element_offset = img.offset(),
+          element_top = element_offset.top,
+          element_left = element_offset.left,
+          element_height = img.height(),
+          element_width = img.width();
+      
+      var tooltip = $('<div class="tooltip_container"><div class="tooltip_interior">'+title+'</div></div>');
+      $('body').append(tooltip);
+  
+      // tooltip dimensions
+      var tooltip_height  = tooltip.height();
+      var tooltip_width = tooltip.width();
+      tooltip.css({ top: (element_top + element_height + 3) + 'px' });
+      tooltip.css({ left: (element_left - (tooltip_width / 2) + (element_width / 2)) + 'px' });
+    }, 200);
+  }).mouseout(function() {
+    $('.tooltip_container').remove();
+    clearTimeout(delay);
+  });
+});
