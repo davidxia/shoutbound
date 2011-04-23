@@ -238,3 +238,10 @@ label.error {
   background: -moz-linear-gradient(top,  #0078a5,  #00adee);
   filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
 }
+
+/*Postitems*/
+
+.postitem{
+  padding:10px 0px;
+}
+
