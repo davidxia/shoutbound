@@ -121,7 +121,7 @@ wall.displayWallitem = function(r) {
   var html = [];
   if (r.parentId) {
     html[0] = '<div class="wallitem reply" id="wallitem-'+r.id+'">';
-      html[1] = '<div class="content">'+r.content+'</div>';
+      html[1] = '<div class="postcontent">'+r.content+'</div>';
       html[2] = '<div class="actionbar">';    
         html[3] = '<a href="'+baseUrl+'profile/'+r.userId+'" class="author">'+r.userName+'</a> ';
         html[4] = '<a class="like-button" href="#">Like</a>';
@@ -131,7 +131,7 @@ wall.displayWallitem = function(r) {
     html[8] = '</div>';    
   } else {
     html[0] = '<div class="wallitem" id="wallitem-'+r.id+'">';
-      html[1] = '<div class="content">'+r.content+'</div>';
+      html[1] = '<div class="postcontent">'+r.content+'</div>';
       html[2] = '<div class="actionbar">';
         html[3] = '<a href="'+baseUrl+'profile/'+r.userId+'">';
           html[4] = '<img src="'+staticSub+'profile_pics/'+r.userPic+'" height="22" width="22"/>';
