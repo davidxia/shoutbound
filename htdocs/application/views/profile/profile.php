@@ -39,8 +39,18 @@ $this->load->view('core_header', $header_args);
         
       </div><!--TOP BAR END-->
       
-     <!--FOLLOW BUTTON + STATS-->
-      <div id="follow-and-stats-container">
+      <div id="follow-and-stats-container"><!--FOLLOW BUTTON + STATS-->
+              
+        <div id="stats-container">
+          <ul class="stats-list">
+            <li><a href="#trail" class="trip-count"><? $num_rsvp_yes_trips=count($profile->rsvp_yes_trips); echo $num_rsvp_yes_trips;?><span class="stat-label">Trips</span></a></li>
+            <li class="border-left"><a href="#posts" class="post-count"><?=count($profile->posts)?><span class="stat-label">Posts</span></a></li>
+            <li class="border-left"><a href="#following" class="following-count"><? $num_following=count($profile->following); echo $num_following;?><span class="stat-label">Following</span></a></li>
+            <li class="border-left"><a href="#followers" class="followers-count"><? $num_followers=count($profile->followers); echo $num_followers;?><span class="stat-label">Followers</span></a></li>
+          </ul>        
+        </div>
+        
+        
         <div id="follow-button">
           <? if ($user AND !$is_self):?>
             <? if ( ! $is_following):?>
@@ -50,14 +60,6 @@ $this->load->view('core_header', $header_args);
             <? endif;?>
           <? endif;?>
         </div>        
-        <div id="stats-container">
-          <ul class="stats-list">
-            <li><a href="#path" class="trip-count"><? $num_rsvp_yes_trips=count($profile->rsvp_yes_trips); echo $num_rsvp_yes_trips;?><span class="stat-label">Trips</span></a></li>
-            <li class="border-left"><a href="#posts" class="post-count"><?=count($profile->posts)?><span class="stat-label">Posts</span></a></li>
-            <li class="border-left"><a href="#following" class="following-count"><? $num_following=count($profile->following); echo $num_following;?><span class="stat-label">Following</span></a></li>
-            <li class="border-left"><a href="#followers" class="followers-count"><? $num_followers=count($profile->followers); echo $num_followers;?><span class="stat-label">Followers</span></a></li>
-          </ul>        
-        </div>
         
       </div><!-- FOLLOW BUTTON + STATS END-->  
     
@@ -71,7 +73,7 @@ $this->load->view('core_header', $header_args);
       
         <ul class="main-tabs">
           <li><a href="#activity">Activity</a></li>
-          <li><a href="#path">Path</a></li>
+          <li><a href="#trail">Trail</a></li>
           <li><a href="#posts">Posts</a></li>
           <li><a href="#following">Following</a></li>
           <li><a href="#followers">Followers</a></li>

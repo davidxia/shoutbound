@@ -64,7 +64,6 @@
 #follow-and-stats-container{
   width:340px;
   float:right;
-  margin-top:38px;
 }
 
 #profile-main-content-container{
@@ -143,6 +142,11 @@ ul.main-tabs li.active a:hover  {
 
 .tab-conatiner{
   clear:both;
+}
+
+#stats-container{
+  margin-bottom:20px;
+  height:40px;
 }
 
 ul.stats-list{
