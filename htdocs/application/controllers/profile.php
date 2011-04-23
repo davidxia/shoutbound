@@ -84,19 +84,11 @@ class Profile extends CI_Controller
             }
         }
 
-        // get active trips for which profile is planner or creator and rsvp is yes
-        $temp = $u->get_rsvp_yes_trips();
-        $trips = array();
-        foreach ($temp as &$trip)
-        {
-            $trip->stored->users = $trip->get_goers();
-            $trip->stored->places = $trip->get_places();
-            $trips[] = $trip->stored;
-        }
         
         // $profile is a reference to $u->stored, so weird!
         $u->get_posts();
-        $trips = $u->get_trips();
+        $u->get_rsvp_yes_trips();
+        //$trips = $u->get_trips();
         $u->get_followers();
         $u->get_following();
         $u->get_destinations();
@@ -106,12 +98,12 @@ class Profile extends CI_Controller
             'profile' => $profile,
             'is_self' => $is_self,
             'is_following' => $is_following,
-            'trips' => $trips,
+            //'trips' => $trips,
             //'activity_items' => $activity_items,
         );
 
         $this->load->view('profile/profile', $view_data);
-        //print_r($trips);
+        //print_r($profile);
     }
     
     

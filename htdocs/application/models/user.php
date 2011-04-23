@@ -114,6 +114,7 @@ class User extends DataMapper
         }
     }
     
+    
     public function get_trips()
     {
         $this->trip->where('active', 1)->where_in_join_field('user', 'role', array(5,10))->get();
@@ -123,15 +124,25 @@ class User extends DataMapper
     
     public function get_rsvp_yes_trips()
     {
-        $this->trip->where('active', 1)->where_in_join_field('user', 'role', array(5,10))->where_join_field('user', 'rsvp', 9)->get();
-        return $this->trip;
+        $this->stored->rsvp_yes_trips = array();
+        foreach ($this->trip->where('active', 1)->where_join_field('user', 'rsvp', 9)->get() as $rsvp_yes_trip)
+        {
+            $rsvp_yes_trip->get_goers();
+            $rsvp_yes_trip->get_places();
+            $this->stored->rsvp_yes_trips[] = $rsvp_yes_trip->stored;
+        }
     }
     
     
     public function get_following_trips()
     {
-        $this->trip->where('active', 1)->where_in_join_field('user', 'rsvp', 3)->get();
-        return $this->trip;
+        $this->stored->following_trips = array();
+        foreach ($this->trip->where('active', 1)->where_in_join_field('user', 'rsvp', 3)->get() as $following_trip)
+        {
+            $following_trip->get_goers();
+            $following_trip->get_places();
+            $this->stored->following_trips[] = $following_trip->stored;
+        }
     }
     
     

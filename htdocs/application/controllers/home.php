@@ -25,26 +25,8 @@ class Home extends CI_Controller
     function index()
     {
         $t = new Trip();
-        
-        // get active trips for which user is a planner or creator and rsvp is yes
-        $temp = $this->user->get_trips();
-        $trips = array();
-        foreach ($temp as &$trip)
-        {
-            $trip->get_goers();
-            $trip->stored->places = $trip->get_places();
-            $trips[] = $trip->stored;
-        }
-
-        // get active trips user is following
-        $temp = $this->user->get_following_trips();
-        $following_trips = array();
-        foreach ($temp as &$trip)
-        {
-            $trip->get_goers();
-            $trip->stored->places = $trip->get_places();
-            $following_trips[] = $trip->stored;
-        }
+        $this->user->get_rsvp_yes_trips();
+        $this->user->get_following_trips();
         
         // get suggestions for both user's trips and her friends trips
         $news_feed_items = $this->user->get_news_feed_items();
@@ -52,13 +34,11 @@ class Home extends CI_Controller
         
         $view_data = array(
             'user' => $this->user->stored,
-            'trips' => $trips,
-            'following_trips' => $following_trips,
             'news_feed_items' => $news_feed_items,
         );
                           
         $this->load->view('home', $view_data);
-        //print_r($news_feed_items);
+        //print_r($this->user->stored);
     }
     
     
