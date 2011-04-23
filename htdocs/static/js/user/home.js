@@ -62,14 +62,20 @@ getContentEditableText = function(id) {
 }
 
 
-postItem = function(text) {
-  //console.log(text);
-  var tripIds = $("select").multiselect("getChecked").map(function(){
+postItem = function(content) {
+  var tripIds = $('select').multiselect('getChecked').map(function(){
      return this.value;
   }).get();
-  console.log(tripIds);
-  $.post(baseUrl+'home/ajax_post_item', {text:text, tripIds:tripIds},
+  $.post(baseUrl+'home/ajax_post_item', {content:content, tripIds:tripIds},
     function (d) {
-      console.log(d);
+      var r = $.parseJSON(d);
+      showPost(r);
     });
+}
+
+
+showPost = function(r) {
+  $('#item-input').text('');
+  $('#trip-selection').multiselect('uncheckAll');
+  console.log(r);
 }

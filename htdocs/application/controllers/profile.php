@@ -112,7 +112,7 @@ class Profile extends CI_Controller
         );
 
         $this->load->view('profile/profile', $view_data);
-        //print_r($profile);
+        //print_r($profile_feed_items);
     }
     
     

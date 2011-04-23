@@ -24,13 +24,16 @@ class Wallitems extends CI_Controller
 		
 		public function ajax_save()
 		{
+		    $t = new Trip();
+		    $t->get_by_id($this->input->post('tripId'));
+		    
 		    $wi = new Wallitem();
-		    $wi->trip_id = $this->input->post('tripId');
+		    //$wi->trip_id = $this->input->post('tripId');
 		    $wi->user_id = $this->user->id;
 		    $wi->content = $this->input->post('content');
 		    $wi->parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : NULL;
 		    $wi->created = time()-72;
-		    if ($wi->save())
+		    if ($wi->save($t))
 		    {
 		        $parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : 0;
 		        

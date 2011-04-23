@@ -172,8 +172,4 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('footer')?>
 
 </body>
-
-<script type="text/javascript">
-
-</script>
 </html>

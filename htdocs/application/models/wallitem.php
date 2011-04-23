@@ -20,11 +20,6 @@ class Wallitem extends DataMapper
 
     var $validation = array(
         array(
-            'field' => 'trip_id',
-            'label' => 'Trip',
-            'rules' => array('required')
-        ),
-        array(
             'field' => 'user_id',
             'label' => 'User',
             'rules' => array('required')
