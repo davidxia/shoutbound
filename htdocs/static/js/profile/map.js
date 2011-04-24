@@ -106,66 +106,28 @@ $('#follow').click(function() {
 
 
 $(function() {
-	$(".main-tab-content").hide();
-	$("ul.main-tabs li:first").addClass("active").show(); //Activate first tab
-	$(".main-tab-content:first").show(); //Show first tab content
+	$('.main-tab-content').hide();
+	$('ul.main-tabs li:first').addClass('active').show(); //Activate first tab
+	$('.main-tab-content:first').show(); //Show first tab content
 
-	//On Click Event
-	$("ul.main-tabs li").click(function() {
-
-		$("ul.main-tabs li").removeClass("active"); //Remove any "active" class
-		$(this).addClass("active"); //Add "active" class to selected tab
-		$(".main-tab-content").hide(); //Hide all tab content
-
-		var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+  // bind click event to tabs
+	$('ul.main-tabs li').click(function() {
+		$('ul.main-tabs li').removeClass('active'); //Remove any "active" class
+		$(this).addClass('active'); //Add "active" class to selected tab
+		$('.main-tab-content').hide(); //Hide all tab content
+		var activeTab = $(this).find('a').attr('href'); //Find the href attribute value to identify the active tab + content
 		$(activeTab).show(); //Fade in the active ID content
 		return false;
 	});
 
-
-  //On Click Event-James
-	$("ul.stats-list li a").click(function() {
-
-    $("ul.main-tabs li").removeClass("active");
+  // bind click event to stats list
+	$('ul.stats-list li a').click(function() {
+    $('ul.main-tabs li').removeClass('active');
 		var activeTab = $(this).attr('href');
-		console.log(activeTab);
-		$(".main-tab-content").hide();
-
-		var activeTab = $(this).attr("href");
+		$('.main-tab-content').hide();
+		var activeTab = $(this).attr('href');
     $('.main-tabs').find('a[href='+activeTab+']').parent().addClass('active');
 		$(activeTab).show();
 		return false;
 	});
-
-});
-
-
-$(function() {
-  var delay;
-  $('.tooltip').mouseover(function() {
-    var img = $(this);
-    
-    delay = setTimeout(function() {
-      var title = img.attr('alt');
-
-      // element location and dimensions
-      var element_offset = img.offset(),
-          element_top = element_offset.top,
-          element_left = element_offset.left,
-          element_height = img.height(),
-          element_width = img.width();
-      
-      var tooltip = $('<div class="tooltip_container"><div class="tooltip_interior">'+title+'</div></div>');
-      $('body').append(tooltip);
-  
-      // tooltip dimensions
-      var tooltip_height  = tooltip.height();
-      var tooltip_width = tooltip.width();
-      tooltip.css({ top: (element_top + element_height + 3) + 'px' });
-      tooltip.css({ left: (element_left - (tooltip_width / 2) + (element_width / 2)) + 'px' });
-    }, 200);
-  }).mouseout(function() {
-    $('.tooltip_container').remove();
-    clearTimeout(delay);
-  });
 });

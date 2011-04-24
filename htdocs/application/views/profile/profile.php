@@ -1,10 +1,10 @@
 <?php
 $header_args = array(
-    'title'=>$profile->name.' | Shoutbound',
-    'css_paths'=>array(
+    'title' => $profile->name.' | Shoutbound',
+    'css_paths' => array(
       'css/profile.css',
     ),
-    'js_paths'=>array(
+    'js_paths' => array(
         'js/profile/map.js',
         'js/jquery/timeago.js',
     )
@@ -16,7 +16,7 @@ $this->load->view('core_header', $header_args);
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
   var profileId = '<?=$profile->id?>';
-  var isSelf = <?=$is_self?>;
+  var isSelf = <? if ($is_self) echo 1; else echo 0;?>;
 </script>
   
 </head>
@@ -118,7 +118,7 @@ $this->load->view('core_header', $header_args);
             <? foreach ($profile->following as $following):?>
             <div class="following">
               <a href="<?=site_url('profile/'.$following->id)?>">
-                <img src="<?=static_sub('profile_pics/'.$following->profile_pic)?>" class="tooltip" width="50" height="50" alt="<?=$following->name?>"/>
+                <img src="<?=static_sub('profile_pics/'.$following->profile_pic)?>" width="50" height="50"/>
               </a>
               <a href="<?=site_url('profile/'.$following->id)?>"><?=$following->name?></a>
             </div>
@@ -129,7 +129,7 @@ $this->load->view('core_header', $header_args);
             <? foreach ($profile->followers as $follower):?>
             <div class="follower">
               <a href="<?=site_url('profile/'.$follower->id)?>">
-                <img src="<?=static_sub('profile_pics/'.$follower->profile_pic)?>" class="tooltip" width="50" height="50" alt="<?=$follower->name?>"/>
+                <img src="<?=static_sub('profile_pics/'.$follower->profile_pic)?>" width="50" height="50"/>
               </a>
               <a href="<?=site_url('profile/'.$follower->id)?>"><?=$follower->name?></a>
             </div>
