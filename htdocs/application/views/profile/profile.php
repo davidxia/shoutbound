@@ -58,7 +58,7 @@ $this->load->view('core_header', $header_args);
             <? if ( ! $is_following):?>
               <a href="#" id="follow">Follow</a>
             <? else:?>
-              Following
+              <a href="#" id="unfollow">Unfollow</a>
             <? endif;?>
           <? endif;?>
         </div>        
@@ -89,13 +89,16 @@ $this->load->view('core_header', $header_args);
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
           </div>
           
-          <div id="path" class="main-tab-content">
+          <div id="trail" class="main-tab-content">
             <? foreach ($profile->rsvp_yes_trips as $trip):?>
               <div class="trip">
                 <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
+                <? $prefix = ''; $dest_list = '';?>
                 <? foreach ($trip->places as $place):?>
-                  <span class="destination" lat="<?=$place->lat?>" lng="<?=$place->lng?>"><?=$place->name?></span>
+                  <? $dest_list .= $prefix . '<span class="destination" lat="'.$place->lat.'" lng="'.$place->lng.'">'.$place->name.'</span>';?>
+                  <? $prefix = ', '?>
                 <? endforeach;?>
+                <?=$dest_list?>
               </div>
             <? endforeach;?>
           </div>
@@ -117,9 +120,7 @@ $this->load->view('core_header', $header_args);
           <div id="following" class="main-tab-content">
             <? foreach ($profile->following as $following):?>
             <div class="following">
-              <a href="<?=site_url('profile/'.$following->id)?>">
-                <img src="<?=static_sub('profile_pics/'.$following->profile_pic)?>" width="50" height="50"/>
-              </a>
+              <a href="<?=site_url('profile/'.$following->id)?>"><img src="<?=static_sub('profile_pics/'.$following->profile_pic)?>" width="50" height="50"/></a>
               <a href="<?=site_url('profile/'.$following->id)?>"><?=$following->name?></a>
             </div>
             <? endforeach;?>
@@ -128,9 +129,7 @@ $this->load->view('core_header', $header_args);
           <div id="followers" class="main-tab-content">
             <? foreach ($profile->followers as $follower):?>
             <div class="follower">
-              <a href="<?=site_url('profile/'.$follower->id)?>">
-                <img src="<?=static_sub('profile_pics/'.$follower->profile_pic)?>" width="50" height="50"/>
-              </a>
+              <a href="<?=site_url('profile/'.$follower->id)?>"><img src="<?=static_sub('profile_pics/'.$follower->profile_pic)?>" width="50" height="50"/></a>
               <a href="<?=site_url('profile/'.$follower->id)?>"><?=$follower->name?></a>
             </div>
             <? endforeach;?>
