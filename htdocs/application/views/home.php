@@ -123,10 +123,10 @@ $this->load->view('core_header', $header_args);
           <fieldset>
             <div contenteditable="true" id="item-input" style="min-height:100px; border:1px solid #333; color:#333;"></div>
             <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
-              <? foreach ($trips as $trip):?>
+              <? foreach ($user->rsvp_yes_trips as $trip):?>
               <option value="<?=$trip->id?>"><?=$trip->name?>
               <? endforeach;?>
-              <? foreach ($following_trips as $trip):?>
+              <? foreach ($user->following_trips as $trip):?>
               <option value="<?=$trip->id?>"><?=$trip->name?>
               <? endforeach;?>
             </select>
