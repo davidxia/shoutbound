@@ -75,11 +75,12 @@
 }
 
 .tab-container{
- padding:20px;
+ padding:10px 20px 20px 20px;
  border-left:1px solid #CACACA;
  border-bottom:1px solid #CACACA;
  border-right:1px solid #CACACA;
  min-height:600px; 
+ clear:both;
 }
 
 ul.main-tabs{
@@ -138,10 +139,6 @@ ul.main-tabs li.active a:hover  {
 	font-weight:bold;
 	cursor:default;
 	color:#333;
-}
-
-.tab-conatiner{
-  clear:both;
 }
 
 #stats-container{
