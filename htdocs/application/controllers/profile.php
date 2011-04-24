@@ -89,6 +89,7 @@ class Profile extends CI_Controller
         $u->get_rsvp_yes_trips();
         $u->get_posts();
         $u->get_following();
+        $u->get_following_trips();
         $u->get_followers();
         $u->get_destinations();
         
