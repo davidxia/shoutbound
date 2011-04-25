@@ -1,4 +1,3 @@
-<!-- TRAIL TAB -->
 <div id="trail-tab" class="main-tab-content">
   <!-- RSVP YES TRIPS -->
   <span style="font-size:16px; padding-left:10px; font-weight:bold; color:black;">RSVP YES TRIPS</span>
@@ -12,7 +11,7 @@
         </div>
         <div>
           <? foreach ($rsvp_yes_trip->places as $place):?>
-            <?=$place->name?>
+            <a class="destination" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="#"><?=$place->name?></a>
             <? if ($place->startdate):?>
               <?=date('n/d/y', $place->startdate)?>
             <? else:?>
@@ -59,4 +58,4 @@
     <? endforeach;?>
   <? endif;?>
   <!-- RSVP AWAITING TRIPS ENDS -->
-</div><!-- TRAIL TAB ENDS -->
+</div>
