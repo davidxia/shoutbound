@@ -31,6 +31,41 @@ map.loadGoogleMap = function() {
 };
 
 
+map.showDestMarkers = function(tab) {
+  var destinations = $('#'+tab+'-tab').find('a.destination');
+  console.log(tab);
+  console.log(destinations);
+
+  if (destinations.length > 0) {  
+    destinations.each(function() {
+      //map.showDestMarkers($(this).attr('lat'), $(this).attr('lng'));
+      var markerLatLng = new google.maps.LatLng($(this).attr('lat'), $(this).attr('lng'));
+      var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+          new google.maps.Size(20, 34),
+          new google.maps.Point(0, 0),
+          new google.maps.Point(10, 34));
+      var shadow = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+          new google.maps.Size(25, 20),
+          new google.maps.Point(40, 14),
+          new google.maps.Point(0, 20));
+      var marker = new google.maps.Marker({
+        map: map.googleMap,
+        position: markerLatLng,
+        icon: image,
+        shadow: shadow
+      });
+      
+      var bounds = map.googleMap.getBounds();
+      if (!bounds.contains(markerLatLng)) {
+        bounds.extend(markerLatLng);
+        map.googleMap.fitBounds(bounds);
+      }
+    });
+  }
+
+};
+
+
 $(function() {
   $('#trip-selection').multiselect();
 });
@@ -110,7 +145,7 @@ postItem = function(content) {
 showPost = function(r) {
   $('#item-input').text('');
   $('#trip-selection').multiselect('uncheckAll');
-  console.log(r);
+  //console.log(r);
 }
 
 
@@ -118,38 +153,41 @@ $(function() {
   var cache = {};
   
   $(window).bind('hashchange', function(e) {
-    var url = $.param.fragment();
+    var tabName = $.param.fragment();
     var path = window.location.pathname;
     var matches = path.match(/\d*$/);
     myUrl = baseUrl+'home';
-    if (url) {
-      myUrl += '/'+url;
+    if (tabName) {
+      myUrl += '/'+tabName;
     }
     if (matches[0]) {
       myUrl += '/'+matches[0];
     }
+    //console.log(tabName);
     $('li.active').removeClass('active');
     $('#main-tab-container').children(':visible').hide();
 
-    if (url == '') {
+    if (tabName == '') {
       $('a[href="#feed"]').parent().addClass('active');
     } else {
-      $('a[href="#'+url+'"]').parent().addClass('active');
+      $('a[href="#'+tabName+'"]').parent().addClass('active');
     }
     
-    if (url=='feed' || url=='') {
+    if (tabName=='feed' || tabName=='') {
       $('#feed-tab').show();
-    } else if (cache[url]) {
-      $('#'+url+'-tab').show();
+    } else if (cache[tabName]) {
+      $('#'+tabName+'-tab').show();
     } else {
       $('#main-tab-loading').show();
       $.get(myUrl, function(d) {
         $('#main-tab-loading').hide();
         $('#main-tab-container').append(d);
         $('abbr.timeago').timeago();
-        cache[url] = $(d);
+        cache[tabName] = $(d);
       });
     }
+    
+    map.showDestMarkers(tabName);
   });
   
   $(window).trigger('hashchange');
