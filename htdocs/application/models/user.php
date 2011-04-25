@@ -150,6 +150,18 @@ class User extends DataMapper
     }
     
     
+    public function get_rsvp_awaiting_trips()
+    {
+        $this->stored->rsvp_awaiting_trips = array();
+        foreach ($this->trip->where('active', 1)->where_join_field('user', 'rsvp', 6)->get() as $rsvp_awaiting_trip)
+        {
+            $rsvp_awaiting_trip->get_goers();
+            $rsvp_awaiting_trip->get_places();
+            $this->stored->rsvp_awaiting_trips[] = $rsvp_awaiting_trip->stored;
+        }
+    }
+    
+    
     public function get_num_followers()
     {
         $this->stored->num_followers = $this->user->count();

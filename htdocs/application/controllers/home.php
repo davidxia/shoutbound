@@ -47,7 +47,8 @@ class Home extends CI_Controller
     public function trail()
     {
         $this->user->get_rsvp_yes_trips();
-        $this->user->get_following_trips();
+        $this->user->get_rsvp_awaiting_trips();
+        //$this->user->get_following_trips();
         
         $data = array(
             'user' => $this->user->stored,
