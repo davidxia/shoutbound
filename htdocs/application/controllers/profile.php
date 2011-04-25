@@ -102,16 +102,7 @@ class Profile extends CI_Controller
         $this->load->view('profile/profile', $view_data);
         //print_r($profile);
     }
-    
-    
-    public function activity($pid = FALSE)
-    {
-        $view_data = array(
-            'user' => $this->user->stored,
-        );
-        $this->load->view('profile/activity', $view_data);
-    }
-    
+        
     
     public function trail($pid = FALSE)
     {
