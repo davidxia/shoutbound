@@ -110,7 +110,7 @@ $this->load->view('core_header', $header_args);
         <a href="<?=site_url('profile/edit')?>">Show off</a> where you've been.
       <? endif;?>-->
       <div id="map-shell">
-          <div id="map-canvas" style="height:330px;"></div>
+          <div id="map-canvas"></div>
         </div>
       </div><!--MAP ENDS-->
       

@@ -73,15 +73,17 @@ $this->load->view('core_header', $header_args);
       </div><!--TOP BAR END-->
 
       <div id="follow-and-stats-container"><!--STATS-->
-        <div id="stats-container">
-          <ul class="stats-list">
-            <li><a href="<?=site_url('profile#trail')?>" class="trip-count"><?=$user->num_rsvp_yes_trips?><span class="stat-label">Trips</span></a></li>
-            <li class="border-left"><a href="<?=site_url('profile#posts')?>" class="post-count"><?=$user->num_posts?><span class="stat-label">Posts</span></a></li>
-            <li class="border-left"><a href="<?=site_url('profile#following')?>" class="following-count"><?=$user->num_following+$user->num_following_trips?><span class="stat-label">Following</span></a></li>
-            <li class="border-left"><a href="<?=site_url('profile#followers')?>" class="followers-count"><?=$user->num_followers?><span class="stat-label">Followers</span></a></li>
-          </ul>        
-        </div>
-      </div><!--STATS END-->
+              
+          <div id="stats-container">
+            <ul class="stats-list">
+              <li><a href="#trail" class="trip-count"><?=$user->num_rsvp_yes_trips?><span class="stat-label">Trips</span></a></li>
+              <li class="border-left"><a href="#posts" class="post-count"><?=$user->num_posts?><span class="stat-label">Posts</span></a></li>
+              <li class="border-left"><a href="#following" class="following-count"><?=$user->num_following+$user->num_following_trips?><span class="stat-label">Following</span></a></li>
+              <li class="border-left"><a href="#followers" class="followers-count"><?=$user->num_followers?><span class="stat-label">Followers</span></a></li>
+            </ul>        
+          </div>
+          
+        </div><!--STATS END-->
 
 
     <!-- LEFT COLUMN -->
@@ -133,18 +135,10 @@ $this->load->view('core_header', $header_args);
     <div id="home-col-right">      
       
       <!-- MAP -->
-      <div style="display:none;">
-        <? foreach ($profile->destinations as $destination):?>
-          <a class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>"></a>
-        <? endforeach;?>
-      </div>
-      <!--<? if ($user AND $is_self):?>
-        <a href="<?=site_url('profile/edit')?>">Show off</a> where you've been.
-      <? endif;?>-->
       <div id="map-shell">
-          <div id="map-canvas" style="height:330px;"></div>
-        </div>
-      </div><!--MAP ENDS-->
+        <div id="map-canvas" style="height:330px;"></div>
+      </div>
+    </div><!--MAP ENDS-->
       
     </div><!-- RIGHT COLUMN ENDS -->
             
