@@ -5,6 +5,7 @@ $header_args = array(
       'css/profile.css',
     ),
     'js_paths' => array(
+        'js/jquery/jquery.ba-bbq.min.js',
         'js/profile/map.js',
         'js/jquery/timeago.js',
     )
@@ -84,72 +85,9 @@ $this->load->view('core_header', $header_args);
         <div style="clear:both"></div>
         
         <div class="tab-container"><!--TAB CONTAINER-->
-              
-          <div id="activity-tab" class="main-tab-content">
+          <div id="activity-tab" class="main-tab-content main-tab-default">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </div>
-          
-          <div id="trail-tab" class="main-tab-content">
-            <? foreach ($profile->rsvp_yes_trips as $trip):?>
-              <div class="trip">
-                <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
-                <? $prefix = ''; $dest_list = '';?>
-                <? foreach ($trip->places as $place):?>
-                  <? $dest_list .= $prefix . '<span class="destination" lat="'.$place->lat.'" lng="'.$place->lng.'">'.
-                     $place->name.'</span>';?>
-                  <? $prefix = ', '?>
-                <? endforeach;?>
-                <?=$dest_list?>
-              </div>
-            <? endforeach;?>
-          </div>
-          
-          <div id="posts-tab" class="main-tab-content">
-            <? foreach ($profile->posts as $post):?>
-              <div class="postitem">
-                <div class="postcontent">
-                  <?=$post->content?>
-                </div>
-                <? foreach ($post->trips as $trip):?>
-                <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
-                <? endforeach;?>              
-                <abbr class="timeago" title="<?=$post->created?>"><?=$post->created?></abbr>
-              </div>
-            <? endforeach;?>
-          </div>
-          
-          <div id="following-tab" class="main-tab-content">
-            <? foreach ($profile->following as $following):?>
-            <div class="following">
-              <a href="<?=site_url('profile/'.$following->id)?>"><img src="<?=static_sub('profile_pics/'.$following->profile_pic)?>" width="50" height="50"/></a>
-              <a href="<?=site_url('profile/'.$following->id)?>"><?=$following->name?></a>
-            </div>
-            <? endforeach;?>
-            <? foreach ($profile->following_trips as $following_trip):?>
-            <div class="following-trip">
-              <a href="<?=site_url('trips/'.$following_trip->id)?>"><?=$following_trip->name?></a>
-              <? foreach ($following_trip->places as $place):?>
-                <?=$place->name?>
-              <? endforeach;?>
-              <? foreach ($following_trip->goers as $goer):?>
-                <span class="trip-goer">
-                  <a href="<?=site_url('profile/'.$goer->id)?>"><img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" width="50" height="50"/></a>
-                  <a href="<?=site_url('profile/'.$goer->id)?>"><?=$goer->name?></a>
-                </span>
-              <? endforeach;?>
-            </div>
-            <? endforeach;?>
-          </div>
-          
-          <div id="followers-tab" class="main-tab-content">
-            <? foreach ($profile->followers as $follower):?>
-            <div class="follower">
-              <a href="<?=site_url('profile/'.$follower->id)?>"><img src="<?=static_sub('profile_pics/'.$follower->profile_pic)?>" width="50" height="50"/></a>
-              <a href="<?=site_url('profile/'.$follower->id)?>"><?=$follower->name?></a>
-            </div>
-            <? endforeach;?>
-          </div>
-          
+          </div>          
         </div><!--TAB CONTAINER END-->
               
       

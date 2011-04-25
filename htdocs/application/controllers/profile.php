@@ -86,7 +86,7 @@ class Profile extends CI_Controller
 
         
         // $profile is a reference to $u->stored, so weird!
-        $u->get_rsvp_yes_trips();
+        //$u->get_rsvp_yes_trips();
         $u->get_posts();
         $u->get_following();
         $u->get_following_trips();
@@ -102,6 +102,224 @@ class Profile extends CI_Controller
 
         $this->load->view('profile/profile', $view_data);
         //print_r($profile);
+    }
+    
+    
+    public function activity($pid = FALSE)
+    {
+        //$view_data = array();
+        //$this->load->view('profile/activity', $view_data);
+        print_r($pid);
+        echo $this->user->id;
+    }
+    
+    
+    public function trail($pid = FALSE)
+    {
+        // if user not logged in and no profile specified, return 404
+        if ( ! ($pid OR isset($this->user->id)))
+        {
+            custom_404();
+            return;
+        }
+
+        $u = new User();
+        // if no profile number specified, show user's own profile
+        if ( ! $pid)
+        {
+            $user = $this->user->stored;
+            $pid = $this->user->id;
+            $u->get_by_id($pid);
+            $profile = $u->stored;
+        }
+        elseif ( ! isset($this->user->id))
+        {
+            $user = NULL;
+            $u->get_by_id($pid);
+            if ( ! $u->id)
+            {
+                custom_404();
+                return;
+            }
+            $profile = $u->stored;
+        }
+        // if profile specified and user's logged in
+        else
+        {
+            $user = $this->user->stored;
+            $u->get_by_id($pid);
+            if ( ! $u->id)
+            {
+                custom_404();
+                return;
+            }
+            $profile = $u->stored;
+        }
+
+        $u->get_rsvp_yes_trips();
+        $view_data = array(
+            'user' => $user,
+            'profile' => $profile,
+        );
+
+        $this->load->view('profile/trail', $view_data);
+    }
+    
+    
+    public function posts($pid = FALSE)
+    {
+        // if user not logged in and no profile specified, return 404
+        if ( ! ($pid OR isset($this->user->id)))
+        {
+            custom_404();
+            return;
+        }
+
+        $u = new User();
+        // if no profile number specified, show user's own profile
+        if ( ! $pid)
+        {
+            $user = $this->user->stored;
+            $pid = $this->user->id;
+            $u->get_by_id($pid);
+            $profile = $u->stored;
+        }
+        elseif ( ! isset($this->user->id))
+        {
+            $user = NULL;
+            $u->get_by_id($pid);
+            if ( ! $u->id)
+            {
+                custom_404();
+                return;
+            }
+            $profile = $u->stored;
+        }
+        // if profile specified and user's logged in
+        else
+        {
+            $user = $this->user->stored;
+            $u->get_by_id($pid);
+            if ( ! $u->id)
+            {
+                custom_404();
+                return;
+            }
+            $profile = $u->stored;
+        }
+
+        $u->get_posts();
+        $view_data = array(
+            'user' => $user,
+            'profile' => $profile,
+        );
+
+        $this->load->view('profile/posts', $view_data);
+    }
+    
+    
+    public function following($pid = FALSE)
+    {
+        // if user not logged in and no profile specified, return 404
+        if ( ! ($pid OR isset($this->user->id)))
+        {
+            custom_404();
+            return;
+        }
+
+        $u = new User();
+        // if no profile number specified, show user's own profile
+        if ( ! $pid)
+        {
+            $user = $this->user->stored;
+            $pid = $this->user->id;
+            $u->get_by_id($pid);
+            $profile = $u->stored;
+        }
+        elseif ( ! isset($this->user->id))
+        {
+            $user = NULL;
+            $u->get_by_id($pid);
+            if ( ! $u->id)
+            {
+                custom_404();
+                return;
+            }
+            $profile = $u->stored;
+        }
+        // if profile specified and user's logged in
+        else
+        {
+            $user = $this->user->stored;
+            $u->get_by_id($pid);
+            if ( ! $u->id)
+            {
+                custom_404();
+                return;
+            }
+            $profile = $u->stored;
+        }
+
+        $u->get_following();
+        $u->get_following_trips();
+        $view_data = array(
+            'user' => $user,
+            'profile' => $profile,
+        );
+
+        $this->load->view('profile/following', $view_data);
+    }
+    
+    
+    public function followers($pid = FALSE)
+    {
+        // if user not logged in and no profile specified, return 404
+        if ( ! ($pid OR isset($this->user->id)))
+        {
+            custom_404();
+            return;
+        }
+
+        $u = new User();
+        // if no profile number specified, show user's own profile
+        if ( ! $pid)
+        {
+            $user = $this->user->stored;
+            $pid = $this->user->id;
+            $u->get_by_id($pid);
+            $profile = $u->stored;
+        }
+        elseif ( ! isset($this->user->id))
+        {
+            $user = NULL;
+            $u->get_by_id($pid);
+            if ( ! $u->id)
+            {
+                custom_404();
+                return;
+            }
+            $profile = $u->stored;
+        }
+        // if profile specified and user's logged in
+        else
+        {
+            $user = $this->user->stored;
+            $u->get_by_id($pid);
+            if ( ! $u->id)
+            {
+                custom_404();
+                return;
+            }
+            $profile = $u->stored;
+        }
+
+        $u->get_followers();
+        $view_data = array(
+            'user' => $user,
+            'profile' => $profile,
+        );
+
+        $this->load->view('profile/followers', $view_data);
     }
     
     
