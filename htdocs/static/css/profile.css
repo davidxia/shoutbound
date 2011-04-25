@@ -37,12 +37,12 @@
   float:left;
 }
 
-#profile-col-left{
+#col-left{
   width:600px;
   float:left;
 }
 
-#profile-col-right{
+#col-right{
   width:340px;
   float:right;
 }
@@ -101,12 +101,8 @@ ul.stats-list li a{
 }
 
 
-#profile-main-content-container{
+#main-content-container{
   padding:10px 0px 5px 0px;
-}
-
-#profile-main-content-navbar{
-  height:30px; 
 }
 
 .tab-container{

@@ -69,10 +69,10 @@ $this->load->view('core_header', $header_args);
     <div style="clear:both"></div>  
 
     <!-- LEFT COLUMN -->
-    <div id="profile-col-left">    
+    <div id="col-left">    
       
       <!--PROFILE MAIN CONTENT-->      
-      <div id="profile-main-content-container">
+      <div id="main-content-container">
       
         <ul id="main-tabs">
           <li><a href="#activity">Activity</a></li>
@@ -98,7 +98,7 @@ $this->load->view('core_header', $header_args);
     </div><!--LEFT COLUMN END-->
     
     <!-- RIGHT COLUMN -->
-    <div id="profile-col-right">      
+    <div id="col-right">      
       
       <!-- MAP -->
       <div style="display:none;">
