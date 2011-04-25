@@ -105,9 +105,6 @@ $('#follow').click(function() {
 });
 
 
-
-
-
 $(function() {
   var cache = {};
   
@@ -140,9 +137,12 @@ $(function() {
       $.get(myUrl, function(d) {
         $('#main-tab-loading').hide();
         $('#main-tab-container').append(d);
+        $('abbr.timeago').timeago();
         cache[url] = $(d);
       });
     }
-  })
+  });
+  
+  
   $(window).trigger('hashchange');
 });
