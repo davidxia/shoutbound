@@ -24,6 +24,9 @@ class Home extends CI_Controller
 
     function index()
     {
+        $this->user->get_rsvp_yes_trips();
+        $this->user->get_rsvp_awaiting_trips();
+        $this->user->get_following_trips();
         $this->user->get_num_rsvp_yes_trips();
         $this->user->get_num_posts();
         $this->user->get_num_following();
@@ -48,7 +51,6 @@ class Home extends CI_Controller
     {
         $this->user->get_rsvp_yes_trips();
         $this->user->get_rsvp_awaiting_trips();
-        //$this->user->get_following_trips();
         
         $data = array(
             'user' => $this->user->stored,
