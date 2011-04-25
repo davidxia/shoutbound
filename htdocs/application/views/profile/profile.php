@@ -74,7 +74,7 @@ $this->load->view('core_header', $header_args);
       <!--PROFILE MAIN CONTENT-->      
       <div id="profile-main-content-container">
       
-        <ul class="main-tabs">
+        <ul id="main-tabs">
           <li><a href="#activity">Activity</a></li>
           <li><a href="#trail">Trail</a></li>
           <li><a href="#posts">Posts</a></li>
