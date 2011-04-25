@@ -107,8 +107,14 @@ $('#follow').click(function() {
 
 $(function() {
 	$('.main-tab-content').hide();
-	$('ul.main-tabs li:first').addClass('active').show(); //Activate first tab
-	$('.main-tab-content:first').show(); //Show first tab content
+	// show tab specified in url, default to activity
+  var tab = window.location.hash;
+  var isTab = ($.inArray(tab, ['#activity', '#trail', '#posts', '#following', '#followers']) == -1) ? false : true;
+  if (!isTab) {
+    tab = '#activity';
+  }
+  $(tab+'-tab').show();
+  $('.main-tabs').find('a[href='+tab+']').parent().addClass('active');
 
   // bind click event to tabs
 	$('ul.main-tabs li').click(function() {
@@ -116,7 +122,8 @@ $(function() {
 		$(this).addClass('active'); //Add "active" class to selected tab
 		$('.main-tab-content').hide(); //Hide all tab content
 		var activeTab = $(this).find('a').attr('href'); //Find the href attribute value to identify the active tab + content
-		$(activeTab).show(); //Fade in the active ID content
+		console.log(activeTab);
+		$(activeTab+'-tab').show();
 		return false;
 	});
 
@@ -127,7 +134,7 @@ $(function() {
 		$('.main-tab-content').hide();
 		var activeTab = $(this).attr('href');
     $('.main-tabs').find('a[href='+activeTab+']').parent().addClass('active');
-		$(activeTab).show();
+		$(activeTab+'-tab').show();
 		return false;
 	});
 });
