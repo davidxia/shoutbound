@@ -97,9 +97,31 @@ $this->load->view('core_header', $header_args);
         <div style="clear:both"></div>
         
         <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
-          <div id="feed-tab" class="main-tab-content main-tab-default">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </div>          
+          <div id="feed-tab" class="main-tab-content main-tab-default"><!-- FEED TAB -->
+          <? if ( ! $news_feed_items):?>
+            You haven't had any activity yet. Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a>, <a href="#">adding suggestions above</a>, <a href="#">following others</a>, <a href="#">following other trips</a>, or <a href="#">following a place</a>.
+          <? else:?>
+            <ul>
+              <? foreach($news_feed_items as $news_feed_item):?>
+                <li id="wall-item-<?=$news_feed_item->id?>" style="margin-bottom:10px; padding-bottom:10px; border-bottom: 1px solid #BABABA;">
+                  <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>" style="margin-right:10px; float:left;">
+                    <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" class="tooltip" height="50" width="50" alt="<?=$news_feed_item->user->name?>"/>
+                  </a>
+                  <div style="display:table-cell; line-height:18px;">
+                    <?=$news_feed_item->user->name?> wrote <span style="font-weight:bold;"><?=$news_feed_item->content?></span>
+                    <br/>
+                    on 
+                    <? foreach($news_feed_item->trips as $trip):?>
+                      <a href="<?=site_url('trips/'.($trip->id))?>"><?=$trip->name?></a>
+                    <? endforeach;?>
+                    <br/>
+                    <abbr class="timeago" title="<?=$news_feed_item->created?>" style="font-size:10px;"><?=$news_feed_item->created?></abbr>
+                  </div>
+                </li>
+              <? endforeach;?>
+            </ul>
+          <? endif;?>
+          </div><!-- FEED TAB ENDS -->
         </div><!--TAB CONTAINER END-->
                     
       </div><!--HOME LEFT CONTENT CONTAINER END-->     
