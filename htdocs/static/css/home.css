@@ -25,6 +25,14 @@
  clear:both;
 }
 
+#top-bar{
+  height:150px;
+  width:600px;
+  border-bottom:2px solid #777;
+  padding-bottom:10px;
+  float:left;
+}
+
 #main-tabs{
 	list-style: none;
 	height: 36px;
@@ -77,6 +85,12 @@
 	font-weight:bold;
 	cursor:default;
 	color:#333;
+}
+
+/*Follow and Stats*/
+#follow-and-stats-container{
+  width:340px;
+  float:right;
 }
 
 #stats-container{

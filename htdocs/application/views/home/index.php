@@ -47,32 +47,47 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
 
+      <div id="top-bar"><!--TOP BAR-->
+       
+        <div id="home-add-postitem-container"><!--POSTITEM CONTAINER-->
+            <form id="item-post-form">
+              <fieldset>
+                <div contenteditable="true" id="item-input" style="min-height:100px; border:1px solid #333; color:#333;"></div>
+                <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
+                  <? foreach ($user->rsvp_yes_trips as $trip):?>
+                  <option value="<?=$trip->id?>"><?=$trip->name?>
+                  <? endforeach;?>
+                  <? foreach ($user->following_trips as $trip):?>
+                  <option value="<?=$trip->id?>"><?=$trip->name?>
+                  <? endforeach;?>
+                </select>
+                <a id="post-item" href="#">Post</a>
+              </fieldset>
+            </form>
+        </div><!--END POSTITEM CONTAINER--> 
+    
+      </div><!--TOP BAR END-->
+
+      <div id="follow-and-stats-container"><!--STATS-->
+              
+          <div id="stats-container">
+            <ul class="stats-list">
+              <li><a href="#trail" class="trip-count"><?=$user->num_rsvp_yes_trips?><span class="stat-label">Trips</span></a></li>
+              <li class="border-left"><a href="#posts" class="post-count"><?=$user->num_posts?><span class="stat-label">Posts</span></a></li>
+              <li class="border-left"><a href="#following" class="following-count"><?=$user->num_following+$user->num_following_trips?><span class="stat-label">Following</span></a></li>
+              <li class="border-left"><a href="#followers" class="followers-count"><?=$user->num_followers?><span class="stat-label">Followers</span></a></li>
+            </ul>        
+          </div>
+          
+        </div><!--STATS END-->
+
+
     <!-- LEFT COLUMN -->
     <div id="home-col-left">    
       
       <!--HOME LEFT CONTENT CONTAINER-->      
       <div id="home-main-content-container">
-      
-        <div id="home-add-postitem-container">
-          <div style="width:520px;">
-            <div>
-              <form id="item-post-form">
-                <fieldset>
-                  <div contenteditable="true" id="item-input" style="min-height:100px; border:1px solid #333; color:#333;"></div>
-                  <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
-                    <? foreach ($user->rsvp_yes_trips as $trip):?>
-                    <option value="<?=$trip->id?>"><?=$trip->name?>
-                    <? endforeach;?>
-                    <? foreach ($user->following_trips as $trip):?>
-                    <option value="<?=$trip->id?>"><?=$trip->name?>
-                    <? endforeach;?>
-                  </select>
-                  <a id="post-item" href="#">Post</a>
-                </fieldset>
-              </form>
-            </div>               
-        </div>
-        
+              
         <ul id="main-tabs">
           <li><a href="#activity">Feed</a></li>
           <li><a href="#trail">Trail</a></li>
@@ -91,7 +106,7 @@ $this->load->view('core_header', $header_args);
     </div><!--LEFT COLUMN END-->
     
     <!-- RIGHT COLUMN -->
-    <div id="profile-col-right">      
+    <div id="home-col-right">      
       
       <!-- MAP -->
       <div style="display:none;">

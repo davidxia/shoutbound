@@ -28,7 +28,7 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
 
-      <div id="profile-top-bar"><!--TOP BAR-->
+      <div id="top-bar"><!--TOP BAR-->
         <div id="profile-pic-container" style="position:relative;">
           <a href="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="125" height="125"/></a>
           <a href="<?=site_url('profile/edit')?>" id="edit-profile-pic" style="position:absolute; top:0px; left:0px; font-size:12px; background-color:black; color:white; display:none;">change picture</a>
@@ -84,9 +84,7 @@ $this->load->view('core_header', $header_args);
         
         <div style="clear:both"></div>
         
-        <!--TAB CONTAINER-->
-        <div id="main-tab-container" class="tab-container">
-          <div id="main-tab-loading" style="display:none;"><img src="<?=site_url('images/ajax-loader.gif')?>" width="32" height="32"></div>
+        <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
           <div id="activity-tab" class="main-tab-content main-tab-default">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
           </div>          
