@@ -69,9 +69,9 @@ class User extends DataMapper
         $sig = get_cookie('sig');
         if ($sig == $this->get_sig($uid, $key))
         {
-            set_cookie('uid', $uid, 7200);
-            set_cookie('key', $key, 7200);
-            set_cookie('sig', $sig, 7200);
+            set_cookie('uid', $uid, 259200);
+            set_cookie('key', $key, 259200);
+            set_cookie('sig', $sig, 259200);
             return $uid;
         }
         else
@@ -89,11 +89,11 @@ class User extends DataMapper
     
     public function login($uid)
     {
-        set_cookie('uid', $uid, 7200);
+        set_cookie('uid', $uid, 259200);
         $key = mt_rand(100000, 999999);
         $sig = $this->get_sig($uid, $key);
-        set_cookie('key', $key, 7200);
-        set_cookie('sig', $sig, 7200);
+        set_cookie('key', $key, 259200);
+        set_cookie('sig', $sig, 259200);
     }
 
 

@@ -109,9 +109,7 @@ $('#follow').click(function() {
 
 
 $(function() {
-  var cache = {
-    '': $('.main-tab-default')
-  };
+  var cache = {};
   
   $(window).bind('hashchange', function(e) {
     var url = $.param.fragment();
@@ -124,25 +122,23 @@ $(function() {
     if (matches[0]) {
       myUrl += '/'+matches[0];
     }
-    //console.log(myUrl);
-    
-    // Remove .bbq-current class from any previously "current" link(s).
     $('li.active').removeClass('active');
-    
-    // Hide any visible ajax content.
     $('#main-tab-container').children(':visible').hide();
+
+    if (url == '') {
+      $('a[href="#activity"]').parent().addClass('active');
+    } else {
+      $('a[href="#'+url+'"]').parent().addClass('active');
+    }
     
-    // Add .bbq-current class to "current" nav link(s), only if url isn't empty.
-    url && $('a[href="#'+url+'"]').parent().addClass('active');
-    
-    if (cache[url]) {
-      //cache[url].show();
+    if (url=='activity' || url=='') {
+      $('#activity-tab').show();
+    } else if (cache[url]) {
       $('#'+url+'-tab').show();
     } else {
       $('.main-tab-loading').show();
       $.get(myUrl, function(d) {
         $('.main-tab-loading').hide();
-        
         $('#main-tab-container').append(d);
         cache[url] = $(d);
       });
