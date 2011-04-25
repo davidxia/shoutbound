@@ -89,7 +89,7 @@ $this->load->view('core_header', $header_args);
       <div id="home-main-content-container">
               
         <ul id="main-tabs">
-          <li><a href="#activity">Feed</a></li>
+          <li><a href="#feed">Feed</a></li>
           <li><a href="#trail">Trail</a></li>
         </ul>
         
