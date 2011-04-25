@@ -136,9 +136,9 @@ $(function() {
     } else if (cache[url]) {
       $('#'+url+'-tab').show();
     } else {
-      $('.main-tab-loading').show();
+      $('#main-tab-loading').show();
       $.get(myUrl, function(d) {
-        $('.main-tab-loading').hide();
+        $('#main-tab-loading').hide();
         $('#main-tab-container').append(d);
         cache[url] = $(d);
       });
