@@ -99,7 +99,7 @@ class Profile extends CI_Controller
             'is_following' => $is_following,
         );
 
-        $this->load->view('profile/profile', $view_data);
+        $this->load->view('profile/index', $view_data);
         //print_r($profile);
     }
         

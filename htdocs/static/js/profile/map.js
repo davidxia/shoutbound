@@ -143,6 +143,5 @@ $(function() {
     }
   });
   
-  
   $(window).trigger('hashchange');
 });

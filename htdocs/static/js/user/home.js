@@ -79,3 +79,45 @@ showPost = function(r) {
   $('#trip-selection').multiselect('uncheckAll');
   console.log(r);
 }
+
+
+$(function() {
+  var cache = {};
+  
+  $(window).bind('hashchange', function(e) {
+    var url = $.param.fragment();
+    var path = window.location.pathname;
+    var matches = path.match(/\d*$/);
+    myUrl = baseUrl+'home';
+    if (url) {
+      myUrl += '/'+url;
+    }
+    if (matches[0]) {
+      myUrl += '/'+matches[0];
+    }
+    $('li.active').removeClass('active');
+    $('#main-tab-container').children(':visible').hide();
+
+    if (url == '') {
+      $('a[href="#feed"]').parent().addClass('active');
+    } else {
+      $('a[href="#'+url+'"]').parent().addClass('active');
+    }
+    
+    if (url=='feed' || url=='') {
+      $('#feed-tab').show();
+    } else if (cache[url]) {
+      $('#'+url+'-tab').show();
+    } else {
+      $('#main-tab-loading').show();
+      $.get(myUrl, function(d) {
+        $('#main-tab-loading').hide();
+        $('#main-tab-container').append(d);
+        $('abbr.timeago').timeago();
+        cache[url] = $(d);
+      });
+    }
+  });
+  
+  $(window).trigger('hashchange');
+});
