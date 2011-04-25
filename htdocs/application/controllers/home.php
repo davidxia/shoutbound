@@ -37,8 +37,20 @@ class Home extends CI_Controller
             'news_feed_items' => $news_feed_items,
         );
                           
-        $this->load->view('home', $view_data);
+        $this->load->view('home/index', $view_data);
         //print_r($this->user->stored);
+    }
+    
+    
+    public function feed()
+    {
+        $this->load->view('home/feed');
+    }
+    
+    
+    public function trail()
+    {
+        $this->load->view('home/trail');
     }
     
     
