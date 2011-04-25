@@ -32,116 +32,74 @@ $this->load->view('core_header', $header_args);
   map.lng = <?=$trip->places[0]->lng?>;
 </script>
 
-<style type="text/css">
-#follow {
-  color:white;
-  display:block;
-  height:30px;
-  line-height:30px;
-  text-align:center;
-  font-weight:bold;
-  font-size:11px;
-  text-decoration:none;
-  background:-webkit-gradient(linear, left top, left bottom, from(#F90), to(#FF6200));
-  background:-moz-linear-gradient(top, #F90, #FF6200);
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#F90', endColorstr='#FF6200');
-  border: 1px solid #E55800;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  margin-bottom: 13px;
-}
-#follow:hover {
-  background: #ffad32;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
-  background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');
-}
-#follow:active {
-  background: #ff8132;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
-  background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
-}
-
-#unfollow, #share {
-  color:white;
-  display:inline-block;
-  width:150px;
-  height:30px;
-  line-height:30px;
-  text-align:center;
-  font-weight:bold;
-  font-size:11px;
-  text-decoration:none;
-  background:-webkit-gradient(linear, left top, left bottom, from(#F42A2A), to(#DA0D0D));
-  background:-moz-linear-gradient(top, #F42A2A, #DA0D0D);
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#F42A2A', endColorstr='#DA0D0D');
-  border: 1px solid #E55800;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  margin-bottom: 13px;
-}
-#unfollow:hover, #share:hover {
-  background: #ffad32;
-  background: -webkit-gradient(linear, left top, left bottom, from(#F42A2A), to(#DA0D0D));
-  background: -moz-linear-gradient(top,  #F42A2A,  #DA0D0D);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F42A2A', endColorstr='#DA0D0D');
-}
-#unfollow:active, #share:active {
-  background: #ff8132;
-  background: -webkit-gradient(linear, left top, left bottom, from(#F42A2A), to(#DA0D0D));
-  background: -moz-linear-gradient(top,  #F42A2A,  #DA0D0D);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F42A2A', endColorstr='#DA0D0D');
-}
-
-ul.tabs {
-	list-style: none;
-	height: 32px; /*--Set height of tabs--*/
-	font-size:13px;
-	font-weight:bold;
-}
-ul.tabs li {
-	float: left;
-	height: 31px; /*--Subtract 1px from the height of the unordered list--*/
-	line-height: 31px; /*--Vertically aligns the text within the tab--*/
-	padding:10px 10px 0px 10px;
-	border-left: none;
-	overflow: hidden;
-	position: relative;
-	background: #e0e0e0;
-}
-ul.tabs li a {
-	color: #000;
-	display: block;
-	outline: none;
-}
-ul.tabs li a:hover {
-	background: #ccc;
-}
-html ul.tabs li.active, html ul.tabs li.active a:hover  { /*--Makes sure that the active tab does not listen to the hover properties--*/
-	background: #DEE4F7;
-	border-bottom: 1px solid #DEE4F7; /*--Makes the active tab look like it's connected with its content--*/
-}
-.tab_container {
-	border-top: none;
-}
-.tab_content {
-  padding:5px;
-  position:relative;
-  margin-bottom:20px;
-  background-color:#DEE4F7;
-  font-size:13px;
-  width:320px;	
-}
-</style>
-
 </head>
 
 <body>
+
+<div id="header-content-wrapper">
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
+
+      <div id="top-bar"><!--TOP BAR-->
+        
+        <div id="trip-info">
+          <h1><?=$trip->name?></h1>
+    			<div id="trip_description"><?=$trip->description?></div>	
+        </div>
+        
+      </div><!--TOP BAR END-->
+      
+  
+    
+    <div style="clear:both"></div>  
+
+    <!-- LEFT COLUMN -->
+    <div id="col-left">    
+      
+      <!--PROFILE MAIN CONTENT-->      
+      <div id="main-content-container">
+      
+        <ul id="main-tabs">
+          <li><a href="#activity">Tab item</a></li>
+          <li><a href="#trail">Tab item</a></li>
+        </ul>
+        
+        <div style="clear:both"></div>
+        
+        <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
+          <div id="activity-tab" class="main-tab-content main-tab-default">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </div>          
+        </div><!--TAB CONTAINER END-->
+                   
+      </div><!--PROFILE MAIN CONTENT END-->
+      
+      
+
+    </div><!--LEFT COLUMN END-->
+    
+    <!-- RIGHT COLUMN -->
+    <div id="col-right">      
+      
+      <!-- MAP -->
+      <div style="display:none;">
+        <? foreach ($profile->destinations as $destination):?>
+          <a class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>"></a>
+        <? endforeach;?>
+      </div>
+      <!--<? if ($user AND $is_self):?>
+        <a href="<?=site_url('profile/edit')?>">Show off</a> where you've been.
+      <? endif;?>-->
+      <div id="map-shell">
+          <div id="map-canvas" style="height:330px;"></div>
+        </div>
+      </div><!--MAP ENDS-->
+      
+    </div><!-- RIGHT COLUMN ENDS -->
+            
+  </div><!-- CONTENT ENDS -->
+  </div><!-- WRAPPER ENDS -->
+</div><!-- HEADER CONTENT WRAPPER ENDS-->
   
   <div id="div-to-popup" style="display:none;"></div>
 			  
@@ -246,10 +204,7 @@ html ul.tabs li.active, html ul.tabs li.active a:hover  { /*--Makes sure that th
 
     <!--TRIPCOLLEFTSHELL START-->
     <div id="trip-col-left-shell">
-			<div id="trip-name">
-				<?=$trip->name?>
-			</div> 
-			<div id="trip_description"><?=$trip->description?></div>							
+						
 				
     	<div id="trip-widget"><!--WIDGET START--> 
     		<!--IF USER IS INVITED, DISPLAY RSVP STATUS-->

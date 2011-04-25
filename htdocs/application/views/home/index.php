@@ -58,6 +58,9 @@ $this->load->view('core_header', $header_args);
                   <? foreach ($user->rsvp_yes_trips as $trip):?>
                   <option value="<?=$trip->id?>"><?=$trip->name?>
                   <? endforeach;?>
+                  <? foreach ($user->rsvp_awaiting_trips as $trip):?>
+                  <option value="<?=$trip->id?>"><?=$trip->name?>
+                  <? endforeach;?>
                   <? foreach ($user->following_trips as $trip):?>
                   <option value="<?=$trip->id?>"><?=$trip->name?>
                   <? endforeach;?>

@@ -69,6 +69,48 @@ textarea#wallitem-input{
 	padding-top:10px;
 }
 
+/*Tabs*/
+
+ul.tabs {
+	list-style: none;
+	height: 32px; /*--Set height of tabs--*/
+	font-size:13px;
+	font-weight:bold;
+}
+ul.tabs li {
+	float: left;
+	height: 31px; /*--Subtract 1px from the height of the unordered list--*/
+	line-height: 31px; /*--Vertically aligns the text within the tab--*/
+	padding:10px 10px 0px 10px;
+	border-left: none;
+	overflow: hidden;
+	position: relative;
+	background: #e0e0e0;
+}
+ul.tabs li a {
+	color: #000;
+	display: block;
+	outline: none;
+}
+ul.tabs li a:hover {
+	background: #ccc;
+}
+html ul.tabs li.active, html ul.tabs li.active a:hover  { /*--Makes sure that the active tab does not listen to the hover properties--*/
+	background: #DEE4F7;
+	border-bottom: 1px solid #DEE4F7; /*--Makes the active tab look like it's connected with its content--*/
+}
+.tab_container {
+	border-top: none;
+}
+.tab_content {
+  padding:5px;
+  position:relative;
+  margin-bottom:20px;
+  background-color:#DEE4F7;
+  font-size:13px;
+  width:320px;	
+}
+
 /*Right*/
 
 .tooltip_container{
@@ -396,6 +438,37 @@ textarea#wallitem-input{
 }
 
 #delete-trip:active {
+  background: #ff8132;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
+  background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
+}
+
+#follow {
+  color:white;
+  display:block;
+  height:30px;
+  line-height:30px;
+  text-align:center;
+  font-weight:bold;
+  font-size:14px;
+  text-decoration:none;
+  background:-webkit-gradient(linear, left top, left bottom, from(#32D02F), to(#239121));
+  background:-moz-linear-gradient(top, #32D02F, #239121);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#32D02F', endColorstr='#239121');
+  border: 1px solid #555;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  width:160px;
+}
+#follow:hover {
+  background: #ffad32;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
+  background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');
+}
+#follow:active {
   background: #ff8132;
   background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
   background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
