@@ -123,10 +123,6 @@
 	border-left:1px solid #CACACA;
 	border-right:1px solid #CACACA;
 	border-top:1px solid #CACACA;
-	/*border-top-left-radius:5px;
-	border-top-right-radius:5px;
-	-moz-border-radius-topleft:5px;
-	-moz-border-radius-topright:5px;*/
 }
 
 #main-tabs li.active a{
