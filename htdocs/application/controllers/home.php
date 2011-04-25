@@ -24,6 +24,12 @@ class Home extends CI_Controller
 
     function index()
     {
+        $this->user->get_num_rsvp_yes_trips();
+        $this->user->get_num_posts();
+        $this->user->get_num_following();
+        $this->user->get_num_following_trips();
+        $this->user->get_num_followers();
+        
         $t = new Trip();        
         // get suggestions for both user's trips and her friends trips
         $news_feed_items = $this->user->get_news_feed_items();
