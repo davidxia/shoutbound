@@ -130,6 +130,12 @@ class User extends DataMapper
         $this->trip->where('active', 1)->where_in_join_field('user', 'role', array(5,10))->get();
         return $this->trip;
     }
+    
+    
+    public function get_num_rsvp_yes_trips()
+    {
+        $this->stored->num_rsvp_yes_trips = $this->trip->where('active', 1)->where_join_field('user', 'rsvp', 9)->count();
+    }
 
     
     public function get_rsvp_yes_trips()
@@ -144,6 +150,44 @@ class User extends DataMapper
     }
     
     
+    public function get_num_followers()
+    {
+        $this->stored->num_followers = $this->user->count();
+    }
+    
+    
+    public function get_followers()
+    {
+        $this->stored->followers = array();
+        foreach ($this->user->get() as $follower)
+        {
+            $this->stored->followers[] = $follower->stored;
+        }
+    }
+    
+    
+    public function get_num_following()
+    {
+        $this->stored->num_following = $this->related_user->count();
+    }
+    
+    
+    public function get_following()
+    {
+        $this->stored->following = array();
+        foreach ($this->related_user->get() as $following)
+        {
+            $this->stored->following[] = $following->stored;
+        }
+    }
+    
+    
+    public function get_num_following_trips()
+    {
+        $this->stored->num_following_trips = $this->trip->where('active', 1)->where_in_join_field('user', 'rsvp', 3)->count();
+    }
+    
+    
     public function get_following_trips()
     {
         $this->stored->following_trips = array();
@@ -152,6 +196,27 @@ class User extends DataMapper
             $following_trip->get_goers();
             $following_trip->get_places();
             $this->stored->following_trips[] = $following_trip->stored;
+        }
+    }
+
+
+    public function get_num_posts()
+    {
+        $this->stored->num_posts = $this->wallitem->where('active', 1)->order_by('created', 'desc')->count();
+    }
+
+
+    public function get_posts()
+    {
+        // get user's most recent posts
+        $this->stored->posts = array();
+        $this->wallitem->where('active', 1)->order_by('created', 'desc')->get();
+        foreach ($this->wallitem as $wallitem)
+        {
+            // generate html for wallitem's places
+            $wallitem->get_places();
+            $wallitem->get_trips();
+            $this->stored->posts[] = $wallitem->stored;
         }
     }
     
@@ -242,74 +307,7 @@ class User extends DataMapper
         $this->trip->include_join_fields()->get_by_id($trip_id);
         return $this->trip->join_rsvp;
     }
-    
-    /*
-    public function get_friends()
-    {
-        // get profile's Shoutbound friends (we shouldn't display their FB friends publicly)
-        // get array of friends relations to the user
-        $this->user->get();
-        $rels_to = array();
-        foreach ($this->user as $rel_to)
-        {
-            $rels_to[] = $rel_to->id;
-        }
-        // get array of friend relations from the user
-        // TODO: is there a better way of doing this? like with a 'where' clause in one datamapper call?
-        $this->related_user->get();
-        $rels_from = array();
-        foreach ($this->related_user as $rel_from)
-        {
-            $rels_from[] = $rel_from->id;
-        }
-        $friend_ids = array_intersect($rels_to, $rels_from);
         
-        $f = new User();
-        $friends = array();
-        foreach ($friend_ids as $friend_id)
-        {
-            $f->get_by_id($friend_id);
-            $friends[] = $f->stored;
-        }
-        
-        return $friends;
-    }
-    */
-    
-    public function get_followers()
-    {
-        $this->stored->followers = array();
-        foreach ($this->user->get() as $follower)
-        {
-            $this->stored->followers[] = $follower->stored;
-        }
-    }
-    
-    
-    public function get_following()
-    {
-        $this->stored->following = array();
-        foreach ($this->related_user->get() as $following)
-        {
-            $this->stored->following[] = $following->stored;
-        }
-    }
-
-
-    public function get_posts()
-    {
-        // get user's most recent posts
-        $this->stored->posts = array();
-        $this->wallitem->where('active', 1)->order_by('created', 'desc')->get();
-        foreach ($this->wallitem as $wallitem)
-        {
-            // generate html for wallitem's places
-            $wallitem->get_places();
-            $wallitem->get_trips();
-            $this->stored->posts[] = $wallitem->stored;
-        }
-    }
-    
     
     public function get_destinations()
     {

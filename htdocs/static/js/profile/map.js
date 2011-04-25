@@ -105,54 +105,15 @@ $('#follow').click(function() {
 });
 
 
-$(function() {
-	$('.main-tab-content').hide();
-	// show tab specified in url, default to activity
-  var tab = window.location.hash;
-  var isTab = ($.inArray(tab, ['#activity', '#trail', '#posts', '#following', '#followers']) == -1) ? false : true;
-  if (!isTab) {
-    tab = '#activity';
-  }
-  $(tab+'-tab').show();
-  $('.main-tabs').find('a[href='+tab+']').parent().addClass('active');
-
-  // bind click event to tabs
-	$('ul.main-tabs li').click(function() {
-		$('ul.main-tabs li').removeClass('active'); //Remove any "active" class
-		$(this).addClass('active'); //Add "active" class to selected tab
-		$('.main-tab-content').hide(); //Hide all tab content
-		var activeTab = $(this).find('a').attr('href'); //Find the href attribute value to identify the active tab + content
-		$(activeTab+'-tab').show();
-	});
-
-  // bind click event to stats list
-	$('ul.stats-list li a').click(function() {
-    $('ul.main-tabs li').removeClass('active');
-		var activeTab = $(this).attr('href');
-		$('.main-tab-content').hide();
-		var activeTab = $(this).attr('href');
-    $('.main-tabs').find('a[href='+activeTab+']').parent().addClass('active');
-		$(activeTab+'-tab').show();
-		return false;
-	});
-});
 
 
 
 $(function() {
-  // Keep a mapping of url-to-container for caching purposes.
   var cache = {
-    // If url is '' (no fragment), display this div's content.
     '': $('.main-tab-default')
   };
   
-  // Bind an event to window.onhashchange that, when the history state changes,
-  // gets the url from the hash and displays either our cached content or fetches
-  // new content to be displayed.
   $(window).bind('hashchange', function(e) {
-    
-    // Get the hash (fragment) as a string, with any leading # removed. Note that
-    // in jQuery 1.4, you should use e.fragment instead of $.param.fragment().
     var url = $.param.fragment();
     var path = window.location.pathname;
     var matches = path.match(/\d*$/);
@@ -163,43 +124,29 @@ $(function() {
     if (matches[0]) {
       myUrl += '/'+matches[0];
     }
-    console.log(myUrl);
+    //console.log(myUrl);
     
     // Remove .bbq-current class from any previously "current" link(s).
     $('li.active').removeClass('active');
     
     // Hide any visible ajax content.
-    $('.tab-container').children(':visible').hide();
+    $('#main-tab-container').children(':visible').hide();
     
     // Add .bbq-current class to "current" nav link(s), only if url isn't empty.
-    url && $('a[href="#'+url+'"]').addClass('active');
+    url && $('a[href="#'+url+'"]').parent().addClass('active');
     
     if (cache[url]) {
-      // Since the element is already in the cache, it doesn't need to be
-      // created, so instead of creating it again, let's just show it!
-      cache[url].show();
+      //cache[url].show();
+      $('#'+url+'-tab').show();
     } else {
-      // Show "loading" content while AJAX content loads.
       $('.main-tab-loading').show();
-      
-      // Create container for this url's content and store a reference to it in
-      // the cache.
-      cache[url] = $('<div class="main-tab-content"/>')
+      $.get(myUrl, function(d) {
+        $('.main-tab-loading').hide();
         
-        // Append the content container to the parent container.
-        .appendTo('.tab-container')
-        
-        // Load external content via AJAX. Note that in order to keep this
-        // example streamlined, only the content in .infobox is shown. You'll
-        // want to change this based on your needs.
-        .load(myUrl, function() {
-          // Content loaded, hide "loading" content.
-          $('.main-tab-loading').hide();
-        });
+        $('#main-tab-container').append(d);
+        cache[url] = $(d);
+      });
     }
   })
-  
-  // Since the event is only triggered when the hash changes, we need to trigger
-  // the event now, to handle the hash the page may have loaded with.
   $(window).trigger('hashchange');
 });

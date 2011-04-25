@@ -83,14 +83,13 @@ class Profile extends CI_Controller
                 $is_following = FALSE;
             }
         }
-
         
         // $profile is a reference to $u->stored, so weird!
-        //$u->get_rsvp_yes_trips();
-        $u->get_posts();
-        $u->get_following();
-        $u->get_following_trips();
-        $u->get_followers();
+        $u->get_num_rsvp_yes_trips();
+        $u->get_num_posts();
+        $u->get_num_following();
+        $u->get_num_following_trips();
+        $u->get_num_followers();
         $u->get_destinations();
         
         $view_data = array(
@@ -107,10 +106,10 @@ class Profile extends CI_Controller
     
     public function activity($pid = FALSE)
     {
-        //$view_data = array();
-        //$this->load->view('profile/activity', $view_data);
-        print_r($pid);
-        echo $this->user->id;
+        $view_data = array(
+            'user' => $this->user->stored,
+        );
+        $this->load->view('profile/activity', $view_data);
     }
     
     
