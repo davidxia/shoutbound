@@ -52,12 +52,17 @@ map.loadGoogleMap = function() {
   };
   
   map.googleMap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  google.maps.event.addListenerOnce(map.googleMap, 'bounds_changed', function() {
+    map.saveDefaultMarkers();
+    loadTabs();
+  });
 };
 
 
 map.saveMarkers = function(tabName) {
   map.markers[tabName] = [];
-  cache[tabName].find('a.destination').each(function() {
+  $('#'+tabName+'-tab').find('.place').each(function() {
     var markerLatLng = new google.maps.LatLng($(this).attr('lat'), $(this).attr('lng'));
     var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
         new google.maps.Size(20, 34),
@@ -87,7 +92,7 @@ map.clearMarkers = function () {
 };
 
 
-map.showTabMarkers = function(tabName) {  
+map.showTabMarkers = function(tabName) {
   $.each(map.markers[tabName], function (i, marker) {
     marker.setVisible(true);
   });
@@ -179,7 +184,7 @@ showPost = function(r) {
 }
 
 
-$(function() {
+loadTabs = function() {
   $(window).bind('hashchange', function(e) {
     var tabName = $.param.fragment();
     var path = window.location.pathname;
@@ -203,6 +208,7 @@ $(function() {
     if (tabName=='feed' || tabName=='') {
       $('#feed-tab').show();
       map.clearMarkers();
+      map.showTabMarkers('feed');
     } else if (cache[tabName]) {
       $('#'+tabName+'-tab').show();
       map.clearMarkers();
@@ -222,4 +228,12 @@ $(function() {
   });
   
   $(window).trigger('hashchange');
-});
+};
+
+
+map.saveDefaultMarkers = function() {
+  var defaultTab = $('#main-tabs').find('a:first').attr('href');
+  map.saveMarkers(defaultTab.substring(1));
+  map.showTabMarkers(defaultTab.substring(1));
+  console.log(defaultTab.substring(1));
+};

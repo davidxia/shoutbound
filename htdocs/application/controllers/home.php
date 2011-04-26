@@ -43,7 +43,7 @@ class Home extends CI_Controller
         );
                           
         $this->load->view('home/index', $view_data);
-        //print_r($this->user->stored);
+        //print_r($news_feed_items);
     }
         
     

@@ -251,6 +251,7 @@ class User extends DataMapper
             {
                 $wallitem->get_creator();
                 $wallitem->get_trips();
+                $wallitem->get_places();
                 $trip_wallitems[] = $wallitem->stored;
             }
         }
@@ -270,6 +271,7 @@ class User extends DataMapper
             {
                 $wallitem->get_creator();
                 $wallitem->get_trips();
+                $wallitem->get_places();
                 $reply_wallitems[] = $wallitem->stored;
             }        
         }
