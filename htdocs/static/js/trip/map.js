@@ -4,7 +4,7 @@ map.googleMap;
 map.infoWindow;
 
 $(function() {
-  var top = $('#map-container').offset().top - parseFloat($('#map-container').css('marginTop').replace(/auto/, 0));
+  var top = $('#map-shell').offset().top - parseFloat($('#map-shell').css('marginTop').replace(/auto/, 0)) + 46;
   var didScroll = false;
   $(window).scroll(function () {
     didScroll = true;
@@ -13,15 +13,11 @@ $(function() {
   setInterval(function() {
     if (didScroll) {
       didScroll = false;
-      // what is the y position of the scroll?
       var y = $(window).scrollTop();    
-      // whether that's below the start of article?
       if (y >= top) {
-        // if so, add the fixed class
-        $('#map-container').addClass('fixed');
+        $('#map-shell').addClass('map-fixed');
       } else {
-        // otherwise, remove it
-        $('#map-container').removeClass('fixed');
+        $('#map-shell').removeClass('map-fixed');
       }
     }
   }, 100);

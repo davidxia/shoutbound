@@ -253,3 +253,8 @@ label.error {
 #main-content-container{
   padding:10px 0px 5px 0px;
 }
+
+.map-fixed{
+  position:fixed;
+  top:-46px;
+}

@@ -90,7 +90,6 @@ class Profile extends CI_Controller
         $u->get_num_following();
         $u->get_num_following_trips();
         $u->get_num_followers();
-        $u->get_destinations();
         
         $view_data = array(
             'user' => $user,
@@ -121,6 +120,7 @@ class Profile extends CI_Controller
             $pid = $this->user->id;
             $u->get_by_id($pid);
             $profile = $u->stored;
+            $is_self = TRUE;
         }
         elseif ( ! isset($this->user->id))
         {
@@ -132,6 +132,7 @@ class Profile extends CI_Controller
                 return;
             }
             $profile = $u->stored;
+            $is_self = FALSE;
         }
         // if profile specified and user's logged in
         else
@@ -144,12 +145,16 @@ class Profile extends CI_Controller
                 return;
             }
             $profile = $u->stored;
+
+            $is_self = ($pid == $this->user->id) ? TRUE : FALSE;
         }
 
         $u->get_rsvp_yes_trips();
+        $u->get_destinations();
         $view_data = array(
             'user' => $user,
             'profile' => $profile,
+            'is_self' => $is_self,
         );
 
         $this->load->view('profile/trail', $view_data);

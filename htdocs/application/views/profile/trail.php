@@ -14,4 +14,16 @@
       <?=$dest_list?>
     </div>
   <? endforeach;?>
+
+  <div style="border-top:1px solid #BABABA;">
+    Places <?=$profile->name?> has been:<br/>
+    <? if ($user AND $is_self):?>
+      <a href="<?=site_url('profile/edit')?>">Show off</a> where you've been.
+    <? elseif ( ! $profile->destinations):?>
+      <?=$profile->name?> hasn't listed any places yet.
+    <? endif;?>
+    <? foreach ($profile->destinations as $destination):?>
+      <span class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>"><?=$destination->name?></span>
+    <? endforeach;?>
+  </div>
 </div>

@@ -6,6 +6,27 @@ map.markers = {};
 
 
 $(function() {
+  var top = $('#map-shell').offset().top - parseFloat($('#map-shell').css('marginTop').replace(/auto/, 0)) + 46;
+  var didScroll = false;
+  $(window).scroll(function () {
+    didScroll = true;
+  });
+  
+  setInterval(function() {
+    if (didScroll) {
+      didScroll = false;
+      var y = $(window).scrollTop();    
+      if (y >= top) {
+        $('#map-shell').addClass('map-fixed');
+      } else {
+        $('#map-shell').removeClass('map-fixed');
+      }
+    }
+  }, 100);
+});
+
+
+$(function() {
   var script = document.createElement('script');
   script.type = 'text/javascript';
   script.src = 'http://maps.google.com/maps/api/js?sensor=false&callback=map.loadGoogleMap';
@@ -34,17 +55,42 @@ map.loadGoogleMap = function() {
 };
 
 
+map.saveMarkers = function(tabName) {
+  map.markers[tabName] = [];
+  cache[tabName].find('a.destination').each(function() {
+    var markerLatLng = new google.maps.LatLng($(this).attr('lat'), $(this).attr('lng'));
+    var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+        new google.maps.Size(20, 34),
+        new google.maps.Point(0, 0),
+        new google.maps.Point(10, 34));
+    var shadow = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+        new google.maps.Size(25, 20),
+        new google.maps.Point(40, 14),
+        new google.maps.Point(0, 20));
+    map.markers[tabName].push(new google.maps.Marker({
+      map: map.googleMap,
+      position: markerLatLng,
+      icon: image,
+      shadow: shadow,
+      visible: false
+    }));
+  });
+};
+
+
+map.clearMarkers = function () {
+  $.each(map.markers, function(key, val) {
+    $.each(val, function(i, marker) {
+      marker.setVisible(false);
+    });
+  });
+};
+
+
 map.showTabMarkers = function(tabName) {  
   $.each(map.markers[tabName], function (i, marker) {
     marker.setVisible(true);
   });
-    
-    /*var bounds = map.googleMap.getBounds();
-    if (!bounds.contains(markerLatLng)) {
-      bounds.extend(markerLatLng);
-      map.googleMap.fitBounds(bounds);
-    }*/
-
 };
 
 
@@ -145,7 +191,6 @@ $(function() {
     if (matches[0]) {
       myUrl += '/'+matches[0];
     }
-    //console.log(tabName);
     $('li.active').removeClass('active');
     $('#main-tab-container').children(':visible').hide();
 
@@ -178,35 +223,3 @@ $(function() {
   
   $(window).trigger('hashchange');
 });
-
-
-map.saveMarkers = function(tabName) {
-  map.markers[tabName] = [];
-  cache[tabName].find('a.destination').each(function() {
-    var markerLatLng = new google.maps.LatLng($(this).attr('lat'), $(this).attr('lng'));
-    var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
-        new google.maps.Size(20, 34),
-        new google.maps.Point(0, 0),
-        new google.maps.Point(10, 34));
-    var shadow = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
-        new google.maps.Size(25, 20),
-        new google.maps.Point(40, 14),
-        new google.maps.Point(0, 20));
-    map.markers[tabName].push(new google.maps.Marker({
-      map: map.googleMap,
-      position: markerLatLng,
-      icon: image,
-      shadow: shadow,
-      visible: false
-    }));
-  });
-};
-
-
-map.clearMarkers = function () {
-  $.each(map.markers, function(key, val) {
-    $.each(val, function(i, marker) {
-      marker.setVisible(false);
-    });
-  });
-};

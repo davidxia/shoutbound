@@ -101,14 +101,6 @@ $this->load->view('core_header', $header_args);
     <div id="col-right">      
       
       <!-- MAP -->
-      <div style="display:none;">
-        <? foreach ($profile->destinations as $destination):?>
-          <a class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>"></a>
-        <? endforeach;?>
-      </div>
-      <!--<? if ($user AND $is_self):?>
-        <a href="<?=site_url('profile/edit')?>">Show off</a> where you've been.
-      <? endif;?>-->
       <div id="map-shell">
           <div id="map-canvas"></div>
         </div>

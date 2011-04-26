@@ -179,16 +179,6 @@ textarea#wallitem-input{
   border:1px solid #CACACA;
 }
 
-#map-shell input {
-  width: 200px;
-}
-
-.fixed{
-  position: fixed;
-  top: 0px;
-}
-
-
 /*wall*/
 
 #input-container{
