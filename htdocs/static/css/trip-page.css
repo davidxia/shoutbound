@@ -173,8 +173,8 @@ textarea#wallitem-input{
 /*map*/
 
 #map-shell{
-  position:relative;
-  top:46px;
+  margin-top:46px;
+  width:330px;
   padding:5px;
   border:1px solid #CACACA;
 }
