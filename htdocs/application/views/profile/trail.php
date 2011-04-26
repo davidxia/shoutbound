@@ -7,7 +7,7 @@
       <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
       <? $prefix = ''; $dest_list = '';?>
       <? foreach ($trip->places as $place):?>
-        <? $dest_list .= $prefix . '<span class="destination" lat="'.$place->lat.'" lng="'.$place->lng.'">'.
+        <? $dest_list .= $prefix . '<span class="place" lat="'.$place->lat.'" lng="'.$place->lng.'">'.
            $place->name.'</span>';?>
         <? $prefix = ', '?>
       <? endforeach;?>
@@ -23,7 +23,7 @@
       <?=$profile->name?> hasn't listed any places yet.
     <? endif;?>
     <? foreach ($profile->destinations as $destination):?>
-      <span class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>"><?=$destination->name?></span>
+      <span class="place" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>"><?=$destination->name?></span>
     <? endforeach;?>
   </div>
 </div>

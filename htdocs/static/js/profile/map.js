@@ -89,7 +89,7 @@ map.showDestMarkers = function(lat, lng) {
 
 map.saveMarkers = function(tabName) {
   map.markers[tabName] = [];
-  $('#'+tabName+'-tab').find('.destination').each(function() {
+  $('#'+tabName+'-tab').find('.place').each(function() {
     var markerLatLng = new google.maps.LatLng($(this).attr('lat'), $(this).attr('lng'));
     var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
         new google.maps.Size(20, 34),
