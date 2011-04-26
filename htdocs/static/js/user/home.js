@@ -83,31 +83,33 @@ $(function() {
 
 $(function() {
   var delay;
-  $('.tooltip').mouseover(function() {
-    var img = $(this);
-    
-    delay = setTimeout(function() {
-      var title = img.attr('alt');
-
-      // element location and dimensions
-      var element_offset = img.offset(),
-          element_top = element_offset.top,
-          element_left = element_offset.left,
-          element_height = img.height(),
-          element_width = img.width();
+  $('.tooltip').live('mouseover mouseout', function(e) {
+    if (e.type == 'mouseover') {
+      var img = $(this);
       
-      var tooltip = $('<div class="tooltip_container"><div class="tooltip_interior">'+title+'</div></div>');
-      $('body').append(tooltip);
+      delay = setTimeout(function() {
+        var title = img.attr('alt');
   
-      // tooltip dimensions
-      var tooltip_height  = tooltip.height();
-      var tooltip_width = tooltip.width();
-      tooltip.css({ top: (element_top + element_height + 3) + 'px' });
-      tooltip.css({ left: (element_left - (tooltip_width / 2) + (element_width / 2)) + 'px' });
-    }, 200);
-  }).mouseout(function() {
-    $('.tooltip_container').remove();
-    clearTimeout(delay);
+        // element location and dimensions
+        var element_offset = img.offset(),
+            element_top = element_offset.top,
+            element_left = element_offset.left,
+            element_height = img.height(),
+            element_width = img.width();
+        
+        var tooltip = $('<div class="tooltip_container"><div class="tooltip_interior">'+title+'</div></div>');
+        $('body').append(tooltip);
+    
+        // tooltip dimensions
+        var tooltip_height  = tooltip.height();
+        var tooltip_width = tooltip.width();
+        tooltip.css({ top: (element_top + element_height + 3) + 'px' });
+        tooltip.css({ left: (element_left - (tooltip_width / 2) + (element_width / 2)) + 'px' });
+      }, 200);
+    } else {
+      $('.tooltip_container').remove();
+      clearTimeout(delay);
+    }
   });
 });
 
