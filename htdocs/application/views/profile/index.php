@@ -23,8 +23,6 @@ $this->load->view('core_header', $header_args);
 </head>
 
 <body>
-
-<div id="header-content-wrapper">
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
 
@@ -33,12 +31,12 @@ $this->load->view('core_header', $header_args);
           <a href="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="125" height="125"/></a>
           <a href="<?=site_url('profile/edit')?>" id="edit-profile-pic" style="position:absolute; top:0px; left:0px; font-size:12px; background-color:black; color:white; display:none;">change picture</a>
         </div>
-        
         <div id="profile-user-info">
           <h1><?=$profile->name?></h1>
           <div id="bio"><?=$profile->bio?></div>
           <div id="personal-url"><a href="<?=$profile->url?>" target="_blank"><?=$profile->url?></a></div>
         </div>
+        
         
       </div><!--TOP BAR END-->
       
@@ -110,7 +108,6 @@ $this->load->view('core_header', $header_args);
             
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
-</div><!-- HEADER CONTENT WRAPPER ENDS-->
 
   <? $this->load->view('footer')?>
 
