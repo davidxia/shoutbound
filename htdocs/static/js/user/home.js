@@ -54,8 +54,10 @@ map.loadGoogleMap = function() {
   map.googleMap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
   google.maps.event.addListenerOnce(map.googleMap, 'bounds_changed', function() {
-    map.saveDefaultMarkers();
-    loadTabs();
+    var defaultTab = $('#main-tabs').find('a:first').attr('href').substring(1);
+    map.saveMarkers(defaultTab);
+    map.showTabMarkers(defaultTab);
+    loadTabs(defaultTab);
   });
 };
 
@@ -184,7 +186,7 @@ showPost = function(r) {
 }
 
 
-loadTabs = function() {
+loadTabs = function(defaultTab) {
   $(window).bind('hashchange', function(e) {
     var tabName = $.param.fragment();
     var path = window.location.pathname;
@@ -200,15 +202,15 @@ loadTabs = function() {
     $('#main-tab-container').children(':visible').hide();
 
     if (tabName == '') {
-      $('a[href="#feed"]').parent().addClass('active');
+      $('a[href="#'+defaultTab+'"]').parent().addClass('active');
     } else {
       $('a[href="#'+tabName+'"]').parent().addClass('active');
     }
     
-    if (tabName=='feed' || tabName=='') {
-      $('#feed-tab').show();
+    if (tabName==defaultTab || tabName=='') {
+      $('#'+defaultTab+'-tab').show();
       map.clearMarkers();
-      map.showTabMarkers('feed');
+      map.showTabMarkers(defaultTab);
     } else if (cache[tabName]) {
       $('#'+tabName+'-tab').show();
       map.clearMarkers();
@@ -228,12 +230,4 @@ loadTabs = function() {
   });
   
   $(window).trigger('hashchange');
-};
-
-
-map.saveDefaultMarkers = function() {
-  var defaultTab = $('#main-tabs').find('a:first').attr('href');
-  map.saveMarkers(defaultTab.substring(1));
-  map.showTabMarkers(defaultTab.substring(1));
-  console.log(defaultTab.substring(1));
 };

@@ -53,15 +53,12 @@ map.loadGoogleMap = function() {
   
   map.googleMap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   
-  /*
-  if ($('.destination').length > 0) {  
-    google.maps.event.addListenerOnce(map.googleMap, 'bounds_changed', function() {
-      $('.destination').each(function() {
-        map.showDestMarkers($(this).attr('lat'), $(this).attr('lng'));
-      });
-    });
-  }
-  */
+  google.maps.event.addListenerOnce(map.googleMap, 'bounds_changed', function() {
+    var defaultTab = $('#main-tabs').find('a:first').attr('href').substring(1);
+    map.saveMarkers(defaultTab);
+    map.showTabMarkers(defaultTab);
+    loadTabs(defaultTab);
+  });
 };
 
 
@@ -92,7 +89,7 @@ map.showDestMarkers = function(lat, lng) {
 
 map.saveMarkers = function(tabName) {
   map.markers[tabName] = [];
-  cache[tabName].find('.destination').each(function() {
+  $('#'+tabName+'-tab').find('.destination').each(function() {
     var markerLatLng = new google.maps.LatLng($(this).attr('lat'), $(this).attr('lng'));
     var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
         new google.maps.Size(20, 34),
@@ -170,7 +167,7 @@ $('#follow').click(function() {
 });
 
 
-$(function() {  
+loadTabs = function(defaultTab) {
   $(window).bind('hashchange', function(e) {
     var tabName = $.param.fragment();
     var path = window.location.pathname;
@@ -186,14 +183,15 @@ $(function() {
     $('#main-tab-container').children(':visible').hide();
 
     if (tabName == '') {
-      $('a[href="#activity"]').parent().addClass('active');
+      $('a[href="#'+defaultTab+'"]').parent().addClass('active');
     } else {
       $('a[href="#'+tabName+'"]').parent().addClass('active');
     }
     
-    if (tabName=='activity' || tabName=='') {
-      $('#activity-tab').show();
+    if (tabName==defaultTab || tabName=='') {
+      $('#'+defaultTab+'-tab').show();
       map.clearMarkers();
+      map.showTabMarkers(defaultTab);
     } else if (cache[tabName]) {
       $('#'+tabName+'-tab').show();
       map.clearMarkers();
@@ -213,4 +211,4 @@ $(function() {
   });
   
   $(window).trigger('hashchange');
-});
+};
