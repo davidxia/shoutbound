@@ -1,7 +1,9 @@
+var cache = {};
 var map = {};
 
 map.googleMap;
 map.markers = {};
+
 
 $(function() {
   var script = document.createElement('script');
@@ -32,30 +34,16 @@ map.loadGoogleMap = function() {
 };
 
 
-map.showDestMarkers = function(tab) {
-  $.each(map.markers[tab], function() {
-    var markerLatLng = new google.maps.LatLng($(this).attr('lat'), $(this).attr('lng'));
-    var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
-        new google.maps.Size(20, 34),
-        new google.maps.Point(0, 0),
-        new google.maps.Point(10, 34));
-    var shadow = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
-        new google.maps.Size(25, 20),
-        new google.maps.Point(40, 14),
-        new google.maps.Point(0, 20));
-    var marker = new google.maps.Marker({
-      map: map.googleMap,
-      position: markerLatLng,
-      icon: image,
-      shadow: shadow
-    });
+map.showTabMarkers = function(tabName) {  
+  $.each(map.markers[tabName], function (i, marker) {
+    marker.setVisible(true);
+  });
     
     /*var bounds = map.googleMap.getBounds();
     if (!bounds.contains(markerLatLng)) {
       bounds.extend(markerLatLng);
       map.googleMap.fitBounds(bounds);
     }*/
-  });
 
 };
 
@@ -146,8 +134,6 @@ showPost = function(r) {
 
 
 $(function() {
-  var cache = {};
-  
   $(window).bind('hashchange', function(e) {
     var tabName = $.param.fragment();
     var path = window.location.pathname;
@@ -171,8 +157,11 @@ $(function() {
     
     if (tabName=='feed' || tabName=='') {
       $('#feed-tab').show();
+      map.clearMarkers();
     } else if (cache[tabName]) {
       $('#'+tabName+'-tab').show();
+      map.clearMarkers();
+      map.showTabMarkers(tabName);
     } else {
       $('#main-tab-loading').show();
       $.get(myUrl, function(d) {
@@ -180,18 +169,44 @@ $(function() {
         $('#main-tab-container').append(d);
         $('abbr.timeago').timeago();
         cache[tabName] = $(d);
-        map.markers[tabName] = [];
-        cache[tabName].find('a.destination').each(function() {
-          map.markers[tabName].push({lat: $(this).attr('lat'), lng:$(this).attr('lng')});
-        });
-                        
-        console.log(map.markers);
-        map.showDestMarkers(tabName);
+        map.saveMarkers(tabName);
+        map.clearMarkers();
+        map.showTabMarkers(tabName);
       });
     }
-    
-    
   });
   
   $(window).trigger('hashchange');
 });
+
+
+map.saveMarkers = function(tabName) {
+  map.markers[tabName] = [];
+  cache[tabName].find('a.destination').each(function() {
+    var markerLatLng = new google.maps.LatLng($(this).attr('lat'), $(this).attr('lng'));
+    var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+        new google.maps.Size(20, 34),
+        new google.maps.Point(0, 0),
+        new google.maps.Point(10, 34));
+    var shadow = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+        new google.maps.Size(25, 20),
+        new google.maps.Point(40, 14),
+        new google.maps.Point(0, 20));
+    map.markers[tabName].push(new google.maps.Marker({
+      map: map.googleMap,
+      position: markerLatLng,
+      icon: image,
+      shadow: shadow,
+      visible: false
+    }));
+  });
+};
+
+
+map.clearMarkers = function () {
+  $.each(map.markers, function(key, val) {
+    $.each(val, function(i, marker) {
+      marker.setVisible(false);
+    });
+  });
+};

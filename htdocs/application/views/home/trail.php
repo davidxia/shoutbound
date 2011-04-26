@@ -41,7 +41,7 @@
         </div>
         <div>
           <? foreach ($rsvp_awaiting_trip->places as $place):?>
-            <?=$place->name?>
+            <a class="destination" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="#"><?=$place->name?></a>
             <? if ($place->startdate):?>
               <?=date('n/d/y', $place->startdate)?>
             <? else:?>
