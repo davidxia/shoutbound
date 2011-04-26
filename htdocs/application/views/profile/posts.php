@@ -1,4 +1,7 @@
 <div id="posts-tab" class="main-tab-content">
+  <? if ( ! $profile->posts):?>
+    <?=$profile->name?> hasn't posted anything yet.
+  <? endif;?>
   <? foreach ($profile->posts as $post):?>
     <div class="postitem">
       <div class="postcontent">

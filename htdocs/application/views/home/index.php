@@ -111,12 +111,12 @@ $this->load->view('core_header', $header_args);
                     <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" class="tooltip" height="50" width="50" alt="<?=$news_feed_item->user->name?>"/>
                   </a>
                   <div style="display:table-cell; line-height:18px;">
-                    <?=$news_feed_item->user->name?> wrote <span style="font-weight:bold;"><?=$news_feed_item->content?></span>
-                    <br/>
-                    on 
+                    <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>"><?=$news_feed_item->user->name?></a> posted on 
                     <? foreach($news_feed_item->trips as $trip):?>
                       <a href="<?=site_url('trips/'.($trip->id))?>"><?=$trip->name?></a>
                     <? endforeach;?>
+                    <br/>
+                    <span><?=$news_feed_item->content?></span>
                     <br/>
                     <abbr class="timeago" title="<?=$news_feed_item->created?>" style="font-size:10px;"><?=$news_feed_item->created?></abbr>
                   </div>

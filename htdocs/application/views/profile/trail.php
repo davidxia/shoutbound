@@ -1,4 +1,7 @@
 <div id="trail-tab" class="main-tab-content">
+  <? if ( ! $profile->rsvp_yes_trips):?>
+    <?=$profile->name?> doesn't have any trips yet. <a href="#">Suggest some</a>.
+  <? endif;?>
   <? foreach ($profile->rsvp_yes_trips as $trip):?>
     <div class="trip">
       <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>

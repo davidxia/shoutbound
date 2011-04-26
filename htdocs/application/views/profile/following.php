@@ -1,4 +1,7 @@
 <div id="following-tab" class="main-tab-content">
+  <? if ( ! $profile->following):?>
+    <?=$profile->name?> isn't following anyone yet.
+  <? endif;?>
   <? foreach ($profile->following as $following):?>
   <div class="following">
     <a href="<?=site_url('profile/'.$following->id)?>"><img src="<?=static_sub('profile_pics/'.$following->profile_pic)?>" width="50" height="50"/></a>
