@@ -1,6 +1,7 @@
 var map = {};
 
 map.googleMap;
+map.markers = {};
 
 $(function() {
   var script = document.createElement('script');
@@ -32,36 +33,29 @@ map.loadGoogleMap = function() {
 
 
 map.showDestMarkers = function(tab) {
-  var destinations = $('#'+tab+'-tab').find('a.destination');
-  console.log(tab);
-  console.log(destinations);
-
-  if (destinations.length > 0) {  
-    destinations.each(function() {
-      //map.showDestMarkers($(this).attr('lat'), $(this).attr('lng'));
-      var markerLatLng = new google.maps.LatLng($(this).attr('lat'), $(this).attr('lng'));
-      var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
-          new google.maps.Size(20, 34),
-          new google.maps.Point(0, 0),
-          new google.maps.Point(10, 34));
-      var shadow = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
-          new google.maps.Size(25, 20),
-          new google.maps.Point(40, 14),
-          new google.maps.Point(0, 20));
-      var marker = new google.maps.Marker({
-        map: map.googleMap,
-        position: markerLatLng,
-        icon: image,
-        shadow: shadow
-      });
-      
-      var bounds = map.googleMap.getBounds();
-      if (!bounds.contains(markerLatLng)) {
-        bounds.extend(markerLatLng);
-        map.googleMap.fitBounds(bounds);
-      }
+  $.each(map.markers[tab], function() {
+    var markerLatLng = new google.maps.LatLng($(this).attr('lat'), $(this).attr('lng'));
+    var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+        new google.maps.Size(20, 34),
+        new google.maps.Point(0, 0),
+        new google.maps.Point(10, 34));
+    var shadow = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+        new google.maps.Size(25, 20),
+        new google.maps.Point(40, 14),
+        new google.maps.Point(0, 20));
+    var marker = new google.maps.Marker({
+      map: map.googleMap,
+      position: markerLatLng,
+      icon: image,
+      shadow: shadow
     });
-  }
+    
+    /*var bounds = map.googleMap.getBounds();
+    if (!bounds.contains(markerLatLng)) {
+      bounds.extend(markerLatLng);
+      map.googleMap.fitBounds(bounds);
+    }*/
+  });
 
 };
 
@@ -184,10 +178,17 @@ $(function() {
         $('#main-tab-container').append(d);
         $('abbr.timeago').timeago();
         cache[tabName] = $(d);
+        map.markers[tabName] = [];
+        cache[tabName].find('a.destination').each(function() {
+          map.markers[tabName].push({lat: $(this).attr('lat'), lng:$(this).attr('lng')});
+        });
+                        
+        console.log(map.markers);
+        map.showDestMarkers(tabName);
       });
     }
     
-    map.showDestMarkers(tabName);
+    
   });
   
   $(window).trigger('hashchange');
