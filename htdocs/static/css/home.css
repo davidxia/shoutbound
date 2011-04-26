@@ -126,14 +126,6 @@ ul.stats-list li a{
   font-weight:normal;
 }
 
-#map-shell{
-  position:relative;
-  top:46px;
-  padding:5px;
-  border:1px solid #CACACA;
-}
-
-
 /*MULTISELECT*/
 .ui-multiselect { padding:2px 0 2px 4px; text-align:left }
 .ui-multiselect span.ui-icon { float:right }

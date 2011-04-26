@@ -177,9 +177,6 @@ label.error {
   font-size: 13px;
 }
 
-#map-canvas{
-  height:330px;
-}
 
 /* buttons
 ------------------------------------ */
@@ -252,6 +249,20 @@ label.error {
 
 #main-content-container{
   padding:10px 0px 5px 0px;
+}
+
+
+/*map*/
+
+#map-shell{
+  margin-top:46px;
+  width:330px;
+  padding:5px;
+  border:1px solid #CACACA;
+}
+
+#map-canvas{
+  height:330px;
 }
 
 .map-fixed{

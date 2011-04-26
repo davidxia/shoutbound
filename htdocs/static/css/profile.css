@@ -167,12 +167,3 @@ ul.stats-list li a{
 	cursor:default;
 	color:#333;
 }
-
-
-#map-shell{
-  position:relative;
-  top:46px;
-  padding:5px;
-  border:1px solid #CACACA;
-}
-
