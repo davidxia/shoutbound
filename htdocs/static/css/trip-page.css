@@ -94,6 +94,22 @@ textarea#wallitem-input{
   display:block;
 }
 
+#trip_goers{
+  margin:5px 0px 5px 0px;
+  padding: 5px 0px 5px 0px;
+  border-top:1px solid #EDEDED;
+  border-bottom:1px solid #EDEDED;
+}
+
+.tab-container{
+ padding:10px 20px 20px 20px;
+ border-left:1px solid #CACACA;
+ border-bottom:1px solid #CACACA;
+ border-right:1px solid #CACACA;
+ min-height:600px; 
+ clear:both;
+}
+
 /*Follow and Stats*/
 #follow-and-stats-container{
   width:340px;
@@ -244,19 +260,12 @@ textarea#wallitem-input{
 
 #wallitem-input-container{
   padding:10px 5px 5px 5px;
-  border-top:1px solid #EAEAEA;
   position:relative;
 }
 
 .wallitem .avatar{
   float:left;
   margin:0px 10px 0px 0px;
-}
-
-.avatar{
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px
 }
 
 .remove-wallitem {

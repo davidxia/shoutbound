@@ -47,14 +47,7 @@ $this->load->view('core_header', $header_args);
     			<div id="trip_description"><?=$trip->description?></div>
     			
     			<div id="trip_goers"><!--TRIP GOERS-->  
-	         <div id="num_trip_goers">          			              		
-	              <? $num_trip_goers = count($trip->goers); if ($num_trip_goers == 1):?>
-	              <span id="num"><?=$num_trip_goers?></span> person is going on this trip.
-	              <? else:?>              		
-	              <span id="num"><?=$num_trip_goers?></span> people are going on this trip.
-	              <? endif;?>           
-	          	</div>  
-        	        		          			                     
+    			        	        		          			                     
 	            <? foreach ($trip->goers as $trip_goer):?>
 	            	<div class="trip_goer" uid="<?=$trip_goer->id?>">
 	                <a href="<?=site_url('profile/'.$trip_goer->id)?>">
@@ -65,12 +58,11 @@ $this->load->view('core_header', $header_args);
 		          
 		          <div style="clear:both;"></div>
 		          
-		          <div>This trip was created by <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a></div>	       
+		          <!--<div>This trip was created by <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a></div>-->	       
   					</div><!--TRIP GOERS END-->
-    				
-         	
+    				         	
             <? foreach ($trip->places as $destination):?>
-              <div class="destination-dates">
+              <span class="destination-dates">
   	            <a class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="#"><?=$destination->name?></a>
   		            <? if ($destination->startdate AND $destination->enddate):?>
   		              <?=date('n/d/y', $destination->startdate)?> to <?=date('n/d/y', $destination->enddate)?>
@@ -81,25 +73,22 @@ $this->load->view('core_header', $header_args);
   		            <? else:?>
   		              No dates set
   		            <? endif;?>
-  		        </div>
+  		        </span>
 	          <? endforeach;?>
-	     			     			                          																							
-        	
-            <? foreach ($trip->followers as $trip_follower):?>
-            	<div class="trip_follower" uid="<?=$trip_follower->id?>">
-                <a href="<?=site_url('profile/'.$trip_follower->id)?>">
-                  <img src="<?=static_sub('profile_pics/'.$trip_follower->profile_pic)?>" class="avatar" alt="<?=$trip_follower->name?>" height="38" width="38"/>
-                </a>
-              </div>
-            <? endforeach;?>
-            <? if ( ! $trip->followers):?>
-              No followers...yet
-            <? endif;?>
-        </div>
+	          
+	         </div>
         
       </div><!--TOP BAR END-->
       
       <div id="follow-and-stats-container"><!--FOLLOW BUTTON + STATS-->     
+      
+      <div id="num_trip_goers">          			              		
+	              <? $num_trip_goers = count($trip->goers); if ($num_trip_goers == 1):?>
+	              <span id="num"><?=$num_trip_goers?></span> person is going on this trip.
+	              <? else:?>              		
+	              <span id="num"><?=$num_trip_goers?></span> people are going on this trip.
+	              <? endif;?>           
+	          	</div>
         
         <? if ( ! $user_role):?>
           <? if ($user_rsvp == 0):?>
@@ -142,8 +131,8 @@ $this->load->view('core_header', $header_args);
       <div id="main-content-container">
       
         <ul id="main-tabs">
-          <li><a href="#wall">Wall</a></li>
-          <li><a href="#trail">Tab item</a></li>
+          <li><a href="#wall">Posts</a></li>
+          <li><a href="#followers">Followers</a></li>
         </ul>
         
         <div style="clear:both"></div>
@@ -232,9 +221,8 @@ $this->load->view('core_header', $header_args);
       <!-- MAP -->
       <div id="map-container">
         <div id="map-shell">
-            <div id="map-canvas"></div>
-          </div>
-      </div>
+          <div id="map-canvas"></div>
+        </div>
       </div><!--MAP ENDS-->
       
     </div><!-- RIGHT COLUMN ENDS -->
