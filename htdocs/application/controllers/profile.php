@@ -328,6 +328,7 @@ class Profile extends CI_Controller
         }
         
         $this->user->get_current_place();
+        $this->user->get_places();
         $view_data = array(
             'user' => $this->user->stored,
         );

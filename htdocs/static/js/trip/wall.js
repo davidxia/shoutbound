@@ -49,7 +49,6 @@ var wall = {};
 
 wall.scrollElem;
 
-// convert unix timestamps to time ago
 $(function() {
   $('abbr.timeago').timeago();
 });
