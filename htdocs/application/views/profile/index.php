@@ -36,7 +36,7 @@ $this->load->view('core_header', $header_args);
           <div id="bio"><?=$profile->bio?></div>
           <div id="personal-url"><a href="<?=$profile->url?>" target="_blank"><?=$profile->url?></a></div>
           <? if ($user AND $is_self):?>
-            <a href="<?=site_url('profile/edit')?>">edit profile</a>
+            <a href="<?=site_url('settings/profile')?>">edit profile</a>
           <? endif;?>
         </div>
         
