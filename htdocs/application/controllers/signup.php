@@ -27,6 +27,8 @@ class Signup extends CI_Controller
 		    $u->name = $this->input->post('name');
 		    $u->email = $this->input->post('email');
 		    $u->password = md5('davidxia'.$this->input->post('password').'isgodamongmen');
+		    $n = mt_rand(1, 8);
+		    $u->profile_pic = 'default_avatar'.$n.'.png';
 		    $u->created = time()-72;
 		    		    
         if ($u->save())
