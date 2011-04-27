@@ -1,4 +1,4 @@
-.settings-item, #save-settings-container{
+.settings-item{
   margin:10px 0px 15px 0px;
 }
 
@@ -12,9 +12,23 @@
   padding:3px 0px 3px 8px;
 }
 
+#e-mail-notification-copy{
+  float:left;
+}
+
+.notification-settings-item{
+  margin-left:120px;
+}
+
+#save-settings-container{
+  margin:15px 0px 15px 0px;
+  padding:10px 8px;
+  background-color:#EAEAEA;
+}
+
 .save-settings-button{
   color:white;
-  width:100px;
+  width:140px;
   height:35px;
   text-align:center;
   line-height:35px;

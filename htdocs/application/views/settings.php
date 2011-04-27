@@ -47,44 +47,43 @@ $this->load->view('core_header', $header_args);
           <form action="">
             <fieldset>
               
-              E-mail me when:
+              <div id="e-mail-notification-copy">E-mail me when:</div>
               
               <div class="notification-settings-item">
-                <label for="trip-invite">I am invited on a trip</label>
-                <input type="checkbox" id="trip-invite" name="trip-invite" 
-                  <? if ($settings->trip_invite): ?>checked<? endif;?>
-                />
-              </div>
-              
-              <div class="notification-settings-item">              
-                <label for="trip-post">Someone posts to one of my trips</label>
-                <input type="checkbox" id="trip-post" name="trip-post" 
-                  <? if ($settings->trip_post): ?>checked<? endif;?>
-                />
-              </div>
-              
-              <div class="notification-settings-item">
-                <label for="post-reply">Someone replies to a post I made</label>
-                <input type="checkbox" id="post-reply" name="post-reply" 
-                  <? if ($settings->post_reply): ?>checked<? endif;?>
-                />
-              </div>
-              
-              <div class="notification-settings-item">
-                <label for="post-reply">Someone starts following me</label>
                 <input type="checkbox" id="#" name="#" 
                   
                 /><!--DAVID NEEDED-->
+                <label for="post-reply">Someone starts following me</label>
               </div>
 
               <div class="notification-settings-item">
-                <label for="post-reply">Someone responds to my invitation to join one of my trips </label>
+                <input type="checkbox" id="trip-post" name="trip-post" 
+                  <? if ($settings->trip_post): ?>checked<? endif;?>
+                />              
+                <label for="trip-post">Someone posts something on one of my trips</label>
+              </div>
+
+              <div class="notification-settings-item">
+                <input type="checkbox" id="post-reply" name="post-reply" 
+                  <? if ($settings->post_reply): ?>checked<? endif;?>
+                />
+                <label for="post-reply">Someone comments on a post I made</label>
+              </div>
+              
+              <div class="notification-settings-item">                
+                <input type="checkbox" id="trip-invite" name="trip-invite" 
+                  <? if ($settings->trip_invite): ?>checked<? endif;?>
+                />
+                <label for="trip-invite">I am invited to join a trip</label>
+              </div>
+              
+              <div class="notification-settings-item">                
                 <input type="checkbox" id="post-reply" name="post-reply" 
                   
                 /><!--DAVID NEEDED-->
+                <label for="post-reply">Someone responds to my invitation to join one of my trips</label>
               </div>              
-              
-              
+            
             </fieldset>
                       
           </form>          

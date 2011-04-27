@@ -133,12 +133,13 @@ ul.stats-list li a{
 	margin-bottom: -1px; /*--Pull the list item down 1px--*/
 	overflow: hidden;
 	position: relative;
+	width:119px;
+	text-align:center;
 }
 
 #main-tabs li a{
   text-decoration: none;
 	display: block;
-	padding: 0 30px;
 	/*border: 1px solid white;*/
 	outline: none;
 }
@@ -158,6 +159,7 @@ ul.stats-list li a{
 	border-left:1px solid #CACACA;
 	border-right:1px solid #CACACA;
 	border-top:1px solid #CACACA;
+	width:122px;
 }
 
 #main-tabs li.active a{
