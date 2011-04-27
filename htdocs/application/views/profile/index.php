@@ -72,8 +72,8 @@ $this->load->view('core_header', $header_args);
     <!-- LEFT COLUMN -->
     <div id="col-left">    
       
-      <!--PROFILE MAIN CONTENT-->      
-      <div id="main-content-container">
+      <!--LEFT CONTENT-->      
+      <div id="left-content-container">
       
         <ul id="main-tabs">
           <li><a href="#activity">Activity</a></li>
@@ -90,7 +90,9 @@ $this->load->view('core_header', $header_args);
             <? foreach ($profile->activities as $activity):?>
               <div>
                 <?=$profile->name?>
-              <? if ($activity->activity_type==2):?>
+              <? if ($activity->activity_type==1):?>
+                created a new trip called <a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a>
+              <? elseif ($activity->activity_type==2):?>
                 posted on <a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a><br/>
                 <?=$activity->post->content?>
               <? elseif ($activity->activity_type==10):?>
@@ -104,7 +106,7 @@ $this->load->view('core_header', $header_args);
         </div><!--TAB CONTAINER END-->
               
       
-      </div><!--PROFILE MAIN CONTENT END-->
+      </div><!--LEFT CONTENT END-->
       
       
 

@@ -8,10 +8,10 @@ $(function() {
     'queueID'        : 'custom-queue',
     'removeCompleted': false,
     'auto'           : true,
-    'sizeLimit'      : 32000000,
+    'sizeLimit'      : 716800,
     'fileExt'        : '*.jpg;*.gif;*.png',
     'fileDesc'       : 'Image Files',
-    'hideButton'     : true
+    'buttonText'     : 'Change picture',
   });
 });
 

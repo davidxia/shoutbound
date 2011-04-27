@@ -3,27 +3,43 @@
 }
 
 .settings-item-header{
-  padding:3px 0px 3px 8px;
-  background-color:#EAEAEA;
+   /*background-color:#EAEAEA;*/
   font-weight:bold;
 }
 
+.settings-item-name{
+  float:left;
+  text-align:right;
+  width:120px;
+}
+
 .settings-item-content{
-  padding:3px 0px 3px 8px;
+  margin-left:135px;
 }
 
 #e-mail-notification-copy{
   float:left;
 }
 
-.notification-settings-item{
-  margin-left:120px;
+#save-settings-container{
+  margin-top:15px;
+  padding:10px 8px 10px 135px;
+  background-color:#EDEDED;
 }
 
-#save-settings-container{
-  margin:15px 0px 15px 0px;
-  padding:10px 8px;
-  background-color:#EAEAEA;
+.tab-container{
+  min-height:0px;
+}
+
+#top-bar{
+  height:50px;
+  width:600px;
+  border-bottom:2px solid #777;
+  padding-bottom:10px;
+  float:left;
+  font-size:30px;
+  line-height:38px;
+  font-weight:bold;
 }
 
 .save-settings-button{

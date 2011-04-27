@@ -1,5 +1,5 @@
 .edit-item{
-  margin:8px 0px 8px 0px;
+  margin:12px 0px 20px 0px;
 }
 
 .edit-item-header{
@@ -19,21 +19,22 @@
 }
 
 input, textarea{
-  border:1px solid #EAEAEA;
+  border:1px solid #DADADA;
 }
 
-.edit-item-name{
+.settings-item-name{
   float:left;
   text-align:right;
-  width:150px;
+  width:140px;
   line-height:29px;
 }
 
 .profile-pic-container{
   padding:5px;
-  border:1px solid #EAEAEA;
+  border:1px solid #DADADA;
   height:125px;
   width:125px;
+  float:left;
 }
 
 .edit-button{
@@ -68,4 +69,20 @@ input, textarea{
   background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
   background: -moz-linear-gradient(top,  #0078a5,  #00adee);
   filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
+}
+
+.edit-profile-pic{
+  margin-left:150px;
+}
+
+.edit-subtext{
+  color:#888;
+  font-size:12px;
+}
+
+#change-photo-button{
+  height:25px;
+  width:100px;
+  line-height:25px;
+  margin-bottom:5px;
 }
