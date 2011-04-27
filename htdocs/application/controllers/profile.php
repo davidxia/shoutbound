@@ -338,7 +338,7 @@ class Profile extends CI_Controller
     }
     
     
-    public function ajax_save_user_places()
+    public function save_user_places()
     {
         $post = $this->input->post('places_dates');
         $post = $post['places_dates'];
@@ -357,6 +357,30 @@ class Profile extends CI_Controller
                 $this->user->set_join_field($p, 'timestamp', strtotime($date['day'].'-'.$date['month'].'-'.$date['year']));
             }
         }
+    }
+    
+    
+    public function ajax_save_user_places()
+    {
+        $places = $this->input->post('places');
+        //$places = json_decode($places);        
+              
+        $p = new Place();
+        foreach ($places as $place)
+        {
+            //$p->clear();
+            $p->get_by_id($place['placeId']);
+            $this->user->save($p);
+            
+            // gets each place's date and stores as unix time
+            $date = date_parse_from_format('n/j/Y', $place['date']);
+            if (checkdate($date['month'], $date['day'], $date['year']))
+            {
+                $this->user->set_join_field($p, 'timestamp', strtotime($date['day'].'-'.$date['month'].'-'.$date['year']));
+            }
+        }
+        json_success(array('places' => $places));
+        //print_r($places);
     }
     
     

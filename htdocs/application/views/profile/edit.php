@@ -45,11 +45,11 @@ $this->load->view('core_header', $header_args);
     </form>
     
     <h2>Where I've been</h2>
-    <form id="been-to-form" action="ajax_save_user_places" method="post">
+    <form id="been-to-form">
       <fieldset>
         <div style="display:inline-block; margin-bottom:5px;">Places</div>
         <div style="display:inline-block; margin-left:230px; margin-bottom:5px;">Dates (optional)</div>
-        <div id="places_dates" style="position:relative; margin-bottom:10px;">
+        <div class="places_dates" style="position:relative; margin-bottom:10px;">
           <a id="add-place" href="#" style="position:absolute; top:15px; left:-15px; font-size:13px;">[+]</a>
           <a id="subtract-place" href="" style="position:absolute; top:-2px; left:-15px;">[-]</a>
           <div class="field place" style="margin-bottom:10px; float:left; position:relative; width:312px;">
@@ -57,8 +57,9 @@ $this->load->view('core_header', $header_args);
               <label for="place"></label>
               <span class="error-message" style="float:right;"></span>
             </span>
-            <input type="text" id="place" class="place-input" name="place" style="width:300px;" autocomplete=off/>
-            <input type="hidden" class="place_id" name="place_id"/>
+            <input id="place" class="place-input" name="place" type="text" style="width:300px;" autocomplete="off"/>
+            <img class="loading-places" src="<?=site_url('images/ajax-loader.gif')?>" width="16" height="16" style="display:none; position:absolute; right:10px; top:7px;"/>
+            <input id="place_id" class="place_id" name="place_id"type="hidden"/>
           </div>
           
           <div class="field dates" style="width:251px; margin-left:325px;">
@@ -97,6 +98,17 @@ $this->load->view('core_header', $header_args);
 <script type="text/javascript">
 /*$(function() {
   $('abbr.timeago').timeago();
+});*/
+/*$(function() {
+  $('.loading-places')
+    .hide()
+    .ajaxStart(function() {
+      $(this).show();
+    })
+    .ajaxStop(function() {
+      $(this).hide();
+    })
+  ;
 });*/
 </script>
 </body>
