@@ -33,7 +33,7 @@ $this->load->view('core_header', $header_args);
     <form id="edit-profile" action="">
       <fieldset>
         <label for="location">Current location</label>
-        <input type="text" id="location" value="<?=$user->place->name?>"/>
+        <input type="text" id="location" value="<? if (isset($user->place)) echo $user->place->name?>"/>
         <br/>
         <label for="bio" style="vertical-align:top;">Bio</label>
         <textarea id="bio" style="width:350px; height:100px;"><?=$user->bio?></textarea>
