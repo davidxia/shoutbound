@@ -29,15 +29,18 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('wrapper_content')?>
     
     <h2>Edit profile</h2>
-    <form id="edit-profile">
+    <form id="edit-profile" action="">
       <fieldset>
+        <label for="location">Current location</label>
+        <input type="text" id="location" value="<?=$user->place->name?>"/>
+        <br/>
         <label for="bio" style="vertical-align:top;">Bio</label>
         <textarea id="bio" style="width:350px; height:100px;"><?=$user->bio?></textarea>
         <br/>
         <label for="url">Website</label>
         <input type="text" id="url" value="<?=$user->url?>"/>
       </fieldset>
-      <a href="#" id="save-profile">Save</a>
+      <input type="submit" id="save-profile" value="Save"/>
     </form>
     
     <h2>Where I've been</h2>
@@ -64,7 +67,7 @@ $this->load->view('core_header', $header_args);
             <label for="date">date</label> <input id="date" class="date" name="date" type="text" size="10"/> 
           </div>
         </div>
-        <a id="save-been-to" href="#">Save</a>
+        <input type="submit" id="save-been-to" value="Save"/>
         <!--<input type="submit" value="submit"/>-->
       </fieldset>
     </form>

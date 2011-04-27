@@ -263,6 +263,7 @@ class Profile extends CI_Controller
         );
 
         $this->load->view('profile/following', $view_data);
+        //print_r($profile);
     }
     
     
@@ -326,11 +327,13 @@ class Profile extends CI_Controller
             return;
         }
         
+        $this->user->get_place();
         $view_data = array(
-            'user' => $this->user,
+            'user' => $this->user->stored,
         );
  			               
         $this->load->view('profile/edit', $view_data);
+        //print_r($this->user->stored);
     }
     
     

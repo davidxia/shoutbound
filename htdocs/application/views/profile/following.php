@@ -2,12 +2,17 @@
   <? if ( ! $profile->following):?>
     <?=$profile->name?> isn't following anyone yet.
   <? endif;?>
+  
   <? foreach ($profile->following as $following):?>
   <div class="following">
     <a href="<?=site_url('profile/'.$following->id)?>"><img src="<?=static_sub('profile_pics/'.$following->profile_pic)?>" width="50" height="50"/></a>
     <a href="<?=site_url('profile/'.$following->id)?>"><?=$following->name?></a>
+    <? if (isset($following->place)):?>
+      current location: <a class="place" lat="<?=$following->place->lat?>" lng="<?=$following->place->lng?>" href="#"><?=$following->place->name?></a>
+    <? endif;?>
   </div>
   <? endforeach;?>
+  
   <? foreach ($profile->following_trips as $following_trip):?>
   <div class="following-trip">
     <a href="<?=site_url('trips/'.$following_trip->id)?>"><?=$following_trip->name?></a>

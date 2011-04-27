@@ -125,6 +125,26 @@ class User extends DataMapper
     }
     
     
+    public function get_current_place()
+    {
+        $this->place->include_join_fields()->where('timestamp=(SELECT MAX(timestamp) FROM places_users)')->get();
+        if ($this->place->id)
+        {
+            $this->stored->place = $this->place->stored;
+        }
+    }
+    
+    
+    public function get_places()
+    {
+        $this->stored->places = array();
+        foreach ($this->place->get_iterated() as $place)
+        {
+            $this->stored->places[] = $place->stored;
+        }
+    }
+    
+    
     public function get_trips()
     {
         $this->trip->where('active', 1)->where_in_join_field('user', 'role', array(5,10))->get();
@@ -160,23 +180,7 @@ class User extends DataMapper
             $this->stored->rsvp_awaiting_trips[] = $rsvp_awaiting_trip->stored;
         }
     }
-    
-    
-    public function get_num_followers()
-    {
-        $this->stored->num_followers = $this->user->count();
-    }
-    
-    
-    public function get_followers()
-    {
-        $this->stored->followers = array();
-        foreach ($this->user->get() as $follower)
-        {
-            $this->stored->followers[] = $follower->stored;
-        }
-    }
-    
+        
     
     public function get_num_following()
     {
@@ -189,6 +193,7 @@ class User extends DataMapper
         $this->stored->following = array();
         foreach ($this->related_user->get() as $following)
         {
+            $following->get_current_place();
             $this->stored->following[] = $following->stored;
         }
     }
@@ -208,6 +213,23 @@ class User extends DataMapper
             $following_trip->get_goers();
             $following_trip->get_places();
             $this->stored->following_trips[] = $following_trip->stored;
+        }
+    }
+
+
+    public function get_num_followers()
+    {
+        $this->stored->num_followers = $this->user->count();
+    }
+    
+    
+    public function get_followers()
+    {
+        $this->stored->followers = array();
+        foreach ($this->user->get() as $follower)
+        {
+            $follower->get_current_place();
+            $this->stored->followers[] = $follower->stored;
         }
     }
 
