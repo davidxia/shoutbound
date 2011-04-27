@@ -46,9 +46,9 @@ class Wallitem extends DataMapper
         ),
     );
 
-    public function __construct()
+    function __construct($id = NULL)
     {
-        parent::__construct();
+        parent::__construct($id);
     }
     
     

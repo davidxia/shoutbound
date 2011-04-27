@@ -87,7 +87,19 @@ $this->load->view('core_header', $header_args);
         
         <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
           <div id="activity-tab" class="main-tab-content main-tab-default">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <? foreach ($profile->activities as $activity):?>
+              <div>
+                <?=$profile->name?>
+              <? if ($activity->activity_type==2):?>
+                posted on <a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a><br/>
+                <?=$activity->post->content?>
+              <? elseif ($activity->activity_type==10):?>
+                changed his current location to <a href="#"><?=$activity->place->name?></a>
+              <? endif;?>
+              <br/>
+              <abbr class="timeago" title="<?=$activity->timestamp?>"><?=$activity->timestamp?></abbr>
+              </div>
+            <? endforeach;?>
           </div>          
         </div><!--TAB CONTAINER END-->
               

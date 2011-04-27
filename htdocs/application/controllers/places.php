@@ -44,6 +44,7 @@ class Places extends CI_Controller
         }
     }
     
+    
     public function mytest()
     {
         $this->load->library('Mc');
@@ -57,6 +58,12 @@ class Places extends CI_Controller
         $val = $this->mc->get($key);
         
         print_r($val);
+    }
+    
+    
+    public function index()
+    {
+        $this->load->view('place');
     }
 }
 

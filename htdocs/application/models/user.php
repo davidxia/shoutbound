@@ -53,9 +53,9 @@ class User extends DataMapper
         ),
     );
 
-    function __construct()
+    function __construct($id = NULL)
     {
-        parent::__construct();
+        parent::__construct($id);
     }
     
 	
@@ -344,8 +344,27 @@ class User extends DataMapper
         $this->trip->include_join_fields()->get_by_id($trip_id);
         return $this->trip->join_rsvp;
     }
-        
     
+    
+    public function get_recent_activities()
+    {
+        $this->load->helper('activity');
+
+        $this->stored->activities = array();
+        $a = new Activitie();
+        $a->where('user_id', $this->id)->where('timestamp >', 1303839990)->order_by('timestamp', 'desc')->get_iterated();
+        
+        foreach ($a as $activity)
+        {
+            get_source($activity);
+            get_parent($activity);
+            $this->stored->activities[] = $activity->stored;
+        }
+        
+        
+    }
+        
+    /*
     public function get_destinations()
     {
         $this->stored->destinations = array();
@@ -354,6 +373,7 @@ class User extends DataMapper
             $this->stored->destinations[] = $destination->stored;
         }
     }
+    */
 }
 
 /* End of file user.php */

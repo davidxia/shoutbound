@@ -22,9 +22,9 @@ class Setting extends DataMapper
         ),
     );
 
-    function __construct()
+    function __construct($id = NULL)
     {
-        parent::__construct();
+        parent::__construct($id);
     }
 
 }
