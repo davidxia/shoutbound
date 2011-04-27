@@ -13,73 +13,78 @@ class Settings extends CI_Controller
         if ($uid)
         {
             $u->get_by_id($uid);
-            $this->user = $u->stored;
+            $this->user = $u;
         }
         else
         {
-            redirect('/');
+            custom_404();
+            return;
         }
 		}
     
 
-    function index()
+    public function index()
     {
-        $u = new User();
-        $u->get_by_id($this->user->id);
-        $u->settings->get();
+        $this->user->settings->get();
 
-        $view_data = array(
-            'user' => $this->user,
-            'settings' => $u->settings->stored,
+        $data = array(
+            'user' => $this->user->stored,
+            'settings' => $this->user->settings->stored,
         );
         
-        $this->load->view('settings', $view_data);
+        $this->load->view('settings/index', $data);
     }
     
     
-    function ajax_update_settings()
+    public function profile()
     {
-        $u = new User();
-        $uid = get_cookie('uid');
-        $u->get_by_id($uid);
-        
+        $this->user->get_current_place();
+        $this->user->get_places();
+        $data = array(
+            'user' => $this->user->stored,
+        );
+ 			               
+        $this->load->view('settings/profile', $data);
+    }
+    
+    
+    public function ajax_update_settings()
+    {
         $s = $this->input->post('tripInvite').$this->input->post('tripPost').$this->input->post('postReply');
         
         switch ($s)
         {
             case '111':
-                $u->setting_id = 1;
+                $this->user->setting_id = 1;
                 break;
             case '110':
-                $u->setting_id = 2;
+                $this->user->setting_id = 2;
                 break;
             case '101':
-                $u->setting_id = 3;
+                $this->user->setting_id = 3;
                 break;
             case '100':
-                $u->setting_id = 4;
+                $this->user->setting_id = 4;
                 break;
             case '011':
-                $u->setting_id = 5;
+                $this->user->setting_id = 5;
                 break;
             case '010':
-                $u->setting_id = 6;
+                $this->user->setting_id = 6;
                 break;
             case '001':
-                $u->setting_id = 7;
+                $this->user->setting_id = 7;
                 break;
             case '000':
-                $u->setting_id = 8;
+                $this->user->setting_id = 8;
                 break;
         }
         
-        if ($u->save())
+        if ($this->user->save())
         {
             json_success(array('message' => 'Settings updated'));
         }        
     }
-    
-
 }
 
 
