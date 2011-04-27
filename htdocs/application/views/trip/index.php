@@ -50,7 +50,7 @@ $this->load->view('core_header', $header_args);
 	            <? foreach ($trip->goers as $trip_goer):?>
 	            	<div class="trip_goer" uid="<?=$trip_goer->id?>">
 	                <a href="<?=site_url('profile/'.$trip_goer->id)?>">
-	                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="avatar" alt="<?=$trip_goer->name?>" height="38" width="38"/>
+	                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="38" width="38"/>
 	                </a>
 	              </div>
 	            <? endforeach;?>
@@ -148,7 +148,7 @@ $this->load->view('core_header', $header_args);
                 
                 <div class="actionbar">
                   <a class="wallitem-profile-pic" href="<?=site_url('profile/'.$wallitem->user_id)?>">
-                    <img src="<?=static_sub('profile_pics/'.$wallitem->user->profile_pic)?>" class="avatar" height="22" width="22" alt="<?=$trip_goer->name?>"/>
+                    <img src="<?=static_sub('profile_pics/'.$wallitem->user->profile_pic)?>" class="tooltip" height="22" width="22" alt="<?=$trip_goer->name?>"/>
                   </a>
                   
                   <a href="<?=site_url('profile/'.$wallitem->user_id)?>" class="author">
@@ -249,31 +249,33 @@ $this->load->view('core_header', $header_args);
   
   $(function() {
     var delay;
-    $('.avatar').mouseover(function() {
-      var img = $(this);
-      
-      delay = setTimeout(function() {
-        var title = img.attr('alt');
-
-        // element location and dimensions
-        var element_offset = img.offset(),
-            element_top = element_offset.top,
-            element_left = element_offset.left,
-            element_height = img.height(),
-            element_width = img.width();
+    $('.tooltip').live('mouseover mouseout', function(e) {
+      if (e.type == 'mouseover') {
+        var img = $(this);
         
-        var tooltip = $('<div class="tooltip_container"><div class="tooltip_interior">'+title+'</div></div>');
-        $('body').append(tooltip);
+        delay = setTimeout(function() {
+          var title = img.attr('alt');
     
-        // tooltip dimensions
-        var tooltip_height  = tooltip.height();
-        var tooltip_width = tooltip.width();
-        tooltip.css({ top: (element_top + element_height + 3) + 'px' });
-        tooltip.css({ left: (element_left - (tooltip_width / 2) + (element_width / 2)) + 'px' });
-      }, 200);
-    }).mouseout(function() {
-      $('.tooltip_container').remove();
-      clearTimeout(delay);
+          // element location and dimensions
+          var element_offset = img.offset(),
+              element_top = element_offset.top,
+              element_left = element_offset.left,
+              element_height = img.height(),
+              element_width = img.width();
+          
+          var tooltip = $('<div class="tooltip_container"><div class="tooltip_interior">'+title+'</div></div>');
+          $('body').append(tooltip);
+      
+          // tooltip dimensions
+          var tooltip_height  = tooltip.height();
+          var tooltip_width = tooltip.width();
+          tooltip.css({ top: (element_top + element_height + 3) + 'px' });
+          tooltip.css({ left: (element_left - (tooltip_width / 2) + (element_width / 2)) + 'px' });
+        }, 200);
+      } else {
+        $('.tooltip_container').remove();
+        clearTimeout(delay);
+      }
     });
   });
 </script>

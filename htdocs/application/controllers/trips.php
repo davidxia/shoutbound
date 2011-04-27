@@ -128,7 +128,6 @@ class Trips extends CI_Controller
         }
         
         $t->get_creator();
-        $t->get_followers();
         $t->get_goers();
         $t->get_places();
         
@@ -180,6 +179,29 @@ class Trips extends CI_Controller
         
         $this->load->view('trip/index', $view_data);
         //print_r($t->stored);
+    }
+    
+    
+    public function followers($trip_id = FALSE)
+    {
+        if ( ! $trip_id)
+        {
+            redirect('/');
+        }
+        
+        $t = new Trip($trip_id);
+        if ( ! $t->active)
+        {
+            custom_404();
+            return;
+        }
+
+        $t->get_followers();
+        $data = array(
+            'trip' => $t->stored,
+        );
+        
+        $this->load->view('trip/followers', $data);
     }
     
     
