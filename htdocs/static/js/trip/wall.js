@@ -524,7 +524,7 @@ wall.placeAutocomplete = function(query) {
 
 
 $(function() {
-  $('#loading-places')
+  $('.loading-places')
     .hide()
     .ajaxStart(function() {
       $(this).show();
