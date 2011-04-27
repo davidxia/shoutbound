@@ -151,7 +151,7 @@ class Profile extends CI_Controller
         }
 
         $u->get_rsvp_yes_trips();
-        $u->get_destinations();
+        $u->get_places();
         $view_data = array(
             'user' => $user,
             'profile' => $profile,

@@ -19,11 +19,11 @@
     Places <?=$profile->name?> has been:<br/>
     <? if ($user AND $is_self):?>
       <a href="<?=site_url('profile/edit')?>">Show off</a> where you've been.
-    <? elseif ( ! $profile->destinations):?>
+    <? elseif ( ! $profile->places):?>
       <?=$profile->name?> hasn't listed any places yet.
     <? endif;?>
-    <? foreach ($profile->destinations as $destination):?>
-      <span class="place" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>"><?=$destination->name?></span>
+    <? foreach ($profile->places as $place):?>
+      <span class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>"><?=$place->name?></span>
     <? endforeach;?>
   </div>
 </div>
