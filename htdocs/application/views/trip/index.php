@@ -2,10 +2,11 @@
 $header_args = array(
     'title' => $trip->name.' | Shoutbound',
     'css_paths'=>array(
-        'css/jquery.countdown.css',
+        //'css/jquery.countdown.css',
         'css/trip-page.css',
     ),
     'js_paths'=>array(
+        'js/jquery/jquery.ba-bbq.min.js',
         'js/user/loginSignup.js',
         'js/trip/map.js',
         'js/trip/wall.js',
@@ -13,7 +14,7 @@ $header_args = array(
         'js/jquery/popup.js',
         'js/jquery/jquery.color.js',
         'js/jquery/timeago.js',
-        'js/jquery/jquery.countdown.min.js',    
+        //'js/jquery/jquery.countdown.min.js',    
         'js/jquery/validate.min.js',
     )
 );
@@ -129,7 +130,7 @@ $this->load->view('core_header', $header_args);
       <div id="main-content-container">
       
         <ul id="main-tabs">
-          <li><a href="#wall">Posts</a></li>
+          <li><a href="#posts">Posts</a></li>
           <li><a href="#followers">Followers</a></li>
         </ul>
         
@@ -138,7 +139,7 @@ $this->load->view('core_header', $header_args);
         <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
         
           <!-- WALL TAB -->
-          <div id="wall-tab" class="main-tab-content main-tab-default">
+          <div id="posts-tab" class="main-tab-content main-tab-default">
             <? foreach ($wallitems as $wallitem):?>
               <div class="wallitem" id="wallitem-<?=$wallitem->id?>">
                 <div class="postcontent">
