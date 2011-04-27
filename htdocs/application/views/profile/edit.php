@@ -7,6 +7,7 @@ $header_args = array(
     ),
     'js_paths'=>array(
         'js/profile/edit.js',
+        'js/jquery/timeago.js',
         'js/jquery/jquery-dynamic-form.js',
         'js/jquery/validate.min.js',
         'js/uploadify/swfobject.js',
@@ -68,9 +69,16 @@ $this->load->view('core_header', $header_args);
           </div>
         </div>
         <input type="submit" id="save-been-to" value="Save"/>
-        <!--<input type="submit" value="submit"/>-->
       </fieldset>
     </form>
+    
+    <div>
+      <? foreach($user->places as $place):?>
+      <div>
+        <?=$place->name?> <abbr class="timeago" title="<?=$place->timestamp?>"><?=$place->timestamp?></abbr>
+      </div>
+      <? endforeach;?>
+    </div>
     
     
     <div>
@@ -86,5 +94,10 @@ $this->load->view('core_header', $header_args);
 
   <? $this->load->view('footer')?>
   
+<script type="text/javascript">
+/*$(function() {
+  $('abbr.timeago').timeago();
+});*/
+</script>
 </body>
 </head>

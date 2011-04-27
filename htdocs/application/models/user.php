@@ -138,8 +138,9 @@ class User extends DataMapper
     public function get_places()
     {
         $this->stored->places = array();
-        foreach ($this->place->get_iterated() as $place)
+        foreach ($this->place->include_join_fields()->order_by('timestamp', 'desc')->get_iterated() as $place)
         {
+            $place->stored->timestamp = $place->join_timestamp;
             $this->stored->places[] = $place->stored;
         }
     }
