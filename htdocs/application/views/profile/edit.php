@@ -4,6 +4,7 @@ $header_args = array(
     'css_paths'=>array(
         'css/uploadify.css',
         'css/excite-bike/jquery-ui-1.8.11.custom.css',
+        'css/edit.css',
     ),
     'js_paths'=>array(
         'js/profile/edit.js',
@@ -29,22 +30,60 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
     
-    <h2>Edit profile</h2>
-    <form id="edit-profile" action="">
-      <fieldset>
-        <label for="location">Current location</label>
-        <input type="text" id="location" value="<? if (isset($user->place)) echo $user->place->name?>"/>
-        <br/>
-        <label for="bio" style="vertical-align:top;">Bio</label>
-        <textarea id="bio" style="width:350px; height:100px;"><?=$user->bio?></textarea>
-        <br/>
-        <label for="url">Website</label>
-        <input type="text" id="url" value="<?=$user->url?>"/>
-      </fieldset>
-      <input type="submit" id="save-profile" value="Save"/>
-    </form>
+    <div id="col-left">
+        
+      <div id="edit-profile-pic-container" class="edit-item">
+        <div class="edit-item-header">Edit Profile</div>
+        
+        <div class="edit-item-content">
+        
+          <div id="current-profile-pic" class="profile-pic-container"></div>
+          <div class="edit-profile-pic">          
+            <div><a href="#" id="file_upload" name="file_upload" type="file" class="edit-button">Change picture</a></div>
+            <div id="custom-queue"></div>
+          </div>       
+        </div>
+
+      
+        <div style="clear:both"></div>
+
+        <div class="edit-item-header">Bio</div>
+        <div class="edit-item-content">
+          <fieldset>
+            <textarea id="bio" style="width:350px; height:100px;"><?=$user->bio?></textarea>                        
+          </fieldset> 
+        </div>       
+      </div>
+
+      <div id="edit-web-container" class="edit-item">
+        <div class="edit-item-header">Web</div>
+        <div class="edit-item-content">
+          <fieldset>
+            <input type="text" id="url" style="width:250px; height:25px;" value="<?=$user->url?>"/>                        
+          </fieldset>
+        </div>        
+      </div>          
+                 
+      <div id="edit-location-container" class="edit-item">
+        <div class="edit-item-header">Current Location</div>
+        <div class="edit-item-content">
+          <fieldset>
+            <input type="text" id="location" style="width:250px; height:25px;" value="<? if (isset($user->place)) echo $user->place->name?>"/>                        
+          </fieldset>
+        </div>        
+      </div>      
+                    
+      <div id="save-edits-container">
+        <input type="submit" id="save-profile" value="Save" class="edit-button"/>
+      </div>
+      
+    </div>
     
-    <h2>Where I've been</h2>
+    <div id="col-right">
+       
+    </div>
+  
+    <!--<h2>Where I've been</h2>
     <form id="been-to-form">
       <fieldset>
         <div style="display:inline-block; margin-bottom:5px;">Places</div>
@@ -79,15 +118,10 @@ $this->load->view('core_header', $header_args);
         <?=$place->name?> <abbr class="timeago" title="<?=$place->timestamp?>"><?=$place->timestamp?></abbr>
       </div>
       <? endforeach;?>
-    </div>
+    </div>-->
     
     
-    <div>
-      <span>Change profile picture</span>
-      <div id="status-message">Select an image file on your computer (4MB max):</div>
-      <a href="#" id="file_upload" name="file_upload" type="file">SELECT FILES</a>
-      <div id="custom-queue"></div>
-    </div>
+
 
       
   </div><!-- CONTENT ENDS -->

@@ -10,7 +10,8 @@ $(function() {
     'auto'           : true,
     'sizeLimit'      : 32000000,
     'fileExt'        : '*.jpg;*.gif;*.png',
-    'fileDesc'       : 'Image Files'
+    'fileDesc'       : 'Image Files',
+    'hideButton'     : true
   });
 });
 
