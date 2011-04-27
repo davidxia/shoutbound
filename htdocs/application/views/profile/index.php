@@ -90,7 +90,9 @@ $this->load->view('core_header', $header_args);
             <? foreach ($profile->activities as $activity):?>
               <div>
                 <?=$profile->name?>
-              <? if ($activity->activity_type==2):?>
+              <? if ($activity->activity_type==1):?>
+                created a new trip called <a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a>
+              <? elseif ($activity->activity_type==2):?>
                 posted on <a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a><br/>
                 <?=$activity->post->content?>
               <? elseif ($activity->activity_type==10):?>

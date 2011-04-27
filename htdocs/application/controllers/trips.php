@@ -74,6 +74,14 @@ class Trips extends CI_Controller
                     }
                 }
             }
+            
+            // save record in activities table
+            $a = new Activitie();
+            $a->user_id = $this->user->id;
+            $a->activity_type = 1;
+            $a->source_id = $t->id;
+            $a->timestamp = time()-72;
+            $a->save();
             // send emails to planners
             /*
             $this->load->library('sendgrid_email');

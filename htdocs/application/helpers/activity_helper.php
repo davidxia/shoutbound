@@ -4,6 +4,8 @@ function get_source(&$activity)
 {
     switch ($activity->activity_type) {
         case 1:
+            $t = new Trip($activity->source_id);
+            $activity->stored->trip = $t->stored;
             break;
         case 2:
             $p = new Wallitem($activity->source_id);
