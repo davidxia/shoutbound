@@ -29,7 +29,7 @@ $this->load->view('core_header', $header_args);
       <div id="top-bar"><!--TOP BAR-->
         <div id="profile-pic-container" style="position:relative;">
           <a href="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="125" height="125"/></a>
-          <a href="<?=site_url('profile/edit')?>" id="edit-profile-pic" style="position:absolute; top:0px; left:0px; font-size:12px; background-color:black; color:white; display:none;">change picture</a>
+          <a href="<?=site_url('settings/profile')?>" id="edit-profile-pic" style="position:absolute; top:0px; left:0px; font-size:12px; background-color:black; color:white; display:none;">change picture</a>
         </div>
         <div id="profile-info">
           <div id="profile-name"><?=$profile->name?></div>
@@ -72,8 +72,8 @@ $this->load->view('core_header', $header_args);
     <!-- LEFT COLUMN -->
     <div id="col-left">    
       
-      <!--LEFT CONTENT-->      
-      <div id="left-content-container">
+      <!--PROFILE MAIN CONTENT-->      
+      <div id="main-content-container">
       
         <ul id="main-tabs">
           <li><a href="#activity">Activity</a></li>
@@ -106,7 +106,7 @@ $this->load->view('core_header', $header_args);
         </div><!--TAB CONTAINER END-->
               
       
-      </div><!--LEFT CONTENT END-->
+      </div><!--PROFILE MAIN CONTENT END-->
       
       
 
