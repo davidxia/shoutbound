@@ -19,8 +19,13 @@ $(function() {
   $('#save-profile').click(function() {
     var bio = $('#bio'),
         url = $('#url');
-        
-    $.post(baseUrl+'profile/ajax_save_profile', {bio:bio.val(), url:url.val()},
+    
+    var urlVal = url.val();
+    if (!urlVal.match(/^[a-zA-Z]+:\/\//)) {
+      urlVal = 'http://' + urlVal;
+    }
+
+    $.post(baseUrl+'profile/ajax_save_profile', {bio:bio.val(), url:urlVal},
       function(d) {
         var d = $.parseJSON(d);
         bio.val(d.bio);

@@ -56,6 +56,15 @@
   float:left;
 }
 
+#profile-info{
+  margin-left:137px;
+}
+#profile-name{
+  font-size:30px;
+  font-weight:bold;
+  line-height:38px;
+}
+
 /*Follow and Stats*/
 #follow-and-stats-container{
   width:340px;

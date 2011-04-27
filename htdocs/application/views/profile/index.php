@@ -31,10 +31,11 @@ $this->load->view('core_header', $header_args);
           <a href="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="125" height="125"/></a>
           <a href="<?=site_url('profile/edit')?>" id="edit-profile-pic" style="position:absolute; top:0px; left:0px; font-size:12px; background-color:black; color:white; display:none;">change picture</a>
         </div>
-        <div id="profile-user-info">
-          <h1><?=$profile->name?></h1>
+        <div id="profile-info">
+          <div id="profile-name"><?=$profile->name?></div>
           <div id="bio"><?=$profile->bio?></div>
           <div id="personal-url"><a href="<?=$profile->url?>" target="_blank"><?=$profile->url?></a></div>
+          <a href="<?=site_url('profile/edit')?>">edit profile</a>
         </div>
         
         
