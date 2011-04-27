@@ -27,8 +27,8 @@ $this->load->view('core_header', $header_args);
       <div id="e-mail-settings" class="settings-item">
         <div class="settings-item-header">E-mail</div>
         <div class="settings-item-content">
-          <div id="e-mail-address-settings">e-mail@e-mail.com</div>
-          <div id="e-mail-address-change" class="settings-change">change</div>        
+          <div id="current-e-mail-address">e-mail@e-mail.com</div>
+          <div id="change-e-mail-address" class="settings-change"><a>Change</a></div>        
         </div>
       </div>
            
@@ -36,7 +36,7 @@ $this->load->view('core_header', $header_args);
         <div class="settings-item-header">Password</div>
         <div class="settings-item-content">
           <div id="password-settings">Password forms (Old password, New Password, confirm new password)</div>
-          <div id="change-password-button" class="settings-button">Change password</div>        
+          <div id="change-password" class="settings-change"><a>Change</a></div>        
         </div>
       
       </div>
@@ -46,36 +46,54 @@ $this->load->view('core_header', $header_args);
         <div class="settings-item-content">
           <form action="">
             <fieldset>
+              
               E-mail me when:
-              <br/><br/>
-              <label for="trip-invite">someone invites me on a trip</label>
-              <input type="checkbox" id="trip-invite" name="trip-invite" 
-                <? if ($settings->trip_invite): ?>checked<? endif;?>
-              />
-              <br/>
-              <label for="trip-post">someone posts on my trips</label>
-              <input type="checkbox" id="trip-post" name="trip-post" 
-                <? if ($settings->trip_post): ?>checked<? endif;?>
-              />
-              <br/>
-              <label for="post-reply">replies to a post I made</label>
-              <input type="checkbox" id="post-reply" name="post-reply" 
-                <? if ($settings->post_reply): ?>checked<? endif;?>
-              />
+              
+              <div class="notification-settings-item">
+                <label for="trip-invite">I am invited on a trip</label>
+                <input type="checkbox" id="trip-invite" name="trip-invite" 
+                  <? if ($settings->trip_invite): ?>checked<? endif;?>
+                />
+              </div>
+              
+              <div class="notification-settings-item">              
+                <label for="trip-post">Someone posts to one of my trips</label>
+                <input type="checkbox" id="trip-post" name="trip-post" 
+                  <? if ($settings->trip_post): ?>checked<? endif;?>
+                />
+              </div>
+              
+              <div class="notification-settings-item">
+                <label for="post-reply">Someone replies to a post I made</label>
+                <input type="checkbox" id="post-reply" name="post-reply" 
+                  <? if ($settings->post_reply): ?>checked<? endif;?>
+                />
+              </div>
+              
+              <div class="notification-settings-item">
+                <label for="post-reply">Someone starts following me</label>
+                <input type="checkbox" id="#" name="#" 
+                  
+                /><!--DAVID NEEDED-->
+              </div>
+
+              <div class="notification-settings-item">
+                <label for="post-reply">Someone responds to my invitation to join one of my trips </label>
+                <input type="checkbox" id="post-reply" name="post-reply" 
+                  
+                /><!--DAVID NEEDED-->
+              </div>              
+              
+              
             </fieldset>
-          
-            <br>
-            
-            <input type="submit" id="save-settings" class="settings-button" name="save-settings" value="Save" />
-          
-          </form>
-          
-          <span id="status-text"></span>
-          
-        </div>
-        
-        
-        
+                      
+          </form>          
+        </div>       
+      </div>
+      
+      <div id="save-settings-container" class="settings-item-content">
+        <input type="submit" id="save-settings" class="save-settings-button" name="save-settings" value="Save" />
+        <span id="status-text"></span>
       </div>
       
     </div>
