@@ -246,6 +246,16 @@ label.error {
   padding:10px 0px 5px 0px;
 }
 
+#col-left{
+  width:600px;
+  float:left;
+}
+
+#col-right{
+  width:340px;
+  float:right;
+}
+
 
 /*map*/
 

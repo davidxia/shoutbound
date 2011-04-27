@@ -1,0 +1,18 @@
+.settings-item{
+  margin:10px 0px 10px 0px;
+}
+
+.settings-item-header{
+  float:left;
+  width:100px;
+  height:300px;
+}
+
+.settings-item-content{
+  padding:5px;
+  margin-left:5px;
+}
+
+.settings-button{
+
+}
