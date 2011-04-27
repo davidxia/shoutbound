@@ -1,5 +1,5 @@
 .edit-item{
-  margin:10px 0px 15px 0px;
+  margin:8px 0px 8px 0px;
 }
 
 .edit-item-header{
@@ -9,17 +9,24 @@
 }
 
 .edit-item-content{
-  padding:3px 0px 3px 8px;
+  margin-left:170px;
 }
 
-.edit-profile-pic{
-  margin-left:137px;
-}
 
 #save-edits-container{
-  margin:15px 0px 15px 0px;
-  padding:10px 8px;
+  padding:10px 8px 10px 165px;
   background-color:#EAEAEA;
+}
+
+input, textarea{
+  border:1px solid #EAEAEA;
+}
+
+.edit-item-name{
+  float:left;
+  text-align:right;
+  width:150px;
+  line-height:29px;
 }
 
 .profile-pic-container{
@@ -27,8 +34,6 @@
   border:1px solid #EAEAEA;
   height:125px;
   width:125px;
-  margin-right:12px;
-  float:left;
 }
 
 .edit-button{

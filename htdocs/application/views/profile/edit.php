@@ -32,50 +32,58 @@ $this->load->view('core_header', $header_args);
     
     <div id="col-left">
         
-      <div id="edit-profile-pic-container" class="edit-item">
         <div class="edit-item-header">Edit Profile</div>
         
-        <div class="edit-item-content">
-        
-          <div id="current-profile-pic" class="profile-pic-container"></div>
-          <div class="edit-profile-pic">          
-            <div><a href="#" id="file_upload" name="file_upload" type="file" class="edit-button">Change picture</a></div>
-            <div id="custom-queue"></div>
-          </div>       
-        </div>
-
+        <div id="picture" class="edit-item">       
+          <div class="edit-item-name">Picture</div>
+          <div class="edit-item-content">          
+            <div id="current-profile-pic" class="profile-pic-container"></div>
+            <div class="edit-profile-pic">          
+              <div><a href="#" id="file_upload" name="file_upload" type="file" class="edit-button">Change picture</a></div>
+              <div id="custom-queue"></div>
+            </div>
+          </div>
+        </div>       
       
         <div style="clear:both"></div>
 
-        <div class="edit-item-header">Bio</div>
-        <div class="edit-item-content">
-          <fieldset>
-            <textarea id="bio" style="width:350px; height:100px;"><?=$user->bio?></textarea>                        
-          </fieldset> 
-        </div>       
-      </div>
+        <div id="web" class="edit-item">       
+          <div class="edit-item-name">Web</div>
+          <div class="edit-item-content">          
+            <fieldset>
+              <input type="text" id="url" style="width:250px; height:25px;" value="<?=$user->url?>"/>                        
+            </fieldset> 
+          </div>
+        </div>  
+        
+        <div style="clear:both"></div>                      
 
-      <div id="edit-web-container" class="edit-item">
-        <div class="edit-item-header">Web</div>
-        <div class="edit-item-content">
-          <fieldset>
-            <input type="text" id="url" style="width:250px; height:25px;" value="<?=$user->url?>"/>                        
-          </fieldset>
-        </div>        
-      </div>          
-                 
-      <div id="edit-location-container" class="edit-item">
-        <div class="edit-item-header">Current Location</div>
-        <div class="edit-item-content">
-          <fieldset>
-            <input type="text" id="location" style="width:250px; height:25px;" value="<? if (isset($user->place)) echo $user->place->name?>"/>                        
-          </fieldset>
-        </div>        
-      </div>      
-                    
-      <div id="save-edits-container">
-        <input type="submit" id="save-profile" value="Save" class="edit-button"/>
-      </div>
+        <div id="location" class="edit-item">       
+          <div class="edit-item-name">Current location</div>
+          <div class="edit-item-content">          
+            <fieldset>
+              <input type="text" id="location" style="width:250px; height:25px;" value="<? if (isset($user->place)) echo $user->place->name?>"/>                        
+            </fieldset> 
+          </div>
+        </div> 
+        
+        <div style="clear:both"></div>
+        
+        <div id="bio" class="edit-item">       
+          <div class="edit-item-name">Bio</div>
+          <div class="edit-item-content">          
+            <fieldset>
+              <textarea id="bio" style="width:425px; height:100px;"><?=$user->bio?></textarea>                        
+            </fieldset>
+            Characters left: DAVID 
+          </div>
+        </div>
+        
+        <div style="clear:both"></div>
+                           
+        <div id="save-edits-container">
+          <input type="submit" id="save-profile" value="Save" class="edit-button"/>
+        </div>
       
     </div>
     

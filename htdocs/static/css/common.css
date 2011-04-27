@@ -36,7 +36,7 @@ html, body {
   line-height: 15px;
   margin-left:21px;
   float:left;
-  font-size:13px;
+  font-size:14px;
 }
 .header .nav a:hover {
   color: #0095CD;
@@ -50,7 +50,7 @@ html, body {
 
 .footer {
   position:relative;
-  font-size: 13px;
+  font-size: 14px;
   height:40px;
   /*border-top:1px solid #777;*/
   line-height:40px;
@@ -132,10 +132,9 @@ ol, ul {
 
 input[type="text"], input[type="password"], textarea {
   margin: 0;
-  font-size: 13px;
-  line-height:19px;
+  font-size: 14px;
+  line-height:20px;
   color:#333;
-  border: 1px solid #333;
 }
 
 input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
@@ -158,7 +157,7 @@ fieldset {
 
 label.error {
   color: red;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 
@@ -171,7 +170,7 @@ label.error {
   width: 115px;
   line-height:30px;
   text-align:center;
-  font-size:13px;
+  font-size:14px;
   text-decoration:none;
   background:-webkit-gradient(linear, left top, left bottom, from(#E0E0E0), to(#888888));
   background:-moz-linear-gradient(top, #E0E0E0 , #888888);
