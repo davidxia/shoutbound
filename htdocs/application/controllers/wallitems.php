@@ -24,8 +24,7 @@ class Wallitems extends CI_Controller
 		
 		public function ajax_save()
 		{
-		    $t = new Trip();
-		    $t->get_by_id($this->input->post('tripId'));
+		    $t = new Trip($this->input->post('tripId'));
 		    
 		    $wi = new Wallitem();
 		    //$wi->trip_id = $this->input->post('tripId');
@@ -46,6 +45,15 @@ class Wallitems extends CI_Controller
                 $content);
                 
             $content = str_replace('</place>', '</a>', $content);
+            
+            $a = new Activitie();
+            $a->user_id = $this->user->id;
+            $a->activity_type = 2;
+            $a->source_id = $wi->id;
+            $a->parent_id = $this->input->post('tripId');
+            $a->parent_type = 2;
+            $a->timestamp = time()-72;
+            $a->save();
 
             json_success(array(
                 'id' => $wi->id,
