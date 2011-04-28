@@ -29,27 +29,23 @@ $this->load->view('core_header', $header_args);
 <body>
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
-    
-    
     <div id="col-left">
     
       <div id="left-content-container">
         <div id="main-tab-container" class="tab-container">
 
     <!--DAVID, START COPY AND PASTE HERE-->
-      <div id="account-tab" class="main-tab-content"> 
-        
+      <div id="profile-tab" class="main-tab-content"> 
         <div id="picture" class="settings-item">
           <div class="settings-item-name">Picture</div>
           <div class="settings-item-content">
             <div id="current-profile-pic" class="profile-pic-container">
-              <!--<a href="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="125" height="125"/></a>-->
-              <!--DAVID NEEDED TO MAKE PHOTO WORK-->            
+              <a href="<?=static_sub('profile_pics/'.$user->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$user->profile_pic)?>" width="125" height="125"/></a>
             </div>
             <div id="change-photo">
               <a href="#" id="file_upload" name="file_upload" type="file"></a>
               <div class="subtext">Maximum size: 700kb</div>
-              <div id="custom-queue"></div><!--DAVID NEEDED - PLS CONFIRM PHOTO UPLOAD/CHANGE WORKS-->
+              <div id="custom-queue"></div>
             </div>        
           </div>
           <div style="clear:both"></div>
