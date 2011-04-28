@@ -2,6 +2,7 @@
 $header_args = array(
     'title' => 'Place | Shoutbound',
     'css_paths'=>array(
+      'css/place.css'
     ),
     'js_paths'=>array(
     )
@@ -25,12 +26,10 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('wrapper_content')?>
 
     <div id="top-bar"><!--TOP BAR-->
-      <div id="place-pic-container" class="img-container">
-        <a href="#" id="place-pic"><img src="http://upload.wikimedia.org/wikipedia/commons/1/10/Zion_angels_landing_view.jpg" width="250" height="250"/></a>
-      </div>
       <div id="place-info">
-        <div id="place-name">Zion National Park</div>
-        <div id="place-description">Zion National Park is located in the Southwestern United States, near Springdale, Utah. A prominent feature of the 229 square miles (590 km2) park is Zion Canyon, which is 15 miles (24 km) long and up to half a mile (800 m) deep, cut through the reddish and tan-colored Navajo Sandstone by the North Fork of the Virgin River. The lowest elevation is 3,666 ft (1,117 m) at Coalpits Wash and the highest elevation is 8,726 ft (2,660 m) at Horse Ranch Mountain. Located at the junction of the Colorado Plateau, Great Basin, and Mojave Desert regions, the park's unique geography and variety of life zones allow for unusual plant and animal diversity. Numerous plant species as well as 289 species of birds, 75 mammals (including 19 species of bat), and 32 reptiles inhabit the park's four life zones: desert, riparian, woodland, and coniferous forest. Zion National Park includes mountains, canyons, buttes, mesas, monoliths, rivers, slot canyons, and natural arches.</div>
+        <div id="place-name">New York City</div>
+        <div id="place-description">New York is the most populous city in the United States and the center of the New York metropolitan area, which is one of the most populous metropolitan areas in the world. New York City exerts a significant impact upon global commerce, finance, media, culture, art, fashion, research, technology, education, and entertainment.</div>
+        <div id="wikipedia-url"><a href="#">Read more from Wikipedia</a></div>
       </div>
                
       </div><!--TOP BAR END-->
@@ -39,8 +38,8 @@ $this->load->view('core_header', $header_args);
               
         <div id="stats-container">
           <ul class="stats-list">
-            <li><a href="#trail" class="trip-count">94<span class="stat-label">Trips</span></a></li>
-            <li class="border-left"><a href="#posts" class="post-count">893<span class="stat-label">Posts</span></a></li>
+            <li><a href="#posts" class="post-count">893<span class="stat-label">Posts</span></a></li>
+            <li class="border-left"><a href="#trips" class="trip-count">94<span class="stat-label">Trips</span></a></li>
             <li class="border-left"><a href="#followers" class="followers-count">500<span class="stat-label">Followers</span></a></li>
           </ul>        
         </div>
@@ -85,11 +84,20 @@ $this->load->view('core_header', $header_args);
     <!-- RIGHT COLUMN -->
     <div id="col-right">      
       
-      <!-- MAP -->
-      <div id="map-shell">
-          <div id="map-canvas"></div>
+      <!-- GALLERY AND MAP-->
+      
+      <ul id="right-tabs">
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#map">Map</a></li>
+      </ul>
+      
+      <div class="right-tab-container img-container">
+        <div id="gallery-tab" class="right-tab-content main-tab-default">
+          <img src="http://upload.wikimedia.org/wikipedia/commons/d/d3/Lincoln_Center_Twilight.jpg" width="330" height="330"/>
         </div>
-      </div><!--MAP ENDS-->
+      </div>
+    
+      </div><!--GALLERY AND MAP ENDS-->
       
     </div><!-- RIGHT COLUMN ENDS -->
     

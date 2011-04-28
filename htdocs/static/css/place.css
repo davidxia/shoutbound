@@ -1,0 +1,89 @@
+#place-pic-container{
+  height:150px;
+  width:150px;
+  margin-right:12px;
+  float:left;
+}
+
+#profile-info{
+  margin-left:137px;
+}
+#profile-name{
+  font-size:30px;
+  font-weight:bold;
+  line-height:38px;
+}
+
+#top-bar{
+  width:600px;
+  border-bottom:2px solid #777;
+  padding-bottom:10px;
+  float:left;
+}
+
+#place-name{
+  font-size:30px;
+  font-weight:bold;
+  line-height:38px;
+}
+
+.right-tab-container{
+  border-top:none;
+  clear:both;
+}
+
+#right-tabs{
+	list-style: none;
+	height: 36px;
+	border-bottom: 1px solid #CACACA;
+  margin-top:10px;
+}
+
+#right-tabs li{
+  float: left;
+	height: 35px; /*--Subtract 1px from the height of the unordered list--*/
+	line-height: 35px; /*--Vertically aligns the text within the tab--*/
+	border-left: none;
+	margin-bottom: -1px; /*--Pull the list item down 1px--*/
+	overflow: hidden;
+	position: relative;
+	width:119px;
+	text-align:center;
+}
+
+#right-tabs li a{
+  text-decoration: none;
+	display: block;
+	/*border: 1px solid white;*/
+	outline: none;
+}
+
+#right-tabs li:hover{
+	background-color:#FAFAFA;
+	text-decoration:none;
+}
+
+#right-tabs li a:hover {
+	background: #FAFAFA;
+}
+
+#right-tabs li.active{ 
+	border-bottom: 1px solid white; 
+	font-weight:bold;
+	border-left:1px solid #CACACA;
+	border-right:1px solid #CACACA;
+	border-top:1px solid #CACACA;
+	width:122px;
+}
+
+#right-tabs li.active a{
+  color:#333;
+}
+
+#right-tabs li.active a:hover  {
+  background:white;
+	border-bottom: 1px solid white; 
+	font-weight:bold;
+	cursor:default;
+	color:#333;
+}

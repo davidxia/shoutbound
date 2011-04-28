@@ -72,8 +72,8 @@ $this->load->view('core_header', $header_args);
     <!-- LEFT COLUMN -->
     <div id="col-left">    
       
-      <!--PROFILE MAIN CONTENT-->      
-      <div id="main-content-container">
+      <!--LEFT CONTENT-->      
+      <div id="left-content-container">
       
         <ul id="main-tabs">
           <li><a href="#activity">Activity</a></li>
@@ -106,7 +106,7 @@ $this->load->view('core_header', $header_args);
         </div><!--TAB CONTAINER END-->
               
       
-      </div><!--PROFILE MAIN CONTENT END-->
+      </div><!--LEFT CONTENT END-->
       
       
 
