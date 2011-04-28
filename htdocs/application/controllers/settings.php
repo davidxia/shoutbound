@@ -52,45 +52,43 @@ class Settings extends CI_Controller
     public function ajax_save_settings()
     {
         $this->user->email = $this->input->post('email');
-        if (md5('davidxia'.$this->input->post('oldPw').'isgodamongmen') == $this->user->password AND
-            $this->input->post('newPw') == $this->input->post('confNewPw'))
+        
+        $pw_incorrect = 0;
+        if ($this->input->post('oldPw'))
         {
-            $this->user->password = md5('davidxia'.$this->input->post('newPw').'isgodamongmen');
+            if (md5('davidxia'.$this->input->post('oldPw').'isgodamongmen') == $this->user->password AND
+            $this->input->post('newPw') == $this->input->post('confNewPw'))
+            {
+                $this->user->password = md5('davidxia'.$this->input->post('newPw').'isgodamongmen');
+            }
+            else
+            {
+                $pw_incorrect = 1;
+            }
         }
         
         if ($this->user->save())
         {
             $s = new Setting();
-            $error = FALSE;
             foreach ($s->get_iterated() as $setting)
             {
-                if ( ! $this->user->set_join_field($setting, 'is_on', $this->input->post($setting->name)))
-                {
-                    $error = TRUE;
-                }
+                $this->user->set_join_field($setting, 'is_on', $this->input->post($setting->name));
             }
-    
-            if ( ! $error)
-            {
-                echo 'settings saved';
-            }
-            else
-            {
-                echo 'Uh oh, something broke. Try again later.';
-            }
+            
+            json_success(array('response' => 'settings saved', 'pwIncorrect' => $pw_incorrect));
         }
         else
         {
             if ($this->user->error->email)
             {
-                $message = '';
-                echo 'That e-mail is already taken.';
+                json_success(array('response' => '', 'emailTaken' => 1, 'pwIncorrect' => $pw_incorrect));
             }
             else
             {
-                echo 'Uh oh, something broke. Try again later.';
+                json_success(array('response' => 'Uh oh, something broke. Try again later.'));
             }
         }
+
     }
 }
 
