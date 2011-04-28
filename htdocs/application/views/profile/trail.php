@@ -18,7 +18,7 @@
   <div style="border-top:1px solid #BABABA;">
     Places <?=$profile->name?> has been:<br/>
     <? if ($user AND $is_self):?>
-      <a href="<?=site_url('profile/edit')?>">Show off</a> where you've been.
+      <a href="<?=site_url('settings/profile')?>">Show off</a> where you've been.
     <? elseif ( ! $profile->places):?>
       <?=$profile->name?> hasn't listed any places yet.
     <? endif;?>

@@ -3,12 +3,13 @@
 class User extends DataMapper
 {
     
-    public $has_one = array('setting');
+    public $has_one = array();
 
     public $has_many = array(
       'trip',
       'wallitem',
       'place',
+      'setting',
       'friend',
       'related_user' => array(
         'class' => 'user',
@@ -362,6 +363,16 @@ class User extends DataMapper
         }
         
         
+    }
+    
+    
+    public function get_settings()
+    {
+        $this->stored->settings = array();
+        foreach ($this->settings->include_join_fields()->order_by('id', 'asc')->get_iterated() as $setting)
+        {
+            $this->stored->settings[$setting->id] = $setting->join_is_on;
+        }
     }
         
     /*

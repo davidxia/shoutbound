@@ -4,29 +4,22 @@ class Setting extends DataMapper
 {
     public $has_many = array('user');
 
-    var $validation = array(
-        array(
-            'field' => 'trip_invite',
-            'label' => 'Trip Invite',
-            'rules' => array('required')
-        ),
-        array(
-            'field' => 'trip_post',
-            'label' => 'Trip Post',
-            'rules' => array('required')
-        ),
-        array(
-            'field' => 'post_reply',
-            'label' => 'Post Reply',
-            'rules' => array('required')
-        ),
-    );
-
     function __construct($id = NULL)
     {
         parent::__construct($id);
     }
-
+    
+    
+    public function get_settings()
+    {
+        $this->order_by('id', 'asc')->get_iterated();
+        $settings = array();
+        foreach ($this as $setting)
+        {
+            $settings[] = $setting->stored;
+        }
+        return $settings;
+    }
 }
 
 /* End of file setting.php */

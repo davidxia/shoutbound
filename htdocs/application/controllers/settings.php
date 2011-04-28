@@ -25,11 +25,12 @@ class Settings extends CI_Controller
 
     public function index()
     {
-        $this->user->settings->get();
+        $this->user->get_settings();
+        $s = new Setting();        
 
         $data = array(
             'user' => $this->user->stored,
-            'settings' => $this->user->settings->stored,
+            'settings' => $s->get_settings(),
         );
         
         $this->load->view('settings/index', $data);
@@ -82,7 +83,7 @@ class Settings extends CI_Controller
         
         if ($this->user->save())
         {
-            json_success(array('message' => 'Settings updated'));
+            json_success(array('message' => 'Settings saved'));
         }        
     }
 }
