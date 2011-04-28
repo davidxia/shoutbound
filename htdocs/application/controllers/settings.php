@@ -49,42 +49,26 @@ class Settings extends CI_Controller
     }
     
     
-    public function ajax_update_settings()
+    public function ajax_save_settings()
     {
-        $s = $this->input->post('tripInvite').$this->input->post('tripPost').$this->input->post('postReply');
-        
-        switch ($s)
+        $s = new Setting();
+        $error = FALSE;
+        foreach ($s->get_iterated() as $setting)
         {
-            case '111':
-                $this->user->setting_id = 1;
-                break;
-            case '110':
-                $this->user->setting_id = 2;
-                break;
-            case '101':
-                $this->user->setting_id = 3;
-                break;
-            case '100':
-                $this->user->setting_id = 4;
-                break;
-            case '011':
-                $this->user->setting_id = 5;
-                break;
-            case '010':
-                $this->user->setting_id = 6;
-                break;
-            case '001':
-                $this->user->setting_id = 7;
-                break;
-            case '000':
-                $this->user->setting_id = 8;
-                break;
+            if ( ! $this->user->set_join_field($setting, 'is_on', $this->input->post($setting->name)))
+            {
+                $error = TRUE;
+            }
         }
-        
-        if ($this->user->save())
+
+        if ( ! $error)
         {
-            json_success(array('message' => 'Settings saved'));
-        }        
+            echo 'settings saved';
+        }
+        else
+        {
+            echo 'Uh oh, something broke. Try again later.';
+        }
     }
 }
 

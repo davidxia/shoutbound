@@ -84,5 +84,27 @@ $this->load->view('core_header', $header_args);
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
   <? $this->load->view('footer')?>
+<script type="text/javascript">
+  $(function() {
+    $('#save-settings').click(function() {
+      var postData = {
+        <? $prefix = ''; $settings_list='';?>
+        <? foreach ($settings as $setting):?>
+          <? $settings_list .= $prefix . $setting->name.': $(\'input:checkbox[name="'.$setting->name.'"]\').attr(\'checked\') ? 1 : 0'?>
+          <? $prefix = ', '?>
+        <? endforeach;?>
+        <?=$settings_list?>
+      };
+      
+      $.post(baseUrl+'settings/ajax_save_settings', postData,
+        function(d) {
+          console.log(d);
+          $('#save-response').empty().text(d).show().delay(1500).fadeOut(250);
+        });
+        
+      return false;
+    });
+  });
+</script>
 </body>
 </head>
