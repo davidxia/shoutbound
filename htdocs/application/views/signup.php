@@ -170,7 +170,5 @@ $this->load->view('core_header', $header_args);
       error.appendTo(element.siblings('.label-and-error').children('.error-message'));
     }
   });
-
-
 </script>
 </html>

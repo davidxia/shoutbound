@@ -5,7 +5,8 @@ $header_args = array(
       'css/settings.css'
     ),
     'js_paths'=>array(
-        'js/settings/index.js'
+        'js/jquery/validate.min.js',
+        //'js/settings/index.js'
     )
 );
 
@@ -40,21 +41,34 @@ $this->load->view('core_header', $header_args);
         
         <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
           <div id="account-tab" class="main-tab-content main-tab-default">
-            <form>
+            <form id="account-settings-form">
               <fieldset class="settings-item">
-                <label for="email" class="settings-item-name" style="line-height:24px; vertical-align:middle;">E-mail</label>
-                <input id="email" type="text" value="<?=$user->email?>" style="margin-left:15px;"/>
+                <div class="settings-item-name">
+                  <label for="email" class="settings-item-name" style="line-height:24px; vertical-align:middle;">E-mail</label>
+                  </div>
+                <div class="settings-item-content">
+                  <input id="email" name="email" type="text" value="<?=$user->email?>" style="width:275px;"/>
+                </div>
               </fieldset>
                    
               <fieldset class="settings-item">
                 <div class="settings-item-name">Password</div>
                 <div class="settings-item-content">
-                  <input type="password" id="old_pw" name="old_pw" style="width:275px; height:20px; margin-bottom:8px;"/>
-                  <label for="old_pw" class="subtext">Old password</label>
-                  <input type="password" id="new_pw" name="new_pw" style="width:275px; height:20px; margin-bottom:8px;"/>
-                  <label for="new_pw" class="subtext">New password</label>
-                  <input type="password" id="conf_new_pw" name="conf_new_pw" style="width:275px; height:20px; margin-bottom:8px;"/>
-                  <label for="conf_new_pw" class="subtext">Confirm new password</label>
+                  <div style="margin-bottom:10px;">
+                    <input type="password" id="old_pw" name="old_pw" style="width:275px; height:20px;"/>
+                    <label for="old_pw" class="subtext">Old password</label>
+                    <div class="error-message" style="height:20px;"></div>
+                  </div>
+                  <div style="margin-bottom:10px;">
+                    <input type="password" id="new_pw" name="new_pw" style="width:275px; height:20px;"/>
+                    <label for="new_pw" class="subtext">New password</label>
+                    <div class="error-message" style="height:20px;"></div>
+                  </div>
+                  <div style="margin-bottom:10px;">
+                    <input type="password" id="conf_new_pw" name="conf_new_pw" style="width:275px; height:20px;"/>
+                    <label for="conf_new_pw" class="subtext">Confirm new password</label>
+                    <div class="error-message" style="height:20px;"></div>
+                  </div>
                 </div>
               </fieldset>
               
@@ -87,22 +101,66 @@ $this->load->view('core_header', $header_args);
 <script type="text/javascript">
   $(function() {
     $('#save-settings').click(function() {
-      var postData = {
-        <? $prefix = ''; $settings_list='';?>
-        <? foreach ($settings as $setting):?>
-          <? $settings_list .= $prefix . $setting->name.': $(\'input:checkbox[name="'.$setting->name.'"]\').attr(\'checked\') ? 1 : 0'?>
-          <? $prefix = ', '?>
-        <? endforeach;?>
-        <?=$settings_list?>
-      };
-      
-      $.post(baseUrl+'settings/ajax_save_settings', postData,
-        function(d) {
-          console.log(d);
-          $('#save-response').empty().text(d).show().delay(1500).fadeOut(250);
-        });
+      if ($('#account-settings-form').valid()) {
+        var postData = {
+          email: $('#email').val(),
+          <? $prefix = ''; $settings_list='';?>
+          <? foreach ($settings as $setting):?>
+            <? $settings_list .= $prefix . $setting->name.': $(\'input:checkbox[name="'.$setting->name.'"]\').attr(\'checked\') ? 1 : 0'?>
+            <? $prefix = ', '?>
+          <? endforeach;?>
+          <?=$settings_list?>
+        };
+        console.log(postData);
         
+        $.post(baseUrl+'settings/ajax_save_settings', postData,
+          function(d) {
+            console.log(d);
+            $('#save-response').empty().text(d).show().delay(1500).fadeOut(250);
+          });
+      }        
       return false;
+    });
+  });
+  
+
+  $(function() {
+    $('#account-settings-form').validate({
+      rules: {
+        email: {
+          required: true,
+          email: true
+        },
+        old_pw: {
+          required: true,
+        },
+        new_pw: {
+          required: true,
+          minlength: 4
+        },
+        conf_new_pw: {
+          equalTo: '#new_pw'
+        }
+      },
+      messages: {
+        email: {
+          required: 'We promise not to spam you.',
+          email: 'Nice try, enter a valid email.'
+        },
+        old_pw: {
+          required: 'You need to verify your old password.'
+        },
+        new_pw: {
+          required: 'You gotta have a password.',
+          minlength: 'At least 4 characters.'
+        },
+        conf_new_pw: {
+          equalTo: 'Passwords must match.'
+        }
+      },
+      errorPlacement: function(error, element) {
+        error.appendTo(element.siblings('.error-message'));
+      }
     });
   });
 </script>
