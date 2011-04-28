@@ -115,12 +115,22 @@ $this->load->view('core_header', $header_args);
           <? endforeach;?>
           <?=$settings_list?>
         };
-        console.log(postData);
         
         $.post(baseUrl+'settings/ajax_save_settings', postData,
           function(d) {
-            console.log(d);
-            $('#save-response').empty().text(d).show().delay(10000).fadeOut(250);
+            var r = $.parseJSON(d);
+            $('#old_pw').val('');
+            $('#new_pw').val('');
+            $('#conf_new_pw').val('');
+            if (r.emailTaken) {
+              $('#email').siblings('.error-message').append('<label class="error">Email is already taken.</label>');
+            }
+            if (r.pwIncorrect) {
+              $('#old_pw').siblings('.error-message').append('<label class="error">Password incorrect</label>');
+            }
+            if (!r.emailTaken && !r.pwIncorrect) {
+              $('#save-response').empty().text(r.response).show().delay(10000).fadeOut(250);
+            }
           });
       }        
       return false;
@@ -159,6 +169,7 @@ $this->load->view('core_header', $header_args);
         }
       },
       errorPlacement: function(error, element) {
+        element.siblings('.error-message').empty();
         error.appendTo(element.siblings('.error-message'));
       }
     });
