@@ -114,6 +114,11 @@ h4{
 	font-weight:bold;
 }
 
+.subtext{
+  color:#888;
+  font-size:12px;
+}
+
 a, a:visited{
 	text-decoration:none;
 	color: #36C;

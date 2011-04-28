@@ -24,7 +24,7 @@
 #save-settings-container{
   margin-top:15px;
   padding:10px 8px 10px 135px;
-  background-color:#EDEDED;
+  background-color:#EFEFEF;
 }
 
 .tab-container{
@@ -40,6 +40,24 @@
   font-size:30px;
   line-height:38px;
   font-weight:bold;
+}
+
+.profile-pic-container{
+  padding:5px;
+  border:1px solid #DADADA;
+  height:125px;
+  width:125px;
+  float:left;
+  margin-right:10px;
+}
+
+#change-photo{
+  margin-top:5px;
+  float:left;
+}
+
+input, textarea{
+  border:1px solid #DADADA;
 }
 
 .save-settings-button{

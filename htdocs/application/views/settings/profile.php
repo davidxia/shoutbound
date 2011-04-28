@@ -4,7 +4,7 @@ $header_args = array(
     'css_paths'=>array(
         'css/uploadify.css',
         'css/excite-bike/jquery-ui-1.8.11.custom.css',
-        'css/edit.css',
+        'css/settings.css',
     ),
     'js_paths'=>array(
         'js/profile/edit.js',
@@ -30,70 +30,76 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
     
+    
     <div id="col-left">
+    
+      <div id="left-content-container">
+        <div id="main-tab-container" class="tab-container">
+
+    <!--DAVID, START COPY AND PASTE HERE-->
+      <div id="account-tab" class="main-tab-content"> 
         
-        <div class="edit-item-header">Edit Profile</div>
-        
-        <div id="picture" class="edit-item">       
-          <div class="edit-item-name">Picture</div>
-          <div class="edit-item-content">          
-            <div id="current-profile-pic" class="profile-pic-container"></div>
-            <div class="edit-profile-pic">          
-              <div id="change-photo-button"><a href="#" id="file_upload" name="file_upload" type="file" ></a></div>
-              <span class="edit-subtext">Maximum size: 700kb</span>
-              <div id="custom-queue"></div>
+        <div id="picture" class="settings-item">
+          <div class="settings-item-name">Picture</div>
+          <div class="settings-item-content">
+            <div id="current-profile-pic" class="profile-pic-container">
+              <!--<a href="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="125" height="125"/></a>-->
+              <!--DAVID NEEDED TO MAKE PHOTO WORK-->            
             </div>
+            <div id="change-photo">
+              <a href="#" id="file_upload" name="file_upload" type="file"></a>
+              <div class="subtext">Maximum size: 700kb</div>
+              <div id="custom-queue"></div><!--DAVID NEEDED - PLS CONFIRM PHOTO UPLOAD/CHANGE WORKS-->
+            </div>        
           </div>
           <div style="clear:both"></div>
-        </div>       
-      
+        </div>
         
-
-        <div id="web" class="edit-item">       
-          <div class="edit-item-name">Web</div>
-          <div class="edit-item-content">          
+        <div id="web" class="settings-item">
+          <div class="settings-item-name">Web</div>
+          <div class="settings-item-content">
             <fieldset>
-              <input type="text" id="url" style="width:250px; height:25px;" value="<?=$user->url?>"/>                        
+              <input type="text" id="url" style="width:275px; height:20px;" value="<?=$user->url?>"/>                        
             </fieldset>
-            <span class="edit-subtext">Have your own website or blog? Put the address here.</span> 
+            <span class="subtext">Have your own website or blog? Put the address here.</span>        
           </div>
-        </div>  
-        
+        </div>        
+               
         <div style="clear:both"></div>                      
 
-        <div id="location" class="edit-item">       
-          <div class="edit-item-name">Current location</div>
-          <div class="edit-item-content">          
+        <div id="location" class="settings-item">
+          <div class="settings-item-name">Current location</div>
+          <div class="settings-item-content">
             <fieldset>
-              <input type="text" id="location" style="width:250px; height:25px;" value="<? if (isset($user->place)) echo $user->place->name?>"/>                        
-            </fieldset> 
-            <span class="edit-subtext">What city are you in right now?</span>
+              <input type="text" id="location" style="width:275px; height:20px;" value="<? if (isset($user->place)) echo $user->place->name?>"/><!--DAVID NEEDED TO MAKE LOCATION SEARCH WORK-->                        
+              </fieldset> 
+            <span class="subtext">Where in the world are you in right now?</span>        
+          </div>
+        </div>        
+               
+        <div style="clear:both"></div>   
+
+        <div id="bio" class="settings-item">
+          <div class="settings-item-name">Bio</div>
+          <div class="settings-item-content">
+            <fieldset>
+              <textarea id="bio" style="width:415px; height:125px;"><?=$user->bio?></textarea>                        
+            </fieldset>
+            <span class="subtext">Describe yourself in 250 characters or less. Characters remaining: DAVID</span><!--DAVID, PLEASE INSERT CHARACTER COUNTER HERE-->       
           </div>
         </div> 
         
         <div style="clear:both"></div>
-        
-        <div id="bio" class="edit-item">       
-          <div class="edit-item-name">Bio</div>
-          <div class="edit-item-content">          
-            <fieldset>
-              <textarea id="bio" style="width:425px; height:100px;"><?=$user->bio?></textarea>                        
-            </fieldset>
-            <span class="edit-subtext">Describe yourself in 250 characters or less. Characters remaining: DAVID</span> 
-          </div>
-        </div>
-        
-        <div style="clear:both"></div>
                            
-        <div id="save-edits-container">
-          <input type="submit" id="save-profile" value="Save" class="edit-button"/>
+       <div id="save-settings-container">
+          <input type="submit" id="save-profile" value="Save" class="save-settings-button"/><!--DAVID NEEDED - THIS BUTTON NEEDS TO SAVE ALL THE FIELDS, RIGHT NOW JUST SAVES URL FIELD-->
         </div>
+             
+      </div>
+      <!--DAVID, STOP COPY AND PASTE HERE-->
       
-    </div>
-    
-    <div id="col-right">
-       
-    </div>
+      </div>
+      </div>
   
     <!--<h2>Where I've been</h2>
     <form id="been-to-form">
@@ -132,14 +138,11 @@ $this->load->view('core_header', $header_args);
       <? endforeach;?>
     </div>-->
     
-    
-
-
       
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
 
-  <? $this->load->view('footer')?>
+
   
 <script type="text/javascript">
 /*$(function() {

@@ -23,12 +23,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 .uploadifyQueueItem {
-	background-color: #F5F5F5;
-	border: 2px solid #E5E5E5;
-	font: 11px Verdana, Geneva, sans-serif;
+	background-color: #FAFAFA;
 	margin-top: 5px;
-	padding: 10px;
-	width: 350px;
+	font-size:12px;
+	color:#888;
+	padding: 5px;
+	width: 200px;
 }
 .uploadifyError {
 	background-color: #FDE5DD !important;

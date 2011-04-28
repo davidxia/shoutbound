@@ -126,8 +126,8 @@ $this->load->view('core_header', $header_args);
     <!-- LEFT COLUMN -->
     <div id="col-left">    
       
-      <!--MAIN CONTENT-->      
-      <div id="main-content-container">
+      <!--LEFT CONTENT-->      
+      <div id="left-content-container">
       
         <ul id="main-tabs">
           <li><a href="#posts">Posts</a></li>
@@ -195,7 +195,7 @@ $this->load->view('core_header', $header_args);
           
         </div><!--TAB CONTAINER END-->
                    
-      </div><!--MAIN CONTENT END-->
+      </div><!--LEFT CONTENT END-->
       
       <!-- WALLITEM INPUT CONTAINER -->
       <div id="wallitem-input-container">
