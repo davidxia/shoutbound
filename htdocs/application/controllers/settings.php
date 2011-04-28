@@ -51,23 +51,45 @@ class Settings extends CI_Controller
     
     public function ajax_save_settings()
     {
-        $s = new Setting();
-        $error = FALSE;
-        foreach ($s->get_iterated() as $setting)
+        $this->user->email = $this->input->post('email');
+        if (md5('davidxia'.$this->input->post('oldPw').'isgodamongmen') == $this->user->password AND
+            $this->input->post('newPw') == $this->input->post('confNewPw'))
         {
-            if ( ! $this->user->set_join_field($setting, 'is_on', $this->input->post($setting->name)))
-            {
-                $error = TRUE;
-            }
+            $this->user->password = md5('davidxia'.$this->input->post('newPw').'isgodamongmen');
         }
-
-        if ( ! $error)
+        
+        if ($this->user->save())
         {
-            echo 'settings saved';
+            $s = new Setting();
+            $error = FALSE;
+            foreach ($s->get_iterated() as $setting)
+            {
+                if ( ! $this->user->set_join_field($setting, 'is_on', $this->input->post($setting->name)))
+                {
+                    $error = TRUE;
+                }
+            }
+    
+            if ( ! $error)
+            {
+                echo 'settings saved';
+            }
+            else
+            {
+                echo 'Uh oh, something broke. Try again later.';
+            }
         }
         else
         {
-            echo 'Uh oh, something broke. Try again later.';
+            if ($this->user->error->email)
+            {
+                $message = '';
+                echo 'That e-mail is already taken.';
+            }
+            else
+            {
+                echo 'Uh oh, something broke. Try again later.';
+            }
         }
     }
 }

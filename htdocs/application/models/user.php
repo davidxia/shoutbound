@@ -59,9 +59,6 @@ class User extends DataMapper
         parent::__construct($id);
     }
     
-	
-    ////////////////////////////////////////////////////////////
-    // Logging Users in and out
 
     public function get_logged_in_status()
     {

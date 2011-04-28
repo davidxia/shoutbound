@@ -45,9 +45,10 @@ $this->load->view('core_header', $header_args);
               <fieldset class="settings-item">
                 <div class="settings-item-name">
                   <label for="email" class="settings-item-name" style="line-height:24px; vertical-align:middle;">E-mail</label>
-                  </div>
+                </div>
                 <div class="settings-item-content">
                   <input id="email" name="email" type="text" value="<?=$user->email?>" style="width:275px;"/>
+                  <div class="error-message" style="height:20px;"></div>
                 </div>
               </fieldset>
                    
@@ -104,6 +105,9 @@ $this->load->view('core_header', $header_args);
       if ($('#account-settings-form').valid()) {
         var postData = {
           email: $('#email').val(),
+          oldPw: $('#old_pw').val(),
+          newPw: $('#new_pw').val(),
+          confNewPw: $('#conf_new_pw').val(),
           <? $prefix = ''; $settings_list='';?>
           <? foreach ($settings as $setting):?>
             <? $settings_list .= $prefix . $setting->name.': $(\'input:checkbox[name="'.$setting->name.'"]\').attr(\'checked\') ? 1 : 0'?>
@@ -116,7 +120,7 @@ $this->load->view('core_header', $header_args);
         $.post(baseUrl+'settings/ajax_save_settings', postData,
           function(d) {
             console.log(d);
-            $('#save-response').empty().text(d).show().delay(1500).fadeOut(250);
+            $('#save-response').empty().text(d).show().delay(10000).fadeOut(250);
           });
       }        
       return false;
@@ -131,11 +135,7 @@ $this->load->view('core_header', $header_args);
           required: true,
           email: true
         },
-        old_pw: {
-          required: true,
-        },
         new_pw: {
-          required: true,
           minlength: 4
         },
         conf_new_pw: {
