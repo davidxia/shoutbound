@@ -18,6 +18,8 @@ $this->load->view('core_header', $header_args);
 </head>
 
 <body>
+
+  <div id="sticky-footer-wrapper">
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
 
@@ -25,6 +27,8 @@ $this->load->view('core_header', $header_args);
     
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
+  
+  </div>
   <? $this->load->view('footer')?>
 </body>
 </head>

@@ -15,13 +15,18 @@ html, body {
   font-size:14px;
 	line-height:20px;
   color:#333;
+  height:100%;
+}
+
+#sticky-footer-wrapper{
+  min-height:100%;
 }
 
 .header{
-	/*background-color: #1D2D6E;*/
-	/*border-bottom:2px solid #BABABA;*/
+	/*background-color: #1D2D6E;
+	border-bottom:2px solid #BABABA;*/
   display: block;
-  height: 60px;
+  height: 40px;
   padding-top:5px;
   /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#25398C', endColorstr='#1D2D6E');
 	background: -webkit-gradient(linear, left top, left bottom, from(#25398C), to(#1D2D6E));
@@ -31,32 +36,27 @@ html, body {
 /*1B2A66 10193D*/
 
 .header .nav a {
-  color: blue;
   padding: 10px 0;
   line-height: 15px;
   margin-left:21px;
   float:left;
   font-size:14px;
 }
-.header .nav a:hover {
-  color: #0095CD;
-}
 
 .content {
-  padding: 12px 0 30px;
-  overflow:hidden;
-  min-height:500px;
+  padding: 12px 0 80px;
+  overflow:auto;
 }
 
 .footer {
   position:relative;
   font-size: 14px;
   height:40px;
-  /*border-top:1px solid #777;*/
+  border-top:1px solid #777;
   line-height:40px;
   clear:both;
   background-color:#FAFAFA;
-  
+  margin-top:-41px;
 }
 
 .footer a.marg-right {
@@ -64,7 +64,7 @@ html, body {
 }
 
 .footer .wrapper{
-  border-top:1px solid #777;
+
 }
 
 .footer .copy {
@@ -160,7 +160,7 @@ fieldset {
   border-color: transparent;
 }
 
-label.error {
+.error {
   color: red;
   font-size: 14px;
 }

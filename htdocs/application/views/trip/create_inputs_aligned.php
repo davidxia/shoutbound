@@ -43,6 +43,8 @@ $this->load->view('core_header', $header_args);
 
 
 <body>
+
+<div id="sticky-footer-wrapper">
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
     <div id="div-to-popup" style="background-color:white; display:none;"></div>
@@ -119,7 +121,7 @@ $this->load->view('core_header', $header_args);
       </div><!-- CONTENT ENDS -->
     </div><!-- WRAPPER ENDS -->
     
-    
+    </div><!--CLOSE STICKY FOOTER WRAPPER-->
     <? $this->load->view('footer')?>
 
 	</body>
