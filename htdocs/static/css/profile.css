@@ -47,9 +47,10 @@
   float:right;
 }
 
-#profile-pic-container{
+.img-container{
   padding:5px;
-  border:1px solid #EAEAEA;
+  border:1px solid #CACACA;
+  background-color:#DAE0F2;
   height:125px;
   width:125px;
   margin-right:12px;

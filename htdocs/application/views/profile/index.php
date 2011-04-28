@@ -27,7 +27,7 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('wrapper_content')?>
 
       <div id="top-bar"><!--TOP BAR-->
-        <div id="profile-pic-container" style="position:relative;">
+        <div id="profile-pic-container" class="img-container">
           <a href="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="125" height="125"/></a>
           <!--<a href="<?=site_url('settings/profile')?>" id="edit-profile-pic" style="position:absolute; top:0px; left:0px; font-size:12px; background-color:black; color:white; display:none;">change picture</a>-->
         </div>
