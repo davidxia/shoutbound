@@ -77,7 +77,7 @@ $this->load->view('core_header', $header_args);
                 <div class="settings-item-content">
                   <? foreach ($settings as $setting):?>
                   <div>
-                    <input type="checkbox" id="<?=$setting->name?>" name="<?=$setting->name?>" <? if ($user->settings[$setting->id]) echo 'checked';?>/>
+                    <input type="checkbox" id="<?=$setting->name?>" name="<?=$setting->name?>" <? if (isset($user->settings[$setting->id]) AND $user->settings[$setting->id]) echo 'checked';?>/>
                     <label for="<?=$setting->name?>"><?=$setting->description?></label>
                   </div>
                   <? endforeach;?>

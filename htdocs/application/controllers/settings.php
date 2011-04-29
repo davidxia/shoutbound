@@ -72,7 +72,10 @@ class Settings extends CI_Controller
             $s = new Setting();
             foreach ($s->get_iterated() as $setting)
             {
-                $this->user->set_join_field($setting, 'is_on', $this->input->post($setting->name));
+                if ($this->user->save($setting))
+                {
+                    $this->user->set_join_field($setting, 'is_on', $this->input->post($setting->name));
+                }
             }
             
             json_success(array('response' => 'settings saved', 'pwIncorrect' => $pw_incorrect));

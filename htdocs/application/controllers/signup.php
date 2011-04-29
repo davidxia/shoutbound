@@ -9,19 +9,18 @@ class Signup extends CI_Controller
     }
 
 
-    function index()
+    public function index()
     {
         $u = new User();
         if ($u->get_logged_in_status())
         {
             redirect('/');
         }
-            
         $this->load->view('signup');
     }
     
     
-    function create_user()
+    public function create_user()
     {
 		    $u = new User();
 		    $u->name = $this->input->post('name');
@@ -42,12 +41,15 @@ class Signup extends CI_Controller
         }
     }
     
-    function ajax_create_user()
+    
+    public function ajax_create_user()
     {
 		    $u = new User();
 		    $u->name = $this->input->post('signupName');
 		    $u->email = $this->input->post('signupEmail');
 		    $u->password = md5('davidxia'.$this->input->post('signupPw').'isgodamongmen');
+		    $n = mt_rand(1, 8);
+		    $u->profile_pic = 'default_avatar'.$n.'.png';
 		    $u->created = time()-72;
 
         if ($u->save())
@@ -62,7 +64,7 @@ class Signup extends CI_Controller
     }
     
 
-    function ajax_create_fb_user()
+    public function ajax_create_fb_user()
     {
         $this->load->library('facebook');
         $fbuser = $this->facebook->api('/me?fields=name,email,friends');
