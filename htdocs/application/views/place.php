@@ -28,8 +28,9 @@ $this->load->view('core_header', $header_args);
     <div id="top-bar"><!--TOP BAR-->
       <div id="place-info">
         <div id="place-name">New York City</div>
-        <div id="place-description">New York is the most populous city in the United States and the center of the New York metropolitan area, which is one of the most populous metropolitan areas in the world. New York City exerts a significant impact upon global commerce, finance, media, culture, art, fashion, research, technology, education, and entertainment.</div>
-        <div id="wikipedia-url"><a href="#">Read more from Wikipedia</a></div>
+        <div id="place-description">New York is the most populous city in the United States and the center of the New York metropolitan area, which is one of the most populous metropolitan areas in the world. New York City exerts a significant impact upon global commerce, finance, media, culture, art, fashion, research, technology, education, and entertainment.<span id="wikipedia-url" class="subtext"> <a href="#">Source: Wikipedia</a></span></div>
+        <!--DAVID - WE SHOULD PULL THE FIRST 500 CHARACTERS FROM WIKIPEDIA AND DUMP IT IN PLACE-DESCRIPTION.  NEED TO GET RID OF ALL INTERNAL URLS AND FOOTNOTES, JUST PLAIN TEXT.  ALSO - NEED TO STOP AT THE LAST "." BEFORE 500 CHARACTERS IS REACHED SO WE DON'T HAVE AN ENTRY STOP MID-SENTENCE-->
+        
       </div>
                
       </div><!--TOP BAR END-->
