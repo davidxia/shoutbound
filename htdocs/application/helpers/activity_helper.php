@@ -12,6 +12,8 @@ function get_source(&$activity)
             $activity->stored->post = $p->stored;
             break;
         case 3:
+            $u = new User($activity->source_id);
+            $activity->stored->following = $u->stored;
             break;
         case 4:
             break;

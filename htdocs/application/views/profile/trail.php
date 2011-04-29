@@ -22,8 +22,12 @@
     <? elseif ( ! $profile->places):?>
       <?=$profile->name?> hasn't listed any places yet.
     <? endif;?>
-    <? foreach ($profile->places as $place):?>
-      <span class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>"><?=$place->name?></span>
+    <div>
+    <? $is_current = 'Current location: '; foreach ($profile->places as $place):?>
+      <?=$is_current?><span class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>"><?=$place->name?></span>
+      <br/>
+      <? $is_current = ''?>
     <? endforeach;?>
+    </div>
   </div>
 </div>

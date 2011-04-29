@@ -67,14 +67,14 @@ class Profile extends CI_Controller
             if ($pid != $this->user->id)
             {
                 $is_self = FALSE;
-                $this->user->related_user->where('id', $pid)->get();
-                if ( ! isset($this->user->related_user->id))
+                $this->user->related_user->where('id', $pid)->include_join_fields()->get();
+                if (isset($this->user->related_user->id) AND $this->user->related_user->join_is_following==1)
                 {
-                    $is_following = FALSE;
+                    $is_following = TRUE;
                 }
                 else
                 {
-                    $is_following = TRUE;
+                    $is_following = FALSE;
                 }
             }
             else
@@ -437,6 +437,37 @@ class Profile extends CI_Controller
           	{
               echo 'Invalid file type.';
           	}
+        }
+    }
+    
+    
+    public function ajax_edit_following()
+    {
+        $id = $this->input->post('profileId');
+        $u = new User($id);
+        
+        if ($this->input->post('follow'))
+        {
+            if ($u->save($this->user))
+            {
+                $u->set_join_field($this->user, 'is_following', 1);
+                $a = new Activitie();
+                $a->user_id = $this->user->id;
+                $a->activity_type = 3;
+                $a->source_id = $id;
+                $a->timestamp = time()-72;
+                $a->save();
+                echo 1;
+            }
+            else
+            {
+                echo 0;
+            }
+        }
+        else
+        {
+            $u->set_join_field($this->user, 'is_following', 0);
+            echo 1;
         }
     }
     

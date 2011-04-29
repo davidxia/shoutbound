@@ -16,7 +16,7 @@ $this->load->view('core_header', $header_args);
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
-  var profileId = '<?=$profile->id?>';
+  var profileId = <?=$profile->id?>;
   var isSelf = <? if ($is_self) echo 1; else echo 0;?>;
 </script>
   
@@ -95,6 +95,8 @@ $this->load->view('core_header', $header_args);
               <? elseif ($activity->activity_type==2):?>
                 posted on <a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a><br/>
                 <?=$activity->post->content?>
+              <? elseif ($activity->activity_type==3):?>
+                started following <a href="<?=site_url('trips/'.$activity->following->id)?>"><?=$activity->following->name?></a>
               <? elseif ($activity->activity_type==10):?>
                 changed his current location to <a href="#"><?=$activity->place->name?></a>
               <? endif;?>

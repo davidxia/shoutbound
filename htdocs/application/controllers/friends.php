@@ -2,7 +2,6 @@
 
 class Friends extends CI_Controller
 {
-    
     public $user;
     
     function __construct()
@@ -33,24 +32,6 @@ class Friends extends CI_Controller
         );
 
         $this->load->view('friends', $view_data);
-        //print_r($this->user->stored);
-    }
-        
-    
-    public function ajax_add_following()
-    {
-        $fid = $this->input->post('profileId');
-        $f = new User();
-        $f->get_by_id($fid);
-        
-        if ($f->save($this->user))
-        {
-            echo 1;
-        }
-        else
-        {
-            echo 0;
-        }
     }
 }
 

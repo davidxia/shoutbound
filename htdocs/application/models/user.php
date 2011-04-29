@@ -183,17 +183,20 @@ class User extends DataMapper
     
     public function get_num_following()
     {
-        $this->stored->num_following = $this->related_user->count();
+        $this->stored->num_following = $this->related_user->where_join_field($this, 'is_following', 1)->count();
     }
     
     
     public function get_following()
     {
         $this->stored->following = array();
-        foreach ($this->related_user->get() as $following)
+        foreach ($this->related_user->include_join_fields()->get_iterated() as $following)
         {
-            $following->get_current_place();
-            $this->stored->following[] = $following->stored;
+            if ($following->join_is_following == 1)
+            {
+                $following->get_current_place();
+                $this->stored->following[] = $following->stored;
+            }
         }
     }
     
@@ -218,17 +221,20 @@ class User extends DataMapper
 
     public function get_num_followers()
     {
-        $this->stored->num_followers = $this->user->count();
+        $this->stored->num_followers = $this->user->where_join_field($this, 'is_following', 1)->count();
     }
     
     
     public function get_followers()
     {
         $this->stored->followers = array();
-        foreach ($this->user->get() as $follower)
+        foreach ($this->user->include_join_fields()->get_iterated() as $follower)
         {
-            $follower->get_current_place();
-            $this->stored->followers[] = $follower->stored;
+            if ($follower->join_is_following == 1)
+            {
+                $follower->get_current_place();
+                $this->stored->followers[] = $follower->stored;
+            }
         }
     }
 

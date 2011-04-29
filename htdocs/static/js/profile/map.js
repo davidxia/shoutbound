@@ -128,10 +128,7 @@ map.showTabMarkers = function(tabName) {
 
 $(function() {
   $('abbr.timeago').timeago();
-});
 
-
-$(function() {
   if (isSelf) {
     $('#profile-pic-container').hover(
       function() {
@@ -150,20 +147,33 @@ $(function() {
       }
     );
   }
-});
 
-
-$('#follow').click(function() {
-  $.post(baseUrl+'friends/ajax_add_following', {profileId:profileId},
-    function(data) {
-      if (data == 1) {
-        $('#follow').remove();
-        $('#profile-col-right').prepend('Following');
-      } else {
-        alert('something broken, tell David');
-      }
-    });
-  return false;
+  $('#follow').click(function() {
+    $.post(baseUrl+'profile/ajax_edit_following', {profileId:profileId, follow:1},
+      function(d) {
+        if (d == 1) {
+          $('#follow').remove();
+          $('#follow-and-stats-container').append('Following');
+        } else {
+          alert('something broken, tell David');
+          console.log(d);
+        }
+      });
+    return false;
+  });
+  
+  $('#unfollow').click(function() {
+    $.post(baseUrl+'profile/ajax_edit_following', {profileId:profileId, follow:0},
+      function(d) {
+        if (d == 1) {
+          $('#unfollow').remove();
+          $('#follow-and-stats-container').append('Follow');
+        } else {
+          alert('something broken, tell David');
+        }
+      });
+    return false;
+  });
 });
 
 
