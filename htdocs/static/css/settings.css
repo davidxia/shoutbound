@@ -47,13 +47,13 @@
   border:1px solid #DADADA;
   height:125px;
   width:125px;
-  float:left;
-  margin-right:10px;
+  margin-right:55px;
 }
 
 #change-photo{
   margin-top:5px;
-  float:left;
+  margin-right:140px;
+  float:right;
 }
 
 input, textarea{

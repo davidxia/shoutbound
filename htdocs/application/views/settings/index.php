@@ -31,9 +31,9 @@ $this->load->view('core_header', $header_args);
     
       <div id="left-content-container">
       
-        <ul id="main-tabs"><!--DAVID NEEDED TO MAKE TABBING WORK-->
-          <li><a href="#account">Account</a></li>
-          <li><a href="#profile">Profile</a></li>
+        <ul id="main-tabs">
+          <li class="active"><a href="<?=site_url('settings')?>">Account</a></li>
+          <li><a href="<?=site_url('settings/profile')?>">Profile</a></li>
         </ul>
         
         <div style="clear:both"></div>

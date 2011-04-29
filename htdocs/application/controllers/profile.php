@@ -403,8 +403,8 @@ class Profile extends CI_Controller
     public function profile_pic_uploadify()
     {
         if ( ! empty($_FILES)) {
-            //$uid = $this->input->post('uid');
-            $uid = $this->user->id;
+            $uid = $this->input->post('uid');
+            //$uid = $this->user->id;
           	$tempFile = $_FILES['Filedata']['tmp_name'];
           	list($width, $height, $type, $attr) = getimagesize($_FILES['Filedata']['tmp_name']);
           	

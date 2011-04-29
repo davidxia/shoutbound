@@ -9,11 +9,11 @@ $header_args = array(
     'js_paths'=>array(
         'js/profile/edit.js',
         'js/jquery/timeago.js',
-        'js/jquery/jquery-dynamic-form.js',
-        'js/jquery/validate.min.js',
         'js/uploadify/swfobject.js',
         'js/uploadify/jquery.uploadify.v2.1.4.min.js',
         'js/jquery/jquery-ui-1.8.11.custom.min.js',
+        'js/jquery/jquery-dynamic-form.js',
+        'js/jquery/validate.min.js',
     )
 );
 
@@ -29,73 +29,75 @@ $this->load->view('core_header', $header_args);
 <body>
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
+  
+    <div id="top-bar">
+      Manage your Shoutbound account
+    </div>
+        
     <div id="col-left">
     
       <div id="left-content-container">
-        <div id="main-tab-container" class="tab-container">
-
-    <!--DAVID, START COPY AND PASTE HERE-->
-      <div id="profile-tab" class="main-tab-content"> 
-        <div id="picture" class="settings-item">
-          <div class="settings-item-name">Picture</div>
-          <div class="settings-item-content">
-            <div id="current-profile-pic" class="profile-pic-container">
-              <a href="<?=static_sub('profile_pics/'.$user->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$user->profile_pic)?>" width="125" height="125"/></a>
-            </div>
-            <div id="change-photo">
-              <a href="#" id="file_upload" name="file_upload" type="file"></a>
-              <div class="subtext">Maximum size: 700kb</div>
-              <div id="custom-queue"></div>
-            </div>        
-          </div>
-          <div style="clear:both"></div>
-        </div>
-        
-        <div id="web" class="settings-item">
-          <div class="settings-item-name">Web</div>
-          <div class="settings-item-content">
-            <fieldset>
-              <input type="text" id="url" style="width:275px; height:20px;" value="<?=$user->url?>"/>                        
-            </fieldset>
-            <span class="subtext">Have your own website or blog? Put the address here.</span>        
-          </div>
-        </div>        
-               
-        <div style="clear:both"></div>                      
-
-        <div id="location" class="settings-item">
-          <div class="settings-item-name">Current location</div>
-          <div class="settings-item-content">
-            <fieldset>
-              <input type="text" id="location" style="width:275px; height:20px;" value="<? if (isset($user->place)) echo $user->place->name?>"/><!--DAVID NEEDED TO MAKE LOCATION SEARCH WORK-->                        
-              </fieldset> 
-            <span class="subtext">Where in the world are you in right now?</span>        
-          </div>
-        </div>        
-               
-        <div style="clear:both"></div>   
-
-        <div id="bio" class="settings-item">
-          <div class="settings-item-name">Bio</div>
-          <div class="settings-item-content">
-            <fieldset>
-              <textarea id="bio" style="width:415px; height:125px;"><?=$user->bio?></textarea>                        
-            </fieldset>
-            <span class="subtext">Describe yourself in 250 characters or less. Characters remaining: DAVID</span><!--DAVID, PLEASE INSERT CHARACTER COUNTER HERE-->       
-          </div>
-        </div> 
+      
+        <ul id="main-tabs">
+          <li><a href="<?=site_url('settings')?>">Account</a></li>
+          <li class="active"><a href="<?=site_url('settings/profile')?>">Profile</a></li>
+        </ul>
         
         <div style="clear:both"></div>
-                           
-       <div id="save-settings-container">
-          <input type="submit" id="save-profile" value="Save" class="save-settings-button"/><!--DAVID NEEDED - THIS BUTTON NEEDS TO SAVE ALL THE FIELDS, RIGHT NOW JUST SAVES URL FIELD-->
-        </div>
-             
-      </div>
-      <!--DAVID, STOP COPY AND PASTE HERE-->
+        
+        <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
+          <div id="profile-tab" class="main-tab-content">
+            <div id="picture" class="settings-item">
+              <div class="settings-item-name">Picture</div>
+              <div class="settings-item-content">
+                <div id="change-photo">
+                  <a href="#" id="file_upload" name="file_upload" type="file"></a>
+                  <div class="subtext">Maximum size: 700kb</div>
+                  <div id="custom-queue"></div>
+                </div>        
+                <div id="current-profile-pic" class="profile-pic-container">
+                  <a href="<?=static_sub('profile_pics/'.$user->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$user->profile_pic)?>" width="125" height="125"/></a>
+                </div>
+              </div>
+            </div>
+            
+            <div id="web" class="settings-item">
+              <div class="settings-item-name">Web</div>
+              <div class="settings-item-content">
+                <fieldset>
+                  <input type="text" id="url" style="width:275px; height:20px;" value="<?=$user->url?>"/>                        
+                </fieldset>
+                <span class="subtext">Have your own website or blog? Put the address here.</span>        
+              </div>
+            </div>        
+    
+            <div id="location" class="settings-item">
+              <div class="settings-item-name">Current location</div>
+              <div class="settings-item-content">
+                <fieldset>
+                  <input type="text" id="location" style="width:275px; height:20px;" value="<? if (isset($user->place)) echo $user->place->name?>"/><!--DAVID NEEDED TO MAKE LOCATION SEARCH WORK-->                        
+                  </fieldset> 
+                <span class="subtext">Where in the world are you in right now?</span>        
+              </div>
+            </div>        
+    
+            <div class="settings-item">
+              <div class="settings-item-name">Bio</div>
+              <div class="settings-item-content">
+                <fieldset>
+                  <textarea id="bio" style="width:415px; height:125px;"><?=$user->bio?></textarea>                        
+                </fieldset>
+                <span class="subtext">Describe yourself in 250 characters or less. Characters remaining: <span id="chars-remaining">250</span></span>
+              </div>
+            </div> 
+                                       
+            <div id="save-settings-container">
+              <input type="submit" id="save-profile" value="Save" class="save-settings-button"/><!--DAVID NEEDED - THIS BUTTON NEEDS TO SAVE ALL THE FIELDS, RIGHT NOW JUST SAVES URL FIELD-->
+            </div>
+          </div><!-- PROFILE TAB ENDS -->
       
-      </div>
-      </div>
+      </div><!-- TAB CONTAINER ENDS -->
+      </div><!-- LEFT CONTENT CONTAINER ENDS -->
   
     <!--<h2>Where I've been</h2>
     <form id="been-to-form">
@@ -137,10 +139,15 @@ $this->load->view('core_header', $header_args);
       
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
-
-
+  <? $this->load->view('footer')?>
   
 <script type="text/javascript">
+$(function() {
+  $('#bio').keyup(function() {
+    $('#chars-remaining').text(250-$(this).val().length);
+  });
+  
+});
 /*$(function() {
   $('abbr.timeago').timeago();
 });*/
