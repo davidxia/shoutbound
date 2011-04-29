@@ -19,18 +19,21 @@ $(function() {
 $(function() {
   $('#save-profile').click(function() {
     var bio = $('#bio'),
-        url = $('#url');
+        url = $('#url'),
+        currPlaceId = $('#current-place-id').val();
     
     var urlVal = url.val();
     if (!urlVal.match(/^[a-zA-Z]+:\/\//)) {
       urlVal = 'http://' + urlVal;
     }
+    console.log(currPlaceId);
 
-    $.post(baseUrl+'profile/ajax_save_profile', {bio:bio.val(), url:urlVal},
+    $.post(baseUrl+'profile/ajax_save_profile', {bio:bio.val(), url:urlVal, currPlaceId:currPlaceId},
       function(d) {
         var d = $.parseJSON(d);
         bio.val(d.bio);
         url.val(d.url);
+        $('#current-place').val(d.currPlace);
         alert('saved');
       });
     return false;
@@ -124,6 +127,8 @@ delay = (function() {
 
 placeAutocomplete = function(query, input) {
   var spinner = input.siblings('.loading-places');
+  console.log(input);
+  console.log(spinner);
   spinner.show();
   $.post(baseUrl+'places/ajax_autocomplete', {query:query},
     function(r) {

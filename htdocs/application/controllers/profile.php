@@ -389,9 +389,13 @@ class Profile extends CI_Controller
     {
         $this->user->bio = $this->input->post('bio');
         $this->user->url = $this->input->post('url');
-        if ($this->user->save())
+        
+        $p = new Place($this->input->post('currPlaceId'));
+        
+        if ($this->user->save($p))
         {
-            json_success(array('bio' => $this->input->post('bio'), 'url' => $this->input->post('url')));
+            $this->user->set_join_field($p, 'timestamp', time());
+            json_success(array('bio' => $this->input->post('bio'), 'url' => $this->input->post('url'), 'currPlace' => $p->name));
         }
         else
         {

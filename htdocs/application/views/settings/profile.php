@@ -61,32 +61,28 @@ $this->load->view('core_header', $header_args);
               </div>
             </div>
             
-            <div id="web" class="settings-item">
+            <div class="settings-item">
               <div class="settings-item-name">Web</div>
               <div class="settings-item-content">
-                <fieldset>
-                  <input type="text" id="url" style="width:275px; height:20px;" value="<?=$user->url?>"/>                        
-                </fieldset>
+                <input type="text" id="url" style="width:275px; height:20px;" value="<?=$user->url?>"/><br/>
                 <span class="subtext">Have your own website or blog? Put the address here.</span>        
               </div>
             </div>        
     
-            <div id="location" class="settings-item">
+            <div class="settings-item" style="position:relative;">
               <div class="settings-item-name">Current location</div>
               <div class="settings-item-content">
-                <fieldset>
-                  <input type="text" id="location" style="width:275px; height:20px;" value="<? if (isset($user->place)) echo $user->place->name?>"/><!--DAVID NEEDED TO MAKE LOCATION SEARCH WORK-->                        
-                  </fieldset> 
-                <span class="subtext">Where in the world are you in right now?</span>        
+                <input type="text" id="current-place" class="place-input" style="width:275px; height:20px;" value="<? if (isset($user->place)) echo $user->place->name?>"/>
+                <img class="loading-places" src="<?=site_url('images/ajax-loader.gif')?>" width="16" height="16" style="display:none; position:absolute; right:150px; top:4px;"/>
+                <input id="current-place-id" class="place_id" name="current-place-id" type="hidden"/>
+                <br/><span class="subtext">Where in the world are you in right now?</span>        
               </div>
             </div>        
     
             <div class="settings-item">
               <div class="settings-item-name">Bio</div>
               <div class="settings-item-content">
-                <fieldset>
-                  <textarea id="bio" style="width:415px; height:125px;"><?=$user->bio?></textarea>                        
-                </fieldset>
+                <textarea id="bio" style="width:415px; height:125px;"><?=$user->bio?></textarea><br/>
                 <span class="subtext">Describe yourself in 250 characters or less. Characters remaining: <span id="chars-remaining">250</span></span>
               </div>
             </div> 
@@ -114,7 +110,7 @@ $this->load->view('core_header', $header_args);
             </span>
             <input id="place" class="place-input" name="place" type="text" style="width:300px;" autocomplete="off"/>
             <img class="loading-places" src="<?=site_url('images/ajax-loader.gif')?>" width="16" height="16" style="display:none; position:absolute; right:10px; top:7px;"/>
-            <input id="place_id" class="place_id" name="place_id"type="hidden"/>
+            <input id="place_id" class="place_id" name="place_id" type="hidden"/>
           </div>
           
           <div class="field dates" style="width:251px; margin-left:325px;">
