@@ -45,7 +45,7 @@ $this->load->view('core_header', $header_args);
       <div id="top-bar"><!--TOP BAR-->
         
         <div id="trip-info">
-          <h1><?=$trip->name?></h1>
+          <div class="top-bar-header"><?=$trip->name?></div>
     			<div id="trip_description"><?=$trip->description?></div>
     			
     			<div id="trip_goers"><!--TRIP GOERS-->  

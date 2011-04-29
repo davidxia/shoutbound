@@ -27,11 +27,13 @@ $this->load->view('core_header', $header_args);
 </head>
 
 <body>
+
+  <div id="sticky-footer-wrapper">
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
   
     <div id="top-bar">
-      Manage your Shoutbound account
+      Manage your Shoutbound account.
     </div>
         
     <div id="col-left">
@@ -135,6 +137,7 @@ $this->load->view('core_header', $header_args);
       
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
+  </div><!--STICKY FOOTER WRAPPER ENDS-->
   <? $this->load->view('footer')?>
   
 <script type="text/javascript">
