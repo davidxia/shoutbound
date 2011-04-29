@@ -130,7 +130,7 @@
   }
 
 
-  $(document).ready(function() {
+  $(function() {
     $('#fb_login_button').click(function() {
       FB.login(function(response) {
         if (response.session) {

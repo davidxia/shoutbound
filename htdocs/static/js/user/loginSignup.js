@@ -28,7 +28,9 @@ loginSignup.showDialog = function(callback, id, param) {
     url: baseUrl+'users/login_signup',
     success: function(r) {
       var r = $.parseJSON(r);
-      $('#div-to-popup').empty().append(r.data).bPopup({follow:false, opacity:0});
+      var popup = $('<div style="display:none;"/>');
+      $('body').append(popup);
+      popup.append(r.data).bPopup({follow:false, opacity:0});
     }
   });
 };
@@ -50,6 +52,10 @@ loginSignup.success = function(callback, id, param) {
       break;
     case 'wall like':
       wall.saveLike(id, param);
+      window.location.reload();
+      break;
+    case 'follow user':
+      editFollowing();
       window.location.reload();
       break;
   }

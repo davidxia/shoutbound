@@ -149,16 +149,11 @@ $(function() {
   }
 
   $('#follow').click(function() {
-    $.post(baseUrl+'profile/ajax_edit_following', {profileId:profileId, follow:1},
-      function(d) {
-        if (d == 1) {
-          $('#follow').remove();
-          $('#follow-and-stats-container').append('Following');
-        } else {
-          alert('something broken, tell David');
-          console.log(d);
-        }
-      });
+    if (loginSignup.getStatus()) {
+      editFollowing();
+    } else {
+      loginSignup.showDialog('follow user');
+    }
     return false;
   });
   
@@ -175,6 +170,19 @@ $(function() {
     return false;
   });
 });
+
+
+editFollowing = function() {
+  $.post(baseUrl+'profile/ajax_edit_following', {profileId:profileId, follow:1},
+    function(d) {
+      if (d == 1) {
+        $('#follow').remove();
+        $('#follow-and-stats-container').append('Following');
+      } else {
+        alert('something broken, tell David');
+      }
+    });
+};
 
 
 loadTabs = function(defaultTab) {

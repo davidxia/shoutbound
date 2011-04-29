@@ -229,9 +229,7 @@ $this->load->view('core_header', $header_args);
             
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
-  
-  <div id="div-to-popup" style="display:none;"></div>
-			  
+  			  
 </div><!--END STICKY FOOTER WRAPPER-->
 <? $this->load->view('footer')?>
 

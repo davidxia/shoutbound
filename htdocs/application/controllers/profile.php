@@ -446,7 +446,7 @@ class Profile extends CI_Controller
         $id = $this->input->post('profileId');
         $u = new User($id);
         
-        if ($this->input->post('follow'))
+        if ($this->input->post('follow') AND $u->id != $this->user->id)
         {
             if ($u->save($this->user))
             {

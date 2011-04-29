@@ -8,6 +8,9 @@ $header_args = array(
         'js/jquery/jquery.ba-bbq.min.js',
         'js/profile/map.js',
         'js/jquery/timeago.js',
+        'js/user/loginSignup.js',
+        'js/jquery/popup.js',
+        'js/jquery/validate.min.js',
     )
 );
 
@@ -56,13 +59,12 @@ $this->load->view('core_header', $header_args);
         
         
         <div id="follow-button">
-          <? if ($user AND !$is_self):?>
-            <? if ( ! $is_following):?>
-              <a href="#" id="follow">Follow</a>
-            <? else:?>
-              <a href="#" id="unfollow">Unfollow</a>
-            <? endif;?>
-          <? endif;?>
+        <? if (!$is_self AND !$is_following):?>
+          <a href="#" id="follow">Follow</a>
+        <? endif;?>
+        <? if ($user AND !$is_self AND $is_following):?>
+          <a href="#" id="unfollow">Unfollow</a>
+        <? endif;?>
         </div>        
         
       </div><!-- FOLLOW BUTTON + STATS END-->  
@@ -129,6 +131,5 @@ $this->load->view('core_header', $header_args);
   </div><!-- WRAPPER ENDS -->
 
   <? $this->load->view('footer')?>
-
 </body> 
 </html>

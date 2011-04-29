@@ -7,7 +7,7 @@ $header_args = array(
         'css/settings.css',
     ),
     'js_paths'=>array(
-        'js/profile/edit.js',
+        'js/settings/profile.js',
         'js/jquery/timeago.js',
         'js/uploadify/swfobject.js',
         'js/uploadify/jquery.uploadify.v2.1.4.min.js',
