@@ -83,7 +83,7 @@ $this->load->view('core_header', $header_args);
               <div class="settings-item-name">Bio</div>
               <div class="settings-item-content">
                 <textarea id="bio" style="width:415px; height:125px;"><?=$user->bio?></textarea><br/>
-                <span class="subtext">Describe yourself in 250 characters or less. Characters remaining: <span id="chars-remaining">250</span></span>
+                <span class="subtext">Describe yourself in 250 characters or less. Characters remaining: <span id="chars-remaining"></span></span>
               </div>
             </div> 
                                        
@@ -140,10 +140,16 @@ $this->load->view('core_header', $header_args);
 <script type="text/javascript">
 $(function() {
   $('#bio').keyup(function() {
-    $('#chars-remaining').text(250-$(this).val().length);
-  });
-  
+    var charsLeft = 250-$(this).val().length;
+    $('#chars-remaining').text(charsLeft);
+    if (charsLeft < 0) {
+      $(this).val($(this).val().substring(0, 250));
+    }
+  });  
+  $('#bio').trigger('keyup');
 });
+
+
 /*$(function() {
   $('abbr.timeago').timeago();
 });*/
