@@ -50,12 +50,10 @@ var cache = {};
 
 wall.scrollElem;
 
+
 $(function() {
   $('abbr.timeago').timeago();
-});
 
-
-$(function() {
   $('.wallitem').live('mouseover mouseout', function(event) {
     if (event.type == 'mouseover') {
       $(this).children('.remove-wallitem').css('opacity', 1);
@@ -566,7 +564,7 @@ wall.autocompleteClick = function(id, name) {
   return false;
 };
 
-$(document).ready(function() {
+$(function() {
   wall.bindLike();
   var defaultTab = $('#main-tabs').find('a:first').attr('href').substring(1);
   loadTabs(defaultTab);

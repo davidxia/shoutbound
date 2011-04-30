@@ -84,10 +84,12 @@ class Places extends CI_Controller
         $gp->get_num_posts();
         $gp->get_num_trips();
         $gp->get_num_followers();
+        $gp->get_posts();
+        //print_r($gp->stored);
+        //print_r($posts);
         
         $this->user->get_follow_status_by_place_id(4);
-        //print_r($this->user->stored);
-        //print_r($gp->stored);
+        
         
         
         $user = (isset($this->user->id)) ? $this->user->stored : NULL;

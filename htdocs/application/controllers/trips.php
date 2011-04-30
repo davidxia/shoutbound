@@ -177,16 +177,15 @@ class Trips extends CI_Controller
             }
         }
                 
-        $view_data = array(
+        $data = array(
             'trip' => $t->stored,
             'user' => $user,
             'user_role' => $user_role,
             'user_rsvp' => $user_rsvp,
-            'wallitems' => $t->get_wallitems(),
+            'wallitems' => $t->get_posts(),
         );
         
-        $this->load->view('trip/index', $view_data);
-        //print_r($t->stored);
+        $this->load->view('trip/index', $data);
     }
     
     

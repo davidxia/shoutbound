@@ -4,7 +4,7 @@ map.googleMap;
 map.infoWindow;
 
 $(function() {
-  var top = $('#map-shell').offset().top - parseFloat($('#map-shell').css('marginTop').replace(/auto/, 0)) + 460;
+  var top = $('#map-shell').offset().top - parseFloat($('#map-shell').css('marginTop').replace(/auto/, 0)) + 46;
   var didScroll = false;
   $(window).scroll(function () {
     didScroll = true;

@@ -28,22 +28,3 @@ map.loadGoogleMap = function() {
   
   map.googleMap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 };
-
-
-$(function() {
-  $('#follow').live('click', function() {
-    $.post(baseUrl+'places/ajax_edit_follow', {placeId:placeId, follow:1},
-      function(d) {
-        console.log(d);
-      });
-    return false;
-  });
-
-  $('#unfollow').live('click', function() {
-    $.post(baseUrl+'places/ajax_edit_follow', {placeId:placeId, follow:0},
-      function(d) {
-        console.log(d);
-      });
-    return false;
-  });
-});

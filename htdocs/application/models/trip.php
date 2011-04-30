@@ -67,52 +67,38 @@ class Trip extends DataMapper {
     }
         
     
-    public function get_wallitems()
+    public function get_posts()
     {
-		    $wallitems = array();
-        $this->load->helper('quicksort');
-		    
-        $this->wallitem->where('parent_id', NULL)->where('active', 1)->get();
-        foreach ($this->wallitem as $wallitem)
+		    $posts = array();
+        foreach ($this->wallitem->where('parent_id', NULL)->where('active', 1)->order_by('created', 'asc')->get_iterated() as $post)
         {
             // get creator's name
-            $wallitem->get_creator();
+            $post->get_creator();
             // convert \n to <br/>
-            $wallitem->convert_nl();
+            $post->convert_nl();
             // generate html for wallitem's places
-            $wallitem->get_places();
+            $post->get_places();
             // get number of likes
-            $wallitem->get_likes();
+            $post->get_likes();
             
             // get replies and attach their places
-            $r = $wallitem->get_replies();
+            $r = $post->get_replies();
             $replies = array();
             foreach ($r as $reply)
             {
-                // get creator's name
                 $reply->get_creator();
                 $reply->convert_nl();
-                // generate html for wallitem's places
                 $reply->get_places();
-                // get number of likes
                 $reply->get_likes();
                 $replies[] = $reply->stored;
             }
             
-            if ($replies)
-            {
-                _quicksort($replies);
-            }
             // packages each wallitem with replies into separate array
-            $wallitem->stored->replies = $replies;
-            $wallitems[] = $wallitem->stored;
+            $post->stored->replies = $replies;
+            $posts[] = $post->stored;
         }
         
-        if ($wallitems)
-        {
-            _quicksort($wallitems);
-        }
-        return $wallitems;
+        return $posts;
     }
 
 

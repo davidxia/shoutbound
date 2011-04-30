@@ -77,13 +77,12 @@ class Wallitem extends DataMapper
             $this->stored->content);
             
         $this->stored->content = str_replace('</place>', '</a>', $this->stored->content);
-        //return $this->content;
     }
     
 
     public function get_replies()
     {
-        $this->wallitem->where('active', 1)->get();
+        $this->wallitem->where('active', 1)->order_by('created', 'asc')->get();
         /*
         $replies = array();
         foreach ($this->wallitem as $wallitem)
