@@ -23,7 +23,7 @@ html, body {
 }
 
 .header{
-	background-color: #25398C;
+	background-color: #203279;
 	border-bottom:1px solid #333;
   display: block;
   height: 30px;
@@ -43,24 +43,29 @@ html, body {
   font-size:12px;
 }
 
-.header .nav a:hover {
+.header .nav a:hover, .footer a:hover {
   color:fuchsia;
 }
 
 .content {
-  padding: 25px 0 100px;
+  padding: 25px 0 80px;
   overflow:auto;
 }
 
 .footer {
+  color:white;
   position:relative;
-  font-size: 14px;
-  height:40px;
-  border-top:1px solid #777;
-  line-height:40px;
+  font-size: 12px;
+  height:25px;
+  border-top:1px solid #333;
+  line-height:25px;
   clear:both;
-  background-color:#FAFAFA;
-  margin-top:-41px;
+  background-color:#666;
+  margin-top:-26px;
+}
+
+.footer a, .footer a:visited{
+  color:white;
 }
 
 .footer a.marg-right {
