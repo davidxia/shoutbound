@@ -9,6 +9,7 @@ class User extends DataMapper
       'trip',
       'wallitem',
       'place',
+      'geoplanet_place',
       'setting',
       'friend',
       'related_user' => array(
@@ -375,6 +376,24 @@ class User extends DataMapper
         foreach ($this->settings->include_join_fields()->order_by('id', 'asc')->get_iterated() as $setting)
         {
             $this->stored->settings[$setting->id] = $setting->join_is_on;
+        }
+    }
+    
+    
+    public function get_follow_status_by_place_id($id = FALSE)
+    {
+        if ( ! $id)
+        {
+            return FALSE;
+        }
+        $this->geoplanet_place->where('id', $id)->where_join_field($this, 'is_following', 1)->get();
+        if ($this->geoplanet_place->id)
+        {
+            $this->stored->is_following = TRUE;
+        }
+        else
+        {
+            $this->stored->is_following = FALSE;
         }
     }
         

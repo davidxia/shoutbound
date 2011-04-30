@@ -2,7 +2,7 @@
 
 class Trip extends DataMapper {
  
-    public $has_many = array('user', 'place', 'wallitem', 'suggestion', 'destination', 'trip_share');
+    public $has_many = array('user', 'place', 'geoplanet_place', 'wallitem', 'suggestion', 'destination', 'trip_share');
 
     var $validation = array(
         array(

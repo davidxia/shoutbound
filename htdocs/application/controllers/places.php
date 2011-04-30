@@ -2,12 +2,20 @@
 
 class Places extends CI_Controller
 {
+    public $user;
     
     function __construct()
     {
         parent::__construct();
+        $u = new User();
+        $uid = $u->get_logged_in_status();
+        if ($uid)
+        {
+            $u->get_by_id($uid);
+            $this->user = $u;
+        }
 		}
-
+		
 
     public function ajax_autocomplete()
     {
@@ -61,9 +69,50 @@ class Places extends CI_Controller
     }
     
     
-    public function index()
+    public function index($id = FALSE)
     {
-        $this->load->view('place');
+        if ( ! $id)
+        {
+            custom_404();
+            return;
+        }
+        
+        $p = new Place($id);
+        //print_r($p->stored);
+        
+        $gp = new Geoplanet_place(4);
+        $gp->get_num_posts();
+        $gp->get_num_trips();
+        $gp->get_num_followers();
+        
+        $this->user->get_follow_status_by_place_id(4);
+        //print_r($this->user->stored);
+        //print_r($gp->stored);
+        
+        
+        $user = (isset($this->user->id)) ? $this->user->stored : NULL;
+        
+        $data = array(
+            'user' => $user,
+            'place' => $gp->stored,
+        );
+        $this->load->view('place', $data);
+        
+    }
+    
+    
+    public function ajax_edit_follow()
+    {
+        $p = new Geoplanet_place($this->input->post('placeId'));
+        if ($p->save($this->user))
+        {
+            $p->set_join_field($this->user, 'is_following', $this->input->post('follow'));
+            echo 1;        
+        }
+        else
+        {
+            echo 0;
+        }
     }
 }
 

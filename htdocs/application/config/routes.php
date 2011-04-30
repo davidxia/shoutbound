@@ -44,6 +44,7 @@ $route['default_controller'] = "landing";
 $route['scaffolding_trigger'] = "";
 $route['trips/(:num)'] = "trips/index/$1";
 $route['profile/(:num)'] = "profile/index/$1";
+$route['places/(:num)'] = "places/index/$1";
 $route['404_override']  = 'error/error_404';
 
 /* End of file routes.php */

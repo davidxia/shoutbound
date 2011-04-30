@@ -13,6 +13,7 @@ class Wallitem extends DataMapper
     
     public $has_many = array(
         'trip',
+        'geoplanet_place',
         'wallitem' => array(
             'other_field' => 'parent'
         ),
