@@ -23,8 +23,8 @@ html, body {
 }
 
 .header{
-	background-color: #EAEAEA;
-	/*border-bottom:1px solid #333;*/
+	background-color: #10193D;
+  border-bottom:1px solid #333;
   display: block;
   height: 30px;
   line-height:30px;
@@ -37,15 +37,15 @@ html, body {
 /*1B2A66 10193D*/
 
 .header .nav a, .header .nav a:visited {
-  /*color:white;*/
+  color:white;
   margin-left:21px;
   float:left;
   font-size:12px;
 }
 
-/*.header .nav a:hover, .footer a:hover {
+.header .nav a:hover, .footer a:hover {
   color:fuchsia;
-}*/
+}
 
 .content {
   padding: 25px 0 80px;
@@ -60,7 +60,7 @@ html, body {
   border-top:1px solid #333;
   line-height:25px;
   clear:both;
-  background-color:#666;
+  background-color:#10193D;
   margin-top:-26px;
 }
 
@@ -131,9 +131,9 @@ h4{
 }
 
 .img-container{
-  padding:5px;
-  border:1px solid #CACACA;
-  background-color:#EAEAEA;
+  padding:2px;
+  border:1px solid #BABABA;
+  background-color:#FAFAFA;
 }
 
 a, a:visited{
@@ -183,7 +183,7 @@ fieldset {
 }
 
 .bullet{
-  color:#CACACA;
+  color:#BABABA;
   font-size:10px;
   margin-right:3px;
 }
@@ -299,9 +299,9 @@ li.postitem:hover{
 /* Tabs */
 
 .tab-container{
- border-left:1px solid #CACACA;
- border-bottom:1px solid #CACACA;
- border-right:1px solid #CACACA;
+ border-left:1px solid #BABABA;
+ border-bottom:1px solid #BABABA;
+ border-right:1px solid #BABABA;
  min-height:600px; 
  clear:both;
 }
@@ -309,7 +309,7 @@ li.postitem:hover{
 #main-tabs{
 	list-style: none;
 	height: 36px;
-	border-bottom: 1px solid #CACACA;
+	border-bottom: 1px solid #BABABA;
 	width: 600px;
 }
 
@@ -344,9 +344,9 @@ li.postitem:hover{
 #main-tabs li.active{ 
 	border-bottom: 1px solid white; 
 	font-weight:bold;
-	border-left:1px solid #CACACA;
-	border-right:1px solid #CACACA;
-	border-top:1px solid #CACACA;
+	border-left:1px solid #BABABA;
+	border-right:1px solid #BABABA;
+	border-top:1px solid #BABABA;
 	width:122px;
 }
 
@@ -369,7 +369,7 @@ li.postitem:hover{
   margin-top:46px;
   width:330px;
   padding:5px;
-  border:1px solid #CACACA;
+  border:1px solid #BABABA;
 }
 
 #map-canvas{
@@ -404,7 +404,7 @@ ul.stats-list li{
 }
 
 li.border-left{
-  border-left:1px solid #CACACA;
+  border-left:1px solid #BABABA;
 }
 
 ul.stats-list li a{
