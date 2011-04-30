@@ -2,7 +2,7 @@
 <div class="header">
   <div class="wrapper">
     <h1>
-      <a href="<?=site_url('/')?>"><img src="<?=site_url('images/logo_header.png')?>" alt="Shoutbound" width="70" height="40"/></a>
+      <a href="<?=site_url('/')?>"><img src="<?=site_url('images/logo_header.png')?>" alt="Shoutbound" width="52" height="30"/></a>
     </h1>
         
    	<? if ( ! isset($is_landing)):?>

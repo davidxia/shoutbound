@@ -1,10 +1,18 @@
+.main-tab-content{
+  padding:10px;
+}
+
 .settings-item{
-  margin:25px 0;
+  padding-top:20px;
 }
 
 .settings-item-header{
    /*background-color:#EAEAEA;*/
   font-weight:bold;
+}
+
+.settings-input-container{
+  margin-bottom:5px;
 }
 
 .settings-item-name{

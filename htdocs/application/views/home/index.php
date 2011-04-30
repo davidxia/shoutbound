@@ -111,7 +111,7 @@ $this->load->view('core_header', $header_args);
                 <li id="postitem-<?=$news_feed_item->id?>" class="<? if($first):?><? echo 'first-postitem'; $first=FALSE;?><? endif;?> postitem">
                   <div class="postitem-avatar-container">
                     <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>">
-                      <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" class="tooltip" height="36" width="36" alt="<?=$news_feed_item->user->name?>"/>
+                      <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" class="tooltip" height="32" width="32" alt="<?=$news_feed_item->user->name?>"/>
                     </a>
                   </div>                  
                   
@@ -120,11 +120,24 @@ $this->load->view('core_header', $header_args);
                       <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>"><?=$news_feed_item->user->name?></a>
                     </div> 
                     <div class="postitem-content"><?=$news_feed_item->content?></div>
-                    <span><abbr class="timeago subtext" title="<?=$news_feed_item->created?>"><?=$news_feed_item->created?></abbr></span>
+                    <div class="postitem-actionbar">
+                      <div id="repost-postitem" class="postitem-actionbar-item"><a href="#">Add to trip</a>                      
+                      </div>
+                      <span class="bullet">&#149</span>
+                      <div id="add-postitem-comment" class="postitem-actionbar-item"><a href="#">3 Comments</a>
+                      </div>
+                      <span class="bullet">&#149</span>                    
+                      <div class="postitem-actionbar-item"><a href="#">8 trips</a></div>
+                      <span class="bullet">&#149</span>                        
+                     <!--<? foreach($news_feed_item->trips as $trip):?>
+                        <a href="<?=site_url('trips/'.($trip->id))?>"><?=$trip->name?></a>
+                     <? endforeach;?>-->
+                                         
+                      <div class="postitem-actionbar-item"><abbr class="timeago subtext" title="<?=$news_feed_item->created?>"><?=$news_feed_item->created?></abbr></div>                        
+                                 
+                    </div>  
                     
-                    <? foreach($news_feed_item->trips as $trip):?>
-                      <a href="<?=site_url('trips/'.($trip->id))?>"><?=$trip->name?></a>
-                    <? endforeach;?>
+
 
                   </div>
                   

@@ -54,17 +54,17 @@ $this->load->view('core_header', $header_args);
               <fieldset class="settings-item">
                 <div class="settings-item-name">Password</div>
                 <div class="settings-item-content">
-                  <div style="margin-bottom:10px;">
+                  <div class="settings-input-container">
                     <input type="password" id="old_pw" name="old_pw" style="width:275px; height:20px;"/>
                     <label for="old_pw" class="subtext" style="margin-left:10px;">Old password</label>
                     <div class="error-message" style="height:20px;"></div>
                   </div>
-                  <div style="margin-bottom:10px;">
+                  <div class="settings-input-container">
                     <input type="password" id="new_pw" name="new_pw" style="width:275px; height:20px;"/>
                     <label for="new_pw" class="subtext" style="margin-left:10px;">New password</label>
                     <div class="error-message" style="height:20px;"></div>
                   </div>
-                  <div style="margin-bottom:10px;">
+                  <div class="settings-input-container">
                     <input type="password" id="conf_new_pw" name="conf_new_pw" style="width:275px; height:20px;"/>
                     <label for="conf_new_pw" class="subtext" style="margin-left:10px;">Confirm new password</label>
                     <div class="error-message" style="height:20px;"></div>

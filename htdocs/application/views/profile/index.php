@@ -32,14 +32,14 @@ $this->load->view('core_header', $header_args);
       <div id="top-bar"><!--TOP BAR-->
         <div id="profile-pic-container" class="img-container">
           <a href="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="125" height="125"/></a>
-          <a href="<?=site_url('settings/profile')?>" id="edit-profile-pic" style="position:absolute; top:0px; left:0px; font-size:12px; background-color:black; color:white; display:none;">change picture</a>
+          <!--<a href="<?=site_url('settings/profile')?>" id="edit-profile-pic" style="position:absolute; top:0px; left:0px; font-size:12px; background-color:black; color:white; display:none;">change picture</a>-->
         </div>
         <div id="profile-info">
           <div class="top-bar-header"><?=$profile->name?></div>
           <div id="bio"><?=$profile->bio?></div>
           <div id="personal-url"><a href="<?=$profile->url?>" target="_blank"><?=$profile->url?></a></div>
           <? if ($user AND $is_self):?>
-            <a href="<?=site_url('settings/profile')?>">edit profile</a>
+            <a class="subtext" href="<?=site_url('settings/profile')?>">Edit profile</a>
           <? endif;?>
         </div>
         

@@ -23,11 +23,12 @@ html, body {
 }
 
 .header{
-	/*background-color: #1D2D6E;
-	border-bottom:2px solid #BABABA;*/
+	background-color: #25398C;
+	border-bottom:1px solid #333;
   display: block;
-  height: 40px;
-  padding-top:5px;
+  height: 30px;
+  line-height:30px;
+  padding-top:3px;
   /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#25398C', endColorstr='#1D2D6E');
 	background: -webkit-gradient(linear, left top, left bottom, from(#25398C), to(#1D2D6E));
 	background: -moz-linear-gradient(top,  #25398C,  #1D2D6E);*/ 
@@ -35,16 +36,19 @@ html, body {
 
 /*1B2A66 10193D*/
 
-.header .nav a {
-  padding: 10px 0;
-  line-height: 15px;
+.header .nav a, .header .nav a:visited {
+  color:white;
   margin-left:21px;
   float:left;
-  font-size:14px;
+  font-size:12px;
+}
+
+.header .nav a:hover {
+  color:fuchsia;
 }
 
 .content {
-  padding: 20px 0 80px;
+  padding: 25px 0 100px;
   overflow:auto;
 }
 
@@ -169,21 +173,28 @@ fieldset {
 
 .error {
   color: red;
-  font-size: 14px;
+  font-size: 12px;
+  line-height:14px;
+}
+
+.bullet{
+  color:#CACACA;
+  font-size:10px;
+  margin-right:3px;
 }
 
 /*POSTITEMS*/
 
 .postitem{
-  border-top:1px solid #EAEAEA;
-  border-bottom:1px solid #EAEAEA;
-  padding:12px 36px 14px 12px;
+  border-top:1px solid #FAFAFA;
+  border-bottom:1px solid #FAFAFA;
+  padding:10px 40px 10px 10px;
 }
 
 li.postitem:hover{
   background-color:#FAFAFA;
-  border-top:1px solid #AAAAAA;
-  border-bottom:1px solid #AAAAAA;
+  border-top:1px solid blue;
+  border-bottom:1px solid blue;
   cursor:pointer;
 }
 
@@ -192,15 +203,17 @@ li.postitem:hover{
 }
 
 .postitem-content-container{
-  margin-left:48px;
+  margin-left:42px;
 }
 
 .postitem-avatar-container{
-  padding:2px;
-  background-color:#EAEAEA;
+  padding-top:2px;
   float:left;
-  width:36px;
-  height:36px;
+}
+
+.postitem-author-name{
+  line-height:17px;
+  height:17px;
 }
 
 .postitem-author-name a, .postitem-author-name a:visited{
@@ -208,9 +221,24 @@ li.postitem:hover{
   font-weight:bold;
 }
 
-.postitem-author-name a:hover{
+.postitem-author-name a:hover, .postitem-reposter-name a:hover{
   color: blue;
   cursor:pointer;
+}
+
+.postitem-reposter-name a, .postitem-reposter-name a:visited{
+  color:#888;
+  font-size:13px;
+}
+
+.postitem-actionbar{
+  margin-top:3px;
+}
+
+.postitem-actionbar-item{
+  margin-right:3px;
+  display:inline;
+  font-size:13px;
 }
 
 

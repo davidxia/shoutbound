@@ -218,6 +218,7 @@ textarea#wallitem-input{
 	background: -moz-linear-gradient(top,  #002AA8,  #00248F);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#002AA8', endColorstr='#00248F');
 }
+
 #wallitem-post-button:active {
 	padding:8px 45px 6px 45px;
 	background-color:#001D75;
