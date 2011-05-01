@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Trip extends DataMapper {
+class Trip extends DataMapper
+{
  
     public $has_many = array('user', 'place', 'geoplanet_place', 'wallitem', 'suggestion', 'destination', 'trip_share');
 
@@ -38,7 +39,7 @@ class Trip extends DataMapper {
     public function get_goers()
     {
         $this->stored->goers = array();
-        foreach ($this->user->where_join_field($this, 'rsvp', 9)->get() as $goer)
+        foreach ($this->user->where_join_field($this, 'rsvp', 9)->get_iterated() as $goer)
         {
             $this->stored->goers[] = $goer->stored;
         }
@@ -48,7 +49,7 @@ class Trip extends DataMapper {
     public function get_followers()
     {
         $this->stored->followers = array();
-        foreach ($this->user->where_join_field($this, 'rsvp', 3)->get() as $follower)
+        foreach ($this->user->where_join_field($this, 'rsvp', 3)->get_iterated() as $follower)
         {
             $this->stored->followers[] = $follower->stored;
         }
@@ -58,7 +59,7 @@ class Trip extends DataMapper {
     public function get_places()
     {
         $this->stored->places = array();
-        foreach ($this->place->include_join_fields()->get() as $place)
+        foreach ($this->place->include_join_fields()->get_iterated() as $place)
         {
             $place->stored->startdate = $place->join_startdate;
             $place->stored->enddate = $place->join_enddate;

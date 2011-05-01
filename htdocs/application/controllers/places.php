@@ -51,23 +51,7 @@ class Places extends CI_Controller
             ));
         }
     }
-    
-    
-    public function mytest()
-    {
-        $this->load->library('Mc');
         
-        $key = 'places_by_query:'.'budapest';
-        //$val = array('jakarta', 'jabberwokky');
-        //print_r($val);
-        
-        //$this->mc->set($key, $val);
-        //$this->mc->delete($key);
-        $val = $this->mc->get($key);
-        
-        print_r($val);
-    }
-    
     
     public function index($id = FALSE)
     {
@@ -98,8 +82,42 @@ class Places extends CI_Controller
             'user' => $user,
             'place' => $gp->stored,
         );
-        $this->load->view('place', $data);
+        $this->load->view('place/index', $data);
         
+    }
+    
+    
+    public function trips($place_id = FALSE)
+    {
+        if ( ! $place_id)
+        {
+            redirect('/');
+        }
+        
+        $p = new Geoplanet_place($place_id);
+        $p->get_trips();
+        $data = array(
+            'place' => $p->stored,
+        );
+        
+        $this->load->view('place/trips', $data);
+    }
+    
+    
+    public function followers($place_id = FALSE)
+    {
+        if ( ! $place_id)
+        {
+            redirect('/');
+        }
+
+        $p = new Geoplanet_place($place_id);
+        $p->get_followers();
+        $data = array(
+            'place' => $p->stored,
+        );
+
+        $this->load->view('place/followers', $data);
     }
     
     

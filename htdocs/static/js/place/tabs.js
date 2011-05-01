@@ -1,3 +1,5 @@
+var cache = {};
+
 $(function() {
   $('abbr.timeago').timeago();
 
@@ -18,8 +20,7 @@ $(function() {
   });
 
   var defaultTab = $('#main-tabs').find('a:first').attr('href').substring(1);
-  console.log(defaultTab);
-  //loadTabs(defaultTab);
+  loadTabs(defaultTab);
 });
 
 

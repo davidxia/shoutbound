@@ -16,12 +16,12 @@
               <?=date('n/d/y', $place->startdate)?>
             <? else:?>
               no date set yet
-            <? endif;?>               
+            <? endif;?>
           <? endforeach;?>
         </div>
-        <? foreach ($rsvp_yes_trip->goers as $trip_goer):?>                       	                       
-          <a href="<?=site_url('profile/'.$trip_goer->id)?>">
-            <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" height="32" width="32" alt="<?=$trip_goer->name?>"/>
+        <? foreach ($rsvp_yes_trip->goers as $goer):?>                       	                       
+          <a href="<?=site_url('profile/'.$goer->id)?>">
+            <img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" class="tooltip" height="32" width="32" alt="<?=$goer->name?>"/>
           </a>
         <? endforeach;?>
       </div>

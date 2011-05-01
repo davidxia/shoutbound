@@ -49,10 +49,32 @@ class Geoplanet_place extends DataMapper
         $this->stored->num_trips = $this->trip->where('active', 1)->count();
     }
     
+    
+    public function get_trips()
+    {
+        $this->stored->trips = array();
+        foreach ($this->trip->where('active', 1)->get_iterated() as $trip)
+        {
+            $trip->get_goers();
+            $trip->get_places();
+            $this->stored->trips[] = $trip->stored;
+        }
+    }
+    
 
     public function get_num_followers()
     {
         $this->stored->num_followers = $this->user->where_join_field($this, 'is_following', 1)->count();
+    }
+    
+    
+    public function get_followers()
+    {
+        $this->stored->followers = array();
+        foreach ($this->user->where_join_field($this, 'is_following', 1)->get_iterated() as $follower)
+        {
+            $this->stored->followers[] = $follower->stored;
+        }
     }
     
     
