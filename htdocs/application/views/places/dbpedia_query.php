@@ -50,7 +50,7 @@ function dbpediaQuery() {
     
     $.ajax({
       type: 'POST',
-      url: '<?=site_url('wikiscraper/ajax_dbpedia_query')?>',
+      url: '<?=site_url('places/ajax_dbpedia_query')?>',
       data: postData,
       success: function(r) {
         var r = $.parseJSON(r);

@@ -80,7 +80,7 @@ class Places extends CI_Controller
             'user' => $user,
             'place' => $gp->stored,
         );
-        $this->load->view('place/index', $data);
+        $this->load->view('places/index', $data);
         
     }
     
@@ -98,7 +98,7 @@ class Places extends CI_Controller
             'place' => $p->stored,
         );
         
-        $this->load->view('place/trips', $data);
+        $this->load->view('places/trips', $data);
     }
     
     
@@ -115,7 +115,7 @@ class Places extends CI_Controller
             'place' => $p->stored,
         );
 
-        $this->load->view('place/followers', $data);
+        $this->load->view('places/followers', $data);
     }
     
     
@@ -131,6 +131,27 @@ class Places extends CI_Controller
         {
             echo 0;
         }
+    }
+
+
+    public function ajax_dbpedia_query()
+    {   
+        $query = urlencode($this->input->post('query'));
+        
+        $query_timeout = 5;
+        $handle = popen('/usr/bin/python '.__DIR__.'/../helpers/dbpedia_query.py '.$query, 'r');
+        stream_set_blocking($handle, TRUE);
+        stream_set_timeout($handle, $query_timeout);
+        
+        $info = fread($handle, 4096);
+        pclose($handle);
+        echo $info;
+    }
+    
+    
+    public function dbpedia_query()
+    {
+        $this->load->view('places/dbpedia_query');
     }
 }
 

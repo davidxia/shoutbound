@@ -120,7 +120,7 @@ $(function() {
 
 
 function dbpediaQuery(query) {
-  $.post(baseUrl+'wikiscraper/ajax_dbpedia_query', {query:query},
+  $.post(baseUrl+'places/ajax_dbpedia_query', {query:query},
     function(d) {
       var r = $.parseJSON(d);
       //console.log(r);
