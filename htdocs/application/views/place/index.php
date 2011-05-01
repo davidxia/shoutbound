@@ -1,6 +1,6 @@
 <?php
 $header_args = array(
-    'title' => 'Place | Shoutbound',
+    'title' => $place->name.', '.$place->admin1.', '.$place->country.' | Shoutbound',
     'css_paths'=>array(
       'css/places.css'
     ),
@@ -32,9 +32,8 @@ $this->load->view('core_header', $header_args);
 
     <div id="top-bar"><!--TOP BAR-->
       <div id="place-info">
-        <div id="place-name"><?=$place->name?> <span style="font-size:16px;"><?=$place->admin2?>, <?=$place->admin1?></span></div>
-        <div id="place-description">New York is the most populous city in the United States and the center of the New York metropolitan area, which is one of the most populous metropolitan areas in the world. New York City exerts a significant impact upon global commerce, finance, media, culture, art, fashion, research, technology, education, and entertainment.<span id="wikipedia-url" class="subtext"> <a href="#">Source: Wikipedia</a></span></div>
-        <!--DAVID - WE SHOULD PULL THE FIRST 500 CHARACTERS FROM WIKIPEDIA AND DUMP IT IN PLACE-DESCRIPTION.  NEED TO GET RID OF ALL INTERNAL URLS AND FOOTNOTES, JUST PLAIN TEXT.  ALSO - NEED TO STOP AT THE LAST "." BEFORE 500 CHARACTERS IS REACHED SO WE DON'T HAVE AN ENTRY STOP MID-SENTENCE-->
+        <div id="place-full-name" style="margin-bottom:10px;"><span id="place-name"><?=$place->name?></span> <span style="font-size:16px; font-weight:bold;"><span id="admin1"><?=$place->admin1?></span>, <?=$place->country?></span></div>
+        <div id="abstract"></div>
       </div>
       </div><!--TOP BAR END-->
       
@@ -84,7 +83,6 @@ $this->load->view('core_header', $header_args);
                   <a class="post-profile-pic" href="<?=site_url('profile/'.$post->user_id)?>">
                     <img src="<?=static_sub('profile_pics/'.$post->user->profile_pic)?>" height="22" width="22" alt="<?=$post->user->name?>"/>
                   </a>
-                  
                   <a href="<?=site_url('profile/'.$post->user_id)?>" class="author">
                     <?=$post->user->name?>
                   </a> 
@@ -99,7 +97,6 @@ $this->load->view('core_header', $header_args);
                   <? endif;?>
                   <? $num_likes = 0; foreach($post->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><span class="num-likes"><?=$num_likes?> person likes this</span><? elseif ($num_likes > 1):?><span class="num-likes"><?=$num_likes?> people like this</span><? endif;?>
                   <abbr class="timeago" title="<?=$post->created?>"><?=$post->created?></abbr>            
-      
                 </div> 
                 <div class="remove-wallitem"></div>
                 <? foreach ($post->replies as $reply):?>
@@ -142,7 +139,6 @@ $this->load->view('core_header', $header_args);
       
       <div class="right-tab-container img-container" style="height:340px;">
         <div id="gallery-tab" class="right-tab-content">
-          <img src="http://upload.wikimedia.org/wikipedia/commons/d/d3/Lincoln_Center_Twilight.jpg" width="330" height="330"/>
         </div>
         <div id="map-tab" class="right-tab-content" style="visibility:hidden;">
           <div id="map-canvas" style="height:330px;"></div>

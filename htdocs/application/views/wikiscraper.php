@@ -94,7 +94,7 @@ function textShorten(o) {
   });
 }
 
-$(document).ready(function() {
+$(function() {
   $('#query-submit').click(dbpediaQuery);
 });
 </script>

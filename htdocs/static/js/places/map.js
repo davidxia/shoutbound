@@ -28,8 +28,8 @@ map.loadGoogleMap = function() {
   
   map.googleMap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
+  // hack used to display map in tab correctly; must hide only after map has loaded
   google.maps.event.addListenerOnce(map.googleMap, 'bounds_changed', function() {
     $('#map-tab').hide();
   });
-  
 };

@@ -106,7 +106,6 @@ loadTabs = function(defaultTab) {
 $(function() {
   var rightTabs = $('#right-tabs');
   rightTabs.children('li:first').addClass('active');
-  //$('#map-tab').hide();
   rightTabs.children('li').click(function() {
     var tabName = $(this).children('a').attr('href');
     $(this).parent().children().removeClass('active');
@@ -115,4 +114,29 @@ $(function() {
     $(tabName+'-tab').show().css('visibility', 'visible');
     return false;
   });
+  
+  dbpediaQuery($('#place-name').text()+' '+$('#admin1').text());
 });
+
+
+function dbpediaQuery(query) {
+  $.post(baseUrl+'wikiscraper/ajax_dbpedia_query', {query:query},
+    function(d) {
+      var r = $.parseJSON(d);
+      //console.log(r);
+      if (r) {
+        $('#name').html(r.label.value);
+        var abstract = r.abstract.value;
+        // add ellipses if abstract doesn't end with period
+        if ( ! abstract.match(/\.$/)) {
+          abstract += '...';
+        }
+        $('#abstract').html(abstract);
+        //textShorten($('#abstract'));
+        $('#gallery-tab').append('<img src="'+r.thumbnail.value+'"/>');
+      } else {
+        $('#abstract').html('sorry, we couldn\'t find any info on that');
+      }
+    });
+  return false;
+}

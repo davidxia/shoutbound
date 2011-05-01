@@ -4,7 +4,6 @@ $header_args = array(
     'css_paths'=>array(
     ),
     'js_paths'=>array(
-        'js/user/settings.js'
     )
 );
 
@@ -26,8 +25,6 @@ $this->load->view('core_header', $header_args);
       
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
-
   <? $this->load->view('footer')?>
-
 </body>
 </head>

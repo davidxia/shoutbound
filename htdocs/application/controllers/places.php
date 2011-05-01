@@ -61,21 +61,19 @@ class Places extends CI_Controller
             return;
         }
         
-        $p = new Place($id);
-        //print_r($p->stored);
+        $gp = new Geoplanet_place($id);
+        if ( ! $gp->id)
+        {
+            custom_404();
+            return;
+        }
         
-        $gp = new Geoplanet_place(4);
         $gp->get_num_posts();
         $gp->get_num_trips();
         $gp->get_num_followers();
         $gp->get_posts();
-        //print_r($gp->stored);
-        //print_r($posts);
         
         $this->user->get_follow_status_by_place_id(4);
-        
-        
-        
         $user = (isset($this->user->id)) ? $this->user->stored : NULL;
         
         $data = array(
