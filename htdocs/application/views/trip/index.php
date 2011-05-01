@@ -248,6 +248,7 @@ $this->load->view('core_header', $header_args);
     });
   });
   
+  
   $(function() {
     var delay;
     $('.tooltip').live('mouseover mouseout', function(e) {

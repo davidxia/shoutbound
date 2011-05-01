@@ -2,12 +2,12 @@
 $header_args = array(
     'title' => 'Place | Shoutbound',
     'css_paths'=>array(
-      'css/place.css'
+      'css/places.css'
     ),
     'js_paths'=>array(
         'js/jquery/jquery.ba-bbq.min.js',
-        'js/place/map.js',
-        'js/place/tabs.js',
+        'js/places/map.js',
+        'js/places/tabs.js',
         'js/jquery/timeago.js',
     )
 );
@@ -26,7 +26,6 @@ $this->load->view('core_header', $header_args);
 </head>
 
 <body>
-
   <div id="sticky-footer-wrapper">
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
@@ -83,7 +82,7 @@ $this->load->view('core_header', $header_args);
                 
                 <div class="actionbar">
                   <a class="post-profile-pic" href="<?=site_url('profile/'.$post->user_id)?>">
-                    <img src="<?=static_sub('profile_pics/'.$post->user->profile_pic)?>" class="tooltip" height="22" width="22" alt="<?=$post->user->name?>"/>
+                    <img src="<?=static_sub('profile_pics/'.$post->user->profile_pic)?>" height="22" width="22" alt="<?=$post->user->name?>"/>
                   </a>
                   
                   <a href="<?=site_url('profile/'.$post->user_id)?>" class="author">
@@ -141,13 +140,13 @@ $this->load->view('core_header', $header_args);
         <li><a href="#map">Map</a></li>
       </ul>
       
-      <div class="right-tab-container img-container">
-        <div id="gallery-tab" class="right-tab-content main-tab-default">
+      <div class="right-tab-container img-container" style="height:340px;">
+        <div id="gallery-tab" class="right-tab-content">
           <img src="http://upload.wikimedia.org/wikipedia/commons/d/d3/Lincoln_Center_Twilight.jpg" width="330" height="330"/>
         </div>
-      </div>
-      <div id="map-shell" class="right-tab-container">
-        <div id="map-canvas" style="height:330px;"></div>
+        <div id="map-tab" class="right-tab-content" style="visibility:hidden;">
+          <div id="map-canvas" style="height:330px;"></div>
+        </div>
       </div>
       
     </div><!-- RIGHT COLUMN ENDS -->

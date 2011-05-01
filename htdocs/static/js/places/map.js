@@ -27,4 +27,9 @@ map.loadGoogleMap = function() {
   };
   
   map.googleMap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  google.maps.event.addListenerOnce(map.googleMap, 'bounds_changed', function() {
+    $('#map-tab').hide();
+  });
+  
 };
