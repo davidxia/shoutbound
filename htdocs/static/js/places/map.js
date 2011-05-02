@@ -20,13 +20,18 @@ map.loadGoogleMap = function() {
   	zoomControlOptions: {
       style: google.maps.ZoomControlStyle.LARGE,
     },
-  	zoom: 11,
+  	zoom: 12,
   	center: new google.maps.LatLng(map.lat, map.lng),
   	mapTypeId: google.maps.MapTypeId.ROADMAP,    
     scrollwheel: false
   };
   
   map.googleMap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  
+  var southWest = new google.maps.LatLng(map.swLat, map.swLng);
+  var northEast = new google.maps.LatLng(map.neLat, map.neLng);
+  var bounds = new google.maps.LatLngBounds(southWest, northEast);
+  map.googleMap.fitBounds(bounds);
 
   // hack used to display map in tab correctly; must hide only after map has loaded
   google.maps.event.addListenerOnce(map.googleMap, 'bounds_changed', function() {

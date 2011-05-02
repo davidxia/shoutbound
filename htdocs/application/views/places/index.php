@@ -21,6 +21,10 @@ $this->load->view('core_header', $header_args);
   var placeId = <?=$place->id?>;
   map.lat = <?=$place->lat?>;
   map.lng = <?=$place->lng?>;
+  map.swLat = <?=$place->sw_lat?>;
+  map.swLng = <?=$place->sw_lng?>;
+  map.neLat = <?=$place->ne_lat?>;
+  map.neLng = <?=$place->ne_lng?>;
 </script>
   
 </head>
