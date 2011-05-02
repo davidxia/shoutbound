@@ -73,7 +73,7 @@ class Places extends CI_Controller
         $gp->get_num_followers();
         $gp->get_posts();
         
-        $this->user->get_follow_status_by_place_id(4);
+        $this->user->get_follow_status_by_place_id($id);
         $user = (isset($this->user->id)) ? $this->user->stored : NULL;
         
         $data = array(
@@ -81,6 +81,7 @@ class Places extends CI_Controller
             'place' => $gp->stored,
         );
         $this->load->view('places/index', $data);
+        //print_r($this->user->stored);
         
     }
     
