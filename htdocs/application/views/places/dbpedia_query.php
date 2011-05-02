@@ -45,7 +45,8 @@ function dbpediaQuery() {
     $('.thumbnail').remove();
     
     var postData = {
-      query: $('#query').val()
+      query: $('#query').val(),
+      altQuery: 'admin1'
     };
     
     $.ajax({

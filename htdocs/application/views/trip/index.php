@@ -69,7 +69,7 @@ $this->load->view('core_header', $header_args);
     				         	
             <? foreach ($trip->places as $destination):?>
               <span class="destination-dates">
-  	            <a class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="#"><?=$destination->name?></a>
+  	            <a class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></a>
   		            <? if ($destination->startdate AND $destination->enddate):?>
   		              <?=date('n/d/y', $destination->startdate)?> to <?=date('n/d/y', $destination->enddate)?>
   		            <? elseif ($destination->startdate AND ! $destination->enddate):?>

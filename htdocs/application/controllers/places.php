@@ -138,9 +138,10 @@ class Places extends CI_Controller
     public function ajax_dbpedia_query()
     {   
         $query = urlencode($this->input->post('query'));
+        $alt_query = urlencode($this->input->post('altQuery'));
         
         $query_timeout = 5;
-        $handle = popen('/usr/bin/python '.__DIR__.'/../helpers/dbpedia_query.py '.$query, 'r');
+        $handle = popen('/usr/bin/python '.__DIR__.'/../helpers/dbpedia_query.py '.$query.' '.$alt_query, 'r');
         stream_set_blocking($handle, TRUE);
         stream_set_timeout($handle, $query_timeout);
         

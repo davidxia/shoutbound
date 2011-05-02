@@ -115,12 +115,14 @@ $(function() {
     return false;
   });
   
-  dbpediaQuery($('#place-name').text()+' '+$('#admin1').text());
+  dbpediaQuery($('#place-name').text(), $('#admin1').text());
 });
 
 
-function dbpediaQuery(query) {
-  $.post(baseUrl+'places/ajax_dbpedia_query', {query:query},
+function dbpediaQuery(placeName, admin1) {
+  var query = placeName;
+  var altQuery = placeName+' '+admin1;
+  $.post(baseUrl+'places/ajax_dbpedia_query', {query:query, altQuery:altQuery},
     function(d) {
       var r = $.parseJSON(d);
       //console.log(r);

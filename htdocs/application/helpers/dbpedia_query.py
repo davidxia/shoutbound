@@ -2,55 +2,63 @@
 
 import sys
 import urllib2
-import ConfigParser
+#import ConfigParser
 import json
 from SPARQLWrapper import SPARQLWrapper, JSON
 
-INPUT = 'dbpedia.ini'
+#INPUT = 'dbpedia.ini'
+WIKI_SEARCH_URL = 'http://en.wikipedia.org/w/api.php?action=opensearch&search='
 
-# function that queries Wikipedia API
-def query_wiki(url):
-    request = urllib2.Request(url)
+def query_wiki(query):
+    """Queries Wikipedia API and returns first search result if any"""
+    search_url = WIKI_SEARCH_URL + query
+    search_url = search_url.replace('"', '')
+    
+    request = urllib2.Request(search_url)
     request.add_header('User-Agent', 'Mozilla/5.0')
     try:
-        result = urllib2.urlopen(request)
+        results = urllib2.urlopen(request)
     except urllib2.HTTPError, e:
         raise WikipediaError(e.code)
     except urllib2.URLError, e:
         raise WikipediaError(e.reason)
-           
-    return result
+    
+    results = results.read()
+    # converts string to list
+    results = eval(results)
+    try:
+        result = results[1][0]
+        return result.replace(' ', '_')
+    except:
+        #print "Unexpected error:", sys.exc_info()[0]
+        #sys.exit(1)
+        return False;
+        
+    
     
 def dbp_res_url(q):
+    """Constructs DBPedia resource URL"""
     return '<http://dbpedia.org/resource/'+q+'>'
 
-# gets query input from input file
-config = ConfigParser.ConfigParser()
-config.read(INPUT)
+
+# reads query input from config file
+#config = ConfigParser.ConfigParser()
+#config.read(INPUT)
 #query = config.get('data', 'query')
 #query = 'united+arab+emirates'
+
+# gets query inputs from command line
 query = sys.argv[1]
-
-url_search = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + query
-url_search = url_search.replace('"', '')
-#url_search = urllib.quote_plus(url_search)
+alt_query = sys.argv[2]
 
 
-# queries Wikipedia API and returns search results
-results = query_wiki(url_search).read()
-# converts string to list
-results = eval(results)
-# returns first search result if exists
-try:
-    result = results[1][0]
-except:
-    #print "Unexpected error:", sys.exc_info()[0]
-    sys.exit(1)
+#search_url = urllib.quote_plus(search_url)
 
+
+result = query_wiki(query)
+if not result:
+    result = query_wiki(alt_query)
 # TODO: make python follow wikipedia redirects, eg Arpinum to Arpino
-    
-result = result.replace(' ', '_')
-
 
 mystring = """
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
