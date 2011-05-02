@@ -184,7 +184,7 @@ fieldset {
 
 .bullet{
   color:#BABABA;
-  font-size:10px;
+  font-size:9px;
   margin-right:3px;
 }
 
@@ -221,12 +221,12 @@ li.postitem:hover{
   height:17px;
 }
 
-.postitem-author-name a, .postitem-author-name a:visited{
+.postitem-author-name a, .postitem-author-name a:visited, .comment-author-name a, .comment-author-name a:visited, .trip-listing-name a, .trip-listing-name a:visited{
   color:#333;
   font-weight:bold;
 }
 
-.postitem-author-name a:hover, .postitem-reposter-name a:hover{
+.postitem-author-name a:hover, .postitem-reposter-name a:hover, .comment-author-name a:hover, .trip-listing-name a:hover{
   color: blue;
   cursor:pointer;
 }
@@ -246,38 +246,41 @@ li.postitem:hover{
   font-size:13px;
 }
 
+/*COMMENTS AND TRIP LISTING*/
 
+.comments-container, .trip-listing-container{
+  margin-top:8px;
+}
 
-/* buttons
------------------------------------- */
-#create-trip-button {
-  color:white;
-  display:block;
-  height:30px;
-  width: 115px;
-  line-height:30px;
-  text-align:center;
-  font-size:14px;
-  text-decoration:none;
-  background:-webkit-gradient(linear, left top, left bottom, from(#E0E0E0), to(#888888));
-  background:-moz-linear-gradient(top, #E0E0E0 , #888888);
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#E0E0E0', endColorstr='#888888');
-  border: 1px solid #686868;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
+.comment, .trip-listing{
+ margin-top:8px;
+ margin-bottom:10px; 
 }
-#create-trip-button:hover {
-  background: #ffad32;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
-  background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');
+
+.comment-content-container{
+  margin-left:40px;
 }
-#create-trip-button:active {
-  background: #ff8132;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
-  background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
+
+.comment-author-name, .trip-listing-name{
+  line-height:15px;
+  height:15px;
+}
+
+.comment-timestamp{
+  margin-top:-3px;
+}
+
+.comment-input-container{
+  margin-left:40px;
+}
+
+.comment-input-area{
+  height:50px;
+  width:460px;
+}
+
+.comment-input-container{
+  padding-bottom:5px;
 }
 
 /* Layout */
@@ -420,7 +423,37 @@ ul.stats-list li a{
   font-weight:normal;
 }
 
-/*BUTTONS*/
+/* buttons
+------------------------------------ */
+#create-trip-button {
+  color:white;
+  display:block;
+  height:30px;
+  width: 115px;
+  line-height:30px;
+  text-align:center;
+  font-size:14px;
+  text-decoration:none;
+  background:-webkit-gradient(linear, left top, left bottom, from(#E0E0E0), to(#888888));
+  background:-moz-linear-gradient(top, #E0E0E0 , #888888);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#E0E0E0', endColorstr='#888888');
+  border: 1px solid #686868;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+#create-trip-button:hover {
+  background: #ffad32;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
+  background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');
+}
+#create-trip-button:active {
+  background: #ff8132;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
+  background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
+}
 
 #follow {
   color:white;
@@ -440,12 +473,47 @@ ul.stats-list li a{
   border-radius: 3px;
   width:160px;
 }
+
+#add-comment-button{
+  color:white;
+  display:block;
+  height:24px;
+  line-height:24px;
+  text-align:center;
+  font-size:14px;
+  text-decoration:none;
+  background:-webkit-gradient(linear, left top, left bottom, from(#32D02F), to(#239121));
+  background:-moz-linear-gradient(top, #32D02F, #239121);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#32D02F', endColorstr='#239121');
+  border: 1px solid #555;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  width:110px;  
+}
+
+#add-comment-button:hover {
+  background: #ffad32;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
+  background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');
+}
+
+#add-comment-button:active {
+  background: #ff8132;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
+  background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
+}
+
+
 #follow:hover {
   background: #ffad32;
   background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
   background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');
 }
+
 #follow:active {
   background: #ff8132;
   background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
