@@ -142,6 +142,18 @@ class Signup extends CI_Controller
             json_success(array('error' => true, 'message' => 'Something went wrong. Please try again.'));
         }        
     }
+    
+    
+    public function onboarding()
+    {
+        $u = new User();
+        $u->get_by_id($u->get_logged_in_status());
+
+        $data = array(
+            'user' => $u->stored,
+        );
+        $this->load->view('onboarding', $data);
+    }
 }
 
 
