@@ -1,7 +1,7 @@
 var map = {};
 
 map.googleMap;
-map.infoWindow;
+//map.infoWindow;
 
 $(function() {
   var top = $('#map-shell').offset().top - parseFloat($('#map-shell').css('marginTop').replace(/auto/, 0)) + 46;
@@ -59,16 +59,22 @@ map.loadGoogleMap = function() {
       map.showDestMarkers($(this).attr('lat'), $(this).attr('lng'));
     });
   });
+  
+  if ($('.place').length > 0) {
+    google.maps.event.addListenerOnce(map.googleMap, 'bounds_changed', function() {
+      $('a.place').each(function(i) {
+        map.displayWallMarkers(i, $(this).attr('lat'), $(this).attr('lng'));
+      });
+    });
+  } else {
+    var southWest = new google.maps.LatLng(map.swLat, map.swLng);
+    var northEast = new google.maps.LatLng(map.neLat, map.neLng);
+    var bounds = new google.maps.LatLngBounds(southWest, northEast);
+    map.googleMap.fitBounds(bounds);
+  }
 
   // create infoWindow object for map
-  map.infoWindow = new google.maps.InfoWindow();
-
-  // waits until map is set so bounds can be extended to include markers
-  google.maps.event.addListenerOnce(map.googleMap, 'bounds_changed', function() {
-    $('a.place').each(function(i) {
-      map.displayWallMarkers(i, $(this).attr('lat'), $(this).attr('lng'));
-    });
-  });
+  //map.infoWindow = new google.maps.InfoWindow();
   
   // use the first element that is scrollable
   wall.scrollElem = wall.scrollableElement('html', 'body');

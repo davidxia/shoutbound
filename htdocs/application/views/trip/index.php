@@ -31,6 +31,10 @@ $this->load->view('core_header', $header_args);
   
   map.lat = <?=$trip->places[0]->lat?>;
   map.lng = <?=$trip->places[0]->lng?>;
+  map.swLat = <?=$trip->places[0]->sw_lat?>;
+  map.swLng = <?=$trip->places[0]->sw_lng?>;
+  map.neLat = <?=$trip->places[0]->ne_lat?>;
+  map.neLng = <?=$trip->places[0]->ne_lng?>;
 </script>
 
 </head>

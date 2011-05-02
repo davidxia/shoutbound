@@ -342,7 +342,7 @@ class Trips extends CI_Controller
     }
     
     
-    public function delete($trip_id=FALSE)
+    public function delete($trip_id = FALSE)
     {
         if ( ! ($this->user->id OR $trip_id))
         {
@@ -350,25 +350,12 @@ class Trips extends CI_Controller
             return;
         }
         
-        $t = new Trip();
-        //check if trip exists in trips table and is active, ie not deleted
-        $t->get_by_id($trip_id);
-        if ( ! $t->active)
+        $t = new Trip($trip_id);
+        $is_deleted = $t->delete($trip_id, $this->user->id);
+        if ($is_deleted)
         {
-            custom_404();
-            return;
+            redirect('/');
         }
-
-        //check if user is the creator, redirect to home page otherwise
-        $this->user->trip->include_join_fields()->get_by_id($trip_id);
-        if ($this->user->trip->join_role != 10)
-        {
-            custom_404();
-            return;
-        }
-
-        $t->where('id', $trip_id)->update('active', 0);
-        redirect('/');
     }
         
 

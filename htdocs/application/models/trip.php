@@ -59,7 +59,7 @@ class Trip extends DataMapper
     public function get_places()
     {
         $this->stored->places = array();
-        foreach ($this->place->include_join_fields()->get_iterated() as $place)
+        foreach ($this->geoplanet_place->include_join_fields()->get_iterated() as $place)
         {
             $place->stored->startdate = $place->join_startdate;
             $place->stored->enddate = $place->join_enddate;
@@ -123,6 +123,39 @@ class Trip extends DataMapper
         }
         
         return TRUE;
+    }
+    
+    
+    public function delete($trip_id = FALSE, $user_id = FALSE)
+    {
+        if ( ! $trip_id OR ! $user_id)
+        {
+            return FALSE;
+        }
+        
+        //check if trip exists in trips table and is active, ie not deleted
+        if ( ! $this->active)
+        {
+            return FALSE;
+        }
+        
+        //check if user is the creator, redirect to home page otherwise
+        $this->user->include_join_fields()->where_join_field($this, 'user_id', $user_id)->get();
+        if ($this->user->join_role != 10)
+        {
+            return FALSE;
+        }
+
+        $this->where('id', $trip_id)->update('active', 0);
+        $num_affected = $this->db->affected_rows();
+        if ($num_affected == 1)
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
     }
 }
 

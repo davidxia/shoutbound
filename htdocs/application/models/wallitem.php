@@ -71,7 +71,7 @@ class Wallitem extends DataMapper
     {
         $this->stored->content = preg_replace_callback('/<place id="(\d+)">/',
             create_function('$matches',
-                '$p = new Place();
+                '$p = new Geoplanet_place();
                  $p->get_by_id($matches[1]);
                  return \'<a class="place" href="#" address="\'.$p->name.\'" lat="\'.$p->lat.\'" lng="\'.$p->lng.\'">\';'),
             $this->stored->content);
