@@ -113,6 +113,7 @@ class Wallitem extends DataMapper
         $this->stored->trips = array();
         foreach ($this->trips->where('active', 1)->get() as $trip)
         {
+            $trip->get_places();
             $this->stored->trips[] = $trip->stored;
         }
     }

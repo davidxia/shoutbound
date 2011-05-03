@@ -103,15 +103,11 @@ wall.postWallitem = function() {
     text = text.replace(matches[i], '<place id="'+id+'">'+name+'</place>');
   }
 
-  $.ajax({
-    type: 'POST',
-    url: baseUrl+'wallitems/ajax_save',
-    data: {tripId:tripId, content:text},
-    success: function(r) {
+  $.post(baseUrl+'wallitems/ajax_save', {tripId:tripId, content:text},
+    function(r) {
       var r = $.parseJSON(r);
       wall.displayWallitem(r);
-    }
-  });
+    });
 };
 
 
@@ -215,9 +211,7 @@ wall.loadReplyEnter = function(replyInput) {
     if (keyCode == enter) {
       e.preventDefault();
       var loggedin = loginSignup.getStatus();
-      var regex = /^wallitem-(\d+)$/;
-      var match = regex.exec(replyInput.parent().parent().attr('id'));
-      var parentId = match[1];
+      var parentId = replyInput.parent().parent().attr('id').match(/^wallitem-(\d+)$/)[1];
       if (loggedin) {
         wall.postReply(parentId);
       } else {

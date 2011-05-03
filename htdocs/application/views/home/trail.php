@@ -11,7 +11,7 @@
         </div>
         <div>
           <? foreach ($rsvp_yes_trip->places as $place):?>
-            <a class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="#"><?=$place->name?></a>
+            <a class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
             <? if ($place->startdate):?>
               <?=date('n/d/y', $place->startdate)?>
             <? else:?>
@@ -41,7 +41,7 @@
         </div>
         <div>
           <? foreach ($rsvp_awaiting_trip->places as $place):?>
-            <a class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="#"><?=$place->name?></a>
+            <a class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
             <? if ($place->startdate):?>
               <?=date('n/d/y', $place->startdate)?>
             <? else:?>

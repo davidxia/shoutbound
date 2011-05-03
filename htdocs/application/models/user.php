@@ -263,6 +263,7 @@ class User extends DataMapper
     
     public function get_news_feed_items()
     {
+        $news_feed_items = array();
         $wi = new Wallitem();
 
         // get trips associated with user
@@ -272,19 +273,33 @@ class User extends DataMapper
             $trip_ids[] = $trip->id;
         }
         // get these trips' most recent wallitems excluding user's own
-        $trip_wallitems = array();
         if ( ! empty($trip_ids))
         {
-            foreach ($wi->where('active', 1)->where_in_join_field('trip_id', $trip_ids)->where('user_id !=', $this->id)->get() as $wallitem)
+            foreach ($wi->where('active', 1)->where('parent_id', NULL)->where_in_join_field('trip_id', $trip_ids)->where('user_id !=', $this->id)->get_iterated() as $post)
             {
-                $wallitem->get_creator();
-                $wallitem->get_trips();
-                $wallitem->get_places();
-                $trip_wallitems[] = $wallitem->stored;
+                $post->get_creator();
+                $post->get_trips();
+                $post->get_places();
+                // get replies and attach their places
+                $r = $post->get_replies();
+                $replies = array();
+                foreach ($r as $reply)
+                {
+                    $reply->get_creator();
+                    $reply->convert_nl();
+                    $reply->get_places();
+                    $reply->get_likes();
+                    $replies[] = $reply->stored;
+                }
+                
+                // packages each wallitem with replies into separate array
+                $post->stored->replies = $replies;
+                $news_feed_items[] = $post->stored;
             }
         }
         
         // get wallitems that are replies to user's wallitems
+        /*
         $wallitem_ids = array();
         $this->wallitem->where('active', 1)->get();
         foreach ($this->wallitem as $wallitem)
@@ -303,6 +318,7 @@ class User extends DataMapper
                 $reply_wallitems[] = $wallitem->stored;
             }        
         }
+        */
         
         // get posts from people user follows
         $user_ids = array();
@@ -311,28 +327,43 @@ class User extends DataMapper
             $user_ids[] = $following->id;
         }
         // get these users' most recent wallitems
-        $user_wallitems = array();
         if ( ! empty($user_ids))
         {
-            foreach ($wi->where('active', 1)->where_in('user_id', $user_ids)->get() as $wallitem)
+            foreach ($wi->where('active', 1)->where('parent_id', NULL)->where_in('user_id', $user_ids)->get() as $post)
             {
-                $wallitem->get_creator();
-                $wallitem->get_trips();
-                $user_wallitems[] = $wallitem->stored;
+                $post->get_creator();
+                $post->get_trips();
+                
+                // get replies and attach their places
+                $r = $post->get_replies();
+                $replies = array();
+                foreach ($r as $reply)
+                {
+                    $reply->get_creator();
+                    $reply->convert_nl();
+                    $reply->get_places();
+                    $reply->get_likes();
+                    $replies[] = $reply->stored;
+                }
+                
+                // packages each wallitem with replies into separate array
+                $post->stored->replies = $replies;
+
+                $news_feed_items[] = $post->stored;                
             }
         }
-
         
-        $news_feed_items = array_merge($trip_wallitems, $reply_wallitems, $user_wallitems);
+        //$news_feed_items = array_merge($trip_wallitems, $user_wallitems);
         if ($news_feed_items)
         {
             // remove duplicates
             $this->load->helper('dedup');
             dedup($news_feed_items);
-            
             $this->load->helper('quicksort');
             _quicksort($news_feed_items, TRUE);
         }
+        
+        
         return $news_feed_items;
     }
 

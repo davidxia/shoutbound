@@ -474,7 +474,7 @@ ul.stats-list li a{
   width:160px;
 }
 
-#add-comment-button{
+.add-comment-button{
   color:white;
   display:block;
   height:24px;
@@ -492,14 +492,14 @@ ul.stats-list li a{
   width:110px;  
 }
 
-#add-comment-button:hover {
+.add-comment-button:hover {
   background: #ffad32;
   background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
   background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');
 }
 
-#add-comment-button:active {
+.add-comment-button:active {
   background: #ff8132;
   background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
   background: -moz-linear-gradient(top,  #ff8132,  #ffad32);

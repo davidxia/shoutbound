@@ -19,6 +19,7 @@ $this->load->view('core_header', $header_args);
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
+  var staticUrl = '<?=static_sub()?>';
 </script>
 
 <style type="text/css">
@@ -102,160 +103,11 @@ $this->load->view('core_header', $header_args);
         
         <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
           <div id="feed-tab" class="main-tab-content main-tab-default">
-          
           <? if ( ! $news_feed_items):?>
             You haven't had any activity yet. Get started by <a href="<?=site_url('trips/create')?>">creating trips</a>, <a href="#">adding posts</a>, and <a href="#">following other people</a>, <a href="#"> trips</a>, and <a href="#"> places</a>.
           <? else:?>
           
-            <ul>
-            
-              <li id="postitem-showing-comments" class="first-postitem postitem">
-              
-                <div class="postitem-avatar-container">
-                  <a href="#">
-                    <img src="http://upload.wikimedia.org/wikipedia/commons/b/b9/Steve_Jobs_Headshot_2010-CROP.jpg" class="tooltip" height="32" width="32" alt="username"/>
-                  </a>
-                </div>
-                
-                <div class="postitem-content-container">
-                  <div class="postitem-author-name">
-                    <a href="#">Steve Jobs</a>
-                  </div> 
-                  <div class="postitem-content">This is an example postitem to show David what it looks like when someone clicks "comments".  The postitem list item expands, pushes the feed down, and reveals the beatiful shiny comments below, along with the "add comment" form. If there are no comments, then the "X comments" link just says "Add comment" and clicking reveals the add comment form only. BTW, did you know that you know that 63% of all innovation in the United States is driven by me?</div>
-                  <div class="postitem-actionbar">
-                    <div id="repost-postitem" class="postitem-actionbar-item"><a href="#">Add to trip</a>                      
-                    </div>
-                    <span class="bullet">&#149</span>
-                    <div id="add-postitem-comment" class="postitem-actionbar-item"><a href="#">3 Comments</a>
-                    </div>
-                    <span class="bullet">&#149</span>                    
-                    <div class="postitem-actionbar-item"><a href="#">8 trips</a></div>
-                    <span class="bullet">&#149</span>                        
-                   <!--<? foreach($news_feed_item->trips as $trip):?>
-                      <a href="<?=site_url('trips/'.($trip->id))?>"><?=$trip->name?></a>
-                   <? endforeach;?>-->
-                                       
-                    <div class="postitem-actionbar-item"><abbr class="timeago subtext" title="#">timestamp</abbr></div>                        
-                               
-                  </div><!--END POSTITEM CONTENT CONTAINER--> 
-                  
-                  <div class="comments-container"><!--COMMENTS START-->
-                    
-                    <div class="comment">
-                      <div class="postitem-avatar-container">
-                        <a href="#">
-                          <img src="http://upload.wikimedia.org/wikipedia/commons/2/2a/Bill_Gates_in_WEF_%2C2007.jpg" class="tooltip" height="32" width="32" alt="username"/>
-                        </a>
-                      </div>                      
-                      <div class="comment-content-container">
-                        <div class="comment-author-name">
-                          <a href="#">Bill Gates</a>
-                        </div> 
-                        <div class="comment-content">Nigga, plz.  I is d original gangsta of the personal computer. You can't match my hustle.</div>
-                        <div class="comment-timestamp"><abbr class="timeago subtext" title="#">timestamp</abbr></div>                      
-                      </div>
-                    </div> 
-
-                    <div class="comment">
-                      <div class="postitem-avatar-container">
-                        <a href="#">
-                          <img src="http://upload.wikimedia.org/wikipedia/commons/1/15/Mark_Zuckerberg_-_South_by_Southwest_2008_-_2-crop.jpg" class="tooltip" height="32" width="32" alt="username"/>
-                        </a>
-                      </div>                      
-                      <div class="comment-content-container">
-                        <div class="comment-author-name">
-                          <a href="#">Mark Zuckerberg</a>
-                        </div> 
-                        <div class="comment-content">Psh. I will poke you both to death.</div>
-                        <div class="comment-timestamp"><abbr class="timeago subtext" title="#">timestamp</abbr></div>                      
-                      </div>
-                    </div>                     
-
-                    <div class="comment">
-                      <div class="postitem-avatar-container">
-                        <a href="#">
-                          <img src="http://en.gravatar.com/userimage/19437443/ba9f2996753ba6ceab72b1ee750c793c.jpeg" class="tooltip" height="32" width="32" alt="username"/>
-                        </a>
-                      </div>                      
-                      <div class="comment-content-container">
-                        <div class="comment-author-name">
-                          <a href="#">Thanasis Polychronakis</a>
-                        </div> 
-                        <div class="comment-content">I will geowarp you!</div>
-                        <div class="comment-timestamp"><abbr class="timeago subtext" title="#">timestamp</abbr></div>                      
-                      </div>
-                    </div>                       
-                      
-                    <div class="comment-input-container">
-                      <textarea class="comment-input-area"/></textarea>
-                      <a id="add-comment-button" href="#">Add comment</a>
-                    </div>  
-                      
-                  </div><!--END COMMENT CONTAINER-->
-              
-              </li>
-
-              <li id="postitem-showing-trips" class="postitem">
-                <div class="postitem-avatar-container">
-                  <a href="#">
-                    <img src="http://upload.wikimedia.org/wikipedia/commons/2/21/George_Hotz.jpg" class="tooltip" height="32" width="32" alt="username"/>
-                  </a>
-                </div>
-                
-                <div class="postitem-content-container">
-                  <div class="postitem-author-name">
-                    <a href="#">GeoHot</a>
-                  </div> 
-                  <div class="postitem-content">Yo whaddup David, this GeoHot.  I hacked into your dev site to show you what it should look like when a user clicks "X Trips" on a postitem.  All the trips it's added to appear in the format below.  If it's been added to no trips, then instead of "X trips", the item in the postitem actionbar should just say "Not added to any trips".  </div>
-                  <div class="postitem-actionbar">
-                    <div id="repost-postitem" class="postitem-actionbar-item"><a href="#">Add to trip</a>                      
-                    </div>
-                    <span class="bullet">&#149</span>
-                    <div id="add-postitem-comment" class="postitem-actionbar-item"><a href="#">3 Comments</a>
-                    </div>
-                    <span class="bullet">&#149</span>                    
-                    <div class="postitem-actionbar-item"><a href="#">2 trips</a></div>
-                    <span class="bullet">&#149</span>                        
-                   <!--<? foreach($news_feed_item->trips as $trip):?>
-                      <a href="<?=site_url('trips/'.($trip->id))?>"><?=$trip->name?></a>
-                   <? endforeach;?>-->
-                                       
-                    <div class="postitem-actionbar-item"><abbr class="timeago subtext" title="#">timestamp</abbr></div>                        
-                               
-                  </div><!--END POSTITEM CONTENT CONTAINER--> 
-                  
-                  <div class="trip-listing-container"><!--TRIP LISTING CONTAINER START-->              
-                    <div class="trip-listing">
-                      <div class="trip-listing-name"><a href="#">David visits GeoHot</a></div>
-                      <div class="trip-listing-destination-container">
-                        <span class="trip-listing-destination"><a href="#">San Francisco, CA</a></span>
-                        <span class="bullet">&#149</span>
-                        <span class="trip-listing-destination"><a href="#">Tokyo, Japan</a></span>
-                      </div>
-                    </div>           
-            
-                    <div class="trip-listing">
-                      <div class="trip-listing-name"><a href="#">Help, I have been Geowarped and now I am lost</a></div>
-                      <div class="trip-listing-destination-container">
-                        <span class="trip-listing-destination"><a href="#">Javascript Hell, CA</a></span>
-                        <span class="bullet">&#149</span>
-                        <span class="trip-listing-destination"><a href="#">Boulder, CO</a></span>
-                        <span class="bullet">&#149</span>
-                        <span class="trip-listing-destination"><a href="#">San Francisco, CA</a></span>
-                        <span class="bullet">&#149</span>
-                        <span class="trip-listing-destination"><a href="#">Sparta, Greece</a></span>                        
-                      </div>
-                    </div>           
-                  </div><!--TRIP LISTING CONTAINER END-->
-              
-              </li>
-              
-              <li id="newsitem-trip-created">
-              
-              
-              
-              </li>
-            
+            <ul>              
               <? $first=TRUE; foreach($news_feed_items as $news_feed_item):?>
                 <li id="postitem-<?=$news_feed_item->id?>" class="<? if($first):?><? echo 'first-postitem'; $first=FALSE;?><? endif;?> postitem">
                   <div class="postitem-avatar-container">
@@ -273,23 +125,58 @@ $this->load->view('core_header', $header_args);
                       <div id="repost-postitem" class="postitem-actionbar-item"><a href="#">Add to trip</a>                      
                       </div>
                       <span class="bullet">&#149</span>
-                      <div id="add-postitem-comment" class="postitem-actionbar-item"><a href="#">3 Comments</a>
+                      <div class="postitem-actionbar-item"><a class="show-comments" href="#"><? $num_comments=count($news_feed_item->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
                       </div>
                       <span class="bullet">&#149</span>                    
-                      <div class="postitem-actionbar-item"><a href="#">8 trips</a></div>
+                      <div class="postitem-actionbar-item"><a class="show-trips" href="#"><? $num_trips=count($news_feed_item->trips); echo $num_trips.' trip'; if($num_trips!=1){echo 's';}?></a></div>
                       <span class="bullet">&#149</span>                        
                      <!--<? foreach($news_feed_item->trips as $trip):?>
                         <a href="<?=site_url('trips/'.($trip->id))?>"><?=$trip->name?></a>
                      <? endforeach;?>-->
-                                         
                       <div class="postitem-actionbar-item"><abbr class="timeago subtext" title="<?=$news_feed_item->created?>"><?=$news_feed_item->created?></abbr></div>                        
-                                 
-                    </div>  
+                    </div>
                     
+                    <!--COMMENTS START-->
+                    <div class="comments-container" style="display:none;">
+                      <? foreach ($news_feed_item->replies as $comment):?>
+                      <div class="comment">
+                        <div class="postitem-avatar-container">
+                          <a href="<?=site_url('profile/'.$comment->user_id)?>">
+                            <img src="<?=static_sub('profile_pics/'.$comment->user->profile_pic)?>" height="32" width="32"/>
+                          </a>
+                        </div>                      
+                        <div class="comment-content-container">
+                          <div class="comment-author-name">
+                            <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->user->name?></a>
+                          </div> 
+                          <div class="comment-content"><?=$comment->content?></div>
+                          <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$comment->created?>"><?=$comment->created?></abbr></div>                      
+                        </div>
+                      </div> 
+                      <? endforeach;?>
+                      <div class="comment-input-container">
+                        <textarea class="comment-input-area"/></textarea>
+                        <a class="add-comment-button" href="#">Add comment</a>
+                      </div>  
+                    </div><!--END COMMENT CONTAINER-->
 
+                    <!--TRIP LISTING CONTAINER START-->
+                    <div class="trip-listing-container" style="display:none;">
+                    <? foreach ($news_feed_item->trips as $trip):?>
+                      <div class="trip-listing">
+                        <div class="trip-listing-name"><a href="#"><?=$trip->name?></a></div>
+                        <div class="trip-listing-destination-container">
+                        <? $prefix=''; foreach ($trip->places as $place):?>
+                          <span class="trip-listing-destination"><a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a></span>
+                          <?=$prefix?>
+                          <? $prefix = '<span class="bullet">&#149</span>'?>
+                        <? endforeach;?>
+                        </div>
+                      </div>
+                    <? endforeach;?>
+                    </div><!--TRIP LISTING CONTAINER END-->
 
                   </div>
-                  
                 </li>
               <? endforeach;?>
             </ul>

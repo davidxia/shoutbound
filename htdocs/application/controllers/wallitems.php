@@ -24,58 +24,60 @@ class Wallitems extends CI_Controller
 		
 		public function ajax_save()
 		{
-		    $t = new Trip($this->input->post('tripId'));
+		    $trip_id = $this->input->post('tripId');
+		    $parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : NULL;
+		    $content = $this->input->post('content');
 		    
 		    $wi = new Wallitem();
-		    //$wi->trip_id = $this->input->post('tripId');
 		    $wi->user_id = $this->user->id;
-		    $wi->content = $this->input->post('content');
-		    $wi->parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : NULL;
+		    $wi->content = $content;
+		    $wi->parent_id = $parent_id;
 		    $wi->created = time()-72;
-		    if ($wi->save($t))
-		    {
-		        $parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : 0;
-		        
-		        $content = nl2br($this->input->post('content'));
-            $content = preg_replace_callback('/<place id="(\d+)">/',
-                create_function('$matches',
-                    '$p = new Place();
-                     $p->get_by_id($matches[1]);
-                     return \'<a class="place" href="#" address="\'.$p->name.\'" lat="\'.$p->lat.\'" lng="\'.$p->lng.\'">\';'),
-                $content);
-                
-            $content = str_replace('</place>', '</a>', $content);
-            
-            $a = new Activitie();
-            $a->user_id = $this->user->id;
-            $a->activity_type = 2;
-            $a->source_id = $wi->id;
-            $a->parent_id = $this->input->post('tripId');
-            $a->parent_type = 2;
-            $a->timestamp = time()-72;
-            $a->save();
 
-            json_success(array(
-                'id' => $wi->id,
-                'userName' => $this->user->name,
-                'userId' => $this->user->id,
-                'userPic' => $this->user->profile_pic,
-                'content' => $content,
-                'parentId' => $parent_id,
-                'created' => time()-72,
-            ));
+		    if ($trip_id)
+		    {
+		        $t = new Trip($trip_id);
+		        $wi->save($t);
 		    }
 		    else
 		    {
-		        json_error('something broke, tell David');
+		        $wi->save();
 		    }
+		    
+        $content = nl2br($content);
+        $content = preg_replace_callback('/<place id="(\d+)">/',
+            create_function('$matches',
+                '$p = new Place();
+                 $p->get_by_id($matches[1]);
+                 return \'<a class="place" href="#" address="\'.$p->name.\'" lat="\'.$p->lat.\'" lng="\'.$p->lng.\'">\';'),
+            $content);
+            
+        $content = str_replace('</place>', '</a>', $content);
+        
+        $a = new Activitie();
+        $a->user_id = $this->user->id;
+        $a->activity_type = ($parent_id) ? 6 : 2;
+        $a->source_id = $wi->id;
+        $a->parent_id = ($parent_id) ? $parent_id : $trip_id;
+        $a->parent_type = ($parent_id) ? 4 : 2;
+        $a->timestamp = time()-72;
+        $a->save();
+
+        json_success(array(
+            'id' => $wi->id,
+            'userName' => $this->user->name,
+            'userId' => $this->user->id,
+            'userPic' => $this->user->profile_pic,
+            'content' => $content,
+            'parentId' => $parent_id,
+            'created' => time()-72,
+        ));
 		}
 		
 
 		public function ajax_remove()
 		{
-		    $wi = new Wallitem();
-		    $wi->get_by_id($this->input->post('id'));
+		    $wi = new Wallitem($this->input->post('id'));
 		    $wi->active = 0;
 		    if ($wi->save())
 		    {
@@ -88,86 +90,6 @@ class Wallitems extends CI_Controller
 		        json_error('something broke, tell David');
 		    }
 		}
-
-
-    public function index()
-    {
-        $t = new Trip();
-        $t->get_by_id(2);
-        $wallitems = array();
-        
-        $t->wallitem->where('parent_id', NULL)->get();
-        foreach ($t->wallitem as $wallitem)
-        {
-            //$wi = new Wallitem();
-            //$wi->get_by_id($wallitem->id);
-            $replies = $wallitem->get_replies();
-            $wallitem->stored->replies = $replies;
-            
-            $places = $wallitem->get_places();
-            $wallitem->stored->places = $places;
-            
-            $wallitems[] = $wallitem->stored;
-        }
-        
-        foreach ($wallitems as $wallitem)
-        {
-            print_r($wallitem);
-            echo '<br/><br/>';
-        }
-        /*
-        $wi = new Wallitem();
-        $wi->get_by_id(1);
-        $replies = $wi->get_replies();
-        foreach ($replies as $reply)
-        {
-            print_r($reply);
-            echo '<br/><br/>';
-        }
-        */
-        
-    }
-    
-    function save_place_trip()
-    {
-        $place_id = 3;
-        $p = new Place();
-        $p->get_by_id($place_id);
-
-        $t = new Trip();
-        $t->get_by_id(2);
-        
-        if ($p->id)
-        {
-            $t->save_place_trip($p, time()-72, time()-72);
-            echo 'trips place updated';
-        }
-        else
-        {
-            echo 'there is no such place';
-        }
-        
-    }
-    
-    
-    public function save_place_wallitem()
-    {
-        $place_id = 3;
-        $p = new Place();
-        $p->get_by_id($place_id);
-        
-        $wi = new Wallitem();
-        $wi->get_by_id(1);
-        
-        if ($p->id AND $wi->save($p))
-        {
-            echo 'place saved to wallitem';
-        }
-        else
-        {
-            echo 'not saved';
-        }
-    }
     
     
     public function ajax_save_like()
