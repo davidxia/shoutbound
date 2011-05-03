@@ -61,16 +61,21 @@ class Home extends CI_Controller
     
     public function ajax_post_item()
     {
-        //$content = $this->input->post('content');
-
         $t = new Trip();
         $t->where_in('id', $this->input->post('tripIds'))->get();
         
-		    $wi = new Wallitem();
-		    $wi->user_id = $this->user->id;
-		    $wi->content = $this->input->post('content');
-		    $wi->parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : NULL;
-		    $wi->created = time()-72;
+        if ($this->input->post('postId'))
+        {
+            $wi = new Wallitem($this->input->post('postId'));
+        }
+        else
+        {
+    		    $wi = new Wallitem();
+    		    $wi->user_id = $this->user->id;
+    		    $wi->content = $this->input->post('content');
+    		    $wi->parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : NULL;
+    		    $wi->created = time()-72;        
+        }
 		    
 		    if ($wi->save($t->all))
 		    {
@@ -102,7 +107,7 @@ class Home extends CI_Controller
 		        json_error('something broke, tell David');
 		    }
     }
-    
+        
     
     function fb_request_form()
     {

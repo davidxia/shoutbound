@@ -49,13 +49,13 @@ $this->load->view('core_header', $header_args);
 
       <div id="top-bar"><!--TOP BAR-->
         
-        <!--<div id="new-postitem-button">New post</div>
+        <div id="new-postitem-button">New post</div>
         <div id="new-trip-button">New trip</div>        
        
         <div id="home-add-postitem-container"><!--POSTITEM CONTAINER-->
-            <!--<form id="item-post-form">
+            <form id="item-post-form">
               <fieldset>
-                <div contenteditable="true" id="item-input"></div>
+                <div contenteditable="true" id="item-input" style="border:1px solid black; height:70px;"></div>
                 <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
                   <? foreach ($user->rsvp_yes_trips as $trip):?>
                   <option value="<?=$trip->id?>"><?=$trip->name?>
@@ -70,7 +70,7 @@ $this->load->view('core_header', $header_args);
                 <a id="post-item" href="#">Post</a>
               </fieldset>
             </form>
-        </div><!--END POSTITEM CONTAINER--> 
+        </div><!--END POSTITEM CONTAINER-->
     
       </div><!--TOP BAR END-->
 
@@ -122,7 +122,7 @@ $this->load->view('core_header', $header_args);
                     </div> 
                     <div class="postitem-content"><?=$news_feed_item->content?></div>
                     <div class="postitem-actionbar">
-                      <div id="repost-postitem" class="postitem-actionbar-item"><a href="#">Add to trip</a>                      
+                      <div id="repost-postitem" class="postitem-actionbar-item"><a class="add-to-trip" href="#">Add to trip</a>                      
                       </div>
                       <span class="bullet">&#149</span>
                       <div class="postitem-actionbar-item"><a class="show-comments" href="#"><? $num_comments=count($news_feed_item->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
@@ -172,6 +172,23 @@ $this->load->view('core_header', $header_args);
                       </div>
                     <? endforeach;?>
                     </div><!--TRIP LISTING CONTAINER END-->
+                    
+                    <!-- ADD TO TRIP -->
+                    <div class="add-to-trip-cont" style="display:none;">
+                      <select multiple="multiple" size=5>
+                        <? foreach ($user->rsvp_yes_trips as $trip):?>
+                        <option value="<?=$trip->id?>"><?=$trip->name?>
+                        <? endforeach;?>
+                        <? foreach ($user->rsvp_awaiting_trips as $trip):?>
+                        <option value="<?=$trip->id?>"><?=$trip->name?>
+                        <? endforeach;?>
+                        <? foreach ($user->following_trips as $trip):?>
+                        <option value="<?=$trip->id?>"><?=$trip->name?>
+                        <? endforeach;?>
+                      </select>
+                      <a class="post-to-trip" href="#">Post</a>
+                    </div>
+                    <!-- ADD TO TRIP END -->
 
                   </div>
                 </li>

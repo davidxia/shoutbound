@@ -123,7 +123,8 @@ $this->load->view('core_header', $header_args);
     		  </div>
           <div class="console">
             Get advice, ideas and recommendations for this trip by sharing it.
-          </div>                  				
+          </div>
+          Related trips: (list other trips within X distance)
     	   </div><!--WIDGET END-->	
                 
       </div><!-- FOLLOW BUTTON + STATS END-->  

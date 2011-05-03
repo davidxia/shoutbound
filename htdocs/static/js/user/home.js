@@ -102,7 +102,7 @@ map.showTabMarkers = function(tabName) {
 
 
 $(function() {
-  $('#trip-selection').multiselect();
+  $('select').multiselect();
 
   $('#post-item').click(function() {
     var text = getContentEditableText('item-input').trim();
@@ -130,7 +130,7 @@ $(function() {
   $('.add-comment-button').live('click', function() {
     var content = $.trim($(this).siblings('textarea').val());
     if (content != '') {
-      var parentId = $(this).parent().parent().parent().parent().attr('id').match(/^postitem-(\d+)$/)[1];    
+      var parentId = $(this).parent().parent().parent().parent().attr('id').match(/^postitem-(\d+)$/)[1];
       $.post(baseUrl+'wallitems/ajax_save', {content:content, parentId:parentId},
         function (d) {
           var r = $.parseJSON(d);
@@ -153,6 +153,23 @@ $(function() {
   $('.hide-trips').live('click', function() {
     $(this).removeClass('hide-trips').addClass('show-trips');
     $(this).parent().parent().siblings('.trip-listing-container').hide();
+    return false;
+  });
+  
+  $('.add-to-trip').live('click', function() {
+    $(this).parent().parent().siblings('.add-to-trip-cont').show();
+    return false;
+  });
+  $('.post-to-trip').live('click', function () {
+    var tripIds = $(this).siblings('select').multiselect('getChecked').map(function(){
+      return this.value;
+    }).get();
+    var postId = $(this).parent().parent().parent().attr('id').match(/^postitem-(\d+)$/)[1];
+    $.post(baseUrl+'home/ajax_post_item', {postId:postId, tripIds:tripIds},
+      function (d) {
+        var r = $.parseJSON(d);
+        showPost(r);
+      });
     return false;
   });
 });
@@ -204,7 +221,7 @@ getContentEditableText = function(id) {
 
 
 postItem = function(content) {
-  var tripIds = $('select').multiselect('getChecked').map(function(){
+  var tripIds = $('#trip-selection').multiselect('getChecked').map(function(){
      return this.value;
   }).get();
   $.post(baseUrl+'home/ajax_post_item', {content:content, tripIds:tripIds},
