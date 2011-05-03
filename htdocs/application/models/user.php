@@ -126,10 +126,10 @@ class User extends DataMapper
     
     public function get_current_place()
     {
-        $this->place->include_join_fields()->where('timestamp=(SELECT MAX(timestamp) FROM places_users)')->get();
-        if ($this->place->id)
+        $this->geoplanet_place->include_join_fields()->where('timestamp=(SELECT MAX(timestamp) FROM geoplanet_places_users)')->get();
+        if ($this->geoplanet_place->id)
         {
-            $this->stored->place = $this->place->stored;
+            $this->stored->place = $this->geoplanet_place->stored;
         }
     }
     
@@ -188,7 +188,7 @@ class User extends DataMapper
     }
     
     
-    public function get_following()
+    public function get_following($user_id = FALSE)
     {
         $this->stored->following = array();
         foreach ($this->related_user->include_join_fields()->get_iterated() as $following)
@@ -196,6 +196,10 @@ class User extends DataMapper
             if ($following->join_is_following == 1)
             {
                 $following->get_current_place();
+                if ($user_id)
+                {
+                    $following->get_follow_status_by_user_id($user_id);
+                }
                 $this->stored->following[] = $following->stored;
             }
         }
@@ -426,6 +430,21 @@ class User extends DataMapper
         {
             $this->stored->is_following = FALSE;
         }
+    }
+    
+    
+    public function get_follow_status_by_user_id($user_id)
+    {
+        $this->user->where('id', $user_id)->include_join_fields()->get();
+        if ($this->user->join_is_following == 1)
+        {
+            $this->stored->is_following = TRUE;
+        }
+        else
+        {
+            $this->stored->is_following = FALSE;
+        }
+        
     }
         
     /*

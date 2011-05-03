@@ -11,17 +11,21 @@
       <a href="<?=site_url('profile/'.$following->id)?>"><img src="<?=static_sub('profile_pics/'.$following->profile_pic)?>" width="48" height="48"/></a>
     </div>
     
-    <a href="#" class="follow-button">Follow</a>
+    <? if ($following->is_following):?>
+      <a href="#" class="unfollow-button">Unfollow</a>
+    <? elseif ($following->id != $user->id):?>
+      <a href="#" class="follow-button">Follow</a>
+    <? endif;?>
     
     <div class="followitem-content-container">    
       <div class="followitem-title">
         <a href="<?=site_url('profile/'.$following->id)?>"><?=$following->name?></a>
       </div>    
   
-      <div>Bio here</div>
-      <!--<? if (isset($following->place)):?>
+      <div><?=$following->bio?></div>
+      <? if (isset($following->place)):?>
       Current location: <a class="place" lat="<?=$following->place->lat?>" lng="<?=$following->place->lng?>" href="#"><?=$following->place->name?></a>
-      <? endif;?>-->
+      <? endif;?>
     </div>    
 
     <div style="clear:both"></div> 
