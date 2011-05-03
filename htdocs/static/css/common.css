@@ -200,7 +200,7 @@ fieldset {
   padding:10px 40px 10px 20px;
 }
 
-li.postitem:hover{
+.postitem:hover{
   background-color:#FAFAFA;
   border-top:1px solid blue;
   border-bottom:1px solid blue;
@@ -212,7 +212,7 @@ li.postitem:hover{
 }
 
 .postitem-content-container{
-  margin-left:42px;
+  margin-left:60px;
 }
 
 .followitem-content-container{
@@ -362,7 +362,11 @@ li.postitem:hover{
 	border-left:1px solid #BABABA;
 	border-right:1px solid #BABABA;
 	border-top:1px solid #BABABA;
-	width:122px;
+	width:117px;
+}
+
+#main-tabs li.last{
+  width:122px;
 }
 
 #main-tabs li.active a{

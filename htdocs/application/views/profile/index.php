@@ -82,7 +82,7 @@ $this->load->view('core_header', $header_args);
           <li><a href="#trail">Trail</a></li>
           <li><a href="#posts">Posts</a></li>
           <li><a href="#following">Following</a></li>
-          <li><a href="#followers">Followers</a></li>
+          <li class="last"><a href="#followers">Followers</a></li>
         </ul>
         
         <div style="clear:both"></div>
