@@ -121,16 +121,16 @@ $this->load->view('core_header', $header_args);
                       <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>"><?=$news_feed_item->user->name?></a>
                     </div> 
                     <div class="postitem-content"><?=$news_feed_item->content?></div>
-                    <div class="postitem-actionbar">
-                      <div id="repost-postitem" class="postitem-actionbar-item"><a class="add-to-trip" href="#">Add to trip</a>                      
+                    <div class="actionbar">
+                      <div id="repost-postitem" class="actionbar-item"><a class="add-to-trip" href="#">Add to trip</a>                      
                       </div>
                       <span class="bullet">&#149</span>
-                      <div class="postitem-actionbar-item"><a class="show-comments" href="#"><? $num_comments=count($news_feed_item->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
+                      <div class="actionbar-item"><a class="show-comments" href="#"><? $num_comments=count($news_feed_item->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
                       </div>
                       <span class="bullet">&#149</span>                    
-                      <div class="postitem-actionbar-item"><a class="show-trips" href="#"><? $num_trips=count($news_feed_item->trips); echo $num_trips.' trip'; if($num_trips!=1){echo 's';}?></a></div>
+                      <div class="actionbar-item"><a class="show-trips" href="#"><? $num_trips=count($news_feed_item->trips); echo $num_trips.' trip'; if($num_trips!=1){echo 's';}?></a></div>
                       <span class="bullet">&#149</span>                        
-                      <div class="postitem-actionbar-item"><abbr class="timeago subtext" title="<?=$news_feed_item->created?>"><?=$news_feed_item->created?></abbr></div>                        
+                      <div class="actionbar-item"><abbr class="timeago subtext" title="<?=$news_feed_item->created?>"><?=$news_feed_item->created?></abbr></div>                        
                     </div>
                     
                     <!--COMMENTS START-->

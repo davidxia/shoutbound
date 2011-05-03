@@ -1,11 +1,13 @@
 <div id="posts-tab" class="main-tab-content">
   <? if ( ! $profile->posts):?>
-    <?=$profile->name?> hasn't posted anything yet.
+    <div style="padding:10px 20px">
+      <?=$profile->name?> hasn't posted anything yet.
+    </div>
   <? endif;?>
     
-  <? foreach ($profile->posts as $post):?>
+  <? $first=TRUE; foreach ($profile->posts as $post):?>
   
-    <div class="postitem">
+    <div id="postitem-<?=$post->id?>" class="<? if($first):?><? echo 'first-postitem'; $first=FALSE;?><? endif;?> postitem">
       <div class="postitem-avatar-container">
         <a href="#">
           <img src="#" height="48" width="48"/>
@@ -52,30 +54,32 @@
               </div> 
               <div class="comment-content"><?=$comment->content?></div>
               <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$comment->created?>"><?=$comment->created?></abbr></div>                      
-            </div>
-          </div> 
-          <? endforeach;?>
-          <div class="comment-input-container">
-            <textarea class="comment-input-area"/></textarea>
-            <a class="add-comment-button" href="#">Add comment</a>
-          </div>  
-        </div><!--END COMMENT CONTAINER-->
-  
-        <!--TRIP LISTING CONTAINER START-->
-        <div class="trip-listing-container" style="display:none;">
-        <? foreach ($news_feed_item->trips as $trip):?>
-          <div class="trip-listing">
-            <div class="trip-listing-name"><a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a></div>
-            <div class="trip-listing-destination-container">
-            <? $prefix=''; foreach ($trip->places as $place):?>
-              <span class="trip-listing-destination"><a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a></span>
-              <?=$prefix?>
-              <? $prefix = '<span class="bullet">&#149</span>'?>
+              </div>
+            </div> 
             <? endforeach;?>
+            <div class="comment-input-container">
+              <textarea class="comment-input-area"/></textarea>
+              <a class="add-comment-button" href="#">Add comment</a>
+            </div>  
+          </div><!--END COMMENT CONTAINER-->
+    
+          <!--TRIP LISTING CONTAINER START-->
+          <div class="trip-listing-container" style="display:none;">
+          <? foreach ($news_feed_item->trips as $trip):?>
+            <div class="trip-listing">
+              <div class="trip-listing-name"><a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a></div>
+              <div class="trip-listing-destination-container">
+              <? $prefix=''; foreach ($trip->places as $place):?>
+                <span class="trip-listing-destination"><a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a></span>
+                <?=$prefix?>
+                <? $prefix = '<span class="bullet">&#149</span>'?>
+              <? endforeach;?>
+              </div>
             </div>
-          </div>
-        <? endforeach;?>
-        </div><!--TRIP LISTING CONTAINER END-->
+          <? endforeach;?>
+          </div><!--TRIP LISTING CONTAINER END-->
+        
+        </div><!--POSTITEM CONTENT CONTAINER END-->
               
       </div><!--END POSTITEM-->
       
