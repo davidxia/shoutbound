@@ -190,24 +190,20 @@ fieldset {
 
 /*POSTITEMS*/
 
-.postitem, .followitem{
+.postitem, .followitem, .tripitem{
   border-top:1px solid #FAFAFA;
   border-bottom:1px solid #FAFAFA;
   padding:10px 40px 10px 20px;
 }
 
-.followitem{
-  padding:10px 40px 10px 20px;
-}
-
-.postitem:hover{
+.postitem:hover, .tripitem:hover{
   background-color:#FAFAFA;
   border-top:1px solid blue;
   border-bottom:1px solid blue;
   cursor:pointer;
 }
 
-.first-postitem, .first-postitem:hover, .first-followitem{
+.first-postitem, .first-postitem:hover, .first-followitem, .first-tripitem, .first-tripitem:hover{
   border-top:none;
 }
 
@@ -224,7 +220,7 @@ fieldset {
   float:left;
 }
 
-.postitem-author-name, .followitem-title{
+.postitem-author-name, .followitem-title, .trip-listing-name{
   line-height:17px;
   height:17px;
 }
@@ -244,14 +240,23 @@ fieldset {
   font-size:13px;
 }
 
-.postitem-actionbar{
+.actionbar{
   margin-top:3px;
 }
 
-.postitem-actionbar-item{
+.actionbar-item{
   margin-right:3px;
   display:inline;
   font-size:13px;
+}
+
+.destinationbar{
+  margin-top:-2px;
+}
+
+.destinationbar-item{
+  margin-right:3px;
+  display:inline;
 }
 
 /*COMMENTS AND TRIP LISTING*/
