@@ -207,7 +207,7 @@ fieldset {
   cursor:pointer;
 }
 
-.first-postitem, li.first-postitem:hover, .first-followitem{
+.first-postitem, .first-postitem:hover, .first-followitem{
   border-top:none;
 }
 
