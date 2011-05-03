@@ -190,10 +190,14 @@ fieldset {
 
 /*POSTITEMS*/
 
-.postitem{
+.postitem, .followitem{
   border-top:1px solid #FAFAFA;
   border-bottom:1px solid #FAFAFA;
-  padding:10px 40px 10px 10px;
+  padding:10px 40px 10px 20px;
+}
+
+.followitem{
+  padding:10px 40px 10px 20px;
 }
 
 li.postitem:hover{
@@ -203,7 +207,7 @@ li.postitem:hover{
   cursor:pointer;
 }
 
-.first-postitem, li.first-postitem:hover{
+.first-postitem, li.first-postitem:hover, .first-followitem{
   border-top:none;
 }
 
@@ -211,22 +215,26 @@ li.postitem:hover{
   margin-left:42px;
 }
 
-.postitem-avatar-container{
+.followitem-content-container{
+  margin-left:60px;
+}
+
+.postitem-avatar-container, .followitem-avatar-container{
   padding-top:2px;
   float:left;
 }
 
-.postitem-author-name{
+.postitem-author-name, .followitem-title{
   line-height:17px;
   height:17px;
 }
 
-.postitem-author-name a, .postitem-author-name a:visited, .comment-author-name a, .comment-author-name a:visited, .trip-listing-name a, .trip-listing-name a:visited{
+.postitem-author-name a, .postitem-author-name a:visited, .comment-author-name a, .comment-author-name a:visited, .trip-listing-name a, .trip-listing-name a:visited, .followitem-title a, .followitem-title a:visited{
   color:#333;
   font-weight:bold;
 }
 
-.postitem-author-name a:hover, .postitem-reposter-name a:hover, .comment-author-name a:hover, .trip-listing-name a:hover{
+.postitem-author-name a:hover, .postitem-reposter-name a:hover, .comment-author-name a:hover, .trip-listing-name a:hover, .followitem-title a:hover{
   color: blue;
   cursor:pointer;
 }
@@ -282,6 +290,10 @@ li.postitem:hover{
 .comment-input-container{
   padding-bottom:5px;
 }
+
+/*FOLLOWING AND FOLLOWERS*/
+
+
 
 /* Layout */
 
@@ -455,8 +467,8 @@ ul.stats-list li a{
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }
 
-#follow {
-  color:white;
+#follow, .follow-button {
+  color:#333;
   display:block;
   height:30px;
   line-height:30px;
@@ -464,9 +476,10 @@ ul.stats-list li a{
   font-weight:bold;
   font-size:14px;
   text-decoration:none;
-  background:-webkit-gradient(linear, left top, left bottom, from(#32D02F), to(#239121));
+  background-color:#FAFAFA;
+  /*background:-webkit-gradient(linear, left top, left bottom, from(#32D02F), to(#239121));
   background:-moz-linear-gradient(top, #32D02F, #239121);
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#32D02F', endColorstr='#239121');
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#32D02F', endColorstr='#239121');*/
   border: 1px solid #555;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
