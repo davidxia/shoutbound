@@ -130,9 +130,6 @@ $this->load->view('core_header', $header_args);
                       <span class="bullet">&#149</span>                    
                       <div class="postitem-actionbar-item"><a class="show-trips" href="#"><? $num_trips=count($news_feed_item->trips); echo $num_trips.' trip'; if($num_trips!=1){echo 's';}?></a></div>
                       <span class="bullet">&#149</span>                        
-                     <!--<? foreach($news_feed_item->trips as $trip):?>
-                        <a href="<?=site_url('trips/'.($trip->id))?>"><?=$trip->name?></a>
-                     <? endforeach;?>-->
                       <div class="postitem-actionbar-item"><abbr class="timeago subtext" title="<?=$news_feed_item->created?>"><?=$news_feed_item->created?></abbr></div>                        
                     </div>
                     
@@ -164,7 +161,7 @@ $this->load->view('core_header', $header_args);
                     <div class="trip-listing-container" style="display:none;">
                     <? foreach ($news_feed_item->trips as $trip):?>
                       <div class="trip-listing">
-                        <div class="trip-listing-name"><a href="#"><?=$trip->name?></a></div>
+                        <div class="trip-listing-name"><a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a></div>
                         <div class="trip-listing-destination-container">
                         <? $prefix=''; foreach ($trip->places as $place):?>
                           <span class="trip-listing-destination"><a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a></span>
