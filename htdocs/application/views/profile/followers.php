@@ -9,7 +9,7 @@
       <a href="<?=site_url('profile/'.$follower->id)?>"><img src="<?=static_sub('profile_pics/'.$follower->profile_pic)?>" width="48" height="48"/></a>
     </div>
     
-    <a href="#" class="follow-button">Follow</a>
+    <a href="#" class="follow">Follow</a>
     
     <div class="followitem-content-container">
       <div class="followitem-title">

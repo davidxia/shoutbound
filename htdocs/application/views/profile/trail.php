@@ -6,7 +6,7 @@
   <? $first=TRUE; foreach ($profile->rsvp_yes_trips as $trip):?>
     <div id="tripitem-<?=$trip->id?>" class="<? if($first):?><? echo 'first-tripitem'; $first=FALSE;?><? endif;?> tripitem">
     
-      <a href="#" class="follow-button">Follow</a>
+      <a href="#" class="follow">Follow</a>
       <div class="trip-listing-name">
         <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
       </div>
@@ -24,6 +24,11 @@
         <? endforeach;?>
         <?=$dest_list?>
       </div>
+      <? foreach ($trip->goers as $goer):?>                       	                       
+          <a href="<?=site_url('profile/'.$goer->id)?>">
+            <img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" class="tooltip" height="32" width="32" alt="<?=$goer->name?>"/>
+          </a>
+        <? endforeach;?>
 
     </div>
   <? endforeach;?>

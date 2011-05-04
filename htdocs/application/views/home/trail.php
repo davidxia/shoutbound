@@ -6,7 +6,7 @@
         <span class="trip-listing-name">
           <a href="<?=site_url('trips/'.$rsvp_awaiting_trip->id)?>"><?=$rsvp_awaiting_trip->name?></a>
         </span>
-        <span class="RSVP-required">(Awaiting your response)</span>
+        <span class="RSVP-required">(Awaiting response)</span>
         <div class="trip-listing-description">
           Diana and I are going to check out some national parks for our next vacation.
         </div>                
