@@ -1,12 +1,13 @@
 <div id="trail-tab" class="main-tab-content">
   <? if ( ! $profile->rsvp_yes_trips):?>
-    <?=$profile->name?> doesn't have any trips yet. <a href="#">Suggest some</a>.
+    <?=$profile->name?> doesn't have any trips yet.
   <? endif;?>
   
   <? $first=TRUE; foreach ($profile->rsvp_yes_trips as $trip):?>
-    <div id="tripitem-<?=$trip->id?>" class="<? if($first):?><? echo 'first-tripitem'; $first=FALSE;?><? endif;?> tripitem">
+    <div id="tripitem-<?=$trip->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> tripitem">
     
-      <a href="#" class="follow">Follow</a>
+      <a href="#" class="follow">this needs fixing</a>
+      
       <div class="trip-listing-name">
         <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
       </div>
@@ -14,7 +15,7 @@
       <div class="destinationbar">
         <? $prefix = ''; $dest_list = '';?>
         <? foreach ($trip->places as $place):?>
-          <? $dest_list .= $prefix . '<a class="place destinationbar-item" lat="'.$place->lat.'" lng="'.$place->lng.'">'.
+          <? $dest_list .= $prefix . '<a href="'.site_url('places/'.$place->id).'" class="place destinationbar-item" lat="'.$place->lat.'" lng="'.$place->lng.'">'.
              $place->name.'</a><span class="subtext">(Dates)</span>';?>
           <? $prefix = ' <span class="bullet">&#149</span> '?>
         <? endforeach;?>

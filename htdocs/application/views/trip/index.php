@@ -86,7 +86,7 @@ $this->load->view('core_header', $header_args);
 	            <? foreach ($trip->goers as $trip_goer):?>
 	            	<div class="tripitem-avatar-container" uid="<?=$trip_goer->id?>">
 	                <a href="<?=site_url('profile/'.$trip_goer->id)?>">
-	                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="41" width="41"/>
+	                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="48" width="48"/>
 	                </a>
 	              </div>
 	            <? endforeach;?>
@@ -102,13 +102,13 @@ $this->load->view('core_header', $header_args);
       
       <div id="follow-and-stats-container"><!--FOLLOW BUTTON + STATS-->     
       
-      <div id="num_trip_goers">          			              		
-	              <? $num_trip_goers = count($trip->goers); if ($num_trip_goers == 1):?>
-	              <span id="num"><?=$num_trip_goers?></span> person is going on this trip.
-	              <? else:?>              		
-	              <span id="num"><?=$num_trip_goers?></span> people are going on this trip.
-	              <? endif;?>           
-	          	</div>
+        <div id="num_trip_goers">          			              		
+          <? $num_trip_goers = count($trip->goers); if ($num_trip_goers == 1):?>
+          <span id="num"><?=$num_trip_goers?></span> person is going on this trip.
+          <? else:?>              		
+          <span id="num"><?=$num_trip_goers?></span> people are going on this trip.
+          <? endif;?>           
+      	</div>
         
         <? if ( ! $user_role):?>
           <? if ($user_rsvp == 0):?>
@@ -160,60 +160,131 @@ $this->load->view('core_header', $header_args);
         
         <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
         
-          <!-- WALL TAB -->
+          <!-- POSTS TAB -->
           <div id="posts-tab" class="main-tab-content main-tab-default">
-            <? foreach ($wallitems as $wallitem):?>
-              <div class="wallitem" id="wallitem-<?=$wallitem->id?>">
-                <div class="postcontent">
-                  <?=$wallitem->content?>
-                </div>             
-                
-                <div class="actionbar">
-                  <a class="wallitem-profile-pic" href="<?=site_url('profile/'.$wallitem->user_id)?>">
-                    <img src="<?=static_sub('profile_pics/'.$wallitem->user->profile_pic)?>" class="tooltip" height="22" width="22" alt="<?=$trip_goer->name?>"/>
+            
+            <? $first=TRUE; foreach ($wallitems as $wallitem):?>            
+              <div id="wallitem-<?=$wallitem->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> postitem"><!--POSTITEM START-->
+              
+                <div class="postitem-avatar-container">
+                  <a href="<?=site_url('profile/'.$wallitem->user_id)?>">
+                    <img src="<?=static_sub('profile_pics/'.$wallitem->user->profile_pic)?>" class="tooltip" height="48" width="48" alt="<?=$trip_goer->name?>"/>
                   </a>
+                </div>
+                
+                <!--POSTITEM CONTENT CONTAINER-->
+                <div class="postitem-content-container">                
+                  <div class="postitem-author-name">
+                    <a href="<?=site_url('profile/'.$wallitem->user_id)?>">
+                      <?=$wallitem->user->name?>
+                    </a>               
+                  </div>                           
+                  <div class="postitem-content">
+                    <?=$wallitem->content?>
+                  </div>             
                   
-                  <a href="<?=site_url('profile/'.$wallitem->user_id)?>" class="author">
-                    <?=$wallitem->user->name?>
-                  </a> 
-                  <a class="reply-button" href="#">Add comment</a>           
-                  <? $is_liked = 0; foreach ($wallitem->likes as $like):?><? if (isset($user) AND $like->user_id==$user->id AND $like->is_like==1):?>
-                    <? $is_liked = 1;?>
-                  <? endif;?><? endforeach;?>
-                  <? if ($is_liked == 0):?>
-                    <a class="like-button" href="#">Like</a>
-                  <? else:?>
-                    <a class="unlike-button" href="#">Unlike</a>
-                  <? endif;?>
-                  <? $num_likes = 0; foreach($wallitem->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><span class="num-likes"><?=$num_likes?> person likes this</span><? elseif ($num_likes > 1):?><span class="num-likes"><?=$num_likes?> people like this</span><? endif;?>
-                  <abbr class="timeago" title="<?=$wallitem->created?>"><?=$wallitem->created?></abbr>            
-      
-                </div> 
-                <div class="remove-wallitem"></div>
-                <? foreach ($wallitem->replies as $reply):?>
-                  <div class="wallitem reply" id="wallitem-<?=$reply->id?>">
-                    <div class="postcontent">
-                      <?=$reply->content?>
+                  <!--ACTIONBAR START-->                 
+                  <div class="postitem-actionbar">
+                    <div id="repost-postitem" class="actionbar-item">
+                      <a href="#">Add to trip</a>                      
                     </div>
-                    <div class="actionbar">
-                      <a href="<?=site_url('profile/'.$reply->user_id)?>" class="author"><?=$reply->user->name?></a>             
-                      <? $is_liked = 0; foreach ($reply->likes as $like):?><? if (isset($user) AND $like->user_id==$user->id AND $like->is_like==1):?>
-                        <? $is_liked = 1;?>
-                      <? endif;?><? endforeach;?>
-                      <? if ($is_liked == 0):?>
-                        <a class="like-button" href="#">Like</a>
-                      <? else:?>
-                        <a class="unlike-button" href="#">Unlike</a>
-                      <? endif;?>
-                  <? $num_likes = 0; foreach($reply->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><span class="num-likes"><?=$num_likes?> person likes this</span><? elseif ($num_likes > 1):?><span class="num-likes"><?=$num_likes?> people like this</span><? endif;?>
-                      <abbr class="timeago" title="<?=$reply->created?>"><?=$reply->created?></abbr>
+                    <span class="bullet">&#149</span>
+                    <div class="actionbar-item">
+                      <a class="show-comments" href="#"><? $num_comments=count($wallitem->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
                     </div>
-                    <div class="remove-wallitem"></div>
-                  </div>
-                <? endforeach;?>
-              </div>
-            <? endforeach;?>
-          </div><!--WALL TAB ENDS-->          
+                    <span class="bullet">&#149</span>                    
+                    <div class="actionbar-item">
+                      <a class="show-trips" href="#"><? $num_trips=count($wallitem->trips); echo $num_trips.' trip'; if($num_trips!=1){echo 's';}?></a>
+                    </div>
+                    <span class="bullet">&#149</span>                        
+                    <div class="actionbar-item">
+                      <abbr class="timeago subtext" title="<?=$wallitem->created?>"><?=$wallitem->created?></abbr>
+                    </div>                        
+                  </div><!--ACTIONBAR END-->
+                    
+                  <!--COMMENTS CONTAINER START-->
+                  <div class="comments-container" style="display:none;">
+                  
+                    <? foreach ($wallitem->replies as $comment):?>                  
+                    <div class="comment"><!--COMMENT START-->
+                      <div class="postitem-avatar-container">
+                        <a href="<?=site_url('profile/'.$comment->user_id)?>">
+                          <img src="<?=static_sub('profile_pics/'.$comment->user->profile_pic)?>" height="32" width="32"/>
+                        </a>
+                      </div>
+                      
+                      <!--COMMENT CONTENT START-->                      
+                      <div class="comment-content-container">
+                        <div class="comment-author-name">
+                          <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->user->name?></a>
+                        </div> 
+                        <div class="comment-content">
+                          <?=$comment->content?>
+                        </div>
+                        <div class="comment-timestamp">
+                          <abbr class="timeago subtext" title="<?=$comment->created?>"><?=$comment->created?></abbr>
+                        </div>                      
+                      </div><!--COMMENT CONTENT END-->
+                                          
+                    </div><!--COMMENT END-->                     
+                    <? endforeach;?>
+                                       
+                    <div class="comment-input-container">
+                      <textarea class="comment-input-area"/></textarea>
+                      <a class="add-comment-button" href="#">Add comment</a>
+                    </div> 
+                     
+                  </div><!--COMMENT CONTAINER END-->
+
+                  <!--TRIP LISTING CONTAINER START-->
+                  <div class="trip-listing-container" style="display:none;">
+                  
+                  <? foreach ($wallitem->trips as $trip):?>
+                    <div class="trip-listing"><!--TRIP-LISTING-START-->
+                    
+                      <div class="trip-listing-name">
+                        <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
+                      </div>
+                      <div class="trip-listing-destination-container">
+                        <? $prefix=''; foreach ($trip->places as $place):?>
+                          <span class="trip-listing-destination"><a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a></span>
+                          <?=$prefix?>
+                          <? $prefix = '<span class="bullet">&#149</span>'?>
+                        <? endforeach;?>
+                      </div>
+                    </div>
+                  <? endforeach;?>
+                  
+                  </div><!--TRIP LISTING CONTAINER END-->
+                  
+                </div><!--POSTITEM CONTENT CONTAINER END-->
+                  
+              </div><!--POSTITEM END-->
+            <? endforeach;?> 
+            
+            <!--OLD LIKES/DISLIKES CODE-->                              
+              <!--<? $is_liked = 0; foreach ($wallitem->likes as $like):?><? if (isset($user) AND $like->user_id==$user->id AND $like->is_like==1):?>
+                <? $is_liked = 1;?>
+              <? endif;?><? endforeach;?>
+              <? if ($is_liked == 0):?>
+                <a class="like-button" href="#">Like</a>
+              <? else:?>
+                <a class="unlike-button" href="#">Unlike</a>
+              <? endif;?>
+              <? $num_likes = 0; foreach($wallitem->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><span class="num-likes"><?=$num_likes?> person likes this</span><? elseif ($num_likes > 1):?><span class="num-likes"><?=$num_likes?> people like this</span><? endif;?>-->
+            <!--OLD LIKES/DISLIKES CODE END--> 
+            
+            <!--OLD REMOVE WALLITEM COMMENTS START-->                             
+              <!--<div class="remove-wallitem"></div>
+              <? foreach ($wallitem->replies as $reply):?>
+                <div class="wallitem reply" id="wallitem-<?=$reply->id?>">
+                  <div class="postcontent">
+                    <?=$reply->content?>
+                  </div>                     
+              <? endforeach;?>-->
+            <!--OLD REMOVE WALLITEM COMMENTS END--> 
+                            
+          </div><!--POSTS TAB ENDS-->          
           
         </div><!--TAB CONTAINER END-->
                    

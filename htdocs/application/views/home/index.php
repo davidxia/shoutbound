@@ -109,7 +109,7 @@ $this->load->view('core_header', $header_args);
           
             <ul>              
               <? $first=TRUE; foreach($news_feed_items as $news_feed_item):?>
-                <li id="postitem-<?=$news_feed_item->id?>" class="<? if($first):?><? echo 'first-postitem'; $first=FALSE;?><? endif;?> postitem">
+                <li id="postitem-<?=$news_feed_item->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> postitem">
                   <div class="postitem-avatar-container">
                     <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>">
                       <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" class="tooltip" height="48" width="48" alt="<?=$news_feed_item->user->name?>"/>
@@ -121,17 +121,25 @@ $this->load->view('core_header', $header_args);
                       <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>"><?=$news_feed_item->user->name?></a>
                     </div> 
                     <div class="postitem-content"><?=$news_feed_item->content?></div>
+                    
+                    <!--ACTIONBAR START-->
                     <div class="actionbar">
-                      <div id="repost-postitem" class="actionbar-item"><a class="add-to-trip" href="#">Add to trip</a>                      
+                      <div id="repost-postitem" class="actionbar-item">
+                        <a class="add-to-trip" href="#">Add to trip</a>                      
                       </div>
                       <span class="bullet">&#149</span>
-                      <div class="actionbar-item"><a class="show-comments" href="#"><? $num_comments=count($news_feed_item->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
+                      <div class="actionbar-item">
+                        <a class="show-comments" href="#"><? $num_comments=count($news_feed_item->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
                       </div>
                       <span class="bullet">&#149</span>                    
-                      <div class="actionbar-item"><a class="show-trips" href="#"><? $num_trips=count($news_feed_item->trips); echo $num_trips.' trip'; if($num_trips!=1){echo 's';}?></a></div>
+                      <div class="actionbar-item">
+                        <a class="show-trips" href="#"><? $num_trips=count($news_feed_item->trips); echo $num_trips.' trip'; if($num_trips!=1){echo 's';}?></a>
+                      </div>
                       <span class="bullet">&#149</span>                        
-                      <div class="actionbar-item"><abbr class="timeago subtext" title="<?=$news_feed_item->created?>"><?=$news_feed_item->created?></abbr></div>                        
-                    </div>
+                      <div class="actionbar-item">
+                        <abbr class="timeago subtext" title="<?=$news_feed_item->created?>"><?=$news_feed_item->created?></abbr>
+                      </div>                        
+                    </div><!--ACTIONBAR END-->
                     
                     <!--COMMENTS START-->
                     <div class="comments-container" style="display:none;">

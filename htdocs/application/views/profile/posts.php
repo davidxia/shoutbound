@@ -7,7 +7,7 @@
     
   <? $first=TRUE; foreach ($profile->posts as $post):?>
   
-    <div id="postitem-<?=$post->id?>" class="<? if($first):?><? echo 'first-postitem'; $first=FALSE;?><? endif;?> postitem">
+    <div id="postitem-<?=$post->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> postitem">
       <div class="postitem-avatar-container">
         <a href="#">
           <img src="#" height="48" width="48"/>
@@ -22,19 +22,19 @@
           <?=$post->content?>
         </div>        
         <div class="postitem-actionbar">
-          <div id="repost-postitem" class="postitem-actionbar-item">
+          <div id="repost-postitem" class="actionbar-item">
             <a href="#">Add to trip</a>                      
           </div>
           <span class="bullet">&#149</span>
-          <div class="postitem-actionbar-item">
+          <div class="actionbar-item">
             <!--<a class="show-comments" href="#"><? $num_comments=count($news_feed_item->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>-->
           </div>
           <span class="bullet">&#149</span>                    
-          <div class="postitem-actionbar-item">
+          <div class="actionbar-item">
             <!--<a class="show-trips" href="#"><? $num_trips=count($news_feed_item->trips); echo $num_trips.' trip'; if($num_trips!=1){echo 's';}?></a>-->
           </div>
           <span class="bullet">&#149</span>                        
-          <div class="postitem-actionbar-item">
+          <div class="actionbar-item">
             <abbr class="timeago subtext" title="#"</abbr>
           </div>                        
         </div>

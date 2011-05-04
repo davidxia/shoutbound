@@ -21,11 +21,17 @@
             <span class="bullet">&#149</span>                                              
           <? endforeach;?>
         </div>
-        <? foreach ($rsvp_awaiting_trip->goers as $trip_goer):?>                       	                       
-          <a href="<?=site_url('profile/'.$trip_goer->id)?>">
-            <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" height="28" width="28" alt="<?=$trip_goer->name?>"/>
-          </a>
-        <? endforeach;?>
+        
+        <div class="goersbar">
+          <? foreach ($rsvp_awaiting_trip->goers as $trip_goer):?> 
+            <div class="tripitem-avatar-container">                      	                       
+              <a href="<?=site_url('profile/'.$trip_goer->id)?>">
+                <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" height="30" width="30" alt="<?=$trip_goer->name?>"/>
+              </a>
+            </div>
+          <? endforeach;?>
+        </div>
+                  
       </div>
     <? endforeach;?>
   <!-- RSVP AWAITING TRIPS ENDS -->
@@ -35,7 +41,7 @@
     <div style="padding:20px;">You don't have any trips yet. Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a>.</div>
   <? else:?>
     <? $first=TRUE; foreach ($user->rsvp_yes_trips as $rsvp_yes_trip):?>
-      <div "tripitem-<?=$rsvp_yes_trip->id?>" class="<? if($first):?><? echo 'first-tripitem'; $first=FALSE;?><? endif;?> tripitem">
+      <div "tripitem-<?=$rsvp_yes_trip->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> tripitem">
         <div class="trip-listing-name">
           <a href="<?=site_url('trips/'.$rsvp_yes_trip->id)?>"><?=$rsvp_yes_trip->name?></a>
         </div>

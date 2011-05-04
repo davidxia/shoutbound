@@ -204,9 +204,10 @@ class Trips extends CI_Controller
             return;
         }
 
-        $t->get_followers();
+        $t->get_followers($this->user->id);
         $data = array(
             'trip' => $t->stored,
+            'user' => $this->user,
         );
         
         $this->load->view('trip/followers', $data);

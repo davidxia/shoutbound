@@ -75,22 +75,6 @@ textarea#wallitem-input{
   padding-left: 12px;
 }
 
-#comment-container{
-  position: relative;
-  float: left;
-  margin-left: 10px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  width: 95%;
-  text-align: left;
-}
-#comment-input{
-  width: 96%;
-}
-#submit-wall{
-  float: right;
-  border: 1px solid black;
-}
 #auto-loc-list ul li a{
   display: block;
   text-decoration: none;
@@ -107,37 +91,8 @@ textarea#wallitem-input{
   width: 50%;
 }
 
-.postcontent{
-  padding:0px;
-  min-height:0px;
-}
-
 #wall{
   min-height:350px;
-}
-
-.wallitem{
-  padding:15px 0px 15px 0px;
-  border-top:1px solid #EAEAEA;
-  position:relative;
-}
-
-#wallitem-input-label{
-  position:absolute;
-  padding:5px;
-  font-size:13px;
-  line-height:19px;
-  font-color:#333;
-}
-
-#wallitem-input-container{
-  padding:10px 5px 5px 5px;
-  position:relative;
-}
-
-.wallitem .avatar{
-  float:left;
-  margin:0px 10px 0px 0px;
 }
 
 .remove-wallitem {
@@ -151,22 +106,6 @@ textarea#wallitem-input{
   right: 0;
 }
 
-.author, .like-button, .unlike-button, .reply-button, .timeago, .num-likes{
-  display:inline;
-  margin-right:12px;
-}
-
-.timeago{
-  color:#737373;
-}
-
-.wallitem .reply{
-  position:relative;
-  padding:5px 40px 5px 48px;
-  position:relative;
-  border:none;
-}
-
 #autocomplete-results div:hover{
   background-color:#E0E0FF;
 }
@@ -174,6 +113,12 @@ textarea#wallitem-input{
 /*Content END*/
 
 /*Buttons*/
+
+.follow, .unfollow{
+  float:right;
+  width:100px;
+  margin-left:20px;
+}
 
 #wallitem-post-button{
   float:right;

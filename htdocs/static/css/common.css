@@ -154,7 +154,7 @@ ol, ul {
 input[type="text"], input[type="password"], textarea {
   margin: 0;
   font-size: 14px;
-  line-height:20px;
+  line-height:19px;
   color:#333;
 }
 
@@ -190,20 +190,20 @@ fieldset {
 
 /*POSTITEMS*/ 
 
-.postitem, .followitem, .tripitem{
+.postitem, .followitem, .tripitem, .placeitem{
   border-top:1px solid #FAFAFA;
   border-bottom:1px solid #FAFAFA;
   padding:10px 40px 10px 20px;
 }
 
-.postitem:hover, .tripitem:hover{
+.postitem:hover, .tripitem:hover, .placeitem:hover{
   background-color:#FAFAFA;
   border-top:1px solid blue;
   border-bottom:1px solid blue;
   cursor:pointer;
 }
 
-.first-postitem, .first-postitem:hover, .first-followitem, .first-tripitem, .first-tripitem:hover{
+.first-item, .first-item:hover{
   border-top:none;
 }
 
@@ -220,22 +220,22 @@ fieldset {
   float:left;
 }
 
-.postitem-author-name, .followitem-title, .trip-listing-name{
+.postitem-author-name, .followitem-title, .trip-listing-name, .placeitem-name{
   line-height:18px;
   height:18px;
 }
 
-.postitem-author-name a, .postitem-author-name a:visited, .comment-author-name a, .comment-author-name a:visited, .trip-listing-name a, .trip-listing-name a:visited, .followitem-title a, .followitem-title a:visited{
+.postitem-author-name a, .postitem-author-name a:visited, .comment-author-name a, .comment-author-name a:visited, .trip-listing-name a, .trip-listing-name a:visited, .followitem-title a, .followitem-title a:visited, .placeitem-name, .placeitem-name a, .placeitem-name a:visited{
   color:#333;
   font-weight:bold;
 }
 
-.postitem-author-name a:hover, .postitem-reposter-name a:hover, .comment-author-name a:hover, .trip-listing-name a:hover, .followitem-title a:hover{
+.postitem-author-name a:hover, .postitem-reposter-name a:hover, .comment-author-name a:hover, .trip-listing-name a:hover, .followitem-title a:hover, .placeitem-name a:hover{
   color: blue;
   cursor:pointer;
 }
 
-.postitem-reposter-name a, .postitem-reposter-name a:visited, .followitem-bio{
+.postitem-reposter-name a, .postitem-reposter-name a:visited, .followitem-bio, .placeitem-bio{
   color:#666;
   font-size:13px;
 }

@@ -524,8 +524,7 @@ $(function() {
     })
     .ajaxStop(function() {
       $(this).hide();
-    })
-  ;
+    });
 });
 
 
