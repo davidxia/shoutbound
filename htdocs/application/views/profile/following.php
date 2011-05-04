@@ -34,7 +34,7 @@
   <? endforeach;?>
   
   <? foreach ($profile->following_trips as $following_trip):?>
-  <div class="followitem">
+  <div class="followitem" id="trip-<?=$following_trip->id?>">
     <? if ($following_trip->rsvp == 0):?>
       <a href="#" class="follow">Follow</a>
     <? elseif ($following_trip->rsvp == 3):?>

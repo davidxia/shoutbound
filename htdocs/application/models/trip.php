@@ -39,7 +39,7 @@ class Trip extends DataMapper
     public function get_goers()
     {
         $this->stored->goers = array();
-        foreach ($this->user->where_join_field($this, 'rsvp', 9)->get_iterated() as $goer)
+        foreach ($this->user->where_in_join_field($this, 'rsvp', array(6,9))->get_iterated() as $goer)
         {
             $this->stored->goers[] = $goer->stored;
         }
