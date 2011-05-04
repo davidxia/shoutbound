@@ -81,6 +81,7 @@ class Trip extends DataMapper
             $post->get_places();
             // get number of likes
             $post->get_likes();
+            $post->get_trips();
             
             // get replies and attach their places
             $r = $post->get_replies();

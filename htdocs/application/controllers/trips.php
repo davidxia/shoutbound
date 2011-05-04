@@ -185,7 +185,8 @@ class Trips extends CI_Controller
             'wallitems' => $t->get_posts(),
         );
         
-        $this->load->view('trip/index', $data);
+        //$this->load->view('trip/index', $data);
+        print_r($t->get_posts());
     }
     
     
