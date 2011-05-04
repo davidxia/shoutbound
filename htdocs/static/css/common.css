@@ -220,7 +220,7 @@ fieldset {
   float:left;
 }
 
-.postitem-author-name, .followitem-title, .trip-listing-name{
+.postitem-author-name, .followitem-title{
   line-height:17px;
   height:17px;
 }
@@ -274,7 +274,7 @@ fieldset {
   margin-left:40px;
 }
 
-.comment-author-name, .trip-listing-name{
+.comment-author-name{
   line-height:15px;
   height:15px;
 }
@@ -294,6 +294,10 @@ fieldset {
 
 .comment-input-container{
   padding-bottom:5px;
+}
+
+.RSVP-required{
+  color:red;
 }
 
 /*FOLLOWING AND FOLLOWERS*/
