@@ -35,7 +35,6 @@
   <? endforeach;?>
   
   <? foreach ($profile->following_trips as $following_trip):?>
-  
   <div class="followitem">
     <div class="followitem-title">
       <a href="<?=site_url('trips/'.$following_trip->id)?>"><?=$following_trip->name?></a>
@@ -49,6 +48,18 @@
       </span>
     <? endforeach;?>
     
+  </div>
+  <? endforeach;?>
+  
+  
+  <? foreach ($profile->following_places as $place):?>
+  <div class="followitem">
+    <div class="followitem-title">
+      <a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
+    </div>
+    <? foreach ($place->followers as $follower):?>
+      <a href="<?=site_url('profile/'.$goer->id)?>"><img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" class="tooltip" width="32" height="32" alt="<?=$goer->name?>"/></a>
+    <? endforeach;?>
   </div>
   <? endforeach;?>
 </div>

@@ -226,6 +226,21 @@ class User extends DataMapper
             $this->stored->following_trips[] = $following_trip->stored;
         }
     }
+    
+    
+    public function get_following_places($user_id = FALSE)
+    {
+        $this->stored->following_places = array();
+        foreach ($this->geoplanet_place->where_join_field('user', 'is_following', 1)->get() as $place)
+        {
+            $this->stored->following_places[] = $place->stored;
+        }
+        //$this->geoplanet_place->include_join_fields()->where('timestamp=(SELECT MAX(timestamp) FROM geoplanet_places_users)')->get();
+        //if ($this->geoplanet_place->id)
+        //{
+            //$this->stored->place = $this->geoplanet_place->stored;
+        //}
+    }
 
 
     public function get_num_followers()

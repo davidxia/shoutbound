@@ -258,14 +258,15 @@ class Profile extends CI_Controller
         }
 
         $u->get_following($this->user->id);
-        $u->get_following_trips($this->user->id);        
+        $u->get_following_trips($this->user->id);
+        $u->get_following_places($this->user->id);
         $view_data = array(
             'user' => $user,
             'profile' => $profile,
         );
 
-        $this->load->view('profile/following', $view_data);
-        //print_r($profile);
+        //$this->load->view('profile/following', $view_data);
+        print_r($profile);
     }
     
     
