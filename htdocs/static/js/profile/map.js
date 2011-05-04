@@ -212,7 +212,7 @@ editFollowing = function(type, id, follow) {
     $.post(baseUrl+'trips/ajax_save_rsvp', {tripId:id, rsvp:rsvp},
       function(d) {
         var r = $.parseJSON(d);
-        //console.log(r);
+        console.log(r);
         if (r.rsvp == 3) {
           $('#trip-'+id).find('.follow').removeClass('follow').addClass('unfollow').text('Unfollow');
         } else if (r.rsvp == 0) {

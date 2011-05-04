@@ -231,15 +231,19 @@ class User extends DataMapper
     public function get_following_places($user_id = FALSE)
     {
         $this->stored->following_places = array();
-        foreach ($this->geoplanet_place->where_join_field('user', 'is_following', 1)->get() as $place)
+        foreach ($this->geoplanet_place->where_join_field('user', 'is_following', 1)->get_iterated() as $place)
         {
+            $place->stored->followers = array();
+            foreach ($place->user->where_join_field('geoplanet_place', 'is_following', 1)->get_iterated() as $follower)
+            {
+                $place->stored->followers[] = $follower->stored;
+            }
+            if ($user_id)
+            {
+                $place->get_follow_status_by_user_id($user_id);
+            }
             $this->stored->following_places[] = $place->stored;
         }
-        //$this->geoplanet_place->include_join_fields()->where('timestamp=(SELECT MAX(timestamp) FROM geoplanet_places_users)')->get();
-        //if ($this->geoplanet_place->id)
-        //{
-            //$this->stored->place = $this->geoplanet_place->stored;
-        //}
     }
 
 

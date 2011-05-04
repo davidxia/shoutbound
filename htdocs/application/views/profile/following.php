@@ -35,7 +35,12 @@
   <? endforeach;?>
   
   <? foreach ($profile->following_trips as $following_trip):?>
-  <div class="followitem">
+  <div class="followitem" id="trip-<?=$following_trip->id?>">
+    <? if ($following_trip->rsvp == 0):?>
+      <a href="#" class="follow">Follow</a>
+    <? elseif ($following_trip->rsvp == 3):?>
+      <a href="#" class="unfollow">Unfollow</a>
+    <? endif;?>
     <div class="followitem-title">
       <a href="<?=site_url('trips/'.$following_trip->id)?>"><?=$following_trip->name?></a>
     </div>
@@ -58,7 +63,7 @@
       <a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
     </div>
     <? foreach ($place->followers as $follower):?>
-      <a href="<?=site_url('profile/'.$goer->id)?>"><img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" class="tooltip" width="32" height="32" alt="<?=$goer->name?>"/></a>
+      <a href="<?=site_url('profile/'.$follower->id)?>"><img src="<?=static_sub('profile_pics/'.$follower->profile_pic)?>" class="tooltip" width="32" height="32" alt="<?=$follower->name?>"/></a>
     <? endforeach;?>
   </div>
   <? endforeach;?>

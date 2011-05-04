@@ -78,6 +78,18 @@ class Geoplanet_place extends DataMapper
     }
     
     
+    public function get_follow_status_by_user_id($user_id)
+    {
+        $this->user->where('id', $user_id)->include_join_fields()->get();
+        if ($this->user->join_is_following == 1)
+        {
+            $this->stored->is_following = TRUE;
+        }
+        else
+        {
+            $this->stored->is_following = FALSE;
+        }
+    }
 }
 
 /* End of file place.php */

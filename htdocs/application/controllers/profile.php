@@ -265,8 +265,8 @@ class Profile extends CI_Controller
             'profile' => $profile,
         );
 
-        //$this->load->view('profile/following', $view_data);
-        print_r($profile);
+        $this->load->view('profile/following', $view_data);
+        //print_r($profile);
     }
     
     
