@@ -157,6 +157,14 @@ class Trip extends DataMapper
             return FALSE;
         }
     }
+    
+    
+    public function get_rsvp_by_user_id($user_id)
+    {
+        $this->user->where('id', $user_id)->include_join_fields()->get();
+        $this->stored->rsvp = $this->user->join_rsvp;
+        $this->stored->rsvp = $this->user->join_rsvp;
+    }
 }
 
 /* End of file trip.php */

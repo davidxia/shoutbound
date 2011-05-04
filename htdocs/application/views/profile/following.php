@@ -31,12 +31,16 @@
     <div style="clear:both"></div> 
        
   </div>
-
   <? endforeach;?>
   
   <? foreach ($profile->following_trips as $following_trip):?>
-  
   <div class="followitem">
+    <? if ($following_trip->rsvp == 0):?>
+      <a href="#" class="follow">Follow</a>
+    <? elseif ($following_trip->rsvp == 3):?>
+      <a href="#" class="unfollow">Unfollow</a>
+    <? endif;?>
+
     <div class="followitem-title">
       <a href="<?=site_url('trips/'.$following_trip->id)?>"><?=$following_trip->name?></a>
     </div>

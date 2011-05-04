@@ -212,13 +212,17 @@ class User extends DataMapper
     }
     
     
-    public function get_following_trips()
+    public function get_following_trips($user_id = FALSE)
     {
         $this->stored->following_trips = array();
         foreach ($this->trip->where('active', 1)->where_in_join_field('user', 'rsvp', 3)->get() as $following_trip)
         {
             $following_trip->get_goers();
             $following_trip->get_places();
+            if ($user_id)
+            {
+                $following_trip->get_rsvp_by_user_id($user_id);
+            }
             $this->stored->following_trips[] = $following_trip->stored;
         }
     }

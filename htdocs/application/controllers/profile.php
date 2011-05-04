@@ -257,7 +257,7 @@ class Profile extends CI_Controller
         }
 
         $u->get_following($this->user->id);
-        $u->get_following_trips();        
+        $u->get_following_trips($this->user->id);        
         $view_data = array(
             'user' => $user,
             'profile' => $profile,
