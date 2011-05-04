@@ -50,14 +50,43 @@ $this->load->view('core_header', $header_args);
         
         <div id="trip-info">
           <div class="top-bar-header"><?=$trip->name?></div>
-    			<div id="trip_description"><?=$trip->description?></div>
+          
+          <? foreach ($trip->places as $destination):?>
+              <span class="destination-dates">
+  	            <a class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></a>
+  		            <? if ($destination->startdate AND $destination->enddate):?>
+  		              <span class="subtext destinationbar-item">(<?=date('n/d/y', $destination->startdate)?> to <?=date('n/d/y', $destination->enddate)?>)</span>
+  		              
+  		              <span class="bullet">&#149</span> 
+  		              
+  		            <? elseif ($destination->startdate AND ! $destination->enddate):?>
+  		              <span class="subtext destinationbar-item">(from <?=date('n/d/y', $destination->startdate)?>)
+  		              
+  		              <span class="bullet">&#149</span>
+  		              
+  		            <? elseif ( ! $destination->startdate AND $destination->enddate):?>
+  		              <span class="subtext destinationbar-item">(to <?=date('n/d/y', $destination->enddate)?>)
+  		              
+  		              <span class="bullet">&#149</span>
+  		              
+  		            <? else:?>
+  		            
+  		              <span class="bullet" style="margin-left:3px">&#149</span>
+  		              
+  		            <? endif;?>
+  		        </span>
+	          <? endforeach;?>          
+          
+          <div id="trip-description"><?=$trip->description?></div>
+          
+                      
     			
     			<div id="trip_goers"><!--TRIP GOERS-->  
     			        	        		          			                     
 	            <? foreach ($trip->goers as $trip_goer):?>
-	            	<div class="trip_goer" uid="<?=$trip_goer->id?>">
+	            	<div class="tripitem-avatar-container" uid="<?=$trip_goer->id?>">
 	                <a href="<?=site_url('profile/'.$trip_goer->id)?>">
-	                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="38" width="38"/>
+	                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="41" width="41"/>
 	                </a>
 	              </div>
 	            <? endforeach;?>
@@ -66,21 +95,6 @@ $this->load->view('core_header', $header_args);
 		          
 		          <!--<div>This trip was created by <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a></div>-->	       
   					</div><!--TRIP GOERS END-->
-    				         	
-            <? foreach ($trip->places as $destination):?>
-              <span class="destination-dates">
-  	            <a class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></a>
-  		            <? if ($destination->startdate AND $destination->enddate):?>
-  		              <?=date('n/d/y', $destination->startdate)?> to <?=date('n/d/y', $destination->enddate)?>
-  		            <? elseif ($destination->startdate AND ! $destination->enddate):?>
-  		              <?=date('n/d/y', $destination->startdate)?> to (No date set)
-  		            <? elseif ( ! $destination->startdate AND $destination->enddate):?>
-  		              (No date set) to <?=date('n/d/y', $destination->enddate)?>
-  		            <? else:?>
-  		              No dates set
-  		            <? endif;?>
-  		        </span>
-	          <? endforeach;?>
 	          
 	         </div>
         

@@ -24,17 +24,23 @@ textarea#wallitem-input{
   min-height:150px;
 }
 
-#trip-info{
-  width:600px;
-  display:block;
+#trip-description{
+  line-height:18px;
+  margin-bottom:5px;
+  padding-bottom:5px;
+  border-bottom:1px solid #FAFAFA;
 }
 
-#trip_goers{
-  margin:5px 0px 5px 0px;
-  padding: 5px 0px 5px 0px;
-  border-top:1px solid #EDEDED;
-  border-bottom:1px solid #EDEDED;
+#trip-info{
+  width:600px;
 }
+
+/*#trip_goers{
+  margin:3px 0px 3px 0px;
+  padding: 1px 0px;
+  border-top:1px solid #FAFAFA;
+  border-bottom:1px solid #FAFAFA;
+}*/
 
 .item-header{
   font-weight:bold;
@@ -45,20 +51,10 @@ textarea#wallitem-input{
 	float:right;
 }
 
-#trip-destinations{
-	padding:0px 0px 10px 0px;
-}
-
 .right-item-content{
 	background-color: white;
 	padding:3px;
 	border:1px solid #EAEAEA;
-}
-
-.trip_goer{
-	display:inline;
-	float:left;
-	margin-left:3px;
 }
 
 #num{
