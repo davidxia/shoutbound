@@ -21,6 +21,26 @@ $this->load->view('core_header', $header_args);
   var baseUrl = '<?=site_url()?>';
   var staticUrl = '<?=static_sub()?>';
 </script>
+
+<style type="text/css">
+.tooltip_container{
+  position:absolute;
+  background:url(/david/images/dark_arrow.png) 50% 0 no-repeat;
+  padding:7px 0 0 0;
+  z-index:500;
+}
+.tooltip_interior{
+  font-size:12px;
+  background:url(/david/images/tooltip.png);
+  color:white;
+  padding:3px 6px;
+}
+.tooltip_interior div{
+  margin-top:2px;
+  font-size:.97em;
+}
+</style>
+
 </head>
 
 <body>
@@ -92,7 +112,7 @@ $this->load->view('core_header', $header_args);
                 <li id="postitem-<?=$news_feed_item->id?>" class="<? if($first):?><? echo 'first-postitem'; $first=FALSE;?><? endif;?> postitem">
                   <div class="postitem-avatar-container">
                     <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>">
-                      <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" height="48" width="48"/>
+                      <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" class="tooltip" height="48" width="48" alt="<?=$news_feed_item->user->name?>"/>
                     </a>
                   </div>                  
                   
