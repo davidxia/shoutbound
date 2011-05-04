@@ -24,7 +24,7 @@
   
       <div><?=$following->bio?></div>
       <? if (isset($following->place)):?>
-      Current location: <a class="place" lat="<?=$following->place->lat?>" lng="<?=$following->place->lng?>" href="#"><?=$following->place->name?></a>
+      Current location: <a class="place" lat="<?=$following->place->lat?>" lng="<?=$following->place->lng?>" href="<?=site_url('places/'.$following->place->id)?>"><?=$following->place->name?></a>
       <? endif;?>
     </div>    
 
@@ -45,7 +45,7 @@
       <a href="<?=site_url('trips/'.$following_trip->id)?>"><?=$following_trip->name?></a>
     </div>
     <? foreach ($following_trip->places as $place):?>
-      <?=$place->name?>
+      <a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
     <? endforeach;?>
     <? foreach ($following_trip->goers as $goer):?>
       <span class="trip-goer">
