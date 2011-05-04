@@ -188,7 +188,7 @@ fieldset {
   margin-right:3px;
 }
 
-/*POSTITEMS*/
+/*POSTITEMS*/ 
 
 .postitem, .followitem, .tripitem{
   border-top:1px solid #FAFAFA;
@@ -240,8 +240,13 @@ fieldset {
   font-size:13px;
 }
 
-.actionbar, .goersbar{
+.actionbar{
   margin-top:3px;
+}
+
+.tripitem-description, .followitem-bio{
+  font-style: italic;
+  color:#555;
 }
 
 .actionbar-item{
@@ -449,7 +454,7 @@ ul.stats-list li a{
   font-weight:normal;
 }
 
-/* tooltip */
+/*tooltip*/
 
 .tooltip_container{
   position:absolute;
@@ -457,12 +462,14 @@ ul.stats-list li a{
   padding:7px 0 0 0;
   z-index:500;
 }
+
 .tooltip_interior{
   font-size:12px;
   background:url(/david/images/tooltip.png);
   color:white;
   padding:3px 6px;
 }
+
 .tooltip_interior div{
   margin-top:2px;
   font-size:.97em;

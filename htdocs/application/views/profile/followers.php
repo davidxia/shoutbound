@@ -15,7 +15,7 @@
       <div class="followitem-title">
         <a href="<?=site_url('profile/'.$follower->id)?>"><?=$follower->name?></a>
       </div>
-      <div>Bio here</div>
+      <div class="followitem-bio"><?=$follower->bio?></div>
       <!--<? if (isset($follower->place)):?>
         current location: <a class="place" lat="<?=$follower->place->lat?>" lng="<?=$follower->place->lng?>" href="#"><?=$follower->place->name?></a>
       <? endif;?>-->
