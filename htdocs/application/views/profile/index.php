@@ -98,7 +98,7 @@ $this->load->view('core_header', $header_args);
                 posted on <a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a><br/>
                 <?=$activity->post->content?>
               <? elseif ($activity->activity_type==3):?>
-                started following <a href="<?=site_url('trips/'.$activity->following->id)?>"><?=$activity->following->name?></a>
+                started following <a href="<?=site_url('profile/'.$activity->following->id)?>"><?=$activity->following->name?></a>
               <? elseif ($activity->activity_type==10):?>
                 changed his current location to <a href="#"><?=$activity->place->name?></a>
               <? endif;?>
