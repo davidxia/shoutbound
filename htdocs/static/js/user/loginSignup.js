@@ -55,7 +55,7 @@ loginSignup.success = function(callback, id, param) {
       window.location.reload();
       break;
     case 'follow user':
-      editFollowing(id, param);
+      editFollowing(id, param, 1);
       window.location.reload();
       break;
   }

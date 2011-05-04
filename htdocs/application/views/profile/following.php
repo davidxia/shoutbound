@@ -49,8 +49,7 @@
     <? endforeach;?>
     <? foreach ($following_trip->goers as $goer):?>
       <span class="trip-goer">
-        <a href="<?=site_url('profile/'.$goer->id)?>"><img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" width="32" height="32"/></a>
-        <a href="<?=site_url('profile/'.$goer->id)?>"><?=$goer->name?></a>
+        <a href="<?=site_url('profile/'.$goer->id)?>"><img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" class="tooltip" width="32" height="32" alt="<?=$goer->name?>"/></a>
       </span>
     <? endforeach;?>
     
