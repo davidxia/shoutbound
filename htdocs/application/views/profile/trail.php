@@ -10,11 +10,7 @@
       <div class="trip-listing-name">
         <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
       </div>
-            
-      <div class="trip-listing-description">
-        Diana and I are going to check out some national parks for our next vacation.
-      </div>
-
+      
       <div class="destinationbar">
         <? $prefix = ''; $dest_list = '';?>
         <? foreach ($trip->places as $place):?>
@@ -24,11 +20,14 @@
         <? endforeach;?>
         <?=$dest_list?>
       </div>
-      <? foreach ($trip->goers as $goer):?>                       	                       
-          <a href="<?=site_url('profile/'.$goer->id)?>">
-            <img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" class="tooltip" height="32" width="32" alt="<?=$goer->name?>"/>
-          </a>
-        <? endforeach;?>
+      
+      <div class="goersbar">      
+        <? foreach ($trip->goers as $goer):?>                       	                       
+            <a href="<?=site_url('profile/'.$goer->id)?>">
+              <img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" class="tooltip" height="30" width="30" alt="<?=$goer->name?>"/>
+            </a>
+          <? endforeach;?>
+      </div>
 
     </div>
   <? endforeach;?>

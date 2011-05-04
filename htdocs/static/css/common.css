@@ -220,7 +220,7 @@ fieldset {
   float:left;
 }
 
-.postitem-author-name, .followitem-title{
+.postitem-author-name, .followitem-title, .trip-listing-name{
   line-height:17px;
   height:17px;
 }
@@ -240,7 +240,7 @@ fieldset {
   font-size:13px;
 }
 
-.actionbar{
+.actionbar, .goersbar{
   margin-top:3px;
 }
 
@@ -250,12 +250,13 @@ fieldset {
   font-size:13px;
 }
 
-.destinationbar{
-  margin-top:-2px;
-}
-
 .destinationbar-item{
   margin-right:3px;
+  display:inline;
+}
+
+.tripitem-avatar-container{
+  margin-right:2px;
   display:inline;
 }
 
@@ -446,6 +447,25 @@ ul.stats-list li a{
   font-size:12px;
   display:block;
   font-weight:normal;
+}
+
+/* tooltip */
+
+.tooltip_container{
+  position:absolute;
+  background:url(/david/images/dark_arrow.png) 50% 0 no-repeat;
+  padding:7px 0 0 0;
+  z-index:500;
+}
+.tooltip_interior{
+  font-size:12px;
+  background:url(/david/images/tooltip.png);
+  color:white;
+  padding:3px 6px;
+}
+.tooltip_interior div{
+  margin-top:2px;
+  font-size:.97em;
 }
 
 /* buttons

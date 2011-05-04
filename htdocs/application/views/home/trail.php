@@ -39,12 +39,10 @@
         <div class="trip-listing-name">
           <a href="<?=site_url('trips/'.$rsvp_yes_trip->id)?>"><?=$rsvp_yes_trip->name?></a>
         </div>
-        <div class="trip-listing-description">
-          Diana and I are going to check out some national parks for our next vacation.
-        </div>                
+               
         <div class="destinationbar">
           <? foreach ($rsvp_yes_trip->places as $place):?>
-            <a class="place destinationbar-item" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
+            <a class="place destinationbar-item" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>"><?=$place->name?> <span class="subtext">(Dates)</span></a>
             <!--<? if ($place->startdate):?>
               <?=date('n/d/y', $place->startdate)?>
             <? else:?>
@@ -53,11 +51,15 @@
             <span class="bullet">&#149</span>
           <? endforeach;?>
         </div>
-        <? foreach ($rsvp_yes_trip->goers as $goer):?>                       	                       
-          <a href="<?=site_url('profile/'.$goer->id)?>">
-            <img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" class="tooltip" height="32" width="32" alt="<?=$goer->name?>"/>
-          </a>
-        <? endforeach;?>
+
+        <? foreach ($rsvp_yes_trip->goers as $goer):?>
+          <div class="tripitem-avatar-container">                       	                       
+            <a href="<?=site_url('profile/'.$goer->id)?>">
+              <img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" class="tooltip" height="30" width="30" alt="<?=$goer->name?>"/>
+            </a>
+          </div>
+        <? endforeach;?>        
+        
       </div>
     <? endforeach;?>
   <? endif; ?>
