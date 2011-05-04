@@ -7,9 +7,9 @@
           <a href="<?=site_url('trips/'.$rsvp_awaiting_trip->id)?>"><?=$rsvp_awaiting_trip->name?></a>
         </span>
         <span class="RSVP-required">(Awaiting response)</span>
-        <div class="trip-listing-description">
-          Diana and I are going to check out some national parks for our next vacation.
-        </div>                
+        <!--<div class="tripitem-description">
+          <?=$rsvp_awaiting_trip->description?> 
+        </div>-->                
         <div class="destinationbar">
           <? foreach ($rsvp_awaiting_trip->places as $place):?>
             <a class="place destinationbar-item" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
@@ -62,9 +62,9 @@
         <? endforeach;?>        
         </div>
         
-        <div class="tripitem-description">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.        
-        </div>
+        <!--<div class="tripitem-description">
+          <?=$rsvp_yes_trip->description?>        
+        </div>-->
         
       </div>
     <? endforeach;?>

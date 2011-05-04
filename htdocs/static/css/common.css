@@ -221,8 +221,8 @@ fieldset {
 }
 
 .postitem-author-name, .followitem-title, .trip-listing-name{
-  line-height:17px;
-  height:17px;
+  line-height:18px;
+  height:18px;
 }
 
 .postitem-author-name a, .postitem-author-name a:visited, .comment-author-name a, .comment-author-name a:visited, .trip-listing-name a, .trip-listing-name a:visited, .followitem-title a, .followitem-title a:visited{
@@ -235,8 +235,8 @@ fieldset {
   cursor:pointer;
 }
 
-.postitem-reposter-name a, .postitem-reposter-name a:visited{
-  color:#888;
+.postitem-reposter-name a, .postitem-reposter-name a:visited, .followitem-bio{
+  color:#666;
   font-size:13px;
 }
 
@@ -244,9 +244,8 @@ fieldset {
   margin-top:3px;
 }
 
-.tripitem-description, .followitem-bio{
-  font-style: italic;
-  color:#555;
+.followitem-bio{
+  line-height:17px;
 }
 
 .actionbar-item{
