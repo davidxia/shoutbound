@@ -23,15 +23,15 @@
       </div>    
   
       <div class="followitem-bio"><?=$following->bio?></div>
-      <? if (isset($following->place)):?>
+      <!--<? if (isset($following->place)):?>
       Current location: <a class="place" lat="<?=$following->place->lat?>" lng="<?=$following->place->lng?>" href="#"><?=$following->place->name?></a>
-      <? endif;?>
+      <? endif;?>-->
     </div>    
 
     <div style="clear:both"></div> 
        
   </div>
-
+  
   <? endforeach;?>
   
   <? foreach ($profile->following_trips as $following_trip):?>
@@ -41,11 +41,12 @@
       <a href="<?=site_url('trips/'.$following_trip->id)?>"><?=$following_trip->name?></a>
     </div>
     <? foreach ($following_trip->places as $place):?>
-      <a href="<?=site_url('places/'.$place->id)?>" class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>"><?=$place->name?></a>
+      <?=$place->name?>
     <? endforeach;?>
     <? foreach ($following_trip->goers as $goer):?>
       <span class="trip-goer">
-        <a href="<?=site_url('profile/'.$goer->id)?>"><img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" class="tooltip" width="32" height="32" alt="<?=$goer->name?>"/></a>
+        <a href="<?=site_url('profile/'.$goer->id)?>"><img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" width="32" height="32"/></a>
+        <a href="<?=site_url('profile/'.$goer->id)?>"><?=$goer->name?></a>
       </span>
     <? endforeach;?>
     
