@@ -5,18 +5,22 @@
     <div style="padding:0px 0px 20px 20px;">You don't have any trips yet. Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a>.</div>
   <? else:?>
     <? foreach ($user->rsvp_yes_trips as $rsvp_yes_trip):?>
-      <div class="home-users-trip" style="margin:10px; border-bottom:1px solid #BABABA;">
-        <div>
+      <div class="home-users-trip tripitem">
+        <div class="trip-listing-name">
           <a href="<?=site_url('trips/'.$rsvp_yes_trip->id)?>"><?=$rsvp_yes_trip->name?></a>
         </div>
-        <div>
+        <div class="trip-listing-description">
+          Diana and I are going to check out some national parks for our next vacation.
+        </div>                
+        <div class="destinationbar">
           <? foreach ($rsvp_yes_trip->places as $place):?>
-            <a class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
-            <? if ($place->startdate):?>
+            <a class="place destinationbar-item" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
+            <!--<? if ($place->startdate):?>
               <?=date('n/d/y', $place->startdate)?>
             <? else:?>
               no date set yet
-            <? endif;?>
+            <? endif;?>-->
+            <span class="bullet">&#149</span>
           <? endforeach;?>
         </div>
         <? foreach ($rsvp_yes_trip->goers as $goer):?>                       	                       
@@ -28,6 +32,9 @@
     <? endforeach;?>
   <? endif; ?>
   <!-- RSVP YES TRIPS ENDS -->
+
+
+
   
   <!-- RSVP AWAITING TRIPS -->
 	<span style="font-size:16px; padding-left:10px; font-weight:bold;color:black;">RSVP AWAITING</span>

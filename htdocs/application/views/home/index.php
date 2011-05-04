@@ -112,7 +112,7 @@ $this->load->view('core_header', $header_args);
                 <li id="postitem-<?=$news_feed_item->id?>" class="<? if($first):?><? echo 'first-postitem'; $first=FALSE;?><? endif;?> postitem">
                   <div class="postitem-avatar-container">
                     <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>">
-                      <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" class="tooltip" height="32" width="32" alt="<?=$news_feed_item->user->name?>"/>
+                      <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" class="tooltip" height="48" width="48" alt="<?=$news_feed_item->user->name?>"/>
                     </a>
                   </div>                  
                   
