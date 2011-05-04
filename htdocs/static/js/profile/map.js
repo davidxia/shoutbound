@@ -212,11 +212,21 @@ editFollowing = function(type, id, follow) {
     $.post(baseUrl+'trips/ajax_save_rsvp', {tripId:id, rsvp:rsvp},
       function(d) {
         var r = $.parseJSON(d);
-        console.log(r);
         if (r.rsvp == 3) {
           $('#trip-'+id).find('.follow').removeClass('follow').addClass('unfollow').text('Unfollow');
         } else if (r.rsvp == 0) {
           $('#trip-'+id).find('.unfollow').removeClass('unfollow').addClass('follow').text('Follow');
+        }
+      });
+  } else if (type == 'place') {
+    $.post(baseUrl+'places/ajax_edit_follow', {placeId:id, follow:follow},
+      function (d) {
+        if (d) {
+          if (follow) {
+            $('#place-'+id).find('.follow').removeClass('follow').addClass('unfollow').text('Unfollow');
+          } else {
+            $('#place-'+id).find('.unfollow').removeClass('unfollow').addClass('follow').text('Follow');
+          }
         }
       });
   }

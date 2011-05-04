@@ -58,7 +58,12 @@
   
   
   <? foreach ($profile->following_places as $place):?>
-  <div class="followitem">
+  <div class="followitem" id="place-<?=$place->id?>">
+    <? if ($place->is_following):?>
+      <a href="#" class="unfollow">Unfollow</a>
+    <? else:?>
+      <a href="#" class="follow">Follow</a>
+    <? endif;?>
     <div class="followitem-title">
       <a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
     </div>
