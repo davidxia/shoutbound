@@ -446,17 +446,6 @@ class User extends DataMapper
         }
         
     }
-        
-    /*
-    public function get_destinations()
-    {
-        $this->stored->destinations = array();
-        foreach ($this->places->get() as $destination)
-        {
-            $this->stored->destinations[] = $destination->stored;
-        }
-    }
-    */
 }
 
 /* End of file user.php */

@@ -60,10 +60,10 @@ $this->load->view('core_header', $header_args);
         
         <div id="follow-button">
         <? if (!$is_self AND !$is_following):?>
-          <a href="#" id="follow">Follow</a>
+          <a href="#" class="follow">Follow</a>
         <? endif;?>
         <? if ($user AND !$is_self AND $is_following):?>
-          <a href="#" id="unfollow">Unfollow</a>
+          <a href="#" class="unfollow">Unfollow</a>
         <? endif;?>
         </div>        
         

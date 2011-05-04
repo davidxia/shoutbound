@@ -148,40 +148,68 @@ $(function() {
     );
   }
 
-  $('#follow').click(function() {
+  $('.follow').live('click', function() {
     if (loginSignup.getStatus()) {
-      editFollowing();
+      var type,
+          id = $(this).parent().attr('id').match(/^(\w+)-(\d+)$/);
+      if (id == null) {
+        type = 'user';
+        id = profileId;
+      } else {
+        type = id[1];
+        id = id[2];
+      }
+      editFollowing(type, id, 1);
     } else {
-      loginSignup.showDialog('follow user');
+      loginSignup.showDialog('follow user', type, id);
     }
     return false;
   });
   
-  $('#unfollow').click(function() {
-    $.post(baseUrl+'profile/ajax_edit_following', {profileId:profileId, follow:0},
-      function(d) {
-        if (d == 1) {
-          $('#unfollow').remove();
-          $('#follow-and-stats-container').append('Follow');
-        } else {
-          alert('something broken, tell David');
-        }
-      });
+  $('.unfollow').live('click', function() {
+    var type,
+        id = $(this).parent().attr('id').match(/^(\w+)-(\d+)$/);
+    if (id == null) {
+      type = 'user';
+      id = profileId;
+    } else {
+      type = id[1];
+      id = id[2];
+    }
+    editFollowing(type, id, 0);
     return false;
   });
 });
 
 
-editFollowing = function() {
-  $.post(baseUrl+'profile/ajax_edit_following', {profileId:profileId, follow:1},
-    function(d) {
-      if (d == 1) {
-        $('#follow').remove();
-        $('#follow-and-stats-container').append('Following');
-      } else {
-        alert('something broken, tell David');
-      }
-    });
+editFollowing = function(type, id, follow) {
+  if (type == 'user') {
+    $.post(baseUrl+'profile/ajax_edit_following', {profileId:id, follow:follow},
+      function(d) {
+        if (d == 1) {
+          if (id == profileId) {
+            var ele = $('#follow-and-stats-container');
+            if (follow) {
+              ele.find('.follow').remove();
+              ele.append('Following');
+            } else {
+              ele.find('.unfollow').remove();
+              ele.append('Follow');
+            }
+          } else {
+            if (follow) {
+              $('#user-'+id).find('.follow').removeClass('follow').addClass('unfollow').text('Unfollow');
+            } else {
+              $('#user-'+id).find('.unfollow').removeClass('unfollow').addClass('follow').text('Follow');
+            }
+          }
+        } else {
+          alert('something broken, tell David');
+        }
+      });  
+  } else if (type == 'trip') {
+    console.log('chose to follow a trip');
+  }
 };
 
 
