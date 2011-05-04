@@ -234,7 +234,7 @@ class User extends DataMapper
     }
     
     
-    public function get_followers()
+    public function get_followers($user_id = FALSE)
     {
         $this->stored->followers = array();
         foreach ($this->user->include_join_fields()->get_iterated() as $follower)
@@ -242,6 +242,10 @@ class User extends DataMapper
             if ($follower->join_is_following == 1)
             {
                 $follower->get_current_place();
+                if ($user_id)
+                {
+                    $follower->get_follow_status_by_user_id($user_id);
+                }
                 $this->stored->followers[] = $follower->stored;
             }
         }
