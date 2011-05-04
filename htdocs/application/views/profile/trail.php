@@ -12,7 +12,7 @@
       </div>
             
       <div class="trip-listing-description">
-      Diana and I are going to check out some national parks for our next vacation.
+        Diana and I are going to check out some national parks for our next vacation.
       </div>
 
       <div class="destinationbar">
