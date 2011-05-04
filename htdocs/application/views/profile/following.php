@@ -45,7 +45,7 @@
       <a href="<?=site_url('trips/'.$following_trip->id)?>"><?=$following_trip->name?></a>
     </div>
     <? foreach ($following_trip->places as $place):?>
-      <a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
+      <a href="<?=site_url('places/'.$place->id)?>" class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>"><?=$place->name?></a>
     <? endforeach;?>
     <? foreach ($following_trip->goers as $goer):?>
       <span class="trip-goer">
