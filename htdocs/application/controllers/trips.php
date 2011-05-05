@@ -203,8 +203,8 @@ class Trips extends CI_Controller
             custom_404();
             return;
         }
-
-        $t->get_followers($this->user->id);
+        $user_id = (isset($this->user->id)) ? $this->user->id : FALSE;
+        $t->get_followers($user_id);
         $data = array(
             'trip' => $t->stored,
             'user' => $this->user,

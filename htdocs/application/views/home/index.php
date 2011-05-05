@@ -8,6 +8,7 @@ $header_args = array(
     'js_paths'=> array(
         'js/jquery/jquery.ba-bbq.min.js',
         'js/user/home.js',
+        'js/actionbar.js',
         'js/jquery/jquery-ui-1.8.11.custom.min.js',
         'js/jquery/multiselect.min.js',
         'js/jquery/timeago.js',
@@ -37,21 +38,22 @@ $this->load->view('core_header', $header_args);
 
           <form id="item-post-form">
             <fieldset>
-                <span class="input-header">Content</span>
-                <div contenteditable="true" id="item-input" class="postitem-input-form"></div>
-                <span class="input-header">Places</span><span class="input-instructions">Enter the name of each town, city or country relevant to this post (e.g., "Singapore, Bangkok, Jakarta")</span>
-                <div contenteditable="true" id="tag-input" class="tag-input-form"></div>
-                <span class="input-header">Trips</span><br>
-                <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
-                  <? foreach ($user->rsvp_yes_trips as $trip):?>
-                  <option value="<?=$trip->id?>"><?=$trip->name?>
-                  <? endforeach;?>
-                  <? foreach ($user->rsvp_awaiting_trips as $trip):?>
-                  <option value="<?=$trip->id?>"><?=$trip->name?>
-                  <? endforeach;?>
-                  <? foreach ($user->following_trips as $trip):?>
-                  <option value="<?=$trip->id?>"><?=$trip->name?>
-                  <? endforeach;?>
+              <span class="input-header">Content</span>
+              <div contenteditable="true" id="item-input" class="postitem-input-form"></div>
+              <span class="input-header">Places</span>
+              <div contenteditable="true" id="tag-input" class="tag-input-form"></div>
+              <div class="input-instructions">Enter the name of each city or country relevant to this post (e.g., "Singapore, Bangkok, Jakarta")</div>
+              <span class="input-header">Trips</span><br>
+              <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
+                <? foreach ($user->rsvp_yes_trips as $trip):?>
+                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? endforeach;?>
+                <? foreach ($user->rsvp_awaiting_trips as $trip):?>
+                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? endforeach;?>
+                <? foreach ($user->following_trips as $trip):?>
+                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? endforeach;?>
                 </select>
             </fieldset>
           </form>
