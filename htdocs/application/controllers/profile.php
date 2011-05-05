@@ -313,8 +313,9 @@ class Profile extends CI_Controller
             }
             $profile = $u->stored;
         }
-
-        $u->get_followers($this->user->id);
+        
+        $user_id = (isset($this->user->id)) ? $this->user->id : NULL;
+        $u->get_followers($user_id);
         $view_data = array(
             'user' => $user,
             'profile' => $profile,
