@@ -13,13 +13,14 @@
       </div>
       
       <div class="destinationbar">
-        <? $prefix = ''; $dest_list = '';?>
-        <? foreach ($trip->places as $place):?>
-          <? $dest_list .= $prefix . '<a href="'.site_url('places/'.$place->id).'" class="place destinationbar-item" lat="'.$place->lat.'" lng="'.$place->lng.'">'.
-             $place->name.'</a> <span class="subtext">'.date('n/d/y', $place->startdate).' - '.date('n/d/y', $place->enddate).'</span>';?>
+        <? $prefix = ''; foreach ($trip->places as $place):?>
+          <?=$prefix?>
+          <a href="<?=site_url('places/'.$place->id)?>" class="place destinationbar-item" lat="<?=$place->lat?>" lng="<?=$place->lng?>">
+            <?=$place->name?>
+          </a>
+          <span class="subtext"><? if($place->startdate){echo date('F j, Y',$place->startdate);} if($place->startdate AND $place->enddate){echo ' - ';} if ($place->enddate){echo date('F j, Y', $place->enddate);}?></span>
           <? $prefix = ' <span class="bullet">&#149</span> '?>
         <? endforeach;?>
-        <?=$dest_list?>
       </div>
       
       <div class="goersbar">      

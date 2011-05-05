@@ -53,7 +53,7 @@
         <div class="destinationbar">
           <? foreach ($following_trip->places as $place):?>
             <a class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
-            <span class="subtext"><?=date('F j, Y', $place->startdate)?> - <?=date('F j, Y', $place->enddate)?></span>
+            <span class="subtext"><? if ($place->startdate){echo date('F j, Y', $place->startdate);} if($place->startdate AND $place->enddate){echo ' - ';} if ($place->enddate){echo date('F j, Y', $place->enddate);}?></span>
           <? endforeach;?>
         </div>
         
