@@ -3,9 +3,9 @@
   <? $first=TRUE; foreach ($trip->followers as $follower):?>
   	<div id="user-<?=$follower->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
 
-      <? if ($follower->is_following):?>
+      <? if (isset($follower->is_following) AND $follower->is_following):?>
         <a href="#" class="unfollow">Unfollow</a>
-      <? elseif ($follower->id != $user->id):?>
+      <? elseif (!isset($user->id) OR $follower->id != $user->id):?>
         <a href="#" class="follow">Follow</a>
       <? endif;?> 
   	

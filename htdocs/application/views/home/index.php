@@ -8,6 +8,7 @@ $header_args = array(
     'js_paths'=> array(
         'js/jquery/jquery.ba-bbq.min.js',
         'js/user/home.js',
+        'js/actionbar.js',
         'js/jquery/jquery-ui-1.8.11.custom.min.js',
         'js/jquery/multiselect.min.js',
         'js/jquery/timeago.js',
@@ -35,24 +36,18 @@ $this->load->view('core_header', $header_args);
       <div id="home-add-postitem-container"><!--POSTITEM CONTAINER-->
           <form id="item-post-form">
             <fieldset>
-              <div class="input-container">
-                <span class="input-header">Content</span>
-                <div contenteditable="true" id="item-input" class="postitem-input-form"></div>
-                <span class="input-header">Places</span>
-                <div contenteditable="true" id="tag-input" class="tag-input-form"></div>
-                
-                <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
-                  <? foreach ($user->rsvp_yes_trips as $trip):?>
-                  <option value="<?=$trip->id?>"><?=$trip->name?>
-                  <? endforeach;?>
-                  <? foreach ($user->rsvp_awaiting_trips as $trip):?>
-                  <option value="<?=$trip->id?>"><?=$trip->name?>
-                  <? endforeach;?>
-                  <? foreach ($user->following_trips as $trip):?>
-                  <option value="<?=$trip->id?>"><?=$trip->name?>
-                  <? endforeach;?>
-                </select>
-              </div>
+              <div contenteditable="true" id="item-input" class="postitem-input"></div>
+              <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
+                <? foreach ($user->rsvp_yes_trips as $trip):?>
+                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? endforeach;?>
+                <? foreach ($user->rsvp_awaiting_trips as $trip):?>
+                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? endforeach;?>
+                <? foreach ($user->following_trips as $trip):?>
+                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? endforeach;?>
+              </select>
               <a id="post-item" class="new-postitem">Post</a>
             </fieldset>
           </form>
