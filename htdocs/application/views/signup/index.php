@@ -31,6 +31,7 @@ $this->load->view('core_header', $header_args);
 
     	<div style="border:1px solid black; background-color:#FAFAFA; margin:0 auto; padding:20px; width:400px; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px;">
 	      <h2>Sign up</h2>
+	      
 	      <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post" style="margin:20px 0;">
 	        <div style="margin-bottom:20px;">
 	          <fieldset>
@@ -57,9 +58,9 @@ $this->load->view('core_header', $header_args);
 	                <input type="password" name="password" id="password" autocomplete="off"/>
 	              </li>
 	            </ul>
+	            <input type="hidden" name="fb_login" id="fb_login"/>
 	          </fieldset>
 	        </div>
-       	
           <button type="submit" id="signup-submit" class="blue-button">Create my account</button>
 	      </form>
       
@@ -116,8 +117,13 @@ $this->load->view('core_header', $header_args);
   function showAccountCreationDialog() {
     $.get('<?=site_url('signup/ajax_create_fb_user')?>', function(d) {
       var r = $.parseJSON(d);
-      if (!r.error) {
-        window.location = r.redirect;
+      if (r.success) {
+        //window.location = r.redirect;
+        console.log(r);
+        $('#name').val(r.name);
+        $('#email').val(r.email);
+        $('#fb_login').val(1);
+        $('#fb_login_button').hide();
       } else {
         alert(r.message);
       }

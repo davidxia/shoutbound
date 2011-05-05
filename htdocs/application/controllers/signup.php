@@ -30,9 +30,52 @@ class Signup extends CI_Controller
 		    $u->profile_pic = 'default_avatar'.$n.'.png';
 		    $u->created = time()-72;
 		    		    
+        if ($this->input->post('fb_login'))
+        {
+            $this->load->library('facebook');
+            $fbuser = $this->facebook->api('/me?fields=name,friends');
+            $u->fid = $fbuser['id'];
+        }
+
         if ($u->save())
         {
             $u->login($u->id);
+            if ($this->input->post('fb_login'))
+            {
+                $f = new Friend();
+                $auto_follow = new User();
+                foreach ($fbuser['friends']['data'] as $friend)
+                {
+                    // check if friend is already Shoutbound user
+                    // if so auto follow them for new user
+                    $auto_follow->get_by_fid($friend['id']);
+                    if ($auto_follow->id)
+                    {
+                        $auto_follow->save($u);
+                    }
+                    else
+                    {
+                        // check if this friend already exists in friends table
+                        // if so, add relation in friends_users table
+                        // if not, add new row in friends table
+                        $f->where('facebook_id', $friend['id'])->get();
+                        if ($f->id)
+                        {
+                            $u->save($f);
+                        }
+                        else
+                        {
+                            $f->clear();
+                            $f->facebook_id = $friend['id'];
+                            $f->name = $friend['name'];
+                            if ($f->save())
+                            {
+                                $u->save($f);
+                            }
+                        }
+                    }
+                }
+            }
             redirect('/');
         }
         else
@@ -50,8 +93,8 @@ class Signup extends CI_Controller
 		    $u->password = md5('davidxia'.$this->input->post('signupPw').'isgodamongmen');
 		    $n = mt_rand(1, 8);
 		    $u->profile_pic = 'default_avatar'.$n.'.png';
-		    $u->created = time()-72;
-
+		    $u->created = time()-72;        
+        
         if ($u->save())
         {
             $u->login($u->id);
@@ -67,77 +110,22 @@ class Signup extends CI_Controller
     public function ajax_create_fb_user()
     {
         $this->load->library('facebook');
-        $fbuser = $this->facebook->api('/me?fields=name,email,friends');
+        $fbuser = $this->facebook->api('/me?fields=name,email');
+        //$fbuser = $this->facebook->api('/me?fields=name,email,friends');
+        
         if ( ! $fbuser)
         {
-            json_success(array('error' => true, 'message' => 'We could not get your Facebook data'));
+            json_error('We could not get your Facebook data');
         }
-        
         $u = new User();
         if ($u->get_by_fid($fbuser['id'])->id)
         {
-            json_success(array('error' => true, 'message' => 'You are already a user'));
-        }
-
-        if ( ! $fbuser['email'])
-        {
-            json_success(array('error' => true, 'message' => 'We could not get your email address'));
-        }
-        
-        $u->clear();
-        $u->fid = $fbuser['id'];
-        $u->name = $fbuser['name'];
-        $u->email = $fbuser['email'];
-		    $n = mt_rand(1, 8);
-		    $u->profile_pic = 'default_avatar'.$n.'.png';
-        $u->created = time()-72;
-        
-        if ($u->save())
-        {
-            $u->login($u->id);
-            
-            // if row exists for this fbid in friends table, delete it
-            // corresponding rows in friends_users table auto deleted by DMZ ORM
-            $f = new Friend();
-            $auto_follow = new User();
-            foreach ($fbuser['friends']['data'] as $friend)
-            {
-                // check if friend is already Shoutbound user
-                // if so auto follow them for new user
-                $auto_follow->get_by_fid($friend['id']);
-                if ($auto_follow->id)
-                {
-                    $auto_follow->save($u);
-                }
-                else
-                {
-                    // check if this friend already exists in friends table
-                    // if so, add relation in friends_users table
-                    // if not, add new row in friends table
-                    $f->where('facebook_id', $friend['id'])->get();
-                    if ($f->id)
-                    {
-                        $u->save($f);
-                    }
-                    else
-                    {
-                        $f->clear();
-                        $f->facebook_id = $friend['id'];
-                        $f->name = $friend['name'];
-                        if ($f->save())
-                        {
-                            $u->save($f);
-                        }
-                    }
-                }
-            }
-            
-            json_success(array('error' => FALSE, 'redirect' => site_url('signup/onboarding')));
+            json_error('You already have an account.');
         }
         else
         {
-            json_success(array('error' => TRUE, 'message' => 'Something went wrong. Please try again.'));
-        }        
+            json_success(array('name' => $fbuser['name'], 'email' => $fbuser['email']));
+        }
     }
     
     
