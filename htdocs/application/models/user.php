@@ -282,12 +282,28 @@ class User extends DataMapper
         // get user's most recent posts
         $this->stored->posts = array();
         $this->wallitem->where('active', 1)->order_by('created', 'desc')->get();
-        foreach ($this->wallitem as $wallitem)
+        foreach ($this->wallitem as $post)
         {
             // generate html for wallitem's places
-            $wallitem->get_places();
-            $wallitem->get_trips();
-            $this->stored->posts[] = $wallitem->stored;
+            $post->get_places();
+            $post->get_trips();
+            // get replies and attach their places
+            $r = $post->get_replies();
+            $replies = array();
+            foreach ($r as $reply)
+            {
+                $reply->get_creator();
+                $reply->convert_nl();
+                $reply->get_places();
+                $reply->get_likes();
+                $replies[] = $reply->stored;
+            }
+            
+            // packages each wallitem with replies into separate array
+            $post->stored->replies = $replies;
+            $posts[] = $post->stored;
+            
+            $this->stored->posts[] = $post->stored;
         }
     }
     

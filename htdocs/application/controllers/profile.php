@@ -206,12 +206,13 @@ class Profile extends CI_Controller
         }
 
         $u->get_posts();
-        $view_data = array(
+        $data = array(
             'user' => $user,
             'profile' => $profile,
         );
 
-        $this->load->view('profile/posts', $view_data);
+        $this->load->view('profile/posts', $data);
+        //print_r($profile);
     }
     
     
