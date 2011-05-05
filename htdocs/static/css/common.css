@@ -12,8 +12,8 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 html, body {
   -webkit-text-size-adjust: none;
   min-width: 960px;
-  font-size:14px;
-	line-height:20px;
+  font-size:13px;
+	line-height:19px;
   color:#333;
   height:100%;
 }
@@ -40,7 +40,7 @@ html, body {
   color:white;
   margin-left:21px;
   float:left;
-  font-size:12px;
+  font-size:13px;
 }
 
 .header .nav a:hover, .footer a:hover {
@@ -55,7 +55,7 @@ html, body {
 .footer {
   color:white;
   position:relative;
-  font-size: 12px;
+  font-size: 11px;
   height:25px;
   border-top:1px solid #333;
   line-height:25px;
@@ -90,14 +90,15 @@ html, body {
 }
 
 #top-bar{
-  width:600px;
-  border-bottom:2px solid #777;
+  width:540px;
+  margin-left:40px;
+  border-bottom:2px solid #888;
   padding-bottom:10px;
   float:left;
 }
 
 .top-bar-header{
-  font-size:28px;
+  font-size:26px;
   font-weight:600;
   line-height:36px;
 }
@@ -127,7 +128,7 @@ h4{
 
 .subtext{
   color:#888;
-  font-size:12px;
+  font-size:11px;
 }
 
 .img-container{
@@ -178,7 +179,7 @@ fieldset {
 
 .error {
   color: red;
-  font-size: 12px;
+  font-size: 11px;
   line-height:14px;
 }
 
@@ -208,7 +209,7 @@ fieldset {
 }
 
 .postitem-content-container{
-  margin-left:60px;
+  margin-left:32px;
 }
 
 .followitem-content-container{
@@ -240,21 +241,18 @@ fieldset {
   font-size:13px;
 }
 
+.postitem-content, .followitem-content, .tripitem-content{
+  margin:4px 0px 3px 0px;
+}
+
 .actionbar, .goersbar{
-  margin-top:3px;
 }
 
 .followitem-bio{
   line-height:18px;
 }
 
-.actionbar-item{
-  margin-right:3px;
-  display:inline;
-  font-size:13px;
-}
-
-.destinationbar-item{
+.actionbar-item, .destinationbar-item{
   margin-right:3px;
   display:inline;
 }
@@ -316,7 +314,8 @@ fieldset {
 }
 
 #col-left{
-  width:600px;
+  width:540px;
+  margin-left:40px;
   float:left;
 }
 
@@ -339,7 +338,7 @@ fieldset {
 	list-style: none;
 	height: 36px;
 	border-bottom: 1px solid #BABABA;
-	width: 600px;
+	width: 540px;
 }
 
 #main-tabs li{
@@ -350,7 +349,7 @@ fieldset {
 	margin-bottom: -1px; /*--Pull the list item down 1px--*/
 	overflow: hidden;
 	position: relative;
-	width:119px;
+	width:107px;
 	text-align:center;
 }
 
@@ -376,11 +375,11 @@ fieldset {
 	border-left:1px solid #BABABA;
 	border-right:1px solid #BABABA;
 	border-top:1px solid #BABABA;
-	width:117px;
+	width:107px;
 }
 
 #main-tabs li.last{
-  width:122px;
+  width:110px;
 }
 
 #main-tabs li.active a{
