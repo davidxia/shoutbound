@@ -21,71 +21,51 @@ $this->load->view('core_header', $header_args);
   var baseUrl = '<?=site_url()?>';
   var staticUrl = '<?=static_sub()?>';
 </script>
-
-<style type="text/css">
-.tooltip_container{
-  position:absolute;
-  background:url(/david/images/dark_arrow.png) 50% 0 no-repeat;
-  padding:7px 0 0 0;
-  z-index:500;
-}
-.tooltip_interior{
-  font-size:12px;
-  background:url(/david/images/tooltip.png);
-  color:white;
-  padding:3px 6px;
-}
-.tooltip_interior div{
-  margin-top:2px;
-  font-size:.97em;
-}
-</style>
-
 </head>
 
 <body>
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
+  
+    <div id="top-bar"><!--TOP BAR-->
+      
+      <div id="new-postitem-button">New post</div>
+      <div id="new-trip-button">New trip</div>        
+     
+      <div id="home-add-postitem-container"><!--POSTITEM CONTAINER-->
+          <form id="item-post-form">
+            <fieldset>
+              <div contenteditable="true" id="item-input" style="border:1px solid black; height:70px;"></div>
+              <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
+                <? foreach ($user->rsvp_yes_trips as $trip):?>
+                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? endforeach;?>
+                <? foreach ($user->rsvp_awaiting_trips as $trip):?>
+                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? endforeach;?>
+                <? foreach ($user->following_trips as $trip):?>
+                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? endforeach;?>
+              </select>
+              <a id="post-item" href="#">Post</a>
+            </fieldset>
+          </form>
+      </div><!--END POSTITEM CONTAINER-->
+  
+    </div><!--TOP BAR END-->
 
-      <div id="top-bar"><!--TOP BAR-->
+    <div id="follow-and-stats-container"><!--STATS-->
+            
+        <div id="stats-container">
+          <ul class="stats-list">
+            <li><a href="#trail" class="trip-count"><?=$user->num_rsvp_yes_trips?><span class="stat-label">Trips</span></a></li>
+            <li class="border-left"><a href="<?=site_url('profile#posts')?>" class="post-count"><?=$user->num_posts?><span class="stat-label">Posts</span></a></li>
+            <li class="border-left"><a href="<?=site_url('profile#following')?>" class="following-count"><?=$user->num_following+$user->num_following_trips?><span class="stat-label">Following</span></a></li>
+            <li class="border-left"><a href="<?=site_url('profile#followers')?>" class="followers-count"><?=$user->num_followers?><span class="stat-label">Followers</span></a></li>
+          </ul>        
+        </div>
         
-        <div id="new-postitem-button">New post</div>
-        <div id="new-trip-button">New trip</div>        
-       
-        <div id="home-add-postitem-container"><!--POSTITEM CONTAINER-->
-            <form id="item-post-form">
-              <fieldset>
-                <div contenteditable="true" id="item-input" style="border:1px solid black; height:70px;"></div>
-                <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
-                  <? foreach ($user->rsvp_yes_trips as $trip):?>
-                  <option value="<?=$trip->id?>"><?=$trip->name?>
-                  <? endforeach;?>
-                  <? foreach ($user->rsvp_awaiting_trips as $trip):?>
-                  <option value="<?=$trip->id?>"><?=$trip->name?>
-                  <? endforeach;?>
-                  <? foreach ($user->following_trips as $trip):?>
-                  <option value="<?=$trip->id?>"><?=$trip->name?>
-                  <? endforeach;?>
-                </select>
-                <a id="post-item" href="#">Post</a>
-              </fieldset>
-            </form>
-        </div><!--END POSTITEM CONTAINER-->
-    
-      </div><!--TOP BAR END-->
-
-      <div id="follow-and-stats-container"><!--STATS-->
-              
-          <div id="stats-container">
-            <ul class="stats-list">
-              <li><a href="#trail" class="trip-count"><?=$user->num_rsvp_yes_trips?><span class="stat-label">Trips</span></a></li>
-              <li class="border-left"><a href="<?=site_url('profile#posts')?>" class="post-count"><?=$user->num_posts?><span class="stat-label">Posts</span></a></li>
-              <li class="border-left"><a href="<?=site_url('profile#following')?>" class="following-count"><?=$user->num_following+$user->num_following_trips?><span class="stat-label">Following</span></a></li>
-              <li class="border-left"><a href="<?=site_url('profile#followers')?>" class="followers-count"><?=$user->num_followers?><span class="stat-label">Followers</span></a></li>
-            </ul>        
-          </div>
-          
-        </div><!--STATS END-->
+      </div><!--STATS END-->
 
 
     <!-- LEFT COLUMN -->
@@ -112,7 +92,7 @@ $this->load->view('core_header', $header_args);
                 <li id="postitem-<?=$news_feed_item->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> postitem">
                  <div class="postitem-avatar-container">
                     <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>">
-                      <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" class="tooltip" height="25" width="25" alt="<?=$news_feed_item->user->name?>"/>
+                      <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" height="25" width="25"/>
                     </a>
                   </div>                   
                   
