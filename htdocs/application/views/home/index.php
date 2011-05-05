@@ -8,6 +8,7 @@ $header_args = array(
     'js_paths'=> array(
         'js/jquery/jquery.ba-bbq.min.js',
         'js/user/home.js',
+        'js/actionbar.js',
         'js/jquery/jquery-ui-1.8.11.custom.min.js',
         'js/jquery/multiselect.min.js',
         'js/jquery/timeago.js',
