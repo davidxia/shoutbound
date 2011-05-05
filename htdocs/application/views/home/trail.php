@@ -11,15 +11,14 @@
           <?=$rsvp_awaiting_trip->description?> 
         </div>-->                
         <div class="destinationbar">
-          <? foreach ($rsvp_awaiting_trip->places as $place):?>
-            <a class="place bar-item" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
-            <!--<? if ($place->startdate):?>
-              <?=date('n/d/y', $place->startdate)?>
-            <? else:?>
-              no date set yet
-            <? endif;?>-->
-            <span class="bullet">&#149</span>                                              
-          <? endforeach;?>
+        <? $prefix = ''; foreach ($rsvp_awaiting_trip->places as $place):?>
+            <?=$prefix?>
+            <a href="<?=site_url('places/'.$place->id)?>" class="place bar-item" lat="<?=$place->lat?>" lng="<?=$place->lng?>">
+              <?=$place->name?>
+            </a>
+            <span class="subtext"><? if($place->startdate){echo date('F j, Y',$place->startdate);} if($place->startdate AND $place->enddate){echo ' - ';} if ($place->enddate){echo date('F j, Y', $place->enddate);}?></span>
+            <? $prefix = ' <span class="bullet">&#149</span> '?>
+        <? endforeach;?>
         </div>
         
         <div class="goersbar">
@@ -48,15 +47,14 @@
         </div>
                
         <div class="destinationbar">
-          <? foreach ($rsvp_yes_trip->places as $place):?>
-            <a class="place destinationbar-item" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>"><?=$place->name?> <span class="subtext">(Dates)</span></a>
-            <!--<? if ($place->startdate):?>
-              <?=date('n/d/y', $place->startdate)?>
-            <? else:?>
-              no date set yet
-            <? endif;?>-->
-            <span class="bullet">&#149</span>
-          <? endforeach;?>
+        <? $prefix = ''; foreach ($rsvp_yes_trip->places as $place):?>
+            <?=$prefix?>
+            <a href="<?=site_url('places/'.$place->id)?>" class="place bar-item" lat="<?=$place->lat?>" lng="<?=$place->lng?>">
+              <?=$place->name?>
+            </a>
+            <span class="subtext"><? if($place->startdate){echo date('F j, Y',$place->startdate);} if($place->startdate AND $place->enddate){echo ' - ';} if ($place->enddate){echo date('F j, Y', $place->enddate);}?></span>
+            <? $prefix = ' <span class="bullet">&#149</span> '?>
+        <? endforeach;?>
         </div>
 
         <div class="goersbar">
