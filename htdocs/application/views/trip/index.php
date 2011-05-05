@@ -72,9 +72,9 @@ $this->load->view('core_header', $header_args);
     			<div id="trip_goers"><!--TRIP GOERS-->  
     			        	        		          			                     
 	            <? foreach ($trip->goers as $trip_goer):?>
-	            	<div class="tripitem-avatar-container" uid="<?=$trip_goer->id?>">
+	            	<div class="streamitem-avatar-container baritem" uid="<?=$trip_goer->id?>">
 	                <a href="<?=site_url('profile/'.$trip_goer->id)?>">
-	                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="48" width="48"/>
+	                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="35" width="35"/>
 	                </a>
 	              </div>
 	            <? endforeach;?>
@@ -152,40 +152,40 @@ $this->load->view('core_header', $header_args);
           <div id="posts-tab" class="main-tab-content main-tab-default">
             
             <? $first=TRUE; foreach ($wallitems as $wallitem):?>            
-              <div id="wallitem-<?=$wallitem->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> postitem"><!--POSTITEM START-->
+              <div id="wallitem-<?=$wallitem->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem"><!--POSTITEM START-->
               
-                <div class="postitem-avatar-container">
+                <div class="streamitem-avatar-container">
                   <a href="<?=site_url('profile/'.$wallitem->user_id)?>">
-                    <img src="<?=static_sub('profile_pics/'.$wallitem->user->profile_pic)?>" class="tooltip" height="48" width="48" alt="<?=$trip_goer->name?>"/>
+                    <img src="<?=static_sub('profile_pics/'.$wallitem->user->profile_pic)?>" class="tooltip" height="25" width="25" alt="<?=$trip_goer->name?>"/>
                   </a>
                 </div>
                 
                 <!--POSTITEM CONTENT CONTAINER-->
-                <div class="postitem-content-container">                
-                  <div class="postitem-author-name">
+                <div class="streamitem-content-container">                
+                  <div class="streamitem-name">
                     <a href="<?=site_url('profile/'.$wallitem->user_id)?>">
                       <?=$wallitem->user->name?>
                     </a>               
                   </div>                           
-                  <div class="postitem-content">
+                  <div class="streamitem-content">
                     <?=$wallitem->content?>
                   </div>             
                   
                   <!--ACTIONBAR START-->                 
-                  <div class="postitem-actionbar">
-                    <div id="repost-postitem" class="actionbar-item">
+                  <div class="actionbar">
+                    <div id="repost-postitem" class="bar-item">
                       <a href="#">Add to trip</a>                      
                     </div>
                     <span class="bullet">&#149</span>
-                    <div class="actionbar-item">
+                    <div class="bar-item">
                       <a class="show-comments" href="#"><? $num_comments=count($wallitem->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
                     </div>
                     <span class="bullet">&#149</span>                    
-                    <div class="actionbar-item">
+                    <div class="bar-item">
                       <a class="show-trips" href="#"><? $num_trips=count($wallitem->trips); echo $num_trips.' trip'; if($num_trips!=1){echo 's';}?></a>
                     </div>
                     <span class="bullet">&#149</span>                        
-                    <div class="actionbar-item">
+                    <div class="bar-item">
                       <abbr class="timeago subtext" title="<?=$wallitem->created?>"><?=$wallitem->created?></abbr>
                     </div>                        
                   </div><!--ACTIONBAR END-->
@@ -195,15 +195,15 @@ $this->load->view('core_header', $header_args);
                   
                     <? foreach ($wallitem->replies as $comment):?>                  
                     <div class="comment"><!--COMMENT START-->
-                      <div class="postitem-avatar-container">
+                      <div class="streamitem-avatar-container">
                         <a href="<?=site_url('profile/'.$comment->user_id)?>">
-                          <img src="<?=static_sub('profile_pics/'.$comment->user->profile_pic)?>" height="32" width="32"/>
+                          <img src="<?=static_sub('profile_pics/'.$comment->user->profile_pic)?>" height="25" width="25"/>
                         </a>
                       </div>
                       
                       <!--COMMENT CONTENT START-->                      
                       <div class="comment-content-container">
-                        <div class="comment-author-name">
+                        <div class="streamitem-name">
                           <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->user->name?></a>
                         </div> 
                         <div class="comment-content">
@@ -228,14 +228,14 @@ $this->load->view('core_header', $header_args);
                   <div class="trip-listing-container" style="display:none;">
                   
                   <? foreach ($wallitem->trips as $trip):?>
-                    <div class="trip-listing"><!--TRIP-LISTING-START-->
+                    <div class="streamitem"><!--TRIP-LISTING-START-->
                     
-                      <div class="trip-listing-name">
+                      <div class="streamitem-name">
                         <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
                       </div>
-                      <div class="trip-listing-destination-container">
+                      <div class="destinationbar">
                         <? $prefix=''; foreach ($trip->places as $place):?>
-                          <span class="trip-listing-destination"><a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a></span>
+                          <span class="place bar-item"><a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a></span>
                           <?=$prefix?>
                           <? $prefix = '<span class="bullet">&#149</span>'?>
                         <? endforeach;?>

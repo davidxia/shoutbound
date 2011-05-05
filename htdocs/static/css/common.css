@@ -239,6 +239,15 @@ fieldset {
   
 }
 
+.place{
+  background:#DFEAF4;
+  padding:3px 10px;
+}
+
+.place:hover{
+  background:#BBD1E7;
+}
+
 .bar-item{
   margin-right:3px;
   display:inline;
