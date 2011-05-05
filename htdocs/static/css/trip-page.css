@@ -37,6 +37,8 @@ textarea#wallitem-input{
 
 .destination-dates{
   display:inline-block;
+  margin-right:1px;
+  margin-bottom:3px;
 }
 
 .destinationbar-item{

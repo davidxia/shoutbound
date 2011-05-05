@@ -1,7 +1,43 @@
 #top-bar{
   min-height:150px;
 }
+#item-input, #tag-input{
+  width:492px;
+  margin-bottom:10px;  
+}
 
+.input-container{
+  padding:10px 5px 5px 5px;
+  background-color:#EAEAEA;
+  width:500px;
+}
+
+.input-header{
+  font-weight:bold;
+}
+
+#item-input, #tag-input{
+  padding:3px;
+  background-color:white;
+  border:1px solid #888;
+  z-index:10;
+}
+
+#item-input{
+  min-height:65px;
+}
+
+#tag-input{
+  min-height:19px;
+  margin-bottom:3px;
+}
+
+#trip-selection{
+  
+}
+
+.new-postitem{
+}
 
 /*MULTISELECT*/
 .ui-multiselect { padding:2px 0 2px 4px; text-align:left }
