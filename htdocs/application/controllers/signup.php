@@ -26,21 +26,24 @@ class Signup extends CI_Controller
 		    $u->name = $this->input->post('name');
 		    $u->email = $this->input->post('email');
 		    $u->password = md5('davidxia'.$this->input->post('password').'isgodamongmen');
-		    $n = mt_rand(1, 8);
-		    $u->profile_pic = 'default_avatar'.$n.'.png';
 		    $u->created = time()-72;
 		    		    
-        if ($this->input->post('fb_login'))
+        if ($this->input->post('is_fb_signup'))
         {
             $this->load->library('facebook');
-            $fbuser = $this->facebook->api('/me?fields=name,friends');
+            $fbuser = $this->facebook->api('/me?fields=name,friends,picture');
             $u->fid = $fbuser['id'];
+        }
+        else
+        {
+    		    $n = mt_rand(1, 8);
+    		    $u->profile_pic = 'default_avatar'.$n.'.png';
         }
 
         if ($u->save())
         {
             $u->login($u->id);
-            if ($this->input->post('fb_login'))
+            if ($this->input->post('is_fb_signup'))
             {
                 $f = new Friend();
                 $auto_follow = new User();
@@ -75,8 +78,16 @@ class Signup extends CI_Controller
                         }
                     }
                 }
+                
+                $this->load->helper('avatar');
+                $file_name = save_fb_photo($u->id, $fbuser['id'], 'large');
+                if ($file_name)
+                {
+                    $u->profile_pic = $file_name;
+                    $u->save();
+                }
             }
-            redirect('/');
+            redirect('signup/onboarding');
         }
         else
         {
@@ -111,7 +122,6 @@ class Signup extends CI_Controller
     {
         $this->load->library('facebook');
         $fbuser = $this->facebook->api('/me?fields=name,email');
-        //$fbuser = $this->facebook->api('/me?fields=name,email,friends');
         
         if ( ! $fbuser)
         {

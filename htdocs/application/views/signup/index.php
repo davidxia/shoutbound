@@ -58,7 +58,7 @@ $this->load->view('core_header', $header_args);
 	                <input type="password" name="password" id="password" autocomplete="off"/>
 	              </li>
 	            </ul>
-	            <input type="hidden" name="fb_login" id="fb_login"/>
+	            <input type="hidden" name="is_fb_signup" id="is_fb_signup"/>
 	          </fieldset>
 	        </div>
           <button type="submit" id="signup-submit" class="blue-button">Create my account</button>
@@ -118,11 +118,10 @@ $this->load->view('core_header', $header_args);
     $.get('<?=site_url('signup/ajax_create_fb_user')?>', function(d) {
       var r = $.parseJSON(d);
       if (r.success) {
-        //window.location = r.redirect;
-        console.log(r);
         $('#name').val(r.name);
         $('#email').val(r.email);
-        $('#fb_login').val(1);
+        $('#is_fb_signup').val(1);
+        //$('#fb_pic_url').val(r.picUrl.replace('_q.jpg', '_n.jpg'));
         $('#fb_login_button').hide();
       } else {
         alert(r.message);
