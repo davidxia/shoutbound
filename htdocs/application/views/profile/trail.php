@@ -4,11 +4,11 @@
   <? endif;?>
   
   <? $first=TRUE; foreach ($profile->rsvp_yes_trips as $trip):?>
-    <div id="tripitem-<?=$trip->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> tripitem">
+    <div id="tripitem-<?=$trip->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
     
       <a href="#" class="follow">this needs fixing</a>
       
-      <div class="trip-listing-name">
+      <div class="streamitem-name">
         <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
       </div>
       
@@ -24,15 +24,16 @@
       
       <div class="goersbar">      
         <? foreach ($trip->goers as $goer):?>
-          <div class="tripitem-avatar-container">                       	                       
+          <div class="streamitem-avatar-container bar-item">                       	                       
             <a href="<?=site_url('profile/'.$goer->id)?>">
-              <img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" class="tooltip" height="30" width="30" alt="<?=$goer->name?>"/>
+              <img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" class="tooltip" height="25" width="25" alt="<?=$goer->name?>"/>
             </a>
           </div>
-          <? endforeach;?>
+        <? endforeach;?>
+        <div style="clear:both"></div>
       </div>
       
-      <!--<div class="tripitem-description">
+      <!--<div class="streamitem-bio">
         <?=$trip->description?>     
       </div>-->
 

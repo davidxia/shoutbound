@@ -27,7 +27,7 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
   
-    <div id="top-bar"><!--TOP BAR-->
+    <div id="top-bar" style="display:none"><!--TOP BAR-->
       
       <div id="new-postitem-button">New post</div>
       <div id="new-trip-button">New trip</div>        
@@ -87,101 +87,100 @@ $this->load->view('core_header', $header_args);
             You haven't had any activity yet. Get started by <a href="<?=site_url('trips/create')?>">creating trips</a>, <a href="#">adding posts</a>, and <a href="#">following other people</a>, <a href="#"> trips</a>, and <a href="#"> places</a>.
           <? else:?>
           
-            <ul>              
-              <? $first=TRUE; foreach($news_feed_items as $news_feed_item):?>
-                <li id="postitem-<?=$news_feed_item->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> postitem">
-                 <div class="postitem-avatar-container">
-                    <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>">
-                      <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" height="25" width="25"/>
-                    </a>
-                  </div>                   
+            <? $first=TRUE; foreach($news_feed_items as $news_feed_item):?>
+              <div id="postitem-<?=$news_feed_item->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
+               <div class="streamitem-avatar-container">
+                  <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>">
+                    <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" height="25" width="25"/>
+                  </a>
+                </div>                   
+                
+                <div class="streamitem-content-container">
+                  <div class="streamitem-name">
+                    <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>"><?=$news_feed_item->user->name?></a>
+                  </div> 
+                  <div class="streamitem-content"><?=$news_feed_item->content?></div>
                   
-                  <div class="postitem-content-container">
-                    <div class="postitem-author-name">
-                      <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>"><?=$news_feed_item->user->name?></a>
-                    </div> 
-                    <div class="postitem-content"><?=$news_feed_item->content?></div>
-                    
-                    <!--ACTIONBAR START-->
-                    <div class="actionbar">
-                      <div id="repost-postitem" class="actionbar-item">
-                        <a class="add-to-trip" href="#">Add to trip</a>                      
-                      </div>
-                      <span class="bullet">&#149</span>
-                      <div class="actionbar-item">
-                        <a class="show-comments" href="#"><? $num_comments=count($news_feed_item->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
-                      </div>
-                      <span class="bullet">&#149</span>                    
-                      <div class="actionbar-item">
-                        <a class="show-trips" href="#"><? $num_trips=count($news_feed_item->trips); echo $num_trips.' trip'; if($num_trips!=1){echo 's';}?></a>
-                      </div>
-                      <span class="bullet">&#149</span>                        
-                      <div class="actionbar-item">
-                        <abbr class="timeago subtext" title="<?=$news_feed_item->created?>"><?=$news_feed_item->created?></abbr>
-                      </div>                        
-                    </div><!--ACTIONBAR END-->
-                    
-                    <!--COMMENTS START-->
-                    <div class="comments-container" style="display:none;">
-                      <? foreach ($news_feed_item->replies as $comment):?>
-                      <div class="comment">
-                        <div class="postitem-avatar-container">
-                          <a href="<?=site_url('profile/'.$comment->user_id)?>">
-                            <img src="<?=static_sub('profile_pics/'.$comment->user->profile_pic)?>" height="32" width="32"/>
-                          </a>
-                        </div>                      
-                        <div class="comment-content-container">
-                          <div class="comment-author-name">
-                            <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->user->name?></a>
-                          </div> 
-                          <div class="comment-content"><?=$comment->content?></div>
-                          <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$comment->created?>"><?=$comment->created?></abbr></div>                      
-                        </div>
-                      </div> 
-                      <? endforeach;?>
-                      <div class="comment-input-container">
-                        <textarea class="comment-input-area"/></textarea>
-                        <a class="add-comment-button" href="#">Add comment</a>
-                      </div>  
-                    </div><!--END COMMENT CONTAINER-->
-
-                    <!--TRIP LISTING CONTAINER START-->
-                    <div class="trip-listing-container" style="display:none;">
-                    <? foreach ($news_feed_item->trips as $trip):?>
-                      <div class="trip-listing">
-                        <div class="trip-listing-name"><a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a></div>
-                        <div class="trip-listing-destination-container">
-                        <? $prefix=''; foreach ($trip->places as $place):?>
-                          <span class="trip-listing-destination"><a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a></span>
-                          <?=$prefix?>
-                          <? $prefix = '<span class="bullet">&#149</span>'?>
-                        <? endforeach;?>
-                        </div>
-                      </div>
-                    <? endforeach;?>
-                    </div><!--TRIP LISTING CONTAINER END-->
-                    
-                    <!-- ADD TO TRIP -->
-                    <div class="add-to-trip-cont" style="display:none;">
-                      <select multiple="multiple" size=5>
-                        <? foreach ($user->rsvp_yes_trips as $trip):?>
-                        <option value="<?=$trip->id?>"><?=$trip->name?>
-                        <? endforeach;?>
-                        <? foreach ($user->rsvp_awaiting_trips as $trip):?>
-                        <option value="<?=$trip->id?>"><?=$trip->name?>
-                        <? endforeach;?>
-                        <? foreach ($user->following_trips as $trip):?>
-                        <option value="<?=$trip->id?>"><?=$trip->name?>
-                        <? endforeach;?>
-                      </select>
-                      <a class="post-to-trip" href="#">Post</a>
+                  <!--ACTIONBAR START-->
+                  <div class="actionbar">
+                    <div id="repost-postitem" class="bar-item">
+                      <a class="add-to-trip" href="#">Add to trip</a>                      
                     </div>
-                    <!-- ADD TO TRIP END -->
+                    <span class="bullet">&#149</span>
+                    <div class="bar-item">
+                      <a class="show-comments" href="#"><? $num_comments=count($news_feed_item->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
+                    </div>
+                    <span class="bullet">&#149</span>                    
+                    <div class="bar-item">
+                      <a class="show-trips" href="#"><? $num_trips=count($news_feed_item->trips); echo $num_trips.' trip'; if($num_trips!=1){echo 's';}?></a>
+                    </div>
+                    <span class="bullet">&#149</span>                        
+                    <div class="bar-item">
+                      <abbr class="timeago subtext" title="<?=$news_feed_item->created?>"><?=$news_feed_item->created?></abbr>
+                    </div>                        
+                  </div><!--ACTIONBAR END-->
+                  
+                  <!--COMMENTS START-->
+                  <div class="comments-container" style="display:none;">
+                    <? foreach ($news_feed_item->replies as $comment):?>
+                    <div class="comment">
+                      <div class="streamitem-avatar-container">
+                        <a href="<?=site_url('profile/'.$comment->user_id)?>">
+                          <img src="<?=static_sub('profile_pics/'.$comment->user->profile_pic)?>" height="25" width="25"/>
+                        </a>
+                      </div>                      
+                      <div class="streamitem-content-container">
+                        <div class="streamitem-name">
+                          <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->user->name?></a>
+                        </div> 
+                        <div class="comment-content"><?=$comment->content?></div>
+                        <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$comment->created?>"><?=$comment->created?></abbr></div>                      
+                      </div>
+                    </div> 
+                    <? endforeach;?>
+                    <div class="comment-input-container">
+                      <textarea class="comment-input-area"/></textarea>
+                      <a class="add-comment-button" href="#">Add comment</a>
+                    </div>  
+                  </div><!--END COMMENT CONTAINER-->
 
+                  <!--TRIP LISTING CONTAINER START-->
+                  <div class="trip-listing-container" style="display:none;">
+                  <? foreach ($news_feed_item->trips as $trip):?>
+                    <div class="trip-listing">
+                      <div class="trip-listing-name"><a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a></div>
+                      <div class="trip-listing-destination-container">
+                      <? $prefix=''; foreach ($trip->places as $place):?>
+                        <span class="trip-listing-destination"><a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a></span>
+                        <?=$prefix?>
+                        <? $prefix = '<span class="bullet">&#149</span>'?>
+                      <? endforeach;?>
+                      </div>
+                    </div>
+                  <? endforeach;?>
+                  </div><!--TRIP LISTING CONTAINER END-->
+                  
+                  <!-- ADD TO TRIP -->
+                  <div class="add-to-trip-cont" style="display:none;">
+                    <select multiple="multiple" size=5>
+                      <? foreach ($user->rsvp_yes_trips as $trip):?>
+                      <option value="<?=$trip->id?>"><?=$trip->name?>
+                      <? endforeach;?>
+                      <? foreach ($user->rsvp_awaiting_trips as $trip):?>
+                      <option value="<?=$trip->id?>"><?=$trip->name?>
+                      <? endforeach;?>
+                      <? foreach ($user->following_trips as $trip):?>
+                      <option value="<?=$trip->id?>"><?=$trip->name?>
+                      <? endforeach;?>
+                    </select>
+                    <a class="post-to-trip" href="#">Post</a>
                   </div>
-                </li>
-              <? endforeach;?>
-            </ul>
+                  <!-- ADD TO TRIP END -->
+
+                </div>
+              </div>
+            <? endforeach;?>
+            
           <? endif;?>
           </div>
         </div><!--TAB CONTAINER END-->

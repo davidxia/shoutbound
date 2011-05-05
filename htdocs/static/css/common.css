@@ -90,8 +90,8 @@ html, body {
 }
 
 #top-bar{
-  width:540px;
-  margin-left:40px;
+  width:560px;
+  margin-left:20px;
   border-bottom:2px solid #888;
   padding-bottom:10px;
   float:left;
@@ -154,7 +154,7 @@ ol, ul {
 
 input[type="text"], input[type="password"], textarea {
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
   line-height:19px;
   color:#333;
 }
@@ -189,15 +189,15 @@ fieldset {
   margin-right:3px;
 }
 
-/*POSTITEMS*/ 
+/*STREAMITEMS, COMMENTS, TRIP LISTINGS*/ 
 
-.postitem, .followitem, .tripitem, .placeitem{
+.streamitem{
   border-top:1px solid #FAFAFA;
   border-bottom:1px solid #FAFAFA;
-  padding:10px 40px 10px 20px;
+  padding:10px 20px 10px 15px;
 }
 
-.postitem:hover, .tripitem:hover, .placeitem:hover{
+.hoverable-item:hover{
   background-color:#FAFAFA;
   border-top:1px solid blue;
   border-bottom:1px solid blue;
@@ -208,114 +208,90 @@ fieldset {
   border-top:none;
 }
 
-.postitem-content-container{
-  margin-left:32px;
+.streamitem-content-container, .comment-input-container{
+  margin-left:31px;
 }
 
-.followitem-content-container{
-  margin-left:60px;
-}
-
-.postitem-avatar-container, .followitem-avatar-container{
-  padding-top:2px;
+.streamitem-avatar-container{
+  margin-top:4px;
   float:left;
 }
 
-.postitem-author-name, .followitem-title, .trip-listing-name, .placeitem-name{
-  line-height:18px;
-  height:18px;
-}
-
-.postitem-author-name a, .postitem-author-name a:visited, .comment-author-name a, .comment-author-name a:visited, .trip-listing-name a, .trip-listing-name a:visited, .followitem-title a, .followitem-title a:visited, .placeitem-name, .placeitem-name a, .placeitem-name a:visited{
+.streamitem-name a, .streamitem-name a:visited{
+  font-weight:600;
   color:#333;
-  font-weight:bold;
 }
 
-.postitem-author-name a:hover, .postitem-reposter-name a:hover, .comment-author-name a:hover, .trip-listing-name a:hover, .followitem-title a:hover, .placeitem-name a:hover{
+.streamitem-name a:hover, .postitem-reposter-name a:hover, .comment-author-name a:hover, .trip-listing-name a:hover, .followitem-title a:hover, .placeitem-name a:hover{
   color: blue;
   cursor:pointer;
 }
 
-.postitem-reposter-name a, .postitem-reposter-name a:visited, .followitem-bio, .placeitem-bio{
+.streamitem-bio{
   color:#666;
-  font-size:13px;
 }
 
-.postitem-content, .followitem-content, .tripitem-content{
-  margin:4px 0px 3px 0px;
+.streamitem-content{
+  margin:2px 0px 2px 0px;
 }
 
-.actionbar, .goersbar{
+.actionbar, .tagbar, .goersbar{
+  
 }
 
-.followitem-bio{
-  line-height:18px;
-}
-
-.actionbar-item, .destinationbar-item{
+.bar-item{
   margin-right:3px;
   display:inline;
 }
 
-.tripitem-avatar-container{
-  margin-right:2px;
-  display:inline;
-}
-
-/*COMMENTS AND TRIP LISTING*/
-
-.comments-container, .trip-listing-container{
-  margin-top:8px;
+.comments-container{
+  margin-left:20px;
+  margin-top:10px;
 }
 
 .comment, .trip-listing{
- margin-top:8px;
- margin-bottom:10px; 
+ margin-top:5px; 
 }
 
 .comment-content-container{
   margin-left:40px;
 }
 
-.comment-author-name{
-  line-height:15px;
-  height:15px;
-}
-
 .comment-timestamp{
   margin-top:-3px;
 }
 
-.comment-input-container{
-  margin-left:40px;
-}
-
 .comment-input-area{
   height:50px;
-  width:460px;
+  width:416px;
 }
 
 .comment-input-container{
-  padding-bottom:5px;
+  margin-top:8px;
+  margin-bottom:3px;
 }
 
 .RSVP-required{
   color:red;
 }
 
-/*FOLLOWING AND FOLLOWERS*/
+.narrow{
+  padding-right:125px;
+}
 
+.left-indent{
+  padding-left:31px;
+}
 
-
-/* Layout */
+/* LAYOUT */
 
 #left-content-container{
   padding:10px 0px 5px 0px;
 }
 
 #col-left{
-  width:540px;
-  margin-left:40px;
+  width:560px;
+  margin-left:20px;
   float:left;
 }
 
@@ -331,6 +307,7 @@ fieldset {
  border-bottom:1px solid #BABABA;
  border-right:1px solid #BABABA;
  min-height:600px; 
+ padding-top:5px;
  clear:both;
 }
 
@@ -338,7 +315,7 @@ fieldset {
 	list-style: none;
 	height: 36px;
 	border-bottom: 1px solid #BABABA;
-	width: 540px;
+	width: 560px;
 }
 
 #main-tabs li{
@@ -349,7 +326,7 @@ fieldset {
 	margin-bottom: -1px; /*--Pull the list item down 1px--*/
 	overflow: hidden;
 	position: relative;
-	width:107px;
+	width:111px;
 	text-align:center;
 }
 
@@ -375,11 +352,11 @@ fieldset {
 	border-left:1px solid #BABABA;
 	border-right:1px solid #BABABA;
 	border-top:1px solid #BABABA;
-	width:107px;
+	width:111px;
 }
 
 #main-tabs li.last{
-  width:110px;
+  width:114px;
 }
 
 #main-tabs li.active a{
@@ -506,23 +483,83 @@ ul.stats-list li a{
 }
 
 .follow{
-  color:#333;
   display:block;
-  height:30px;
-  line-height:30px;
+  height:28px;
+  line-height:28px;
   text-align:center;
   font-weight:bold;
-  font-size:14px;
+  font-size:13px;
   text-decoration:none;
-  background-color:#FAFAFA;
-  /*background:-webkit-gradient(linear, left top, left bottom, from(#32D02F), to(#239121));
-  background:-moz-linear-gradient(top, #32D02F, #239121);
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#32D02F', endColorstr='#239121');*/
-  border: 1px solid #555;
+  background:#FAFAFA;
+  background:-webkit-gradient(linear, left top, left bottom, from(#FAFAFA), to(#DADADA));
+  background:-moz-linear-gradient(top, #FAFAFA, #DADADA);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAFAFA', endColorstr='#DADADA');
+  border: 1px solid #CACACA;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
-  width:160px;
+  width:75px;
+}
+
+a.follow{
+  color:#333;
+}
+
+.follow:hover {
+  background: #DADADA;
+  border: 1px solid #888;
+  /*background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
+  background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');*/
+}
+
+.follow:active {
+  background: #BABABA;
+  border: 1px solid #888;
+  background: -webkit-gradient(linear, left top, left bottom, from(#BABABA), to(#DADADA));
+  background: -moz-linear-gradient(top,  #BABABA,  #DADADA);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#BABABA', endColorstr='#DADADA');
+}
+
+.unfollow{
+  display:block;
+  height:28px;
+  line-height:28px;
+  text-align:center;
+  font-size:13px;
+  text-decoration:none;
+  background:#FDFDFD;
+  /*background:-webkit-gradient(linear, left top, left bottom, from(#FAFAFA), to(#DADADA));
+  background:-moz-linear-gradient(top, #FAFAFA, #DADADA);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAFAFA', endColorstr='#DADADA');*/
+  border: 1px solid #EAEAEA;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  width:75px;
+}
+
+a.unfollow{
+  color:#999;
+}
+
+.unfollow:hover {
+  background: #FAFAFA;
+  /*background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
+  background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');*/
+}
+
+a.unfollow:active{
+  color:red;
+}
+
+.unfollow:active {
+  background: #BABABA;
+  border: 1px solid #888;
+  background: -webkit-gradient(linear, left top, left bottom, from(#CACACA), to(#DADADA));
+  background: -moz-linear-gradient(top,  #CACACA,  #DADADA);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CACACA', endColorstr='#DADADA');
 }
 
 .add-comment-button{
@@ -551,21 +588,6 @@ ul.stats-list li a{
 }
 
 .add-comment-button:active {
-  background: #ff8132;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
-  background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
-}
-
-
-#follow:hover {
-  background: #ffad32;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
-  background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');
-}
-
-#follow:active {
   background: #ff8132;
   background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
   background: -moz-linear-gradient(top,  #ff8132,  #ffad32);

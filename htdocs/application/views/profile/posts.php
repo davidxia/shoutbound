@@ -7,21 +7,21 @@
     
   <? $first=TRUE; foreach ($profile->posts as $post):?>
   
-    <div id="postitem-<?=$post->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> postitem">
-      <div class="postitem-avatar-container">
+    <div id="postitem-<?=$post->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
+      <div class="streamitem-avatar-container">
         <a href="#">
-          <img src="#" height="48" width="48"/>
+          <img src="#" height="25" width="25"/>
         </a>
       </div>
       
-      <div class="postitem-content-container">
-        <div class="postitem-author-name">
+      <div class="streamitem-content-container">
+        <div class="streamitem-name">
           <a>Authorname here</a>
         </div>
-        <div class="postitem-content">
+        <div class="streamitem-content">
           <?=$post->content?>
         </div>        
-        <div class="postitem-actionbar">
+        <div class="actionbar">
           <div id="repost-postitem" class="actionbar-item">
             <a href="#">Add to trip</a>                      
           </div>
@@ -43,13 +43,13 @@
         <div class="comments-container" style="display:none;">
           <? foreach ($news_feed_item->replies as $comment):?>
           <div class="comment">
-            <div class="postitem-avatar-container">
+            <div class="streamitem-avatar-container">
               <a href="<?=site_url('profile/'.$comment->user_id)?>">
-                <img src="<?=static_sub('profile_pics/'.$comment->user->profile_pic)?>" height="32" width="32"/>
+                <img src="<?=static_sub('profile_pics/'.$comment->user->profile_pic)?>" height="28" width="28"/>
               </a>
             </div>                      
-            <div class="comment-content-container">
-              <div class="comment-author-name">
+            <div class="streamitem-content-container">
+              <div class="streamitem-name">
                 <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->user->name?></a>
               </div> 
               <div class="comment-content"><?=$comment->content?></div>
