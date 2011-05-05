@@ -27,15 +27,15 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
   
-    <div id="top-bar" style="display:none"><!--TOP BAR-->
+    <div id="top-bar"><!--TOP BAR-->
       
-      <div id="new-postitem-button">New post</div>
-      <div id="new-trip-button">New trip</div>        
+      <!--<div id="new-postitem-button"><a href="#" class="new-postitem">New post</a></div>-->
+      <!--<div id="new-trip-button">New trip</div>-->        
      
       <div id="home-add-postitem-container"><!--POSTITEM CONTAINER-->
           <form id="item-post-form">
             <fieldset>
-              <div contenteditable="true" id="item-input" style="border:1px solid black; height:70px;"></div>
+              <div contenteditable="true" id="item-input" class="postitem-input"></div>
               <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
                 <? foreach ($user->rsvp_yes_trips as $trip):?>
                 <option value="<?=$trip->id?>"><?=$trip->name?>
@@ -47,7 +47,7 @@ $this->load->view('core_header', $header_args);
                 <option value="<?=$trip->id?>"><?=$trip->name?>
                 <? endforeach;?>
               </select>
-              <a id="post-item" href="#">Post</a>
+              <a id="post-item" class="new-postitem">Post</a>
             </fieldset>
           </form>
       </div><!--END POSTITEM CONTAINER-->

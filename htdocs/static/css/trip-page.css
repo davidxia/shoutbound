@@ -21,18 +21,25 @@ textarea#wallitem-input{
 }
 
 #top-bar{
-  min-height:150px;
 }
 
 #trip-description{
-  line-height:18px;
-  margin-bottom:5px;
-  padding-bottom:5px;
-  border-bottom:1px solid #FAFAFA;
 }
 
 #trip-info{
 
+}
+
+.destinationbar{
+  margin-bottom:3px;
+  padding-bottom:3px;
+}
+
+.destination-dates{
+  display:inline-block;
+}
+
+.destinationbar-item{
 }
 
 /*#trip_goers{
