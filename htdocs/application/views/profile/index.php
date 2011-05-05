@@ -13,7 +13,6 @@ $header_args = array(
         'js/jquery/validate.min.js',
     )
 );
-
 $this->load->view('core_header', $header_args);
 ?>
 <!-- JAVASCRIPT CONSTANTS --> 

@@ -1,14 +1,14 @@
 <div id="fb-root"></div>
 <script>
-    window.fbAsyncInit = function() {
-        FB.init({appId: '136139119767617', status: true, cookie: true, xfbml: true});
-    };
-    (function() {
-        var e = document.createElement('script'); e.async = true;
-        e.src = document.location.protocol +
-            '//connect.facebook.net/en_US/all.js';
-        document.getElementById('fb-root').appendChild(e);
-    }());
+  window.fbAsyncInit = function() {
+      FB.init({appId: '136139119767617', status: true, cookie: true, xfbml: true});
+  };
+  (function() {
+      var e = document.createElement('script'); e.async = true;
+      e.src = document.location.protocol +
+          '//connect.facebook.net/en_US/all.js';
+      document.getElementById('fb-root').appendChild(e);
+  }());
 </script>
 
 <!-- POPUP CONTAINER -->
@@ -86,26 +86,20 @@
   // call ajax_create_fb_user to create their account, check for errors,
   // then submit trip creation form
 	function facebookLogin(callback) {
-    $.ajax({
-      url: '<?=site_url('login/ajax_facebook_login')?>',
-      success: function(r) {
-        var r = $.parseJSON(r);
-        if (r.existingUser) {
-          updateFBFriends(callback);
-        } else {
-          showAccountCreationDialog();
-        }
+    $.get('<?=site_url('login/ajax_facebook_login')?>', function(d) {
+      var r = $.parseJSON(d);
+      if (r.existingUser) {
+        updateFBFriends(callback);
+      } else {
+        showAccountCreationDialog();
       }
     });
 	}
 	
 	
 	function updateFBFriends(callback) {
-    $.ajax({
-      url: '<?=site_url('login/ajax_update_fb_friends')?>',
-      success: function() {
-        loginSignup.success(callback);
-      }
+    $.get('<?=site_url('login/ajax_update_fb_friends')?>', function() {
+      loginSignup.success(callback);
     });
 	}
 	
@@ -116,21 +110,50 @@
     $('#div-to-popup').append(html);
     $('#div-to-popup').bPopup();  
 
-    $.ajax({
-      url: '<?=site_url('signup/ajax_create_fb_user')?>',
-      success: function(response) {
-        var r = $.parseJSON(response);
-        if (r.error) {
-          alert(r.message);
-        } else {
-          loginSignup.success(callback);
-        }
+    $.get('<?=site_url('signup/ajax_create_fb_user')?>', function(d) {
+      var r = $.parseJSON(d);
+      if (r.error) {
+        alert(r.message);
+      } else {
+        loginSignup.success(callback);
       }
     });
   }
 
 
   $(function() {
+    $.getScript(baseUrl+'static/js/jquery/validate.min.js', function() {
+      $('#signup-form').validate({
+        rules: {
+          signup_name: {
+            required: true
+          },
+          signup_email: {
+            required: true,
+            email: true
+          },
+          signup_pw: {
+            required: true,
+            minlength: 3
+          }
+        },
+        messages: {
+          signup_name: 'You gotta have a name, man',
+          signup_email: {
+            required: 'we promise not to spam you',
+            email: 'come on, that\'s not an email'
+          },
+          signup_pw: {
+            required: 'no password? you crazy!',
+            minlength: 'weak! at least 3 characters'
+          }
+        },
+        errorPlacement: function(error, element) {
+          error.appendTo(element.siblings('.label-and-error').children('.error-message'));
+        }
+      });
+    });
+
     $('#fb_login_button').click(function() {
       FB.login(function(response) {
         if (response.session) {
@@ -141,38 +164,6 @@
       }, {perms: 'email'});
       return false;
     });
-  });
-
-	
-  // jquery form validation plugin
-  $('#signup-form').validate({
-    rules: {
-      signup_name: {
-        required: true
-      },
-      signup_email: {
-        required: true,
-        email: true
-      },
-      signup_pw: {
-        required: true,
-        minlength: 3
-      }
-    },
-    messages: {
-      signup_name: 'You gotta have a name, man',
-      signup_email: {
-        required: 'we promise not to spam you',
-        email: 'come on, that\'s not an email'
-      },
-      signup_pw: {
-        required: 'no password? you crazy!',
-        minlength: 'weak! at least 3 characters'
-      }
-    },
-    errorPlacement: function(error, element) {
-      error.appendTo(element.siblings('.label-and-error').children('.error-message'));
-    }
   });
   
 
@@ -203,20 +194,15 @@
       password: $('#password').val()
     };
     
-    $.ajax({
-      type: 'POST',
-      data: postData,
-      url: '<?=site_url('login/ajax_email_login')?>',
-      success: function(r) {
-        var r = $.parseJSON(r);
+    $.post('<?=site_url('login/ajax_email_login')?>', {email:$('#email').val(), password:$('#password').val()},
+      function(d) {
+        var r = $.parseJSON(d);
         if (r.loggedin) {
           loginSignup.success('<?=$callback?>', '<?=$id?>', '<?=$param?>');
         } else {
           $('#login-error').html('Wrong email or password.');
         }
-      }
-    });
+      });
     return false;
   });
-
 </script>

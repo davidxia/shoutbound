@@ -188,7 +188,7 @@ class User extends DataMapper
     }
     
     
-    public function get_following($user_id = FALSE)
+    public function get_following($user_id = NULL)
     {
         $this->stored->following = array();
         foreach ($this->related_user->include_join_fields()->get_iterated() as $following)
@@ -212,7 +212,7 @@ class User extends DataMapper
     }
     
     
-    public function get_following_trips($user_id = FALSE)
+    public function get_following_trips($user_id = NULL)
     {
         $this->stored->following_trips = array();
         foreach ($this->trip->where('active', 1)->where_in_join_field('user', 'rsvp', 3)->get() as $following_trip)
@@ -228,7 +228,7 @@ class User extends DataMapper
     }
     
     
-    public function get_following_places($user_id = FALSE)
+    public function get_following_places($user_id = NULL)
     {
         $this->stored->following_places = array();
         foreach ($this->geoplanet_place->where_join_field('user', 'is_following', 1)->get_iterated() as $place)

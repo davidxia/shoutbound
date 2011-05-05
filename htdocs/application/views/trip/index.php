@@ -15,7 +15,6 @@ $header_args = array(
         'js/jquery/jquery.color.js',
         'js/jquery/timeago.js',
         //'js/jquery/jquery.countdown.min.js',    
-        'js/jquery/validate.min.js',
     )
 );
 $this->load->view('core_header', $header_args);
@@ -85,15 +84,15 @@ $this->load->view('core_header', $header_args);
         
         <? if ( ! $user_role):?>
           <? if ($user_rsvp == 0):?>
-            <a href="#" id="follow">Follow</a>
+            <a href="#" class="follow">Follow</a>
           <? elseif ($user_rsvp == 3):?>
-            <a href="#" id="unfollow">Unfollow</a><a href="#" id="share">Share</a>
+            <a href="#" class="unfollow">Unfollow</a><a href="#" id="share">Share</a>
           <? endif;?>
         <? elseif ($user_role == 5):?>
           <? if ($user_rsvp == 0):?>
-            <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" id="follow">Follow</a><a href="#" id="share">Share</a>
+            <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" class="follow">Follow</a><a href="#" id="share">Share</a>
           <? elseif ($user_rsvp == 3):?>
-            <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" id="unfollow">Unfollow</a><a href="#" id="share">Share</a>
+            <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" class="unfollow">Unfollow</a><a href="#" id="share">Share</a>
           <? elseif ($user_rsvp == 6):?>
             <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" id="rsvp_no_button">I'm out</a><a href="#" id="share">Share</a>
           <? elseif ($user_rsvp == 9):?>

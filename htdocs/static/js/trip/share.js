@@ -2,13 +2,19 @@ var share = {};
 
 
 $(function() {
-  $('#follow').live('click', function() {
-    share.saveRsvp(3);
+  $('.follow').live('click', function() {
+    var loggedin = loginSignup.getStatus();
+    if (loggedin) {
+      console.log(loggedin);
+    } else {
+      loginSignup.showDialog('rsvp', 3);
+    }
+    //share.saveRsvp(3);
     return false;
   });
   
-  $('#unfollow').live('click', function() {
-    share.saveRsvp(0);
+  $('.unfollow').live('click', function() {
+    //share.saveRsvp(0);
     return false;
   });
   

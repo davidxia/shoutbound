@@ -8,9 +8,9 @@
 
     <div id="user-<?=$following->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
 
-      <? if ($following->is_following):?>
+      <? if (isset($following->is_following) AND $following->is_following):?>
         <a href="#" class="unfollow">Unfollow</a>
-      <? elseif ($following->id != $user->id):?>
+      <? elseif (!isset($user->id) OR $following->id != $user->id):?>
         <a href="#" class="follow">Follow</a>
       <? endif;?>
 
@@ -38,10 +38,9 @@
   <? foreach ($profile->following_trips as $following_trip):?>
   
     <div class="streamitem" id="trip-<?=$following_trip->id?>">
-
-      <? if ($following_trip->rsvp == 0):?>
+      <? if (isset($following_trip->rsvp) AND $following_trip->rsvp == 0):?>
         <a href="#" class="follow">Follow</a>
-      <? elseif ($following_trip->rsvp == 3):?>
+      <? elseif (isset($following_trip->rsvp) AND $following_trip->rsvp == 3):?>
         <a href="#" class="unfollow">Unfollow</a>
       <? endif;?>  
 
@@ -73,7 +72,7 @@
 
     <div class="streamitem" id="place-<?=$place->id?>">
     
-      <? if ($place->is_following):?>
+      <? if (isset($place->is_following) AND $place->is_following):?>
         <a href="#" class="unfollow">Unfollow</a>
       <? else:?>
         <a href="#" class="follow">Follow</a>

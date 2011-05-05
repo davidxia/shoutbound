@@ -257,10 +257,11 @@ class Profile extends CI_Controller
             }
             $profile = $u->stored;
         }
-
-        $u->get_following($this->user->id);
-        $u->get_following_trips($this->user->id);
-        $u->get_following_places($this->user->id);
+        
+        $user_id = (isset($this->user->id)) ? $this->user->id : NULL;
+        $u->get_following($user_id);
+        $u->get_following_trips($user_id);
+        $u->get_following_places($user_id);
         $view_data = array(
             'user' => $user,
             'profile' => $profile,
