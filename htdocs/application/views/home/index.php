@@ -34,9 +34,16 @@ $this->load->view('core_header', $header_args);
       <!--<div id="new-trip-button">New trip</div>-->        
      
       <div id="home-add-postitem-container"><!--POSTITEM CONTAINER-->
+       <div class="input-container">
+
           <form id="item-post-form">
             <fieldset>
-              <div contenteditable="true" id="item-input" class="postitem-input"></div>
+              <span class="input-header">Content</span>
+              <div contenteditable="true" id="item-input" class="postitem-input-form"></div>
+              <span class="input-header">Places</span>
+              <div contenteditable="true" id="tag-input" class="tag-input-form"></div>
+              <div class="input-instructions">Enter the name of each city or country relevant to this post (e.g., "Singapore, Bangkok, Jakarta")</div>
+              <span class="input-header">Trips</span><br>
               <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
                 <? foreach ($user->rsvp_yes_trips as $trip):?>
                 <option value="<?=$trip->id?>"><?=$trip->name?>
@@ -47,10 +54,12 @@ $this->load->view('core_header', $header_args);
                 <? foreach ($user->following_trips as $trip):?>
                 <option value="<?=$trip->id?>"><?=$trip->name?>
                 <? endforeach;?>
-              </select>
-              <a id="post-item" class="new-postitem">Post</a>
+                </select>
             </fieldset>
           </form>
+                        </div>
+              <a id="post-item" class="new-postitem">Post</a>
+
       </div><!--END POSTITEM CONTAINER-->
   
     </div><!--TOP BAR END-->
