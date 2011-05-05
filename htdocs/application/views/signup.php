@@ -73,20 +73,17 @@ $this->load->view('core_header', $header_args);
         Already have an account? <a href="<?=site_url('login')?>">Login</a>.
       </div>
       
-    </div><!-- CONTENT ENDS -->
+  </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
-  
   <? $this->load->view('footer')?>
-  
 </body>
-
 <script type="text/javascript">
-  $(document).ready(function() {
+  $(function() {
     $('#name').focus();
   
     $('#fb_login_button').click(function() {
-      FB.login(function(response) {
-        if (response.session) {
+      FB.login(function(d) {
+        if (d.session) {
           facebookLogin();
         } else {
           alert('you failed to log in');
@@ -98,26 +95,20 @@ $this->load->view('core_header', $header_args);
   
 
 	function facebookLogin() {
-    $.ajax({
-      url: '<?=site_url('login/ajax_facebook_login')?>',
-      success: function(response) {
-        var r = $.parseJSON(response);
-        if (r.existingUser) {
-          updateFBFriends();
-        } else {
-          showAccountCreationDialog();
-        }
+    $.get('<?=site_url('login/ajax_facebook_login')?>',function(d) {
+      var r = $.parseJSON(d);
+      if (r.existingUser) {
+        updateFBFriends();
+      } else {
+        showAccountCreationDialog();
       }
     });
 	}
 
 
 	function updateFBFriends() {
-    $.ajax({
-      url: '<?=site_url('login/ajax_update_fb_friends')?>',
-      success: function() {
+    $.get('<?=site_url('login/ajax_update_fb_friends')?>', function() {
         window.location = '<?=site_url('/')?>';
-      }
     });
 	}
 	
@@ -128,15 +119,12 @@ $this->load->view('core_header', $header_args);
     $('#div-to-popup').append(html);
     $('#div-to-popup').bPopup();  
 
-    $.ajax({
-      url: '<?=site_url('signup/ajax_create_fb_user')?>',
-      success: function(response) {
-        var r = $.parseJSON(response);
-        if ( ! r.error) {
-          window.location = r.redirect;
-        } else {
-          alert(r.message);
-        }
+    $.get('<?=site_url('signup/ajax_create_fb_user')?>', function(d) {
+      var r = $.parseJSON(d);
+      if (!r.error) {
+        window.location = r.redirect;
+      } else {
+        alert(r.message);
       }
     });
   }
