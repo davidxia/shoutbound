@@ -51,34 +51,22 @@ $this->load->view('core_header', $header_args);
         <div id="trip-info">
           <div class="top-bar-header"><?=$trip->name?></div>
           
-          <? foreach ($trip->places as $destination):?>
-              <span class="destination-dates">
-  	            <a class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></a>
-  		            <? if ($destination->startdate AND $destination->enddate):?>
-  		              <span class="subtext destinationbar-item">(<?=date('n/d/y', $destination->startdate)?> to <?=date('n/d/y', $destination->enddate)?>)</span>
-  		              
-  		              <span class="bullet">&#149</span> 
-  		              
-  		            <? elseif ($destination->startdate AND ! $destination->enddate):?>
-  		              <span class="subtext destinationbar-item">(from <?=date('n/d/y', $destination->startdate)?>)
-  		              
-  		              <span class="bullet">&#149</span>
-  		              
-  		            <? elseif ( ! $destination->startdate AND $destination->enddate):?>
-  		              <span class="subtext destinationbar-item">(to <?=date('n/d/y', $destination->enddate)?>)
-  		              
-  		              <span class="bullet">&#149</span>
-  		              
-  		            <? else:?>
-  		            
-  		              <span class="bullet" style="margin-left:3px">&#149</span>
-  		              
-  		            <? endif;?>
-  		        </span>
-	          <? endforeach;?>          
+          <? $prefix=''; foreach ($trip->places as $destination):?>
+            <span class="destination-dates">
+              <?=$prefix;?>
+	            <a class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></a>
+		            <? if ($destination->startdate AND $destination->enddate):?>
+		              <span class="subtext destinationbar-item"><?=date('F j, Y', $destination->startdate)?> - <?=date('F j, Y', $destination->enddate)?></span>
+		            <? elseif ($destination->startdate AND ! $destination->enddate):?>
+		              <span class="subtext destinationbar-item"><?=date('F j, Y', $destination->startdate)?>
+		            <? elseif ( ! $destination->startdate AND $destination->enddate):?>
+		              <span class="subtext destinationbar-item"> - <?=date('F j, Y', $destination->enddate)?>
+		            <? endif;?>
+		        </span>
+		        <? $prefix = '<span class="bullet" style="margin-left:3px">&#149</span>'?>
+          <? endforeach;?>          
           
           <div id="trip-description"><?=$trip->description?></div>
-          
                       
     			
     			<div id="trip_goers"><!--TRIP GOERS-->  

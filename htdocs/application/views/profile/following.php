@@ -52,8 +52,8 @@
         </div>
         <div class="destinationbar">
           <? foreach ($following_trip->places as $place):?>
-            <a class="place bar-item" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
-            <span class="bullet">&#149</span>Need dates/fix globally
+            <a class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
+            <span class="subtext"><?=date('F j, Y', $place->startdate)?> - <?=date('F j, Y', $place->enddate)?></span>
           <? endforeach;?>
         </div>
         

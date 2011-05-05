@@ -16,7 +16,7 @@
         <? $prefix = ''; $dest_list = '';?>
         <? foreach ($trip->places as $place):?>
           <? $dest_list .= $prefix . '<a href="'.site_url('places/'.$place->id).'" class="place destinationbar-item" lat="'.$place->lat.'" lng="'.$place->lng.'">'.
-             $place->name.'</a><span class="subtext">(Dates)</span>';?>
+             $place->name.'</a> <span class="subtext">'.date('n/d/y', $place->startdate).' - '.date('n/d/y', $place->enddate).'</span>';?>
           <? $prefix = ' <span class="bullet">&#149</span> '?>
         <? endforeach;?>
         <?=$dest_list?>
