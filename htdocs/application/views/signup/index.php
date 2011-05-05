@@ -114,11 +114,6 @@ $this->load->view('core_header', $header_args);
 	
 		
   function showAccountCreationDialog() {
-    $('#div-to-popup').empty();
-    var html = 'Creating your Shoutbound account...';
-    $('#div-to-popup').append(html);
-    $('#div-to-popup').bPopup();  
-
     $.get('<?=site_url('signup/ajax_create_fb_user')?>', function(d) {
       var r = $.parseJSON(d);
       if (!r.error) {

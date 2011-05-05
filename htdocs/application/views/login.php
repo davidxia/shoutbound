@@ -12,7 +12,7 @@ $this->load->view('core_header', $header_args);
 
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
-  var baseUrl = "<?=site_url()?>";
+  var baseUrl = '<?=site_url()?>';
 </script>
   
 </head>
@@ -63,12 +63,10 @@ $this->load->view('core_header', $header_args);
     <div style="text-align:center; margin-top:15px;">
        Don't have an account? <a href="<?=site_url('signup')?>">Sign up</a>.
     </div>
-    </div>
-    </div>
-  
 
+  </div><!-- CONTENT ENDS -->
+  </div><!-- WRAPPER ENDS -->
   <? $this->load->view('footer')?>
-
 </body>
 <script type="text/javascript">
   $(document).ready(function() {
@@ -111,45 +109,31 @@ $this->load->view('core_header', $header_args);
 
 
 	function facebookLogin() {
-    $.ajax({
-      url: '<?=site_url('login/ajax_facebook_login')?>',
-      success: function(response) {
-        var r = $.parseJSON(response);
-        if (r.existingUser) {
-          updateFBFriends();
-        } else {
-          showAccountCreationDialog();
-        }
+    $.get('<?=site_url('login/ajax_facebook_login')?>',function(d) {
+      var r = $.parseJSON(d);
+      if (r.existingUser) {
+        updateFBFriends();
+      } else {
+        showAccountCreationDialog();
       }
     });
 	}
 	
 	
 	function updateFBFriends() {
-    $.ajax({
-      url: '<?=site_url('login/ajax_update_fb_friends')?>',
-      success: function() {
+    $.get('<?=site_url('login/ajax_update_fb_friends')?>', function() {
         window.location = '<?=site_url('/')?>';
-      }
     });
 	}
 	
-	
+		
   function showAccountCreationDialog() {
-    $('#div-to-popup').empty();
-    var html = 'Creating your Shoutbound account...';
-    $('#div-to-popup').append(html);
-    $('#div-to-popup').bPopup();  
-
-    $.ajax({
-      url: '<?=site_url('signup/ajax_create_fb_user')?>',
-      success: function(response) {
-        var r = $.parseJSON(response);
-        if ( ! r.error) {
-          window.location = r.redirect;
-        } else {
-          alert(r.message);
-        }
+    $.get('<?=site_url('signup/ajax_create_fb_user')?>', function(d) {
+      var r = $.parseJSON(d);
+      if (!r.error) {
+        window.location = r.redirect;
+      } else {
+        alert(r.message);
       }
     });
   }

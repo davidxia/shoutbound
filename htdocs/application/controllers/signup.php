@@ -16,7 +16,7 @@ class Signup extends CI_Controller
         {
             redirect('/');
         }
-        $this->load->view('signup');
+        $this->load->view('signup/index');
     }
     
     
@@ -37,7 +37,7 @@ class Signup extends CI_Controller
         }
         else
         {
-            $this->load->view('signup');			
+            $this->load->view('signup/index');			
         }
     }
     
@@ -88,6 +88,9 @@ class Signup extends CI_Controller
         $u->fid = $fbuser['id'];
         $u->name = $fbuser['name'];
         $u->email = $fbuser['email'];
+		    $n = mt_rand(1, 8);
+		    $u->profile_pic = 'default_avatar'.$n.'.png';
+        $u->created = time()-72;
         
         if ($u->save())
         {
@@ -96,21 +99,15 @@ class Signup extends CI_Controller
             // if row exists for this fbid in friends table, delete it
             // corresponding rows in friends_users table auto deleted by DMZ ORM
             $f = new Friend();
-            $f->where('facebook_id', $fbuser['id'])->get();
-            if ($f->id)
-            {
-                $f->delete();
-            }
-
-            $other_user = new User();
+            $auto_follow = new User();
             foreach ($fbuser['friends']['data'] as $friend)
             {
                 // check if friend is already Shoutbound user
-                // if so save self-relation in related_users_users table
-                $other_user->get_by_fid($friend['id']);
-                if ($other_user->id)
+                // if so auto follow them for new user
+                $auto_follow->get_by_fid($friend['id']);
+                if ($auto_follow->id)
                 {
-                    $u->save_related_user($other_user);
+                    $auto_follow->save($u);
                 }
                 else
                 {
@@ -135,11 +132,11 @@ class Signup extends CI_Controller
                 }
             }
             
-            json_success(array('error' => false, 'redirect' => site_url('/')));
+            json_success(array('error' => FALSE, 'redirect' => site_url('signup/onboarding')));
         }
         else
         {
-            json_success(array('error' => true, 'message' => 'Something went wrong. Please try again.'));
+            json_success(array('error' => TRUE, 'message' => 'Something went wrong. Please try again.'));
         }        
     }
     
@@ -147,12 +144,32 @@ class Signup extends CI_Controller
     public function onboarding()
     {
         $u = new User();
-        $u->get_by_id($u->get_logged_in_status());
+        $uid = $u->get_logged_in_status();
+        if ( ! $uid)
+        {
+            redirect('/');
+        }
+        $u->get_by_id($uid);
+        // we auto followed their friends
+        $u->get_following();
+        // we auto followed their friends' rsvp yes trips
+        $f = new User();
+        foreach ($u->stored->following as $following)
+        {
+            $f->get_by_id($following->id);
+            $f->get_rsvp_yes_trips();
+            $following->trips = array();
+            foreach ($f->stored->rsvp_yes_trips as $rsvp_yes_trip)
+            {
+                $following->trips[] = $rsvp_yes_trip;
+            }
+        }
 
         $data = array(
             'user' => $u->stored,
         );
-        $this->load->view('onboarding', $data);
+        $this->load->view('signup/onboarding', $data);
+        //print_r($u->stored);
     }
 }
 
