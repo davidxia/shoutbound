@@ -53,7 +53,7 @@ class Places extends CI_Controller
     }
         
     
-    public function index($id = FALSE)
+    public function index($id = NULL)
     {
         if ( ! $id)
         {
@@ -73,7 +73,10 @@ class Places extends CI_Controller
         $gp->get_num_followers();
         $gp->get_posts();
         
-        $this->user->get_follow_status_by_place_id($id);
+        if (isset($this->user->id))
+        {
+            $this->user->get_follow_status_by_place_id($id);
+        }
         $user = (isset($this->user->id)) ? $this->user->stored : NULL;
         
         $data = array(
@@ -82,7 +85,6 @@ class Places extends CI_Controller
         );
         $this->load->view('places/index', $data);
         //print_r($this->user->stored);
-        
     }
     
     

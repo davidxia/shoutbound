@@ -126,18 +126,31 @@ class User extends DataMapper
     
     public function get_current_place()
     {
-        $this->geoplanet_place->include_join_fields()->where('timestamp=(SELECT MAX(timestamp) FROM geoplanet_places_users)')->get();
-        if ($this->geoplanet_place->id)
+        $p = new Geoplanet_place();
+        $sql = "SELECT * FROM `geoplanet_places` ".
+               "WHERE `id` = (".
+                   "SELECT `geoplanet_place_id` FROM `geoplanet_places_users` pu ".
+                   "WHERE pu.`user_id` = ? AND pu.`timestamp` = (".
+                       "SELECT MAX(`geoplanet_places_users`.`timestamp`) FROM `geoplanet_places_users` ".
+                       "WHERE `geoplanet_places_users`.`user_id` = ?))";
+        $binds = array($this->id, $this->id);
+        $p->query($sql, $binds);
+        if ($p->id)
         {
-            $this->stored->place = $this->geoplanet_place->stored;
+            $this->stored->curr_place = $p->stored;
         }
+        else
+        {
+            $this->stored->curr_place = NULL;
+        }
+        
     }
     
     
     public function get_places()
     {
         $this->stored->places = array();
-        foreach ($this->geoplanet_place->include_join_fields()->order_by('timestamp', 'desc')->get_iterated() as $place)
+        foreach ($this->geoplanet_place->include_join_fields()->order_by_join_field('user', 'timestamp', 'desc')->get_iterated() as $place)
         {
             $place->stored->timestamp = $place->join_timestamp;
             $this->stored->places[] = $place->stored;
