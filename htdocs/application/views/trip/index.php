@@ -70,8 +70,9 @@ $this->load->view('core_header', $header_args);
 
           <div id="trip-description"><?=$trip->description?></div>
 
-          <div id="trip_goers" style="display:none"><!--TRIP GOERS-->  
+          <div id="trip_goers"><!--TRIP GOERS-->  
 
+<!--
             <span id="num_trip_goers">          			              		
               <? $num_trip_goers = count($trip->goers); if ($num_trip_goers == 1):?>
               <span id="num"><?=$num_trip_goers?></span> person is going.
@@ -79,14 +80,17 @@ $this->load->view('core_header', $header_args);
               <span id="num"><?=$num_trip_goers?></span> people are going.
               <? endif;?>           
           	</span>
-    			        	        		          			                     
-            <? foreach ($trip->goers as $trip_goer):?>
-            	<div class="streamitem-avatar-container baritem" uid="<?=$trip_goer->id?>">
-                <a href="<?=site_url('profile/'.$trip_goer->id)?>">
-                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="35" width="35"/>
-                </a>
-              </div>
-            <? endforeach;?>
+-->
+    			  
+    			  <div id="trip-goers-avatars">      	        		          			                     
+              <? foreach ($trip->goers as $trip_goer):?>
+              	<div class="streamitem-avatar-container bar-item" uid="<?=$trip_goer->id?>">
+                  <a href="<?=site_url('profile/'.$trip_goer->id)?>">
+                    <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="25" width="25"/>
+                  </a>
+                </div>
+              <? endforeach;?>
+            </div>
 	          
 	          <div style="clear:both;"></div>
 	          
@@ -153,13 +157,11 @@ $this->load->view('core_header', $header_args);
             <? $first=TRUE; foreach ($wallitems as $wallitem):?>            
               <div id="wallitem-<?=$wallitem->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem"><!--POSTITEM START-->
               
-<!--
                 <div class="streamitem-avatar-container">
                   <a href="<?=site_url('profile/'.$wallitem->user_id)?>">
                     <img src="<?=static_sub('profile_pics/'.$wallitem->user->profile_pic)?>" class="tooltip" height="25" width="25" alt="<?=$trip_goer->name?>"/>
                   </a>
                 </div>
--->
                 
                 <!--POSTITEM CONTENT CONTAINER-->
                 <div class="streamitem-content-container">                
@@ -278,12 +280,39 @@ $this->load->view('core_header', $header_args);
         </div><!--TAB CONTAINER END-->
                    
       </div><!--LEFT CONTENT END-->
-      
-      <!-- WALLITEM INPUT CONTAINER -->
-      <div id="wallitem-input-container">
-        <div contenteditable="true" id="wallitem-input" style="border:1px solid #333; min-height:60px;color:#333;"><br/></div>
-        <div id="wallitem-post-button"><a href="#">Add</a></div>
-      </div><!-- WALLITEM INPUT CONTAINER ENDS -->
+
+      <div id="wallitem-input-container"><!--WALLITEM INPUT CONTAINER-->
+       <div class="input-container">
+
+          <!-- <div class="streamitem-avatar-container"><img src="http://cdn.slashgear.com/wp-content/uploads/2009/01/steve-jobs-3g-iphone1.jpg" height="25" width="25"/></div> -->
+
+          <form id="item-post-form">
+            <fieldset>
+<!--               <span class="input-header">Steve Jobs</span> -->
+              <span class="input-header">New post</span>
+              <div contenteditable="true" id="wallitem-input" class="postitem-input-form"></div>
+              <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
+              <div contenteditable="true" id="tag-input" class="tag-input-form"></div>
+              <span class="input-header">Trips</span><br>
+              <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
+                <? foreach ($user->rsvp_yes_trips as $trip):?>
+                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? endforeach;?>
+                <? foreach ($user->rsvp_awaiting_trips as $trip):?>
+                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? endforeach;?>
+                <? foreach ($user->following_trips as $trip):?>
+                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? endforeach;?>
+                </select>
+            </fieldset>
+          </form>
+          <a id="post-item" class="new-postitem">Post</a>
+
+         </div>
+
+      </div><!--END POSTITEM CONTAINER-->
+
 		        	
       <div id="autocomplete-box" style="background:#222; position:absolute; z-index:99; padding:3px;display:none;">
         <input id="autocomplete-input" type="text" style="width:150px;border:none;border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px; padding:3px;"/>

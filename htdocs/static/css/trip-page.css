@@ -40,7 +40,7 @@ textarea#wallitem-input{
 .destination-dates{
   display:inline-block;
   margin-right:1px;
-  margin-bottom:3px;
+  margin-bottom:2px;
 }
 
 .destinationbar-item{
@@ -71,78 +71,6 @@ textarea#wallitem-input{
 #num{
 	display:inline;
 }
-
-/* Tabs */
-
-.tab-container{
- border-left:1px solid #BABABA;
- border-bottom:1px solid #BABABA;
- border-right:1px solid #BABABA;
- min-height:500px; 
- padding-top:5px;
- clear:both;
-}
-
-#main-tabs{
-	list-style: none;
-	height: 36px;
-	border-bottom: 1px solid #BABABA;
-	width: 560px;
-}
-
-#main-tabs li{
-  float: left;
-	height: 35px; /*--Subtract 1px from the height of the unordered list--*/
-	line-height: 35px; /*--Vertically aligns the text within the tab--*/
-	border-left: none;
-	margin-bottom: -1px; /*--Pull the list item down 1px--*/
-	overflow: hidden;
-	position: relative;
-	width:111px;
-	text-align:center;
-}
-
-#main-tabs li a{
-  text-decoration: none;
-	display: block;
-	/*border: 1px solid white;*/
-	outline: none;
-}
-
-#main-tabs li:hover{
-	background-color:#FAFAFA;
-	text-decoration:none;
-}
-
-#main-tabs li a:hover {
-	background: #FAFAFA;
-}
-
-#main-tabs li.active{ 
-	border-bottom: 1px solid white; 
-	font-weight:bold;
-	border-left:1px solid #BABABA;
-	border-right:1px solid #BABABA;
-	border-top:1px solid #BABABA;
-	width:111px;
-}
-
-#main-tabs li.last{
-  width:114px;
-}
-
-#main-tabs li.active a{
-  color:#333;
-}
-
-#main-tabs li.active a:hover  {
-  background:white;
-	border-bottom: 1px solid white; 
-	font-weight:bold;
-	cursor:default;
-	color:#333;
-}
-
 
 /*wall*/
 
