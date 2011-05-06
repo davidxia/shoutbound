@@ -46,7 +46,6 @@ $this->load->view('core_header', $header_args);
       </div><!--TOP BAR END-->
       
       <div id="follow-and-stats-container"><!--FOLLOW BUTTON + STATS-->
-              
         <div id="stats-container">
           <ul class="stats-list">
             <li><a href="#trail" class="trip-count"><?=$profile->num_rsvp_yes_trips?><span class="stat-label">Trips</span></a></li>
@@ -59,10 +58,10 @@ $this->load->view('core_header', $header_args);
         
         <div id="follow-button">
         <? if (!$is_self AND !$is_following):?>
-          <a href="#" class="follow">Follow</a>
+          <a href="#" class="follow" id="user-<?=$profile->id?>">Follow</a>
         <? endif;?>
         <? if ($user AND !$is_self AND $is_following):?>
-          <a href="#" class="unfollow">Unfollow</a>
+          <a href="#" class="unfollow" id="user-<?=$profile->id?>">Unfollow</a>
         <? endif;?>
         </div>        
         

@@ -151,7 +151,7 @@ $(function() {
   $('.follow').live('click', function() {
     if (loginSignup.getStatus()) {
       var type,
-          id = $(this).parent().attr('id').match(/^(\w+)-(\d+)$/);
+          id = $(this).attr('id').match(/^(\w+)-(\d+)$/);
       if (id == null) {
         type = 'user';
         id = profileId;
@@ -168,7 +168,7 @@ $(function() {
   
   $('.unfollow').live('click', function() {
     var type,
-        id = $(this).parent().attr('id').match(/^(\w+)-(\d+)$/);
+        id = $(this).attr('id').match(/^(\w+)-(\d+)$/);
     if (id == null) {
       type = 'user';
       id = profileId;

@@ -5,12 +5,12 @@
   <? endif;?>
   
   <? $first=TRUE; foreach ($profile->following as $following):?>
-  <div id="user-<?=$following->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
+  <div class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
 
     <? if (isset($following->is_following) AND $following->is_following):?>
-      <a href="#" class="unfollow">Unfollow</a>
+      <a href="#" class="unfollow" id="user-<?=$following->id?>">Unfollow</a>
     <? elseif (!isset($user->id) OR $following->id != $user->id):?>
-      <a href="#" class="follow">Follow</a>
+      <a href="#" class="follow" id="user-<?=$following->id?>">Follow</a>
     <? endif;?>
 
     <div class="streamitem-avatar-container">
@@ -35,15 +35,14 @@
   
   
   <? foreach ($profile->following_trips as $following_trip):?>
-  <div class="streamitem" id="trip-<?=$following_trip->id?>">
+  <div class="streamitem">
     <? if (isset($following_trip->rsvp) AND $following_trip->rsvp == 0):?>
-      <a href="#" class="follow">Follow</a>
+      <a href="#" class="follow" id="trip-<?=$following_trip->id?>">Follow</a>
     <? elseif (isset($following_trip->rsvp) AND $following_trip->rsvp == 3):?>
-      <a href="#" class="unfollow">Unfollow</a>
+      <a href="#" class="unfollow" id="trip-<?=$following_trip->id?>">Unfollow</a>
     <? endif;?>  
 
     <div class="narrow streamitem-content-container">
-    
       <div class="streamitem-name">
         <a href="<?=site_url('trips/'.$following_trip->id)?>"><?=$following_trip->name?></a>
       </div>
@@ -67,12 +66,12 @@
   <? endforeach;?>
     
   <? foreach ($profile->following_places as $place):?>
-  <div class="streamitem" id="place-<?=$place->id?>">
+  <div class="streamitem">
   
     <? if (isset($place->is_following) AND $place->is_following):?>
-      <a href="#" class="unfollow">Unfollow</a>
+      <a href="#" class="unfollow" id="place-<?=$place->id?>">Unfollow</a>
     <? else:?>
-      <a href="#" class="follow">Follow</a>
+      <a href="#" class="follow" id="place-<?=$place->id?>">Follow</a>
     <? endif;?>    
   
     <div class="narrow streamitem-content-container">
@@ -80,7 +79,6 @@
         <a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
       </div>
       <div class="streamitem-bio">Place bio here. Lorem ipsum and all that good stuff.  New York is a cool place, but Advocate Harbor is better.</div>
-    
     </div>
   </div>
   <? endforeach;?>
