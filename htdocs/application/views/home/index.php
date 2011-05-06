@@ -36,13 +36,15 @@ $this->load->view('core_header', $header_args);
       <div id="home-add-postitem-container"><!--POSTITEM CONTAINER-->
        <div class="input-container">
 
+          <!-- <div class="streamitem-avatar-container"><img src="http://cdn.slashgear.com/wp-content/uploads/2009/01/steve-jobs-3g-iphone1.jpg" height="25" width="25"/></div> -->
+
           <form id="item-post-form">
             <fieldset>
-              <span class="input-header">Content</span>
+<!--               <span class="input-header">Steve Jobs</span> -->
+              <span class="input-header">New post</span>
               <div contenteditable="true" id="item-input" class="postitem-input-form"></div>
-              <span class="input-header">Places</span>
+              <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
               <div contenteditable="true" id="tag-input" class="tag-input-form"></div>
-              <div class="input-instructions">Enter the name of each city or country relevant to this post (e.g., "Singapore, Bangkok, Jakarta")</div>
               <span class="input-header">Trips</span><br>
               <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
                 <? foreach ($user->rsvp_yes_trips as $trip):?>
@@ -57,8 +59,9 @@ $this->load->view('core_header', $header_args);
                 </select>
             </fieldset>
           </form>
-                        </div>
-              <a id="post-item" class="new-postitem">Post</a>
+          <a id="post-item" class="new-postitem">Post</a>
+
+         </div>
 
       </div><!--END POSTITEM CONTAINER-->
   
