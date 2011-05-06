@@ -6,8 +6,12 @@
   <? $first=TRUE; foreach ($profile->rsvp_yes_trips as $trip):?>
     <div id="tripitem-<?=$trip->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
     
-      <a href="#" class="follow">this needs fixing</a>
-      
+      <? if (!isset($trip->rsvp) OR $trip->rsvp == 0):?>
+        <a href="#" class="follow" id="trip-<?=$trip->id?>">Follow</a>
+      <? elseif (isset($trip->rsvp) AND $trip->rsvp == 3):?>
+        <a href="#" class="unfollow" id="trip-<?=$trip->id?>">Unfollow</a>
+      <? endif;?>
+       
       <div class="streamitem-name">
         <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
       </div>

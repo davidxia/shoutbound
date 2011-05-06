@@ -171,13 +171,17 @@ class User extends DataMapper
     }
 
     
-    public function get_rsvp_yes_trips()
+    public function get_rsvp_yes_trips($user_id = NULL)
     {
         $this->stored->rsvp_yes_trips = array();
         foreach ($this->trip->where('active', 1)->where_join_field('user', 'rsvp', 9)->get() as $rsvp_yes_trip)
         {
             $rsvp_yes_trip->get_goers();
             $rsvp_yes_trip->get_places();
+            if ($user_id)
+            {
+                $rsvp_yes_trip->get_rsvp_by_user_id($user_id);
+            }
             $this->stored->rsvp_yes_trips[] = $rsvp_yes_trip->stored;
         }
     }

@@ -149,16 +149,17 @@ class Profile extends CI_Controller
 
             $is_self = ($pid == $this->user->id) ? TRUE : FALSE;
         }
-
-        $u->get_rsvp_yes_trips();
+        
+        $user_id = (isset($this->user->id)) ? $this->user->id : NULL;
+        $u->get_rsvp_yes_trips($user_id);
         $u->get_places();
-        $view_data = array(
+        $data = array(
             'user' => $user,
             'profile' => $profile,
             'is_self' => $is_self,
         );
 
-        $this->load->view('profile/trail', $view_data);
+        $this->load->view('profile/trail', $data);
         //print_r($profile);
     }
     

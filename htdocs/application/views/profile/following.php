@@ -36,7 +36,7 @@
   
   <? foreach ($profile->following_trips as $following_trip):?>
   <div class="streamitem">
-    <? if (isset($following_trip->rsvp) AND $following_trip->rsvp == 0):?>
+    <? if (!isset($following_trip->rsvp) OR $following_trip->rsvp == 0):?>
       <a href="#" class="follow" id="trip-<?=$following_trip->id?>">Follow</a>
     <? elseif (isset($following_trip->rsvp) AND $following_trip->rsvp == 3):?>
       <a href="#" class="unfollow" id="trip-<?=$following_trip->id?>">Unfollow</a>

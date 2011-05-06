@@ -4,13 +4,12 @@
   <? endif;?>
   
   <? $first=TRUE; foreach ($profile->followers as $follower):?>
-
-  	<div id="user-<?=$follower->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
+  	<div class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
 
     <? if (isset($follower->is_following) AND $follower->is_following):?>
-      <a href="#" class="unfollow">Unfollow</a>
+      <a href="#" class="unfollow" id="user-<?=$follower->id?>">Unfollow</a>
     <? elseif (!isset($user->id) OR $follower->id != $user->id):?>
-      <a href="#" class="follow">Follow</a>
+      <a href="#" class="follow" id="user-<?=$follower->id?>">Follow</a>
     <? endif;?>
 
     <div class="streamitem-avatar-container">
@@ -18,7 +17,6 @@
     </div>
     
     <div class="narrow streamitem-content-container">
-
       <div class="streamitem-name">
         <a href="<?=site_url('profile/'.$follower->id)?>"><?=$follower->name?></a>
       </div>
@@ -30,7 +28,6 @@
     </div>
     
   </div>
-  
   <? endforeach;?>
 </div>
 
