@@ -1,31 +1,42 @@
 #top-bar{
-  min-height:150px;
+  min-height:50px;
+  background-color:#FAFAFA;
+  padding:0px 20px 10px 10px;
+  width:530px;
 }
+
+#item-post-form{
+  /*margin-left:31px;*/
+  margin-bottom:20px;
+}
+
 #item-input, #tag-input{
   width:482px;
   margin-bottom:8px;  
   padding:3px;
   background-color:white;
-  border:1px solid #888;
+  border:1px solid #ABABAB;
   z-index:10;
 }
 
 .input-container{
-  padding:10px;
+  padding:10px 15px;
   width:490px;
   background-color:#FAFAFA;
   margin-bottom:20px;
-  border:1px solid #EAEAEA;
+  /*border:1px solid #999;*/
 }
 
 .input-header{
   font-weight:bold;
 }
 
+
+
 .input-instructions{
   color:#777;
   font-size:11px;
-  margin:-8px 0px 8px;
+  margin-left:5px;
 }
 
 #item-input{
@@ -41,6 +52,7 @@
 }
 
 .new-postitem{
+/*   margin-left:31px; */
 }
 
 .ui-widget{
