@@ -618,3 +618,7 @@ a.unfollow:active{
   background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }
+
+.deleteable{
+  position:relative;
+}

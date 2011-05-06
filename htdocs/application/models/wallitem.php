@@ -119,6 +119,19 @@ class Wallitem extends DataMapper
     }
     
     
+    public function remove_from_trip($trip_id=NULL)
+    {
+        if ( ! $trip_id)
+        {
+            return FALSE;
+        }
+        
+        $t = new Trip($trip_id);
+        $this->set_join_field($t, 'is_active', 0);
+        return TRUE;
+    }
+    
+    
 }
 
 /* End of file wallitem.php */

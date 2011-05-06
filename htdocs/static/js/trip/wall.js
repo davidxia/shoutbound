@@ -54,13 +54,13 @@ wall.scrollElem;
 $(function() {
   $('abbr.timeago').timeago();
 
-  $('.wallitem').live('mouseover mouseout', function(event) {
+  $('.deleteable').live('mouseover mouseout', function(event) {
     if (event.type == 'mouseover') {
-      $(this).children('.remove-wallitem').css('opacity', 1);
-      $(this).siblings('.remove-wallitem').css('opacity', 0);
+      $(this).children('.delete').css('opacity', 1);
+      $(this).siblings('.delete').css('opacity', 0);
     } else {
-      $(this).children('.remove-wallitem').css('opacity', 0);
-      $(this).siblings('.remove-wallitem').css('opacity', 1);
+      $(this).children('.delete').css('opacity', 0);
+      $(this).siblings('.delete').css('opacity', 1);
     }
   });
 });
@@ -111,75 +111,25 @@ wall.postWallitem = function() {
 };
 
 
-wall.displayWallitem = function(r) {
-  var html = [];
-  if (r.parentId) {
-    html[0] = '<div class="wallitem reply" id="wallitem-'+r.id+'">';
-      html[1] = '<div class="postcontent">'+r.content+'</div>';
-      html[2] = '<div class="actionbar">';    
-        html[3] = '<a href="'+baseUrl+'profile/'+r.userId+'" class="author">'+r.userName+'</a> ';
-        html[4] = '<a class="like-button" href="#">Like</a>';
-        html[5] = '<abbr class="timeago" title="'+r.created+'">'+r.created+'</abbr>';
-      html[6] = '</div>';
-      html[7] = '<div class="remove-wallitem"></div>';
-    html[8] = '</div>';    
-  } else {
-    html[0] = '<div class="wallitem" id="wallitem-'+r.id+'">';
-      html[1] = '<div class="postcontent">'+r.content+'</div>';
-      html[2] = '<div class="actionbar">';
-        html[3] = '<a href="'+baseUrl+'profile/'+r.userId+'">';
-          html[4] = '<img src="'+staticSub+'profile_pics/'+r.userPic+'" height="22" width="22"/>';
-        html[5] = '</a> ';
-        html[6] = '<a href="'+baseUrl+'profile/'+r.userId+'" class="author">'+r.userName+'</a> ';
-        html[7] = '<a class="reply-button" href="#">Add comment</a>';
-        html[8] = '<a class="like-button" href="#">Like</a>';
-        html[9] = '<abbr class="timeago" title="'+r.created+'">'+r.created+'</abbr>';
-      html[10] = '</div>';
-      html[11] = '<div class="remove-wallitem"></div>';
-    html[12] = '</div>';
-  }
-  html = html.join('');
-  
-  if (r.parentId) {
-    $('#wallitem-'+r.parentId).append(html);
-  } else {
-    $('#wall').append(html);  
-    $('#wallitem-input').html('');
-  }
-  $('abbr.timeago').timeago();
-  wall.bindLike();
-  
-  var a = $(html).find('a.place');
-  var i = $('a.place').length-1;
-  map.displayWallMarkers(i, a.attr('lat'), a.attr('lng'));
-};
-
-
 $(function() {
-  $('.remove-wallitem').live('click', function() {
-    // TODO: ask user to confirm removal
-    var regex = /^wallitem-(\d+)$/;
-    var match = regex.exec($(this).parent().attr('id'));
-    
-    var postData = {
-      id: match[1]
-    };
-    
-    $.ajax({
-      type: 'POST',
-      url: baseUrl+'wallitems/ajax_remove',
-      data: postData,
-      success: function(r) {
-        var r = $.parseJSON(r);
-        wall.removeWallitem(r.id);
-      }
-    });
+  $('.delete').live('click', function() {
+    if (window.confirm('are you sure you want to delete this post?')) {
+      var postId = $(this).parent().attr('id').match(/(\d+)$/)[1];
+      
+      $.post(baseUrl+'posts/ajax_remove_from_trip', {postId:postId, tripId:tripId},
+        function(d) {
+          var r = $.parseJSON(d);
+          if (r.success) {
+            wall.removePost(r.id);
+          }
+        });
+    }
   });
 });
 
 
-wall.removeWallitem = function(id) {
-  $('#wallitem-'+id).fadeOut(300, function() {
+wall.removePost = function(id) {
+  $('#post-'+id).fadeOut(300, function() {
     $(this).remove();
   });
 };

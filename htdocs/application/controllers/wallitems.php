@@ -74,23 +74,6 @@ class Wallitems extends CI_Controller
         ));
 		}
 		
-
-		public function ajax_remove()
-		{
-		    $wi = new Wallitem($this->input->post('id'));
-		    $wi->active = 0;
-		    if ($wi->save())
-		    {
-            json_success(array(
-                'id' => $wi->id,
-            ));
-		    }
-		    else
-		    {
-		        json_error('something broke, tell David');
-		    }
-		}
-    
     
     public function ajax_save_like()
     {
@@ -134,6 +117,3 @@ class Wallitems extends CI_Controller
     }
 
 }
-
-/* End of file suggestions.php */
-/* Location: ./application/controllers/suggestions.php */

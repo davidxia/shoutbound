@@ -102,7 +102,7 @@ textarea#wallitem-input{
   width: 50%;
 }
 
-.remove-wallitem {
+.delete{
   background-image: url(/david/images/delete_button.png);
   height: 15px;
   width: 15px;

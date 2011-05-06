@@ -75,7 +75,7 @@ class Trip extends DataMapper
     public function get_posts()
     {
 		    $posts = array();
-        foreach ($this->wallitem->where('parent_id', NULL)->where('active', 1)->order_by('created', 'asc')->get_iterated() as $post)
+        foreach ($this->wallitem->where('parent_id', NULL)->where_join_field('trip', 'is_active', 1)->order_by('created', 'asc')->get_iterated() as $post)
         {
             // get creator's name
             $post->get_creator();

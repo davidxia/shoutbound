@@ -154,24 +154,26 @@ $this->load->view('core_header', $header_args);
           <!-- POSTS TAB -->
           <div id="posts-tab" class="main-tab-content main-tab-default">
             
-            <? $first=TRUE; foreach ($wallitems as $wallitem):?>            
-              <div id="wallitem-<?=$wallitem->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem"><!--POSTITEM START-->
-              
+            <? $prefix1='first-item'; foreach ($wallitems as $post):?>
+              <!--POSTITEM START-->
+              <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem deleteable">
+                <? $prefix1=''?>
+                <div class="delete"></div>
                 <div class="streamitem-avatar-container">
-                  <a href="<?=site_url('profile/'.$wallitem->user_id)?>">
-                    <img src="<?=static_sub('profile_pics/'.$wallitem->user->profile_pic)?>" class="tooltip" height="25" width="25" alt="<?=$trip_goer->name?>"/>
+                  <a href="<?=site_url('profile/'.$post->user_id)?>">
+                    <img src="<?=static_sub('profile_pics/'.$post->user->profile_pic)?>" height="25" width="25"/>
                   </a>
                 </div>
                 
                 <!--POSTITEM CONTENT CONTAINER-->
                 <div class="streamitem-content-container">                
                   <div class="streamitem-name">
-                    <a href="<?=site_url('profile/'.$wallitem->user_id)?>">
-                      <?=$wallitem->user->name?>
+                    <a href="<?=site_url('profile/'.$post->user_id)?>">
+                      <?=$post->user->name?>
                     </a>               
                   </div>                           
                   <div class="streamitem-content">
-                    <?=$wallitem->content?>
+                    <?=$post->content?>
                   </div>             
                   
                   <!--ACTIONBAR START-->                 
@@ -181,22 +183,22 @@ $this->load->view('core_header', $header_args);
                     </div>
                     <span class="bullet">&#149</span>
                     <div class="bar-item">
-                      <a class="show-comments" href="#"><? $num_comments=count($wallitem->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
+                      <a class="show-comments" href="#"><? $num_comments=count($post->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
                     </div>
                     <span class="bullet">&#149</span>                    
                     <div class="bar-item">
-                      <a class="show-trips" href="#"><? $num_trips=count($wallitem->trips); echo $num_trips.' trip'; if($num_trips!=1){echo 's';}?></a>
+                      <a class="show-trips" href="#"><? $num_trips=count($post->trips); echo $num_trips.' trip'; if($num_trips!=1){echo 's';}?></a>
                     </div>
                     <span class="bullet">&#149</span>                        
                     <div class="bar-item">
-                      <abbr class="timeago subtext" title="<?=$wallitem->created?>"><?=$wallitem->created?></abbr>
+                      <abbr class="timeago subtext" title="<?=$post->created?>"><?=$post->created?></abbr>
                     </div>                        
                   </div><!--ACTIONBAR END-->
                     
                   <!--COMMENTS CONTAINER START-->
                   <div class="comments-container" style="display:none;">
                   
-                    <? foreach ($wallitem->replies as $comment):?>                  
+                    <? foreach ($post->replies as $comment):?>                  
                     <div class="comment"><!--COMMENT START-->
                       <div class="streamitem-avatar-container">
                         <a href="<?=site_url('profile/'.$comment->user_id)?>">
@@ -230,7 +232,7 @@ $this->load->view('core_header', $header_args);
                   <!--TRIP LISTING CONTAINER START-->
                   <div class="trip-listing-container" style="display:none;">
                   
-                  <? foreach ($wallitem->trips as $trip):?>
+                  <? foreach ($post->trips as $trip):?>
                     <div class="streamitem"><!--TRIP-LISTING-START-->
                     
                       <div class="streamitem-name">
@@ -254,7 +256,7 @@ $this->load->view('core_header', $header_args);
             <? endforeach;?> 
             
             <!--OLD LIKES/DISLIKES CODE-->                              
-              <!--<? $is_liked = 0; foreach ($wallitem->likes as $like):?><? if (isset($user) AND $like->user_id==$user->id AND $like->is_like==1):?>
+              <!--<? $is_liked = 0; foreach ($post->likes as $like):?><? if (isset($user) AND $like->user_id==$user->id AND $like->is_like==1):?>
                 <? $is_liked = 1;?>
               <? endif;?><? endforeach;?>
               <? if ($is_liked == 0):?>
@@ -262,12 +264,12 @@ $this->load->view('core_header', $header_args);
               <? else:?>
                 <a class="unlike-button" href="#">Unlike</a>
               <? endif;?>
-              <? $num_likes = 0; foreach($wallitem->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><span class="num-likes"><?=$num_likes?> person likes this</span><? elseif ($num_likes > 1):?><span class="num-likes"><?=$num_likes?> people like this</span><? endif;?>-->
+              <? $num_likes = 0; foreach($post->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><span class="num-likes"><?=$num_likes?> person likes this</span><? elseif ($num_likes > 1):?><span class="num-likes"><?=$num_likes?> people like this</span><? endif;?>-->
             <!--OLD LIKES/DISLIKES CODE END--> 
             
             <!--OLD REMOVE WALLITEM COMMENTS START-->                             
               <!--<div class="remove-wallitem"></div>
-              <? foreach ($wallitem->replies as $reply):?>
+              <? foreach ($post->replies as $reply):?>
                 <div class="wallitem reply" id="wallitem-<?=$reply->id?>">
                   <div class="postcontent">
                     <?=$reply->content?>
