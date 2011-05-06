@@ -1,6 +1,6 @@
 <div id="following-tab" class="main-tab-content">
 
-  <? if ( ! $profile->following):?>
+  <? if (!($profile->following OR $profile->following_trips OR $profile->following_places)):?>
     <?=$profile->name?> isn't following anyone yet.
   <? endif;?>
   
