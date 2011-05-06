@@ -12,7 +12,6 @@ $header_args = array(
         'js/trip/wall.js',
         'js/trip/share.js',
         'js/follow.js',
-        'js/jquery/popup.js',
         'js/jquery/jquery.color.js',
         'js/jquery/timeago.js',
         //'js/jquery/jquery.countdown.min.js',    
@@ -49,8 +48,6 @@ $this->load->view('core_header', $header_args);
         
         <div id="trip-info">     
 
-          <div class="top-bar-header"><?=$trip->name?></div>
-          
           <div class="destinationbar">
           
             <? $prefix=''; foreach ($trip->places as $destination):?>
@@ -60,29 +57,50 @@ $this->load->view('core_header', $header_args);
   		            <? if ($destination->startdate AND $destination->enddate):?>
   		              <span class="subtext"><?=date('F j, Y', $destination->startdate)?> - <?=date('F j, Y', $destination->enddate)?></span>
   		            <? elseif ($destination->startdate AND ! $destination->enddate):?>
-  		              <span class="subtext"><?=date('F j, Y', $destination->startdate)?>
+  		              <span class="subtext"><?=date('F j, Y', $destination->startdate)?></span>
   		            <? elseif ( ! $destination->startdate AND $destination->enddate):?>
-  		              <span class="subtext"> - <?=date('F j, Y', $destination->enddate)?>
+  		              <span class="subtext"> - <?=date('F j, Y', $destination->enddate)?></span>
   		            <? endif;?>
   		        </div>
   		        <? $prefix = '<span class="bullet" style="margin-left:3px; display:none">&#149</span>'?>
             <? endforeach;?>
-          </div>     
+          </div>  
+
+          <div class="top-bar-header"><?=$trip->name?></div>   
 
           <div id="trip-description"><?=$trip->description?></div>
+
+          <div id="trip_goers" style="display:none"><!--TRIP GOERS-->  
+
+            <span id="num_trip_goers">          			              		
+              <? $num_trip_goers = count($trip->goers); if ($num_trip_goers == 1):?>
+              <span id="num"><?=$num_trip_goers?></span> person is going.
+              <? else:?>              		
+              <span id="num"><?=$num_trip_goers?></span> people are going.
+              <? endif;?>           
+          	</span>
+    			        	        		          			                     
+            <? foreach ($trip->goers as $trip_goer):?>
+            	<div class="streamitem-avatar-container baritem" uid="<?=$trip_goer->id?>">
+                <a href="<?=site_url('profile/'.$trip_goer->id)?>">
+                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="35" width="35"/>
+                </a>
+              </div>
+            <? endforeach;?>
+	          
+	          <div style="clear:both;"></div>
+	          
+	          <!--<div>This trip was created by <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a></div>-->	       
+					</div><!--TRIP GOERS END-->
+
+
+          
+         </div><!--TRIP INFO END--> 
                           			        
       </div><!--TOP BAR END-->
       
       <div id="follow-and-stats-container"><!--FOLLOW BUTTON + STATS-->     
-      
-        <div id="num_trip_goers">          			              		
-          <? $num_trip_goers = count($trip->goers); if ($num_trip_goers == 1):?>
-          <span id="num"><?=$num_trip_goers?></span> person is going on this trip.
-          <? else:?>              		
-          <span id="num"><?=$num_trip_goers?></span> people are going on this trip.
-          <? endif;?>           
-      	</div>
-        
+              
         <? if (!$user_role):?>
           <? if ($user_rsvp == 0):?>
             <a href="#" class="follow" id="trip-<?=$trip->id?>">Follow</a>
@@ -106,34 +124,11 @@ $this->load->view('core_header', $header_args);
         
         <div id="trip-widget"><!--WIDGET START-->
           
-          <div id="trip_goers"><!--TRIP GOERS-->  
-    			        	        		          			                     
-            <? foreach ($trip->goers as $trip_goer):?>
-            	<div class="streamitem-avatar-container baritem" uid="<?=$trip_goer->id?>">
-                <a href="<?=site_url('profile/'.$trip_goer->id)?>">
-                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="35" width="35"/>
-                </a>
-              </div>
-            <? endforeach;?>
-	          
-	          <div style="clear:both;"></div>
-	          
-	          <!--<div>This trip was created by <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a></div>-->	       
-					</div><!--TRIP GOERS END-->
 	          
 	         </div>
-         
-          <div id="countdown-container">Time left to respond:
-            <div id="countdown"></div>                  
-    		  </div>
-          <div class="console">
-            Get advice, ideas and recommendations for this trip by sharing it.
-          </div>
-          Related trips: (list other trips within X distance)
-    	   </div><!--WIDGET END-->	
-                
-      </div><!-- FOLLOW BUTTON + STATS END-->  
-    
+
+    	   </div><!-- FOLLOW BUTTON + STATS END-->	
+                  
     <div style="clear:both"></div>  
 
     <!-- LEFT COLUMN -->
@@ -145,6 +140,7 @@ $this->load->view('core_header', $header_args);
         <ul id="main-tabs">
           <li><a href="#posts">Posts</a></li>
           <li><a href="#followers">Followers</a></li>
+          <li><a href="#related-trips">Related Trips</a></li>
         </ul>
         
         <div style="clear:both"></div>
@@ -157,11 +153,13 @@ $this->load->view('core_header', $header_args);
             <? $first=TRUE; foreach ($wallitems as $wallitem):?>            
               <div id="wallitem-<?=$wallitem->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem"><!--POSTITEM START-->
               
+<!--
                 <div class="streamitem-avatar-container">
                   <a href="<?=site_url('profile/'.$wallitem->user_id)?>">
                     <img src="<?=static_sub('profile_pics/'.$wallitem->user->profile_pic)?>" class="tooltip" height="25" width="25" alt="<?=$trip_goer->name?>"/>
                   </a>
                 </div>
+-->
                 
                 <!--POSTITEM CONTENT CONTAINER-->
                 <div class="streamitem-content-container">                
