@@ -124,15 +124,18 @@ class Places extends CI_Controller
     
     public function ajax_edit_follow()
     {
-        $p = new Geoplanet_place($this->input->post('placeId'));
+        $place_id = $this->input->post('placeId');
+        $follow = $this->input->post('follow');
+        
+        $p = new Geoplanet_place($place_id);
         if ($p->save($this->user))
         {
-            $p->set_join_field($this->user, 'is_following', $this->input->post('follow'));
-            echo 1;        
+            $p->set_join_field($this->user, 'is_following', $follow);
+            json_success(array('type' => 'place', 'id' => $place_id, 'follow' => $follow));
         }
         else
         {
-            echo 0;
+            json_error('something broken, tell David');
         }
     }
 

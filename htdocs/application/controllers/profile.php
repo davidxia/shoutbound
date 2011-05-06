@@ -449,9 +449,10 @@ class Profile extends CI_Controller
     public function ajax_edit_following()
     {
         $id = $this->input->post('profileId');
+        $follow = $this->input->post('follow');
         $u = new User($id);
         
-        if ($this->input->post('follow') AND $u->id != $this->user->id)
+        if ($follow AND $u->id != $this->user->id)
         {
             if ($u->save($this->user))
             {
@@ -462,17 +463,17 @@ class Profile extends CI_Controller
                 $a->source_id = $id;
                 $a->timestamp = time()-72;
                 $a->save();
-                echo 1;
+                json_success(array('type' => 'user', 'id' => $id, 'follow' => $follow));
             }
             else
             {
-                echo 0;
+                json_error('something broken, tell David');
             }
         }
         else
         {
             $u->set_join_field($this->user, 'is_following', 0);
-            echo 1;
+            json_success(array('type' => 'user', 'id' => $id, 'follow' => $follow));
         }
     }
     

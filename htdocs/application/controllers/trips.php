@@ -262,14 +262,15 @@ class Trips extends CI_Controller
 
     public function ajax_save_rsvp()
     {
-        if ( ! isset($this->user->id) OR !$this->input->post('tripId') OR getenv('REQUEST_METHOD') == 'GET')
+        $trip_id = $this->input->post('tripId');
+        if ( ! isset($this->user->id) OR !$trip_id OR getenv('REQUEST_METHOD') == 'GET')
         {
             custom_404();
             return;
         }
         
         $t = new Trip();
-        $t->get_by_id($this->input->post('tripId'));
+        $t->get_by_id($trip_id);
         $t->user->include_join_fields()->where('user_id', $this->user->id)->get();
         $role = $t->user->join_role;
         $rsvp = $this->input->post('rsvp');
@@ -281,6 +282,8 @@ class Trips extends CI_Controller
             {
                 $t->set_join_field($this->user, 'rsvp', $rsvp);
                 json_success(array(
+                    'type' => 'trip',
+                    'id' => $trip_id,
                     'userId' => $this->user->id,
                     'profilePic' => $this->user->profile_pic,
                     'rsvp' => $rsvp,
@@ -291,6 +294,8 @@ class Trips extends CI_Controller
             {
                 $t->set_join_field($this->user, 'rsvp', $rsvp);
                 json_success(array(
+                    'type' => 'trip',
+                    'id' => $trip_id,
                     'userId' => $this->user->id,
                     'profilePic' => $this->user->profile_pic,
                     'rsvp' => $rsvp,
@@ -298,7 +303,7 @@ class Trips extends CI_Controller
             }
             else
             {
-                echo 0;
+                json_error('something broken, tell David');
             }
         }
         // if no prior relation, make user a follower
@@ -306,6 +311,8 @@ class Trips extends CI_Controller
         {
             $t->set_join_field($this->user, 'rsvp', 3);
             json_success(array(
+                'type' => 'trip',
+                'id' => $trip_id,
                 'userId' => $this->user->id,
                 'profilePic' => $this->user->profile_pic,
                 'rsvp' => $rsvp,
@@ -313,7 +320,7 @@ class Trips extends CI_Controller
         }
         else
         {
-            echo 0;
+            json_error('something broken, tell David');
         }
     }
 

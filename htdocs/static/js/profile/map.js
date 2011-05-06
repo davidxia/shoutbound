@@ -150,15 +150,9 @@ $(function() {
 
   $('.follow').live('click', function() {
     if (loginSignup.getStatus()) {
-      var type,
-          id = $(this).attr('id').match(/^(\w+)-(\d+)$/);
-      if (id == null) {
-        type = 'user';
-        id = profileId;
-      } else {
-        type = id[1];
-        id = id[2];
-      }
+      var id = $(this).attr('id').match(/^(\w+)-(\d+)$/);
+      var type = id[1];
+      id = id[2];
       editFollowing(type, id, 1);
     } else {
       loginSignup.showDialog('follow user', type, id);
@@ -167,15 +161,9 @@ $(function() {
   });
   
   $('.unfollow').live('click', function() {
-    var type,
-        id = $(this).attr('id').match(/^(\w+)-(\d+)$/);
-    if (id == null) {
-      type = 'user';
-      id = profileId;
-    } else {
-      type = id[1];
-      id = id[2];
-    }
+    var id = $(this).attr('id').match(/^(\w+)-(\d+)$/);
+    var type = id[1];
+    id = id[2];
     editFollowing(type, id, 0);
     return false;
   });
@@ -183,52 +171,38 @@ $(function() {
 
 
 editFollowing = function(type, id, follow) {
-  if (type == 'user') {
-    $.post(baseUrl+'profile/ajax_edit_following', {profileId:id, follow:follow},
-      function(d) {
-        if (d == 1) {
-          if (id == profileId) {
-            var ele = $('#follow-and-stats-container');
-            if (follow) {
-              ele.find('.follow').remove();
-              ele.append('Following');
-            } else {
-              ele.find('.unfollow').remove();
-              ele.append('Follow');
-            }
-          } else {
-            if (follow) {
-              $('#user-'+id).find('.follow').removeClass('follow').addClass('unfollow').text('Unfollow');
-            } else {
-              $('#user-'+id).find('.unfollow').removeClass('unfollow').addClass('follow').text('Follow');
-            }
-          }
-        } else {
-          alert('something broken, tell David');
-        }
-      });  
-  } else if (type == 'trip') {
-    var rsvp = (follow == 1) ? 3 : 0;
-    $.post(baseUrl+'trips/ajax_save_rsvp', {tripId:id, rsvp:rsvp},
-      function(d) {
-        var r = $.parseJSON(d);
-        if (r.rsvp == 3) {
-          $('#trip-'+id).find('.follow').removeClass('follow').addClass('unfollow').text('Unfollow');
-        } else if (r.rsvp == 0) {
-          $('#trip-'+id).find('.unfollow').removeClass('unfollow').addClass('follow').text('Follow');
-        }
-      });
-  } else if (type == 'place') {
-    $.post(baseUrl+'places/ajax_edit_follow', {placeId:id, follow:follow},
-      function (d) {
-        if (d) {
-          if (follow) {
-            $('#place-'+id).find('.follow').removeClass('follow').addClass('unfollow').text('Unfollow');
-          } else {
-            $('#place-'+id).find('.unfollow').removeClass('unfollow').addClass('follow').text('Follow');
-          }
-        }
-      });
+  switch(type) {
+    case 'user':
+      var url = 'profile/ajax_edit_following',
+          postData = {profileId:id, follow:follow};
+      break;
+    case 'trip':
+      var url = 'trips/ajax_save_rsvp',
+          rsvp = (follow == 1) ? 3 : 0,
+          postData = {tripId:id, rsvp:rsvp};
+      break;
+    case 'place':
+      var url = 'places/ajax_edit_follow',
+          postData = {placeId:id, follow:follow};
+      break;
+  }
+  $.post(baseUrl+url, postData,
+    function(d) {
+      changeFollowButton(d);
+    });
+};
+
+
+changeFollowButton = function(d) {
+  var r = $.parseJSON(d);
+  if (r.success) {
+    if (r.follow == 0 || r.rsvp == 0) {
+      $('#'+r.type+'-'+r.id).removeClass('unfollow').addClass('follow').text('Follow');
+    } else {
+      $('#'+r.type+'-'+r.id).removeClass('follow').addClass('unfollow').text('Unfollow');
+    }
+  } else {
+    alert('something broke. please try again');
   }
 };
 
