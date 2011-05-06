@@ -54,5 +54,9 @@ loginSignup.success = function(callback, id, param) {
       editFollowing('trip', id, param);
       window.location.reload();
       break;
+    case 'follow place':
+      editFollowing('place', id, param);
+      window.location.reload();
+      break;
   }
 };

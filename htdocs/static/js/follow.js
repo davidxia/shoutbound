@@ -5,6 +5,7 @@ $(function () {
     id = id[2];
     if (loginSignup.getStatus()) {
       editFollowing(type, id, 1);
+      console.log(loginSignup.getStatus());
     } else {
       loginSignup.showDialog('follow '+type, id, 1);
     }
