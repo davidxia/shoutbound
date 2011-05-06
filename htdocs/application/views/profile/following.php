@@ -4,9 +4,9 @@
     <?=$profile->name?> isn't following anyone yet.
   <? endif;?>
   
-  <? $first=TRUE; foreach ($profile->following as $following):?>
-  <div class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
-
+  <? $prefix='first-item'; foreach ($profile->following as $following):?>
+  <div class="<?=$prefix?> streamitem">
+    <? $prefix=''?>
     <? if (isset($following->is_following) AND $following->is_following):?>
       <a href="#" class="unfollow" id="user-<?=$following->id?>">Unfollow</a>
     <? elseif (!isset($user->id) OR $following->id != $user->id):?>
@@ -35,7 +35,7 @@
   
   
   <? foreach ($profile->following_trips as $following_trip):?>
-  <div class="streamitem">
+  <div class="<?=$prefix?> streamitem">
     <? if (!isset($following_trip->rsvp) OR $following_trip->rsvp == 0):?>
       <a href="#" class="follow" id="trip-<?=$following_trip->id?>">Follow</a>
     <? elseif (isset($following_trip->rsvp) AND $following_trip->rsvp == 3):?>
@@ -66,7 +66,7 @@
   <? endforeach;?>
     
   <? foreach ($profile->following_places as $place):?>
-  <div class="streamitem">
+  <div class="<?=$prefix?> streamitem">
   
     <? if (isset($place->is_following) AND $place->is_following):?>
       <a href="#" class="unfollow" id="place-<?=$place->id?>">Unfollow</a>
