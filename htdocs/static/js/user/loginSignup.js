@@ -6,8 +6,8 @@ loginSignup.getStatus = function() {
     async: false,
     type: 'POST',
     url: baseUrl+'users/ajax_get_logged_in_status',
-    success: function(r) {
-      var r = $.parseJSON(r);
+    success: function(d) {
+      var r = $.parseJSON(d);
       loggedin = r.loggedin;
     }
   });
@@ -15,23 +15,15 @@ loginSignup.getStatus = function() {
 };
 
 
-loginSignup.showDialog = function(callback, id, param) {
-  var postData = {
-    callback: callback,
-    id: id,
-    param: param
-  };
-  
-  $.ajax({
-    type: 'POST',
-    data: postData,
-    url: baseUrl+'users/login_signup',
-    success: function(r) {
-      var r = $.parseJSON(r);
-      var popup = $('<div style="display:none;"/>');
-      $('body').append(popup);
-      popup.append(r.data).bPopup({follow:false, opacity:0});
-    }
+loginSignup.showDialog = function(callback, id, param) {  
+  $.getScript(baseUrl+'static/js/jquery/popup.js', function() {
+    $.post(baseUrl+'users/login_signup', {callback:callback, id:id, param:param},
+      function(d) {
+        var r = $.parseJSON(d);
+        var popup = $('<div style="display:none;"/>');
+        $('body').append(popup);
+        popup.append(r.data).bPopup({follow:false, opacity:0});
+      });
   });
 };
 
@@ -55,7 +47,11 @@ loginSignup.success = function(callback, id, param) {
       window.location.reload();
       break;
     case 'follow user':
-      editFollowing(id, param, 1);
+      editFollowing('user', id, param);
+      window.location.reload();
+      break;
+    case 'follow trip':
+      editFollowing('trip', id, param);
       window.location.reload();
       break;
   }

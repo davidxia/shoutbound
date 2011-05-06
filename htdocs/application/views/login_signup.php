@@ -80,47 +80,6 @@
 
 
 <script type="text/javascript">
-  // if user signs up thru facebook, call ajax_facebook_login to check
-  // if they are existing user, if they are ajax_facebook_login logs them in
-  // and submits the trip creation form; if they aren't existing user
-  // call ajax_create_fb_user to create their account, check for errors,
-  // then submit trip creation form
-	function facebookLogin(callback) {
-    $.get('<?=site_url('login/ajax_facebook_login')?>', function(d) {
-      var r = $.parseJSON(d);
-      if (r.existingUser) {
-        updateFBFriends(callback);
-      } else {
-        showAccountCreationDialog();
-      }
-    });
-	}
-	
-	
-	function updateFBFriends(callback) {
-    $.get('<?=site_url('login/ajax_update_fb_friends')?>', function() {
-      loginSignup.success(callback);
-    });
-	}
-	
-
-  function showAccountCreationDialog(callback) {
-    $('#div-to-popup').empty();
-    var html = 'Creating your Shoutbound account...';
-    $('#div-to-popup').append(html);
-    $('#div-to-popup').bPopup();  
-
-    $.get('<?=site_url('signup/ajax_create_fb_user')?>', function(d) {
-      var r = $.parseJSON(d);
-      if (r.error) {
-        alert(r.message);
-      } else {
-        loginSignup.success(callback);
-      }
-    });
-  }
-
-
   $(function() {
     $.getScript(baseUrl+'static/js/jquery/validate.min.js', function() {
       $('#signup-form').validate({
@@ -153,10 +112,36 @@
         }
       });
     });
+    
 
+    $('#login-submit').click(function() {    
+      $.post('<?=site_url('login/ajax_email_login')?>', {email:$('#email').val(), password:$('#password').val()},
+        function(d) {
+          var r = $.parseJSON(d);
+          if (r.loggedin) {
+            loginSignup.success('<?=$callback?>', '<?=$id?>', '<?=$param?>');
+          } else {
+            $('#login-error').html('Wrong email or password.');
+          }
+        });
+      return false;
+    });
+    
+  
+    $('#signup-submit').click(function() {
+      if ($('#signup-form').valid()) {
+        $.post('<?=site_url('signup/ajax_create_user')?>', {signupName:$('#signup_name').val(), signupEmail:$('#signup_email').val(),signupPw:$('#signup_pw').val()},
+          function() {
+            loginSignup.success('<?=$callback?>', '<?=$id?>', '<?=$param?>');
+          });
+      }
+      return false;
+    });
+  
+  
     $('#fb_login_button').click(function() {
-      FB.login(function(response) {
-        if (response.session) {
+      FB.login(function(r) {
+        if (r.session) {
           facebookLogin('<?=$callback?>', '<?=$id?>', '<?=$param?>');
         } else {
           alert('you failed to log in');
@@ -166,43 +151,37 @@
     });
   });
   
+  
+	function facebookLogin(callback) {
+    $.get('<?=site_url('login/ajax_facebook_login')?>', function(d) {
+      var r = $.parseJSON(d);
+      if (r.existingUser) {
+        updateFBFriends(callback);
+      } else {
+        showAccountCreationDialog();
+      }
+    });
+	}
+	
+	
+	function updateFBFriends(callback) {
+    $.get('<?=site_url('login/ajax_update_fb_friends')?>', function() {
+      loginSignup.success(callback);
+    });
+	}
+	
 
-  $('#signup-submit').click(function() {
-    if ($('#signup-form').valid()) {
-      var postData = {
-        signupName: $('#signup_name').val(),
-        signupEmail: $('#signup_email').val(),
-        signupPw: $('#signup_pw').val()
-      };
-      
-      $.ajax({
-        type: 'POST',
-        data: postData,
-        url: '<?=site_url('signup/ajax_create_user')?>',
-        success: function() {
-          loginSignup.success('<?=$callback?>', '<?=$id?>', '<?=$param?>');
-        }
-      });
-    }
-    return false;
-  });
-  
-  
-  $('#login-submit').click(function() {
-    var postData = {
-      email: $('#email').val(),
-      password: $('#password').val()
-    };
-    
-    $.post('<?=site_url('login/ajax_email_login')?>', {email:$('#email').val(), password:$('#password').val()},
-      function(d) {
-        var r = $.parseJSON(d);
-        if (r.loggedin) {
-          loginSignup.success('<?=$callback?>', '<?=$id?>', '<?=$param?>');
-        } else {
-          $('#login-error').html('Wrong email or password.');
-        }
-      });
-    return false;
-  });
+  function showAccountCreationDialog() {
+    $.get('<?=site_url('signup/ajax_create_fb_user')?>', function(d) {
+      var r = $.parseJSON(d);
+      if (r.success) {
+        $('#signup_name').val(r.name);
+        $('#signup_email').val(r.email);
+        $('#is_fb_signup').val(1);
+        $('#fb_login_button').hide();
+      } else {
+        alert(r.message);
+      }
+    });
+  }
 </script>

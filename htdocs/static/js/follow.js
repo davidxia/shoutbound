@@ -1,9 +1,9 @@
 $(function () {
   $('.follow').live('click', function() {
+    var id = $(this).attr('id').match(/^(\w+)-(\d+)$/);
+    var type = id[1];
+    id = id[2];
     if (loginSignup.getStatus()) {
-      var id = $(this).attr('id').match(/^(\w+)-(\d+)$/);
-      var type = id[1];
-      id = id[2];
       editFollowing(type, id, 1);
     } else {
       loginSignup.showDialog('follow '+type, id, 1);

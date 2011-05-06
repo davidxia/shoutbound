@@ -121,7 +121,6 @@ $this->load->view('core_header', $header_args);
         $('#name').val(r.name);
         $('#email').val(r.email);
         $('#is_fb_signup').val(1);
-        //$('#fb_pic_url').val(r.picUrl.replace('_q.jpg', '_n.jpg'));
         $('#fb_login_button').hide();
       } else {
         alert(r.message);
