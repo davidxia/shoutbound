@@ -1,23 +1,6 @@
 var share = {};
 
-
-$(function() {
-  $('.follow').live('click', function() {
-    var loggedin = loginSignup.getStatus();
-    if (loggedin) {
-      console.log(loggedin);
-    } else {
-      loginSignup.showDialog('rsvp', 3);
-    }
-    //share.saveRsvp(3);
-    return false;
-  });
-  
-  $('.unfollow').live('click', function() {
-    //share.saveRsvp(0);
-    return false;
-  });
-  
+$(function() {  
   $('#rsvp_yes_button').live('click', function() {
     var loggedin = loginSignup.getStatus();
     if (loggedin) {
@@ -113,16 +96,12 @@ share.rsvpSuccess = function(r) {
 */
     
 share.showShareDialog = function(shareRole) {
-  $.ajax({
-    type: 'POST',
-    url: baseUrl+'trip_shares/ajax_trip_share_dialog',
-    data: {tripId:tripId, shareRole:shareRole},
-    success: function(response) {
-      var r = $.parseJSON(response);
+  $.post(baseUrl+'trip_shares/ajax_trip_share_dialog', {tripId:tripId, shareRole:shareRole},
+    function(d) {
+      var r = $.parseJSON(d);
       $('#div-to-popup').empty().append(r.data).bPopup({follow:false, opacity:0});
       share.bindButtons(shareRole);
-    }
-  });
+    });
 };
   
   
@@ -227,14 +206,10 @@ share.confirmShare = function(shareRole) {
       shareRole: shareRole
     };
     
-    $.ajax({
-      type: 'POST',
-      url: baseUrl+'trip_shares/send_email',
-      data: postData,
-      success: function(r) {
-        share.displaySuccessDialog(r);
-      }
-    });
+    $.post(baseUrl+'trip_shares/send_email', postData,
+      function(d) {
+        share.displaySuccessDialog(d);
+      });
   } else {
     var postData = {
       tripId: tripId,
@@ -242,15 +217,11 @@ share.confirmShare = function(shareRole) {
       shareRole: shareRole
     };
   
-    $.ajax({
-      type: 'POST',
-      url: baseUrl+'trip_shares/ajax_share_trip',
-      data: postData,
-      success: function(r) {
-        share.displaySuccessDialog(r);
+    $.post(baseUrl+'trip_shares/ajax_share_trip', postData,
+      function(d) {
+        share.displaySuccessDialog(d);
         share.sendEmail(uids, shareRole);
-      }
-    });
+      });
   }
     
   $('#div-to-popup').bPopup().close();
@@ -269,11 +240,7 @@ share.displaySuccessDialog = function(r) {
 
 
 share.sendEmail = function(uids, shareRole) {
-  $.ajax({
-    type: 'POST',
-    url: baseUrl+'trip_shares/send_email',
-    data: {tripId:tripId, uids:uids, shareRole:shareRole},
-  });
+  $.post(baseUrl+'trip_shares/send_email', {tripId:tripId, uids:uids, shareRole:shareRole});
 };
 
 

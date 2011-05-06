@@ -9,6 +9,8 @@ $header_args = array(
         'js/places/map.js',
         'js/places/tabs.js',
         'js/jquery/timeago.js',
+        'js/follow.js',
+        'js/user/loginSignup.js',
     )
 );
 
@@ -52,13 +54,11 @@ $this->load->view('core_header', $header_args);
         </div>
         
         
-        <div id="follow-button">
-        <? if ( !$user OR !$user->is_following):?>
-          <a href="#" id="follow">Follow</a>
-        <? elseif ($user AND $user->is_following):?>
-          <a href="#" id="unfollow">Unfollow</a>
-        <? endif;?>
-        </div>        
+      <? if (!$user OR !$user->is_following):?>
+        <a href="#" class="follow" id="place-<?=$place->id?>">Follow</a>
+      <? elseif ($user AND $user->is_following):?>
+        <a href="#" class="unfollow" id="<?=$place->id?>">Unfollow</a>
+      <? endif;?>
         
       </div><!-- FOLLOW BUTTON + STATS END-->  
     

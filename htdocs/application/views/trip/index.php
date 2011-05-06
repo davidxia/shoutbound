@@ -11,6 +11,7 @@ $header_args = array(
         'js/trip/map.js',
         'js/trip/wall.js',
         'js/trip/share.js',
+        'js/follow.js',
         'js/jquery/popup.js',
         'js/jquery/jquery.color.js',
         'js/jquery/timeago.js',
@@ -72,7 +73,7 @@ $this->load->view('core_header', $header_args);
                           			        
       </div><!--TOP BAR END-->
       
-      <div id="follow-and-stats-container" style="display:none"><!--FOLLOW BUTTON + STATS-->     
+      <div id="follow-and-stats-container"><!--FOLLOW BUTTON + STATS-->     
       
         <div id="num_trip_goers">          			              		
           <? $num_trip_goers = count($trip->goers); if ($num_trip_goers == 1):?>
@@ -82,17 +83,17 @@ $this->load->view('core_header', $header_args);
           <? endif;?>           
       	</div>
         
-        <? if ( ! $user_role):?>
+        <? if (!$user_role):?>
           <? if ($user_rsvp == 0):?>
-            <a href="#" class="follow">Follow</a>
+            <a href="#" class="follow" id="trip-<?=$trip->id?>">Follow</a>
           <? elseif ($user_rsvp == 3):?>
-            <a href="#" class="unfollow">Unfollow</a><a href="#" id="share">Share</a>
+            <a href="#" class="unfollow" id="trip-<?=$trip->id?>">Unfollow</a><a href="#" id="share">Share</a>
           <? endif;?>
         <? elseif ($user_role == 5):?>
           <? if ($user_rsvp == 0):?>
-            <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" class="follow">Follow</a><a href="#" id="share">Share</a>
+            <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" class="follow" id="trip-<?=$trip->id?>">Follow</a><a href="#" id="share">Share</a>
           <? elseif ($user_rsvp == 3):?>
-            <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" class="unfollow">Unfollow</a><a href="#" id="share">Share</a>
+            <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" class="unfollow" id="trip-<?=$trip->id?>">Unfollow</a><a href="#" id="share">Share</a>
           <? elseif ($user_rsvp == 6):?>
             <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" id="rsvp_no_button">I'm out</a><a href="#" id="share">Share</a>
           <? elseif ($user_rsvp == 9):?>
