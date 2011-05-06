@@ -9,7 +9,7 @@ class Login extends CI_Controller
     }
     
  
-    function index()
+    public function index()
     {
         $u = new User();
         if ($u->get_logged_in_status())
@@ -21,7 +21,7 @@ class Login extends CI_Controller
     }
     
     
-    function email_login()
+    public function email_login()
     {
         $u = new User();
         $u->email = $this->input->post('email');
@@ -38,7 +38,7 @@ class Login extends CI_Controller
     }
 
 
-    function ajax_email_login()
+    public function ajax_email_login()
     {
         $u = new User();
         $u->email = $this->input->post('email');
@@ -55,7 +55,7 @@ class Login extends CI_Controller
     }
 
 
-    function ajax_facebook_login()
+    public function ajax_facebook_login()
     {
         $this->load->library('facebook');
         $u = new User();
@@ -71,9 +71,17 @@ class Login extends CI_Controller
             json_success(array('redirect' => site_url('home'), 'existingUser' => TRUE));
         }
     }
+    
+    
+    public function ajax_change_header()
+    {
+        $user->id = 1;
+        $data = array('user' => $user);
+        $this->load->view('header', $data);
+    }
 
 
-    function ajax_update_fb_friends()
+    public function ajax_update_fb_friends()
     {
         $this->load->library('facebook');
         $fbuser = $this->facebook->api('/me?fields=name,friends');
