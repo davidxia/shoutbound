@@ -197,6 +197,12 @@ class Trip extends DataMapper
         $this->set_join_field($p, 'is_active', 0);
         return TRUE;
     }
+    
+    
+    public function get_related_trips()
+    {
+        $this->stored->related_trips = array();
+    }
 
 }
 

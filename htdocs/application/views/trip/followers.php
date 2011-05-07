@@ -1,7 +1,7 @@
 <div id="followers-tab" class="main-tab-content">
 
-  <? $first=TRUE; foreach ($trip->followers as $follower):?>
-  	<div id="user-<?=$follower->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
+  <? $prefix='first-item'; foreach ($trip->followers as $follower):?>
+  	<div id="user-<?=$follower->id?>" class="<?=$prefix?> streamitem"><? $prefix=''?>
 
       <? if (isset($follower->is_following) AND $follower->is_following):?>
         <a href="#" class="unfollow">Unfollow</a>

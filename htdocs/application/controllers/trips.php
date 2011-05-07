@@ -192,7 +192,7 @@ class Trips extends CI_Controller
     }
     
     
-    public function followers($trip_id = FALSE)
+    public function followers($trip_id = NULL)
     {
         if ( ! $trip_id)
         {
@@ -213,6 +213,27 @@ class Trips extends CI_Controller
         );
         
         $this->load->view('trip/followers', $data);
+    }
+    
+    
+    public function related_trips($trip_id = NULL)
+    {
+        if ( ! $trip_id)
+        {
+            redirect('/');
+        }
+        $t = new Trip($trip_id);
+        if ( ! $t->active)
+        {
+            custom_404();
+            return;
+        }
+
+        $t->get_related_trips();        
+        $data = array(
+            'trip' => $t->stored,
+        );
+        $this->load->view('trip/related_trips', $data);
     }
     
     

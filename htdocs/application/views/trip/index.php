@@ -141,7 +141,7 @@ $this->load->view('core_header', $header_args);
         <ul id="main-tabs">
           <li><a href="#posts">Posts</a></li>
           <li><a href="#followers">Followers</a></li>
-          <li><a href="#related-trips">Related Trips</a></li>
+          <li><a href="#related_trips">Related Trips</a></li>
         </ul>
         
         <div style="clear:both"></div>
