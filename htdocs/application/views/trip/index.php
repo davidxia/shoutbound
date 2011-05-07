@@ -156,9 +156,9 @@ $this->load->view('core_header', $header_args);
             
             <? $prefix1='first-item'; foreach ($wallitems as $post):?>
               <!--POSTITEM START-->
-              <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem deleteable">
+              <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem <? if($user_role == 10):?>deleteable<? endif;?>">
                 <? $prefix1=''?>
-                <div class="delete"></div>
+                <? if($user_role == 10):?><div class="delete"></div><? endif;?>
                 <div class="streamitem-avatar-container">
                   <a href="<?=site_url('profile/'.$post->user_id)?>">
                     <img src="<?=static_sub('profile_pics/'.$post->user->profile_pic)?>" height="25" width="25"/>

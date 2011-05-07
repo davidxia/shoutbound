@@ -47,12 +47,12 @@ Encoder = {
 
 var wall = {};
 var cache = {};
-
 wall.scrollElem;
 
 
 $(function() {
   $('abbr.timeago').timeago();
+
 
   $('.deleteable').live('mouseover mouseout', function(event) {
     if (event.type == 'mouseover') {
@@ -63,10 +63,22 @@ $(function() {
       $(this).siblings('.delete').css('opacity', 1);
     }
   });
-});
 
 
-$(function() {
+  $('.delete').live('click', function() {
+    if (window.confirm('are you sure you want to delete this post?')) {
+      var postId = $(this).parent().attr('id').match(/(\d+)$/)[1];
+      $.post(baseUrl+'trips/ajax_delete_post', {postId:postId, tripId:tripId},
+        function(d) {
+          var r = $.parseJSON(d);
+          if (r.success) {
+            wall.removePost(r.id);
+          }
+        });
+    }
+  });
+
+
   $('#wallitem-post-button').click(function() {
     if (wall.getContentEditableText('wallitem-input').trim().length > 0) {
       var loggedin = loginSignup.getStatus();
@@ -76,6 +88,22 @@ $(function() {
         loginSignup.showDialog('wall post');
       }
     }
+    return false;
+  });
+  
+  
+  $('.reply-button').click(function() {
+    var parentId = $(this).parent().parent().attr('id');
+    var regex = /^wallitem-(\d+)$/;
+    var match = regex.exec(parentId);
+    parentId = match[1];
+    
+    wall.removeReplyBox(parentId);
+    var replyBox = $('<div class="reply-box" style="margin-left:48px;"><textarea style="height:14px; display:block; overflow:hidden; resize:none; line-height:13px; width:450px;"></textarea></div>');
+    $(this).parent().parent().append(replyBox);
+    var replyInput = replyBox.children('textarea');
+    replyInput.focus();
+    wall.loadReplyEnter(replyInput);
     return false;
   });
 });
@@ -111,46 +139,11 @@ wall.postWallitem = function() {
 };
 
 
-$(function() {
-  $('.delete').live('click', function() {
-    if (window.confirm('are you sure you want to delete this post?')) {
-      var postId = $(this).parent().attr('id').match(/(\d+)$/)[1];
-      
-      $.post(baseUrl+'posts/ajax_remove_from_trip', {postId:postId, tripId:tripId},
-        function(d) {
-          var r = $.parseJSON(d);
-          if (r.success) {
-            wall.removePost(r.id);
-          }
-        });
-    }
-  });
-});
-
-
 wall.removePost = function(id) {
   $('#post-'+id).fadeOut(300, function() {
     $(this).remove();
   });
 };
-
-
-$(function() {
-  $('.reply-button').click(function() {
-    var parentId = $(this).parent().parent().attr('id');
-    var regex = /^wallitem-(\d+)$/;
-    var match = regex.exec(parentId);
-    parentId = match[1];
-    
-    wall.removeReplyBox(parentId);
-    var replyBox = $('<div class="reply-box" style="margin-left:48px;"><textarea style="height:14px; display:block; overflow:hidden; resize:none; line-height:13px; width:450px;"></textarea></div>');
-    $(this).parent().parent().append(replyBox);
-    var replyInput = replyBox.children('textarea');
-    replyInput.focus();
-    wall.loadReplyEnter(replyInput);
-    return false;
-  });
-});
 
 
 // hitting enter posts the reply

@@ -164,12 +164,40 @@ class Trip extends DataMapper
     }
     
     
-    public function get_rsvp_by_user_id($user_id)
+    public function get_rsvp_by_user_id($user_id = NULL)
     {
+        if ( ! $user_id)
+        {
+            return FALSE;
+        }
         $this->user->where('id', $user_id)->include_join_fields()->get();
         $this->stored->rsvp = $this->user->join_rsvp;
-        $this->stored->rsvp = $this->user->join_rsvp;
     }
+    
+    
+    public function get_role_by_user_id($user_id)
+    {
+        if ( ! $user_id)
+        {
+            return FALSE;
+        }
+        $this->user->where('id', $user_id)->include_join_fields()->get();
+        $this->stored->role = $this->user->join_role;
+    }
+
+
+    public function delete_post($post_id = NULL)
+    {
+        if ( ! $post_id)
+        {
+            return FALSE;
+        }
+        
+        $p = new Wallitem($post_id);
+        $this->set_join_field($p, 'is_active', 0);
+        return TRUE;
+    }
+
 }
 
 /* End of file trip.php */

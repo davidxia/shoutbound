@@ -111,26 +111,12 @@ class Wallitem extends DataMapper
     public function get_trips()
     {
         $this->stored->trips = array();
-        foreach ($this->trips->where('active', 1)->get() as $trip)
+        foreach ($this->trips->where('active', 1)->where_join_field('wallitem', 'is_active', 1)->get_iterated() as $trip)
         {
             $trip->get_places();
             $this->stored->trips[] = $trip->stored;
         }
-    }
-    
-    
-    public function remove_from_trip($trip_id=NULL)
-    {
-        if ( ! $trip_id)
-        {
-            return FALSE;
-        }
-        
-        $t = new Trip($trip_id);
-        $this->set_join_field($t, 'is_active', 0);
-        return TRUE;
-    }
-    
+    }    
     
 }
 

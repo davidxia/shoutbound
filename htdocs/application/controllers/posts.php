@@ -20,31 +20,6 @@ class Posts extends CI_Controller
             redirect('/');
         }
 		}
-		
-		
-		public function index()
-		{
-		    echo 'a';
-		}
-
-
-		public function ajax_remove_from_trip()
-		{
-		    $p = new Wallitem($this->input->post('postId'));
-		    
-		    $r = $p->remove_from_trip($this->input->post('tripId'));
-		    
-		    if ($r)
-		    {
-            json_success(array(
-                'id' => $p->id,
-            ));
-		    }
-		    else
-		    {
-		        json_error('something broke, tell David');
-		    }
-		}
     
 
 }

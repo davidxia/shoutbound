@@ -368,6 +368,29 @@ class Trips extends CI_Controller
     }
         
 
+		public function ajax_delete_post()
+		{
+		    $post_id = $this->input->post('postId');
+		    $t = new Trip($this->input->post('tripId'));
+		    if (isset($this->user->id))
+		    {
+		        $t->get_role_by_user_id($this->user->id);
+		    }
+		    if ($t->stored->role == 10)
+		    {
+		        $r = $t->delete_post($post_id);
+    		    if ($r)
+    		    {
+                json_success(array('id' => $post_id));
+    		    }
+    		    else
+    		    {
+    		        json_error('something broke, tell David');
+    		    }
+		    }
+		}
+
+
     private function verify_share_cookie($trip_id)
     {
         $received_invites = json_decode(get_cookie('received_invites'));
