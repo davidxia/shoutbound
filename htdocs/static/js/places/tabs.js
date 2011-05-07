@@ -54,6 +54,20 @@ $(function() {
       clearTimeout(delay);
     }
   });
+
+
+  var rightTabs = $('#right-tabs');
+  rightTabs.children('li:first').addClass('active');
+  rightTabs.children('li').click(function() {
+    var tabName = $(this).children('a').attr('href');
+    $(this).parent().children().removeClass('active');
+    $(this).addClass('active');
+    $('.right-tab-content').hide();
+    $(tabName+'-tab').show().css('visibility', 'visible');
+    return false;
+  });
+  
+  dbpediaQuery($('#place-name').text(), $('#admin1').text());
 });
 
 
@@ -103,25 +117,11 @@ loadTabs = function(defaultTab) {
 };
 
 
-$(function() {
-  var rightTabs = $('#right-tabs');
-  rightTabs.children('li:first').addClass('active');
-  rightTabs.children('li').click(function() {
-    var tabName = $(this).children('a').attr('href');
-    $(this).parent().children().removeClass('active');
-    $(this).addClass('active');
-    $('.right-tab-content').hide();
-    $(tabName+'-tab').show().css('visibility', 'visible');
-    return false;
-  });
-  
-  dbpediaQuery($('#place-name').text(), $('#admin1').text());
-});
-
-
 function dbpediaQuery(placeName, admin1) {
-  var query = placeName;
-  var altQuery = placeName+' '+admin1;
+  var query = placeName+' '+admin1;
+  var altQuery = placeName;
+  console.log(query);
+  console.log(altQuery);
   $.post(baseUrl+'places/ajax_dbpedia_query', {query:query, altQuery:altQuery},
     function(d) {
       var r = $.parseJSON(d);

@@ -49,18 +49,15 @@ function dbpediaQuery() {
       altQuery: 'admin1'
     };
     
-    $.ajax({
-      type: 'POST',
-      url: '<?=site_url('places/ajax_dbpedia_query')?>',
-      data: postData,
-      success: function(r) {
-        var r = $.parseJSON(r);
+    $.post('<?=site_url('places/ajax_dbpedia_query')?>', postData,
+      function(d) {
+        var r = $.parseJSON(d);
         //console.log(r);
         if (r) {
           $('#name').html(r.label.value);
           var abstract = r.abstract.value;
           // add ellipses if abstract doesn't end with period
-          if ( ! abstract.match(/\.$/)) {
+          if (!abstract.match(/\.$/)) {
             abstract += '...';
           }
           $('#abstract').html(abstract);
@@ -73,8 +70,7 @@ function dbpediaQuery() {
         } else {
           $('#name').html('sorry, we couldn\'t find any info on that');
         }
-      }
-    });
+      });
   }
   return false;
 }
