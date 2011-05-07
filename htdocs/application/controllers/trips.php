@@ -145,6 +145,9 @@ class Trips extends CI_Controller
             // get user's relation to this trip
             $user_role = $this->user->get_role_by_tripid($trip_id);
             $user_rsvp = $this->user->get_rsvp_by_tripid($trip_id);
+            $this->user->get_rsvp_yes_trips();
+            $this->user->get_rsvp_awaiting_trips();
+            $this->user->get_following_trips();
             
             // if no relation, check if user has invite cookie with correct access key
             // redirect to home page if neither
@@ -186,7 +189,6 @@ class Trips extends CI_Controller
         );
         
         $this->load->view('trip/index', $data);
-        //print_r($t->get_posts());
     }
     
     

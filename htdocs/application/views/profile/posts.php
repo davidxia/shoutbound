@@ -5,8 +5,8 @@
   </div>
   <? endif;?>
     
-  <? $first=TRUE; foreach ($profile->posts as $post):?>
-  <div id="postitem-<?=$post->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
+  <? $prefix1='first-item'; foreach ($profile->posts as $post):?>
+  <div id="postitem-<?=$post->id?>" class="<?=$prefix1?> streamitem"><? $prefix1=''?>
     <div class="streamitem-avatar-container">
       <a href="<?=site_url('profile/'.$profile->id)?>">
         <img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" height="25" width="25"/>

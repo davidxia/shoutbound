@@ -205,7 +205,13 @@ class Profile extends CI_Controller
             }
             $profile = $u->stored;
         }
-
+        
+        if (isset($this->user->id))
+        {
+            $this->user->get_rsvp_yes_trips();
+            $this->user->get_rsvp_awaiting_trips();
+            $this->user->get_following_trips();
+        }
         $u->get_posts();
         $data = array(
             'user' => $user,

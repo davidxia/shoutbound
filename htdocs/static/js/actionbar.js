@@ -14,7 +14,7 @@ $('.hide-comments').live('click', function() {
 $('.add-comment-button').live('click', function() {
   var content = $.trim($(this).siblings('textarea').val());
   if (content != '') {
-    var parentId = $(this).parent().parent().parent().parent().attr('id').match(/^postitem-(\d+)$/)[1];
+    var parentId = $(this).parent().parent().parent().parent().attr('id').match(/(\d+)$/)[1];
     $.post(baseUrl+'wallitems/ajax_save', {content:content, parentId:parentId},
       function (d) {
         var r = $.parseJSON(d);
@@ -45,10 +45,11 @@ $('.add-to-trip').live('click', function() {
   return false;
 });
 $('.post-to-trip').live('click', function () {
+  console.log('hi');
   var tripIds = $(this).siblings('select').multiselect('getChecked').map(function(){
     return this.value;
   }).get();
-  var postId = $(this).parent().parent().parent().attr('id').match(/^postitem-(\d+)$/)[1];
+  var postId = $(this).parent().parent().parent().attr('id').match(/(\d+)$/)[1];
   $.post(baseUrl+'home/ajax_post_item', {postId:postId, tripIds:tripIds},
     function (d) {
       var r = $.parseJSON(d);

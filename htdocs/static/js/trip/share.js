@@ -31,69 +31,6 @@ share.saveRsvp = function(rsvp) {
     });
 };
 
-/*
-share.rsvpSuccess = function(r) {
-  if (r.rsvp == 3) {
-    // unbind click event
-    $('#rsvp_yes_button').unbind();
-    // change rsvp status
-    // fade in avatar
-    var html = '<div class="trip_goer" style="display:none;" uid="'+r.userId+'"><a href="'+baseUrl+'profile/'+r.userId+'"><img src="'+staticSub+'profile_pics/'+r.profilePic+'" height="30" width="30"></a></div>';
-    $(html).insertAfter('#num_trip_goers').fadeIn('slow');
-    // increase number by one
-    $('#num').html(function() {
-      if (parseInt($(this).html()) == 1) {
-        $('#num_trip_goers').html('<span id="num">2</span> people are going.');
-      } else if (parseInt($(this).html()) == 0) {
-        $('#num_trip_goers').html('<span id="num">1</span> person is going.');
-      } else {
-        return parseInt($(this).html())+1;
-      }
-    })
-    // fade out then remove yes button, replace with no button, and bind with click
-    $('#rsvp_yes_button').fadeOut(300, function() {
-      $(this).remove();
-      $('div.console').empty().html('Get advice, ideas and recommendations for this trip by <a href="#" id="share">Sharing</a> it with other people. You can also <a href="#" id="invite-others-button">Invite</a>  other people to join you this trip. ');
-      $('#rsvp_buttons').empty();//.append('<a href="#" id="rsvp_no_button">I\'m out</a>');
-      //$('#rsvp_no_button').click(function() {
-        //share.rsvpNo();
-        //return false;
-      //});
-    });
-    $('#countdown-container').remove();
-  } else {
-    // unbind click event
-    $('#rsvp_no_button').unbind();
-    // change rsvp status
-    // remove invite and ask for suggestions button
-    $('#invsugg_btn_cont').remove();
-    // fade out avatar then remove
-    $('div[uid="'+r.userId+'"]').fadeOut('slow', function(){
-      $(this).remove();
-    });
-    // decrease number by one
-    $('#num').html(function(){
-      if (parseInt($(this).html()) == 2) {
-        $('#num_trip_goers').html('<span id="num">1</span> people are going.');
-      } else if (parseInt($(this).html()) == 1) {
-        $('#num_trip_goers').html('<span id="num">0</span> person is going.');
-      } else {
-        return parseInt($(this).html())-1;
-      }
-    })
-    // fade out no button, remove, and replace with yes button, bind with click
-    $('#rsvp_no_button').fadeOut(300, function(){
-      $(this).remove();
-      //$('#rsvp_buttons').removeClass('moved');
-      $('#rsvp_buttons').empty().append('<a href="#" id="rsvp_yes_button">I\'m in</a>');
-      $('#rsvp_yes_button').click(function() {
-        share.rsvpYes();
-        return false;
-      });
-    });
-  }
-};
-*/
     
 share.showShareDialog = function(shareRole) {
   $.post(baseUrl+'trip_shares/ajax_trip_share_dialog', {tripId:tripId, shareRole:shareRole},

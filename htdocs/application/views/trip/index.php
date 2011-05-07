@@ -2,10 +2,8 @@
 $header_args = array(
     'title' => $trip->name.' | Shoutbound',
     'css_paths'=>array(
-        //'css/jquery.countdown.css',
         'css/trip-page.css',
         'css/excite-bike/jquery-ui-1.8.11.custom.css',
-
     ),
     'js_paths'=>array(
         'js/jquery/jquery.ba-bbq.min.js',
@@ -16,7 +14,7 @@ $header_args = array(
         'js/follow.js',
         'js/jquery/jquery.color.js',
         'js/jquery/timeago.js',
-        //'js/jquery/jquery.countdown.min.js',    
+        'js/actionbar.js',
         'js/jquery/jquery-ui-1.8.11.custom.min.js',
         'js/jquery/multiselect.min.js',
     )
@@ -28,7 +26,7 @@ $this->load->view('core_header', $header_args);
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
-  var staticSub = '<?=static_sub()?>';
+  var staticUrl = '<?=static_sub()?>';
   var tripId = <?=$trip->id?>;
   
   map.lat = <?=$trip->places[0]->lat?>;
@@ -178,7 +176,7 @@ $this->load->view('core_header', $header_args);
                   <!--ACTIONBAR START-->                 
                   <div class="actionbar">
                     <div id="repost-postitem" class="bar-item">
-                      <a href="#">Add to trip</a>                      
+                      <a class="add-to-trip" href="#">Add to trip</a>                      
                     </div>
                     <span class="bullet">&#149</span>
                     <div class="bar-item">
@@ -194,59 +192,62 @@ $this->load->view('core_header', $header_args);
                     </div>                        
                   </div><!--ACTIONBAR END-->
                     
-                  <!--COMMENTS CONTAINER START-->
+                  <!-- ADD TO TRIP -->
+                  <div class="add-to-trip-cont" style="display:none;">
+                    <select multiple="multiple" size=5>
+                      <? foreach ($user->rsvp_yes_trips as $trip):?>
+                      <option value="<?=$trip->id?>"><?=$trip->name?>
+                      <? endforeach;?>
+                      <? foreach ($user->rsvp_awaiting_trips as $trip):?>
+                      <option value="<?=$trip->id?>"><?=$trip->name?>
+                      <? endforeach;?>
+                      <? foreach ($user->following_trips as $trip):?>
+                      <option value="<?=$trip->id?>"><?=$trip->name?>
+                      <? endforeach;?>
+                    </select>
+                    <a class="post-to-trip" href="#">Post</a>
+                  </div>
+                  <!-- ADD TO TRIP END -->
+            
+                  <!--COMMENTS START-->
                   <div class="comments-container" style="display:none;">
-                  
-                    <? foreach ($post->replies as $comment):?>                  
-                    <div class="comment"><!--COMMENT START-->
+                    <? foreach ($post->replies as $comment):?>
+                    <div class="comment">
                       <div class="streamitem-avatar-container">
                         <a href="<?=site_url('profile/'.$comment->user_id)?>">
-                          <img src="<?=static_sub('profile_pics/'.$comment->user->profile_pic)?>" height="25" width="25"/>
+                          <img src="<?=static_sub('profile_pics/'.$comment->user->profile_pic)?>" height="28" width="28"/>
                         </a>
-                      </div>
-                      
-                      <!--COMMENT CONTENT START-->                      
-                      <div class="comment-content-container">
+                      </div>                      
+                      <div class="streamitem-content-container">
                         <div class="streamitem-name">
                           <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->user->name?></a>
                         </div> 
-                        <div class="comment-content">
-                          <?=$comment->content?>
-                        </div>
-                        <div class="comment-timestamp">
-                          <abbr class="timeago subtext" title="<?=$comment->created?>"><?=$comment->created?></abbr>
-                        </div>                      
-                      </div><!--COMMENT CONTENT END-->
-                                          
-                    </div><!--COMMENT END-->                     
+                        <div class="comment-content"><?=$comment->content?></div>
+                        <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$comment->created?>"><?=$comment->created?></abbr></div>                      
+                      </div>
+                    </div>
                     <? endforeach;?>
-                                       
                     <div class="comment-input-container">
                       <textarea class="comment-input-area"/></textarea>
                       <a class="add-comment-button" href="#">Add comment</a>
-                    </div> 
-                     
-                  </div><!--COMMENT CONTAINER END-->
-
+                    </div>  
+                  </div><!--END COMMENT CONTAINER-->
+              
                   <!--TRIP LISTING CONTAINER START-->
                   <div class="trip-listing-container" style="display:none;">
-                  
                   <? foreach ($post->trips as $trip):?>
-                    <div class="streamitem"><!--TRIP-LISTING-START-->
-                    
-                      <div class="streamitem-name">
-                        <a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a>
-                      </div>
-                      <div class="destinationbar">
-                        <? $prefix=''; foreach ($trip->places as $place):?>
-                          <span class="place bar-item"><a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a></span>
-                          <?=$prefix?>
-                          <? $prefix = '<span class="bullet">&#149</span>'?>
-                        <? endforeach;?>
+                    <div class="trip-listing">
+                      <div class="trip-listing-name"><a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a></div>
+                      <div class="trip-listing-destination-container">
+                      <? $prefix=''; foreach ($trip->places as $place):?>
+                        <?=$prefix?>
+                        <span class="trip-listing-destination"><a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a></span>
+                        <span class="subtext"><? if($place->startdate){echo date('F j, Y',$place->startdate);} if($place->startdate AND $place->enddate){echo ' - ';} if ($place->enddate){echo date('F j, Y', $place->enddate);}?></span>
+                        <? $prefix = '<span class="bullet">&#149</span>'?>
+                      <? endforeach;?>
                       </div>
                     </div>
                   <? endforeach;?>
-                  
                   </div><!--TRIP LISTING CONTAINER END-->
                   
                 </div><!--POSTITEM CONTENT CONTAINER END-->
@@ -336,16 +337,15 @@ $this->load->view('core_header', $header_args);
   
 
   $(function() {
+    $('select').multiselect();
+
     $('#delete-trip').click(function() {
       if (confirm ('Are you sure you want to delete this awesome trip?')) {
         window.location = "<?=site_url('trips/delete').'/'.$trip->id?>";
       }
       return false;
     });
-  });
-  
-  
-  $(function() {
+
     var delay;
     $('.tooltip').live('mouseover mouseout', function(e) {
       if (e.type == 'mouseover') {
