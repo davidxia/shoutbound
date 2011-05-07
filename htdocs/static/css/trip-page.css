@@ -20,37 +20,41 @@ textarea#wallitem-input{
 	resize:none;
 }
 
-#top-bar{
+#tagbar{
+  margin-bottom:6px;
+}
 
+#top-bar, #top-bar-right{
+  min-height:150px;
+}
+
+#top-bar-right{
+  float:right;
+  width:340px;
 }
 
 #trip-description{
   margin-top:-3px;
-
 }
 
 #trip-info{
 
 }
 
+#itinerary{
+}
+
 .destinationbar{
-  padding-bottom:3px;
 }
 
 .destination-dates{
-  display:inline-block;
-  margin-right:1px;
-  margin-bottom:2px;
 }
 
 .destinationbar-item{
 }
 
 /*#trip_goers{
-  margin:3px 0px 3px 0px;
-  padding: 1px 0px;
-  border-top:1px solid #FAFAFA;
-  border-bottom:1px solid #FAFAFA;
+
 }*/
 
 .item-header{
@@ -122,9 +126,8 @@ textarea#wallitem-input{
 /*Buttons*/
 
 .follow, .unfollow{
-  float:right;
   width:100px;
-  margin-left:20px;
+  float:right;
 }
 
 #wallitem-post-button{

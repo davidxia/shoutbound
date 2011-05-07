@@ -4,6 +4,8 @@ $header_args = array(
     'css_paths'=>array(
         //'css/jquery.countdown.css',
         'css/trip-page.css',
+        'css/excite-bike/jquery-ui-1.8.11.custom.css',
+
     ),
     'js_paths'=>array(
         'js/jquery/jquery.ba-bbq.min.js',
@@ -15,6 +17,8 @@ $header_args = array(
         'js/jquery/jquery.color.js',
         'js/jquery/timeago.js',
         //'js/jquery/jquery.countdown.min.js',    
+        'js/jquery/jquery-ui-1.8.11.custom.min.js',
+        'js/jquery/multiselect.min.js',
     )
 );
 $this->load->view('core_header', $header_args);
@@ -44,67 +48,33 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
 
-      <div id="top-bar"><!--TOP BAR-->
+    <!-- RIGHT COLUMN -->
+    <div id="col-right">      
+
+      <div id="itinerary"><!--ITINERARY-->  
+        <? $prefix=''; foreach ($trip->places as $destination):?>
+          <?=$prefix;?>
+            <span class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></span>  
+            <? if ($destination->startdate AND $destination->enddate):?>
+              <span class="subtext"><?=date('F j, Y', $destination->startdate)?> - <?=date('F j, Y', $destination->enddate)?></span><br>
+            <? elseif ($destination->startdate AND ! $destination->enddate):?>
+              <span class="subtext"><?=date('F j, Y', $destination->startdate)?></span><br>
+            <? elseif ( ! $destination->startdate AND $destination->enddate):?>
+              <span class="subtext"> - <?=date('F j, Y', $destination->enddate)?></span><br>
+            <? endif;?>
+          <? $prefix = '<span class="bullet" style="margin-left:3px; display:none">&#149</span>'?>   
+        <? endforeach;?>
+      </div><!--ITINERARY END-->
         
-        <div id="trip-info">     
-
-          <div class="destinationbar">
-          
-            <? $prefix=''; foreach ($trip->places as $destination):?>
-              <div class="destination-dates">
-                <?=$prefix;?>
-  	            <a class="destination tag" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></a>
-  		            <? if ($destination->startdate AND $destination->enddate):?>
-  		              <span class="subtext"><?=date('F j, Y', $destination->startdate)?> - <?=date('F j, Y', $destination->enddate)?></span>
-  		            <? elseif ($destination->startdate AND ! $destination->enddate):?>
-  		              <span class="subtext"><?=date('F j, Y', $destination->startdate)?></span>
-  		            <? elseif ( ! $destination->startdate AND $destination->enddate):?>
-  		              <span class="subtext"> - <?=date('F j, Y', $destination->enddate)?></span>
-  		            <? endif;?>
-  		        </div>
-  		        <? $prefix = '<span class="bullet" style="margin-left:3px; display:none">&#149</span>'?>
-            <? endforeach;?>
-          </div>  
-
-          <div class="top-bar-header"><?=$trip->name?></div>   
-
-          <div id="trip-description"><?=$trip->description?></div>
-
-          <div id="trip_goers"><!--TRIP GOERS-->  
-
-<!--
-            <span id="num_trip_goers">          			              		
-              <? $num_trip_goers = count($trip->goers); if ($num_trip_goers == 1):?>
-              <span id="num"><?=$num_trip_goers?></span> person is going.
-              <? else:?>              		
-              <span id="num"><?=$num_trip_goers?></span> people are going.
-              <? endif;?>           
-          	</span>
--->
-    			  
-    			  <div id="trip-goers-avatars">      	        		          			                     
-              <? foreach ($trip->goers as $trip_goer):?>
-              	<div class="streamitem-avatar-container bar-item" uid="<?=$trip_goer->id?>">
-                  <a href="<?=site_url('profile/'.$trip_goer->id)?>">
-                    <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="25" width="25"/>
-                  </a>
-                </div>
-              <? endforeach;?>
-            </div>
-	          
-	          <div style="clear:both;"></div>
-	          
-	          <!--<div>This trip was created by <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a></div>-->	       
-					</div><!--TRIP GOERS END-->
-
-
-          
-         </div><!--TRIP INFO END--> 
-                          			        
-      </div><!--TOP BAR END-->
-      
-      <div id="follow-and-stats-container"><!--FOLLOW BUTTON + STATS-->     
-              
+      <!--<span id="num_trip_goers">          			              		
+        <? $num_trip_goers = count($trip->goers); if ($num_trip_goers == 1):?>
+        <span id="num"><?=$num_trip_goers?></span> person is going.
+        <? else:?>              		
+        <span id="num"><?=$num_trip_goers?></span> people are going.
+        <? endif;?>           
+    	</span>-->
+      			           
+      <div id="trip-actions-container"><!--TRIP ACTIONS CONTAINER-->                  
         <? if (!$user_role):?>
           <? if ($user_rsvp == 0):?>
             <a href="#" class="follow" id="trip-<?=$trip->id?>">Follow</a>
@@ -124,16 +94,45 @@ $this->load->view('core_header', $header_args);
         <? elseif ($user_role == 10):?>
           <a href="#" id="invite-others-button">Invite others</a><a href="#" id="share">Share</a>
           <a id="delete-trip" href="#">Delete</a>
-        <? endif;?>
-        
-        <div id="trip-widget"><!--WIDGET START-->
-          
-	          
-	         </div>
+        <? endif;?>        
+      </div><!-- TRIP ACTIONS CONTAINER END-->	
+                              
+      <!-- MAP -->
+      <div id="map-shell">
+        <div id="map-canvas"></div>
+      </div><!--MAP ENDS-->
+      
+    </div><!-- RIGHT COLUMN ENDS -->
 
-    	   </div><!-- FOLLOW BUTTON + STATS END-->	
-                  
-    <div style="clear:both"></div>  
+
+      <div id="top-bar"><!--TOP BAR-->       
+        <div id="trip-info">     
+          <div id="tagbar">          
+            <? $prefix=''; foreach ($trip->places as $destination):?>
+              <?=$prefix;?>
+	            <a class="destination tag" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></a>
+            <? endforeach;?>
+              <a href="#" class="activity tag">Hiking</a>
+              <a href="#" class="activity tag">Exploring</a>
+              <a href="#" class="activity tag">Local culture</a>
+              <a href="#" class="activity tag">Adventure</a>
+          </div>          
+          <div class="top-bar-header"><?=$trip->name?></div>   
+          <div id="trip-description"><?=$trip->description?></div>          
+         </div><!--TRIP INFO END-->                           			        
+
+    		  <div id="trip-goers"><!--TRIP GOERS-->      	        		          			                     
+            <? foreach ($trip->goers as $trip_goer):?>
+            	<div class="streamitem-avatar-container bar-item" uid="<?=$trip_goer->id?>">
+                <a href="<?=site_url('profile/'.$trip_goer->id)?>">
+                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="48" width="48"/>
+                </a>
+              </div>
+            <? endforeach;?>       
+            <!--<div>This trip was created by <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a></div>-->       
+          </div><!--TRIP GOERS END-->        	       
+
+      </div><!--TOP BAR END-->
 
     <!-- LEFT COLUMN -->
     <div id="col-left">    
@@ -286,11 +285,8 @@ $this->load->view('core_header', $header_args);
       <div id="wallitem-input-container"><!--WALLITEM INPUT CONTAINER-->
        <div class="input-container">
 
-          <!-- <div class="streamitem-avatar-container"><img src="http://cdn.slashgear.com/wp-content/uploads/2009/01/steve-jobs-3g-iphone1.jpg" height="25" width="25"/></div> -->
-
           <form id="item-post-form">
             <fieldset>
-<!--               <span class="input-header">Steve Jobs</span> -->
               <span class="input-header">New post</span>
               <div contenteditable="true" id="wallitem-input" class="postitem-input-form"></div>
               <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
@@ -326,17 +322,7 @@ $this->load->view('core_header', $header_args);
       </div>
 
     </div><!--LEFT COLUMN END-->
-    
-    <!-- RIGHT COLUMN -->
-    <div id="col-right">      
-      
-      <!-- MAP -->
-      <div id="map-shell">
-        <div id="map-canvas"></div>
-      </div><!--MAP ENDS-->
-      
-    </div><!-- RIGHT COLUMN ENDS -->
-            
+                
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
   			  
