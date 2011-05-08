@@ -136,7 +136,9 @@ class Trips extends CI_Controller
         }
         
         $t->get_creator();
+        $t->get_num_goers();
         $t->get_goers();
+        $t->get_num_followers();
         $t->get_places();
         
         if (isset($this->user->id))

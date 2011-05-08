@@ -36,6 +36,12 @@ class Trip extends DataMapper
     }
     
     
+    public function get_num_goers()
+    {
+        $this->stored->num_goers = $this->user->where_in_join_field('trip', 'rsvp', 9)->count();
+    }
+
+
     public function get_goers()
     {
         $this->stored->goers = array();
@@ -45,6 +51,12 @@ class Trip extends DataMapper
         }
     }
     
+    
+    public function get_num_followers()
+    {
+        $this->stored->num_followers = $this->user->where_in_join_field('trip', 'rsvp', 3)->count();
+    }
+        
     
     public function get_followers($user_id = FALSE)
     {

@@ -49,20 +49,59 @@ $this->load->view('core_header', $header_args);
     <!-- RIGHT COLUMN -->
     <div id="col-right">      
 
-      <div id="itinerary"><!--ITINERARY-->  
-        <? $prefix=''; foreach ($trip->places as $destination):?>
-          <?=$prefix;?>
-            <span class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></span>  
-            <? if ($destination->startdate AND $destination->enddate):?>
-              <span class="subtext"><?=date('F j, Y', $destination->startdate)?> - <?=date('F j, Y', $destination->enddate)?></span><br>
-            <? elseif ($destination->startdate AND ! $destination->enddate):?>
-              <span class="subtext"><?=date('F j, Y', $destination->startdate)?></span><br>
-            <? elseif ( ! $destination->startdate AND $destination->enddate):?>
-              <span class="subtext"> - <?=date('F j, Y', $destination->enddate)?></span><br>
+      <div class="right-widget-container">
+        <div id="actions-container"><!--ACTIONS CONTAINER-->                    
+          <? if ($user_role == 5):?>
+            <? if ($user_rsvp == 0):?>
+              <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" class="follow left" id="trip-<?=$trip->id?>">Follow</a><a href="#" id="share">Share</a>
+            <? elseif ($user_rsvp == 3):?>
+              <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" class="unfollow left" id="trip-<?=$trip->id?>">Unfollow</a><a href="#" id="share">Share</a>
+            <? elseif ($user_rsvp == 6):?>
+              <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" id="rsvp_no_button">I'm out</a><a href="#" id="share">Share</a>
+            <? elseif ($user_rsvp == 9):?>
+              <a href="#" id="rsvp_no_button">I'm out</a><a href="#" id="share">Share</a>
             <? endif;?>
-          <? $prefix = '<span class="bullet" style="margin-left:3px; display:none">&#149</span>'?>   
-        <? endforeach;?>
-      </div><!--ITINERARY END-->
+          <? elseif ($user_role == 10):?>
+            <a href="#" id="invite-others-button">Invite others</a><a href="#" id="share">Share</a>
+            <a id="delete-trip" href="#">Delete</a>
+          <? endif;?> 
+        <? if (!$user_role):?>
+          <? if ($user_rsvp == 0):?>
+            <a href="#" class="follow left" id="trip-<?=$trip->id?>">Follow</a>
+          <? elseif ($user_rsvp == 3):?>
+            <a href="#" class="unfollow left" id="trip-<?=$trip->id?>">Unfollow</a><a href="#" id="share">Share</a>
+          <? endif;?>
+        <? endif;?>               
+        </div><!--ACTIONS CONTAINER END-->
+      </div>	
+
+      <div class="right-widget-container">
+        <div id="stats-container" class="right-widget-interior">
+          <ul class="stats-list">
+            <li><a href="" style="cursor:default;" class="goers-count"><?=$trip->num_goers?><span class="stat-label">People</span></a></li>
+            <li class="border-left"><a href="" class="post-count"><?=count($wallitems)?><span class="stat-label">Posts</span></a></li>
+            <li class="border-left"><a href="#followers" class="followers-count"><?=$trip->num_followers?><span class="stat-label">Followers</span></a></li>
+          </ul>     
+          <div style="clear:both"></div>   
+        </div>
+      </div>
+
+      <div class="right-widget-container">
+        <div id="itinerary" class="right-widget-interior"><!--ITINERARY-->  
+          <? $prefix=''; foreach ($trip->places as $destination):?>
+            <?=$prefix;?>
+              <span class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></span>  
+              <? if ($destination->startdate AND $destination->enddate):?>
+                <span class="subtext"><?=date('F j, Y', $destination->startdate)?> - <?=date('F j, Y', $destination->enddate)?></span><br>
+              <? elseif ($destination->startdate AND ! $destination->enddate):?>
+                <span class="subtext"><?=date('F j, Y', $destination->startdate)?></span><br>
+              <? elseif ( ! $destination->startdate AND $destination->enddate):?>
+                <span class="subtext"> - <?=date('F j, Y', $destination->enddate)?></span><br>
+              <? endif;?>
+            <? $prefix = '<span class="bullet" style="margin-left:3px; display:none">&#149</span>'?>   
+          <? endforeach;?>
+        </div><!--ITINERARY END-->
+      </div>
         
       <!--<span id="num_trip_goers">          			              		
         <? $num_trip_goers = count($trip->goers); if ($num_trip_goers == 1):?>
@@ -71,37 +110,13 @@ $this->load->view('core_header', $header_args);
         <span id="num"><?=$num_trip_goers?></span> people are going.
         <? endif;?>           
     	</span>-->
-      			           
-      <div id="trip-actions-container"><!--TRIP ACTIONS CONTAINER-->                  
-        <? if (!$user_role):?>
-          <? if ($user_rsvp == 0):?>
-            <a href="#" class="follow" id="trip-<?=$trip->id?>">Follow</a>
-          <? elseif ($user_rsvp == 3):?>
-            <a href="#" class="unfollow" id="trip-<?=$trip->id?>">Unfollow</a><a href="#" id="share">Share</a>
-          <? endif;?>
-        <? elseif ($user_role == 5):?>
-          <? if ($user_rsvp == 0):?>
-            <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" class="follow" id="trip-<?=$trip->id?>">Follow</a><a href="#" id="share">Share</a>
-          <? elseif ($user_rsvp == 3):?>
-            <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" class="unfollow" id="trip-<?=$trip->id?>">Unfollow</a><a href="#" id="share">Share</a>
-          <? elseif ($user_rsvp == 6):?>
-            <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" id="rsvp_no_button">I'm out</a><a href="#" id="share">Share</a>
-          <? elseif ($user_rsvp == 9):?>
-            <a href="#" id="rsvp_no_button">I'm out</a><a href="#" id="share">Share</a>
-          <? endif;?>
-        <? elseif ($user_role == 10):?>
-          <a href="#" id="invite-others-button">Invite others</a><a href="#" id="share">Share</a>
-          <a id="delete-trip" href="#">Delete</a>
-        <? endif;?>        
-      </div><!-- TRIP ACTIONS CONTAINER END-->	
                               
       <!-- MAP -->
-      <div id="map-shell">
+      <div id="map-shell" class="right-widget-container">
         <div id="map-canvas"></div>
       </div><!--MAP ENDS-->
       
     </div><!-- RIGHT COLUMN ENDS -->
-
 
       <div id="top-bar"><!--TOP BAR-->       
         <div id="trip-info">     
@@ -110,10 +125,6 @@ $this->load->view('core_header', $header_args);
               <?=$prefix;?>
 	            <a class="destination tag" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></a>
             <? endforeach;?>
-              <a href="#" class="activity tag">Hiking</a>
-              <a href="#" class="activity tag">Exploring</a>
-              <a href="#" class="activity tag">Local culture</a>
-              <a href="#" class="activity tag">Adventure</a>
           </div>          
           <div class="top-bar-header"><?=$trip->name?></div>   
           <div id="trip-description"><?=$trip->description?></div>          

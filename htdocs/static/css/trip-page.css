@@ -66,12 +66,6 @@ textarea#wallitem-input{
 	float:right;
 }
 
-.right-item-content{
-	background-color: white;
-	padding:3px;
-	border:1px solid #EAEAEA;
-}
-
 #num{
 	display:inline;
 }
