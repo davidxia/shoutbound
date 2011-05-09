@@ -176,10 +176,11 @@ $this->load->view('core_header', $header_args);
                 <!--POSTITEM CONTENT CONTAINER-->
                 <div class="streamitem-content-container">                
                   <div class="streamitem-name">
-                    <a href="<?=site_url('profile/'.$post->user_id)?>">
-                      <?=$post->user->name?>
-                    </a>               
-                  </div>                           
+                    <a href="<?=site_url('profile/'.$post->user_id)?>"><?=$post->user->name?></a>
+                  </div>
+                  <? if (isset($post->added_by)):?>
+                    <div>Added by <?=$post->added_by->name?></div>
+                  <? endif;?>
                   <div class="streamitem-content">
                     <?=$post->content?>
                   </div>             
@@ -232,7 +233,7 @@ $this->load->view('core_header', $header_args);
                       <div class="streamitem-content-container">
                         <div class="streamitem-name">
                           <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->user->name?></a>
-                        </div> 
+                        </div>
                         <div class="comment-content"><?=$comment->content?></div>
                         <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$comment->created?>"><?=$comment->created?></abbr></div>                      
                       </div>
