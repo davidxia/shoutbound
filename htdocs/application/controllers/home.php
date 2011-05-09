@@ -57,57 +57,7 @@ class Home extends CI_Controller
         );
         $this->load->view('home/trail', $data);
     }
-    
-    
-    public function ajax_post_item()
-    {
-        $t = new Trip();
-        $t->where_in('id', $this->input->post('tripIds'))->get();
-        
-        if ($this->input->post('postId'))
-        {
-            $wi = new Wallitem($this->input->post('postId'));
-        }
-        else
-        {
-    		    $wi = new Wallitem();
-    		    $wi->user_id = $this->user->id;
-    		    $wi->content = $this->input->post('content');
-    		    $wi->parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : NULL;
-    		    $wi->created = time()-72;        
-        }
-		    
-		    if ($wi->save($t->all))
-		    {
-		        $parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : 0;
-		        /*
-		        $content = nl2br($this->input->post('content'));
-            $content = preg_replace_callback('/<place id="(\d+)">/',
-                create_function('$matches',
-                    '$p = new Place();
-                     $p->get_by_id($matches[1]);
-                     return \'<a class="place" href="#" address="\'.$p->name.\'" lat="\'.$p->lat.\'" lng="\'.$p->lng.\'">\';'),
-                $content);
-                
-            $content = str_replace('</place>', '</a>', $content);
-            */
-            json_success(array(
-                'id' => $wi->id,
-                'userName' => $this->user->name,
-                'userId' => $this->user->id,
-                'userPic' => $this->user->profile_pic,
-                'content' => $this->input->post('content'),
-                'parentId' => $parent_id,
-                'tripIds' => $this->input->post('tripIds'),
-                'created' => time()-72,
-            ));
-		    }
-		    else
-		    {
-		        json_error('something broke, tell David');
-		    }
-    }
-        
+            
     
     function fb_request_form()
     {

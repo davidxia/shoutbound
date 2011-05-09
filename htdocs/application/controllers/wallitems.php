@@ -115,5 +115,55 @@ class Wallitems extends CI_Controller
             }
         }
     }
+    
 
+    public function ajax_add_to_trip()
+    {
+        $t = new Trip();
+        $t->where_in('id', $this->input->post('tripIds'))->get();
+        
+        if ($this->input->post('postId'))
+        {
+            $p = new Wallitem($this->input->post('postId'));
+        }
+        else
+        {
+    		    $p = new Wallitem();
+    		    $p->user_id = $this->user->id;
+    		    $p->content = $this->input->post('content');
+    		    $p->parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : NULL;
+    		    $p->created = time()-72;        
+        }
+		    
+		    if ($p->save($t->all))
+		    {
+		        $parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : 0;
+		        $p->set_join_field($t, 'added_by', $this->user->id);
+		        /*
+		        $content = nl2br($this->input->post('content'));
+            $content = preg_replace_callback('/<place id="(\d+)">/',
+                create_function('$matches',
+                    '$p = new Place();
+                     $p->get_by_id($matches[1]);
+                     return \'<a class="place" href="#" address="\'.$p->name.\'" lat="\'.$p->lat.\'" lng="\'.$p->lng.\'">\';'),
+                $content);
+                
+            $content = str_replace('</place>', '</a>', $content);
+            */
+            json_success(array(
+                'id' => $p->id,
+                'userName' => $this->user->name,
+                'userId' => $this->user->id,
+                'userPic' => $this->user->profile_pic,
+                'content' => $this->input->post('content'),
+                'parentId' => $parent_id,
+                'tripIds' => $this->input->post('tripIds'),
+                'created' => time()-72,
+            ));
+		    }
+		    else
+		    {
+		        json_error('something broke, tell David');
+		    }
+    }
 }

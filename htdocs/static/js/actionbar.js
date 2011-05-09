@@ -44,13 +44,14 @@ $('.add-to-trip').live('click', function() {
   $(this).parent().parent().siblings('.add-to-trip-cont').show();
   return false;
 });
+
 $('.post-to-trip').live('click', function () {
   console.log('hi');
   var tripIds = $(this).siblings('select').multiselect('getChecked').map(function(){
     return this.value;
   }).get();
   var postId = $(this).parent().parent().parent().attr('id').match(/(\d+)$/)[1];
-  $.post(baseUrl+'home/ajax_post_item', {postId:postId, tripIds:tripIds},
+  $.post(baseUrl+'wallitems/ajax_add_to_trip', {postId:postId, tripIds:tripIds},
     function (d) {
       var r = $.parseJSON(d);
       showPost(r);

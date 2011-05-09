@@ -179,7 +179,7 @@ $this->load->view('core_header', $header_args);
                     <a href="<?=site_url('profile/'.$post->user_id)?>"><?=$post->user->name?></a>
                   </div>
                   <? if (isset($post->added_by)):?>
-                    <div>Added by <?=$post->added_by->name?></div>
+                    <div>Added by <a href="<?=site_url('profile/'.$post->added_by->id)?>"><?=$post->added_by->name?></a></div>
                   <? endif;?>
                   <div class="streamitem-content">
                     <?=$post->content?>
