@@ -55,9 +55,23 @@ class Wallitem extends DataMapper
     
     public function get_creator()
     {
-        $u = new User();
-        $u->get_by_id($this->user_id);
+        $u = new User($this->user_id);
         $this->stored->user = $u->stored;
+    }
+    
+    
+    public function get_added_by($trip_id = NULL)
+    {
+        if ( ! $trip_id)
+        {
+            return FALSE;
+        }
+        $this->trip->where('id', $trip_id)->include_join_fields()->get();
+        $u = new User($this->trip->join_added_by);
+        if ($u->id)
+        {
+            $this->stored->added_by = $u->stored;
+        }
     }
     
     

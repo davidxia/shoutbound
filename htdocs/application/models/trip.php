@@ -79,6 +79,7 @@ class Trip extends DataMapper
         {
             // get creator's name
             $post->get_creator();
+            $post->get_added_by($this->id);
             // convert \n to <br/>
             $post->convert_nl();
             // generate html for wallitem's places
