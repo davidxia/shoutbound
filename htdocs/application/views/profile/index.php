@@ -27,6 +27,48 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
 
+  <!-- RIGHT COLUMN -->
+  <div id="col-right">      
+
+    <? if (!$is_self AND !$is_following):?>
+      <div class="right-widget-container">
+        <div id="actions-container">
+          <a href="#" class="follow left" id="user-<?=$profile->id?>">Follow</a>
+         </div>
+      </div>          
+    <? endif;?>
+        
+    <? if ($user AND !$is_self AND $is_following):?>
+      <div class="right-widget-container">
+        <div id="actions-container">
+          <a href="#" class="unfollow" id="user-<?=$profile->id?>">Unfollow</a>
+         </div>
+      </div>          
+    <? endif;?>      
+
+
+    <div class="right-widget-container">       
+      <div id="stats-container" class="right-widget-interior">
+        <ul class="stats-list">
+          <li><a href="#trail" class="trip-count"><?=$profile->num_rsvp_yes_trips?><span class="stat-label">Trips</span></a></li>
+          <li class="border-left"><a href="#posts" class="post-count"><?=$profile->num_posts?><span class="stat-label">Posts</span></a></li>
+          <li class="border-left"><a href="#following" class="following-count"><?=$profile->num_following+$profile->num_following_trips?><span class="stat-label">Following</span></a></li>
+          <li class="border-left"><a href="#followers" class="followers-count"><?=$profile->num_followers?><span class="stat-label">Followers</span></a></li>
+        </ul>
+        <div style="clear:both"></div>        
+      </div>            
+    </div>      
+    
+    <div style="clear:both"></div>  
+    
+    <!-- MAP -->
+    <div id="map-shell" class="right-widget-container">
+      <div id="map-canvas"></div>
+    </div>
+    
+  </div><!-- RIGHT COLUMN ENDS -->
+
+
   <div id="top-bar"><!--TOP BAR-->
     <div id="profile-pic-container" class="img-container">
       <a href="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="125" height="125"/></a>
@@ -41,30 +83,6 @@ $this->load->view('core_header', $header_args);
       <? endif;?>
     </div>
   </div><!--TOP BAR END-->
-  
-      
-  <div id="follow-and-stats-container"><!--FOLLOW BUTTON + STATS-->
-    <div id="stats-container">
-      <ul class="stats-list">
-        <li><a href="#trail" class="trip-count"><?=$profile->num_rsvp_yes_trips?><span class="stat-label">Trips</span></a></li>
-        <li class="border-left"><a href="#posts" class="post-count"><?=$profile->num_posts?><span class="stat-label">Posts</span></a></li>
-        <li class="border-left"><a href="#following" class="following-count"><?=$profile->num_following+$profile->num_following_trips?><span class="stat-label">Following</span></a></li>
-        <li class="border-left"><a href="#followers" class="followers-count"><?=$profile->num_followers?><span class="stat-label">Followers</span></a></li>
-      </ul>        
-    </div>
-    
-    <div id="follow-button">
-    <? if (!$is_self AND !$is_following):?>
-      <a href="#" class="follow" id="user-<?=$profile->id?>">Follow</a>
-    <? endif;?>
-    <? if ($user AND !$is_self AND $is_following):?>
-      <a href="#" class="unfollow" id="user-<?=$profile->id?>">Unfollow</a>
-    <? endif;?>
-    </div>        
-  </div><!-- FOLLOW BUTTON + STATS END-->  
-    
-    
-  <div style="clear:both"></div>  
 
   <!-- LEFT COLUMN -->
   <div id="col-left">    
@@ -104,18 +122,7 @@ $this->load->view('core_header', $header_args);
       </div><!--TAB CONTAINER END-->
     </div><!--LEFT CONTENT END-->
   </div><!--LEFT COLUMN END-->
-    
-  <!-- RIGHT COLUMN -->
-  <div id="col-right">      
-    
-    <!-- MAP -->
-    <div id="map-shell">
-        <div id="map-canvas"></div>
-      </div>
-    </div><!--MAP ENDS-->
-    
-  </div><!-- RIGHT COLUMN ENDS -->
-            
+                
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
   <? $this->load->view('footer')?>
