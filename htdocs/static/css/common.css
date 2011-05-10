@@ -231,7 +231,6 @@ fieldset {
 
 .streamitem-name a, .streamitem-name a:visited{
   font-weight:600;
-  color:#333;
 }
 
 .streamitem-name a:hover, .postitem-reposter-name a:hover, .comment-author-name a:hover, .trip-listing-name a:hover, .followitem-title a:hover, .placeitem-name a:hover{
@@ -244,7 +243,7 @@ fieldset {
 }
 
 .streamitem-content{
-  margin:2px 0px 2px 0px;
+  margin:0px 0px 2px 0px;
 }
 
 .actionbar, .goersbar{

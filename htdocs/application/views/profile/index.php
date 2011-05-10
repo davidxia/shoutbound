@@ -102,20 +102,26 @@ $this->load->view('core_header', $header_args);
       <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
         <div id="activity-tab" class="main-tab-content main-tab-default">
           <? foreach ($profile->activities as $activity):?>
-            <div>
+            <div class="streamitem">
               <?=$profile->name?>
             <? if ($activity->activity_type==1):?>
-              created a new trip called <a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a>
+              created <span class="streamitem-name"><a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a></span>
             <? elseif ($activity->activity_type==2):?>
-              posted on <a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a><br/>
+              posted on <span class="streamitem-name"><a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a></span><br/>
               <?=$activity->post->content?>
+              <h3>Actionbar needs to go here</<h3>
             <? elseif ($activity->activity_type==3):?>
-              started following <a href="<?=site_url('profile/'.$activity->following->id)?>"><?=$activity->following->name?></a>
+               followed <span class="streamitem-name"><a href="<?=site_url('profile/'.$activity->following->id)?>"><?=$activity->following->name?></a></span>
+               <h3>Follow/unfollow needs to go here</h3>              
+<!--
             <? elseif ($activity->activity_type==10):?>
-              changed his current location to <a href="#"><?=$activity->place->name?></a>
+              is now in <a href="#"><?=$activity->place->name?></a>
+-->
             <? endif;?>
+<!--
             <br/>
             <abbr class="timeago" title="<?=$activity->timestamp?>"><?=$activity->timestamp?></abbr>
+-->
             </div>
           <? endforeach;?>
         </div>          
