@@ -27,63 +27,58 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
 
-  <!-- RIGHT COLUMN -->
-  <div id="col-right">      
-    <div class="right-widget-container">
+  <div id="top-section"><!--TOP SECTION-->
+  
+    <div id="top-bar"><!--TOP BAR-->
+      <div id="profile-pic-container">
+        <a href="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="125" height="125"/></a>
+        <!--<a href="<?=site_url('settings/profile')?>" id="edit-profile-pic" style="position:absolute; top:0px; left:0px; font-size:12px; background-color:black; color:white; display:none;">change picture</a>-->
+      </div>
+      <div id="profile-info">
+        <div class="top-bar-header"><?=$profile->name?></div>
+        <div id="bio"><?=$profile->bio?></div>
+        <div id="personal-url"><a href="<?=$profile->url?>" target="_blank"><?=$profile->url?></a></div>
+      </div>
+    </div><!--TOP BAR END-->
+
+    <div id="right-widgets">
     
-      <? if (!$is_self AND !$is_following):?>
-        <div id="actions-container">
-          <a href="#" class="follow left" id="user-<?=$profile->id?>">Follow</a>
-        </div>
-      <? endif;?>
-        
-      <? if ($user AND !$is_self AND $is_following):?>
-        <div id="actions-container">
-          <a href="#" class="unfollow" id="user-<?=$profile->id?>">Unfollow</a>
-        </div>
-      <? endif;?>
+      <div class="right-widget-container">      
+        <? if (!$is_self AND !$is_following):?>
+          <div id="actions-container">
+            <a href="#" class="follow left" id="user-<?=$profile->id?>">Follow</a>
+          </div>
+        <? endif;?>
+          
+        <? if ($user AND !$is_self AND $is_following):?>
+          <div id="actions-container">
+            <a href="#" class="unfollow" id="user-<?=$profile->id?>">Unfollow</a>
+          </div>
+        <? endif;?>
+  
+        <? if ($user AND $is_self):?>
+          <div id="actions-container">
+            <a class="edit-profile left" href="<?=site_url('settings/profile')?>">Edit profile</a>
+          </div>
+        <? endif;?>  
+      </div>
+  
+      <div class="right-widget-container">       
+        <div id="stats-container" class="right-widget-interior">
+          <ul class="stats-list">
+            <li><a href="#trail" class="trip-count"><?=$profile->num_rsvp_yes_trips?><span class="stat-label">Trips</span></a></li>
+            <li class="border-left"><a href="#posts" class="post-count"><?=$profile->num_posts?><span class="stat-label">Posts</span></a></li>
+            <li class="border-left"><a href="#following" class="following-count"><?=$profile->num_following+$profile->num_following_trips?><span class="stat-label">Following</span></a></li>
+            <li class="border-left"><a href="#followers" class="followers-count"><?=$profile->num_followers?><span class="stat-label">Followers</span></a></li>
+          </ul>
+          <div style="clear:both"></div>        
+        </div>            
+      </div>      
+      
+      <div style="clear:both"></div>  
 
-      <? if ($user AND $is_self):?>
-        <div id="actions-container">
-          <a class="edit-profile left" href="<?=site_url('settings/profile')?>">Edit profile</a>
-        </div>
-      <? endif;?>
-
-    </div>
-
-    <div class="right-widget-container">       
-      <div id="stats-container" class="right-widget-interior">
-        <ul class="stats-list">
-          <li><a href="#trail" class="trip-count"><?=$profile->num_rsvp_yes_trips?><span class="stat-label">Trips</span></a></li>
-          <li class="border-left"><a href="#posts" class="post-count"><?=$profile->num_posts?><span class="stat-label">Posts</span></a></li>
-          <li class="border-left"><a href="#following" class="following-count"><?=$profile->num_following+$profile->num_following_trips?><span class="stat-label">Following</span></a></li>
-          <li class="border-left"><a href="#followers" class="followers-count"><?=$profile->num_followers?><span class="stat-label">Followers</span></a></li>
-        </ul>
-        <div style="clear:both"></div>        
-      </div>            
-    </div>      
-    
-    <div style="clear:both"></div>  
-    
-    <!-- MAP -->
-    <div id="map-shell" class="right-widget-container">
-      <div id="map-canvas"></div>
-    </div>
-    
-  </div><!-- RIGHT COLUMN ENDS -->
-
-
-  <div id="top-bar"><!--TOP BAR-->
-    <div id="profile-pic-container">
-      <a href="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="125" height="125"/></a>
-      <!--<a href="<?=site_url('settings/profile')?>" id="edit-profile-pic" style="position:absolute; top:0px; left:0px; font-size:12px; background-color:black; color:white; display:none;">change picture</a>-->
-    </div>
-    <div id="profile-info">
-      <div class="top-bar-header"><?=$profile->name?></div>
-      <div id="bio"><?=$profile->bio?></div>
-      <div id="personal-url"><a href="<?=$profile->url?>" target="_blank"><?=$profile->url?></a></div>
-    </div>
-  </div><!--TOP BAR END-->
+    </div><!--RIGHT WIDGETS END-->
+  </div><!--TOP SECTION END-->
 
   <!-- LEFT COLUMN -->
   <div id="col-left">    
@@ -129,6 +124,19 @@ $this->load->view('core_header', $header_args);
       </div><!--TAB CONTAINER END-->
     </div><!--LEFT CONTENT END-->
   </div><!--LEFT COLUMN END-->
+
+  <!-- RIGHT COLUMN -->
+  <div id="col-right">      
+    <div id="right-content-container"><!--RIGHT CONTENT-->
+    
+      <!-- MAP -->
+      <div id="map-shell">
+        <div id="map-canvas"></div>
+      </div>
+      
+    </div><!--RIGHT CONTENT ENDS-->
+    
+  </div><!-- RIGHT COLUMN ENDS -->
                 
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->

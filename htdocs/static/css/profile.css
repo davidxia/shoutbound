@@ -1,8 +1,11 @@
+#map-shell{
+  margin-top:35px;
+  padding:5px;
+  border:1px solid #BABABA;
+}
+
 
 #profile-pic-container{
-  position:relative;
-  height:125px;
-  width:125px;
   margin-right:10px;
   float:left;
 }

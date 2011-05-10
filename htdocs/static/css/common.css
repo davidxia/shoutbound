@@ -89,7 +89,7 @@ html, body {
   position: relative;
 }
 
-#top-section, #col-left{
+#top-bar, #col-left{
   margin-left:20px;
 }
 
@@ -153,6 +153,8 @@ h4{
 #profile-pic-container{
   padding:3px;
   border:1px solid #BABABA;
+  width:125px;
+  height:125px;
 }
 
 a, a:visited{
@@ -212,7 +214,7 @@ fieldset {
 .streamitem{
   border-top:1px solid #FAFAFA;
   border-bottom:1px solid #FAFAFA;
-  padding:10px 15px 10px 0px;
+  padding:10px 10px 10px 0px;
 }
 
 .hoverable-item:hover{
@@ -331,12 +333,12 @@ fieldset {
 /* LAYOUT */
 
 #left-content-container{
-  padding:20px 0px 5px 0px;
+  padding:15px 0px 5px 0px;
   border-top:2px solid #777;
 }
 
 #right-content-container{
-  padding:18px 0px 5px 0px;
+  padding:17px 0px 5px 0px; /* Padding-top needs to be X pixels more than padding-top of left-content-container, where X=pixel width of left-content-container border */
 }
 
 #col-left{
@@ -385,14 +387,13 @@ fieldset {
  clear:both;
 }
 
-#main-tabs{
+#main-tabs, #right-tabs{
 	list-style: none;
 	height: 36px;
 	border-bottom: 1px solid #BABABA;
-	width: 560px;
 }
 
-#main-tabs li{
+#main-tabs li, #right-tabs li{
   float: left;
 	height: 35px; /*--Subtract 1px from the height of the unordered list--*/
 	line-height: 35px; /*--Vertically aligns the text within the tab--*/
@@ -404,23 +405,23 @@ fieldset {
 	text-align:center;
 }
 
-#main-tabs li a{
+#main-tabs li a, #right-tabs li a{
   text-decoration: none;
 	display: block;
 	/*border: 1px solid white;*/
 	outline: none;
 }
 
-#main-tabs li:hover{
+#main-tabs li:hover, #right-tabs li:hover{
 	background-color:#FAFAFA;
 	text-decoration:none;
 }
 
-#main-tabs li a:hover {
+#main-tabs li a:hover, #right-tabs li a:hover{
 	background: #FAFAFA;
 }
 
-#main-tabs li.active{ 
+#main-tabs li.active, #right-tabs li.active{ 
 	border-bottom: 1px solid white; 
 	font-weight:bold;
 	border-left:1px solid #BABABA;
@@ -433,11 +434,11 @@ fieldset {
   width:114px;
 }
 
-#main-tabs li.active a{
+#main-tabs li.active a, #right-tabs li.active a{
   color:#333;
 }
 
-#main-tabs li.active a:hover  {
+#main-tabs li.active a:hover, #right-tabs li.active a:hover{
   background:white;
 	border-bottom: 1px solid white; 
 	font-weight:bold;
@@ -445,11 +446,18 @@ fieldset {
 	color:#333;
 }
 
+/* RIGHT TABS */
+
+.right-tab-container{
+ border-left:1px solid #BABABA;
+ border-bottom:1px solid #BABABA;
+ border-right:1px solid #BABABA;
+ padding:5px;
+ clear:both;
+ height:330px;
+}
 
 /*map*/
-
-#map-shell{
-}
 
 #map-canvas{
   height:330px;

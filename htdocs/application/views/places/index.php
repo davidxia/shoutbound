@@ -154,14 +154,17 @@ $this->load->view('core_header', $header_args);
         <li><a href="#map">Map</a></li>
       </ul>
       
-      <div class="right-tab-container tab-container">     
-        <div id="gallery-tab" class="right-tab-content right-tab-default"></div>
-        <div id="map-tab" class="right-tab-content">
-          <div id="map-shell" class="right-tab-content">
-            <div id="map-canvas"></div>     
-          </div>
+      <div class="right-tab-container">   
+        
+        <div id="gallery-tab" class="right-tab-content"></div>
+        
+        <div id="map-tab" class="right-tab-content" style="visibility:hidden">
+          <div id="map-canvas"></div>     
         </div>
       </div>
+    
+    
+    
     
     </div><!--RIGHT CONTENT END-->
     
