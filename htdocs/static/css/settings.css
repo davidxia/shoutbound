@@ -48,7 +48,10 @@ input, textarea{
   border:1px solid #DADADA;
 }
 
+/*BUTTONS*/
+
 .save-settings-button{
+  border:solid 1px #999;
   margin-right:20px;
   color:white;
   width:140px;
@@ -61,7 +64,6 @@ input, textarea{
   background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
   background: -moz-linear-gradient(top,  #00adee,  #0078a5);
   filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
-  border: solid 1px #0076a3;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
@@ -70,15 +72,17 @@ input, textarea{
 }
 
 .save-settings-button:hover{
-  background: #007ead;
+  border: solid 1px #555;
+  background: #0078a5;
+/*
   background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
   background: -moz-linear-gradient(top,  #0095cc,  #00678e);
   filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
+*/
 }
 
 .save-settings-button:active{
-  color: #80bed6;
-  background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
-  background: -moz-linear-gradient(top,  #0078a5,  #00adee);
-  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
+  background: -webkit-gradient(linear, left top, left bottom, from(#005270), to(#0078a5));
+  background: -moz-linear-gradient(top,  #005270,  #0078a5);
+  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#005270', endColorstr='#0078a5');
 }

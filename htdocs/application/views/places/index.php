@@ -34,34 +34,58 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
 
-  <div id="top-bar"><!--TOP BAR-->
-    <div id="place-info">
-      <div id="place-full-name" style="margin-bottom:10px;"><span id="place-name"><?=$place->name?></span> <span style="font-size:16px; font-weight:bold;"><span id="admin1"><?=$place->admin1?></span>, <?=$place->country?></span></div>
-      <div id="abstract"></div>
+  <!-- RIGHT COLUMN -->
+  <div id="col-right">      
+
+    <div class="right-widget-container">
+      <div id="actions-container"><!--ACTIONS CONTAINER-->                    
+        <? if (!$user OR !$user->is_following):?>
+          <a href="#" class="follow left" id="place-<?=$place->id?>">Follow</a>
+        <? elseif ($user AND $user->is_following):?>
+          <a href="#" class="unfollow" id="<?=$place->id?>">Unfollow</a>
+        <? endif;?>
+      </div>
     </div>
-    </div><!--TOP BAR END-->
-    
-    <div id="follow-and-stats-container"><!--FOLLOW BUTTON + STATS-->
-            
-      <div id="stats-container">
+
+    <div class="right-widget-container">
+      <div id="stats-container" class="right-widget-interior">
         <ul class="stats-list">
           <li><a href="#posts" class="num-posts"><?=$place->num_posts?><span class="stat-label">Posts</span></a></li>
           <li class="border-left"><a href="#trips" class="num-trips"><?=$place->num_trips?><span class="stat-label">Trips</span></a></li>
           <li class="border-left"><a href="#followers" class="num-followers"><?=$place->num_followers?><span class="stat-label">Followers</span></a></li>
         </ul>        
       </div>
-      
-      
-    <? if (!$user OR !$user->is_following):?>
-      <a href="#" class="follow" id="place-<?=$place->id?>">Follow</a>
-    <? elseif ($user AND $user->is_following):?>
-      <a href="#" class="unfollow" id="<?=$place->id?>">Unfollow</a>
-    <? endif;?>
-      
-    </div><!-- FOLLOW BUTTON + STATS END-->  
-  
-  <div style="clear:both"></div>  
+      <div style="clear:both"></div>
+    </div> 
+    
+    <!-- GALLERY AND MAP-->
+<!--
+    <ul id="right-tabs">
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#map">Map</a></li>
+    </ul>
+-->
+    
+<!--
+    <div class="right-tab-container img-container" style="height:340px;">
+      <div id="gallery-tab" class="right-tab-content">
+      </div>
+-->
+    <div id="map-shell" class="right-widget-container">
+      <div id="map-canvas"></div>
+    </div>
+    
+  </div><!-- RIGHT COLUMN ENDS -->
 
+  <div id="top-bar"><!--TOP BAR-->
+    <div id="place-info">
+      <div class="top-bar-header"><span id="place-page-header"><?=$place->name?></span></div>
+      <a class="destination tag" id="admin1"><?=$place->admin1?></a>
+      <a href="#" class="destination tag"><?=$place->country?></a>
+<!--       <div id="abstract"></div> -->
+    </div>
+    </div><!--TOP BAR END-->
+    
   <!-- LEFT COLUMN -->
   <div id="col-left">    
     
@@ -128,27 +152,7 @@ $this->load->view('core_header', $header_args);
       </div><!--TAB CONTAINER END-->
     </div><!--LEFT COLUMN CONTENT END-->
   </div><!--LEFT COLUMN END-->
-  
-  
-  <!-- RIGHT COLUMN -->
-  <div id="col-right">      
-    
-    <!-- GALLERY AND MAP-->
-    <ul id="right-tabs">
-      <li><a href="#gallery">Gallery</a></li>
-      <li><a href="#map">Map</a></li>
-    </ul>
-    
-    <div class="right-tab-container img-container" style="height:340px;">
-      <div id="gallery-tab" class="right-tab-content">
-      </div>
-      <div id="map-tab" class="right-tab-content" style="visibility:hidden;">
-        <div id="map-canvas" style="height:330px;"></div>
-      </div>
-    </div>
-    
-  </div><!-- RIGHT COLUMN ENDS -->
-    
+      
   </div><!-- WRAPPER ENDS -->
   </div><!-- CONTENT ENDS -->
   </div>

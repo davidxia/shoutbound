@@ -29,23 +29,27 @@ $this->load->view('core_header', $header_args);
 
   <!-- RIGHT COLUMN -->
   <div id="col-right">      
-
-    <? if (!$is_self AND !$is_following):?>
-      <div class="right-widget-container">
+    <div class="right-widget-container">
+    
+      <? if (!$is_self AND !$is_following):?>
         <div id="actions-container">
           <a href="#" class="follow left" id="user-<?=$profile->id?>">Follow</a>
-         </div>
-      </div>          
-    <? endif;?>
+        </div>
+      <? endif;?>
         
-    <? if ($user AND !$is_self AND $is_following):?>
-      <div class="right-widget-container">
+      <? if ($user AND !$is_self AND $is_following):?>
         <div id="actions-container">
           <a href="#" class="unfollow" id="user-<?=$profile->id?>">Unfollow</a>
-         </div>
-      </div>          
-    <? endif;?>      
+        </div>
+      <? endif;?>
 
+      <? if ($user AND $is_self):?>
+        <div id="actions-container">
+          <a class="edit-profile left" href="<?=site_url('settings/profile')?>">Edit profile</a>
+        </div>
+      <? endif;?>
+
+    </div>
 
     <div class="right-widget-container">       
       <div id="stats-container" class="right-widget-interior">
@@ -75,10 +79,6 @@ $this->load->view('core_header', $header_args);
       <!--<a href="<?=site_url('settings/profile')?>" id="edit-profile-pic" style="position:absolute; top:0px; left:0px; font-size:12px; background-color:black; color:white; display:none;">change picture</a>-->
     </div>
     <div id="profile-info">
-          <? if ($user AND $is_self):?>
-        <div id="edit-profile"><a href="<?=site_url('settings/profile')?>">Edit profile</a></div>
-      <? endif;?>
-
       <div class="top-bar-header"><?=$profile->name?></div>
       <div id="bio"><?=$profile->bio?></div>
       <div id="personal-url"><a href="<?=$profile->url?>" target="_blank"><?=$profile->url?></a></div>

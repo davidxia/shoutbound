@@ -48,7 +48,7 @@ html, body {
 }
 
 .content {
-  padding: 26px 0 60px;
+  padding: 20px 0 60px;
   overflow:auto;
 }
 
@@ -90,7 +90,7 @@ html, body {
 }
 
 #top-bar, #col-left{
-  margin-left:10px;
+  margin-left:20px;
 }
 
 #top-bar{
@@ -282,8 +282,6 @@ fieldset {
 .activity.tag:hover{
   background:#555;
 }
-
-
 
 .bar-item{
   margin-right:3px;
@@ -563,13 +561,13 @@ ul.stats-list li a{
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }
 
-.follow.left, .unfollow.left{
+.follow.left, .edit-profile.left{
   width:100px;
   float:left;
   margin-left:0px;
 }
 
-.follow, .new-postitem{
+.follow, .new-postitem, .edit-profile{
   display:block;
   height:28px;
   line-height:28px;
@@ -588,11 +586,11 @@ ul.stats-list li a{
   width:75px;
 }
 
-a.follow{
+a.follow, a.edit-profile{
   color:#333;
 }
 
-.follow:hover {
+.follow:hover, .edit-profile:hover{
   background: #DADADA;
   border: 1px solid #888;
   /*background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
@@ -600,7 +598,7 @@ a.follow{
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');*/
 }
 
-.follow:active {
+.follow:active, .edit-profile:active{
   background: #BABABA;
   border: 1px solid #888;
   background: -webkit-gradient(linear, left top, left bottom, from(#BABABA), to(#DADADA));
