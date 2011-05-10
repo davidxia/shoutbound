@@ -406,7 +406,7 @@ class Profile extends CI_Controller
         $this->user->url = $url;
         if ($this->user->save())
         {
-            json_success(array('bio' => $bio, 'url' => $url, 'response' => 'saved'));
+            json_success(array('bio' => $bio, 'url' => $url, 'response' => 'Saved.'));
         }
         else
         {

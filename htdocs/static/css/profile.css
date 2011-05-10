@@ -16,6 +16,9 @@
   margin-left:20px;
 }
 
-.edit-profile{
+#edit-profile{
   float:right;
+  position:absolute;
+  font-size:11px;
+  left:400px;
 }

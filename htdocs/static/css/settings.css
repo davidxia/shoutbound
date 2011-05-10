@@ -1,14 +1,9 @@
-.main-tab-content{
-  padding:10px;
+.tab-container{
+  min-height:0px;
 }
 
 .settings-item{
   padding-top:20px;
-}
-
-.settings-item-header{
-   /*background-color:#EAEAEA;*/
-  font-weight:bold;
 }
 
 .settings-input-container{
@@ -18,11 +13,11 @@
 .settings-item-name{
   float:left;
   text-align:right;
-  width:120px;
+  width:110px;
 }
 
 .settings-item-content{
-  margin-left:135px;
+  margin-left:125px;
 }
 
 #e-mail-notification-copy{
@@ -31,23 +26,8 @@
 
 #save-settings-container{
   margin-top:15px;
-  padding:10px 8px 10px 135px;
+  padding:10px 8px 10px 125px;
   background-color:#EFEFEF;
-}
-
-.tab-container{
-  min-height:0px;
-}
-
-#top-bar{
-  height:50px;
-  width:600px;
-  border-bottom:2px solid #777;
-  padding-bottom:10px;
-  float:left;
-  font-size:30px;
-  line-height:38px;
-  font-weight:bold;
 }
 
 .profile-pic-container{
@@ -69,6 +49,7 @@ input, textarea{
 }
 
 .save-settings-button{
+  margin-right:20px;
   color:white;
   width:140px;
   height:35px;
@@ -88,14 +69,14 @@ input, textarea{
   padding:0px;
 }
 
-.settings-button:hover{
+.save-settings-button:hover{
   background: #007ead;
   background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
   background: -moz-linear-gradient(top,  #0095cc,  #00678e);
   filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
 }
 
-.settings-button:active{
+.save-settings-button:active{
   color: #80bed6;
   background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
   background: -moz-linear-gradient(top,  #0078a5,  #00adee);
