@@ -94,6 +94,8 @@ $this->load->view('core_header', $header_args);
   </div>
   <? endforeach;?>
   
+  <a href="<?=site_url()?>">Finished</a>
+  
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
   <? $this->load->view('footer')?>
