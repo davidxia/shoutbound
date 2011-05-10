@@ -1,5 +1,5 @@
-// flash/js plugin for uploading profile pic
 $(function() {
+  // flash/js plugin for uploading profile pic
   $('#file_upload').uploadify({
     'uploader'       : baseUrl+'static/js/uploadify/uploadify.swf',
     'script'         : baseUrl+'profile/profile_pic_uploadify',
@@ -13,31 +13,28 @@ $(function() {
     'fileDesc'       : 'Image Files',
     'buttonText'     : 'Change picture',
   });
-});
 
 
-$(function() {
   $('#save-profile').click(function() {
     var bio = $('#bio'),
         url = $('#url'),
         currPlaceId = $('#current-place-id').val();
     
     var urlVal = url.val();
-    if (!urlVal.match(/^[a-zA-Z]+:\/\//)) {
+    if (url.val() && !urlVal.match(/^[a-zA-Z]+:\/\//)) {
       urlVal = 'http://' + urlVal;
     }
-    console.log(currPlaceId);
 
     $.post(baseUrl+'profile/ajax_save_profile', {bio:bio.val(), url:urlVal, currPlaceId:currPlaceId},
       function(d) {
-        var d = $.parseJSON(d);
-        bio.val(d.bio);
-        url.val(d.url);
-        $('#current-place').val(d.currPlace);
-        alert('saved');
+        var r = $.parseJSON(d);
+        url.val(r.url);
+        $('#current-place').val(r.currPlace);
+        $('#save-response').empty().text(r.response).show().delay(10000).fadeOut(250);
       });
     return false;
   });
+  
 
   $('#save-been-to').click(function() {
     //$('#been-to-form').submit();
@@ -59,24 +56,18 @@ $(function() {
       });
     return false;
   });
-});
 
 
-// datepicker jquery plugin
-$(function() {
+  // datepicker jquery plugin
   $('.date').live('focus', function() {
     $(this).datepicker();
   });
-});
-
-
-// dynamic form plugin for multiple destinations
-$(function() {
+  
+  
+  // dynamic form plugin for multiple destinations
   $('.places_dates').dynamicForm('#add-place', '#subtract-place', {limit: 10});
-});
 
-// jquery form validation plugin
-$(function() {
+
   $('#been-to-form').validate({
     rules: {
       startdate: {
@@ -90,10 +81,8 @@ $(function() {
       error.appendTo( element.siblings('.label-and-errors').children('.error-message') );
     }
   });
-});
 
 
-$(function() {
   $('.place-input').live('keyup', function(e) {
     var keyCode = e.keyCode || e.which;
     // ignore non-char keys
@@ -113,6 +102,16 @@ $(function() {
       $('#autocomplete-results').remove();
     }
   });
+
+
+  $('#bio').keyup(function() {
+    var charsLeft = 250-$(this).val().length;
+    $('#chars-remaining').text(charsLeft);
+    if (charsLeft < 0) {
+      $(this).val($(this).val().substring(0, 250));
+    }
+  });  
+  $('#bio').trigger('keyup');
 });
 
 

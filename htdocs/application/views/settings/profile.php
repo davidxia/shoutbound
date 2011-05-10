@@ -27,7 +27,6 @@ $this->load->view('core_header', $header_args);
 </head>
 
 <body>
-
   <div id="sticky-footer-wrapper">
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
@@ -54,7 +53,7 @@ $this->load->view('core_header', $header_args);
               <div class="settings-item-content">
                 <div id="change-photo">
                   <a href="#" id="file_upload" name="file_upload" type="file"></a>
-                  <div class="subtext">Maximum size: 700kb</div>
+                  <div class="subtext">Maximum size: 700KB</div>
                   <div id="custom-queue"></div>
                 </div>        
                 <div id="current-profile-pic" class="profile-pic-container">
@@ -79,7 +78,7 @@ $this->load->view('core_header', $header_args);
                 <input id="current-place-id" class="place_id" name="current-place-id" type="hidden"/>
                 <br/><span class="subtext">Where in the world are you in right now?</span>        
               </div>
-            </div>        
+            </div>
     
             <div class="settings-item">
               <div class="settings-item-name">Bio</div>
@@ -90,7 +89,8 @@ $this->load->view('core_header', $header_args);
             </div> 
                                        
             <div id="save-settings-container">
-              <input type="submit" id="save-profile" value="Save" class="save-settings-button"/><!--DAVID NEEDED - THIS BUTTON NEEDS TO SAVE ALL THE FIELDS, RIGHT NOW JUST SAVES URL FIELD-->
+              <input type="submit" id="save-profile" value="Save" class="save-settings-button"/>
+              <span id="save-response"></span>
             </div>
           </div><!-- PROFILE TAB ENDS -->
       
@@ -141,18 +141,6 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('footer')?>
   
 <script type="text/javascript">
-$(function() {
-  $('#bio').keyup(function() {
-    var charsLeft = 250-$(this).val().length;
-    $('#chars-remaining').text(charsLeft);
-    if (charsLeft < 0) {
-      $(this).val($(this).val().substring(0, 250));
-    }
-  });  
-  $('#bio').trigger('keyup');
-});
-
-
 /*$(function() {
   $('abbr.timeago').timeago();
 });*/

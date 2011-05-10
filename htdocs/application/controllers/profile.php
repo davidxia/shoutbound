@@ -395,13 +395,24 @@ class Profile extends CI_Controller
         json_success(array('places' => $places));
         //print_r($places);
     }
-    
+        
     
     public function ajax_save_profile()
     {
-        $this->user->bio = $this->input->post('bio');
-        $this->user->url = $this->input->post('url');
+        $bio = $this->input->post('bio');
+        $url = $this->input->post('url');
         
+        $this->user->bio = $bio;
+        $this->user->url = $url;
+        if ($this->user->save())
+        {
+            json_success(array('bio' => $bio, 'url' => $url, 'response' => 'saved'));
+        }
+        else
+        {
+            json_error('something broke, tell David to fix');
+        }
+        /*
         $p = new Place($this->input->post('currPlaceId'));
         
         if ($this->user->save($p))
@@ -413,6 +424,7 @@ class Profile extends CI_Controller
         {
             json_error('something broke, tell David to fix');
         }
+        */
     }
     
     
