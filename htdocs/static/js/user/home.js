@@ -6,6 +6,10 @@ map.markers = {};
 
 
 $(function() {
+  $('#item-input').focus(function() {
+    $(this).next().show();
+  });
+  
   var top = $('#map-shell').offset().top - parseFloat($('#map-shell').css('marginTop').replace(/auto/, 0)) + 46;
   var didScroll = false;
   $(window).scroll(function () {
@@ -23,10 +27,7 @@ $(function() {
       }
     }
   }, 100);
-});
 
-
-$(function() {
   var script = document.createElement('script');
   script.type = 'text/javascript';
   script.src = 'http://maps.google.com/maps/api/js?sensor=false&callback=map.loadGoogleMap';
@@ -165,7 +166,7 @@ postItem = function(content) {
   var tripIds = $('#trip-selection').multiselect('getChecked').map(function(){
      return this.value;
   }).get();
-  $.post(baseUrl+'home/ajax_post_item', {content:content, tripIds:tripIds},
+  $.post(baseUrl+'wallitems/ajax_save', {content:content, tripIds:tripIds},
     function (d) {
       var r = $.parseJSON(d);
       showPost(r);

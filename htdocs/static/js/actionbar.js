@@ -51,7 +51,7 @@ $('.post-to-trip').live('click', function () {
     return this.value;
   }).get();
   var postId = $(this).parent().parent().parent().attr('id').match(/(\d+)$/)[1];
-  $.post(baseUrl+'wallitems/ajax_add_to_trip', {postId:postId, tripIds:tripIds},
+  $.post(baseUrl+'wallitems/ajax_save', {postId:postId, tripIds:tripIds},
     function (d) {
       var r = $.parseJSON(d);
       showPost(r);
