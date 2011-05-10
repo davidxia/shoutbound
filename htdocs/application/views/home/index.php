@@ -28,35 +28,29 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
   
-    <div id="top-bar"><!--TOP BAR-->
-      
-      <!--<div id="new-postitem-button"><a href="#" class="new-postitem">New post</a></div>-->
-      <!--<div id="new-trip-button">New trip</div>-->        
-     
+    <div id="top-bar"><!--TOP BAR-->     
       <div id="home-add-postitem-container"><!--POSTITEM CONTAINER-->
        <div class="input-container">
-
-          <!-- <div class="streamitem-avatar-container"><img src="http://cdn.slashgear.com/wp-content/uploads/2009/01/steve-jobs-3g-iphone1.jpg" height="25" width="25"/></div> -->
-
           <form id="item-post-form">
             <fieldset>
-<!--               <span class="input-header">Steve Jobs</span> -->
               <span class="input-header">New post</span>
               <div contenteditable="true" id="item-input" class="postitem-input-form"></div>
-              <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
-              <div contenteditable="true" id="tag-input" class="tag-input-form"></div>
-              <span class="input-header">Trips</span><br>
-              <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
-                <? foreach ($user->rsvp_yes_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
-                <? endforeach;?>
-                <? foreach ($user->rsvp_awaiting_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
-                <? endforeach;?>
-                <? foreach ($user->following_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
-                <? endforeach;?>
-                </select>
+              <div style="display:none;">
+                <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
+                <div contenteditable="true" id="tag-input" class="tag-input-form"></div>
+                <span class="input-header">Trips</span><br>
+                <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
+                  <? foreach ($user->rsvp_yes_trips as $trip):?>
+                  <option value="<?=$trip->id?>"><?=$trip->name?>
+                  <? endforeach;?>
+                  <? foreach ($user->rsvp_awaiting_trips as $trip):?>
+                  <option value="<?=$trip->id?>"><?=$trip->name?>
+                  <? endforeach;?>
+                  <? foreach ($user->following_trips as $trip):?>
+                  <option value="<?=$trip->id?>"><?=$trip->name?>
+                  <? endforeach;?>
+                  </select>
+              </div>
             </fieldset>
           </form>
           <a id="post-item" class="new-postitem">Post</a>
