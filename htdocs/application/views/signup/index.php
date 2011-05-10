@@ -29,51 +29,51 @@ $this->load->view('core_header', $header_args);
     }());
 	</script>
 
-    	<div style="border:1px solid black; background-color:#FAFAFA; margin:0 auto; padding:20px; width:400px; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px;">
-	      <h2>Sign up</h2>
-	      
-	      <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post" style="margin:20px 0;">
-	        <div style="margin-bottom:20px;">
-	          <fieldset>
-	            <ul>
-	              <li style="margin-bottom:20px;">
-	                <div class="label-and-error" style="margin-bottom:10px;">
-	                  <label for="name">Name</label>
-	                  <span class="error-message" style="float:right;"></span>
-	                </div>
-	                <input type="text" name="name" id="name" autocomplete="off"/>
-	              </li>
-	              <li style="margin-bottom:20px;">
-	                <div class="label-and-error" style="margin-bottom:10px;">
-	                  <label for="email">Email</label>
-	                  <span class="error-message" style="float:right;"></span>
-	                </div>
-	                <input type="text" name="email" id="email" autocomplete="off"/>
-	              </li>
-	              <li style="margin-bottom:20px;">
-	                <div class="label-and-error" style="margin-bottom:10px;">
-	                  <label for="password">Password</label>
-	                  <span class="error-message" style="float:right;"></span>
-	                </div>
-	                <input type="password" name="password" id="password" autocomplete="off"/>
-	              </li>
-	            </ul>
-	            <input type="hidden" name="is_fb_signup" id="is_fb_signup"/>
-	          </fieldset>
-	        </div>
-          <button type="submit" id="signup-submit" class="blue-button">Create my account</button>
-	      </form>
-      
-        
-      	<a href="#" id="fb_login_button">
-        	<img src="<?=site_url('images/fb-login-button.png')?>"/>
-      	</a>
-      	<span id="fb-tip">By connecting with Facebook, we'll help you find your friends who are already using Shoutbound.</span>
+	<div style="border:1px solid black; background-color:#FAFAFA; margin:0 auto; padding:20px; width:400px; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px;">
+    <h2>Sign up</h2>
+    
+    <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post" style="margin:20px 0;">
+      <div style="margin-bottom:20px;">
+        <fieldset>
+          <ul>
+            <li style="margin-bottom:20px;">
+              <div class="label-and-error" style="margin-bottom:10px;">
+                <label for="name">Name</label>
+                <span class="error-message" style="float:right;"></span>
+              </div>
+              <input type="text" name="name" id="name" autocomplete="off"/>
+            </li>
+            <li style="margin-bottom:20px;">
+              <div class="label-and-error" style="margin-bottom:10px;">
+                <label for="email">Email</label>
+                <span class="error-message" style="float:right;"></span>
+              </div>
+              <input type="text" name="email" id="email" autocomplete="off"/>
+            </li>
+            <li style="margin-bottom:20px;">
+              <div class="label-and-error" style="margin-bottom:10px;">
+                <label for="password">Password</label>
+                <span class="error-message" style="float:right;"></span>
+              </div>
+              <input type="password" name="password" id="password" autocomplete="off"/>
+            </li>
+          </ul>
+          <input type="hidden" name="is_fb_signup" id="is_fb_signup"/>
+        </fieldset>
       </div>
-         
-    	<div style="text-align:center; margin-top:15px;">
-        Already have an account? <a href="<?=site_url('login')?>">Login</a>.
-      </div>
+      <button type="submit" id="signup-submit" class="blue-button">Create my account</button>
+    </form>
+  
+    
+  	<a href="#" id="fb_login_button">
+    	<img src="<?=site_url('images/fb-login-button.png')?>"/>
+  	</a>
+  	<span id="fb-tip">By connecting with Facebook, we'll help you find your friends who are already using Shoutbound.</span>
+  </div>
+     
+	<div style="text-align:center; margin-top:15px;">
+    Already have an account? <a href="<?=site_url('login')?>">Login</a>.
+  </div>
       
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->

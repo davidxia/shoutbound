@@ -55,6 +55,12 @@ class Signup extends CI_Controller
                     if ($auto_follow->id)
                     {
                         $auto_follow->save($u);
+                        foreach ($auto_follow->trip->where('is_active', 1)->where_join_field('user', 'role >=', 5)->get_iterated() as $trip)
+                        {
+                            $u->save($trip);
+                            $u->set_join_field($trip, 'rsvp', 3);
+                            $u->set_join_field($trip, 'role', 0);
+                        }
                     }
                     else
                     {
@@ -91,7 +97,7 @@ class Signup extends CI_Controller
         }
         else
         {
-            $this->load->view('signup/index');			
+            $this->load->view('signup/index');
         }
     }
     

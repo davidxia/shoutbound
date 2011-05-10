@@ -34,7 +34,7 @@ $this->load->view('core_header', $header_args);
     <div class="settings-item-content">
       <div id="change-photo">
         <a href="#" id="file_upload" name="file_upload" type="file"></a>
-        <div class="subtext">Maximum size: 700KB</div>
+        <div class="subtext">Maximum size: 100KB</div>
         <div id="custom-queue"></div>
       </div>        
       <div id="current-profile-pic" class="profile-pic-container">

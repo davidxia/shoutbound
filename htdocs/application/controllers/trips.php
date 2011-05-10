@@ -33,6 +33,7 @@ class Trips extends CI_Controller
         $t = new Trip();
         $t->name = $post['trip_name'];
         $t->description = $post['description'];
+        $t->created = time()-72;
         /*
         $deadline = date_parse_from_format('n/j/Y', $post['deadline']);
         {

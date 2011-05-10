@@ -8,7 +8,7 @@ $(function() {
     'queueID'        : 'custom-queue',
     'removeCompleted': false,
     'auto'           : true,
-    'sizeLimit'      : 716800,
+    'sizeLimit'      : 10240,
     'fileExt'        : '*.jpg;*.gif;*.png',
     'fileDesc'       : 'Image Files',
     'buttonText'     : 'Change picture',
