@@ -89,24 +89,27 @@ html, body {
   position: relative;
 }
 
-#top-bar, #col-left{
+#top-section, #col-left{
   margin-left:20px;
 }
 
 #top-bar{
   width:560px;
-  border-bottom:2px solid #555;
+/*   border-bottom:2px solid #777; */
   float:left;
 /*   background-color:#FAFAFA; */
-  padding-bottom:10px;
+  padding-bottom:20px;
 /*
   border-left:1px solid #BABABA;
   border-right:1px solid #BABABA;
   border-top:1px solid #BABABA;
   border-bottom:1px solid #BABABA;
-*/
-*/
- 
+*/ 
+}
+
+#right-widgets{
+  float:right;
+/*   height:500px; */
 }
 
 .top-bar-header{
@@ -147,10 +150,9 @@ h4{
   font-weight:bold;
 }
 
-.img-container{
-  padding:2px;
+#profile-pic-container{
+  padding:3px;
   border:1px solid #BABABA;
-  background-color:#FAFAFA;
 }
 
 a, a:visited{
@@ -329,7 +331,12 @@ fieldset {
 /* LAYOUT */
 
 #left-content-container{
-  padding:10px 0px 5px 0px;
+  padding:20px 0px 5px 0px;
+  border-top:2px solid #777;
+}
+
+#right-content-container{
+  padding:18px 0px 5px 0px;
 }
 
 #col-left{
@@ -352,7 +359,7 @@ fieldset {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
-  margin-bottom:20px;
+  margin-bottom:12px;
 }
 
 .right-widget-interior{
@@ -561,7 +568,11 @@ ul.stats-list li a{
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }
 
-.follow.left, .edit-profile.left{
+.follow, .unfollow{
+  float:right;
+}
+
+.follow.left, .unfollow{
   width:100px;
   float:left;
   margin-left:0px;

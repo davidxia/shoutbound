@@ -56,7 +56,7 @@ $this->load->view('core_header', $header_args);
                   <div class="subtext">Maximum size: 100KB</div>
                   <div id="custom-queue"></div>
                 </div>        
-                <div id="current-profile-pic" class="profile-pic-container">
+                <div id="profile-pic-container">
                   <a href="<?=static_sub('profile_pics/'.$user->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$user->profile_pic)?>" width="125" height="125"/></a>
                 </div>
               </div>

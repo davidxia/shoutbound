@@ -60,6 +60,7 @@ $(function() {
   rightTabs.children('li:first').addClass('active');
   rightTabs.children('li').click(function() {
     var tabName = $(this).children('a').attr('href');
+    console.log(tabName);
     $(this).parent().children().removeClass('active');
     $(this).addClass('active');
     $('.right-tab-content').hide();
