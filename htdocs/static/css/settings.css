@@ -40,8 +40,8 @@
 
 #change-photo{
   margin-top:5px;
-  margin-left:150px;
-  float:left;
+  float:right;
+  width:260px;
 }
 
 input, textarea{
