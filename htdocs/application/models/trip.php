@@ -152,7 +152,7 @@ class Trip extends DataMapper
         }
         
         //check if trip exists in trips table and is active, ie not deleted
-        if ( ! $this->active)
+        if ( ! $this->is_active)
         {
             return FALSE;
         }

@@ -129,7 +129,7 @@ class Trips extends CI_Controller
         $t = new Trip();
         //check if trip exists in trips table and is active
         $t->get_by_id($trip_id);
-        if ( ! $t->active)
+        if ( ! $t->is_active)
         {
             custom_404();
             return;
@@ -202,7 +202,7 @@ class Trips extends CI_Controller
         }
         
         $t = new Trip($trip_id);
-        if ( ! $t->active)
+        if ( ! $t->is_active)
         {
             custom_404();
             return;
@@ -225,7 +225,7 @@ class Trips extends CI_Controller
             redirect('/');
         }
         $t = new Trip($trip_id);
-        if ( ! $t->active)
+        if ( ! $t->is_active)
         {
             custom_404();
             return;
