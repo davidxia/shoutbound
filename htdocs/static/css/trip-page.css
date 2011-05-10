@@ -5,7 +5,7 @@
 	margin-top:5px;
 }
 
-textarea#wallitem-input{
+textarea#post-input{
 	width:538px;
 	min-height:60px;
 	color:#333;
@@ -124,7 +124,7 @@ textarea#wallitem-input{
   float:right;
 }
 
-#wallitem-post-button{
+#post-button{
   float:right;
   cursor: pointer;
   text-align:center;
@@ -139,7 +139,7 @@ textarea#wallitem-input{
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-#wallitem-post-button:hover {
+#post-button:hover {
 	padding:7px 45px 7px 45px;
 	background: #00248F;
 	background: -webkit-gradient(linear, left top, left bottom, from(#002AA8), to(#00248F));
@@ -147,12 +147,12 @@ textarea#wallitem-input{
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#002AA8', endColorstr='#00248F');
 }
 
-#wallitem-post-button:active {
+#post-button:active {
 	padding:8px 45px 6px 45px;
 	background-color:#001D75;
 }
 
-#wallitem-post-button a{
+#post-button a{
   color:white;
   font-size:13px;
   font-weight:bold;

@@ -3,7 +3,7 @@
 class Trip extends DataMapper
 {
  
-    public $has_many = array('user', 'place', 'geoplanet_place', 'wallitem', 'suggestion', 'destination', 'trip_share');
+    public $has_many = array('user', 'place', 'geoplanet_place', 'post', 'suggestion', 'destination', 'trip_share');
 
     var $validation = array(
         array(
@@ -87,14 +87,14 @@ class Trip extends DataMapper
     public function get_posts()
     {
 		    $posts = array();
-        foreach ($this->wallitem->where('parent_id', NULL)->where_join_field('trip', 'is_active', 1)->order_by('created', 'asc')->get_iterated() as $post)
+        foreach ($this->post->where('parent_id', NULL)->where_join_field('trip', 'is_active', 1)->order_by('created', 'asc')->get_iterated() as $post)
         {
             // get creator's name
             $post->get_creator();
             $post->get_added_by($this->id);
             // convert \n to <br/>
             $post->convert_nl();
-            // generate html for wallitem's places
+            // generate html for post's places
             $post->get_places();
             // get number of likes
             $post->get_likes();
@@ -112,7 +112,7 @@ class Trip extends DataMapper
                 $replies[] = $reply->stored;
             }
             
-            // packages each wallitem with replies into separate array
+            // packages each post with replies into separate array
             $post->stored->replies = $replies;
             $posts[] = $post->stored;
         }
@@ -206,7 +206,7 @@ class Trip extends DataMapper
             return FALSE;
         }
         
-        $p = new Wallitem($post_id);
+        $p = new Post($post_id);
         $this->set_join_field($p, 'is_active', 0);
         return TRUE;
     }

@@ -166,7 +166,7 @@ postItem = function(content) {
   var tripIds = $('#trip-selection').multiselect('getChecked').map(function(){
      return this.value;
   }).get();
-  $.post(baseUrl+'wallitems/ajax_save', {content:content, tripIds:tripIds},
+  $.post(baseUrl+'posts/ajax_save', {content:content, tripIds:tripIds},
     function (d) {
       var r = $.parseJSON(d);
       showPost(r);

@@ -8,6 +8,8 @@ $header_args = array(
         'js/uploadify/swfobject.js',
         'js/uploadify/jquery.uploadify.v2.1.4.min.js',
         'js/settings/profile.js',
+        'js/follow.js',
+        'js/user/loginSignup.js',
         'js/jquery/jquery-ui-1.8.11.custom.min.js',
         'js/jquery/jquery-dynamic-form.js',
         'js/jquery/validate.min.js',

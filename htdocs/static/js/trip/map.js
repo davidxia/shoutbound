@@ -150,7 +150,7 @@ map.loadMarkerListeners = function(marker, i) {
       icon: image
     });
     
-    // highlight corresponding wallitem text
+    // highlight corresponding post text
     var placeText = $('a.place:eq('+i+')');
     placeText.animate({
       backgroundColor: '#fffb2c',
@@ -168,7 +168,7 @@ map.loadMarkerListeners = function(marker, i) {
         });
       });
     });
-    // scroll window to corresponding wallitem
+    // scroll window to corresponding post
     $(wall.scrollElem).animate({scrollTop: placeText.parent().parent().offset().top}, 500);
   });
 };

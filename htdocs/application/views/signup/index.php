@@ -64,10 +64,11 @@ $this->load->view('core_header', $header_args);
           <button type="submit" id="signup-submit" class="blue-button">Create my account</button>
 	      </form>
       
-            
+        
       	<a href="#" id="fb_login_button">
         	<img src="<?=site_url('images/fb-login-button.png')?>"/>
       	</a>
+      	<span id="fb-tip">By connecting with Facebook, we'll help you find your friends who are already using Shoutbound.</span>
       </div>
          
     	<div style="text-align:center; margin-top:15px;">
@@ -122,6 +123,7 @@ $this->load->view('core_header', $header_args);
         $('#email').val(r.email);
         $('#is_fb_signup').val(1);
         $('#fb_login_button').hide();
+        $('#fb-tip').hide();
       } else {
         alert(r.message);
       }

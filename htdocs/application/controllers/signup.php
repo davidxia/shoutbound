@@ -167,6 +167,7 @@ class Signup extends CI_Controller
             'user' => $u->stored,
         );
         $this->load->view('signup/onboarding', $data);
+        //print_r($u->stored);
     }
 }
 

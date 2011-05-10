@@ -7,7 +7,7 @@ class User extends DataMapper
 
     public $has_many = array(
       'trip',
-      'wallitem',
+      'post',
       'place',
       'geoplanet_place',
       'setting',
@@ -160,21 +160,21 @@ class User extends DataMapper
     
     public function get_trips()
     {
-        $this->trip->where('active', 1)->where_in_join_field('user', 'role', array(5,10))->get();
+        $this->trip->where('is_active', 1)->where_in_join_field('user', 'role', array(5,10))->get();
         return $this->trip;
     }
     
     
     public function get_num_rsvp_yes_trips()
     {
-        $this->stored->num_rsvp_yes_trips = $this->trip->where('active', 1)->where_join_field('user', 'rsvp', 9)->count();
+        $this->stored->num_rsvp_yes_trips = $this->trip->where('is_active', 1)->where_join_field('user', 'rsvp', 9)->count();
     }
 
     
     public function get_rsvp_yes_trips($user_id = NULL)
     {
         $this->stored->rsvp_yes_trips = array();
-        foreach ($this->trip->where('active', 1)->where_join_field('user', 'rsvp', 9)->get() as $rsvp_yes_trip)
+        foreach ($this->trip->where('is_active', 1)->where_join_field('user', 'rsvp', 9)->get() as $rsvp_yes_trip)
         {
             $rsvp_yes_trip->get_goers();
             $rsvp_yes_trip->get_places();
@@ -190,7 +190,7 @@ class User extends DataMapper
     public function get_rsvp_awaiting_trips()
     {
         $this->stored->rsvp_awaiting_trips = array();
-        foreach ($this->trip->where('active', 1)->where_join_field('user', 'rsvp', 6)->get() as $rsvp_awaiting_trip)
+        foreach ($this->trip->where('is_active', 1)->where_join_field('user', 'rsvp', 6)->get() as $rsvp_awaiting_trip)
         {
             $rsvp_awaiting_trip->get_goers();
             $rsvp_awaiting_trip->get_places();
@@ -225,14 +225,14 @@ class User extends DataMapper
     
     public function get_num_following_trips()
     {
-        $this->stored->num_following_trips = $this->trip->where('active', 1)->where_in_join_field('user', 'rsvp', 3)->count();
+        $this->stored->num_following_trips = $this->trip->where('is_active', 1)->where_in_join_field('user', 'rsvp', 3)->count();
     }
     
     
     public function get_following_trips($user_id = NULL)
     {
         $this->stored->following_trips = array();
-        foreach ($this->trip->where('active', 1)->where_in_join_field('user', 'rsvp', 3)->get() as $following_trip)
+        foreach ($this->trip->where('is_active', 1)->where_in_join_field('user', 'rsvp', 3)->get() as $following_trip)
         {
             $following_trip->get_goers();
             $following_trip->get_places();
@@ -290,7 +290,7 @@ class User extends DataMapper
 
     public function get_num_posts()
     {
-        $this->stored->num_posts = $this->wallitem->where('active', 1)->order_by('created', 'desc')->count();
+        $this->stored->num_posts = $this->post->where('is_active', 1)->order_by('created', 'desc')->count();
     }
 
 
@@ -298,10 +298,10 @@ class User extends DataMapper
     {
         // get user's most recent posts
         $this->stored->posts = array();
-        $this->wallitem->where('active', 1)->order_by('created', 'desc')->get();
-        foreach ($this->wallitem as $post)
+        $this->post->where('is_active', 1)->order_by('created', 'desc')->get();
+        foreach ($this->post as $post)
         {
-            // generate html for wallitem's places
+            // generate html for post's places
             $post->get_places();
             $post->get_trips();
             // get replies and attach their places
@@ -316,7 +316,7 @@ class User extends DataMapper
                 $replies[] = $reply->stored;
             }
             
-            // packages each wallitem with replies into separate array
+            // packages each post with replies into separate array
             $post->stored->replies = $replies;
             $posts[] = $post->stored;
             
@@ -328,18 +328,18 @@ class User extends DataMapper
     public function get_news_feed_items()
     {
         $news_feed_items = array();
-        $wi = new Wallitem();
+        $wi = new Post();
 
         // get trips associated with user
         $trip_ids = array();
-        foreach ($this->trip->where('active', 1)->get() as $trip)
+        foreach ($this->trip->where('is_active', 1)->get() as $trip)
         {
             $trip_ids[] = $trip->id;
         }
-        // get these trips' most recent wallitems excluding user's own
+        // get these trips' most recent posts excluding user's own
         if ( ! empty($trip_ids))
         {
-            foreach ($wi->where('active', 1)->where('parent_id', NULL)->where_in_join_field('trip_id', $trip_ids)->where('user_id !=', $this->id)->get_iterated() as $post)
+            foreach ($wi->where('is_active', 1)->where('parent_id', NULL)->where_in_join_field('trip_id', $trip_ids)->where('user_id !=', $this->id)->get_iterated() as $post)
             {
                 $post->get_creator();
                 $post->get_trips();
@@ -356,30 +356,30 @@ class User extends DataMapper
                     $replies[] = $reply->stored;
                 }
                 
-                // packages each wallitem with replies into separate array
+                // packages each post with replies into separate array
                 $post->stored->replies = $replies;
                 $news_feed_items[] = $post->stored;
             }
         }
         
-        // get wallitems that are replies to user's wallitems
+        // get posts that are replies to user's posts
         /*
-        $wallitem_ids = array();
-        $this->wallitem->where('active', 1)->get();
-        foreach ($this->wallitem as $wallitem)
+        $post_ids = array();
+        $this->post->where('is_active', 1)->get();
+        foreach ($this->post as $post)
         {
-            $wallitem_ids[] = $wallitem->id;
+            $post_ids[] = $post->id;
         }
-        $reply_wallitems = array();
-        if ( ! empty($wallitem_ids))
+        $reply_posts = array();
+        if ( ! empty($post_ids))
         {
             $wi->clear();
-            foreach ($wi->where_in('parent_id', $wallitem_ids)->where('user_id !=', $this->id)->get() as $wallitem)
+            foreach ($wi->where_in('parent_id', $post_ids)->where('user_id !=', $this->id)->get() as $post)
             {
-                $wallitem->get_creator();
-                $wallitem->get_trips();
-                $wallitem->get_places();
-                $reply_wallitems[] = $wallitem->stored;
+                $post->get_creator();
+                $post->get_trips();
+                $post->get_places();
+                $reply_posts[] = $post->stored;
             }        
         }
         */
@@ -390,10 +390,10 @@ class User extends DataMapper
         {
             $user_ids[] = $following->id;
         }
-        // get these users' most recent wallitems
+        // get these users' most recent posts
         if ( ! empty($user_ids))
         {
-            foreach ($wi->where('active', 1)->where('parent_id', NULL)->where_in('user_id', $user_ids)->get() as $post)
+            foreach ($wi->where('is_active', 1)->where('parent_id', NULL)->where_in('user_id', $user_ids)->get() as $post)
             {
                 $post->get_creator();
                 $post->get_trips();
@@ -410,14 +410,14 @@ class User extends DataMapper
                     $replies[] = $reply->stored;
                 }
                 
-                // packages each wallitem with replies into separate array
+                // packages each post with replies into separate array
                 $post->stored->replies = $replies;
 
                 $news_feed_items[] = $post->stored;                
             }
         }
         
-        //$news_feed_items = array_merge($trip_wallitems, $user_wallitems);
+        //$news_feed_items = array_merge($trip_posts, $user_posts);
         if ($news_feed_items)
         {
             // remove duplicates

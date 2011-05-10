@@ -79,11 +79,11 @@ $(function() {
   });
 
 
-  $('#wallitem-post-button').click(function() {
-    if (wall.getContentEditableText('wallitem-input').trim().length > 0) {
+  $('#post-button').click(function() {
+    if (wall.getContentEditableText('#post-input').trim().length > 0) {
       var loggedin = loginSignup.getStatus();
       if (loggedin) {
-        wall.postWallitem();
+        wall.savePost();
       } else {
         loginSignup.showDialog('wall post');
       }
@@ -94,7 +94,7 @@ $(function() {
   
   $('.reply-button').click(function() {
     var parentId = $(this).parent().parent().attr('id');
-    var regex = /^wallitem-(\d+)$/;
+    var regex = /^post-(\d+)$/;
     var match = regex.exec(parentId);
     parentId = match[1];
     
@@ -121,8 +121,8 @@ wall.getContentEditableText = function(id) {
 }
 
 
-wall.postWallitem = function() {
-  var text = wall.getContentEditableText('wallitem-input').trim();
+wall.savePost = function() {
+  var text = wall.getContentEditableText('#post-input').trim();
   var matches = text.match(/@[\w-']+/g);
   for (i in matches) {
     var name = matches[i].replace(/@/, '');
@@ -131,10 +131,10 @@ wall.postWallitem = function() {
     text = text.replace(matches[i], '<place id="'+id+'">'+name+'</place>');
   }
 
-  $.post(baseUrl+'wallitems/ajax_save', {tripId:tripId, content:text},
+  $.post(baseUrl+'posts/ajax_save', {tripId:tripId, content:text},
     function(r) {
       var r = $.parseJSON(r);
-      wall.displayWallitem(r);
+      wall.displayPost(r);
     });
 };
 
@@ -154,7 +154,7 @@ wall.loadReplyEnter = function(replyInput) {
     if (keyCode == enter) {
       e.preventDefault();
       var loggedin = loginSignup.getStatus();
-      var parentId = replyInput.parent().parent().attr('id').match(/^wallitem-(\d+)$/)[1];
+      var parentId = replyInput.parent().parent().attr('id').match(/^post-(\d+)$/)[1];
       if (loggedin) {
         wall.postReply(parentId);
       } else {
@@ -169,16 +169,16 @@ wall.postReply = function(parentId) {
   var postData = {
     tripId: tripId,
     parentId: parentId,
-    content: $('#wallitem-'+parentId).find('textarea').val()
+    content: $('#post-'+parentId).find('textarea').val()
   };
   
   $.ajax({
     type: 'POST',
-    url: baseUrl+'wallitems/ajax_save',
+    url: baseUrl+'posts/ajax_save',
     data: postData,
     success: function(r) {
       var r = $.parseJSON(r);
-      wall.displayWallitem(r);
+      wall.displayPost(r);
       wall.removeReplyBox(parentId);
       wall.bindLike();
     }
@@ -187,7 +187,7 @@ wall.postReply = function(parentId) {
 
 
 wall.removeReplyBox = function(parentId) {
-  $('#wallitem-'+parentId).find('.reply-box').remove();
+  $('#post-'+parentId).find('.reply-box').remove();
 };
 
 
@@ -195,13 +195,13 @@ wall.bindLike = function() {
   $('a.like-button, a.unlike-button').unbind();
   $('a.like-button').click(function() {
     var loggedin = loginSignup.getStatus();
-    var regex = /^wallitem-(\d+)$/;
+    var regex = /^post-(\d+)$/;
     var match = regex.exec($(this).parent().parent().attr('id'));
-    var wallitemId = match[1];
+    var postId = match[1];
     if (loggedin) {
-      wall.saveLike(wallitemId, 1);
+      wall.saveLike(postId, 1);
     } else {
-      loginSignup.showDialog('wall like', wallitemId, 1);
+      loginSignup.showDialog('wall like', postId, 1);
     }
     return false;
   });
@@ -209,32 +209,32 @@ wall.bindLike = function() {
   $('a.unlike-button').click(function() {
     var loggedin = loginSignup.getStatus();
     if (loggedin) {
-      var regex = /^wallitem-(\d+)$/;
+      var regex = /^post-(\d+)$/;
       var match = regex.exec($(this).parent().parent().attr('id'));
-      var wallitemId = match[1];
-      wall.saveLike(wallitemId, 0);
+      var postId = match[1];
+      wall.saveLike(postId, 0);
     } else {
-      loginSignup.showDialog('wall like', wallitemId, 0);
+      loginSignup.showDialog('wall like', postId, 0);
     }
     return false;
   });
 };
 
 
-wall.saveLike = function(wallitemId, isLike) {
+wall.saveLike = function(postId, isLike) {
   var postData = {
-    wallitemId: wallitemId,
+    postId: postId,
     isLike: isLike
   };
   
   $.ajax({
     type: 'POST',
-    url: baseUrl+'wallitems/ajax_save_like',
+    url: baseUrl+'posts/ajax_save_like',
     data: postData,
     success: function(r) {
       var r = $.parseJSON(r);
       if (r.success) {
-        wall.displayLike(r.wallitemId, r.isLike);
+        wall.displayLike(r.postId, r.isLike);
       } else {
         alert('something broken. Tell David to fix it.');
       }
@@ -243,8 +243,8 @@ wall.saveLike = function(wallitemId, isLike) {
 };
 
 
-wall.displayLike = function(wallitemId, isLike) {
-  var actionbar = $('#wallitem-'+wallitemId).children('div.actionbar');
+wall.displayLike = function(postId, isLike) {
+  var actionbar = $('#post-'+postId).children('div.actionbar');
   var numLikes = actionbar.children('span.num-likes');
   var regex = /^\d+/;
   var match = regex.exec(numLikes.html());
@@ -267,12 +267,12 @@ wall.displayLike = function(wallitemId, isLike) {
       numLikes.html(n+' people like this');
     }
   }
-  wall.unbindLike(wallitemId, isLike);
+  wall.unbindLike(postId, isLike);
 };
 
 
-wall.unbindLike = function(wallitemId, isLike) {
-  var actionbar = $('#wallitem-'+wallitemId).children('div.actionbar');
+wall.unbindLike = function(postId, isLike) {
+  var actionbar = $('#post-'+postId).children('div.actionbar');
   if (isLike == 1) {  
     var like = actionbar.children('a.like-button');
     like.removeClass('like-button').addClass('unlike-button').html('Unlike');
@@ -296,7 +296,7 @@ wall.bindPlaces = function(marker, i) {
       icon: image
     });
 
-    // highlight corresponding wallitem text
+    // highlight corresponding post text
     var placeText = $(this);
     placeText.animate({
       backgroundColor: '#fffb2c',
@@ -343,7 +343,7 @@ wall.scrollableElement = function(els) {
 $(function() {
   var isShift = false;
   
-  $('#wallitem-input').keyup(function(e) {
+  $('#post-input').keyup(function(e) {
     var keyCode = e.keyCode || e.which;
     if (keyCode == 16) {
       isShift = false;
