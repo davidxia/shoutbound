@@ -32,7 +32,7 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('wrapper_content')?>
   
     <div id="top-bar">
-      Manage your Shoutbound account.
+      <div class="top-bar-header">Manage your Shoutbound account.</div>
     </div>
         
     <div id="col-left">
@@ -61,6 +61,14 @@ $this->load->view('core_header', $header_args);
                 </div>
               </div>
             </div>
+
+            <div class="settings-item">
+              <div class="settings-item-name">Bio</div>
+              <div class="settings-item-content">
+                <textarea id="bio" style="width:375px; height:125px;"><?=$user->bio?></textarea><br/>
+                <span class="subtext">Describe yourself in 250 characters or less. Characters remaining: <span id="chars-remaining"></span></span>
+              </div>
+            </div> 
             
             <div class="settings-item">
               <div class="settings-item-name">Web</div>
@@ -79,18 +87,10 @@ $this->load->view('core_header', $header_args);
                 <br/><span class="subtext">Where in the world are you in right now?</span>        
               </div>
             </div>
-    
-            <div class="settings-item">
-              <div class="settings-item-name">Bio</div>
-              <div class="settings-item-content">
-                <textarea id="bio" style="width:415px; height:125px;"><?=$user->bio?></textarea><br/>
-                <span class="subtext">Describe yourself in 250 characters or less. Characters remaining: <span id="chars-remaining"></span></span>
-              </div>
-            </div> 
-                                       
+                                           
             <div id="save-settings-container">
               <input type="submit" id="save-profile" value="Save" class="save-settings-button"/>
-              <span id="save-response"></span>
+              <span id="save-response" class="response"></span>
             </div>
           </div><!-- PROFILE TAB ENDS -->
       

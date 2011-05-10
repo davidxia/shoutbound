@@ -143,6 +143,10 @@ h4{
   font-size:11px;
 }
 
+.response{
+  font-weight:bold;
+}
+
 .img-container{
   padding:2px;
   border:1px solid #BABABA;
@@ -206,7 +210,7 @@ fieldset {
 .streamitem{
   border-top:1px solid #FAFAFA;
   border-bottom:1px solid #FAFAFA;
-  padding:10px 25px 10px 12px;
+  padding:10px 15px 10px 0px;
 }
 
 .hoverable-item:hover{
@@ -218,6 +222,7 @@ fieldset {
 
 .first-item, .first-item:hover{
   border-top:none;
+  padding-top:0px;
 }
 
 .streamitem-content-container, .comment-input-container{
@@ -371,7 +376,7 @@ fieldset {
  border-bottom:1px solid #BABABA;
  border-right:1px solid #BABABA;
  min-height:500px; 
- padding-top:5px;
+ padding:10px;
  clear:both;
 }
 

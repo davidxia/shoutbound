@@ -26,7 +26,7 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('wrapper_content')?>
   
     <div id="top-bar">
-      Manage your Shoutbound account.
+      <div class="top-bar-header">Manage your Shoutbound account.</div>
     </div>
         
     <div id="col-left">
@@ -88,7 +88,7 @@ $this->load->view('core_header', $header_args);
 
               <div id="save-settings-container">
                 <input type="submit" id="save-settings" class="save-settings-button" name="save-settings" value="Save"/>
-                <span id="save-response"></span>
+                <span id="save-response" class="response"></span>
               </div>
             </form>
           </div><!--ACCOUNT TAB END-->

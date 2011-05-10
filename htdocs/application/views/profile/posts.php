@@ -1,8 +1,6 @@
 <div id="posts-tab" class="main-tab-content">
   <? if ( ! $profile->posts):?>
-  <div style="padding:10px 20px">
     <?=$profile->name?> hasn't posted anything yet.
-  </div>
   <? endif;?>
     
   <? $prefix1='first-item'; foreach ($profile->posts as $post):?>

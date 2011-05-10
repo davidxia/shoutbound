@@ -79,7 +79,7 @@ class Settings extends CI_Controller
                 }
             }
             
-            json_success(array('response' => 'settings saved', 'pwIncorrect' => $pw_incorrect));
+            json_success(array('response' => 'Saved.', 'pwIncorrect' => $pw_incorrect));
         }
         else
         {
