@@ -3,7 +3,7 @@
 class Trip extends DataMapper
 {
  
-    public $has_many = array('user', 'place', 'geoplanet_place', 'post', 'suggestion', 'destination', 'trip_share');
+    public $has_many = array('user', 'place', 'place', 'post', 'suggestion', 'destination', 'trip_share');
 
     var $validation = array(
         array(
@@ -75,7 +75,7 @@ class Trip extends DataMapper
     public function get_places()
     {
         $this->stored->places = array();
-        foreach ($this->geoplanet_place->include_join_fields()->get_iterated() as $place)
+        foreach ($this->place->include_join_fields()->get_iterated() as $place)
         {
             $place->stored->startdate = $place->join_startdate;
             $place->stored->enddate = $place->join_enddate;

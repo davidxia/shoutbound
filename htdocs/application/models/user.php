@@ -9,7 +9,7 @@ class User extends DataMapper
       'trip',
       'post',
       'place',
-      'geoplanet_place',
+      'place',
       'setting',
       'friend',
       'related_user' => array(
@@ -126,13 +126,13 @@ class User extends DataMapper
     
     public function get_current_place()
     {
-        $p = new Geoplanet_place();
-        $sql = "SELECT * FROM `geoplanet_places` ".
+        $p = new Place();
+        $sql = "SELECT * FROM `places` ".
                "WHERE `id` = (".
-                   "SELECT `geoplanet_place_id` FROM `geoplanet_places_users` pu ".
+                   "SELECT `place_id` FROM `places_users` pu ".
                    "WHERE pu.`user_id` = ? AND pu.`timestamp` = (".
-                       "SELECT MAX(`geoplanet_places_users`.`timestamp`) FROM `geoplanet_places_users` ".
-                       "WHERE `geoplanet_places_users`.`user_id` = ?))";
+                       "SELECT MAX(`places_users`.`timestamp`) FROM `places_users` ".
+                       "WHERE `places_users`.`user_id` = ?))";
         $binds = array($this->id, $this->id);
         $p->query($sql, $binds);
         if ($p->id)
@@ -150,7 +150,7 @@ class User extends DataMapper
     public function get_places()
     {
         $this->stored->places = array();
-        foreach ($this->geoplanet_place->include_join_fields()->order_by_join_field('user', 'timestamp', 'desc')->get_iterated() as $place)
+        foreach ($this->place->include_join_fields()->order_by_join_field('user', 'timestamp', 'desc')->get_iterated() as $place)
         {
             $place->stored->timestamp = $place->join_timestamp;
             $this->stored->places[] = $place->stored;
@@ -248,10 +248,10 @@ class User extends DataMapper
     public function get_following_places($user_id = NULL)
     {
         $this->stored->following_places = array();
-        foreach ($this->geoplanet_place->where_join_field('user', 'is_following', 1)->get_iterated() as $place)
+        foreach ($this->place->where_join_field('user', 'is_following', 1)->get_iterated() as $place)
         {
             $place->stored->followers = array();
-            foreach ($place->user->where_join_field('geoplanet_place', 'is_following', 1)->get_iterated() as $follower)
+            foreach ($place->user->where_join_field('place', 'is_following', 1)->get_iterated() as $follower)
             {
                 $place->stored->followers[] = $follower->stored;
             }
@@ -328,7 +328,7 @@ class User extends DataMapper
     public function get_news_feed_items()
     {
         $news_feed_items = array();
-        $wi = new Post();
+        $p = new Post();
 
         // get trips associated with user
         $trip_ids = array();
@@ -339,7 +339,7 @@ class User extends DataMapper
         // get these trips' most recent posts excluding user's own
         if ( ! empty($trip_ids))
         {
-            foreach ($wi->where('is_active', 1)->where('parent_id', NULL)->where_in_join_field('trip_id', $trip_ids)->where('user_id !=', $this->id)->get_iterated() as $post)
+            foreach ($p->where('is_active', 1)->where('parent_id', NULL)->where_in_join_field('trip_id', $trip_ids)->where('user_id !=', $this->id)->get_iterated() as $post)
             {
                 $post->get_creator();
                 $post->get_trips();
@@ -373,8 +373,8 @@ class User extends DataMapper
         $reply_posts = array();
         if ( ! empty($post_ids))
         {
-            $wi->clear();
-            foreach ($wi->where_in('parent_id', $post_ids)->where('user_id !=', $this->id)->get() as $post)
+            $p->clear();
+            foreach ($p->where_in('parent_id', $post_ids)->where('user_id !=', $this->id)->get() as $post)
             {
                 $post->get_creator();
                 $post->get_trips();
@@ -393,7 +393,7 @@ class User extends DataMapper
         // get these users' most recent posts
         if ( ! empty($user_ids))
         {
-            foreach ($wi->where('is_active', 1)->where('parent_id', NULL)->where_in('user_id', $user_ids)->get() as $post)
+            foreach ($p->where('is_active', 1)->where('parent_id', NULL)->where_in('user_id', $user_ids)->get() as $post)
             {
                 $post->get_creator();
                 $post->get_trips();
@@ -481,8 +481,8 @@ class User extends DataMapper
         {
             return FALSE;
         }
-        $this->geoplanet_place->where('id', $id)->where_join_field($this, 'is_following', 1)->get();
-        if ($this->geoplanet_place->id)
+        $this->place->where('id', $id)->where_join_field($this, 'is_following', 1)->get();
+        if ($this->place->id)
         {
             $this->stored->is_following = TRUE;
         }

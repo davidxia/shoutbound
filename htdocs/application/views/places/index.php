@@ -100,7 +100,7 @@ $this->load->view('core_header', $header_args);
                 <? $num_likes = 0; foreach($post->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><span class="num-likes"><?=$num_likes?> person likes this</span><? elseif ($num_likes > 1):?><span class="num-likes"><?=$num_likes?> people like this</span><? endif;?>
                 <abbr class="timeago" title="<?=$post->created?>"><?=$post->created?></abbr>            
               </div> 
-              <div class="remove-wallitem"></div>
+              <div class="remove-post"></div>
               <? foreach ($post->replies as $reply):?>
                 <div class="post reply" id="post-<?=$reply->id?>">
                   <div class="postcontent">
@@ -119,7 +119,7 @@ $this->load->view('core_header', $header_args);
                 <? $num_likes = 0; foreach($reply->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><span class="num-likes"><?=$num_likes?> person likes this</span><? elseif ($num_likes > 1):?><span class="num-likes"><?=$num_likes?> people like this</span><? endif;?>
                     <abbr class="timeago" title="<?=$reply->created?>"><?=$reply->created?></abbr>
                   </div>
-                  <div class="remove-wallitem"></div>
+                  <div class="remove-post"></div>
                 </div>
               <? endforeach;?>
             </div>

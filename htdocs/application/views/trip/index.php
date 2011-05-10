@@ -79,7 +79,7 @@ $this->load->view('core_header', $header_args);
         <div id="stats-container" class="right-widget-interior">
           <ul class="stats-list">
             <li><a href="" style="cursor:default;" class="goers-count"><?=$trip->num_goers?><span class="stat-label">People</span></a></li>
-            <li class="border-left"><a href="" class="post-count"><?=count($wallitems)?><span class="stat-label">Posts</span></a></li>
+            <li class="border-left"><a href="" class="post-count"><?=count($posts)?><span class="stat-label">Posts</span></a></li>
             <li class="border-left"><a href="#followers" class="followers-count"><?=$trip->num_followers?><span class="stat-label">Followers</span></a></li>
           </ul>     
           <div style="clear:both"></div>   
@@ -162,8 +162,8 @@ $this->load->view('core_header', $header_args);
           <!-- POSTS TAB -->
           <div id="posts-tab" class="main-tab-content main-tab-default">
             
-            <? $prefix1='first-item'; foreach ($wallitems as $post):?>
-              <!--POSTITEM START-->
+            <? $prefix1='first-item'; foreach ($posts as $post):?>
+              <!--POST START-->
               <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem <? if($user_role == 10):?>deleteable<? endif;?>">
                 <? $prefix1=''?>
                 <? if($user_role == 10):?><div class="delete"></div><? endif;?>
@@ -173,7 +173,7 @@ $this->load->view('core_header', $header_args);
                   </a>
                 </div>
                 
-                <!--POSTITEM CONTENT CONTAINER-->
+                <!--POST CONTENT CONTAINER-->
                 <div class="streamitem-content-container">                
                   <div class="streamitem-name">
                     <a href="<?=site_url('profile/'.$post->user_id)?>"><?=$post->user->name?></a>
@@ -187,7 +187,7 @@ $this->load->view('core_header', $header_args);
                   
                   <!--ACTIONBAR START-->                 
                   <div class="actionbar">
-                    <div id="repost-postitem" class="bar-item">
+                    <div id="repost-post" class="bar-item">
                       <a class="add-to-trip" href="#">Add to trip</a>                      
                     </div>
                     <span class="bullet">&#149</span>
@@ -262,9 +262,9 @@ $this->load->view('core_header', $header_args);
                   <? endforeach;?>
                   </div><!--TRIP LISTING CONTAINER END-->
                   
-                </div><!--POSTITEM CONTENT CONTAINER END-->
+                </div><!--POST CONTENT CONTAINER END-->
                   
-              </div><!--POSTITEM END-->
+              </div><!--POST END-->
             <? endforeach;?> 
             
             <!--OLD LIKES/DISLIKES CODE-->                              
@@ -279,15 +279,15 @@ $this->load->view('core_header', $header_args);
               <? $num_likes = 0; foreach($post->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><span class="num-likes"><?=$num_likes?> person likes this</span><? elseif ($num_likes > 1):?><span class="num-likes"><?=$num_likes?> people like this</span><? endif;?>-->
             <!--OLD LIKES/DISLIKES CODE END--> 
             
-            <!--OLD REMOVE WALLITEM COMMENTS START-->                             
-              <!--<div class="remove-wallitem"></div>
+            <!--OLD REMOVE POST COMMENTS START-->                             
+              <!--<div class="remove-post"></div>
               <? foreach ($post->replies as $reply):?>
-                <div class="wallitem reply" id="wallitem-<?=$reply->id?>">
+                <div class="post reply" id="post-<?=$reply->id?>">
                   <div class="postcontent">
                     <?=$reply->content?>
                   </div>                     
               <? endforeach;?>-->
-            <!--OLD REMOVE WALLITEM COMMENTS END--> 
+            <!--OLD REMOVE POST COMMENTS END--> 
                             
           </div><!--POSTS TAB ENDS-->          
           
@@ -295,13 +295,13 @@ $this->load->view('core_header', $header_args);
                    
       </div><!--LEFT CONTENT END-->
 
-      <div id="wallitem-input-container"><!--WALLITEM INPUT CONTAINER-->
+      <div id="post-input-container"><!--POST INPUT CONTAINER-->
        <div class="input-container">
 
           <form id="item-post-form">
             <fieldset>
               <span class="input-header">New post</span>
-              <div contenteditable="true" id="wallitem-input" class="postitem-input-form"></div>
+              <div contenteditable="true" id="post-input" class="post-input-form"></div>
               <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
               <div contenteditable="true" id="tag-input" class="tag-input-form"></div>
               <span class="input-header">Trips</span><br>
@@ -318,11 +318,11 @@ $this->load->view('core_header', $header_args);
                 </select>
             </fieldset>
           </form>
-          <a id="post-item" class="new-postitem">Post</a>
+          <a id="post-item" class="new-post">Post</a>
 
          </div>
 
-      </div><!--END POSTITEM CONTAINER-->
+      </div><!--END POST CONTAINER-->
 
 		        	
       <div id="autocomplete-box" style="background:#222; position:absolute; z-index:99; padding:3px;display:none;">

@@ -61,7 +61,7 @@ class Places extends CI_Controller
             return;
         }
         
-        $gp = new Geoplanet_place($id);
+        $gp = new Place($id);
         if ( ! $gp->id)
         {
             custom_404();
@@ -95,7 +95,7 @@ class Places extends CI_Controller
             redirect('/');
         }
         
-        $p = new Geoplanet_place($place_id);
+        $p = new Place($place_id);
         $p->get_trips();
         $data = array(
             'place' => $p->stored,
@@ -112,7 +112,7 @@ class Places extends CI_Controller
             redirect('/');
         }
 
-        $p = new Geoplanet_place($place_id);
+        $p = new Place($place_id);
         $p->get_followers();
         $data = array(
             'place' => $p->stored,
@@ -127,7 +127,7 @@ class Places extends CI_Controller
         $place_id = $this->input->post('placeId');
         $follow = $this->input->post('follow');
         
-        $p = new Geoplanet_place($place_id);
+        $p = new Place($place_id);
         if ($p->save($this->user))
         {
             $p->set_join_field($this->user, 'is_following', $follow);

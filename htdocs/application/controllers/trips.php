@@ -187,7 +187,7 @@ class Trips extends CI_Controller
             'user' => $user,
             'user_role' => $user_role,
             'user_rsvp' => $user_rsvp,
-            'wallitems' => $t->get_posts(),
+            'posts' => $t->get_posts(),
         );
         
         $this->load->view('trip/index', $data);
