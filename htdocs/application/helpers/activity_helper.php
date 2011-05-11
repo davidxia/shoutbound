@@ -10,6 +10,8 @@ function save_activity($user_id=NULL, $activity_type=NULL, $source_id=NULL, $par
     $a->user_id = $user_id;
     $a->activity_type = $activity_type;
     $a->source_id = $source_id;
+    $a->parent_id = $parent_id;
+    $a->parent_type = $parent_type;
     $a->timestamp = $timestamp;
     if ($a->save())
     {
