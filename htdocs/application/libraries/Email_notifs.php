@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Sendgrid
+class Email_notifs
 {
     public function get_emails_by_uid_setting($uids=array(), $setting_id=NULL)
     {
@@ -133,5 +133,5 @@ class Sendgrid
 }
 
 
-/* End of file Sendgrid.php */
-/* Location: ./system/libraries/Sendgrid.php */
+/* End of file Email_notifs.php */
+/* Location: ./system/libraries/Email_notifs.php */

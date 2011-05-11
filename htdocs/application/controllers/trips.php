@@ -82,7 +82,7 @@ class Trips extends CI_Controller
             $a->save();
             // send emails to planners
             /*
-            $this->load->library('sendgrid');
+            $this->load->library('email_notifs');
             $emails = explode(',', $post['invites']);
             foreach ($emails as $email)
             {
@@ -94,7 +94,7 @@ class Trips extends CI_Controller
                 $ts->target_id = $email;
                 $share_key = $ts->generate_share_key();
 
-                $response = $this->sendgrid->send_mail(
+                $response = $this->email_notifs->send_mail(
                     array($email),
                     $this->user->name.' invited you on a trip on Shoutbound!',
                     '<h4>'.$this->user->name.
@@ -499,13 +499,13 @@ class Trips extends CI_Controller
             }
         }
 
-        $this->load->library('sendgrid');
-        $emails = $this->sendgrid->get_emails_by_uid_setting($uids, $setting_id);
+        $this->load->library('email_notifs');
+        $emails = $this->email_notifs->get_emails_by_uid_setting($uids, $setting_id);
         $emails = array_merge($emails, $nonuser_emails);
-        list($subj, $html, $text) = $this->sendgrid->compose_email($this->user, $setting_id, $t->stored);
+        list($subj, $html, $text) = $this->email_notifs->compose_email($this->user, $setting_id, $t->stored);
         if ($subj AND $html AND $text)
         {
-            $resp = $this->sendgrid->send_email($emails, $subj, $html, $text, $setting_id);
+            $resp = $this->email_notifs->send_email($emails, $subj, $html, $text, $setting_id);
         }        
 
         if ($share_role == 5)

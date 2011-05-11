@@ -59,7 +59,7 @@ class Trip_shares extends CI_Controller
 
     function send_email()
     {
-        $this->load->library('sendgrid');
+        $this->load->library('email_notifs');
         $sender = $this->user->name;
         
         
@@ -75,7 +75,7 @@ class Trip_shares extends CI_Controller
                 $share_key = $this->generate_share_key($this->input->post('tripId'),
                     $this->input->post('shareRole'), 1, $u->email, 0);
                 
-                $response = $this->sendgrid->send_mail(
+                $response = $this->email_notifs->send_mail(
                     array($u->email),
                     $sender.' invited you to a trip on Shoutbound!',
                     $this->generate_html_email($sender, $this->input->post('tripId'), $share_key),
