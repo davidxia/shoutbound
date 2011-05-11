@@ -80,7 +80,7 @@ $(function() {
 
 
   $('#post-button').click(function() {
-    if (wall.getContentEditableText('#post-input').trim().length > 0) {
+    if (wall.getContentEditableText('post-input').trim().length > 0) {
       var loggedin = loginSignup.getStatus();
       if (loggedin) {
         wall.savePost();
@@ -122,7 +122,7 @@ wall.getContentEditableText = function(id) {
 
 
 wall.savePost = function() {
-  var text = wall.getContentEditableText('#post-input').trim();
+  var text = wall.getContentEditableText('post-input').trim();
   var matches = text.match(/@[\w-']+/g);
   for (i in matches) {
     var name = matches[i].replace(/@/, '');

@@ -4,7 +4,7 @@
   <? endif;?>
     
   <? $prefix1='first-item'; foreach ($profile->posts as $post):?>
-  <div id="postitem-<?=$post->id?>" class="<?=$prefix1?> streamitem"><? $prefix1=''?>
+  <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem"><? $prefix1=''?>
     <div class="streamitem-avatar-container">
       <a href="<?=site_url('profile/'.$profile->id)?>">
         <img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" height="25" width="25"/>
@@ -19,7 +19,7 @@
         <?=$post->content?>
       </div>        
       <div class="actionbar">
-        <div id="repost-postitem" class="bar-item">
+        <div id="repost-post" class="bar-item">
           <a class="add-to-trip" href="#">Add to trip</a>
         </div>
         <span class="bullet">&#149</span>
@@ -93,8 +93,8 @@
         </div>
       <? endforeach;?>
       </div><!--TRIP LISTING CONTAINER END-->
-    </div><!--POSTITEM CONTENT CONTAINER END-->
-  </div><!--END POSTITEM-->
+    </div><!--POST CONTENT CONTAINER END-->
+  </div><!--END POST-->
   <? endforeach;?>
   
 </div><!--END TAB-->

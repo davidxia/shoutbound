@@ -10,13 +10,21 @@
   margin-bottom:20px;
 }
 
-#item-input, #tag-input{
+#post-input, #tag-input{
   width:482px;
   margin-bottom:8px;  
   padding:3px;
   background-color:white;
   border:1px solid #ABABAB;
   z-index:10;
+}
+
+#post-input{
+  min-height:65px;
+}
+
+#tag-input{
+  min-height:19px;
 }
 
 .input-container{
@@ -31,30 +39,11 @@
   font-weight:bold;
 }
 
-
-
 .input-instructions{
   color:#777;
   font-size:11px;
   margin-left:5px;
 }
-
-#item-input{
-  min-height:65px;
-}
-
-#tag-input{
-  min-height:19px;
-}
-
-#trip-selection{
-  
-}
-
-.new-postitem{
-/*   margin-left:31px; */
-}
-
 .ui-widget{
   margin-top:0px;
 }

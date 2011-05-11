@@ -18,9 +18,9 @@ $('.add-comment-button').live('click', function() {
     $.post(baseUrl+'posts/ajax_save', {content:content, parentId:parentId},
       function (d) {
         var r = $.parseJSON(d);
-        var ele = $('#postitem-'+parentId).find('.comment-input-container');
+        var ele = $('#post-'+parentId).find('.comment-input-container');
         ele.children('textarea').val('');
-        ele.before('<div class="comment"><div class="postitem-avatar-container"><a href="'+baseUrl+'profile/'+r.userId+'"><img src="'+staticUrl+'profile_pics/'+r.userPic+'" width="32" height="32"></a></div><div class="comment-content-container"><div class="comment-author-name"><a href="'+baseUrl+'profile/'+r.userId+'">'+r.userName+'</a></div><div class="comment-content">'+r.content+'</div><div class="comment-timestamp"><abbr class="timeago subtext" title="'+r.created+'">'+r.created+'</abbr></div></div></div>');
+        ele.before('<div class="comment"><div class="post-avatar-container"><a href="'+baseUrl+'profile/'+r.userId+'"><img src="'+staticUrl+'profile_pics/'+r.userPic+'" width="32" height="32"></a></div><div class="comment-content-container"><div class="comment-author-name"><a href="'+baseUrl+'profile/'+r.userId+'">'+r.userName+'</a></div><div class="comment-content">'+r.content+'</div><div class="comment-timestamp"><abbr class="timeago subtext" title="'+r.created+'">'+r.created+'</abbr></div></div></div>');
         $('abbr.timeago').timeago();
       });
   }

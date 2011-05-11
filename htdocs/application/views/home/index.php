@@ -29,12 +29,12 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('wrapper_content')?>
   
     <div id="top-bar"><!--TOP BAR-->     
-      <div id="home-add-postitem-container"><!--POSTITEM CONTAINER-->
+      <div id="home-add-post-container"><!--POST CONTAINER-->
        <div class="input-container">
           <form id="item-post-form">
             <fieldset>
               <span class="input-header">New post</span>
-              <div contenteditable="true" id="item-input" class="postitem-input-form"></div>
+              <div contenteditable="true" id="post-input"></div>
               <div style="display:none;">
                 <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
                 <div contenteditable="true" id="tag-input" class="tag-input-form"></div>
@@ -53,11 +53,11 @@ $this->load->view('core_header', $header_args);
               </div>
             </fieldset>
           </form>
-          <a id="post-item" class="new-postitem">Post</a>
+          <a class="save-post-button">Post</a>
 
          </div>
 
-      </div><!--END POSTITEM CONTAINER-->
+      </div><!--END POST CONTAINER-->
   
     </div><!--TOP BAR END-->
 
@@ -95,7 +95,7 @@ $this->load->view('core_header', $header_args);
           <? else:?>
           
             <? $first=TRUE; foreach($news_feed_items as $news_feed_item):?>
-              <div id="postitem-<?=$news_feed_item->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
+              <div id="post-<?=$news_feed_item->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
                <div class="streamitem-avatar-container">
                   <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>">
                     <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" height="25" width="25"/>
@@ -110,7 +110,7 @@ $this->load->view('core_header', $header_args);
                   
                   <!--ACTIONBAR START-->
                   <div class="actionbar">
-                    <div id="repost-postitem" class="bar-item">
+                    <div id="repost-post" class="bar-item">
                       <a class="add-to-trip" href="#">Add to trip</a>                      
                     </div>
                     <span class="bullet">&#149</span>

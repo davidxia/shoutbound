@@ -306,19 +306,19 @@ $this->load->view('core_header', $header_args);
               <div contenteditable="true" id="tag-input" class="tag-input-form"></div>
               <span class="input-header">Trips</span><br>
               <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
-                <? foreach ($user->rsvp_yes_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? foreach ($user->rsvp_yes_trips as $t):?>
+                <option value="<?=$t->id?>"><?=$t->name?>
                 <? endforeach;?>
-                <? foreach ($user->rsvp_awaiting_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? foreach ($user->rsvp_awaiting_trips as $t):?>
+                <option value="<?=$t->id?>"><?=$t->name?>
                 <? endforeach;?>
-                <? foreach ($user->following_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? foreach ($user->following_trips as $t):?>
+                <option value="<?=$t->id?>"><?=$t->name?>
                 <? endforeach;?>
                 </select>
             </fieldset>
           </form>
-          <a id="post-item" class="new-post">Post</a>
+          <a class="save-post-button">Post</a>
 
          </div>
 
@@ -353,7 +353,7 @@ $this->load->view('core_header', $header_args);
 
     $('#delete-trip').click(function() {
       if (confirm ('Are you sure you want to delete this awesome trip?')) {
-        window.location = "<?=site_url('trips/delete').'/'.$trip->id?>";
+        window.location = '<?=site_url('trips/delete/'.$trip->id)?>';
       }
       return false;
     });

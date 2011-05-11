@@ -6,7 +6,7 @@ map.markers = {};
 
 
 $(function() {
-  $('#item-input').focus(function() {
+  $('#post-input').focus(function() {
     $(this).next().show();
   });
   
@@ -105,10 +105,10 @@ map.showTabMarkers = function(tabName) {
 $(function() {
   $('select').multiselect();
 
-  $('#post-item').click(function() {
-    var text = getContentEditableText('item-input').trim();
+  $('.save-post-button').click(function() {
+    var text = getContentEditableText('post-input').trim();
     if (text.length > 0) {
-      postItem(text);        
+      savePost(text);        
     }
     return false;
   });
@@ -162,7 +162,7 @@ getContentEditableText = function(id) {
 }
 
 
-postItem = function(content) {
+savePost = function(content) {
   var tripIds = $('#trip-selection').multiselect('getChecked').map(function(){
      return this.value;
   }).get();
@@ -175,7 +175,7 @@ postItem = function(content) {
 
 
 showPost = function(r) {
-  $('#item-input').text('');
+  $('#post-input').text('');
   $('#trip-selection').multiselect('uncheckAll');
   //console.log(r);
 }

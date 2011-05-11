@@ -164,7 +164,7 @@ class Trip extends DataMapper
             return FALSE;
         }
 
-        $this->where('id', $trip_id)->update('active', 0);
+        $this->where('id', $trip_id)->update('is_active', 0);
         $num_affected = $this->db->affected_rows();
         if ($num_affected == 1)
         {

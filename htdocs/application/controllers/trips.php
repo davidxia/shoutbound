@@ -388,6 +388,11 @@ class Trips extends CI_Controller
         {
             redirect('/');
         }
+        else
+        {
+            custom_404();
+            return;
+        }
     }
         
 

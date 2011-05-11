@@ -242,7 +242,7 @@ fieldset {
   font-weight:600;
 }
 
-.streamitem-name a:hover, .postitem-reposter-name a:hover, .comment-author-name a:hover, .trip-listing-name a:hover, .followitem-title a:hover, .placeitem-name a:hover{
+.streamitem-name a:hover, .post-reposter-name a:hover, .comment-author-name a:hover, .trip-listing-name a:hover, .followitem-title a:hover, .placeitem-name a:hover{
   color: blue;
   cursor:pointer;
 }
@@ -586,7 +586,7 @@ ul.stats-list li a{
   margin-left:0px;
 }
 
-.follow, .new-postitem, .edit-profile{
+.follow, .save-post-button, .edit-profile{
   display:block;
   height:28px;
   line-height:28px;
