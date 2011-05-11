@@ -8,7 +8,7 @@ function get_source(&$activity)
             $activity->stored->trip = $t->stored;
             break;
         case 2:
-            $p = new Wallitem($activity->source_id);
+            $p = new Post($activity->source_id);
             $activity->stored->post = $p->stored;
             break;
         case 3:

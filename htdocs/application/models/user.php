@@ -459,8 +459,6 @@ class User extends DataMapper
             get_parent($activity);
             $this->stored->activities[] = $activity->stored;
         }
-        
-        
     }
     
     

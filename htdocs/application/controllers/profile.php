@@ -102,7 +102,7 @@ class Profile extends CI_Controller
         $this->load->view('profile/index', $view_data);
         //print_r($profile->activities);
     }
-        
+            
     
     public function trail($pid = FALSE)
     {

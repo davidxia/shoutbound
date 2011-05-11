@@ -107,7 +107,7 @@ $this->load->view('core_header', $header_args);
               <?=$activity->post->content?>
               <h3>Actionbar needs to go here</<h3>
             <? elseif ($activity->activity_type==3):?>
-               followed <span class="streamitem-name"><a href="<?=site_url('profile/'.$activity->following->id)?>"><?=$activity->following->name?></a></span>
+               started following <span class="streamitem-name"><a href="<?=site_url('profile/'.$activity->following->id)?>"><?=$activity->following->name?></a></span>
                <h3>Follow/unfollow needs to go here</h3>              
 <!--
             <? elseif ($activity->activity_type==10):?>

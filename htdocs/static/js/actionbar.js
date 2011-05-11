@@ -46,12 +46,11 @@ $('.add-to-trip').live('click', function() {
 });
 
 $('.post-to-trip').live('click', function () {
-  console.log('hi');
   var tripIds = $(this).siblings('select').multiselect('getChecked').map(function(){
     return this.value;
   }).get();
   var postId = $(this).parent().parent().parent().attr('id').match(/(\d+)$/)[1];
-  $.post(baseUrl+'posts/ajax_save', {postId:postId, tripIds:tripIds},
+  $.post(baseUrl+'posts/ajax_save', {postId:postId, tripIds:tripIds, isRepost:1},
     function (d) {
       var r = $.parseJSON(d);
       showPost(r);

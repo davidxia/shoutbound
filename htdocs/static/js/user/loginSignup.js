@@ -35,7 +35,7 @@ loginSignup.success = function(callback, id, param) {
       $('#trip-creation-form').submit();
       break;
     case 'wall post':
-      wall.postWallitem();
+      wall.savePost();
       window.location.reload();
       break;
     case 'wall reply':

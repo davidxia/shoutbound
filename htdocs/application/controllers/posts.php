@@ -27,6 +27,7 @@ class Posts extends CI_Controller
 		    $content = $this->input->post('content');
 		    $parent_id = $this->input->post('parentId');
 		    $trip_ids = $this->input->post('tripIds');
+		    $is_repost = ($this->input->post('isRepost')) ? $this->input->post('isRepost') : FALSE;
         $t = new Trip();
         $t->where_in('id', $trip_ids)->get();
         
@@ -46,7 +47,10 @@ class Posts extends CI_Controller
 		    if ($p->save($t->all))
 		    {
 		        $parent_id = ($parent_id) ? $parent_id : 0;
-		        $p->set_join_field($t, 'added_by', $this->user->id);
+		        if ($is_repost)
+		        {
+		            $p->set_join_field($t, 'added_by', $this->user->id);
+		        }
 		        
             $content = nl2br($content);
             $content = preg_replace_callback('/<place id="(\d+)">/',
