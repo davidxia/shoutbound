@@ -91,6 +91,7 @@ class Profile extends CI_Controller
         $u->get_num_following();
         $u->get_num_following_trips();
         $u->get_num_followers();
+        $u->get_first_name();
         
         $view_data = array(
             'user' => $user,
@@ -100,7 +101,6 @@ class Profile extends CI_Controller
         );
 
         $this->load->view('profile/index', $view_data);
-        //print_r($profile->activities);
     }
             
     
@@ -476,12 +476,8 @@ class Profile extends CI_Controller
             if ($u->save($this->user))
             {
                 $u->set_join_field($this->user, 'is_following', 1);
-                $a = new Activitie();
-                $a->user_id = $this->user->id;
-                $a->activity_type = 3;
-                $a->source_id = $id;
-                $a->timestamp = time()-72;
-                $a->save();
+                $this->load->helper('activity');
+                save_activity($this->user->id, 3, $id, NULL, NULL, time()-72);                
                 json_success(array('type' => 'user', 'id' => $id, 'follow' => $follow));
             }
             else

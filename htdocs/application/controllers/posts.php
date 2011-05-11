@@ -61,14 +61,11 @@ class Posts extends CI_Controller
                 $content);
             $content = str_replace('</place>', '</a>', $content);
             
-            $a = new Activitie();
-            $a->user_id = $this->user->id;
-            $a->activity_type = ($parent_id) ? 6 : 2;
-            $a->source_id = $p->id;
-            $a->parent_id = ($parent_id) ? $parent_id : $trip_ids[0];
-            $a->parent_type = ($parent_id) ? 4 : 2;
-            $a->timestamp = time()-72;
-            $a->save();
+            $activity_type = ($parent_id) ? 6 : 2;
+            $pid = ($parent_id) ? $parent_id : $trip_ids[0];
+            $parent_type = ($parent_id) ? 4 : 2;
+            $this->load->helper('activity');
+            save_activity($this->user->id, $activity_type, $p->id, $pid, $parent_type, time()-72);
             
             json_success(array(
                 'id' => $p->id,

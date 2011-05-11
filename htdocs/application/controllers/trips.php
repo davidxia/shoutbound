@@ -25,7 +25,6 @@ class Trips extends CI_Controller
             custom_404();
             return;
         }
-        //$uid = get_cookie('uid');
         
         $post = $this->input->post('destinations_dates');
         $post = $post['destinations_dates'];
@@ -41,9 +40,6 @@ class Trips extends CI_Controller
         }
         */
         //$t->is_private = ($post['private'] == 1) ? 1 : 0;
-                
-        //$u = new User();
-        //$u->get_by_id($this->user->id);
 
         if ($t->save() AND $this->user->save($t)
             AND $t->set_join_field($this->user, 'role', 10)
@@ -51,9 +47,9 @@ class Trips extends CI_Controller
         {
             // save trip's destinations and dates
             $p = new Place();
-            foreach ($post as $key => $value)
+            foreach ($post as $key => $val)
             {
-                if (is_array($value))
+                if (is_array($val))
                 {
                     $p->clear();
                     $p->get_by_id($post[$key]['place_id']);
@@ -73,44 +69,8 @@ class Trips extends CI_Controller
                 }
             }
             
-            // save record in activities table
-            $a = new Activitie();
-            $a->user_id = $this->user->id;
-            $a->activity_type = 1;
-            $a->source_id = $t->id;
-            $a->timestamp = time()-72;
-            $a->save();
-            // send emails to planners
-            /*
-            $this->load->library('email_notifs');
-            $emails = explode(',', $post['invites']);
-            foreach ($emails as $email)
-            {
-                // generate new share key for each e-mail address
-                $ts = new Trip_share();
-                $ts->trip_id = $t->id;
-                $ts->share_role = 2;
-                $ts->share_medium = 1;
-                $ts->target_id = $email;
-                $share_key = $ts->generate_share_key();
-
-                $response = $this->email_notifs->send_mail(
-                    array($email),
-                    $this->user->name.' invited you on a trip on Shoutbound!',
-                    '<h4>'.$this->user->name.
-                        ' invited you to a trip on Shoutbound</h4>'.$post['description'].
-                        '<br/><a href="'.site_url('trips/share/'.$t->id.'/'.$share_key).
-                        '">To see the trip, click here.</a>'.
-                        '<br/>Have fun!<br/>Team Shoutbound',
-                    $this->user->name.
-                        ' invited you to a trip on Shoutbound'.$post['description'].
-                        '<br/><a href="'.site_url('trips/share/'.$t->id.'/'.$share_key).
-                        '">To see the trip, click here.</a>'.
-                        '<br/>Have fun!<br/>Team Shoutbound'
-                );
-            }
-            */
-            
+            $this->load->helper('activity');
+            save_activity($this->user->id, 1, $t->id, NULL, NULL, time()-72);
             // TODO: success callback to ensure all destinations were saved?
             redirect('trips/'.$t->id);
         }      

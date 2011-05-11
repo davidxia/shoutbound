@@ -521,6 +521,13 @@ class User extends DataMapper
             return FALSE;
         }        
     }
+    
+    
+    public function get_first_name()
+    {
+        $a = explode(' ', $this->name);
+        $this->stored->first_name = $a[0];
+    }
 }
 
 /* End of file user.php */

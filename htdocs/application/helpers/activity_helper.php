@@ -1,5 +1,23 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+function save_activity($user_id=NULL, $activity_type=NULL, $source_id=NULL, $parent_id=NULL, $parent_type=NULL, $timestamp=NULL)
+{
+    if ( ! ($user_id AND $activity_type AND $source_id AND $timestamp))
+    {
+        return FALSE;
+    }
+    $a = new Activitie();
+    $a->user_id = $user_id;
+    $a->activity_type = $activity_type;
+    $a->source_id = $source_id;
+    $a->timestamp = $timestamp;
+    if ($a->save())
+    {
+        return TRUE;
+    }
+}
+
+
 function get_source(&$activity)
 {
     switch ($activity->activity_type) {

@@ -99,7 +99,7 @@ $this->load->view('core_header', $header_args);
         <div id="activity-tab" class="main-tab-content main-tab-default">
           <? foreach ($profile->activities as $activity):?>
             <div class="streamitem">
-              <?=$profile->name?>
+              <?=$profile->first_name?>
             <? if ($activity->activity_type==1):?>
               created <span class="streamitem-name"><a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a></span>
             <? elseif ($activity->activity_type==2):?>
