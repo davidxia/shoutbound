@@ -5,12 +5,12 @@
   width:530px;
 }
 
-#item-post-form{
+.save-post-form{
   /*margin-left:31px;*/
   margin-bottom:20px;
 }
 
-#post-input, #tag-input{
+.post-input, .tag-input{
   width:482px;
   margin-bottom:8px;  
   padding:3px;
@@ -19,11 +19,11 @@
   z-index:10;
 }
 
-#post-input{
+.post-input{
   min-height:65px;
 }
 
-#tag-input{
+.tag-input{
   min-height:19px;
 }
 

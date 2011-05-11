@@ -6,7 +6,7 @@ map.markers = {};
 
 
 $(function() {
-  $('#post-input').focus(function() {
+  $('.post-input').focus(function() {
     $(this).next().show();
   });
   
@@ -150,8 +150,8 @@ $(function() {
 });
 
 
-getContentEditableText = function(id) {
-  var ce = $('<pre />').html($('#' + id).html());
+getContentEditableText = function(class) {
+  var ce = $('<pre />').html($('.' + class).html());
   if ($.browser.webkit)
     ce.find('div').replaceWith(function() { return '\n' + this.innerHTML; });
   if ($.browser.msie)
@@ -175,7 +175,7 @@ savePost = function(content) {
 
 
 showPost = function(r) {
-  $('#post-input').text('');
+  $('.post-input').text('');
   $('#trip-selection').multiselect('uncheckAll');
   //console.log(r);
 }

@@ -295,33 +295,31 @@ $this->load->view('core_header', $header_args);
                    
       </div><!--LEFT CONTENT END-->
 
-      <div id="post-input-container"><!--POST INPUT CONTAINER-->
-       <div class="input-container">
-
-          <form id="item-post-form">
-            <fieldset>
-              <span class="input-header">New post</span>
-              <div contenteditable="true" id="post-input" class="post-input-form"></div>
+      <!--POST CONTAINER-->
+      <div class="input-container">
+        <form class="save-post-form">
+          <fieldset>
+            <span class="input-header">New post</span>
+            <div contenteditable="true" class="post-input"></div>
+            <div style="display:none;">
               <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
-              <div contenteditable="true" id="tag-input" class="tag-input-form"></div>
+              <div contenteditable="true" class="tag-input"></div>
               <span class="input-header">Trips</span><br>
               <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
-                <? foreach ($user->rsvp_yes_trips as $t):?>
-                <option value="<?=$t->id?>"><?=$t->name?>
+                <? foreach ($user->rsvp_yes_trips as $trip):?>
+                <option value="<?=$trip->id?>"><?=$trip->name?>
                 <? endforeach;?>
-                <? foreach ($user->rsvp_awaiting_trips as $t):?>
-                <option value="<?=$t->id?>"><?=$t->name?>
+                <? foreach ($user->rsvp_awaiting_trips as $trip):?>
+                <option value="<?=$trip->id?>"><?=$trip->name?>
                 <? endforeach;?>
-                <? foreach ($user->following_trips as $t):?>
-                <option value="<?=$t->id?>"><?=$t->name?>
+                <? foreach ($user->following_trips as $trip):?>
+                <option value="<?=$trip->id?>"><?=$trip->name?>
                 <? endforeach;?>
                 </select>
-            </fieldset>
-          </form>
-          <a class="save-post-button">Post</a>
-
-         </div>
-
+            </div>
+          </fieldset>
+        </form>
+        <a class="save-post-button">Post</a>
       </div><!--END POST CONTAINER-->
 
 		        	
