@@ -56,10 +56,7 @@ class Trips extends CI_Controller
                 if (is_array($value))
                 {
                     $p->clear();
-                    $p->name = $post[$key]['address'];
-                    $p->lat = $post[$key]['lat'];
-                    $p->lng = $post[$key]['lng'];
-                    $p->save();
+                    $p->get_by_id($post[$key]['place_id']);
                     $t->save($p);
                     // gets each destination's startdate and enddate and stores as unix time
                     // TODO: callback method for better client side validation?
@@ -85,7 +82,7 @@ class Trips extends CI_Controller
             $a->save();
             // send emails to planners
             /*
-            $this->load->library('sendgrid_email');
+            $this->load->library('sendgrid');
             $emails = explode(',', $post['invites']);
             foreach ($emails as $email)
             {
@@ -97,7 +94,7 @@ class Trips extends CI_Controller
                 $ts->target_id = $email;
                 $share_key = $ts->generate_share_key();
 
-                $response = $this->sendgrid_email->send_mail(
+                $response = $this->sendgrid->send_mail(
                     array($email),
                     $this->user->name.' invited you on a trip on Shoutbound!',
                     '<h4>'.$this->user->name.
@@ -437,6 +434,96 @@ class Trips extends CI_Controller
         return FALSE;
     }
     
+    
+    public function ajax_share_dialog()
+    {
+        // get ids of those user is following
+        $this->user->related_user->get();
+        
+        // get users already invited to this trip
+        $t = new Trip($this->input->post('tripId'));
+        foreach ($t->user->where_join_field($t, 'role >', 0)->get_iterated() as $user)
+        {
+            $trip_uids[] = $user->id;
+        }
+        $uninvited_followings = array();
+        foreach ($this->user->related_user as $following)
+        {
+            if ( ! in_array($following->id, $trip_uids))
+            {
+                $uninvited_followings[] = $following->stored;
+            }
+        }
+        
+        $data = array(
+            'uninvited_followings' => $uninvited_followings,
+            'share_role' => $this->input->post('shareRole'),
+        );
+        
+        $r = $this->load->view('trip/share_dialog', $data, TRUE);
+        json_success(array('data' => $r));
+    }
+
+
+    public function ajax_share()
+    {
+        $trip_id = $this->input->post('tripId');
+        $share_role = $this->input->post('shareRole');
+        $setting_id = ($share_role==5) ? 12 : 13;
+        $uids = ($this->input->post('uids')) ? $this->input->post('uids') : array();
+        $nonuser_emails = ($this->input->post('emails')) ? $this->input->post('emails') : array();
+        
+        $t = new Trip($trip_id);
+        $u = new User();
+        // save record in trips_users table
+        foreach ($uids as $uid)
+        {
+            $u->get_by_id($uid);
+            if ($t->save($u))
+            {
+                $t->set_join_field($u, 'role', $share_role);
+                $t->set_join_field($u, 'rsvp', 6);
+            }
+        }
+        // not pretty - needed to get rid of empty strings
+        foreach ($nonuser_emails as $key => $val)
+        {
+            if ( ! trim($val))
+            {
+                unset($nonuser_emails[$key]);
+            }
+        }
+
+        $this->load->library('sendgrid');
+        $emails = $this->sendgrid->get_emails_by_uid_setting($uids, $setting_id);
+        $emails = array_merge($emails, $nonuser_emails);
+        list($subj, $html, $text) = $this->sendgrid->compose_email($this->user, $setting_id, $t->stored);
+        if ($subj AND $html AND $text)
+        {
+            $resp = $this->sendgrid->send_email($emails, $subj, $html, $text, $setting_id);
+        }        
+
+        if ($share_role == 5)
+        {
+            json_success(array('message' => 'Invitations sent.'));
+        }
+        elseif ($share_role == 0)
+        {
+            json_success(array('message' => 'trip shared'));
+        }
+        //json_success(array('tripId' => $trip_id, 'uids'=>$uids, 'emails'=>$emails, 'tripId'=>$trip_id, 'html'=>$html, 'text'=>$text, 'subj'=>$subj, 'resp'=>$resp));
+    }
+
+    
+    public function ajax_share_success()
+    {        
+        $data = array(
+            'message' => $this->input->post('message'),
+        );
+        
+        $r = $this->load->view('trip/share_success', $data, TRUE);
+        json_success(array('data' => $r));
+    }
 }
 
 /* End of file trips.php */

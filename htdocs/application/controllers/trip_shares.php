@@ -57,64 +57,30 @@ class Trip_shares extends CI_Controller
     }
 
 
-    public function send_email()
+    function send_email()
     {
+        $this->load->library('sendgrid');
         $sender = $this->user->name;
         
-        $this->load->library('sendgrid_email');
         
-        if ($this->input->post('uids'))
+        $u = new User();
+        foreach ($uids as $uid)
         {
-            $uids = json_decode($this->input->post('uids'));
+            $u->get_by_id($uid);
+            $u->settings->where('name', 'trip_invite')->include_join_fields()->get();
             
-            $u = new User();
-            foreach ($uids as $uid)
-            {
-                $u->get_by_id($uid);
-                $u->settings->get();
-                
-                if ($u->settings->trip_invite)
-                {                
-                    // generate new share key for each e-mail
-                    $share_key = $this->generate_share_key($this->input->post('tripId'),
-                        $this->input->post('shareRole'), 1, $u->email, 0);
-                    
-                    $response = $this->sendgrid_email->send_mail(
-                        array($u->email),
-                        $sender.' invited you on a trip on Shoutbound!',
-                        $this->generate_html_email($sender, $this->input->post('tripId'), $share_key),
-                        $this->generate_text_email($sender, $this->input->post('tripId'), $share_key)
-                    );
-                }
-            }
-        }
-        elseif ($this->input->post('emails'))
-        {
-            $emails = $this->input->post('emails');
-            $emails = explode(',', $emails);
-            
-            foreach ($emails as $email)
-            {
+            if ($u->settings->join_is_on == 1)
+            {                
                 // generate new share key for each e-mail
                 $share_key = $this->generate_share_key($this->input->post('tripId'),
-                    $this->input->post('shareRole'), 1, $email, 0);
+                    $this->input->post('shareRole'), 1, $u->email, 0);
                 
-                $response = $this->sendgrid_email->send_mail(
-                    array($email),
-                    $sender.' invited you on a trip on Shoutbound!',
+                $response = $this->sendgrid->send_mail(
+                    array($u->email),
+                    $sender.' invited you to a trip on Shoutbound!',
                     $this->generate_html_email($sender, $this->input->post('tripId'), $share_key),
                     $this->generate_text_email($sender, $this->input->post('tripId'), $share_key)
                 );
-                
-            }
-            
-            if ($this->input->post('shareRole') == 2)
-            {
-                echo 'invites sent';
-            }
-            elseif ($this->input->post('shareRole') == 1)
-            {
-                echo 'suggestions asked for';
             }
         }
     }
@@ -140,69 +106,8 @@ class Trip_shares extends CI_Controller
             
         return $text;
     }
-    
-    
-    public function ajax_share_trip()
-    {        
-        $trip_id = $this->input->post('tripId');
         
-        $t = new Trip();
-        $t->get_by_id($trip_id);
 
-        $uids = json_decode($this->input->post('uids'));
-
-        $u = new User();
-        foreach ($uids as $uid)
-        {
-            $u->get_by_id($uid);
-            if ($t->save($u))
-            {
-                $t->set_join_field($u, 'role', $this->input->post('shareRole'));
-                $t->set_join_field($u, 'rsvp', 6);
-            }
-        }
-        
-        if ($this->input->post('shareRole') == 2)
-        {
-            echo 'invites sent';
-        }
-        elseif ($this->input->post('shareRole') == 1)
-        {
-            echo 'suggestions asked for';
-        }
-    }
-    
-
-    public function ajax_trip_share_dialog()
-    {
-        // get user's following not already invited to this trip
-        $this->user->related_user->get();
-        // get user ids associated with this trip
-        $t = new Trip();
-        $t->get_by_id($this->input->post('tripId'));
-        // create array of following already invited to this trip
-        foreach ($t->user->get() as $user)
-        {
-            $trip_uids[] = $user->id;
-        }
-        $uninvited_followings = array();
-        foreach ($this->user->related_user as $following)
-        {
-            if ( ! in_array($following->id, $trip_uids))
-            {
-                $uninvited_followings[] = $following->stored;
-            }
-        }
-        
-        
-        $view_data = array(
-            'uninvited_followings' => $uninvited_followings,
-            'share_role' => $this->input->post('shareRole'),
-        );
-        
-        $render_string = $this->load->view('trip/trip_share_dialog', $view_data, true);
-        json_success(array('data' => $render_string));
-    }
 }
 
 /* End of file trip_shares.php */

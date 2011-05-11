@@ -1,6 +1,61 @@
 var share = {};
 
 $(function() {  
+  $('#invite-others-button').live('click', function() {
+    share.showShareDialog(5);
+    return false;
+  });
+  $('#share').live('click', function() {
+    share.showShareDialog(0);
+    return false;
+  });
+
+  $('.friend-capsule').live('click', function() {
+    if ($.data(this, 'selected')) {
+      $(this).removeClass('share-selected');
+      $.data(this, 'selected', false);
+    } else {
+      $(this).addClass('share-selected');
+      $.data(this, 'selected', true);
+    }
+    return false;
+  });
+
+  $('#facebook-invite').live('click', function() {
+    share.facebookShare(5);
+    return false;
+  });
+  $('#facebook-share').live('click', function() {
+    share.facebookShare(0);
+    return false;
+  });
+  $('#twitter-invite').live('click', function() {
+    share.tweet(5);
+    return false;
+  });
+  $('#twitter-share').live('click', function() {
+    share.tweet(0);
+    return false;
+  });
+
+  $('#confirm-invite').live('click', function() {
+    share.confirmShare(5);
+    return false;
+  });
+  $('#confirm-share').live('click', function() {
+    share.confirmShare(0);
+    return false;
+  });
+  $('#invite-cancel').live('click', function() {
+    $('#invite-popup').bPopup().close();
+    return false;
+  });
+  $('#share-cancel').live('click', function() {
+    $('#share-popup').bPopup().close();
+    return false;
+  });
+
+
   $('#rsvp_yes_button').live('click', function() {
     var loggedin = loginSignup.getStatus();
     if (loggedin) {
@@ -25,65 +80,33 @@ $(function() {
 
 share.saveRsvp = function(rsvp) {  
   $.post(baseUrl+'trips/ajax_save_rsvp', {tripId:tripId, rsvp:rsvp},
-    function(r) {
-      var r = $.parseJSON(r);
-      console.log(r);
+    function(d) {
+      var r = $.parseJSON(d);
     });
 };
 
     
 share.showShareDialog = function(shareRole) {
-  $.post(baseUrl+'trip_shares/ajax_trip_share_dialog', {tripId:tripId, shareRole:shareRole},
-    function(d) {
-      var r = $.parseJSON(d);
-      $('#div-to-popup').empty().append(r.data).bPopup({follow:false, opacity:0});
-      share.bindButtons(shareRole);
+  var popupType = (shareRole==5) ? 'invite' : 'share';
+  var popup = $('#'+popupType+'-popup');
+  if (popup.length > 0) {
+    popup.bPopup({follow:false, opacity:0});
+  } else {
+    $.ajax({
+      url: baseUrl+'static/js/jquery/popup.js',
+      dataType: 'script',
+      success: function() {      
+        $.post(baseUrl+'trips/ajax_share_dialog', {tripId:tripId, shareRole:shareRole},
+          function(d) {
+            var r = $.parseJSON(d);
+            popup = $('<div class="popup" id="'+popupType+'-popup" style="display:none;"/>');
+            $('body').append(popup);
+            popup.append(r.data).bPopup({follow:false, opacity:0});
+          });
+      },
+      cache: true
     });
-};
-  
-  
-share.bindButtons = function(shareRole) {
-  $('#shoutbound-share').bind('click', share.FriendSelector);
-  $('#facebook-share').click(function() {
-    share.facebookShare(shareRole);
-    return false;
-  });
-  $('#twitter-share').click(function() {
-    share.tweet(shareRole);
-    return false;
-  });
-  $('#email-share').click(function() {
-    share.emailShare();
-    return false;
-  });
-
-  $('#trip-share-confirm').click(function() {
-    share.confirmShare(shareRole);
-    return false;
-  });
-  $('#trip-share-cancel').click(function() {
-    $('#div-to-popup').bPopup().close();
-    return false;
-  });
-
-  $('.friend-capsule').bind('click', function() {
-    if ($.data(this, 'selected')) {
-      $(this).removeClass('share-selected');
-      $.data(this, 'selected', false);
-    } else {
-      $(this).addClass('share-selected');
-      $.data(this, 'selected', true);
-    }
-    return false;
-  });
-};
-
-
-share.FriendSelector = function() {
-  $('#friends').toggle();
-  $('#share-methods').toggle();
-  $('#trip-share-toolbar').toggle();
-  return false;
+  }
 };
   
 
@@ -97,7 +120,8 @@ share.facebookShare = function(shareRole) {
   var popup = window.open(url, '_blank', window_specs);
   popup.moveTo(x,y);
   
-  $('#div-to-popup').bPopup().close();
+  var ele = (shareRole == 5) ? 'invite' : 'share';
+  $('#'+ele+'-popup').bPopup().close();
   return false;
 };
 
@@ -114,70 +138,58 @@ share.tweet = function(shareRole) {
   var url = 'http://twitter.com/login?redirect_after_login=%2Fhome%3Fstatus%3D'+message;
   window.open(url);
   
-  $('#div-to-popup').bPopup().close();
+  var ele = (shareRole == 5) ? 'invite' : 'share';
+  $('#'+ele+'-popup').bPopup().close();
   return false;
 };
 
 
-share.emailShare = function() {
-  $('#share-methods').toggle();
-  $('#email-input').toggle();
-  $('#trip-share-toolbar').toggle();
-};
-
-
-share.confirmShare = function(shareRole) {  
+share.confirmShare = function(shareRole) {
   var uids = [];
   $('.friend-capsule').each(function() {
     if ($.data(this, 'selected')) {
       uids.push($(this).attr('uid'));
     }
   });
-  uids = $.JSON.encode(uids);
 
-  if ($('#emails').val())
-  {
-    var postData = {
-      tripId: tripId,
-      emails: $('#emails').val(),
-      shareRole: shareRole
-    };
-    
-    $.post(baseUrl+'trip_shares/send_email', postData,
-      function(d) {
-        share.displaySuccessDialog(d);
-      });
-  } else {
-    var postData = {
-      tripId: tripId,
-      uids: uids,
-      shareRole: shareRole
-    };
+  var validEmail = true;  
+  var emails = $('#emails').val();
+  if (emails) {
+    emails = emails.split(',');
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    $.each(emails, function(i, val) {
+      emails[i] = $.trim(val);
+      if (emails[i] && !emails[i].match(re)) {
+        validEmail = false;
+        return false;
+      }
+    });
+    if (!validEmail) {
+      $('#email-input').append('<span id="invalid-email">You entered an invalid email address.</span>').delay(5000).queue(function() {$('#invalid-email').remove();});
+      emails = '';
+    }
+  }
   
-    $.post(baseUrl+'trip_shares/ajax_share_trip', postData,
+  if ((uids.length > 0 && validEmail) || (emails && validEmail)) {
+    $.post(baseUrl+'trips/ajax_share', {tripId:tripId, shareRole:shareRole, uids:uids, emails:emails},
       function(d) {
-        share.displaySuccessDialog(d);
-        share.sendEmail(uids, shareRole);
+        var r = $.parseJSON(d);
+        share.showShareSuccess(r.message);
       });
   }
-    
-  $('#div-to-popup').bPopup().close();
   return false;
 };
 
 
-share.displaySuccessDialog = function(r) {
-  $('#div-to-popup').empty();
-  $('#div-to-popup').append(r);
-  $('#div-to-popup').bPopup();
-  $('.success').click(function() {
-    $('#div-to-popup').bPopup().close();
-  });  
-};
-
-
-share.sendEmail = function(uids, shareRole) {
-  $.post(baseUrl+'trip_shares/send_email', {tripId:tripId, uids:uids, shareRole:shareRole});
+share.showShareSuccess = function(m) {
+  $.post(baseUrl+'trips/ajax_share_success', {message:m},
+    function(d) {
+      $('.popup').remove();
+      var r = $.parseJSON(d);
+      var popup = $('<div id="share-success-popup" style="display:none;"/>');
+      $('body').append(popup);
+      popup.append(r.data).bPopup({follow:false, opacity:0});
+    });
 };
 
 
@@ -207,15 +219,3 @@ share.generateShareKey = function(shareRole, shareMedium, targetId) {
     alert(r.message);
   }
 };
-
-
-$(function() {
-  $('#invite-others-button').live('click', function() {
-    share.showShareDialog(5);
-    return false;
-  });
-  $('#share').live('click', function() {
-    share.showShareDialog(0);
-    return false;
-  });
-});

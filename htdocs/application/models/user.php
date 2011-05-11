@@ -9,7 +9,6 @@ class User extends DataMapper
       'trip',
       'post',
       'place',
-      'place',
       'setting',
       'friend',
       'related_user' => array(
@@ -505,6 +504,24 @@ class User extends DataMapper
             $this->stored->is_following = FALSE;
         }
         
+    }
+    
+    
+    public function check_notif_setting($setting_id=NULL)
+    {
+        if ( ! $setting_id)
+        {
+            return FALSE;
+        }
+        $this->setting->where('id', $setting_id)->include_join_fields()->get();
+        if ($this->setting->join_is_on)
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }        
     }
 }
 

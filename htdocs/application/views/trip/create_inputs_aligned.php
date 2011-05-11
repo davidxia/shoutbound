@@ -47,88 +47,86 @@ $this->load->view('core_header', $header_args);
 <div id="sticky-footer-wrapper">
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
-    <div id="div-to-popup" style="background-color:white; display:none;"></div>
 		  
-        <!-- TRIP CREATION FORM -->
-        <form id="trip-creation-form" action="confirm_create" method="post" style="position:relative; width:576px; margin:0 auto;">
+  <!-- TRIP CREATION FORM -->
+  <form id="trip-creation-form" action="confirm_create" method="post" style="position:relative; width:576px; margin:0 auto;">
+  
+  
+    <!-- PLACE DATES FIELD -->
+    <fieldset style="position:relative;">
+      <div style="display:inline-block; margin-bottom:5px;">Destinations</div>
+      <div id="dates-header" style="display:inline-block; visibility:hidden; margin-left:230px; margin-bottom:5px;">Dates (optional)</div>
+      <div id="destinations_dates" style="position:relative; margin-bottom:10px;">
+        <a id="add-destination" href="" style="position:absolute; top:15px; left:-15px; font-size:13px;">[+]</a><a id="subtract-destination" href="" style="position:absolute; top:-2px; left:-15px;">[-]</a>
+        <div class="field destination" style="margin-bottom:10px; float:left; position:relative; width:312px;">
+          <span class="label-and-errors">
+            <label for="address0"></label>
+            <span class="error-message" style="float:right;"></span>
+          </span>
+          <input type="text" id="address" class="destination-input" name="address" style="width:300px;" autocomplete=off
+  			    <? if ($destination):?>
+  			      <? echo 'value="'.$destination.'"'?>
+            <? endif;?>
+          />
+          <input type="hidden" id="lat" class="required destination_lat" name="lat"
+  			    <? if ($destination_lat):?>
+  			      <? echo 'value="'.$destination_lat.'"'?>
+            <? endif;?>
+          />
+          <input type="hidden" id="lng" class="destination_lng" name="lng"
+  			    <? if ($destination_lng):?>
+  			      <? echo 'value="'.$destination_lng.'"'?>
+            <? endif;?>
+          />
+        </div>
         
-        
-          <!-- PLACE DATES FIELD -->
-          <fieldset style="position:relative;">
-            <div style="display:inline-block; margin-bottom:5px;">Destinations</div>
-            <div id="dates-header" style="display:inline-block; visibility:hidden; margin-left:230px; margin-bottom:5px;">Dates (optional)</div>
-            <div id="destinations_dates" style="position:relative; margin-bottom:10px;">
-              <a id="add-destination" href="" style="position:absolute; top:15px; left:-15px; font-size:13px;">[+]</a><a id="subtract-destination" href="" style="position:absolute; top:-2px; left:-15px;">[-]</a>
-              <div class="field destination" style="margin-bottom:10px; float:left; position:relative; width:312px;">
-                <span class="label-and-errors">
-                  <label for="address0"></label>
-                  <span class="error-message" style="float:right;"></span>
-                </span>
-                <input type="text" id="address" class="destination-input" name="address" style="width:300px;" autocomplete=off
-        			    <? if ($destination):?>
-        			      <? echo 'value="'.$destination.'"'?>
-                  <? endif;?>
-                />
-                <input type="hidden" id="lat" class="required destination_lat" name="lat"
-        			    <? if ($destination_lat):?>
-        			      <? echo 'value="'.$destination_lat.'"'?>
-                  <? endif;?>
-                />
-                <input type="hidden" id="lng" class="destination_lng" name="lng"
-        			    <? if ($destination_lng):?>
-        			      <? echo 'value="'.$destination_lng.'"'?>
-                  <? endif;?>
-                />
-              </div>
-              
-              <div class="field dates" style="width:251px; margin-left:325px; visibility:hidden;">
-                <span class="label-and-errors">
-                  <span class="error-message" style="float:right;"></span>
-                  <div class="clear"></div>
-                </span>
-                <label for="startdate">from</label> <input id="startdate" class="startdate" name="startdate" type="text" size="10"/> <label for="enddate">to</label> <input id="enddate" class="enddate" name="enddate" type="text" size="10" />
-              </div>
-            </div>
-          </fieldset><!-- PLACE DATES FIELD ENDS -->
-          
-  
-  
-          <!-- SUMMARY FIELD -->
-          <fieldset id="summary-field" style="width:576px;">
-            <div class="field trip_name">
-              <span class="label-and-errors">
-                <label for="trip_name">Trip name</label>
-                <span class="error-message" style="float:right;"></span>
-                <div class="clear"></div>
-              </span>
-              <input id="trip_name" name="trip_name" class="required" type="text" style="width:564px; margin-top:5px; margin-bottom:10px;" />
-            </div>
-             <div class="field" style="margin-top:10px; padding-bottom:10px;">
-              <span class="label-and-errors">
-                <label for="description">Trip description</label>
-                <span class="error-message" style="float:right;"></span>
-                <div class="clear"></div>
-              </span>
-              <textarea id="description" name="description" style="width:564px; height:56px; font-size:14px; margin-top:5px; resize:none;"></textarea>
-            </div>
-          </fieldset><!-- SUMMARY  FIELD ENDS -->
-
-  
-          <div style="margin-top:10px;">
-            <button id="create-submit" class="blue-button" type="submit">Create</button>
-          </div>
-        </form><!-- TRIP CREATION FORM ENDS -->
-      </div><!-- CONTENT ENDS -->
-    </div><!-- WRAPPER ENDS -->
+        <div class="field dates" style="width:251px; margin-left:325px; visibility:hidden;">
+          <span class="label-and-errors">
+            <span class="error-message" style="float:right;"></span>
+            <div class="clear"></div>
+          </span>
+          <label for="startdate">from</label> <input id="startdate" class="startdate" name="startdate" type="text" size="10"/> <label for="enddate">to</label> <input id="enddate" class="enddate" name="enddate" type="text" size="10" />
+        </div>
+      </div>
+    </fieldset><!-- PLACE DATES FIELD ENDS -->
     
-    </div><!--CLOSE STICKY FOOTER WRAPPER-->
-    <? $this->load->view('footer')?>
 
-	</body>
+
+    <!-- SUMMARY FIELD -->
+    <fieldset id="summary-field" style="width:576px;">
+      <div class="field trip_name">
+        <span class="label-and-errors">
+          <label for="trip_name">Trip name</label>
+          <span class="error-message" style="float:right;"></span>
+          <div class="clear"></div>
+        </span>
+        <input id="trip_name" name="trip_name" class="required" type="text" style="width:564px; margin-top:5px; margin-bottom:10px;" />
+      </div>
+       <div class="field" style="margin-top:10px; padding-bottom:10px;">
+        <span class="label-and-errors">
+          <label for="description">Trip description</label>
+          <span class="error-message" style="float:right;"></span>
+          <div class="clear"></div>
+        </span>
+        <textarea id="description" name="description" style="width:564px; height:56px; font-size:14px; margin-top:5px; resize:none;"></textarea>
+      </div>
+    </fieldset><!-- SUMMARY  FIELD ENDS -->
+
+
+    <div style="margin-top:10px;">
+      <button id="create-submit" class="blue-button" type="submit">Create</button>
+    </div>
+  </form><!-- TRIP CREATION FORM ENDS -->
+</div><!-- CONTENT ENDS -->
+</div><!-- WRAPPER ENDS -->
+
+</div><!--CLOSE STICKY FOOTER WRAPPER-->
+<? $this->load->view('footer')?>
+</body>
 </html>
 
 <script type="text/javascript">  
-  $(document).ready(function() {
+  $(function() {
     $('#address').focus();
   
     // dates for 1st destination appear if it's filled in
@@ -258,22 +256,8 @@ $this->load->view('core_header', $header_args);
     }    
   });
   
-
-  ///////////////////////////////////////
-  // load geocoder for destination field
-  var map = {};
-  
-  $(document).ready(function() {
-    map.loadGoogleMapScript();
-  });
-
-  map.loadGoogleMapScript = function() {
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'http://maps.google.com/maps/api/js?sensor=false&callback=map.loadGoogleMap';
-    document.body.appendChild(script);
-  };
-  
+////////////////////////////
+// TODO: integrate places table  
   map.loadGoogleMap = function() {
     // bind onkeyup event to location-search-box
     $('input.destination-input').live('keyup', function(e) {
