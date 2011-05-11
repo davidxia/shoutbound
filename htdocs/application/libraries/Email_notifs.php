@@ -78,20 +78,29 @@ class Email_notifs
     }
         
     
-    public function send_email($to_array=NULL, $subj=NULL, $html=NULL, $text=NULL, $setting_id=NULL, $from='notifications@shoutbound.com')
+    public function send_email($to_array=NULL, $subj=NULL, $html=NULL, $text=NULL, $setting_id=NULL)
     {
         if ( ! ($to_array AND $subj AND $html AND $text AND $setting_id))
         {
             return FALSE;
         }
         
-        $url = 'http://sendgrid.com/';
+        //$url = 'http://sendgrid.com/';
+        //$req =  $url.'api/mail.send.json';
+        $req = 'http://sendgrid.com/api/mail.send.json';
         $user = 'david@shoutbound.com';
         $pw = 'tEdRAmu6';
+        
         switch($setting_id)
         {
+            case 3:
+                $category = 'user follow';
+                break;
             case 12:
                 $category = 'trip invite';
+                break;
+            case 13:
+                $category = 'trip share';
                 break;
             default:
                 $category = 'uncategorized';
@@ -102,8 +111,6 @@ class Email_notifs
             'to' => $to_array,
             'category' => $category,
         );
-
-
         $params = array(
             'api_user'  => $user,
             'api_key'   => $pw,
@@ -112,10 +119,10 @@ class Email_notifs
             'subject'   => $subj,
             'html'      => $html,
             'text'      => $text,
-            'from'      => $from,
+            'from'      => 'notifications@shoutbound.com',
+            'fromname'  => 'Shoutbound',
+            'replyto'   => 'noreply@shoutbound.com',
         );
-
-        $req =  $url.'api/mail.send.json';
 
         // Generate curl request
         $ch = curl_init($req);
