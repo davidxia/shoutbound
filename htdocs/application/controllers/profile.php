@@ -477,7 +477,17 @@ class Profile extends CI_Controller
             {
                 $u->set_join_field($this->user, 'is_following', 1);
                 $this->load->helper('activity');
-                save_activity($this->user->id, 3, $id, NULL, NULL, time()-72);                
+                save_activity($this->user->id, 3, $id, NULL, NULL, time()-72);
+                
+                $this->load->library('email_notifs');
+                $setting_id = 3;
+                $emails = $this->email_notifs->get_emails_by_uids_setting(array($id), $setting_id);
+                list($subj, $html, $text) = $this->email_notifs->compose_email($this->user, $setting_id, $u->stored);
+                if ($subj AND $html AND $text)
+                {
+                    $resp = $this->email_notifs->send_email($emails, $subj, $html, $text, $setting_id);
+                }
+                
                 json_success(array('type' => 'user', 'id' => $id, 'follow' => $follow));
             }
             else

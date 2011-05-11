@@ -2,7 +2,7 @@
 
 class Email_notifs
 {
-    public function get_emails_by_uid_setting($uids=array(), $setting_id=NULL)
+    public function get_emails_by_uids_setting($uids=array(), $setting_id=NULL)
     {
         if ( ! $setting_id)
         {
@@ -10,7 +10,7 @@ class Email_notifs
         }
         $emails = array();
         $u = new User();
-        // get emails of users who want email notifications for trip invites
+        // get emails of users who want email notifications specified setting
         foreach ($uids as $uid)
         {
             $u->get_by_id($uid);
@@ -31,6 +31,13 @@ class Email_notifs
         }
         switch($setting_id)
         {
+            case 3:
+                $subj = $user->name.' is now following you on Shoutbound';
+                $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> is now following '.
+                    '<a href="'.site_url('profile/'.$target->id).'">you</a> on Shoutbound.</h4>';
+                $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> is now following '.
+                    '<a href="'.site_url('profile/'.$target->id).'">you</a> on Shoutbound.';
+                break;
             case 12:
                 $subj = $user->name.' invited you to a trip on Shoutbound';
                 $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> invited you to a trip on Shoutbound</h4>'.

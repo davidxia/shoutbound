@@ -460,7 +460,7 @@ class Trips extends CI_Controller
         }
 
         $this->load->library('email_notifs');
-        $emails = $this->email_notifs->get_emails_by_uid_setting($uids, $setting_id);
+        $emails = $this->email_notifs->get_emails_by_uids_setting($uids, $setting_id);
         $emails = array_merge($emails, $nonuser_emails);
         list($subj, $html, $text) = $this->email_notifs->compose_email($this->user, $setting_id, $t->stored);
         if ($subj AND $html AND $text)
