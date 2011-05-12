@@ -23,9 +23,9 @@ class Email_notifs
     }
 
 
-    public function compose_email($user, $setting_id=NULL, $target=NULL)
+    public function compose_email($user, $setting_id=NULL, $source=NULL, $parent=NULL)
     {
-        if ( ! ($user->id AND $setting_id AND $target->id))
+        if ( ! ($user->id AND $setting_id AND $source->id))
         {
             return FALSE;
         }
@@ -34,40 +34,49 @@ class Email_notifs
             case 3:
                 $subj = $user->name.' is now following you on Shoutbound';
                 $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> is now following '.
-                    '<a href="'.site_url('profile/'.$target->id).'">you</a> on Shoutbound.</h4>';
+                    '<a href="'.site_url('profile/'.$source->id).'">you</a> on Shoutbound.</h4>';
                 $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> is now following '.
-                    '<a href="'.site_url('profile/'.$target->id).'">you</a> on Shoutbound.';
+                    '<a href="'.site_url('profile/'.$source->id).'">you</a> on Shoutbound.';
+                break;
+            case 11:
+                $subj = $user->name.' posted on your trip '.$parent->name.' on Shoutbound';
+                $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> wrote:</h4>'.
+                    '<br/>'.$source->content.'<br/>'.
+                    'on <a href="'.site_url('trips/'.$parent->id).'">'.$parent->name.'</a>.';
+                $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> wrote:'.
+                    '<br/>'.$source->content.'<br/>'.
+                    'on <a href="'.site_url('trips/'.$parent->id).'">'.$parent->name.'</a>.';
                 break;
             case 12:
                 $subj = $user->name.' invited you to a trip on Shoutbound';
                 $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> invited you to a trip on Shoutbound</h4>'.
-                    '<a href="'.site_url('trips/'.$target->id).'">'.
+                    '<a href="'.site_url('trips/'.$source->id).'">'.
                     'To see the trip, click here.</a>'.
-                    '<br/><a href="'.site_url('trips/'.$target->id).'">'.$target->name.'</a>'.
-                    '<br/>'.$target->description.
+                    '<br/><a href="'.site_url('trips/'.$source->id).'">'.$source->name.'</a>'.
+                    '<br/>'.$source->description.
                     '<br/>Have fun!<br/>Team Shoutbound';
                 
                 $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> invited you to a trip on Shoutbound'.
-                    '<br/><a href="'.site_url('trips/'.$target->id).'">'.
+                    '<br/><a href="'.site_url('trips/'.$source->id).'">'.
                     'To see the trip, click here.</a>'.
-                    '<br/><a href="'.site_url('trips/'.$target->id).'">'.$target->name.'</a>'.
-                    '<br/>'.$target->description.
+                    '<br/><a href="'.site_url('trips/'.$source->id).'">'.$source->name.'</a>'.
+                    '<br/>'.$source->description.
                     '<br/>Have fun!<br/>Team Shoutbound';
                 break;
             case 13:
                 $subj = $user->name.' shareddddddddddddddd you to a trip on Shoutbound';
                 $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> invited you to a trip on Shoutbound</h4>'.
-                    '<a href="'.site_url('trips/'.$target->id).'">'.
+                    '<a href="'.site_url('trips/'.$source->id).'">'.
                     'To see the trip, click here.</a>'.
-                    '<br/><a href="'.site_url('trips/'.$target->id).'">'.$target->name.'</a>'.
-                    '<br/>'.$target->description.
+                    '<br/><a href="'.site_url('trips/'.$source->id).'">'.$source->name.'</a>'.
+                    '<br/>'.$source->description.
                     '<br/>Have fun!<br/>Team Shoutbound';
                 
                 $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> invited you to a trip on Shoutbound'.
-                    '<br/><a href="'.site_url('trips/'.$target->id).'">'.
+                    '<br/><a href="'.site_url('trips/'.$source->id).'">'.
                     'To see the trip, click here.</a>'.
-                    '<br/><a href="'.site_url('trips/'.$target->id).'">'.$target->name.'</a>'.
-                    '<br/>'.$target->description.
+                    '<br/><a href="'.site_url('trips/'.$source->id).'">'.$source->name.'</a>'.
+                    '<br/>'.$source->description.
                     '<br/>Have fun!<br/>Team Shoutbound';
                 break;
             default:

@@ -21,7 +21,32 @@ class Posts extends CI_Controller
         }
 		}
 		
-		
+    public function mytest()
+    {
+        $t = new Trip();
+        $u = new User();
+        $t->where_in('id', array(1,2))->get();
+        $this->load->library('email_notifs');
+        $setting_id = 11;
+        
+        foreach ($t as $trip)
+        {
+            $trip->get_creator();
+            $u->get_by_id($trip->stored->creator->id);
+            if ( ! $u->check_notif_setting($setting_id))
+            {
+                $trip->stored->creator->email = NULL;
+            }
+        }
+        foreach ($t as $trip)
+        {
+            print_r($trip->stored);
+            if ($trip->stored->creator->email)
+            {
+                echo 'send email!';
+            }
+        }
+    }
 		public function ajax_save()
 		{
 		    $content = $this->input->post('content');
@@ -66,6 +91,23 @@ class Posts extends CI_Controller
             $parent_type = ($parent_id) ? 4 : 2;
             $this->load->helper('activity');
             save_activity($this->user->id, $activity_type, $p->id, $pid, $parent_type, time()-72);
+            
+            $this->load->library('email_notifs');
+            $setting_id = 11;
+            $u = new User();
+            foreach ($t as $trip)
+            {
+                $trip->get_creator();
+                $u->get_by_id($trip->stored->creator->id);
+                if ($u->check_notif_setting($setting_id))
+                {
+                    list($subj, $html, $text) = $this->email_notifs->compose_email($this->user, $setting_id, $p->stored, $trip->stored);
+                    if ($subj AND $html AND $text)
+                    {
+                        $resp = $this->email_notifs->send_email(array($trip->stored->creator->email), $subj, $html, $text, $setting_id);
+                    }        
+                }
+            }
             
             json_success(array(
                 'id' => $p->id,

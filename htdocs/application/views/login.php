@@ -42,11 +42,11 @@ $this->load->view('core_header', $header_args);
 	            <ul>
 	              <li style="margin-bottom:20px;">
 	                <label for="email" style="display:block; margin-bottom:10px;">Email</label>
-	                <input type="text" name="email" id="email" autocomplete="off"/>
+	                <input type="text" name="email" id="email"/>
 	              </li>
 	              <li style="margin-bottom:20px;">
 	                <label for="password" style="display:block; margin-bottom:10px;">Password</label>
-	                <input type="password" name="password" id="password" autocomplete="off"/>
+	                <input type="password" name="password" id="password"/>
 	                <div id="login-error" style="color:red; margin-top:5px; height:18px; line-height:18px;"></div>
 	              </li>
 	            </ul>
