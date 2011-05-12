@@ -2,7 +2,6 @@
 $header_args = array(
     'title' => 'Shoutbound',
     'css_paths'=> array(
-        'css/excite-bike/jquery-ui-1.8.11.custom.css',
         'css/home.css',
     ),
     'js_paths'=> array(
@@ -11,8 +10,6 @@ $header_args = array(
         'js/savepost.js',
         'js/actionbar.js',
         'js/common.js',
-        'js/jquery/jquery-ui-1.8.11.custom.min.js',
-        'js/jquery/multiselect.min.js',
     )
 );
 $this->load->view('core_header', $header_args);

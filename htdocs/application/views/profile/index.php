@@ -9,6 +9,7 @@ $header_args = array(
         'js/profile/map.js',
         'js/follow.js',
         'js/common.js',
+        'js/actionbar.js',
         'js/user/loginSignup.js',
         'js/jquery/popup.js',
     )
@@ -18,6 +19,7 @@ $this->load->view('core_header', $header_args);
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
+  var staticUrl = '<?=static_sub()?>';
   var profileId = <?=$profile->id?>;
   var isSelf = <? if ($is_self) echo 1; else echo 0;?>;
 </script>
@@ -32,7 +34,6 @@ $this->load->view('core_header', $header_args);
     <div id="top-bar"><!--TOP BAR-->
       <div id="profile-pic-container">
         <a href="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="125" height="125"/></a>
-        <!--<a href="<?=site_url('settings/profile')?>" id="edit-profile-pic" style="position:absolute; top:0px; left:0px; font-size:12px; background-color:black; color:white; display:none;">change picture</a>-->
       </div>
       <div id="profile-info">
         <div class="top-bar-header"><?=$profile->name?></div>

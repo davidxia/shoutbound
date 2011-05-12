@@ -126,28 +126,6 @@ map.showTabMarkers = function(tabName) {
 };
 
 
-$(function() {
-  if (isSelf) {
-    $('#profile-pic-container').hover(
-      function() {
-        $('#edit-profile-pic').show();
-      },
-      function() {
-        $('#edit-profile-pic').hide();
-      }
-    );
-    $('#edit-profile-pic').hover(
-      function() {
-        $('#edit-profile-pic').show();
-      },
-      function() {
-        $('#edit-profile-pic').hide();
-      }
-    );
-  }
-});
-
-
 loadTabs = function(defaultTab) {
   $(window).bind('hashchange', function(e) {
     var tabName = $.param.fragment();

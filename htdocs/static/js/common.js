@@ -47,8 +47,6 @@ $(function() {
       var m = $(this).parent().attr('id').match(/^(\w+)-(\d+)$/);
       var type = m[1];
       var id = m[2];
-      console.log(type);
-      console.log(id);
       if (type == 'activity') {
         $.post(baseUrl+'home/ajax_delete_activity', {activityId:id},
           function(d) {
@@ -72,4 +70,23 @@ $(function() {
       }
     }
   });
+  
+  jqMultiselect();
 });
+
+
+jqMultiselect = function() {  
+  if ($('select').length > 0) {
+    $(document.createElement('link')).attr({
+        href: baseUrl+'static/css/excite-bike/jquery-ui-1.8.11.custom.css',
+        media: 'screen',
+        type: 'text/css',
+        rel: 'stylesheet'
+    }).appendTo('head');
+    $.getScript(baseUrl+'static/js/jquery/jquery-ui-1.8.11.custom.min.js', function() {
+      $.getScript(baseUrl+'static/js/jquery/multiselect.min.js', function() {
+        $('select').multiselect();
+      });
+    });
+  }
+}

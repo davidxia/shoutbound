@@ -102,10 +102,6 @@ map.showTabMarkers = function(tabName) {
 };
 
 
-$(function() {
-  $('select').multiselect();
-});
-
 
 loadTabs = function(defaultTab) {
   $(window).bind('hashchange', function(e) {
