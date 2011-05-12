@@ -79,8 +79,8 @@ $this->load->view('core_header', $header_args);
       <div class="right-widget-container">
         <div id="stats-container" class="right-widget-interior">
           <ul class="stats-list">
-            <li><a href="" style="cursor:default;" class="goers-count"><?=$trip->num_goers?><span class="stat-label">People</span></a></li>
-            <li class="border-left"><a href="" class="post-count"><?=count($posts)?><span class="stat-label">Posts</span></a></li>
+            <li><a style="cursor:default;" class="goers-count"><?=$trip->num_goers?><span class="stat-label">People</span></a></li>
+            <li class="border-left"><a href="#posts" class="post-count"><?=count($posts)?><span class="stat-label">Posts</span></a></li>
             <li class="border-left"><a href="#followers" class="followers-count"><?=$trip->num_followers?><span class="stat-label">Followers</span></a></li>
           </ul>     
           <div style="clear:both"></div>   
