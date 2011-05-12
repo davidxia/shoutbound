@@ -12,6 +12,7 @@ $header_args = array(
         'js/trip/wall.js',
         'js/trip/share.js',
         'js/follow.js',
+        'js/savepost.js',
         'js/jquery/jquery.color.js',
         'js/jquery/timeago.js',
         'js/actionbar.js',
@@ -300,7 +301,7 @@ $this->load->view('core_header', $header_args);
         <form class="save-post-form">
           <fieldset>
             <span class="input-header">New post</span>
-            <div contenteditable="true" class="post-input"></div>
+            <div contenteditable="true" id="post-input"></div>
             <div style="display:none;">
               <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
               <div contenteditable="true" class="tag-input"></div>
@@ -319,7 +320,7 @@ $this->load->view('core_header', $header_args);
             </div>
           </fieldset>
         </form>
-        <a class="save-post-button">Post</a>
+        <a id="save-post-button">Post</a>
       </div><!--END POST CONTAINER-->
 
 		        	

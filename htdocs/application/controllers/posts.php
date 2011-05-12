@@ -92,7 +92,18 @@ class Posts extends CI_Controller
             $content = str_replace('</place>', '</a>', $content);
             
             $activity_type = ($parent_id) ? 6 : 2;
-            $pid = ($parent_id) ? $parent_id : $trip_ids[0];
+            if ($parent_id)
+            {
+                $pid = $parent_id;
+            }
+            elseif (isset($trip_ids[0]))
+            {
+                $pid = $trip_ids[0];
+            }
+            else
+            {
+                $pid = NULL;
+            }
             $parent_type = ($parent_id) ? 4 : 2;
             $this->load->helper('activity');
             save_activity($this->user->id, $activity_type, $p->id, $pid, $parent_type, time()-72);

@@ -6,7 +6,7 @@ map.markers = {};
 
 
 $(function() {
-  $('.post-input').focus(function() {
+  $('#post-input').focus(function() {
     $(this).next().show();
   });
   
@@ -104,20 +104,8 @@ map.showTabMarkers = function(tabName) {
 
 $(function() {
   $('select').multiselect();
-
-  $('.save-post-button').click(function() {
-    var text = getContentEditableText('post-input').trim();
-    if (text.length > 0) {
-      savePost(text);        
-    }
-    return false;
-  });
-
   $('abbr.timeago').timeago();
-});
 
-
-$(function() {
   var delay;
   $('.tooltip').live('mouseover mouseout', function(e) {
     if (e.type == 'mouseover') {
@@ -148,37 +136,6 @@ $(function() {
     }
   });
 });
-
-
-getContentEditableText = function(class) {
-  var ce = $('<pre />').html($('.' + class).html());
-  if ($.browser.webkit)
-    ce.find('div').replaceWith(function() { return '\n' + this.innerHTML; });
-  if ($.browser.msie)
-    ce.find('p').replaceWith(function() { return this.innerHTML + '<br>'; });
-  if ($.browser.mozilla || $.browser.opera || $.browser.msie)
-    ce.find('br').replaceWith('\n');
-  return ce.text();
-}
-
-
-savePost = function(content) {
-  var tripIds = $('#trip-selection').multiselect('getChecked').map(function(){
-     return this.value;
-  }).get();
-  $.post(baseUrl+'posts/ajax_save', {content:content, tripIds:tripIds},
-    function (d) {
-      var r = $.parseJSON(d);
-      showPost(r);
-    });
-}
-
-
-showPost = function(r) {
-  $('.post-input').text('');
-  $('#trip-selection').multiselect('uncheckAll');
-  //console.log(r);
-}
 
 
 loadTabs = function(defaultTab) {

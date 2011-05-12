@@ -34,13 +34,11 @@ loginSignup.success = function(callback, id, param) {
     case 'create trip':
       $('#trip-creation-form').submit();
       break;
-    case 'wall post':
-      wall.savePost();
-      window.location.reload();
+    case 'save post':
+      savePost();
       break;
     case 'wall reply':
       wall.postReply(id);
-      window.location.reload();
       break;
     case 'wall like':
       wall.saveLike(id, param);

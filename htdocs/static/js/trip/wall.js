@@ -77,157 +77,13 @@ $(function() {
         });
     }
   });
-
-
-  $('.save-post-button').click(function() {
-    var text = getContentEditableText('post-input').trim();
-    if (text.length > 0) {
-      savePost(text);        
-    }
-    return false;
-  });
-  
-  /*
-  $('#post-button').click(function() {
-    if (wall.getContentEditableText('post-input').trim().length > 0) {
-      var loggedin = loginSignup.getStatus();
-      if (loggedin) {
-        wall.savePost();
-      } else {
-        loginSignup.showDialog('wall post');
-      }
-    }
-    return false;
-  });
-  */
-
-  $('.reply-button').click(function() {
-    var parentId = $(this).parent().parent().attr('id');
-    var regex = /^post-(\d+)$/;
-    var match = regex.exec(parentId);
-    parentId = match[1];
-    
-    wall.removeReplyBox(parentId);
-    var replyBox = $('<div class="reply-box" style="margin-left:48px;"><textarea style="height:14px; display:block; overflow:hidden; resize:none; line-height:13px; width:450px;"></textarea></div>');
-    $(this).parent().parent().append(replyBox);
-    var replyInput = replyBox.children('textarea');
-    replyInput.focus();
-    wall.loadReplyEnter(replyInput);
-    return false;
-  });
 });
-
-
-/*wall.getContentEditableText = function(class) {
-  var ce = $('<pre />').html($('.' + class).html());
-  if ($.browser.webkit)
-    ce.find('div').replaceWith(function() { return '\n' + this.innerHTML; });
-  if ($.browser.msie)
-    ce.find('p').replaceWith(function() { return this.innerHTML + '<br>'; });
-  if ($.browser.mozilla || $.browser.opera || $.browser.msie)
-    ce.find('br').replaceWith('\n');
-  return ce.text();
-}*/
-
-getContentEditableText = function(class) {
-  var ce = $('<pre />').html($('.' + class).html());
-  if ($.browser.webkit)
-    ce.find('div').replaceWith(function() { return '\n' + this.innerHTML; });
-  if ($.browser.msie)
-    ce.find('p').replaceWith(function() { return this.innerHTML + '<br>'; });
-  if ($.browser.mozilla || $.browser.opera || $.browser.msie)
-    ce.find('br').replaceWith('\n');
-  return ce.text();
-}
-
-
-savePost = function(content) {
-  /*
-  var tripIds = $('#trip-selection').multiselect('getChecked').map(function(){
-     return this.value;
-  }).get();
-  */
-  var tripIds = [2];
-  $.post(baseUrl+'posts/ajax_save', {content:content, tripIds:tripIds},
-    function (d) {
-      var r = $.parseJSON(d);
-      showPost(r);
-    });
-}
-
-showPost = function(r) {
-  $('.post-input').text('');
-  $('#trip-selection').multiselect('uncheckAll');
-  //console.log(r);
-}
-
-/*wall.savePost = function() {
-  var text = wall.getContentEditableText('post-input').trim();
-  var matches = text.match(/@[\w-']+/g);
-  for (i in matches) {
-    var name = matches[i].replace(/@/, '');
-    var id = $('#autocomplete-results').data(name);
-    name = name.replace(/-/g, ' ');
-    text = text.replace(matches[i], '<place id="'+id+'">'+name+'</place>');
-  }
-
-  $.post(baseUrl+'posts/ajax_save', {tripId:tripId, content:text},
-    function(r) {
-      var r = $.parseJSON(r);
-      wall.displayPost(r);
-    });
-};*/
 
 
 wall.removePost = function(id) {
   $('#post-'+id).fadeOut(300, function() {
     $(this).remove();
   });
-};
-
-
-// hitting enter posts the reply
-wall.loadReplyEnter = function(replyInput) {
-  replyInput.keydown(function(e) {
-    var keyCode = e.keyCode || e.which,
-        enter = 13;
-    if (keyCode == enter) {
-      e.preventDefault();
-      var loggedin = loginSignup.getStatus();
-      var parentId = replyInput.parent().parent().attr('id').match(/^post-(\d+)$/)[1];
-      if (loggedin) {
-        wall.postReply(parentId);
-      } else {
-        loginSignup.showDialog('wall reply', parentId);
-      }
-    }
-  });
-};
-
-
-wall.postReply = function(parentId) {  
-  var postData = {
-    tripId: tripId,
-    parentId: parentId,
-    content: $('#post-'+parentId).find('textarea').val()
-  };
-  
-  $.ajax({
-    type: 'POST',
-    url: baseUrl+'posts/ajax_save',
-    data: postData,
-    success: function(r) {
-      var r = $.parseJSON(r);
-      wall.displayPost(r);
-      wall.removeReplyBox(parentId);
-      wall.bindLike();
-    }
-  });  
-};
-
-
-wall.removeReplyBox = function(parentId) {
-  $('#post-'+parentId).find('.reply-box').remove();
 };
 
 
@@ -261,25 +117,16 @@ wall.bindLike = function() {
 };
 
 
-wall.saveLike = function(postId, isLike) {
-  var postData = {
-    postId: postId,
-    isLike: isLike
-  };
-  
-  $.ajax({
-    type: 'POST',
-    url: baseUrl+'posts/ajax_save_like',
-    data: postData,
-    success: function(r) {
-      var r = $.parseJSON(r);
+wall.saveLike = function(postId, isLike) {  
+  $.post(baseUrl+'posts/ajax_save_like', {postId:postId, isLike:isLike},
+    function(d) {
+      var r = $.parseJSON(d);
       if (r.success) {
         wall.displayLike(r.postId, r.isLike);
       } else {
         alert('something broken. Tell David to fix it.');
       }
-    }
-  });
+    });
 };
 
 
@@ -487,15 +334,11 @@ wall.delay = (function() {
 
 
 wall.placeAutocomplete = function(query) {
-  $.ajax({
-    type: 'POST',
-    url: baseUrl+'places/ajax_autocomplete',
-    data: {query:query},
-    success: function(r) {
-      var r = $.parseJSON(r);
+  $.post(baseUrl+'places/ajax_autocomplete', {query:query},
+    function(d) {
+      var r = $.parseJSON(d);
       wall.listPlaces(r.places);
-    }
-  });
+    });
 };
 
 

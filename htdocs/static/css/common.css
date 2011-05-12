@@ -586,7 +586,7 @@ ul.stats-list li a{
   margin-left:0px;
 }
 
-.follow, .save-post-button, .edit-profile{
+.follow, #save-post-button, .edit-profile{
   display:block;
   height:28px;
   line-height:28px;

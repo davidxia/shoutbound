@@ -8,6 +8,7 @@ $header_args = array(
     'js_paths'=> array(
         'js/jquery/jquery.ba-bbq.min.js',
         'js/user/home.js',
+        'js/savepost.js',
         'js/actionbar.js',
         'js/jquery/jquery-ui-1.8.11.custom.min.js',
         'js/jquery/multiselect.min.js',
@@ -34,7 +35,7 @@ $this->load->view('core_header', $header_args);
         <form class="save-post-form">
           <fieldset>
             <span class="input-header">New post</span>
-            <div contenteditable="true" class="post-input"></div>
+            <div contenteditable="true" id="post-input"></div>
             <div style="display:none;">
               <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
               <div contenteditable="true" class="tag-input"></div>
@@ -53,7 +54,7 @@ $this->load->view('core_header', $header_args);
             </div>
           </fieldset>
         </form>
-        <a class="save-post-button">Post</a>
+        <a id="save-post-button">Post</a>
       </div><!--END POST CONTAINER-->
     </div><!--TOP BAR END-->
 
