@@ -50,13 +50,6 @@ var cache = {};
 wall.scrollElem;
 
 
-wall.removePost = function(id) {
-  $('#post-'+id).fadeOut(300, function() {
-    $(this).remove();
-  });
-};
-
-
 wall.bindLike = function() {
   $('a.like-button, a.unlike-button').unbind();
   $('a.like-button').click(function() {

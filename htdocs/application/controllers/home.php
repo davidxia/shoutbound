@@ -43,7 +43,6 @@ class Home extends CI_Controller
         );
                           
         $this->load->view('home/index', $view_data);
-        //print_r($news_feed_items);
     }
         
     
@@ -57,15 +56,33 @@ class Home extends CI_Controller
         );
         $this->load->view('home/trail', $data);
     }
+    
+    
+    public function ajax_delete_activity()
+    {
+        $a = new Activitie($this->input->post('activityId'));
+        if ($a->user_id == $this->user->id)
+        {
+            $a->is_active = 0;
+            if ($a->save())
+            {
+                json_success();
+            }
+            else
+            {
+                json_error('something broke, tell David');
+            }
+        }
+    }
             
     
-    function fb_request_form()
+    public function fb_request_form()
     {
         $this->load->view('fb_request_form');
     }
     
     
-    function simplegeo_test()
+    public function simplegeo_test()
     {
         $this->load->view('simplegeo_test');
     }

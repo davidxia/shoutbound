@@ -44,14 +44,32 @@ $(function() {
 
   $('.delete').live('click', function() {
     if (window.confirm('are you sure you want to delete this post?')) {
-      var postId = $(this).parent().attr('id').match(/(\d+)$/)[1];
-      $.post(baseUrl+'trips/ajax_delete_post', {postId:postId, tripId:tripId},
-        function(d) {
-          var r = $.parseJSON(d);
-          if (r.success) {
-            wall.removePost(r.id);
-          }
-        });
+      var m = $(this).parent().attr('id').match(/^(\w+)-(\d+)$/);
+      var type = m[1];
+      var id = m[2];
+      console.log(type);
+      console.log(id);
+      if (type == 'activity') {
+        $.post(baseUrl+'home/ajax_delete_activity', {activityId:id},
+          function(d) {
+            var r = $.parseJSON(d);
+            if (r.success) {
+              $('#activity-'+id).fadeOut(300, function() {
+                $(this).remove();
+              });
+            }
+          });
+      } else if (type == 'post') {
+        $.post(baseUrl+'trips/ajax_delete_post', {postId:id, tripId:tripId},
+          function(d) {
+            var r = $.parseJSON(d);
+            if (r.success) {
+              $('#post-'+id).fadeOut(300, function() {
+                $(this).remove();
+              });
+            }
+          });
+      }
     }
   });
 });
