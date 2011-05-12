@@ -276,6 +276,9 @@ class Trips extends CI_Controller
             elseif ($rsvp > 3 AND $role == 5)
             {
                 $t->set_join_field($this->user, 'rsvp', $rsvp);
+                
+                $this->load->library('email_notifs');
+                // TODO: send email to goers? creator???
                 json_success(array(
                     'type' => 'trip',
                     'id' => $trip_id,

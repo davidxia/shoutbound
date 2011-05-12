@@ -31,20 +31,25 @@ class Posts extends CI_Controller
         
         foreach ($t as $trip)
         {
-            $trip->get_creator();
-            $u->get_by_id($trip->stored->creator->id);
-            if ( ! $u->check_notif_setting($setting_id))
+            $trip->get_goers();
+            $emails = array();
+            foreach ($trip->stored->goers as $goer)
             {
-                $trip->stored->creator->email = NULL;
+                $u->get_by_id($goer->id);
+                if ($u->check_notif_setting($setting_id))
+                {
+                    $emails[] = $goer->email;
+                }
+            }
+            list($subj, $html, $text) = $this->email_notifs->compose_email($this->user, $setting_id, $p->stored, $trip->stored);
+            if ($subj AND $html AND $text)
+            {
+                $resp = $this->email_notifs->send_email($emails, $subj, $html, $text, $setting_id);
             }
         }
         foreach ($t as $trip)
         {
             print_r($trip->stored);
-            if ($trip->stored->creator->email)
-            {
-                echo 'send email!';
-            }
         }
     }
 		public function ajax_save()
@@ -97,18 +102,23 @@ class Posts extends CI_Controller
             $u = new User();
             foreach ($t as $trip)
             {
-                $trip->get_creator();
-                $u->get_by_id($trip->stored->creator->id);
-                if ($u->check_notif_setting($setting_id))
+                $trip->get_goers();
+                $emails = array();
+                foreach ($trip->stored->goers as $goer)
                 {
-                    list($subj, $html, $text) = $this->email_notifs->compose_email($this->user, $setting_id, $p->stored, $trip->stored);
-                    if ($subj AND $html AND $text)
+                    $u->get_by_id($goer->id);
+                    if ($u->check_notif_setting($setting_id))
                     {
-                        $resp = $this->email_notifs->send_email(array($trip->stored->creator->email), $subj, $html, $text, $setting_id);
-                    }        
+                        $emails[] = $goer->email;
+                    }
+                }
+                list($subj, $html, $text) = $this->email_notifs->compose_email($this->user, $setting_id, $p->stored, $trip->stored);
+                if ($subj AND $html AND $text)
+                {
+                    $resp = $this->email_notifs->send_email($emails, $subj, $html, $text, $setting_id);
                 }
             }
-            
+                
             json_success(array(
                 'id' => $p->id,
                 'userName' => $this->user->name,
