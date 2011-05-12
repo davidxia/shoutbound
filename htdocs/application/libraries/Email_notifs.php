@@ -83,8 +83,6 @@ class Email_notifs
             return FALSE;
         }
         
-        //$url = 'http://sendgrid.com/';
-        //$req =  $url.'api/mail.send.json';
         $req = 'http://sendgrid.com/api/mail.send.json';
         $user = 'david@shoutbound.com';
         $pw = 'tEdRAmu6';
@@ -94,6 +92,8 @@ class Email_notifs
             case 3:
                 $category = 'user follow';
                 break;
+            case 11:
+                $category = 'trip post';
             case 12:
                 $category = 'trip invite';
                 break;

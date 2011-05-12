@@ -451,7 +451,7 @@ class User extends DataMapper
 
         $this->stored->activities = array();
         $a = new Activitie();
-        $a->where('user_id', $this->id)->limit(20)->order_by('timestamp', 'desc')->get_iterated();
+        $a->where('user_id', $this->id)->where('is_active', 1)->limit(20)->order_by('timestamp', 'desc')->get_iterated();
         
         foreach ($a as $activity)
         {

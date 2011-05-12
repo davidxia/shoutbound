@@ -10,9 +10,9 @@ $header_args = array(
         'js/user/home.js',
         'js/savepost.js',
         'js/actionbar.js',
+        'js/common.js',
         'js/jquery/jquery-ui-1.8.11.custom.min.js',
         'js/jquery/multiselect.min.js',
-        'js/jquery/timeago.js',
     )
 );
 $this->load->view('core_header', $header_args);

@@ -50,36 +50,6 @@ var cache = {};
 wall.scrollElem;
 
 
-$(function() {
-  $('abbr.timeago').timeago();
-
-
-  $('.deleteable').live('mouseover mouseout', function(event) {
-    if (event.type == 'mouseover') {
-      $(this).children('.delete').css('opacity', 1);
-      $(this).siblings('.delete').css('opacity', 0);
-    } else {
-      $(this).children('.delete').css('opacity', 0);
-      $(this).siblings('.delete').css('opacity', 1);
-    }
-  });
-
-
-  $('.delete').live('click', function() {
-    if (window.confirm('are you sure you want to delete this post?')) {
-      var postId = $(this).parent().attr('id').match(/(\d+)$/)[1];
-      $.post(baseUrl+'trips/ajax_delete_post', {postId:postId, tripId:tripId},
-        function(d) {
-          var r = $.parseJSON(d);
-          if (r.success) {
-            wall.removePost(r.id);
-          }
-        });
-    }
-  });
-});
-
-
 wall.removePost = function(id) {
   $('#post-'+id).fadeOut(300, function() {
     $(this).remove();

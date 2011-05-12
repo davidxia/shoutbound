@@ -8,7 +8,6 @@ $header_args = array(
     ),
     'js_paths'=>array(
         'js/settings/profile.js',
-        'js/jquery/timeago.js',
         'js/uploadify/swfobject.js',
         'js/uploadify/jquery.uploadify.v2.1.4.min.js',
         'js/jquery/jquery-ui-1.8.11.custom.min.js',
@@ -141,9 +140,6 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('footer')?>
   
 <script type="text/javascript">
-/*$(function() {
-  $('abbr.timeago').timeago();
-});*/
 /*$(function() {
   $('.loading-places')
     .hide()

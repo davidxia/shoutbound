@@ -127,8 +127,6 @@ map.showTabMarkers = function(tabName) {
 
 
 $(function() {
-  $('abbr.timeago').timeago();
-
   if (isSelf) {
     $('#profile-pic-container').hover(
       function() {
@@ -195,36 +193,3 @@ loadTabs = function(defaultTab) {
   
   $(window).trigger('hashchange');
 };
-
-
-$(function() {
-  var delay;
-  $('.tooltip').live('mouseover mouseout', function(e) {
-    if (e.type == 'mouseover') {
-      var img = $(this);
-      
-      delay = setTimeout(function() {
-        var title = img.attr('alt');
-  
-        // element location and dimensions
-        var element_offset = img.offset(),
-            element_top = element_offset.top,
-            element_left = element_offset.left,
-            element_height = img.height(),
-            element_width = img.width();
-        
-        var tooltip = $('<div class="tooltip_container"><div class="tooltip_interior">'+title+'</div></div>');
-        $('body').append(tooltip);
-    
-        // tooltip dimensions
-        var tooltip_height  = tooltip.height();
-        var tooltip_width = tooltip.width();
-        tooltip.css({ top: (element_top + element_height + 3) + 'px' });
-        tooltip.css({ left: (element_left - (tooltip_width / 2) + (element_width / 2)) + 'px' });
-      }, 200);
-    } else {
-      $('.tooltip_container').remove();
-      clearTimeout(delay);
-    }
-  });
-});

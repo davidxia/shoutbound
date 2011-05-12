@@ -8,7 +8,7 @@ $header_args = array(
         'js/jquery/jquery.ba-bbq.min.js',
         'js/profile/map.js',
         'js/follow.js',
-        'js/jquery/timeago.js',
+        'js/common.js',
         'js/user/loginSignup.js',
         'js/jquery/popup.js',
     )
@@ -98,7 +98,8 @@ $this->load->view('core_header', $header_args);
       <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
         <div id="activity-tab" class="main-tab-content main-tab-default">
           <? foreach ($profile->activities as $activity):?>
-            <div class="streamitem">
+            <div id="activity-<?=$activity->id?>" class="streamitem <? if($is_self){echo 'deleteable';}?>">
+            <? if($is_self):?><div class="delete"></div><? endif;?>
               <?=$profile->first_name?>
             <? if ($activity->activity_type==1):?>
               created <span class="streamitem-name"><a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a></span>

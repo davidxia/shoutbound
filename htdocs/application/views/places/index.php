@@ -5,10 +5,10 @@ $header_args = array(
       'css/places.css'
     ),
     'js_paths'=>array(
+        'js/common.js',
         'js/jquery/jquery.ba-bbq.min.js',
         'js/places/map.js',
         'js/places/tabs.js',
-        'js/jquery/timeago.js',
         'js/follow.js',
         'js/user/loginSignup.js',
     )

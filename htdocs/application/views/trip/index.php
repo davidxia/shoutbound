@@ -13,8 +13,8 @@ $header_args = array(
         'js/trip/share.js',
         'js/follow.js',
         'js/savepost.js',
+        'js/common.js',
         'js/jquery/jquery.color.js',
-        'js/jquery/timeago.js',
         'js/actionbar.js',
         'js/jquery/jquery-ui-1.8.11.custom.min.js',
         'js/jquery/multiselect.min.js',
@@ -355,36 +355,6 @@ $this->load->view('core_header', $header_args);
         window.location = '<?=site_url('trips/delete/'.$trip->id)?>';
       }
       return false;
-    });
-
-    var delay;
-    $('.tooltip').live('mouseover mouseout', function(e) {
-      if (e.type == 'mouseover') {
-        var img = $(this);
-        
-        delay = setTimeout(function() {
-          var title = img.attr('alt');
-    
-          // element location and dimensions
-          var element_offset = img.offset(),
-              element_top = element_offset.top,
-              element_left = element_offset.left,
-              element_height = img.height(),
-              element_width = img.width();
-          
-          var tooltip = $('<div class="tooltip_container"><div class="tooltip_interior">'+title+'</div></div>');
-          $('body').append(tooltip);
-      
-          // tooltip dimensions
-          var tooltip_height  = tooltip.height();
-          var tooltip_width = tooltip.width();
-          tooltip.css({ top: (element_top + element_height + 3) + 'px' });
-          tooltip.css({ left: (element_left - (tooltip_width / 2) + (element_width / 2)) + 'px' });
-        }, 200);
-      } else {
-        $('.tooltip_container').remove();
-        clearTimeout(delay);
-      }
     });
   });
 </script>

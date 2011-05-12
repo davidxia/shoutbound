@@ -5,6 +5,7 @@ $header_args = array(
       'css/settings.css'
     ),
     'js_paths'=>array(
+        'js/common.js',
         'js/jquery/validate.min.js',
     )
 );

@@ -701,3 +701,13 @@ a.unfollow:active{
 .deleteable{
   position:relative;
 }
+.delete{
+  background-image: url(/david/images/delete_button.png);
+  height: 15px;
+  width: 15px;
+  opacity: 0;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
