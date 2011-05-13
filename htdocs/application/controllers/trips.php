@@ -3,7 +3,7 @@
 class Trips extends CI_Controller
 {
     
-    public $user;
+    private $user;
     
     function __construct()
     {
@@ -252,8 +252,7 @@ class Trips extends CI_Controller
             return;
         }
         
-        $t = new Trip();
-        $t->get_by_id($trip_id);
+        $t = new Trip($trip_id);
         $t->user->include_join_fields()->where('user_id', $this->user->id)->get();
         $role = $t->user->join_role;
         $rsvp = $this->input->post('rsvp');
@@ -270,26 +269,35 @@ class Trips extends CI_Controller
                     'userId' => $this->user->id,
                     'profilePic' => $this->user->profile_pic,
                     'rsvp' => $rsvp,
+                    'type' => gettype($rsvp),
                 ));
             }
             // to be able to rsvp higher than 3, user must be a planner
             elseif ($rsvp > 3 AND $role == 5)
             {
                 $t->set_join_field($this->user, 'rsvp', $rsvp);
-                
-                $this->load->library('email_notifs');
-                // TODO: send email to goers? creator???
                 json_success(array(
                     'type' => 'trip',
                     'id' => $trip_id,
                     'userId' => $this->user->id,
                     'profilePic' => $this->user->profile_pic,
                     'rsvp' => $rsvp,
+                    'type' => gettype($rsvp),
                 ));
             }
             else
             {
                 json_error('something broken, tell David');
+            }
+            
+            // send email notification is rsvp is yes or no
+            if ($rsvp == 0 OR $rsvp == 9)
+            {
+                $params = array('setting_id' => 13, 'trip' => $t);
+                $this->load->library('email_notifs', $params);
+                $this->email_notifs->get_emails();
+                $this->email_notifs->compose_email($this->user, $rsvp, $t->stored);
+                $this->email_notifs->send_email();
             }
         }
         // if no prior relation, make user a follower
@@ -309,8 +317,8 @@ class Trips extends CI_Controller
             json_error('something broken, tell David');
         }
     }
-
-            
+    
+                
     public function share($trip_id, $share_key)
     {        
         $ts = new Trip_share();
@@ -437,7 +445,7 @@ class Trips extends CI_Controller
     {
         $trip_id = $this->input->post('tripId');
         $share_role = $this->input->post('shareRole');
-        $setting_id = ($share_role==5) ? 12 : 13;
+        $setting_id = ($share_role==5) ? 12 : 20;
         $uids = ($this->input->post('uids')) ? $this->input->post('uids') : array();
         $nonuser_emails = ($this->input->post('emails')) ? $this->input->post('emails') : array();
         
@@ -462,14 +470,11 @@ class Trips extends CI_Controller
             }
         }
 
-        $this->load->library('email_notifs');
-        $emails = $this->email_notifs->get_emails_by_uids_setting($uids, $setting_id);
-        $emails = array_merge($emails, $nonuser_emails);
-        list($subj, $html, $text) = $this->email_notifs->compose_email($this->user, $setting_id, $t->stored);
-        if ($subj AND $html AND $text)
-        {
-            $resp = $this->email_notifs->send_email($emails, $subj, $html, $text, $setting_id);
-        }        
+        $params = array('setting_id' => $setting_id, 'trip' => $t, 'user_ids' => $uids, 'emails' => $nonuser_emails);
+        $this->load->library('email_notifs', $params);
+        $this->email_notifs->get_emails();
+        $this->email_notifs->compose_email($this->user, $t->stored);
+        $this->email_notifs->send_email();
 
         if ($share_role == 5)
         {
@@ -481,8 +486,8 @@ class Trips extends CI_Controller
         }
         //json_success(array('tripId' => $trip_id, 'uids'=>$uids, 'emails'=>$emails, 'tripId'=>$trip_id, 'html'=>$html, 'text'=>$text, 'subj'=>$subj, 'resp'=>$resp));
     }
-
     
+        
     public function ajax_share_success()
     {        
         $data = array(

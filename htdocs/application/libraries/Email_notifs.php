@@ -2,34 +2,133 @@
 
 class Email_notifs
 {
-    public function get_emails_by_uids_setting($uids=array(), $setting_id=NULL)
+    public $setting_id;
+    private $user_ids;
+    private $emails;
+    private $trip;
+    private $profile;
+    
+    private $email_subj;
+    private $email_html;
+    private $email_text;
+    private $email_from = 'notifications@shoutbound.com';
+    private $email_fromname = 'Shoutbound';
+    private $email_replyto = 'noreply@shoutbound.com';
+
+    // Sendgrid params
+    private $sendgrid_url = 'http://sendgrid.com/api/mail.send.json';
+    private $sendgrid_user = 'david@shoutbound.com';
+    private $sendgrid_pw = 'tEdRAmu6';
+    private $sendgrid_cat;
+    
+
+    public function __construct($params)
     {
-        if ( ! $setting_id)
+        if (is_int($params))
         {
-            return FALSE;
+            $this->setting_id = $params;
         }
-        $emails = array();
-        $u = new User();
-        // get emails of users who want email notifications specified setting
-        foreach ($uids as $uid)
+        elseif (is_array($params))
         {
-            $u->get_by_id($uid);
-            if ($u->check_notif_setting($setting_id))
+            if (isset($params['setting_id']))
             {
-                $emails[] = $u->email;
+                $this->setting_id = $params['setting_id'];
+            }
+            
+            if (isset($params['user_ids']))
+            {
+                $this->user_ids = $params['user_ids'];
+            }
+            else
+            {
+                $this->user_ids = array();
+            }
+            
+            if (isset($params['emails']))
+            {
+                $this->emails = $params['emails'];
+            }
+            else
+            {
+                $this->emails = array();
+            }
+            
+            if (isset($params['trip']))
+            {
+                $this->trip = $params['trip'];
+            }
+            
+            if (isset($params['profile']))
+            {
+                $this->profile = $params['profile'];
             }
         }
-        return $emails;
+        
+        // specify Sendgrid category
+        switch($this->setting_id)
+        {
+            case 3:
+                $this->sendgrid_cat = 'follows_user';
+                break;
+            case 11:
+                $this->sendgrid_cat = 'trip_post';
+            case 12:
+                $this->sendgrid_cat = 'trip_invite';
+                break;
+            case 13:
+                $this->sendgrid_cat = 'got_rsvp';
+                break;
+            default:
+                $this->sendgrid_cat = 'uncategorized';
+                break;
+        }
     }
-
-
-    public function compose_email($user, $setting_id=NULL, $source=NULL, $parent=NULL)
+    
+    
+    public function get_emails()
     {
-        if ( ! ($user->id AND $setting_id AND $source->id))
+        switch($this->setting_id)
+        {
+            case 3:
+                if ($this->profile->check_notif_setting($this->setting_id))
+                {
+                    $this->emails[] = $this->profile->email;
+                }
+            case 12:
+                $u = new User();
+                foreach ($this->user_ids as $user_id)
+                {
+                    $u->get_by_id($user_id);
+                    if ($u->check_notif_setting($this->setting_id))
+                    {
+                        $this->emails[] = $u->email;
+                    }
+                }
+                break;
+            case 11:
+            case 13:
+                $u = new User();
+                $this->trip->get_goers();
+                foreach ($this->trip->stored->goers as $goer)
+                {
+                    $u->get_by_id($goer->id);
+                    if ($u->check_notif_setting($this->setting_id))
+                    {
+                        $this->emails[] = $goer->email;
+                    }
+                }
+                break;
+        }
+    }
+    
+    
+    public function compose_email($user, $source=NULL, $parent=NULL)
+    {
+        if ( ! isset($user->id) OR ! isset($source))
         {
             return FALSE;
         }
-        switch($setting_id)
+        switch($this->setting_id)
         {
             case 3:
                 $subj = $user->name.' is now following you on Shoutbound';
@@ -54,93 +153,82 @@ class Email_notifs
                     'To see the trip, click here.</a>'.
                     '<br/><a href="'.site_url('trips/'.$source->id).'">'.$source->name.'</a>'.
                     '<br/>'.$source->description;
-                
                 $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> invited you to a trip on Shoutbound'.
                     '<br/><a href="'.site_url('trips/'.$source->id).'">'.
                     'To see the trip, click here.</a>'.
                     '<br/><a href="'.site_url('trips/'.$source->id).'">'.$source->name.'</a>'.
                     '<br/>'.$source->description;
                 break;
-            /*case 13:
-                $subj = $user->name.' RSVP\'d '.$source->rsvp.' to your trip "'.$source->name.'" on Shoutbound';
-                $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> RSVP\'d '.$source->rsvp.
-                    ' to your trip "<a href="'.site_url('trips/'.$source->id).'">'.$source->name.'"</a></h4>';
-                $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> RSVP\'d '.$source->rsvp.
-                    ' to your trip "<a href="'.site_url('trips/'.$source->id).'">'.$source->name.'"</a>';
-                break;*/
+            case 13:
+                if ($source == 0)
+                {
+                    $rsvp = 'no';
+                } elseif ($source == 9)
+                {
+                    $rsvp = 'yes';
+                }
+                $subj = $user->name.' RSVP\'d '.$rsvp.' to your trip "'.$parent->name.'" on Shoutbound';
+                $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> RSVP\'d '.$rsvp.
+                    ' to your trip "<a href="'.site_url('trips/'.$parent->id).'">'.$parent->name.'"</a></h4>';
+                $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> RSVP\'d '.$rsvp.
+                    ' to your trip "<a href="'.site_url('trips/'.$parent->id).'">'.$parent->name.'"</a>';
+                break;
             default:
                 break;
         }
 
-        return array($subj, $html, $text);
+        $this->email_subj = $subj;
+        $this->email_html = $html;
+        $this->email_text = $text;
     }
         
     
-    public function send_email($to_array=NULL, $subj=NULL, $html=NULL, $text=NULL, $setting_id=NULL)
+    public function send_email()
     {
-        if ( ! ($to_array AND $subj AND $html AND $text AND $setting_id))
+        if ( ! ($this->emails AND $this->email_subj AND $this->email_html AND $this->email_text))
         {
             return FALSE;
         }
         
-        $req = 'http://sendgrid.com/api/mail.send.json';
-        $user = 'david@shoutbound.com';
-        $pw = 'tEdRAmu6';
-        
-        switch($setting_id)
-        {
-            case 3:
-                $category = 'user follow';
-                break;
-            case 11:
-                $category = 'trip post';
-            case 12:
-                $category = 'trip invite';
-                break;
-            case 13:
-                $category = 'trip share';
-                break;
-            default:
-                $category = 'uncategorized';
-                break;
-        }
-
         $json_string = array(
-            'to' => $to_array,
-            'category' => $category,
+            'to' => $this->emails,
+            'category' => $this->sendgrid_cat,
         );
         $params = array(
-            'api_user'  => $user,
-            'api_key'   => $pw,
+            'api_user'  => $this->sendgrid_user,
+            'api_key'   => $this->sendgrid_pw,
             'x-smtpapi' => json_encode($json_string),
             'to'        => 'david@shoutbound.com',
-            'subject'   => $subj,
-            'html'      => $html,
-            'text'      => $text,
-            'from'      => 'notifications@shoutbound.com',
-            'fromname'  => 'Shoutbound',
-            'replyto'   => 'noreply@shoutbound.com',
+            'subject'   => $this->email_subj,
+            'html'      => $this->email_html,
+            'text'      => $this->email_text,
+            'from'      => $this->email_from,
+            'fromname'  => $this->email_fromname,
+            'replyto'   => $this->email_replyto,
         );
 
-        // Generate curl request
-        $ch = curl_init($req);
-        // Tell curl to use HTTP POST
+        $ch = curl_init($this->sendgrid_url);
         curl_setopt ($ch, CURLOPT_POST, TRUE);
-        // Tell curl that this is the body of the POST
         curl_setopt ($ch, CURLOPT_POSTFIELDS, $params);
-        // Tell curl not to return headers, but do return the response
         curl_setopt($ch, CURLOPT_HEADER, FALSE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 
-        // obtain response
         $r = curl_exec($ch);
         curl_close($ch);
-
-        // print everything out
-        //print_r($response);
-        
-        // return the JSON response
+        // return Sendgrid's JSON response
         return $r;
+    }
+    
+    
+    public function clear_emails()
+    {
+        $this->emails = array();
+    }
+        
+
+    public function set_trip($trip)
+    {
+        $this->trip = $trip;
     }
 }
 

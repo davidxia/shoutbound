@@ -59,10 +59,6 @@ class Trip_shares extends CI_Controller
 
     function send_email()
     {
-        $this->load->library('email_notifs');
-        $sender = $this->user->name;
-        
-        
         $u = new User();
         foreach ($uids as $uid)
         {

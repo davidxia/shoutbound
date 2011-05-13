@@ -482,14 +482,11 @@ class Profile extends CI_Controller
                 {
                     $this->load->helper('activity');
                     save_activity($this->user->id, 3, $id, NULL, NULL, time()-72);
-                    $this->load->library('email_notifs');
-                    $setting_id = 3;
-                    $emails = $this->email_notifs->get_emails_by_uids_setting(array($id), $setting_id);
-                    list($subj, $html, $text) = $this->email_notifs->compose_email($this->user, $setting_id, $u->stored);
-                    if ($subj AND $html AND $text)
-                    {
-                        $resp = $this->email_notifs->send_email($emails, $subj, $html, $text, $setting_id);
-                    }
+                    
+                    $this->load->library('email_notifs', array('setting_id' => 3, 'profile' => $u));
+                    $this->email_notifs->get_emails();
+                    $this->email_notifs->compose_email($this->user, $u->stored);
+                    $this->email_notifs->send_email();
                 }
                 
                 json_success(array('type' => 'user', 'id' => $id, 'follow' => $follow));

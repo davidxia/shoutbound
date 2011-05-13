@@ -21,37 +21,6 @@ class Posts extends CI_Controller
         }
 		}
 		
-    public function mytest()
-    {
-        $t = new Trip();
-        $u = new User();
-        $t->where_in('id', array(1,2))->get();
-        $this->load->library('email_notifs');
-        $setting_id = 11;
-        
-        foreach ($t as $trip)
-        {
-            $trip->get_goers();
-            $emails = array();
-            foreach ($trip->stored->goers as $goer)
-            {
-                $u->get_by_id($goer->id);
-                if ($u->check_notif_setting($setting_id))
-                {
-                    $emails[] = $goer->email;
-                }
-            }
-            list($subj, $html, $text) = $this->email_notifs->compose_email($this->user, $setting_id, $p->stored, $trip->stored);
-            if ($subj AND $html AND $text)
-            {
-                $resp = $this->email_notifs->send_email($emails, $subj, $html, $text, $setting_id);
-            }
-        }
-        foreach ($t as $trip)
-        {
-            print_r($trip->stored);
-        }
-    }
 		public function ajax_save()
 		{
 		    $content = $this->input->post('content');
@@ -108,26 +77,15 @@ class Posts extends CI_Controller
             $this->load->helper('activity');
             save_activity($this->user->id, $activity_type, $p->id, $pid, $parent_type, time()-72);
             
-            $this->load->library('email_notifs');
-            $setting_id = 11;
+            $this->load->library('email_notifs', array('setting_id' => 11));
             $u = new User();
             foreach ($t as $trip)
             {
-                $trip->get_goers();
-                $emails = array();
-                foreach ($trip->stored->goers as $goer)
-                {
-                    $u->get_by_id($goer->id);
-                    if ($u->check_notif_setting($setting_id))
-                    {
-                        $emails[] = $goer->email;
-                    }
-                }
-                list($subj, $html, $text) = $this->email_notifs->compose_email($this->user, $setting_id, $p->stored, $trip->stored);
-                if ($subj AND $html AND $text)
-                {
-                    $resp = $this->email_notifs->send_email($emails, $subj, $html, $text, $setting_id);
-                }
+                $this->email_notifs->set_trip($trip);
+                $this->email_notifs->clear_emails();
+                $this->email_notifs->get_emails();
+                $this->email_notifs->compose_email($this->user, $p->stored, $trip->stored);
+                $this->email_notifs->send_email();
             }
                 
             json_success(array(
