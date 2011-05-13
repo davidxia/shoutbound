@@ -66,7 +66,7 @@ $this->load->view('core_header', $header_args);
   
     
   	<a href="#" id="fb_login_button">
-    	<img src="<?=site_url('images/fb-login-button.png')?>"/>
+    	<img src="<?=site_url('static/images/fb-login-button.png')?>"/>
   	</a>
   	<span id="fb-tip">By connecting with Facebook, we'll help you find your friends who are already using Shoutbound.</span>
   </div>

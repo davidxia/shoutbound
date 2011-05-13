@@ -81,7 +81,7 @@ $this->load->view('core_header', $header_args);
               <div class="settings-item-name">Current location</div>
               <div class="settings-item-content">
                 <input type="text" id="current-place" class="place-input" style="width:275px; height:20px;" value="<? if(isset($user->curr_place->name)) echo $user->curr_place->name?>"/>
-                <img class="loading-places" src="<?=site_url('images/ajax-loader.gif')?>" width="16" height="16" style="display:none; position:absolute; right:150px; top:4px;"/>
+                <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="display:none; position:absolute; right:150px; top:4px;"/>
                 <input id="current-place-id" class="place_id" name="current-place-id" type="hidden"/>
                 <br/><span class="subtext">Where in the world are you in right now?</span>        
               </div>
@@ -110,7 +110,7 @@ $this->load->view('core_header', $header_args);
               <span class="error-message" style="float:right;"></span>
             </span>
             <input id="place" class="place-input" name="place" type="text" style="width:300px;" autocomplete="off"/>
-            <img class="loading-places" src="<?=site_url('images/ajax-loader.gif')?>" width="16" height="16" style="display:none; position:absolute; right:10px; top:7px;"/>
+            <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="display:none; position:absolute; right:10px; top:7px;"/>
             <input id="place_id" class="place_id" name="place_id" type="hidden"/>
           </div>
           

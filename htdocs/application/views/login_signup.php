@@ -35,7 +35,7 @@
         <button type="submit" id="login-submit" class="blue-button">Login</button>
       </form>
       <a href="#" id="fb_login_button">
-        <img src="<?=site_url('images/fb-login-button.png');?>" width="154" height="22"/>
+        <img src="<?=site_url('static/images/fb-login-button.png');?>" width="154" height="22"/>
       </a>
     </div><!-- LOGIN CONTAINER ENDS -->
   
