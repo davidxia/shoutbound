@@ -288,8 +288,8 @@ class Trips extends CI_Controller
                 json_error('something broken, tell David');
             }
             
-            // send email notification is rsvp is yes or no
-            if ($rsvp == 0 OR $rsvp == 9)
+            // send email notification if rsvp changed to yes or no
+            if ($role==5 AND ($rsvp==0 OR $rsvp==9))
             {
                 $params = array('setting_id' => 13, 'trip' => $t);
                 $this->load->library('email_notifs', $params);
@@ -313,13 +313,21 @@ class Trips extends CI_Controller
                     'rsvp' => $rsvp,
                 ));
             }
+            if ($rsvp == 3)
+            {
+                $params = array('setting_id' => 4, 'trip' => $t);
+                $this->load->library('email_notifs', $params);
+                $this->email_notifs->get_emails();
+                $this->email_notifs->compose_email($this->user, $rsvp, $t->stored);
+                $this->email_notifs->send_email();
+            }
         }
         else
         {
             json_error('something broken, tell David');
         }
     }
-    
+        
                 
     public function share($trip_id, $share_key)
     {        

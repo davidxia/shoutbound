@@ -44,6 +44,8 @@ function get_source(&$activity)
             $activity->stored->place = $p->stored;
             break;
         case 6:
+            $p = new Post($activity->source_id);
+            $activity->stored->comment = $p->stored;
             break;
         case 7:
             break;
@@ -67,6 +69,11 @@ function get_parent(&$activity)
         case 2:
             $t = new Trip($activity->parent_id);
             $activity->stored->trip = $t->stored;
+            break;
+        case 4:
+            $p = new Post($activity->parent_id);
+            $p->get_creator();
+            $activity->stored->post = $p->stored;
             break;
     }
 

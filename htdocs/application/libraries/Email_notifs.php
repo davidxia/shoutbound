@@ -70,6 +70,9 @@ class Email_notifs
             case 3:
                 $this->sendgrid_cat = 'follows_user';
                 break;
+            case 4:
+                $this->sendgrid_cat = 'follows_trip';
+                break;
             case 11:
                 $this->sendgrid_cat = 'trip_post';
             case 12:
@@ -105,6 +108,7 @@ class Email_notifs
                     }
                 }
                 break;
+            case 4:
             case 11:
             case 13:
                 $u = new User();
@@ -137,6 +141,13 @@ class Email_notifs
                 $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> is now following '.
                     '<a href="'.site_url('profile/'.$source->id).'">you</a> on Shoutbound.';
                 break;
+            case 4:
+                $subj = $user->name.' is now following your trip "'.$parent->name.'" on Shoutbound';
+                $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> is now following '.
+                    'your trip "<a href="'.site_url('profile/'.$parent->id).'">'.$parent->name.'</a>" on Shoutbound.</h4>';
+                $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> is now following '.
+                    'your trip "<a href="'.site_url('profile/'.$parent->id).'">'.$parent->name.'</a>" on Shoutbound.';
+                break;
             case 11:
                 $subj = $user->name.' posted on your trip "'.$parent->name.'" on Shoutbound';
                 $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> wrote on '.
@@ -163,7 +174,8 @@ class Email_notifs
                 if ($source == 0)
                 {
                     $rsvp = 'no';
-                } elseif ($source == 9)
+                }
+                elseif ($source == 9)
                 {
                     $rsvp = 'yes';
                 }

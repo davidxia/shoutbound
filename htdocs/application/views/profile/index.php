@@ -117,6 +117,10 @@ $this->load->view('core_header', $header_args);
             <? elseif ($activity->activity_type==5):?>
                started following <span class="streamitem-name"><a href="<?=site_url('places/'.$activity->place->id)?>"><? echo $activity->place->name;if($activity->place->admin1){echo ', '.$activity->place->admin1;}if($activity->place->country){echo ', '.$activity->place->country;}?></a></span>
                <h3>Follow/unfollow needs to go here</h3>              
+            <? elseif ($activity->activity_type==6):?>
+               commented: <?=$activity->comment->content?>
+               <br/> in response to <?=$activity->post->user->name?>'s post: <?=$activity->post->content?>
+               <h3>Follow/unfollow needs to go here</h3>              
 <!--
             <? elseif ($activity->activity_type==10):?>
               is now in <a href="#"><?=$activity->place->name?></a>
