@@ -128,6 +128,9 @@ class Places extends CI_Controller
         $follow = $this->input->post('follow');
         
         $p = new Place($place_id);
+        $p->user->include_join_fields()->where('user_id', $this->user->id)->get();
+        $new_follow = (isset($p->user->join_is_following)) ? FALSE : TRUE;
+        
         if ($p->save($this->user))
         {
             $p->set_join_field($this->user, 'is_following', $follow);
@@ -136,6 +139,12 @@ class Places extends CI_Controller
         else
         {
             json_error('something broken, tell David');
+        }
+        
+        if ($new_follow)
+        {
+            $this->load->helper('activity');
+            save_activity($this->user->id, 5, $p->id, NULL, NULL, time()-72);
         }
     }
 

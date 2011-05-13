@@ -40,6 +40,8 @@ function get_source(&$activity)
             $activity->stored->trip = $t->stored;
             break;
         case 5:
+            $p = new Place($activity->source_id);
+            $activity->stored->place = $p->stored;
             break;
         case 6:
             break;
