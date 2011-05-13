@@ -1,10 +1,5 @@
 /*Left*/
 
-#message-box-container{
-	padding:5px;
-	margin-top:5px;
-}
-
 textarea#post-input{
 	width:538px;
 	min-height:60px;
@@ -20,54 +15,21 @@ textarea#post-input{
 	resize:none;
 }
 
-#tagbar{
-  margin-bottom:6px;
-}
-
-#top-bar, #top-bar-right{
-  min-height:150px;
-}
-
-#top-bar-right{
-  float:right;
-  width:340px;
-}
-
 #trip-description{
   margin-top:-3px;
 }
 
-#trip-info{
-
+#top-bar{
+  padding-bottom:12px;
 }
 
-#itinerary{
+#trip-goers{
+  margin-top:8px;
 }
 
-.destinationbar{
-}
-
-.destination-dates{
-}
-
-.destinationbar-item{
-}
-
-/*#trip_goers{
-
-}*/
-
-.item-header{
-  font-weight:bold;
-}
-
-
-#trip-col-right{
-	float:right;
-}
-
-#num{
-	display:inline;
+.goer-avatar{
+  margin:0px 8px 8px 0px;
+  float:left;
 }
 
 /*wall*/
@@ -99,7 +61,6 @@ textarea#post-input{
 #wall-text-input {
   width: 50%;
 }
-
 
 #autocomplete-results div:hover{
   background-color:#E0E0FF;
@@ -145,40 +106,6 @@ textarea#post-input{
 .follow, .unfollow{
   width:100px;
   float:right;
-}
-
-#post-button{
-  float:right;
-  cursor: pointer;
-  text-align:center;
-  text-decoration:none;
-	border: solid 1px #333;
-	padding:7px 45px 7px 45px;
-	background: #0030C2;
-	background: -webkit-gradient(linear, left top, left bottom, from(#0030C2), to(#00248F));
-	background: -moz-linear-gradient(top,  #0030C2,  #00248F);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0030C2', endColorstr='#00248F');
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-}
-#post-button:hover {
-	padding:7px 45px 7px 45px;
-	background: #00248F;
-	background: -webkit-gradient(linear, left top, left bottom, from(#002AA8), to(#00248F));
-	background: -moz-linear-gradient(top,  #002AA8,  #00248F);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#002AA8', endColorstr='#00248F');
-}
-
-#post-button:active {
-	padding:8px 45px 6px 45px;
-	background-color:#001D75;
-}
-
-#post-button a{
-  color:white;
-  font-size:13px;
-  font-weight:bold;
 }
 
 #rsvp_yes_button{
@@ -276,6 +203,5 @@ textarea#post-input{
   background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }
-
 
 /*Buttons END*/

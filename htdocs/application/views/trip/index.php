@@ -47,9 +47,34 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
 
-    <!-- RIGHT COLUMN -->
-    <div id="col-right">      
+  <div id="top-section">
+    <div id="top-bar"><!--TOP BAR-->       
+      <div id="trip-info">     
+        <div id="tagbar">          
+          <? $prefix=''; foreach ($trip->places as $destination):?>
+            <?=$prefix;?>
+            <a class="destination tag" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></a>
+          <? endforeach;?>
+        </div>          
+        <div class="top-bar-header"><?=$trip->name?></div>   
+        <div id="trip-description"><?=$trip->description?></div>          
+       </div><!--TRIP INFO END-->                           			        
 
+  		  <div id="trip-goers"><!--TRIP GOERS-->      	        		          			                     
+          <? foreach ($trip->goers as $trip_goer):?>
+          	<div class="goer-avatar" uid="<?=$trip_goer->id?>">
+              <a href="<?=site_url('profile/'.$trip_goer->id)?>">
+                <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="48" width="48"/>
+              </a>
+            </div>
+          <? endforeach;?>       
+          <!--<div>This trip was created by <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a></div>-->       
+        </div><!--TRIP GOERS END-->        	       
+
+    </div><!--TOP BAR END-->  
+    
+    <div id="right-widgets">
+    
       <div class="right-widget-container">
         <div id="actions-container"><!--ACTIONS CONTAINER-->                    
           <? if ($user_role == 5):?>
@@ -77,72 +102,19 @@ $this->load->view('core_header', $header_args);
       </div>	
 
       <div class="right-widget-container">
-        <div id="stats-container" class="right-widget-interior">
+        <div id="stats-container" class="right-widget-interior"><!--STATS-->
           <ul class="stats-list">
             <li><a style="cursor:default;" class="goers-count"><?=$trip->num_goers?><span class="stat-label">People</span></a></li>
             <li class="border-left"><a href="#posts" class="post-count"><?=count($posts)?><span class="stat-label">Posts</span></a></li>
             <li class="border-left"><a href="#followers" class="followers-count"><?=$trip->num_followers?><span class="stat-label">Followers</span></a></li>
           </ul>     
           <div style="clear:both"></div>   
-        </div>
-      </div>
-
-      <div class="right-widget-container">
-        <div id="itinerary" class="right-widget-interior"><!--ITINERARY-->  
-          <? $prefix=''; foreach ($trip->places as $destination):?>
-            <?=$prefix;?>
-              <span class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></span>  
-              <? if ($destination->startdate AND $destination->enddate):?>
-                <span class="subtext"><?=date('F j, Y', $destination->startdate)?> - <?=date('F j, Y', $destination->enddate)?></span><br>
-              <? elseif ($destination->startdate AND ! $destination->enddate):?>
-                <span class="subtext"><?=date('F j, Y', $destination->startdate)?></span><br>
-              <? elseif ( ! $destination->startdate AND $destination->enddate):?>
-                <span class="subtext"> - <?=date('F j, Y', $destination->enddate)?></span><br>
-              <? endif;?>
-            <? $prefix = '<span class="bullet" style="margin-left:3px; display:none">&#149</span>'?>   
-          <? endforeach;?>
-        </div><!--ITINERARY END-->
+        </div><!--STATS END-->
       </div>
         
-      <!--<span id="num_trip_goers">          			              		
-        <? $num_trip_goers = count($trip->goers); if ($num_trip_goers == 1):?>
-        <span id="num"><?=$num_trip_goers?></span> person is going.
-        <? else:?>              		
-        <span id="num"><?=$num_trip_goers?></span> people are going.
-        <? endif;?>           
-    	</span>-->
-                              
-      <!-- MAP -->
-      <div id="map-shell" class="right-widget-container">
-        <div id="map-canvas"></div>
-      </div><!--MAP ENDS-->
-      
-    </div><!-- RIGHT COLUMN ENDS -->
-
-      <div id="top-bar"><!--TOP BAR-->       
-        <div id="trip-info">     
-          <div id="tagbar">          
-            <? $prefix=''; foreach ($trip->places as $destination):?>
-              <?=$prefix;?>
-	            <a class="destination tag" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></a>
-            <? endforeach;?>
-          </div>          
-          <div class="top-bar-header"><?=$trip->name?></div>   
-          <div id="trip-description"><?=$trip->description?></div>          
-         </div><!--TRIP INFO END-->                           			        
-
-    		  <div id="trip-goers"><!--TRIP GOERS-->      	        		          			                     
-            <? foreach ($trip->goers as $trip_goer):?>
-            	<div class="streamitem-avatar-container bar-item" uid="<?=$trip_goer->id?>">
-                <a href="<?=site_url('profile/'.$trip_goer->id)?>">
-                  <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="48" width="48"/>
-                </a>
-              </div>
-            <? endforeach;?>       
-            <!--<div>This trip was created by <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a></div>-->       
-          </div><!--TRIP GOERS END-->        	       
-
-      </div><!--TOP BAR END-->
+    </div><!--RIGHT WIDGETS END-->
+    
+  </div><!--TOP SECTION END-->
 
     <!-- LEFT COLUMN -->
     <div id="col-left">    
@@ -334,6 +306,66 @@ $this->load->view('core_header', $header_args);
       </div>
 
     </div><!--LEFT COLUMN END-->
+
+  <!-- RIGHT COLUMN -->
+  <div id="col-right">      
+
+    <!--RIGHT CONTENT-->      
+    <div id="right-content-container">   
+    
+      <!-- GALLERY AND MAP-->
+      <ul id="right-tabs">
+        <li><a href="#map">Map</a></li>
+        <li><a href="#itinerary">Itinerary</a></li>
+      </ul>
+      
+      <div class="right-tab-container">          
+        <div id="map-tab" class="right-tab-content">
+          <div id="map-canvas"></div>     
+        </div>
+        <div id="itinerary-tab" class="right-tab-content" style="visibility:hidden">
+        </div>
+      </div>
+   
+
+
+
+      <div class="right-widget-container">
+        <div id="itinerary" class="right-widget-interior"><!--ITINERARY-->  
+          <? $prefix=''; foreach ($trip->places as $destination):?>
+            <?=$prefix;?>
+              <span class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></span>  
+              <? if ($destination->startdate AND $destination->enddate):?>
+                <span class="subtext"><?=date('F j, Y', $destination->startdate)?> - <?=date('F j, Y', $destination->enddate)?></span><br>
+              <? elseif ($destination->startdate AND ! $destination->enddate):?>
+                <span class="subtext"><?=date('F j, Y', $destination->startdate)?></span><br>
+              <? elseif ( ! $destination->startdate AND $destination->enddate):?>
+                <span class="subtext"> - <?=date('F j, Y', $destination->enddate)?></span><br>
+              <? endif;?>
+            <? $prefix = '<span class="bullet" style="margin-left:3px; display:none">&#149</span>'?>   
+          <? endforeach;?>
+        </div><!--ITINERARY END-->
+      </div>
+        
+      <!--<span id="num_trip_goers">          			              		
+        <? $num_trip_goers = count($trip->goers); if ($num_trip_goers == 1):?>
+        <span id="num"><?=$num_trip_goers?></span> person is going.
+        <? else:?>              		
+        <span id="num"><?=$num_trip_goers?></span> people are going.
+        <? endif;?>           
+    	</span>-->
+                              
+      <!-- MAP -->
+      <!--
+<div id="map-shell" class="right-widget-container">
+        <div id="map-canvas"></div>
+      </div>
+--><!--MAP ENDS-->
+
+      </div><!--RIGHT CONTENT END-->
+
+      
+    </div><!-- RIGHT COLUMN ENDS -->
                 
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->

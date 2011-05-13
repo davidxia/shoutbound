@@ -89,8 +89,8 @@ html, body {
   position: relative;
 }
 
-#top-bar, #col-left{
-  margin-left:20px;
+#top-section, #col-left{
+  margin-left:5px;
 }
 
 #top-bar{
@@ -109,7 +109,6 @@ html, body {
 
 #right-widgets{
   float:right;
-/*   height:500px; */
 }
 
 .top-bar-header{
@@ -231,6 +230,7 @@ fieldset {
 
 .streamitem-content-container, .comment-input-container{
   margin-left:33px;
+  padding-right:10px;
 }
 
 .streamitem-avatar-container{

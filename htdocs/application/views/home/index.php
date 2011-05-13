@@ -25,8 +25,23 @@ $this->load->view('core_header', $header_args);
 <body>
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
-  
-    <div id="top-bar"><!--TOP BAR-->     
+
+    <div id="top-section"><!--TOP SECTION-->  
+
+      <div id="right-widgets">
+        <div class="right-widget-container">                  
+          <div id="stats-container"><!-- STATS -->
+            <ul class="stats-list">
+              <li><a href="#trail" class="trip-count"><?=$user->num_rsvp_yes_trips?><span class="stat-label">Trips</span></a></li>
+              <li class="border-left"><a href="<?=site_url('profile#posts')?>" class="post-count"><?=$user->num_posts?><span class="stat-label">Posts</span></a></li>
+              <li class="border-left"><a href="<?=site_url('profile#following')?>" class="following-count"><?=$user->num_following+$user->num_following_trips?><span class="stat-label">Following</span></a></li>
+              <li class="border-left"><a href="<?=site_url('profile#followers')?>" class="followers-count"><?=$user->num_followers?><span class="stat-label">Followers</span></a></li>
+            </ul>                
+          </div><!--STATS END-->
+          <div style="clear:both"></div>
+        </div>
+      </div><!-- RIGHT WIDGETS --> 
+
       <!--POST CONTAINER-->
       <div class="input-container">
         <form class="save-post-form">
@@ -53,22 +68,7 @@ $this->load->view('core_header', $header_args);
         </form>
         <a id="save-post-button">Post</a>
       </div><!--END POST CONTAINER-->
-    </div><!--TOP BAR END-->
-
-
-    <div id="follow-and-stats-container"><!--STATS-->
-            
-        <div id="stats-container">
-          <ul class="stats-list">
-            <li><a href="#trail" class="trip-count"><?=$user->num_rsvp_yes_trips?><span class="stat-label">Trips</span></a></li>
-            <li class="border-left"><a href="<?=site_url('profile#posts')?>" class="post-count"><?=$user->num_posts?><span class="stat-label">Posts</span></a></li>
-            <li class="border-left"><a href="<?=site_url('profile#following')?>" class="following-count"><?=$user->num_following+$user->num_following_trips?><span class="stat-label">Following</span></a></li>
-            <li class="border-left"><a href="<?=site_url('profile#followers')?>" class="followers-count"><?=$user->num_followers?><span class="stat-label">Followers</span></a></li>
-          </ul>        
-        </div>
-        
-      </div><!--STATS END-->
-
+    </div><!--TOP SECTION END-->
 
     <!-- LEFT COLUMN -->
     <div id="col-left">    
