@@ -50,6 +50,8 @@ function get_source(&$activity)
         case 7:
             break;
         case 8:
+            $u = new User($activity->source_id);
+            $activity->stored->follower = $u->stored;
             break;
         case 9:
             break;

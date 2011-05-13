@@ -121,6 +121,9 @@ $this->load->view('core_header', $header_args);
                commented: <?=$activity->comment->content?>
                <br/> in response to <?=$activity->post->user->name?>'s post: <?=$activity->post->content?>
                <h3>Follow/unfollow needs to go here</h3>              
+            <? elseif ($activity->activity_type==8):?>
+               is being followed by <span class="streamitem-name"><a href="<?=site_url('profile/'.$activity->follower->id)?>"><?=$activity->follower->name?></a></span>
+               <h3>Follow/unfollow needs to go here</h3>              
 <!--
             <? elseif ($activity->activity_type==10):?>
               is now in <a href="#"><?=$activity->place->name?></a>
