@@ -269,7 +269,6 @@ class Trips extends CI_Controller
                     'userId' => $this->user->id,
                     'profilePic' => $this->user->profile_pic,
                     'rsvp' => $rsvp,
-                    'type' => gettype($rsvp),
                 ));
             }
             // to be able to rsvp higher than 3, user must be a planner
@@ -282,7 +281,6 @@ class Trips extends CI_Controller
                     'userId' => $this->user->id,
                     'profilePic' => $this->user->profile_pic,
                     'rsvp' => $rsvp,
-                    'type' => gettype($rsvp),
                 ));
             }
             else
