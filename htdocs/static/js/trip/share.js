@@ -21,20 +21,12 @@ $(function() {
     return false;
   });
 
-  $('#facebook-invite').live('click', function() {
-    share.facebookShare(5);
+  $('.fb-share').live('click', function() {
+    share.fbShare($(this).attr('share_role'));
     return false;
   });
-  $('#facebook-share').live('click', function() {
-    share.facebookShare(0);
-    return false;
-  });
-  $('#twitter-invite').live('click', function() {
-    share.tweet(5);
-    return false;
-  });
-  $('#twitter-share').live('click', function() {
-    share.tweet(0);
+  $('.tw-share').live('click', function() {
+    share.twShare($(this).attr('share_role'));
     return false;
   });
 
@@ -110,7 +102,7 @@ share.showShareDialog = function(shareRole) {
 };
   
 
-share.facebookShare = function(shareRole) {
+share.fbShare = function(shareRole) {
   var shareKey = share.generateShareKey(shareRole, 2, 'fb');
   var url = 'http://www.facebook.com/sharer.php?u='+baseUrl+'trips/share/'+tripId+'/'+shareKey;
   var window_specs = 'toolbar=0, status=0, width=626, height=436';
@@ -126,7 +118,7 @@ share.facebookShare = function(shareRole) {
 };
 
 
-share.tweet = function(shareRole) {
+share.twShare = function(shareRole) {
   var shareKey = share.generateShareKey(shareRole, 2, 'tw');
   if (shareRole == 2) {
     var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;

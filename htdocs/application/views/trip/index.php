@@ -356,11 +356,9 @@ $this->load->view('core_header', $header_args);
     	</span>-->
                               
       <!-- MAP -->
-      <!--
-<div id="map-shell" class="right-widget-container">
+      <div id="map-shell" class="right-widget-container">
         <div id="map-canvas"></div>
-      </div>
---><!--MAP ENDS-->
+      </div><!--MAP ENDS-->
 
       </div><!--RIGHT CONTENT END-->
 
