@@ -38,15 +38,14 @@ $(function() {
     share.confirmShare(0);
     return false;
   });
-  $('#invite-cancel').live('click', function() {
+  $('.invite-cancel').live('click', function() {
     $('#invite-popup').bPopup().close();
     return false;
   });
-  $('#share-cancel').live('click', function() {
+  $('.share-cancel').live('click', function() {
     $('#share-popup').bPopup().close();
     return false;
   });
-
 
   $('#rsvp_yes_button').live('click', function() {
     var loggedin = loginSignup.getStatus();
