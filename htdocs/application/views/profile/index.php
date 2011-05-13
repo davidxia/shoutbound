@@ -111,6 +111,9 @@ $this->load->view('core_header', $header_args);
             <? elseif ($activity->activity_type==3):?>
                started following <span class="streamitem-name"><a href="<?=site_url('profile/'.$activity->following->id)?>"><?=$activity->following->name?></a></span>
                <h3>Follow/unfollow needs to go here</h3>              
+            <? elseif ($activity->activity_type==4):?>
+               started following <span class="streamitem-name"><a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a></span>
+               <h3>Follow/unfollow needs to go here</h3>              
 <!--
             <? elseif ($activity->activity_type==10):?>
               is now in <a href="#"><?=$activity->place->name?></a>

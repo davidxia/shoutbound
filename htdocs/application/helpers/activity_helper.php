@@ -36,6 +36,8 @@ function get_source(&$activity)
             $activity->stored->following = $u->stored;
             break;
         case 4:
+            $t = new Trip($activity->source_id);
+            $activity->stored->trip = $t->stored;
             break;
         case 5:
             break;
@@ -63,10 +65,6 @@ function get_parent(&$activity)
         case 2:
             $t = new Trip($activity->parent_id);
             $activity->stored->trip = $t->stored;
-            break;
-        case 3:
-            break;
-        case 4:
             break;
     }
 

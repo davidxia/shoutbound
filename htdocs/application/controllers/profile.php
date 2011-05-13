@@ -219,7 +219,6 @@ class Profile extends CI_Controller
         );
 
         $this->load->view('profile/posts', $data);
-        //print_r($profile);
     }
     
     

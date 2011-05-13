@@ -304,13 +304,17 @@ class Trips extends CI_Controller
         elseif ($t->save($this->user))
         {
             $t->set_join_field($this->user, 'rsvp', 3);
-            json_success(array(
-                'type' => 'trip',
-                'id' => $trip_id,
-                'userId' => $this->user->id,
-                'profilePic' => $this->user->profile_pic,
-                'rsvp' => $rsvp,
-            ));
+            $this->load->helper('activity');
+            if (save_activity($this->user->id, 4, $t->id, NULL, NULL, time()-72))
+            {
+                json_success(array(
+                    'type' => 'trip',
+                    'id' => $trip_id,
+                    'userId' => $this->user->id,
+                    'profilePic' => $this->user->profile_pic,
+                    'rsvp' => $rsvp,
+                ));
+            }
         }
         else
         {
