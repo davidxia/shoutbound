@@ -41,7 +41,9 @@
     <? elseif (isset($following_trip->rsvp) AND $following_trip->rsvp == 3):?>
       <a href="#" class="unfollow" id="trip-<?=$following_trip->id?>">Unfollow</a>
     <? endif;?>  
-
+    <div class="streamitem-avatar-container">
+      <a href="<?=site_url('trips/'.$following_trip->id)?>"><img src="<?=static_sub('images/trip_icon.png')?>" width="25" height="25"/></a>
+    </div>
     <div class="narrow streamitem-content-container">
       <div class="streamitem-name">
         <a href="<?=site_url('trips/'.$following_trip->id)?>"><?=$following_trip->name?></a>
@@ -64,16 +66,18 @@
     </div>
   </div>
   <? endforeach;?>
-    
+  
+  
   <? foreach ($profile->following_places as $place):?>
   <div class="<?=$prefix?> streamitem">
-  
     <? if (isset($place->is_following) AND $place->is_following):?>
       <a href="#" class="unfollow" id="place-<?=$place->id?>">Unfollow</a>
     <? else:?>
       <a href="#" class="follow" id="place-<?=$place->id?>">Follow</a>
     <? endif;?>    
-  
+    <div class="streamitem-avatar-container">
+      <a href="<?=site_url('places/'.$place->id)?>"><img src="<?=static_sub('images/place_icon.png')?>" width="25" height="25"/></a>
+    </div>
     <div class="narrow streamitem-content-container">
       <div class="streamitem-name">
         <a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>

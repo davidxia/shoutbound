@@ -88,12 +88,9 @@ loadTabs = function(defaultTab) {
 function dbpediaQuery(placeName, admin1) {
   var query = placeName+' '+admin1;
   var altQuery = placeName;
-  console.log(query);
-  console.log(altQuery);
   $.post(baseUrl+'places/ajax_dbpedia_query', {query:query, altQuery:altQuery},
     function(d) {
       var r = $.parseJSON(d);
-      //console.log(r);
       if (r) {
         $('#name').html(r.label.value);
         var abstract = r.abstract.value;

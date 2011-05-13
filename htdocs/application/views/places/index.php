@@ -1,6 +1,9 @@
 <?php
+$title = $place->name;
+if ($place->admin1) $title .= ', '.$place->admin1;
+if ($place->country) $title .= ', '.$place->country;
 $header_args = array(
-    'title' => $place->name.', '.$place->admin1.', '.$place->country.' | Shoutbound',
+    'title' => $title.' | Shoutbound',
     'css_paths'=>array(
       'css/places.css'
     ),
@@ -38,12 +41,10 @@ $this->load->view('core_header', $header_args);
 
     <div id="top-bar"><!--TOP BAR-->
       <div id="place-info">
-        <div class="top-bar-header"><span id="place-page-header"><?=$place->name?></span></div>
+        <div class="top-bar-header"><span id="place-name" class="place-page-header"><?=$place->name?></span></div>
         <a class="destination tag" id="admin1"><?=$place->admin1?></a>
         <a href="#" class="destination tag"><?=$place->country?></a>
-  <!--       <div id="abstract"></div> -->
-        <div id="placeholderignoreme">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div> 
-  
+        <div id="abstract"></div>  
       </div>
     </div><!--TOP BAR END-->
   
@@ -163,11 +164,7 @@ $this->load->view('core_header', $header_args);
         </div>
       </div>
     
-    
-    
-    
     </div><!--RIGHT CONTENT END-->
-    
   </div><!-- RIGHT COLUMN ENDS -->
 
       
