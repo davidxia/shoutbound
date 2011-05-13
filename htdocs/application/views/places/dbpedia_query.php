@@ -24,7 +24,7 @@ $this->load->view('core_header', $header_args);
       <button type="submit" id="query-submit" class="blue-button" name="query-submit">Search</button>
     </form>
     
-    <div id="loading-div"><img src="<?=site_url('images/ajax-loader.gif')?>" width="32" height="32"/></div>
+    <div id="loading-div"><img src="<?=site_url('static/images/ajax-loader.gif')?>" width="32" height="32"/></div>
     
     <div id="name" class="info"></div>
     <div id="abstract" class="info"></div>

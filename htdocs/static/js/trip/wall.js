@@ -138,7 +138,7 @@ wall.bindPlaces = function(marker, i) {
   $('a.place:eq('+i+')').click(function() {
     $(document).trigger('click');
     map.googleMap.panTo(marker.getPosition());
-    var image = new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/marker_sprite.png',
+    var image = new google.maps.MarkerImage(baseUrl+'static/images/marker_sprite.png',
       new google.maps.Size(20, 34),
       new google.maps.Point(20, 0),
       new google.maps.Point(10, 34));
@@ -155,7 +155,7 @@ wall.bindPlaces = function(marker, i) {
         // reset text and marker icon when user clicks elsewhere
         placeText.css({'background-color': '#ffffff'});
         
-        image = new google.maps.MarkerImage('http://dev.shoutbound.com/david/images/marker_sprite.png',
+        image = new google.maps.MarkerImage(baseUrl+'static/images/marker_sprite.png',
           new google.maps.Size(20, 34),
           new google.maps.Point(0, 0),
           new google.maps.Point(10, 34));

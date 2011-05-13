@@ -107,8 +107,8 @@ $this->load->view('core_header', $header_args);
     </div>
         
     <? foreach ($uploads as $upload):?>
-      <!--<img src="<?=site_url('images/uploads').'/'.$upload->path?>" width="<?=$upload->width?>" height="<?=$upload->height?>"/>-->
-      <a href="<?=site_url('images/uploads').'/'.$upload->path?>"><?=$upload->path?></a>
+      <!--<img src="<?=site_url('static/images/uploads').'/'.$upload->path?>" width="<?=$upload->width?>" height="<?=$upload->height?>"/>-->
+      <a href="<?=site_url('static/images/uploads').'/'.$upload->path?>"><?=$upload->path?></a>
       <br/>
     <? endforeach;?>
             
@@ -127,7 +127,7 @@ $(document).ready(function() {
     'scriptData'     : {'uid':<?=$user->id?>},
     //'buttonImg'      : 'http://www.uploadify.com/wp-content/uploads/rollover-button.png',
     //'rollover'       : true,
-    'cancelImg'      : '<?=site_url('images/cancel.png')?>',
+    'cancelImg'      : '<?=site_url('static/images/cancel.png')?>',
     'multi'          : true,
     'queueID'        : 'custom-queue',
     'removeCompleted': false,

@@ -82,7 +82,7 @@ $this->load->view('core_header', $header_args);
 	
 	<!--RIGHT-->
 	<div style="">
-  	<img src="<?=site_url('images/stockphoto.jpg')?>" width="470" height="407"/>
+  	<img src="<?=site_url('static/images/stockphoto.jpg')?>" width="470" height="407"/>
   </div><!--RIGHT ENDS-->
   
 </div><!-- WRAPPER ENDS -->

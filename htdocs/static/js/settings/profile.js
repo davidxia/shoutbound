@@ -4,7 +4,7 @@ $(function() {
     'uploader'       : baseUrl+'static/js/uploadify/uploadify.swf',
     'script'         : baseUrl+'profile/profile_pic_uploadify',
     'scriptData'     : {'uid':uid},
-    'cancelImg'      : baseUrl+'images/cancel.png',
+    'cancelImg'      : baseUrl+'static/images/cancel.png',
     'queueID'        : 'custom-queue',
     'removeCompleted': false,
     'auto'           : true,

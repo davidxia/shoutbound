@@ -23,7 +23,7 @@ $this->load->view('core_header', $header_args);
     border: 1px solid black;
     margin-top: 40px;
     margin-right: 20px;
-    background: #2B72CC url(/david/images/blue_button.png) repeat-x 0 0;
+    background: #2B72CC url(/david/static/images/blue_button.png) repeat-x 0 0;
     cursor: pointer;
     height: 40px;
     width: 80px;
@@ -31,17 +31,17 @@ $this->load->view('core_header', $header_args);
     line-height: 2.4;
   }
   .next-button:hover, .back-button:hover, .create-button:hover {
-    background: url(/david/images/blue_button.png) repeat-x 0 -40px;
+    background: url(/david/static/images/blue_button.png) repeat-x 0 -40px;
   }
   .next-button:active, .back-button:active, .create-button:active {
-    background: url(/david/images/blue_button.png) repeat-x 0 -80px;
+    background: url(/david/static/images/blue_button.png) repeat-x 0 -80px;
   }
   .back-button {
     display: none;
     border: 1px solid black;
     margin-top: 40px;
     margin-left: 20px;
-    background: #2B72CC url(/david/images/blue_button.png) repeat-x 0 0;
+    background: #2B72CC url(/david/static/images/blue_button.png) repeat-x 0 0;
     cursor: pointer;
     height: 40px;
     width: 80px;

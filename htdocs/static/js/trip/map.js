@@ -85,14 +85,14 @@ map.showDestMarkers = function(lat, lng) {
   var markerLatLng = new google.maps.LatLng(lat, lng);
   // Origins, anchor positions and coordinates of the marker
   // increase in X direction to the right in Y direction down.
-  var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+  var image = new google.maps.MarkerImage(baseUrl+'static/images/marker_sprite.png',
       // 20px width, 34px height
       new google.maps.Size(20, 34),
       // origin at 0,0
       new google.maps.Point(0, 0),
       // anchor at 10,34.
       new google.maps.Point(10, 34));
-  var shadow = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+  var shadow = new google.maps.MarkerImage(baseUrl+'static/images/marker_sprite.png',
       new google.maps.Size(25, 20),
       new google.maps.Point(40, 14),
       new google.maps.Point(0, 20));
@@ -113,11 +113,11 @@ map.showDestMarkers = function(lat, lng) {
 
 map.displayWallMarkers = function(i, lat, lng) {
   var markerLatLng = new google.maps.LatLng(lat, lng);
-  var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+  var image = new google.maps.MarkerImage(baseUrl+'static/images/marker_sprite.png',
       new google.maps.Size(20, 34),
       new google.maps.Point(0, 0),
       new google.maps.Point(10, 34));
-  var shadow = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+  var shadow = new google.maps.MarkerImage(baseUrl+'static/images/marker_sprite.png',
       new google.maps.Size(25, 20),
       new google.maps.Point(40, 14),
       new google.maps.Point(0, 20));
@@ -142,7 +142,7 @@ map.displayWallMarkers = function(i, lat, lng) {
 map.loadMarkerListeners = function(marker, i) {
   google.maps.event.addListener(marker, 'click', function() {
     // change marker icon
-    var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+    var image = new google.maps.MarkerImage(baseUrl+'static/images/marker_sprite.png',
       new google.maps.Size(20, 34),
       new google.maps.Point(20, 0),
       new google.maps.Point(10, 34));
@@ -159,7 +159,7 @@ map.loadMarkerListeners = function(marker, i) {
         // reset text and marker icon when user clicks elsewhere
         placeText.css({'background-color': '#ffffff'});
         
-        image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+        image = new google.maps.MarkerImage(baseUrl+'static/images/marker_sprite.png',
           new google.maps.Size(20, 34),
           new google.maps.Point(0, 0),
           new google.maps.Point(10, 34));

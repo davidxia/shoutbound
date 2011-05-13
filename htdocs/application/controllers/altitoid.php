@@ -45,7 +45,7 @@ class Altitoid extends CI_Controller
         	list($width, $height, $type, $attr) = getimagesize($_FILES['Filedata']['tmp_name']);
         	
           $path = explode('/',__FILE__);
-        	$targetPath = $_SERVER['DOCUMENT_ROOT'].'/'.$path[2].'/images/uploads/';
+        	$targetPath = $_SERVER['DOCUMENT_ROOT'].'/'.$path[2].'/static/images/uploads/';
         	$targetFile =  str_replace('//','/',$targetPath) . $_FILES['Filedata']['name'];
 
       		$up = new Upload();

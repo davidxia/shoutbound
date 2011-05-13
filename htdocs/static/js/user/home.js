@@ -67,11 +67,11 @@ map.saveMarkers = function(tabName) {
   map.markers[tabName] = [];
   $('#'+tabName+'-tab').find('.place').each(function() {
     var markerLatLng = new google.maps.LatLng($(this).attr('lat'), $(this).attr('lng'));
-    var image = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+    var image = new google.maps.MarkerImage(baseUrl+'static/images/marker_sprite.png',
         new google.maps.Size(20, 34),
         new google.maps.Point(0, 0),
         new google.maps.Point(10, 34));
-    var shadow = new google.maps.MarkerImage(baseUrl+'images/marker_sprite.png',
+    var shadow = new google.maps.MarkerImage(baseUrl+'static/images/marker_sprite.png',
         new google.maps.Size(25, 20),
         new google.maps.Point(40, 14),
         new google.maps.Point(0, 20));

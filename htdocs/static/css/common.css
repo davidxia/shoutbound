@@ -502,14 +502,14 @@ ul.stats-list li a{
 
 .tooltip_container{
   position:absolute;
-  background:url(/david/images/dark_arrow.png) 50% 0 no-repeat;
+  background:url(/david/static/images/dark_arrow.png) 50% 0 no-repeat;
   padding:7px 0 0 0;
   z-index:500;
 }
 
 .tooltip_interior{
   font-size:12px;
-  background:url(/david/images/tooltip.png);
+  background:url(/david/static/images/tooltip.png);
   color:white;
   padding:3px 6px;
 }
@@ -702,7 +702,7 @@ a.unfollow:active{
   position:relative;
 }
 .delete{
-  background-image: url(/david/images/delete_button.png);
+  background-image: url(/david/static/images/delete_button.png);
   height: 15px;
   width: 15px;
   opacity: 0;
