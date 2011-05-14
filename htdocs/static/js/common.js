@@ -1,4 +1,49 @@
+var map = {};
+var cache = {};
+
+
 $(function() {
+  if ($('#main-tabs').length > 0) {
+    var defaultTab = $('#main-tabs').find('a:first').attr('href').substring(1);
+    $(window).bind('hashchange', function(e) {
+      var tabName = $.param.fragment();
+      var path = window.location.pathname;
+      var matches = path.match(/\d*$/);
+      var m = path.match(/^\/\w+\/(\w+)/);
+      myUrl = baseUrl+m[1];
+      if (tabName) {
+        myUrl += '/'+tabName;
+      }
+      if (matches[0]) {
+        myUrl += '/'+matches[0];
+      }
+      $('li.active').removeClass('active');
+      $('#main-tab-container').children(':visible').hide();
+  
+      if (tabName == '') {
+        $('a[href="#'+defaultTab+'"]').parent().addClass('active');
+      } else {
+        $('a[href="#'+tabName+'"]').parent().addClass('active');
+      }
+      
+      if (tabName==defaultTab || tabName=='') {
+        $('#'+defaultTab+'-tab').show();
+      } else if (cache[tabName]) {
+        $('#'+tabName+'-tab').show();
+      } else {
+        $('#main-tab-loading').show();
+        $.get(myUrl, function(d) {
+          $('#main-tab-loading').hide();
+          $('#main-tab-container').append(d);
+          $('abbr.timeago').timeago();
+          cache[tabName] = $(d);
+        });
+      }
+    });
+    $(window).trigger('hashchange');
+  }
+
+
   $.getScript(baseUrl+'static/js/jquery/timeago.js', function() {
     $('abbr.timeago').timeago();
   });
@@ -89,6 +134,7 @@ $(function() {
   
   
   jqMultiselect();
+  loadPolymap();
 });
 
 
@@ -107,3 +153,30 @@ jqMultiselect = function() {
     });
   }
 }
+
+
+loadPolymap = function() {  
+  if ($('#map-canvas').length > 0) {
+    $.getScript(baseUrl+'static/js/polymaps.min.js?2.5.0', function() {
+      map.po = org.polymaps;
+      
+      map.polymap = map.po.map()
+          .container(document.getElementById('map-canvas').appendChild(map.po.svg('svg')))
+          .add(map.po.drag())
+          .add(map.po.wheel())
+          .add(map.po.dblclick());
+      
+      map.polymap.add(map.po.image()
+          .url(map.po.url('http://{S}tile.cloudmade.com'
+          + '/baa414b63d004f45863be327e9145ec4'
+          + '/998/256/{Z}/{X}/{Y}.png')
+          .hosts(['a.', 'b.', 'c.', ''])));
+      
+      map.polymap.extent([{lon:map.swLng, lat:map.swLat}, {lon:map.neLng, lat:map.neLat}]);
+      
+      map.polymap.add(map.po.compass()
+          .pan('none'));
+    });
+  }
+}
+

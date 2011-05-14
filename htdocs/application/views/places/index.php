@@ -10,11 +10,9 @@ $header_args = array(
     'js_paths'=>array(
         'js/common.js',
         'js/jquery/jquery.ba-bbq.min.js',
-        'js/places/map.js',
         'js/places/tabs.js',
         'js/follow.js',
         'js/user/loginSignup.js',
-        'js/polymaps.min.js?2.5.0',
     )
 );
 $this->load->view('core_header', $header_args);
