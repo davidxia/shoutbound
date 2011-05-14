@@ -380,8 +380,8 @@ class Profile extends CI_Controller
     public function ajax_save_profile()
     {
         $old_bio = $this->user->bio;
-        $bio = $this->input->post('bio');
-        $url = $this->input->post('url');
+        $bio = trim($this->input->post('bio'));
+        $url = trim($this->input->post('url'));
         
         $this->user->bio = $bio;
         $this->user->url = $url;
