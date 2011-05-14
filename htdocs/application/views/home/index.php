@@ -197,7 +197,7 @@ $this->load->view('core_header', $header_args);
       <div id="right-content-container">
         <!-- MAP -->
         <div id="map-shell">
-          <div id="map-canvas" style="height:330px;"></div>
+          <div id="map-canvas"></div>
         </div><!--MAP ENDS-->
       </div>
     </div><!-- RIGHT COLUMN ENDS -->
