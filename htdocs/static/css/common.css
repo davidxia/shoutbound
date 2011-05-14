@@ -580,10 +580,19 @@ ul.stats-list li a{
   float:right;
 }
 
-.follow.left, .unfollow{
-  width:100px;
+.left{
   float:left;
   margin-left:0px;
+}
+
+.middle{
+  margin-left:3px !important;
+  float:none !important;
+  display:inline-block !important;
+}
+
+.right{
+  float:right;
 }
 
 .follow, #save-post-button, .edit-profile, .submit{

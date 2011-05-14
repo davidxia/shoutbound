@@ -79,16 +79,16 @@ $this->load->view('core_header', $header_args);
         <div id="actions-container"><!--ACTIONS CONTAINER-->                    
           <? if ($user_role == 5):?>
             <? if ($user_rsvp == 0):?>
-              <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" class="follow left" id="trip-<?=$trip->id?>">Follow</a><a href="#" id="share">Share</a>
+              <a href="#" id="share" class="share left">Share</a><a href="#" class="follow middle" id="trip-<?=$trip->id?>">Follow</a><a href="#" id="rsvp_yes_button" class="gray_rsvp_yes_button right">I'm in</a>
             <? elseif ($user_rsvp == 3):?>
-              <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" class="unfollow left" id="trip-<?=$trip->id?>">Unfollow</a><a href="#" id="share">Share</a>
+              <a href="#" id="rsvp_yes_button" class="gray_rsvp_yes_button right">I'm in</a><a href="#" class="unfollow right" id="trip-<?=$trip->id?>">Unfollow</a><a href="#" id="share" class="share left">Share</a>
             <? elseif ($user_rsvp == 6):?>
-              <a href="#" id="rsvp_yes_button">I'm in</a><a href="#" id="rsvp_no_button">I'm out</a><a href="#" id="share">Share</a>
+              <a href="#" id="rsvp_yes_button" class="rsvp_yes_button left">I'm in</a><a href="#" id="rsvp_no_button" class="gray_rsvp_no_button right">I'm out</a><a href="#" id="share" class="share left">Share</a>
             <? elseif ($user_rsvp == 9):?>
-              <a href="#" id="rsvp_no_button">I'm out</a><a href="#" id="share">Share</a>
+              <a href="#" id="rsvp_no_button" class="gray_rsvp_no_button right">I'm out</a><a href="#" id="share" class="share left">Share</a>
             <? endif;?>
           <? elseif ($user_role == 10):?>
-            <a href="#" id="invite-others-button">Invite others</a><a href="#" id="share">Share</a>
+            <a href="#" id="invite-others-button" class="edit-trip-button">Invite others</a><a href="#" id="share" class="share left">Share</a>
             <a id="delete-trip" href="#">Delete</a>
           <? endif;?> 
         <? if (!$user_role):?>
