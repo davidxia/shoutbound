@@ -136,10 +136,16 @@ class Email_notifs
         {
             case 3:
                 $subj = $user->name.' is now following you on Shoutbound';
-                $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> is now following '.
-                    '<a href="'.site_url('profile/'.$source->id).'">you</a> on Shoutbound.</h4>';
-                $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> is now following '.
-                    '<a href="'.site_url('profile/'.$source->id).'">you</a> on Shoutbound.';
+                $html = '<div style="width:600px; font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:13px; line-height:19px; color:#333; padding:5px;">'.
+                    '<div style="float:left; margin-right:10px; width:50px; height:50px; padding:3px; border:1px solid #DADADA;"><img src="http://static.shoutbound.com/profile_pics/default_avatar1.png" height:50px; width:50px;/></div>'.                                
+                    '<div><span style="font-size:14px"><strong>'.$user->name.'</strong> is now following you on Shoutbound.</span><br/><a href="'.site_url('profile/'.$user->id).'">Click here to view '.$user->name.'&rsquo;s profile</a></div>'.
+                    '<div style="clear:both">'.
+                    '<br/><br/><br/><br/>'.
+                    '<div style="border-top:1px solid #888; color:#888; font-size:11px; line-height:18px;">To control when you receive e-mail notifications from Shoutbound, <a style="color:#888; "href="#">click here</a> to manage your account settings.</div>';                                
+                $text = '<div style="width:600px; font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:13px; line-height:19px; color:#333; padding:5px;></div>'.                
+                  '<div><span style="font-size:14px"><strong>'.$user->name.'</strong> is now following you on Shoutbound.</span><br/><a href="'.site_url('profile/'.$user->id).'">Click here to view '.$user->name.'&rsquo;s profile</a></div>'.
+                  '<br/><br/><br/><br/>'.
+                    '<div style="border-top:1px solid #888; color:#888; font-size:11px; line-height:18px;">To control when you receive e-mail notifications from Shoutbound, <a style="color:#888; "href="#">click here</a> to manage your account settings.</div>';                                
                 break;
             case 4:
                 $subj = $user->name.' is now following your trip "'.$parent->name.'" on Shoutbound';

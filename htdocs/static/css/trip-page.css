@@ -109,22 +109,23 @@ textarea#post-input{
 }
 
 #rsvp_yes_button{
-  width:170px;
-  height:40px;
-  color:white;
-  line-height:40px;
+  float:left;
+  display:block;
+  height:28px;
+  line-height:28px;
   text-align:center;
   font-weight:bold;
-  font-size:20px;
+  font-size:13px;
   text-decoration:none;
-  background:-webkit-gradient(linear, left top, left bottom, from(#00CC33), to(#009900));
-  background:-moz-linear-gradient(top, #00CC33, #009900);
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#00CC33', endColorstr='#009900');
-  border: 1px solid #686868;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  display:inline-block;
+  background:#FAFAFA;
+  background:-webkit-gradient(linear, left top, left bottom, from(#FAFAFA), to(#DADADA));
+  background:-moz-linear-gradient(top, #FAFAFA, #DADADA);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAFAFA', endColorstr='#DADADA');
+  border: 1px solid #CACACA;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  width:100px;
 }
 #rsvp_yes_button:hover {
   background: green;
