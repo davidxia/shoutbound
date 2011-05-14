@@ -481,6 +481,7 @@ class Profile extends CI_Controller
                 {
                     $this->load->helper('activity');
                     save_activity($this->user->id, 3, $id, NULL, NULL, time()-72);
+                    save_activity($u->id, 8, $this->user->id, NULL, NULL, time()-72);
                     
                     $this->load->library('email_notifs', array('setting_id' => 3, 'profile' => $u));
                     $this->email_notifs->get_emails();
