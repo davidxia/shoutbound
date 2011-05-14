@@ -7,3 +7,12 @@
   margin-bottom:6px;
   display:inline-block;
 }
+
+#abstract{
+  max-height: 114px;
+  overflow-y:hidden;
+}
+
+.right-tab-container{
+ border-top:1px solid #CACACA; 
+}
