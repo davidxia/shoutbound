@@ -1,88 +1,34 @@
 var cache = {};
 var map = {};
 
-map.googleMap;
-map.markers = {};
-
 
 $(function() {
   $('#post-input').focus(function() {
     $(this).next().show();
   });
-  
-  var script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src = 'http://maps.google.com/maps/api/js?sensor=false&callback=map.loadGoogleMap';
-  document.body.appendChild(script);
 });
 
 
-map.loadGoogleMap = function() {
-  var mapOptions = {
-  	disableDefaultUI: true,
-  	mapTypeControl: true,
-  	mapTypeControlOptions: {
-  	  mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE]
-    },
-  	zoomControl: true,
-  	zoomControlOptions: {
-      style: google.maps.ZoomControlStyle.LARGE,
-    },
-  	zoom: 0,
-  	center: new google.maps.LatLng(0,0),
-  	mapTypeId: google.maps.MapTypeId.ROADMAP,    
-    scrollwheel: false
-  };
+$(function() {
+  var po = org.polymaps;
   
-  map.googleMap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-  google.maps.event.addListenerOnce(map.googleMap, 'bounds_changed', function() {
-    var defaultTab = $('#main-tabs').find('a:first').attr('href').substring(1);
-    map.saveMarkers(defaultTab);
-    map.showTabMarkers(defaultTab);
-    loadTabs(defaultTab);
-  });
-};
-
-
-map.saveMarkers = function(tabName) {
-  map.markers[tabName] = [];
-  $('#'+tabName+'-tab').find('.place').each(function() {
-    var markerLatLng = new google.maps.LatLng($(this).attr('lat'), $(this).attr('lng'));
-    var image = new google.maps.MarkerImage(baseUrl+'static/images/marker_sprite.png',
-        new google.maps.Size(20, 34),
-        new google.maps.Point(0, 0),
-        new google.maps.Point(10, 34));
-    var shadow = new google.maps.MarkerImage(baseUrl+'static/images/marker_sprite.png',
-        new google.maps.Size(25, 20),
-        new google.maps.Point(40, 14),
-        new google.maps.Point(0, 20));
-    map.markers[tabName].push(new google.maps.Marker({
-      map: map.googleMap,
-      position: markerLatLng,
-      icon: image,
-      shadow: shadow,
-      visible: false
-    }));
-  });
-};
-
-
-map.clearMarkers = function () {
-  $.each(map.markers, function(key, val) {
-    $.each(val, function(i, marker) {
-      marker.setVisible(false);
-    });
-  });
-};
-
-
-map.showTabMarkers = function(tabName) {
-  $.each(map.markers[tabName], function (i, marker) {
-    marker.setVisible(true);
-  });
-};
-
+  var polymap = po.map()
+      .container(document.getElementById('map-canvas').appendChild(po.svg('svg')))
+      .add(po.drag())
+      .add(po.wheel())
+      .add(po.dblclick());
+  
+  polymap.add(po.image()
+      .url(po.url('http://{S}tile.cloudmade.com'
+      + '/baa414b63d004f45863be327e9145ec4'
+      + '/998/256/{Z}/{X}/{Y}.png')
+      .hosts(['a.', 'b.', 'c.', ''])));
+  
+  polymap.extent([{lon:-180, lat:-50}, {lon:180, lat:50}]);
+    
+  polymap.add(po.compass()
+      .pan('none'));
+});
 
 
 loadTabs = function(defaultTab) {
@@ -108,12 +54,8 @@ loadTabs = function(defaultTab) {
     
     if (tabName==defaultTab || tabName=='') {
       $('#'+defaultTab+'-tab').show();
-      map.clearMarkers();
-      map.showTabMarkers(defaultTab);
     } else if (cache[tabName]) {
       $('#'+tabName+'-tab').show();
-      map.clearMarkers();
-      map.showTabMarkers(tabName);
     } else {
       $('#main-tab-loading').show();
       $.get(myUrl, function(d) {
@@ -121,9 +63,6 @@ loadTabs = function(defaultTab) {
         $('#main-tab-container').append(d);
         $('abbr.timeago').timeago();
         cache[tabName] = $(d);
-        map.saveMarkers(tabName);
-        map.clearMarkers();
-        map.showTabMarkers(tabName);
       });
     }
   });

@@ -10,11 +10,11 @@ $header_args = array(
         'js/savepost.js',
         'js/actionbar.js',
         'js/common.js',
+        'js/polymaps.min.js?2.5.0',
     )
 );
 $this->load->view('core_header', $header_args);
 ?>
-
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
