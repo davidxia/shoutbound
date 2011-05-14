@@ -1,33 +1,13 @@
 var cache = {};
 
 $(function() {
-  $('#follow').live('click', function() {
-    $.post(baseUrl+'places/ajax_edit_follow', {placeId:placeId, follow:1},
-      function(d) {
-        console.log(d);
-      });
-    return false;
-  });
-
-  $('#unfollow').live('click', function() {
-    $.post(baseUrl+'places/ajax_edit_follow', {placeId:placeId, follow:0},
-      function(d) {
-        console.log(d);
-      });
-    return false;
-  });
-
   var defaultTab = $('#main-tabs').find('a:first').attr('href').substring(1);
   loadTabs(defaultTab);
-});
 
-
-$(function() {
   var rightTabs = $('#right-tabs');
   rightTabs.children('li:first').addClass('active');
   rightTabs.children('li').click(function() {
     var tabName = $(this).children('a').attr('href');
-    console.log(tabName);
     $(this).parent().children().removeClass('active');
     $(this).addClass('active');
     $('.right-tab-content').hide();
