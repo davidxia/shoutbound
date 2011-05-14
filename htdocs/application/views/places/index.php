@@ -14,11 +14,45 @@ $header_args = array(
         'js/places/tabs.js',
         'js/follow.js',
         'js/user/loginSignup.js',
+        'js/polymaps.min.js?2.5.0',
     )
 );
 $this->load->view('core_header', $header_args);
 ?>
-
+<style type="text/css">
+.compass .back{
+  fill: #eee;
+  fill-opacity: .8;
+}
+.compass .fore{
+  stroke: #999;
+  stroke-width: 1.5px;
+}
+.compass rect.back.fore{
+  fill: #999;
+  fill-opacity: .3;
+  stroke: #eee;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+.compass .direction{
+  fill: none;
+}
+.compass .chevron{
+  fill: none;
+  stroke: #999;
+  stroke-width: 5px;
+}
+.compass .zoom .chevron{
+  stroke-width: 4px;
+}
+.compass .active .chevron, .compass .chevron.active{
+  stroke: #fff;
+}
+.compass.active .active .direction{
+  fill: #999;
+}
+</style>
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';

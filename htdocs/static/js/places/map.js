@@ -1,40 +1,22 @@
-var map = {};
-map.googleMap;
+var map= {};
 
 $(function() {
-  var script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src = 'http://maps.google.com/maps/api/js?sensor=false&callback=map.loadGoogleMap';
-  document.body.appendChild(script);
+  var po = org.polymaps;
+  
+  var polymap = po.map()
+      .container(document.getElementById('map-canvas').appendChild(po.svg('svg')))
+      .add(po.drag())
+      .add(po.wheel())
+      .add(po.dblclick());
+  
+  polymap.add(po.image()
+      .url(po.url('http://{S}tile.cloudmade.com'
+      + '/baa414b63d004f45863be327e9145ec4'
+      + '/998/256/{Z}/{X}/{Y}.png')
+      .hosts(['a.', 'b.', 'c.', ''])));
+  
+  polymap.extent([{lon:map.swLng, lat:map.swLat}, {lon:map.neLng, lat:map.neLat}]);
+  
+  polymap.add(po.compass()
+      .pan('none'));
 });
-
-
-map.loadGoogleMap = function() {
-  var mapOptions = {
-  	disableDefaultUI: true,
-  	mapTypeControl: true,
-  	mapTypeControlOptions: {
-  	  mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE]
-    },
-  	zoomControl: true,
-  	zoomControlOptions: {
-      style: google.maps.ZoomControlStyle.LARGE,
-    },
-  	zoom: 12,
-  	center: new google.maps.LatLng(map.lat, map.lng),
-  	mapTypeId: google.maps.MapTypeId.ROADMAP,    
-    scrollwheel: false
-  };
-  
-  map.googleMap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-  
-  var southWest = new google.maps.LatLng(map.swLat, map.swLng);
-  var northEast = new google.maps.LatLng(map.neLat, map.neLng);
-  var bounds = new google.maps.LatLngBounds(southWest, northEast);
-  map.googleMap.fitBounds(bounds);
-
-  // hack used to display map in tab correctly; must hide only after map has loaded
-  google.maps.event.addListenerOnce(map.googleMap, 'bounds_changed', function() {
-    $('#map-tab').hide();
-  });
-};
