@@ -350,6 +350,15 @@ $(function() {
   wall.bindLike();
   var defaultTab = $('#main-tabs').find('a:first').attr('href').substring(1);
   loadTabs(defaultTab);
+  
+  
+  $('ul#right-tabs').children().click(function() {
+    $(this).siblings().removeClass('active');
+    $(this).addClass('active');
+    $('#'+$(this).attr('tab')+'-tab').siblings().hide();
+    $('#'+$(this).attr('tab')+'-tab').show();
+    return false;
+  });
 });
 
 
@@ -365,7 +374,7 @@ loadTabs = function(defaultTab) {
     if (matches[0]) {
       myUrl += '/'+matches[0];
     }
-    $('li.active').removeClass('active');
+    $('ul#main-tabs').children('li.active').removeClass('active');
     $('#main-tab-container').children(':visible').hide();
 
     if (tabName == '') {

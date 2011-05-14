@@ -6,27 +6,6 @@ map.markers = {};
 
 
 $(function() {
-  var top = $('#map-shell').offset().top - parseFloat($('#map-shell').css('marginTop').replace(/auto/, 0)) + 46;
-  var didScroll = false;
-  $(window).scroll(function () {
-    didScroll = true;
-  });
-  
-  setInterval(function() {
-    if (didScroll) {
-      didScroll = false;
-      var y = $(window).scrollTop();    
-      if (y >= top) {
-        $('#map-shell').addClass('map-fixed');
-      } else {
-        $('#map-shell').removeClass('map-fixed');
-      }
-    }
-  }, 100);
-});
-
-
-$(function() {
   var script = document.createElement('script');
   script.type = 'text/javascript';
   script.src = 'http://maps.google.com/maps/api/js?sensor=false&callback=map.loadGoogleMap';

@@ -453,8 +453,6 @@ fieldset {
  border-bottom:1px solid #BABABA;
  border-right:1px solid #BABABA;
  padding:5px;
- clear:both;
- height:330px;
 }
 
 /*map*/
@@ -465,7 +463,13 @@ fieldset {
 
 .map-fixed{
   position:fixed;
-  top:-46px;
+  top:0px;
+  width:340px;
+}
+#map-shell{
+  margin-top:35px;
+  padding:5px;
+  border:1px solid #BABABA;
 }
 
 #stats-container{

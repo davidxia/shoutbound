@@ -10,7 +10,6 @@ $(function() {
       var img = $(this);
       ttDelay = setTimeout(function() {
         var title = img.attr('alt');
-        // element location and dimensions
         var element_offset = img.offset(),
             element_top = element_offset.top,
             element_left = element_offset.left,
@@ -18,7 +17,6 @@ $(function() {
             element_width = img.width();
         var tooltip = $('<div class="tooltip_container"><div class="tooltip_interior">'+title+'</div></div>');
         $('body').append(tooltip);
-        // tooltip dimensions
         var tooltip_height  = tooltip.height();
         var tooltip_width = tooltip.width();
         tooltip.css({ top: (element_top + element_height + 3) + 'px' });
@@ -70,6 +68,25 @@ $(function() {
       }
     }
   });
+
+
+  var top = $('#right-content-container').offset().top - parseFloat($('#right-content-container').css('marginTop').replace(/auto/, 0));
+  var didScroll = false;
+  $(window).scroll(function () {
+    didScroll = true;
+  });
+  setInterval(function() {
+    if (didScroll) {
+      didScroll = false;
+      var y = $(window).scrollTop();    
+      if (y >= top) {
+        $('#right-content-container').addClass('map-fixed');
+      } else {
+        $('#right-content-container').removeClass('map-fixed');
+      }
+    }
+  }, 100);
+  
   
   jqMultiselect();
 });

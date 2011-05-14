@@ -143,14 +143,12 @@ $this->load->view('core_header', $header_args);
   </div><!--LEFT COLUMN END-->
 
   <!-- RIGHT COLUMN -->
-  <div id="col-right">      
+  <div id="col-right">
     <div id="right-content-container"><!--RIGHT CONTENT-->
-    
       <!-- MAP -->
       <div id="map-shell">
         <div id="map-canvas"></div>
       </div>
-      
     </div><!--RIGHT CONTENT ENDS-->
     
   </div><!-- RIGHT COLUMN ENDS -->

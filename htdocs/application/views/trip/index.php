@@ -22,8 +22,6 @@ $header_args = array(
 );
 $this->load->view('core_header', $header_args);
 ?>
-
-
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
@@ -37,11 +35,9 @@ $this->load->view('core_header', $header_args);
   map.neLat = <?=$trip->places[0]->ne_lat?>;
   map.neLng = <?=$trip->places[0]->ne_lng?>;
 </script>
-
 </head>
 
 <body>
-
 <div id="sticky-footer-wrapper">
 
   <? $this->load->view('header')?>
@@ -62,11 +58,11 @@ $this->load->view('core_header', $header_args);
 
   		  <div id="trip-goers"><!--TRIP GOERS-->      	        		          			                     
           <? foreach ($trip->goers as $trip_goer):?>
-          	<div class="goer-avatar" uid="<?=$trip_goer->id?>">
-              <a href="<?=site_url('profile/'.$trip_goer->id)?>">
-                <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="48" width="48"/>
-              </a>
-            </div>
+        	<div class="goer-avatar" uid="<?=$trip_goer->id?>">
+            <a href="<?=site_url('profile/'.$trip_goer->id)?>">
+              <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="48" width="48"/>
+            </a>
+          </div>
           <? endforeach;?>       
           <!--<div>This trip was created by <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a></div>-->       
         </div><!--TRIP GOERS END-->        	       
@@ -311,54 +307,34 @@ $this->load->view('core_header', $header_args);
   <div id="col-right">      
 
     <!--RIGHT CONTENT-->      
-    <div id="right-content-container">   
+    <div id="right-content-container">
     
       <!-- GALLERY AND MAP-->
       <ul id="right-tabs">
-        <li><a href="#map">Map</a></li>
-        <li><a href="#itinerary">Itinerary</a></li>
+        <li class="active" style="cursor:pointer;" tab="map">Map</li>
+        <li style="cursor:pointer;" tab="itinerary">Itinerary</li>
       </ul>
       
       <div class="right-tab-container">          
         <div id="map-tab" class="right-tab-content">
           <div id="map-canvas"></div>     
         </div>
-        <div id="itinerary-tab" class="right-tab-content" style="visibility:hidden">
+        <div id="itinerary-tab" class="right-tab-content" style="display:none">
+          <? $prefix=''; foreach ($trip->places as $destination):?>
+          <?=$prefix;?>
+            <span class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></span>  
+            <? if ($destination->startdate AND $destination->enddate):?>
+              <span class="subtext"><?=date('F j, Y', $destination->startdate)?> - <?=date('F j, Y', $destination->enddate)?></span><br>
+            <? elseif ($destination->startdate AND ! $destination->enddate):?>
+              <span class="subtext"><?=date('F j, Y', $destination->startdate)?></span><br>
+            <? elseif ( ! $destination->startdate AND $destination->enddate):?>
+              <span class="subtext"> - <?=date('F j, Y', $destination->enddate)?></span><br>
+            <? endif;?>
+          <? $prefix = '<span class="bullet" style="margin-left:3px; display:none">&#149</span>'?>   
+          <? endforeach;?>
         </div>
       </div>
-   
-
-
-
-      <div class="right-widget-container">
-        <div id="itinerary" class="right-widget-interior"><!--ITINERARY-->  
-          <? $prefix=''; foreach ($trip->places as $destination):?>
-            <?=$prefix;?>
-              <span class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></span>  
-              <? if ($destination->startdate AND $destination->enddate):?>
-                <span class="subtext"><?=date('F j, Y', $destination->startdate)?> - <?=date('F j, Y', $destination->enddate)?></span><br>
-              <? elseif ($destination->startdate AND ! $destination->enddate):?>
-                <span class="subtext"><?=date('F j, Y', $destination->startdate)?></span><br>
-              <? elseif ( ! $destination->startdate AND $destination->enddate):?>
-                <span class="subtext"> - <?=date('F j, Y', $destination->enddate)?></span><br>
-              <? endif;?>
-            <? $prefix = '<span class="bullet" style="margin-left:3px; display:none">&#149</span>'?>   
-          <? endforeach;?>
-        </div><!--ITINERARY END-->
-      </div>
-        
-      <!--<span id="num_trip_goers">          			              		
-        <? $num_trip_goers = count($trip->goers); if ($num_trip_goers == 1):?>
-        <span id="num"><?=$num_trip_goers?></span> person is going.
-        <? else:?>              		
-        <span id="num"><?=$num_trip_goers?></span> people are going.
-        <? endif;?>           
-    	</span>-->
-                              
-      <!-- MAP -->
-      <div id="map-shell" class="right-widget-container">
-        <div id="map-canvas"></div>
-      </div><!--MAP ENDS-->
+                                      
 
       </div><!--RIGHT CONTENT END-->
 
@@ -378,16 +354,13 @@ $this->load->view('core_header', $header_args);
   
 
   $(function() {
-    $('select').multiselect();
-
     $('#delete-trip').click(function() {
-      if (confirm ('Are you sure you want to delete this awesome trip?')) {
+      if (confirm('Are you sure you want to delete this awesome trip?')) {
         window.location = '<?=site_url('trips/delete/'.$trip->id)?>';
       }
       return false;
     });
   });
 </script>
-
 </body> 
 </html>
