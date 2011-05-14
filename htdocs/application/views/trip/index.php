@@ -3,12 +3,10 @@ $header_args = array(
     'title' => $trip->name.' | Shoutbound',
     'css_paths'=>array(
         'css/trip-page.css',
-        'css/excite-bike/jquery-ui-1.8.11.custom.css',
     ),
     'js_paths'=>array(
         'js/jquery/jquery.ba-bbq.min.js',
         'js/user/loginSignup.js',
-        'js/trip/map.js',
         'js/trip/wall.js',
         'js/trip/share.js',
         'js/follow.js',
@@ -16,8 +14,6 @@ $header_args = array(
         'js/common.js',
         'js/jquery/jquery.color.js',
         'js/actionbar.js',
-        'js/jquery/jquery-ui-1.8.11.custom.min.js',
-        'js/jquery/multiselect.min.js',
     )
 );
 $this->load->view('core_header', $header_args);

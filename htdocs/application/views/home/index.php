@@ -6,11 +6,9 @@ $header_args = array(
     ),
     'js_paths'=> array(
         'js/jquery/jquery.ba-bbq.min.js',
-        'js/user/home.js',
         'js/savepost.js',
         'js/actionbar.js',
         'js/common.js',
-        'js/polymaps.min.js?2.5.0',
     )
 );
 $this->load->view('core_header', $header_args);
@@ -19,6 +17,10 @@ $this->load->view('core_header', $header_args);
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
   var staticUrl = '<?=static_sub()?>';
+  map.swLat = -50;
+  map.swLng = -180;
+  map.neLat = 50;
+  map.neLng = 180;
 </script>
 </head>
 
@@ -205,5 +207,12 @@ $this->load->view('core_header', $header_args);
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
   <? $this->load->view('footer')?>
+<script type="text/javascript">
+  $(function() {
+    $('#post-input').focus(function() {
+      $(this).next().show();
+    });
+  });
+</script>
 </body>
 </html>
