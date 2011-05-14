@@ -329,26 +329,7 @@ class Profile extends CI_Controller
 
         $this->load->view('profile/followers', $view_data);
     }
-    
-    
-    public function edit()
-    {
-        if ( ! $this->user)
-        {
-            custom_404();
-            return;
-        }
         
-        $this->user->get_current_place();
-        $this->user->get_places();
-        $view_data = array(
-            'user' => $this->user->stored,
-        );
- 			               
-        $this->load->view('profile/edit', $view_data);
-        //print_r($this->user->stored);
-    }
-    
     
     public function save_user_places()
     {
@@ -398,6 +379,7 @@ class Profile extends CI_Controller
     
     public function ajax_save_profile()
     {
+        $old_bio = $this->user->bio;
         $bio = $this->input->post('bio');
         $url = $this->input->post('url');
         
@@ -410,6 +392,12 @@ class Profile extends CI_Controller
         else
         {
             json_error('something broke, tell David to fix');
+        }
+        
+        if ($bio != $old_bio)
+        {
+            $this->load->helper('activity');
+            save_activity($this->user->id, 9, TRUE, NULL, NULL, time()-72);
         }
         /*
         $p = new Place($this->input->post('currPlaceId'));

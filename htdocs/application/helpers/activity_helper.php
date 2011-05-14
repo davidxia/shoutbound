@@ -54,6 +54,7 @@ function get_source(&$activity)
             $activity->stored->follower = $u->stored;
             break;
         case 9:
+            $activity->stored->message = ' changed his bio.';
             break;
         case 10:
             break;

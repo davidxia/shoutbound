@@ -17,8 +17,7 @@ class Settings extends CI_Controller
         }
         else
         {
-            custom_404();
-            return;
+            redirect('404');
         }
 		}
     
