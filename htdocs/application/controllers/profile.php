@@ -380,38 +380,58 @@ class Profile extends CI_Controller
     public function ajax_save_profile()
     {
         $old_bio = $this->user->bio;
+        $old_url = $this->user->url;
         $bio = trim($this->input->post('bio'));
         $url = trim($this->input->post('url'));
-        
-        $this->user->bio = $bio;
-        $this->user->url = $url;
-        if ($this->user->save())
-        {
-            json_success(array('bio' => $bio, 'url' => $url, 'response' => 'Saved.'));
-        }
-        else
-        {
-            json_error('something broke, tell David to fix');
-        }
+        $curr_place_id = $this->input->post('currPlaceId');
+        $changes_made = FALSE;
         
         if ($bio != $old_bio)
         {
+            $this->user->bio = $bio;
             $this->load->helper('activity');
             save_activity($this->user->id, 9, TRUE, NULL, NULL, time()-72);
+            $changes_made = TRUE;
         }
-        /*
-        $p = new Place($this->input->post('currPlaceId'));
+        if ($url != $old_url)
+        {
+            $this->user->url = $url;
+            $changes_made = TRUE;
+        }
         
+        /*
+        $p = new Place($curr_place_id);
         if ($this->user->save($p))
         {
-            $this->user->set_join_field($p, 'timestamp', time());
-            json_success(array('bio' => $this->input->post('bio'), 'url' => $this->input->post('url'), 'currPlace' => $p->name));
+            $this->user->set_join_field($p, 'timestamp', time()-72);
+        }
+        
+        if ($curr_place_id)
+        {
+            $this->load->helper('activity');
+            save_activity($this->user->id, 10, TRUE, NULL, NULL, time()-72);
+            $changes_made = TRUE;
+        }
+        */
+
+        if ($changes_made)
+        {
+            if ($this->user->save())
+            {
+                json_success(array('bio' => $bio, 'url' => $url, 'response' => 'Saved.'));
+                //json_success(array('bio' => $bio, 'url' => $url, 'currPlace' => $p->name, 'response' => 'Saved.'));
+            }
+            else
+            {
+                json_error('something broke, tell David to fix');
+            }
         }
         else
         {
-            json_error('something broke, tell David to fix');
+            json_success(array('bio' => $bio, 'url' => $url, 'response' => 'Saved.'));
+            //json_success(array('bio' => $bio, 'url' => $url, 'currPlace' => $p->name, 'response' => 'Saved.'));
         }
-        */
+        
     }
     
     
