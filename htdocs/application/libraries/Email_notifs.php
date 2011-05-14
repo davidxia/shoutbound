@@ -242,6 +242,16 @@ class Email_notifs
     {
         $this->emails = array();
     }
+    
+    
+    public function delete_email($email)
+    {
+        $keys = array_keys($this->emails, $email);
+        foreach ($keys as $k)
+        {
+            unset($this->emails[$k]);
+        }
+    }
         
 
     public function set_trip($trip)

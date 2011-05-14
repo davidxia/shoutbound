@@ -294,6 +294,7 @@ class Trips extends CI_Controller
                 $params = array('setting_id' => 13, 'trip' => $t);
                 $this->load->library('email_notifs', $params);
                 $this->email_notifs->get_emails();
+                $this->email_notifs->delete_email($this->user->email);
                 $this->email_notifs->compose_email($this->user, $rsvp, $t->stored);
                 $this->email_notifs->send_email();
             }
