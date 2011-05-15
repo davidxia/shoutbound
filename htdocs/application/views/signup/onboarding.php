@@ -27,8 +27,10 @@ $this->load->view('core_header', $header_args);
 </head>
 	
 <body>
+  <div id="sticky-footer-wrapper">
   <? $this->load->view('header')?>
   <? $this->load->view('wrapper_content')?>
+  
   
   <div class="settings-item">
     <div class="settings-item-name">Picture</div>
@@ -99,6 +101,7 @@ $this->load->view('core_header', $header_args);
   
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
+  </div><!--STICKY FOOTER WRAPPER ENDS-->
   <? $this->load->view('footer')?>
 </body>
 </html>

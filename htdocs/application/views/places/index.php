@@ -204,7 +204,7 @@ $this->load->view('core_header', $header_args);
       
   </div><!-- WRAPPER ENDS -->
   </div><!-- CONTENT ENDS -->
-  </div>
+  </div><!--STICKY FOOTER WRAPPER END-->
   <? $this->load->view('footer')?>
 </body>
 </head>
