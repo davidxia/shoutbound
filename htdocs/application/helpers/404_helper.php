@@ -6,5 +6,6 @@ function custom_404()
     $error = new Error();
     $error->error_404();
 }
+
 /* End of file 404_helper.php */
 /* Location: ./system/application/helpers/404_helper.php */

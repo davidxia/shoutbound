@@ -27,11 +27,14 @@ class Places extends CI_Controller
         
         if ($val === FALSE)
         {
-            $p = new Place();
+            /*$p = new Place();
             $p->ilike('name', $query, 'after')->order_by('area_rank', 'desc')->order_by('pop_rank', 'desc')->limit(10)->get();
-            
+            */
+            $this->load->helper('places');
+            $val = query_places($query);
+            /*
             $val = array();
-            foreach ($p as $place)
+            foreach ($places as $place)
             {
                 $name = $place->name;
                 if ($place->admin1)
@@ -44,7 +47,7 @@ class Places extends CI_Controller
                 }
                 $val[$place->id] = $name;
             }
-
+            */
             $this->mc->set($key, $val);
             $was_cached = 0;
         }
@@ -175,6 +178,14 @@ class Places extends CI_Controller
     public function dbpedia_query()
     {
         $this->load->view('places/dbpedia_query');
+    }
+    
+    
+    public function mytest()
+    {
+        $this->load->helper('places');
+        $places = query_places('Greenland');
+        print_r($places);
     }
 }
 
