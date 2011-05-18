@@ -335,7 +335,6 @@ fieldset {
 
 #left-content-container{
   padding:15px 0px 5px 0px;
-  border-top:2px solid #777;
 }
 
 #right-content-container{
@@ -345,6 +344,7 @@ fieldset {
 #col-left{
   width:560px;
   float:left;
+  border-top:2px solid #777;
 }
 
 #col-right{

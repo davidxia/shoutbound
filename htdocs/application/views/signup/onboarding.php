@@ -1,8 +1,9 @@
 <?
 $header_args = array(
-    'title' => 'Onboarding | Shoutbound',
+    'title' => 'Getting Started | Shoutbound',
     'css_paths' => array(
         'css/uploadify.css',
+        'css/onboarding.css',
     ),
     'js_paths' => array(
         'js/common.js',
@@ -27,81 +28,49 @@ $this->load->view('core_header', $header_args);
 </head>
 	
 <body>
-  <div id="sticky-footer-wrapper">
-  <? $this->load->view('header')?>
-  <? $this->load->view('wrapper_content')?>
-  
-  
-  <div class="settings-item">
-    <div class="settings-item-name">Picture</div>
-    <div class="settings-item-content">
-      <div id="change-photo">
-        <a href="#" id="file_upload" name="file_upload" type="file"></a>
-        <div class="subtext">Maximum size: 100KB</div>
-        <div id="custom-queue"></div>
-      </div>        
-      <div id="current-profile-pic" class="profile-pic-container">
-        <a href="<?=static_sub('profile_pics/'.$user->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$user->profile_pic)?>" width="125" height="125"/></a>
+    <div style="margin:50px auto 0px auto; width:850px; border-bottom:1px solid #CACACA; padding-bottom:20px;">
+    
+      <div id="onboarding-top">
+        <div class="onboarding-header">1. Dream</div>
+        <div class="onboarding-header faded">2. Follow</div>
+        <div class="onboarding-header faded">3. Profile</div>    
       </div>
-    </div>
-  </div>
 
-  <div class="settings-item">
-    <div class="settings-item-name">Web</div>
-    <div class="settings-item-content">
-      <input type="text" id="url" style="width:275px; height:20px;" value="<?=$user->url?>"/><br/>
-      <span class="subtext">Have your own website or blog? Put the address here.</span>        
+      <div id="onboarding-left">
+        <div class="onboarding-subtitle">What are your dream travel destinations?</div>
+
+        <fieldset>
+          <input type="text" id="address" class="destination-input" name="address" autocomplete=off />
+        </fieldset>
+          
+                
+      </div>
+    
+      <div id="map-shell">
+        <div id="map-canvas">
+          <img src="<?=site_url('static/images/map_placeholder.png')?>" width="490" height="390"/>
+        </div>
+      </div>
+          
+      <div style="clear:both"></div>
+      
     </div>
-  </div>        
-  
-  <div class="settings-item" style="position:relative;">
-    <div class="settings-item-name">Current location</div>
-    <div class="settings-item-content">
-      <input type="text" id="current-place" class="place-input" style="width:275px; height:20px;" value="<? if(isset($user->curr_place->name)) echo $user->curr_place->name?>"/>
-      <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="display:none; position:absolute; right:150px; top:4px;"/>
-      <input id="current-place-id" class="place_id" name="current-place-id" type="hidden"/>
-      <br/><span class="subtext">Where in the world are you in right now?</span>        
-    </div>
-  </div>        
-  
-  <div class="settings-item">
-    <div class="settings-item-name">Bio</div>
-    <div class="settings-item-content">
-      <textarea id="bio" style="width:415px; height:125px;"><?=$user->bio?></textarea><br/>
-      <span class="subtext">Describe yourself in 250 characters or less. Characters remaining: <span id="chars-remaining"></span></span>
-    </div>
-  </div> 
-  
-  <div id="save-settings-container">
-    <input type="submit" id="save-profile" value="Save" class="save-settings-button"/>
-    <span id="save-response"></span>
+    
+    <div id="progress-buttons-container">
+      <a href="#" class="next-button">Next</a> 
+    </div>        
+
+    
   </div>
+    
 
 
-  <? if ($user->following):?>
-    We've automatically followed for you these people on Shoutbound whom we think are your friends and the trips they're planning.
-  <? endif;?>
-  <? foreach ($user->following as $following):?>
-  <div>
-    <a href="<?=site_url('profile/'.$following->id)?>" target="_blank"><?=$following->name?></a>
-    <a class="unfollow" id="user-<?=$following->id?>" href="#">Unfollow</a>
-    <? foreach ($following->trips as $trip):?>
-    <div style="margin-left:20px;">
-      <a href="<?=site_url('trips/'.$trip->id)?>" target="_blank"><?=$trip->name?></a>
-      <? foreach ($trip->goers as $goer):?>
-      <a href="<?=site_url('profile/'.$goer->id)?>" target="_blank"><img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" class="tooltip" width="35" height="35" alt="<?=$goer->name?>"/>
-      <? endforeach;?>
-      <a class="unfollow" id="trip-<?=$trip->id?>">Unfollow</a>
-    </div>
-    <? endforeach;?>
-  </div>
-  <? endforeach;?>
-  
-  <a href="<?=site_url()?>">Finished</a>
-  
-  </div><!-- CONTENT ENDS -->
-  </div><!-- WRAPPER ENDS -->
-  </div><!--STICKY FOOTER WRAPPER ENDS-->
-  <? $this->load->view('footer')?>
+
+
+
+
+
+
+
 </body>
 </html>
