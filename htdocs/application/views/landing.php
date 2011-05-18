@@ -57,8 +57,8 @@ $this->load->view('core_header', $header_args);
 </head>
 
 <body>
-  <? $this->load->view('header')?>
-  <? $this->load->view('wrapper_content')?>
+  <? $this->load->view('templates/header')?>
+  <? $this->load->view('templates/content')?>
   <!--LEFT-->
 	<div style="width:450px; float:left; padding:20px; margin-top:45px;">
     <h2 style="font-size:52px; line-height:58px; font-weight:bold;">Collaborative travel planning.</h2>

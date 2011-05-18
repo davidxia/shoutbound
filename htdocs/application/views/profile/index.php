@@ -26,8 +26,8 @@ $this->load->view('core_header', $header_args);
 </head>
 
 <body>
-  <? $this->load->view('header')?>
-  <? $this->load->view('wrapper_content')?>
+  <? $this->load->view('templates/header')?>
+  <? $this->load->view('templates/content')?>
 
   <div id="top-section"><!--TOP SECTION-->
   

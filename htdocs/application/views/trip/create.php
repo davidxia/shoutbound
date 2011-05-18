@@ -48,8 +48,8 @@ label.error {
 
 
 <body>
-  <? $this->load->view('header')?>
-  <? $this->load->view('wrapper_content')?>
+  <? $this->load->view('templates/header')?>
+  <? $this->load->view('templates/content')?>
     <div id="div-to-popup" style="background-color:white; display:none;"></div>
 		  
         <!-- TRIP CREATION FORM -->

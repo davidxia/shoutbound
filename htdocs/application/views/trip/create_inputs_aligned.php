@@ -45,8 +45,8 @@ $this->load->view('core_header', $header_args);
 <body>
 
 <div id="sticky-footer-wrapper">
-  <? $this->load->view('header')?>
-  <? $this->load->view('wrapper_content')?>
+  <? $this->load->view('templates/header')?>
+  <? $this->load->view('templates/content')?>
 		  
   <!-- TRIP CREATION FORM -->
   <form id="trip-creation-form" action="confirm_create" method="post" style="position:relative; width:576px; margin:0 auto;">

@@ -27,8 +27,8 @@ $this->load->view('core_header', $header_args);
 
 <body>
   <div id="sticky-footer-wrapper">
-  <? $this->load->view('header')?>
-  <? $this->load->view('wrapper_content')?>
+  <? $this->load->view('templates/header')?>
+  <? $this->load->view('templates/content')?>
   
     <div id="top-bar">
       <div class="top-bar-header">Manage your Shoutbound account.</div>
