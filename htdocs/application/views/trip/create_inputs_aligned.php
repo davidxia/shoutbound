@@ -33,7 +33,7 @@ $this->load->view('core_header', $header_args);
   border-bottom:1px solid #AAA;
   padding-bottom:20px;
 }
-#location-autosuggest .selected, #location-autosuggest li:hover {
+#place-autocomplete .selected, #place-autocomplete li:hover {
   font-weight:bold;
   background-color: #E0E0FF;
   cursor:pointer;
@@ -56,27 +56,18 @@ $this->load->view('core_header', $header_args);
     <fieldset style="position:relative;">
       <div style="display:inline-block; margin-bottom:5px;">Destinations</div>
       <div id="dates-header" style="display:inline-block; visibility:hidden; margin-left:230px; margin-bottom:5px;">Dates (optional)</div>
-      <div id="destinations_dates" style="position:relative; margin-bottom:10px;">
-        <a id="add-destination" href="" style="position:absolute; top:15px; left:-15px; font-size:13px;">[+]</a><a id="subtract-destination" href="" style="position:absolute; top:-2px; left:-15px;">[-]</a>
-        <div class="field destination" style="margin-bottom:10px; float:left; position:relative; width:312px;">
+      <div id="place_dates" style="position:relative; margin-bottom:10px;">
+        <a id="add-place" href="" style="position:absolute; top:15px; left:-15px; font-size:13px;">[+]</a><a id="subtract-place" href="" style="position:absolute; top:-2px; left:-15px;">[-]</a>
+        <div class="field place" style="margin-bottom:10px; float:left; position:relative; width:312px;">
           <span class="label-and-errors">
             <label for="address0"></label>
             <span class="error-message" style="float:right;"></span>
           </span>
-          <input type="text" id="address" class="destination-input" name="address" style="width:300px;" autocomplete=off
-  			    <? if ($destination):?>
-  			      <? echo 'value="'.$destination.'"'?>
-            <? endif;?>
+          <input type="text" id="place_name" class="place-input" name="address" style="width:300px;" autocomplete=off
+			     <? if ($place):?>value="<?=$place?>"<? endif;?>
           />
-          <input type="hidden" id="lat" class="required destination_lat" name="lat"
-  			    <? if ($destination_lat):?>
-  			      <? echo 'value="'.$destination_lat.'"'?>
-            <? endif;?>
-          />
-          <input type="hidden" id="lng" class="destination_lng" name="lng"
-  			    <? if ($destination_lng):?>
-  			      <? echo 'value="'.$destination_lng.'"'?>
-            <? endif;?>
+          <input type="hidden" id="place_id" class="required place_ids" name="place_id"
+  			    <? if ($place_id):?>value="<?=$place_id?>"<? endif;?>
           />
         </div>
         
@@ -127,23 +118,23 @@ $this->load->view('core_header', $header_args);
 
 <script type="text/javascript">  
   $(function() {
-    $('#address').focus();
+    $('#place_name').focus();
   
-    // dates for 1st destination appear if it's filled in
-    if ($('#lat').val() != '') {
+    // dates for 1st place appear if it's filled in
+    if ($('#place_name').val() != '') {
       $('#dates-header').css('visibility', 'visible');
       $('.dates').css('visibility', 'visible');
     }
   
   
-    // dynamic form plugin for multiple destinations
-    $('#destinations_dates').dynamicForm('#add-destination', '#subtract-destination', {
+    // dynamic form plugin for multiple places
+    $('#place_dates').dynamicForm('#add-place', '#subtract-place', {
       limit: 5,
       afterClone: function(clone) {
         clone.find('input').val('');
         clone.find('.dates').css('visibility', 'hidden');
         // TODO: why doesn't this work?
-        clone.find('.destination-input').focus();
+        clone.find('.place-input').focus();
       }
     });
     
@@ -189,19 +180,19 @@ $this->load->view('core_header', $header_args);
     $('.enddate').live('focus', function() {
       $(this).datepicker();
     });
-    $('#deadline').datepicker(); 
+    //$('#deadline').datepicker(); 
   });
   
 
   // allows user to use up/down arrows to select from autosuggest list
-  $('.destination-input').keyup(function(e) {
-    var destination = $(this);
+  $('.place-input').keyup(function(e) {
+    var ele = $(this);
     var keyCode = e.keyCode || e.which,
         arrow = {up: 38, down: 40};
       
     /*key navigation through elements*/
     if (keyCode == arrow.up || keyCode == arrow.down) {
-      var results = $('#location-autosuggest li');
+      var results = $('#place-autocomplete li');
   
       var current = results.filter('.selected'),
           next;
@@ -226,9 +217,8 @@ $this->load->view('core_header', $header_args);
   
       //update text in searchbar
       if (results.hasClass('selected')) {
-        destination.val($('.selected').text());
-        destination.siblings('.destination_lat').val($('.selected').children('a').attr('lat'));
-        destination.siblings('.destination_lng').val($('.selected').children('a').attr('lng'));
+        ele.val($('.selected').children('a').text());
+        ele.siblings('.place_ids').val($('.selected').children('a').attr('id'));
       }
   
       //set cursor position
@@ -241,7 +231,7 @@ $this->load->view('core_header', $header_args);
   });
 
 
-  $('.destination-input').bind('keydown keypress', function(e) {
+  $('.place-input').bind('keydown keypress', function(e) {
     var keyCode = e.keyCode || e.which,
       arrow = {up: 38, enter: 13};
     
@@ -249,84 +239,52 @@ $this->load->view('core_header', $header_args);
       e.preventDefault();
     }
     if (keyCode == arrow.enter) {
-      $('#location-autosuggest').remove();
       var dates = $(this).parent().next();
+      $('#dates-header').css('visibility', 'visible');
+      $('#place-autocomplete').remove();
       dates.css('visibility', 'visible');
       dates.children('.startdate').focus();
     }    
   });
-  
-////////////////////////////
-// TODO: integrate places table  
-  map.loadGoogleMap = function() {
-    // bind onkeyup event to location-search-box
-    $('input.destination-input').live('keyup', function(e) {
-      var keyCode = e.keyCode || e.which;
+
+
+  $(function() {
+    $('input.place-input').live('keyup', function(e) {
+      var keyCode = e.keyCode || e.which,
+          q = $.trim($(this).val()),
+          ele = $(this);
       // ignore arrow keys
-      if (keyCode!==37 && keyCode!==38 && keyCode!==39 && keyCode!==40 && keyCode!==13) {
-        var domInput = this;
-        map.delay(function() {
-          // new geocoder to convert address/name into latlng co-ords
-          var geocoder = new google.maps.Geocoder();
-          var query = $(domInput).val().trim();
-            
-          // geocode request sent after user stops typing for 1 second
-          if (query.length > 1) {
-            geocoder.geocode({'address': query}, function(result, status) {
-              if (status == google.maps.GeocoderStatus.OK && result[0]) {
-                if ($(domInput).next().attr('id') != 'location-autosuggest') {
-                	var html = [];
-                	html[1] = '<ul id="location-autosuggest" style="position:absolute; background:white; width:310px; border:1px solid #8F8F8F; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; z-index:10;"></ul>';
-                	html = html.join('');
-                	$(html).insertAfter($(domInput));
-                } else {
-                  $('#location-autosuggest').empty();
-                }
-              	
-              	for (var i=0; i<result.length; i++) {
-              		map.listResult(result[i], domInput);
-              	}
-              } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-              	$('#location-autosuggest').html('Aw, we couldn\'t find that place.');
-              } else {
-              	$('#location-autosuggest').html(status);
-              }
-            });
-          } else {
-          	$('#location-autosuggest').html('');
-          }
-        }, 200);
+      if (keyCode!==37 && keyCode!==38 && keyCode!==39 && keyCode!==40 && q.length>2) {
+        var f = function () {geocoder(q, ele);};
+        delay(f, 200);
       }
     });
-  };
 
-  // delay geocoder api for 1 second of keyboard inactivity
-  map.delay = (function() {
+    $('#place-autocomplete > li').live('click', function() {
+      $(this).parent().siblings('.place-input').val($(this).children('a').text());
+      $(this).parent().siblings('.place_ids').val($(this).children('a').attr('id'));
+      $(this).parent().parent().siblings('.dates').css('visibility', 'visible');
+      $('#place-autocomplete').remove();
+      $('#dates-header').css('visibility', 'visible');
+      return false;
+    });
+  });
+  
+
+  delay = (function() {
     var timer = 0;
-    return function(callback, ms) {
+    return function(callback, ms){
       clearTimeout (timer);
       timer = setTimeout(callback, ms);
     };
   })();
-    
-  
-  // selectable dropdown list
-  map.listResult = function(resultItem, domInput) {
-    var li = $('<li style="padding:0 10px 0 7px;"></li>');
-    li.html('<a href="#" style="text-decoration:none; line-height:30px; color:black;" lat="'+resultItem.geometry.location.lat()+'" lng="'+resultItem.geometry.location.lng()+'">'+resultItem.formatted_address+'</a>');
-    li.click(function(){
-      map.clickGeocodeResult(resultItem, domInput);
-      return false;
-    });
-    $('#location-autosuggest').append(li);
-  };
 
-  map.clickGeocodeResult = function(resultItem, domInput) {
-    $(domInput).val(resultItem.formatted_address);
-    $('#location-autosuggest').remove();
-    $(domInput).siblings('input.destination_lat').val(resultItem.geometry.location.lat());
-    $(domInput).siblings('input.destination_lng').val(resultItem.geometry.location.lng());
-    $(domInput).parents('div.destination').next().css('visibility', 'visible');
-    $('#dates-header').css('visibility', 'visible');
+
+  geocoder = function(q, ele) {      
+    $.post(baseUrl+'places/ajax_autocomplete', {query:q},
+      function(d) {
+        $('#place-autocomplete').remove();
+        ele.after(d);
+      });
   };
 </script>

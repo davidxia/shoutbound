@@ -271,14 +271,14 @@ $this->load->view('core_header', $header_args);
               <div contenteditable="true" class="tag-input"></div>
               <span class="input-header">Trips</span><br>
               <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
-                <? foreach ($user->rsvp_yes_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? foreach ($user->rsvp_yes_trips as $t):?>
+                <option value="<?=$t->id?>"><?=$t->name?>
                 <? endforeach;?>
-                <? foreach ($user->rsvp_awaiting_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? foreach ($user->rsvp_awaiting_trips as $t):?>
+                <option value="<?=$t->id?>"><?=$t->name?>
                 <? endforeach;?>
-                <? foreach ($user->following_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? foreach ($user->following_trips as $t):?>
+                <option value="<?=$t->id?>"><?=$t->name?>
                 <? endforeach;?>
                 </select>
             </div>
