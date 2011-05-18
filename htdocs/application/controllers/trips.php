@@ -26,8 +26,8 @@ class Trips extends CI_Controller
             return;
         }
         
-        $post = $this->input->post('destinations_dates');
-        $post = $post['destinations_dates'];
+        $post = $this->input->post('place_dates');
+        $post = $post['place_dates'];
 
         $t = new Trip();
         $t->name = $post['trip_name'];
@@ -202,9 +202,8 @@ class Trips extends CI_Controller
         $user = ($this->user) ? $this->user->stored : NULL;
         $view_data = array(
             'user' => $user,
-            'destination' => $this->input->post('destination'),
-            'destination_lat' => $this->input->post('destination_lat'),
-            'destination_lng' => $this->input->post('destination_lng'),
+            'place' => $this->input->post('place_input'),
+            'place_id' => $this->input->post('place_id'),
             'is_landing' => 1,
         );
 

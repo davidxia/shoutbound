@@ -28,28 +28,35 @@ class Places extends CI_Controller
         if ($val === FALSE)
         {
             $p = new Place();
-            $p->ilike('ascii_name', $query, 'after')->limit(10)->get();
+            $p->ilike('name', $query, 'after')->order_by('area_rank', 'desc')->order_by('pop_rank', 'desc')->limit(10)->get();
             
             $val = array();
             foreach ($p as $place)
             {
-                $val[$place->id] = $place->ascii_name;
+                $name = $place->name;
+                if ($place->admin1)
+                {
+                    $name .= ', '. $place->admin1;
+                }
+                if ($place->country)
+                {
+                    $name .= ', '. $place->admin1;
+                }
+                $val[$place->id] = $name;
             }
 
             $this->mc->set($key, $val);
-
-            json_success(array(
-                'places' => $val,
-                'cached' => 0
-            ));
+            $was_cached = 0;
         }
         else
         {
-            json_success(array(
-                'places' => $val,
-                'cached' => 1
-            ));
+            $was_cached = 1;
         }
+        $data = array(
+            'places' => $val,
+            'was_cached' => $was_cached,
+        );
+        $this->load->view('templates/autocomplete', $data);
     }
         
     
