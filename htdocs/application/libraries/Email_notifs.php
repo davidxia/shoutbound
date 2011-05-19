@@ -119,9 +119,14 @@ class Email_notifs
                 break;
             case 3:
                 $subj = $user->name.' is now following you on Shoutbound';
-                $html = '<div style="width:600px; font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:13px; line-height:19px; color:#333; padding:5px;">'.
-                    '<div style="float:left; margin-right:10px; width:50px; height:50px; padding:3px; border:1px solid #DADADA;"><img src="http://static.shoutbound.com/profile_pics/default_avatar1.png" height:50px; width:50px;/></div>'.                                
-                    '<div><span style="font-size:14px"><strong>'.$user->name.'</strong> is now following you on Shoutbound.</span><br/><a href="'.site_url('profile/'.$user->id).'">Click here to view '.$user->name.'&rsquo;s profile</a></div>'.
+                $html = '<div style="font-size:17px; font-weight:bold; width:400px;">'.$user->name.' is now following you on Shoutbound.</div><a href="'.site_url('profile/'.$user->id).'">Click here to view '.$user->name.'&rsquo;s profile</a></div>'.
+                
+                
+                '<div style="float:left; margin-right:10px; width:50px; height:50px; padding:3px; border:1px solid #DADADA;"><img src="http://static.shoutbound.com/profile_pics/default_avatar1.png" height:50px; width:50px;/></div>'.
+                    
+                    
+                    
+                                                    
                     '<div style="clear:both">'.
                     '<br/><br/><br/><br/>'.
                     '<div style="border-top:1px solid #888; color:#888; font-size:11px; line-height:18px;">To control when you receive e-mail notifications from Shoutbound, <a style="color:#888; "href="#">click here</a> to manage your account settings.</div>';                                
