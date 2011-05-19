@@ -19,7 +19,28 @@ class Signup extends CI_Controller
         $this->load->view('signup/index');
     }
     
-    
+    public function follow()
+    {
+        /*$u = new User();
+        if ($u->get_logged_in_status())
+        {
+            redirect('/');
+        }*/
+        $this->load->view('signup/follow');
+    }
+
+    public function profile()
+    {
+/*
+        $u = new User();
+        if ($u->get_logged_in_status())
+        {
+            redirect('/');
+        }
+*/
+        $this->load->view('signup/profile');
+    }
+        
     public function create_user()
     {
 		    $u = new User();
