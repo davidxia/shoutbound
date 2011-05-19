@@ -7,6 +7,7 @@ $header_args = array(
     'js_paths'=>array(
         'js/jquery/jquery.ba-bbq.min.js',
         'js/user/loginSignup.js',
+        'js/jquery/nicEdit.js',
         'js/trip/wall.js',
         'js/trip/share.js',
         'js/follow.js',
