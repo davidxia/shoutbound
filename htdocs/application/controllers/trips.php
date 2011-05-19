@@ -150,7 +150,7 @@ class Trips extends CI_Controller
 
         if ($i == 1)
         {
-            $this->load->view('trip/create_inputs_aligned', $data);
+            $this->load->view('trip/create_with_map', $data);
         }
         elseif ($i == 2)
         {
