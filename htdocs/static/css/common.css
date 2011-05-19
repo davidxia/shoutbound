@@ -212,7 +212,7 @@ fieldset {
 /*STREAMITEMS, COMMENTS, TRIP LISTINGS*/ 
 
 #add-to-trip-main, #save-post-button{
-  display:none !important;
+  display:none;
 }
 
 .streamitem{
@@ -605,8 +605,11 @@ ul.stats-list li a{
   float:right;
 }
 
-.follow, #save-post-button, .edit-profile, .submit{
+.follow, .edit-profile, .submit{
   display:block;
+}
+
+.follow, #save-post-button, .edit-profile, .submit{
   height:28px;
   line-height:28px;
   text-align:center;
