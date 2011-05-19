@@ -174,7 +174,7 @@ class Trips extends CI_Controller
         
         $post = $this->input->post('place_dates');
         $post = $post['place_dates'];
-
+        
         $t = new Trip();
         $t->name = $post['trip_name'];
         $t->description = $post['description'];
@@ -198,7 +198,8 @@ class Trips extends CI_Controller
                 if (is_array($val))
                 {
                     $p->clear();
-                    $p->get_by_id($post[$key]['place_id']);
+                    preg_match('/^place-(\d+)$/', $post[$key]['place_id'], $matches);
+                    $p->get_by_id($matches[1]);
                     $t->save($p);
                     // gets each destination's startdate and enddate and stores as unix time
                     // TODO: callback method for better client side validation?

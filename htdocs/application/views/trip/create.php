@@ -31,7 +31,7 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('templates/content')?>
 		  
   <!-- TRIP CREATION FORM -->
-  <form id="trip-creation-form" action="confirm_create" method="post">
+  <form id="trip-creation-form" action="<?=site_url('trips/confirm_create')?>" method="post">
     
     <!-- PLACE DATES FIELD -->
     <fieldset>
@@ -43,10 +43,10 @@ $this->load->view('core_header', $header_args);
         
         <div class="field place">
           <span class="label-and-errors">
-            <label for="address0"></label>
+            <label for="place_name0"></label>
             <span class="error-message" style="float:right;"></span>
           </span>
-          <input type="text" id="place_name" class="place-input" name="address" autocomplete=off
+          <input type="text" id="place_name" class="place-input" name="place_name" autocomplete=off
 			     <? if ($place):?>value="<?=$place?>"<? endif;?>
           />
           <input type="hidden" id="place_id" class="required place_ids" name="place_id"

@@ -13,7 +13,7 @@ class Posts extends CI_Controller
         if ($uid)
         {
             $u->get_by_id($uid);
-            $this->user = $u->stored;
+            $this->user = $u;
         }
         else
         {
@@ -78,16 +78,20 @@ class Posts extends CI_Controller
             save_activity($this->user->id, $activity_type, $p->id, $pid, $parent_type, time()-72);
             
             $this->load->library('email_notifs', array('setting_id' => 11));
-            $u = new User();
             foreach ($t as $trip)
             {
                 $this->email_notifs->set_trip($trip);
                 $this->email_notifs->clear_emails();
                 $this->email_notifs->get_emails();
-                $this->email_notifs->compose_email($this->user, $p->stored, $trip->stored);
+                $this->email_notifs->compose_email($this->user->stored, $p->stored, $trip->stored);
                 $this->email_notifs->send_email();
             }
-                
+            $this->email_notifs->set_params(2);
+            $this->email_notifs->clear_emails();
+            $this->email_notifs->get_emails();
+            $this->email_notifs->compose_email($this->user->stored, $p->stored, $t);
+            $this->email_notifs->send_email();
+            
             json_success(array(
                 'id' => $p->id,
                 'userName' => $this->user->name,

@@ -23,76 +23,11 @@ class Email_notifs
     private $sendgrid_cat;
     
 
-    public function __construct($params)
+    public function __construct($params=NULL)
     {
-        if (is_int($params))
+        if ($params)
         {
-            $this->setting_id = $params;
-        }
-        elseif (is_array($params))
-        {
-            if (isset($params['setting_id']))
-            {
-                $this->setting_id = $params['setting_id'];
-            }
-            
-            if (isset($params['user']))
-            {
-                $this->user = $params['user'];
-            }
-            
-            if (isset($params['user_ids']))
-            {
-                $this->user_ids = $params['user_ids'];
-            }
-            else
-            {
-                $this->user_ids = array();
-            }
-            
-            if (isset($params['emails']))
-            {
-                $this->emails = $params['emails'];
-            }
-            else
-            {
-                $this->emails = array();
-            }
-            
-            if (isset($params['trip']))
-            {
-                $this->trip = $params['trip'];
-            }
-            
-            if (isset($params['profile']))
-            {
-                $this->profile = $params['profile'];
-            }
-        }
-        
-        // specify Sendgrid category
-        switch($this->setting_id)
-        {
-            case 1:
-                $this->sendgrid_cat = 'following_creates';
-                break;
-            case 3:
-                $this->sendgrid_cat = 'follows_user';
-                break;
-            case 4:
-                $this->sendgrid_cat = 'follows_trip';
-                break;
-            case 11:
-                $this->sendgrid_cat = 'trip_post';
-            case 12:
-                $this->sendgrid_cat = 'trip_invite';
-                break;
-            case 13:
-                $this->sendgrid_cat = 'got_rsvp';
-                break;
-            default:
-                $this->sendgrid_cat = 'uncategorized';
-                break;
+            $this->set_params($params);
         }
     }
     
@@ -102,6 +37,7 @@ class Email_notifs
         switch($this->setting_id)
         {
             case 1:
+            case 2:
          	      $this->user->get_followers();
          	      $u = new User();
                 foreach ($this->user->stored->followers as $follower)
@@ -163,6 +99,23 @@ class Email_notifs
                 $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> created a new trip '.
                     '<a href="'.site_url('trips/'.$source->id).'">'.$source->name.'</a>.'.
                     '<br/>'.$source->description;
+                break;
+            case 2:
+                $subj = $user->name.' made a new post on Shoutbound';
+                $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> wrote:</h4>'.
+                    '<br/>'.$source->content.'<br/>'.
+                    'on the following trips:';
+                    foreach ($parent as $trip)
+                    {
+                        $html .= '<br/><a href="'.site_url('trips/'.$trip->stored->id).'">'.$trip->stored->name.'</a>';
+                    }
+                $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> wrote:'.
+                    '<br/>'.$source->content.'<br/>'.
+                    'on the following trips:';
+                    foreach ($parent as $trip)
+                    {
+                        $text .= '<br/><a href="'.site_url('trips/'.$trip->stored->id).'">'.$trip->stored->name.'</a>';
+                    }
                 break;
             case 3:
                 $subj = $user->name.' is now following you on Shoutbound';
@@ -287,6 +240,80 @@ class Email_notifs
     public function set_trip($trip)
     {
         $this->trip = $trip;
+    }
+    
+    
+    public function set_params($params=NULL)
+    {
+        if (is_int($params))
+        {
+            $this->setting_id = $params;
+        }
+        elseif (is_array($params))
+        {
+            if (isset($params['setting_id']))
+            {
+                $this->setting_id = $params['setting_id'];
+            }
+            
+            if (isset($params['user']))
+            {
+                $this->user = $params['user'];
+            }
+            
+            if (isset($params['user_ids']))
+            {
+                $this->user_ids = $params['user_ids'];
+            }
+            else
+            {
+                $this->user_ids = array();
+            }
+            
+            if (isset($params['emails']))
+            {
+                $this->emails = $params['emails'];
+            }
+            else
+            {
+                $this->emails = array();
+            }
+            
+            if (isset($params['trip']))
+            {
+                $this->trip = $params['trip'];
+            }
+            
+            if (isset($params['profile']))
+            {
+                $this->profile = $params['profile'];
+            }
+        }
+        
+        // specify Sendgrid category
+        switch($this->setting_id)
+        {
+            case 1:
+                $this->sendgrid_cat = 'following_creates';
+                break;
+            case 3:
+                $this->sendgrid_cat = 'follows_user';
+                break;
+            case 4:
+                $this->sendgrid_cat = 'follows_trip';
+                break;
+            case 11:
+                $this->sendgrid_cat = 'trip_post';
+            case 12:
+                $this->sendgrid_cat = 'trip_invite';
+                break;
+            case 13:
+                $this->sendgrid_cat = 'got_rsvp';
+                break;
+            default:
+                $this->sendgrid_cat = 'uncategorized';
+                break;
+        }
     }
 }
 

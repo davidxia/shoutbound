@@ -22,7 +22,7 @@ class Home extends CI_Controller
 		}
 	
 
-    function index()
+    public function index()
     {
         $this->user->get_rsvp_yes_trips();
         $this->user->get_rsvp_awaiting_trips();
