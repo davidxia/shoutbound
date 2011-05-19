@@ -153,8 +153,7 @@ $this->load->view('core_header', $header_args);
       <div id="map-shell">
         <div id="map-canvas"></div>
       </div>
-    </div><!--RIGHT CONTENT ENDS-->
-    
+    </div><!--RIGHT CONTENT ENDS-->   
   </div><!-- RIGHT COLUMN ENDS -->
                 
   </div><!-- CONTENT ENDS -->

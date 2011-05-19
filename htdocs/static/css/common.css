@@ -98,7 +98,7 @@ html, body {
 /*   border-bottom:2px solid #777; */
   float:left;
 /*   background-color:#FAFAFA; */
-  padding-bottom:20px;
+  padding-bottom:15px;
 /*
   border-left:1px solid #BABABA;
   border-right:1px solid #BABABA;
@@ -170,6 +170,10 @@ a:hover{
 ol, ul {
   list-style:none;
   -webkit-padding-start: 0px;
+}
+
+input, textarea{
+  border:1px solid #BABABA;
 }
 
 input[type="text"], input[type="password"], textarea {
