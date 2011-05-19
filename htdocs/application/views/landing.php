@@ -140,8 +140,11 @@ $this->load->view('core_header', $header_args);
     });
     
     $('#place-autocomplete > li').live('click', function() {
-      $('#place_input').val($(this).children('a').text());
-      $('#place_id').val($(this).children('a').attr('id'));
+      var a = $(this).children('a'),
+          name = a.text(),
+          id = a.attr('id').match(/^place-(\d+)$/)[1];
+      $('#place_input').val(name);
+      $('#place_id').val(id);
       $('#place-autocomplete').remove();
       $('#place_input-form').submit();
       return false;
@@ -181,8 +184,11 @@ $this->load->view('core_header', $header_args);
   
       //update text in searchbar
       if (results.hasClass('selected')) {
-        $('#place_input').val($('.selected').children('a').text());
-        $('#place_id').val($('.selected').children('a').attr('id'));
+        var a = $('.selected').children('a'),
+            name = a.text(),
+            id = a.attr('id').match(/^place-(\d+)$/)[1];
+        $('#place_input').val(name);
+        $('#place_id').val(id);
       }
   
       if (keyCode === arrow.up) {

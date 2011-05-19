@@ -40,7 +40,16 @@ class Places extends CI_Controller
             'places' => $val,
             'was_cached' => $was_cached,
         );
-        $this->load->view('templates/autocomplete', $data);
+        
+        if ($this->input->post('isPost'))
+        {
+            $this->load->view('templates/omnibar_autocomplete', $data);
+        }
+        else
+        {
+            $this->load->view('templates/autocomplete', $data);
+        }
+        
     }
         
     
