@@ -38,6 +38,7 @@ class Email_notifs
         {
             case 1:
             case 2:
+            case 10:
          	      $this->user->get_followers();
          	      $u = new User();
                 foreach ($this->user->stored->followers as $follower)
@@ -136,6 +137,19 @@ class Email_notifs
                     'your trip "<a href="'.site_url('profile/'.$parent->id).'">'.$parent->name.'</a>" on Shoutbound.</h4>';
                 $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> is now following '.
                     'your trip "<a href="'.site_url('profile/'.$parent->id).'">'.$parent->name.'</a>" on Shoutbound.';
+                break;
+            case 10:
+                $subj = $user->name.' changed current location to "'.$source->name.'" on Shoutbound';
+                $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> changed current location to '.
+                    '<a href="'.site_url('places/'.$source->id).'">'.$source->name;
+                    if ($source->admin1) $html .= ', '.$source->admin1;
+                    if ($source->country) $html .= ', '.$source->country;
+                    '</a>.</h4>';
+                $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> wrote on '.
+                    '<a href="'.site_url('places/'.$source->id).'">'.$source->name;
+                    if ($source->admin1) $text .= ', '.$source->admin1;
+                    if ($source->country) $text .= ', '.$source->country;
+                    '</a>.';
                 break;
             case 11:
                 $subj = $user->name.' posted on your trip "'.$parent->name.'" on Shoutbound';
@@ -299,8 +313,12 @@ class Email_notifs
             case 4:
                 $this->sendgrid_cat = 'follows_trip';
                 break;
+            case 10:
+                $this->sendgrid_cat = 'following_changed_curr_loc';
+                break;
             case 11:
                 $this->sendgrid_cat = 'trip_post';
+                break;
             case 12:
                 $this->sendgrid_cat = 'trip_invite';
                 break;

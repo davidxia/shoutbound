@@ -361,8 +361,16 @@ class Profile extends CI_Controller
             {
                 $this->user->set_join_field($p, 'timestamp', time()-72);
             }
+            
             $this->load->helper('activity');
             save_activity($this->user->id, 10, $p->id, NULL, NULL, time()-72);
+            
+            $params = array('setting_id' => 10, 'user' => $this->user);
+            $this->load->library('email_notifs', $params);
+            $this->email_notifs->get_emails();
+            $this->email_notifs->compose_email($this->user, $p->stored);
+            $this->email_notifs->send_email();
+            
             $changes_made = TRUE;
         }
 
