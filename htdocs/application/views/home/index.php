@@ -51,7 +51,7 @@ $this->load->view('core_header', $header_args);
         <form class="save-post-form">
           <fieldset>
             <span class="input-header">New post</span>
-            <textarea id="post-input"></textarea>
+            <div contenteditable="true" id="post-input"></div>
             <div id="add-to-trip-main">
               <span class="input-header">Trips</span><br>
               <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
@@ -71,6 +71,15 @@ $this->load->view('core_header', $header_args);
         <a id="save-post-button">Post</a>
       </div><!--END POST CONTAINER-->
     </div><!--TOP SECTION END-->
+    <div id="autocomplete-box" style="background:#222; position:absolute; z-index:99; padding:3px;display:none;">
+      <input id="autocomplete-input" type="text" style="width:150px;border:none;border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px; padding:3px;"/>
+      <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="position:absolute; right:20px; top:7px;"/>
+      <a id="autocomplete-close" href="#">
+        <img alt="close" src="<?=site_url('static/images/white_x.png')?>" width="10" height="9"/>
+      </a>
+      <div id="autocomplete-results" style="display:none; position:absolute; top:28px; width:400px; border:1px solid #DDD; cursor:pointer; padding:2px; z-index:100; background:white; font-size:13px;"></div>
+    </div>
+    
 
     <!-- LEFT COLUMN -->
     <div id="col-left">    
