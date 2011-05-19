@@ -11,7 +11,7 @@ function query_places($q=NULL)
     require ('sphinxapi.php');
     
     $cl = new SphinxClient();
-    $mode = SPH_MATCH_ALL;
+    $mode = SPH_MATCH_PHRASE;
     $host = 'localhost';
     $port = 9312;
     $index = '*';
@@ -66,7 +66,7 @@ function query_places($q=NULL)
                     $places[$docinfo['id']] .= ', '.$docinfo['attrs']['country'];
               	}
             }
-          	return $places;
         }
+      	return $places;
     }
 }
