@@ -223,7 +223,7 @@ autocompleteClick = function(id, name) {
   e.keyCode = 27;
   $('#autocomplete-input').trigger(e);
   $('#autocomplete-results').data(name, id);
-  console.log($('#autocomplete-results').data());
+  //console.log($('#autocomplete-results').data());
   return false;
 };
 
