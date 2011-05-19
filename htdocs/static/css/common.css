@@ -212,7 +212,7 @@ fieldset {
 /*STREAMITEMS, COMMENTS, TRIP LISTINGS*/ 
 
 #add-to-trip-name, #save-post-button{
-  display:none;
+  display:none !important;
 }
 
 .streamitem{
