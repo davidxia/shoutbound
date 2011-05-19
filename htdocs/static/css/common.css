@@ -211,7 +211,7 @@ fieldset {
 
 /*STREAMITEMS, COMMENTS, TRIP LISTINGS*/ 
 
-#add-to-trip-name, #save-post-button{
+#add-to-trip-main, #save-post-button{
   display:none !important;
 }
 
