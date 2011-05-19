@@ -211,6 +211,10 @@ fieldset {
 
 /*STREAMITEMS, COMMENTS, TRIP LISTINGS*/ 
 
+#add-to-trip-name, #save-post-button{
+  display:none;
+}
+
 .streamitem{
   border-top:1px solid #FAFAFA;
   border-bottom:1px solid #FAFAFA;

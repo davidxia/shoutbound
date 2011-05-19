@@ -3,6 +3,7 @@ $header_args = array(
     'title' => 'Shoutbound',
     'css_paths'=>array(
         'css/excite-bike/jquery-ui-1.8.11.custom.css',
+        'css/createtrip.css',
     ),
     'js_paths'=>array(
         'js/user/loginSignup.js',
@@ -15,32 +16,13 @@ $header_args = array(
 
 $this->load->view('core_header', $header_args);
 ?>
+
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
 </script>
 
-<style type="text/css">
-#trip-creation-form {
-  padding: 20px;
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border: 1px solid black;
-}
-#trip-creation-form fieldset {
-  margin-bottom:20px;
-  border-bottom:1px solid #AAA;
-  padding-bottom:20px;
-}
-#place-autocomplete .selected, #place-autocomplete li:hover {
-  font-weight:bold;
-  background-color: #E0E0FF;
-  cursor:pointer;
-}
-</style>
 </head>
-
 
 <body>
 
@@ -49,21 +31,22 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('templates/content')?>
 		  
   <!-- TRIP CREATION FORM -->
-  <form id="trip-creation-form" action="confirm_create" method="post" style="position:relative; width:576px; margin:0 auto;">
-  
-  
+  <form id="trip-creation-form" action="confirm_create" method="post">
+    
     <!-- PLACE DATES FIELD -->
-    <fieldset style="position:relative;">
-      <div style="display:inline-block; margin-bottom:5px;">Destinations</div>
-      <div id="dates-header" style="display:inline-block; visibility:hidden; margin-left:230px; margin-bottom:5px;">Dates (optional)</div>
-      <div id="place_dates" style="position:relative; margin-bottom:10px;">
-        <a id="add-place" href="" style="position:absolute; top:15px; left:-15px; font-size:13px;">[+]</a><a id="subtract-place" href="" style="position:absolute; top:-2px; left:-15px;">[-]</a>
-        <div class="field place" style="margin-bottom:10px; float:left; position:relative; width:312px;">
+    <fieldset>
+      <div>Destinations</div>
+      <div id="dates-header">Dates (optional)</div>     
+      <div id="place_dates">
+      
+        <a id="add-place" href="">[+]</a><a id="subtract-place" href="">[-]</a>
+        
+        <div class="field place">
           <span class="label-and-errors">
             <label for="address0"></label>
             <span class="error-message" style="float:right;"></span>
           </span>
-          <input type="text" id="place_name" class="place-input" name="address" style="width:300px;" autocomplete=off
+          <input type="text" id="place_name" class="place-input" name="address" autocomplete=off
 			     <? if ($place):?>value="<?=$place?>"<? endif;?>
           />
           <input type="hidden" id="place_id" class="required place_ids" name="place_id"
@@ -71,35 +54,34 @@ $this->load->view('core_header', $header_args);
           />
         </div>
         
-        <div class="field dates" style="width:251px; margin-left:325px; visibility:hidden;">
+        <div class="field dates" style="visibility:hidden;">
           <span class="label-and-errors">
-            <span class="error-message" style="float:right;"></span>
+            <span class="error-message"></span>
             <div class="clear"></div>
           </span>
           <label for="startdate">from</label> <input id="startdate" class="startdate" name="startdate" type="text" size="10"/> <label for="enddate">to</label> <input id="enddate" class="enddate" name="enddate" type="text" size="10" />
         </div>
+        
       </div>
     </fieldset><!-- PLACE DATES FIELD ENDS -->
     
-
-
     <!-- SUMMARY FIELD -->
-    <fieldset id="summary-field" style="width:576px;">
+    <fieldset id="summary-field">
       <div class="field trip_name">
         <span class="label-and-errors">
           <label for="trip_name">Trip name</label>
-          <span class="error-message" style="float:right;"></span>
+          <span class="error-message"></span>
           <div class="clear"></div>
         </span>
-        <input id="trip_name" name="trip_name" class="required" type="text" style="width:564px; margin-top:5px; margin-bottom:10px;" />
+        <input id="trip_name" name="trip_name" class="required" type="text"/>
       </div>
-       <div class="field" style="margin-top:10px; padding-bottom:10px;">
+       <div class="field">
         <span class="label-and-errors">
           <label for="description">Trip description</label>
-          <span class="error-message" style="float:right;"></span>
+          <span class="error-message"></span>
           <div class="clear"></div>
         </span>
-        <textarea id="description" name="description" style="width:564px; height:56px; font-size:14px; margin-top:5px; resize:none;"></textarea>
+        <textarea id="description" name="description"></textarea>
       </div>
     </fieldset><!-- SUMMARY  FIELD ENDS -->
 
