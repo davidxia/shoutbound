@@ -236,12 +236,6 @@ class Email_notifs
         }
     }
         
-
-    public function set_trip($trip)
-    {
-        $this->trip = $trip;
-    }
-    
     
     public function set_params($params=NULL)
     {
@@ -295,6 +289,9 @@ class Email_notifs
         {
             case 1:
                 $this->sendgrid_cat = 'following_creates';
+                break;
+            case 2:
+                $this->sendgrid_cat = 'following_posts';
                 break;
             case 3:
                 $this->sendgrid_cat = 'follows_user';
