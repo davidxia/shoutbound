@@ -208,12 +208,5 @@ $this->load->view('core_header', $header_args);
   </div><!-- WRAPPER ENDS -->
   </div><!--STICK FOOTER WRAPPER ENDS-->
   <? $this->load->view('footer')?>
-<script type="text/javascript">
-  $(function() {
-    $('#post-input').focus(function() {
-      $(this).next().show();
-    });
-  });
-</script>
 </body>
 </html>

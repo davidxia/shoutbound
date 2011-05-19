@@ -227,8 +227,11 @@ $this->load->view('core_header', $header_args);
   
       //update text in searchbar
       if (results.hasClass('selected')) {
-        ele.val($('.selected').children('a').text());
-        ele.siblings('.place_ids').val($('.selected').children('a').attr('id'));
+        var a = $('.selected').children('a'),
+            name = a.text(),
+            id = a.attr('id').match(/^place-(\d+)$/)[1];
+        ele.val(name);
+        ele.siblings('.place_ids').val(id);
       }
   
       //set cursor position
@@ -271,8 +274,11 @@ $this->load->view('core_header', $header_args);
     });
 
     $('#place-autocomplete > li').live('click', function() {
-      $(this).parent().siblings('.place-input').val($(this).children('a').text());
-      $(this).parent().siblings('.place_ids').val($(this).children('a').attr('id'));
+      var a = $(this).children('a'),
+          name = a.text(),
+          id = a.attr('id').match(/^place-(\d+)$/)[1];
+      $(this).parent().siblings('.place-input').val(name);
+      $(this).parent().siblings('.place_ids').val(id);
       $(this).parent().parent().siblings('.dates').css('visibility', 'visible');
       $('#place-autocomplete').remove();
       $('#dates-header').css('visibility', 'visible');
