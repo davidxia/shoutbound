@@ -487,11 +487,17 @@ class Trips extends CI_Controller
                 unset($nonuser_emails[$key]);
             }
         }
-
+        
+        // send emails to those who are invited
         $params = array('setting_id' => $setting_id, 'trip' => $t, 'user_ids' => $uids, 'emails' => $nonuser_emails);
         $this->load->library('email_notifs', $params);
         $this->email_notifs->get_emails();
         $this->email_notifs->compose_email($this->user, $t->stored);
+        $this->email_notifs->send_email();
+        // send emails to those who already rsvped yes
+        $this->email_notifs->set_params(array('setting_id' => 8, 'emails' => array()));
+        $this->email_notifs->get_emails();
+        $this->email_notifs->compose_email($this->user, $uids, $t->stored);
         $this->email_notifs->send_email();
 
         if ($share_role == 5)
@@ -504,7 +510,7 @@ class Trips extends CI_Controller
         }
         //json_success(array('tripId' => $trip_id, 'uids'=>$uids, 'emails'=>$emails, 'tripId'=>$trip_id, 'html'=>$html, 'text'=>$text, 'subj'=>$subj, 'resp'=>$resp));
     }
-    
+        
         
     public function ajax_share_success()
     {        

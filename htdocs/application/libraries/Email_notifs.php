@@ -67,6 +67,7 @@ class Email_notifs
                 }
                 break;
             case 4:
+            case 8:
             case 11:
             case 13:
                 $u = new User();
@@ -138,6 +139,26 @@ class Email_notifs
                 $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> is now following '.
                     'your trip "<a href="'.site_url('profile/'.$parent->id).'">'.$parent->name.'</a>" on Shoutbound.';
                 break;
+            case 8:
+                $subj = $user->name.' invited more people to your trip "'.$parent->name.'" on Shoutbound';
+                $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> invited the following people to your trip'.
+                    '"<a href="'.site_url('trips/'.$parent->id).'">'.$parent->name.'</a>" on Shoutbound:</h4><br/>';
+                $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> invited the following people to your trip'.
+                    '"<a href="'.site_url('trips/'.$parent->id).'">'.$parent->name.'</a>" on Shoutbound:<br/>';
+                $u = new User();
+                foreach ($u->where_in('id', $source)->get_iterated() as $user)
+                {
+                    $html .= '<a href="'.site_url('profile/'.$user->id).'">'.
+                        '<img src="'.static_sub('profile_pics/'.$user->profile_pic).'"/></a>'.
+                        '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a>'.
+                        $user->bio.'<br/>';
+                    $text .= '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a>'.
+                    $user->bio.'<br/>';
+                }
+                $html .= '<br/>'.$parent->description;
+                $text .= '<br/>'.$parent->description;
+                    
+                break;
             case 10:
                 $subj = $user->name.' changed current location to "'.$source->name.'" on Shoutbound';
                 $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> changed current location to '.
@@ -195,6 +216,7 @@ class Email_notifs
         $this->email_subj = $subj;
         $this->email_html = $html;
         $this->email_text = $text;
+        return $html;
     }
         
     
@@ -312,6 +334,9 @@ class Email_notifs
                 break;
             case 4:
                 $this->sendgrid_cat = 'follows_trip';
+                break;
+            case 8:
+                $this->sendgrid_cat = 'sent_invites';
                 break;
             case 10:
                 $this->sendgrid_cat = 'following_changed_curr_loc';
