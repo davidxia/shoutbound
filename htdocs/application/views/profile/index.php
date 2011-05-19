@@ -6,7 +6,6 @@ $header_args = array(
     ),
     'js_paths' => array(
         'js/jquery/jquery.ba-bbq.min.js',
-        'js/profile/map.js',
         'js/follow.js',
         'js/common.js',
         'js/actionbar.js',

@@ -1,30 +1,45 @@
 $(function() {
+  String.prototype.trim = function() {return this.replace(/^([\s\t\n]|\&nbsp\;|<br>)+|([\s\t\n]|\&nbsp\;|<br>)+$/g, '');}
+
+  var sbEditor = new nicEditor({
+    fullPanel:false,
+    buttonList:['bold','italic','underline','ol','ul','link','unlink','image','upload'],
+    iconsPath: baseUrl+'static/images/nicEditorIcons.gif',
+    uploadURI : 'http://yourdomain.com/nicUpload.php'
+  }).panelInstance('post-input');
+  
+  sbEditor.addEvent('focus', function() {
+    $('#add-to-trip-main').show();
+    $('#save-post-button').show();
+  });
+
   $('#save-post-button').click(function() {
-    if (getContentEditableText('post-input').trim().length > 0) {
+    if (convertNewlines(nicEditors.findEditor('post-input').getContent()).trim().length > 0) {
       if (typeof tripId == 'undefined' || loginSignup.getStatus()) {
         savePost();        
       } else {
         loginSignup.showDialog('save post');
       }
     }
-    return false;
   });
 });
 
 
-getContentEditableText = function(id) {
-  var ce = $('<pre />').html($('#' + id).html());
+convertNewlines = function(content) {
+  var ce = $('<pre />').html(content);
   if ($.browser.webkit)
     ce.find('div').replaceWith(function() { return '\n' + this.innerHTML; });
   if ($.browser.msie)
     ce.find('p').replaceWith(function() { return this.innerHTML + '<br>'; });
   if ($.browser.mozilla || $.browser.opera || $.browser.msie)
     ce.find('br').replaceWith('\n');
-  return ce.text();
+  return ce.html();
 }
 
-/*wall.savePost = function() {
-  var text = wall.getContentEditableText('post-input').trim();
+
+/*
+wall.savePost = function() {
+  var text = wall.convertNewlines('post-input').trim();
   var matches = text.match(/@[\w-']+/g);
   for (i in matches) {
     var name = matches[i].replace(/@/, '');
@@ -38,11 +53,11 @@ getContentEditableText = function(id) {
       var r = $.parseJSON(r);
       wall.displayPost(r);
     });
-};*/
-
+};
+*/
 
 savePost = function() {
-  var content = getContentEditableText('post-input').trim();
+  var content = convertNewlines(nicEditors.findEditor('post-input').getContent()).trim();
   if (typeof tripId == 'number') {
     var tripIds = [tripId];
   } else {
@@ -50,7 +65,8 @@ savePost = function() {
        return this.value;
     }).get();
   }
-  
+  console.log(content);
+      
   $.post(baseUrl+'posts/ajax_save', {content:content, tripIds:tripIds},
     function (d) {
       $('#post-input').text('');

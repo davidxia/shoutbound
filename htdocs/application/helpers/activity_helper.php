@@ -29,6 +29,7 @@ function get_source(&$activity)
             break;
         case 2:
             $p = new Post($activity->source_id);
+            $p->convert_nl();
             $activity->stored->post = $p->stored;
             break;
         case 3:

@@ -6,6 +6,7 @@ $header_args = array(
     ),
     'js_paths'=> array(
         'js/jquery/jquery.ba-bbq.min.js',
+        'js/jquery/nicEdit.js',
         'js/savepost.js',
         'js/actionbar.js',
         'js/common.js',
@@ -50,10 +51,8 @@ $this->load->view('core_header', $header_args);
         <form class="save-post-form">
           <fieldset>
             <span class="input-header">New post</span>
-            <div contenteditable="true" id="post-input"></div>
-            <div style="display:none;">
-              <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
-              <div contenteditable="true" class="tag-input"></div>
+            <textarea id="post-input"></textarea>
+            <div id="add-to-trip-main">
               <span class="input-header">Trips</span><br>
               <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
                 <? foreach ($user->rsvp_yes_trips as $trip):?>
