@@ -45,7 +45,6 @@ class Settings extends CI_Controller
         );
  			               
         $this->load->view('settings/profile', $data);
-        //print_r($this->user->stored);
     }
     
     

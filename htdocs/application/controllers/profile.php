@@ -492,7 +492,7 @@ class Profile extends CI_Controller
         foreach ($places as $place)
         {
             //$p->clear();
-            $p->get_by_id($place['placeId']);
+            $p->get_by_id($place->placeId);
             $this->user->save($p);
             
             // gets each place's date and stores as unix time

@@ -36,8 +36,8 @@ $(function() {
   });
   
 
-  $('#save-been-to').click(function() {
-    //$('#been-to-form').submit();
+  $('#save-places-been').click(function() {
+    //$('#places-been-form').submit();
     var places = [];
     var n = $('.places_dates').length;
     for (var i=0; i<n; i++) {
@@ -45,11 +45,10 @@ $(function() {
       var date = $('#date'+i).val();
       places.push({placeId:placeId, date:date});
     }
-    //console.log(places);
     $.post(baseUrl+'profile/ajax_save_user_places', {places:places},
       function(d) {
         var d = $.parseJSON(d);
-        //console.log(d);
+        console.log(d);
         if (d.success) {
           alert('saved, refresh the page');
         }
@@ -68,7 +67,7 @@ $(function() {
   $('.places_dates').dynamicForm('#add-place', '#subtract-place', {limit: 10});
 
 
-  $('#been-to-form').validate({
+  $('#places-been-form').validate({
     rules: {
       startdate: {
         date: true
@@ -127,9 +126,9 @@ delay = (function() {
 placeAutocomplete = function(query, input) {
   var spinner = input.siblings('.loading-places');
   spinner.show();
-  $('#autocomplete-results').remove();
   $.post(baseUrl+'places/ajax_autocomplete', {query:query, isSettings:true},
     function(d) {
+      $('#autocomplete-results').remove();
       spinner.hide();
       input.after(d);
       $('#autocomplete-results').children().click(function() {
