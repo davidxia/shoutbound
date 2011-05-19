@@ -34,7 +34,7 @@ $this->load->view('core_header', $header_args);
     
       <div id="left-content-container">
       
-        <ul id="main-tabs">
+        <ul>
           <li class="active"><a href="<?=site_url('settings')?>">Account</a></li>
           <li><a href="<?=site_url('settings/profile')?>">Profile</a></li>
         </ul>

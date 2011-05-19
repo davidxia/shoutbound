@@ -36,7 +36,7 @@ $this->load->view('core_header', $header_args);
     <!-- PLACE DATES FIELD -->
     <fieldset>
       <div>Destinations</div>
-      <div id="dates-header">Dates (optional)</div>     
+      <div id="dates-header">Dates (optional)</div>
       <div id="place_dates">
       
         <a id="add-place" href="">[+]</a><a id="subtract-place" href="">[-]</a>

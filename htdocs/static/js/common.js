@@ -114,8 +114,9 @@ $(function() {
     }
   });
 
-
-  var top = $('#right-content-container').offset().top - parseFloat($('#right-content-container').css('marginTop').replace(/auto/, 0));
+  if ($('#right-content-container').length > 0) {
+    var top = $('#right-content-container').offset().top - parseFloat($('#right-content-container').css('marginTop').replace(/auto/, 0));
+  }
   var didScroll = false;
   $(window).scroll(function () {
     didScroll = true;
