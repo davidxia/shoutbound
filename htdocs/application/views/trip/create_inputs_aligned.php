@@ -30,8 +30,10 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('templates/header')?>
   <? $this->load->view('templates/content')?>
 
-    <div id="top-bar">
-      <div class="top-bar-header">Create a trip!</div>
+    <div id="top-section">
+      <div id="top-bar">
+        <div class="top-bar-header">New trip!</div>
+      </div>
     </div>
         
     <div id="col-left">
@@ -40,13 +42,20 @@ $this->load->view('core_header', $header_args);
       
         <!-- TRIP CREATION FORM -->
         <form id="trip-creation-form" action="confirm_create" method="post">
-          
+                          
           <!-- PLACE DATES FIELD -->
-          <fieldset>
-            <div>Destinations</div>
-            <div id="dates-header">Dates (optional)</div>     
-            <div id="place_dates">
+          <fieldset class="settings-item">
+            <div class="settings-item-name">Where to?</div>
+            <div id="place_dates" class="settings-item-content">          
+              <input style="width:275px;" type="text" id="place_name" class="place-input" name="address" autocomplete=off
+        			     <? if ($place):?>value="<?=$place?>"<? endif;?>
+                  />
+                  <input type="hidden" id="place_id" class="required place_ids" name="place_id"
+          			    <? if ($place_id):?>value="<?=$place_id?>"<? endif;?>
+                  />
+            </div>
             
+<!--
               <a id="add-place" href="">[+]</a><a id="subtract-place" href="">[-]</a>
               
               <div class="field place">
@@ -54,51 +63,46 @@ $this->load->view('core_header', $header_args);
                   <label for="address0"></label>
                   <span class="error-message" style="float:right;"></span>
                 </span>
-                <input type="text" id="place_name" class="place-input" name="address" autocomplete=off
-      			     <? if ($place):?>value="<?=$place?>"<? endif;?>
-                />
-                <input type="hidden" id="place_id" class="required place_ids" name="place_id"
-        			    <? if ($place_id):?>value="<?=$place_id?>"<? endif;?>
-                />
               </div>
-              
-              <div class="field dates" style="visibility:hidden;">
-                <span class="label-and-errors">
-                  <span class="error-message"></span>
-                  <div class="clear"></div>
-                </span>
-                <label for="startdate">from</label> <input id="startdate" class="startdate" name="startdate" type="text" size="10"/> <label for="enddate">to</label> <input id="enddate" class="enddate" name="enddate" type="text" size="10" />
-              </div>
-              
+-->
+                             
+            <div class="field dates" style="visibility:hidden;">
+              <span class="label-and-errors">
+                <span class="error-message"></span>
+                <div class="clear"></div>
+              </span>
+              <label for="startdate">from</label> <input id="startdate" class="startdate" name="startdate" type="text" size="10"/> <label for="enddate">to</label> <input id="enddate" class="enddate" name="enddate" type="text" size="10" />
             </div>
+              
           </fieldset><!-- PLACE DATES FIELD ENDS -->
           
-          <!-- SUMMARY FIELD -->
-          <fieldset id="summary-field">
-            <div class="field trip_name">
-              <span class="label-and-errors">
-                <label for="trip_name">Trip name</label>
-                <span class="error-message"></span>
-                <div class="clear"></div>
-              </span>
-              <input id="trip_name" name="trip_name" class="required" type="text"/>
+          <!-- TRIP NAME -->
+          <fieldset id="summary-field" class="settings-item">
+            <div class="settings-item-name">Name</div>
+<!--               <span class="label-and-errors"> -->
+<!--                 <span class="error-message"></span> -->
+            <div class="settings-item-content">
+              <input id="trip_name" name="trip_name" class="required" type="text" style="width:275px"/>
             </div>
-             <div class="field">
-              <span class="label-and-errors">
-                <label for="description">Trip description</label>
-                <span class="error-message"></span>
-                <div class="clear"></div>
-              </span>
+          </fieldset>
+          <!-- TRIP NAME ENDS -->
+
+          <!--TRIP DESCRIPTION-->
+          <fieldset id="summary-field" class="settings-item">
+            <div class="settings-item-name">Description</div>
+            <div class="settings-item-content">
+<!--               <span class="label-and-errors"> -->
+<!--               <span class="error-message"></span> -->
               <textarea id="description" name="description"></textarea>
             </div>
-          </fieldset><!-- SUMMARY  FIELD ENDS -->
-      
-      
-          <div>
-            <button id="create-submit" class="blue-button" type="submit">Create</button>
-          </div>
-        </form><!-- TRIP CREATION FORM ENDS -->
+          </fieldset>
+          <!--TRIP DESCRIPTION ENDS-->
             
+          <div id="save-settings-container">
+            <button id="create-submit" type="submit">Create</button>
+          </div>
+
+        </form><!-- TRIP CREATION FORM ENDS -->           
       </div><!--LEFT CONTENT CONTAINER--> 
     </div><!--LEFT COLUMN END-->
 

@@ -562,20 +562,20 @@ ul.stats-list li a{
 ------------------------------------ */
 #create-trip-button {
   color:white;
-  display:block;
-  height:30px;
-  width: 115px;
-  line-height:30px;
+  display:inline-block;
+  height:25px;
+  width: 75px;
+  line-height:25px;
   text-align:center;
-  font-size:14px;
+  font-size:11px;
   text-decoration:none;
   background:-webkit-gradient(linear, left top, left bottom, from(#E0E0E0), to(#888888));
   background:-moz-linear-gradient(top, #E0E0E0 , #888888);
   filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#E0E0E0', endColorstr='#888888');
   border: 1px solid #686868;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
 }
 #create-trip-button:hover {
   background: #ffad32;
