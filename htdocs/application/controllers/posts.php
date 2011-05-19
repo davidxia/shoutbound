@@ -77,10 +77,10 @@ class Posts extends CI_Controller
             $this->load->helper('activity');
             save_activity($this->user->id, $activity_type, $p->id, $pid, $parent_type, time()-72);
             
-            $this->load->library('email_notifs', array('setting_id' => 11));
+            $this->load->library('email_notifs', array('setting_id' => 11, 'user' => $this->user));
             foreach ($t as $trip)
             {
-                $this->email_notifs->set_trip($trip);
+                $this->email_notifs->set_params(array('trip' => $trip));
                 $this->email_notifs->clear_emails();
                 $this->email_notifs->get_emails();
                 $this->email_notifs->compose_email($this->user->stored, $p->stored, $trip->stored);
