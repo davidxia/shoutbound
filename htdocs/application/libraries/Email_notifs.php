@@ -3,6 +3,7 @@
 class Email_notifs
 {
     public $setting_id;
+    private $user;
     private $user_ids;
     private $emails;
     private $trip;
@@ -33,6 +34,11 @@ class Email_notifs
             if (isset($params['setting_id']))
             {
                 $this->setting_id = $params['setting_id'];
+            }
+            
+            if (isset($params['user']))
+            {
+                $this->user = $params['user'];
             }
             
             if (isset($params['user_ids']))
@@ -67,6 +73,9 @@ class Email_notifs
         // specify Sendgrid category
         switch($this->setting_id)
         {
+            case 1:
+                $this->sendgrid_cat = 'following_creates';
+                break;
             case 3:
                 $this->sendgrid_cat = 'follows_user';
                 break;
@@ -92,6 +101,18 @@ class Email_notifs
     {
         switch($this->setting_id)
         {
+            case 1:
+         	      $this->user->get_followers();
+         	      $u = new User();
+                foreach ($this->user->stored->followers as $follower)
+                {
+                    $u->get_by_id($follower->id);
+                    if ($u->check_notif_setting($this->setting_id))
+                    {
+                        $this->emails[] = $u->email;
+                    }
+                }
+                break;
             case 3:
                 if ($this->profile->check_notif_setting($this->setting_id))
                 {
@@ -134,6 +155,15 @@ class Email_notifs
         }
         switch($this->setting_id)
         {
+            case 1:
+                $subj = $user->name.' created a new trip "'.$source->name.'" on Shoutbound';
+                $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> created a new trip '.
+                    '<a href="'.site_url('trips/'.$source->id).'">'.$source->name.'</a>.</h4>'.
+                    '<br/>'.$source->description;
+                $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> created a new trip '.
+                    '<a href="'.site_url('trips/'.$source->id).'">'.$source->name.'</a>.'.
+                    '<br/>'.$source->description;
+                break;
             case 3:
                 $subj = $user->name.' is now following you on Shoutbound';
                 $html = '<div style="width:600px; font-family:Helvetica Neue, Helvetica, Arial, sans-serif; font-size:13px; line-height:19px; color:#333; padding:5px;">'.

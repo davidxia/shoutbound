@@ -16,65 +16,6 @@ class Trips extends CI_Controller
             $this->user = $u;
         }
 		}
-		         	  
- 	  
- 	  public function confirm_create()
- 	  {
-        if ( ! isset($this->user->id) OR getenv('REQUEST_METHOD') == 'GET')
-        {
-            custom_404();
-            return;
-        }
-        
-        $post = $this->input->post('place_dates');
-        $post = $post['place_dates'];
-
-        $t = new Trip();
-        $t->name = $post['trip_name'];
-        $t->description = $post['description'];
-        $t->created = time()-72;
-        /*
-        $deadline = date_parse_from_format('n/j/Y', $post['deadline']);
-        {
-            $t->response_deadline = mktime(0, 0, 0, $deadline['month'], $deadline['day'], $deadline['year']);
-        }
-        */
-        //$t->is_private = ($post['private'] == 1) ? 1 : 0;
-
-        if ($t->save() AND $this->user->save($t)
-            AND $t->set_join_field($this->user, 'role', 10)
-            AND $t->set_join_field($this->user, 'rsvp', 9))
-        {
-            // save trip's destinations and dates
-            $p = new Place();
-            foreach ($post as $key => $val)
-            {
-                if (is_array($val))
-                {
-                    $p->clear();
-                    $p->get_by_id($post[$key]['place_id']);
-                    $t->save($p);
-                    // gets each destination's startdate and enddate and stores as unix time
-                    // TODO: callback method for better client side validation?
-                    $startdate = date_parse_from_format('n/j/Y', $post[$key]['startdate']);
-                    if (checkdate($startdate['month'], $startdate['day'], $startdate['year']))
-                    {
-                        $t->set_join_field($p, 'startdate', strtotime($startdate['day'].'-'.$startdate['month'].'-'.$startdate['year']));
-                    }
-                    $enddate = date_parse_from_format('n/j/Y', $post[$key]['enddate']);
-                    if (checkdate($enddate['month'], $enddate['day'], $enddate['year']))
-                    {
-                        $t->set_join_field($p, 'enddate', strtotime($enddate['day'].'-'.$enddate['month'].'-'.$enddate['year']));
-                    }
-                }
-            }
-            
-            $this->load->helper('activity');
-            save_activity($this->user->id, 1, $t->id, NULL, NULL, time()-72);
-            // TODO: success callback to ensure all destinations were saved?
-            redirect('trips/'.$t->id);
-        }      
- 	  }
  	  
 
     public function index($trip_id = FALSE)
@@ -200,7 +141,7 @@ class Trips extends CI_Controller
     public function create($i=1)
     {        
         $user = ($this->user) ? $this->user->stored : NULL;
-        $view_data = array(
+        $data = array(
             'user' => $user,
             'place' => $this->input->post('place_input'),
             'place_id' => $this->input->post('place_id'),
@@ -209,20 +150,86 @@ class Trips extends CI_Controller
 
         if ($i == 1)
         {
-            $this->load->view('trip/create_inputs_aligned', $view_data);
+            $this->load->view('trip/create_inputs_aligned', $data);
         }
         elseif ($i == 2)
         {
-            $this->load->view('trip/create', $view_data);
+            $this->load->view('trip/create', $data);
         }
         elseif ($i == 3)
         {
-            $this->load->view('trip/create_three_steps', $view_data);
+            $this->load->view('trip/create_three_steps', $data);
         }
         
     }
     
     
+ 	  public function confirm_create()
+ 	  {
+        if ( ! isset($this->user->id) OR getenv('REQUEST_METHOD') == 'GET')
+        {
+            custom_404();
+            return;
+        }
+        
+        $post = $this->input->post('place_dates');
+        $post = $post['place_dates'];
+
+        $t = new Trip();
+        $t->name = $post['trip_name'];
+        $t->description = $post['description'];
+        $t->created = time()-72;
+        /*
+        $deadline = date_parse_from_format('n/j/Y', $post['deadline']);
+        {
+            $t->response_deadline = mktime(0, 0, 0, $deadline['month'], $deadline['day'], $deadline['year']);
+        }
+        */
+        //$t->is_private = ($post['private'] == 1) ? 1 : 0;
+
+        if ($t->save() AND $this->user->save($t)
+            AND $t->set_join_field($this->user, 'role', 10)
+            AND $t->set_join_field($this->user, 'rsvp', 9))
+        {
+            // save trip's destinations and dates
+            $p = new Place();
+            foreach ($post as $key => $val)
+            {
+                if (is_array($val))
+                {
+                    $p->clear();
+                    $p->get_by_id($post[$key]['place_id']);
+                    $t->save($p);
+                    // gets each destination's startdate and enddate and stores as unix time
+                    // TODO: callback method for better client side validation?
+                    $startdate = date_parse_from_format('n/j/Y', $post[$key]['startdate']);
+                    if (checkdate($startdate['month'], $startdate['day'], $startdate['year']))
+                    {
+                        $t->set_join_field($p, 'startdate', strtotime($startdate['day'].'-'.$startdate['month'].'-'.$startdate['year']));
+                    }
+                    $enddate = date_parse_from_format('n/j/Y', $post[$key]['enddate']);
+                    if (checkdate($enddate['month'], $enddate['day'], $enddate['year']))
+                    {
+                        $t->set_join_field($p, 'enddate', strtotime($enddate['day'].'-'.$enddate['month'].'-'.$enddate['year']));
+                    }
+                }
+            }
+            
+            $this->load->helper('activity');
+            save_activity($this->user->id, 1, $t->id, NULL, NULL, time()-72);
+            
+            $params = array('setting_id' => 1, 'user' => $this->user);
+            $this->load->library('email_notifs', $params);
+            $this->email_notifs->get_emails();
+            $this->email_notifs->compose_email($this->user, $t->stored);
+            $this->email_notifs->send_email();
+            
+            // TODO: success callback to ensure all destinations were saved?
+            redirect('trips/'.$t->id);
+        }
+ 	  }
+
+
     public function ajax_trip_create()
     {
         if ( ! ($this->user->id AND $this->input->post('tripName')))
