@@ -129,10 +129,8 @@ $this->load->view('core_header', $header_args);
                <h3>Follow/unfollow needs to go here</h3>              
             <? elseif ($activity->activity_type==9):?>
                updated his profile bio.
-<!--
             <? elseif ($activity->activity_type==10):?>
-              is now in <a href="#"><?=$activity->place->name?></a>
--->
+              changed current location to <a href="<?=site_url('places/'.$activity->place->id)?>" class="place" lat="<?=$activity->place->lat?>" lng="<?=$activity->place->lng?>"><?=$activity->place->name?><? if($activity->place->admin1){echo ', '.$activity->place->admin1;}?><? if($activity->place->country){echo ', '.$activity->place->country;}?></a>
             <? endif;?>
 <!--
             <br/>

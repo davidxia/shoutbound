@@ -23,30 +23,20 @@ function save_activity($user_id=NULL, $activity_type=NULL, $source_id=NULL, $par
 function get_source(&$activity)
 {
     switch ($activity->activity_type) {
-        case 1:
-            $t = new Trip($activity->source_id);
-            $activity->stored->trip = $t->stored;
-            break;
-        case 2:
-            $p = new Post($activity->source_id);
-            $p->convert_nl();
-            $activity->stored->post = $p->stored;
-            break;
         case 3:
             $u = new User($activity->source_id);
             $activity->stored->following = $u->stored;
             break;
+        case 1:
         case 4:
             $t = new Trip($activity->source_id);
             $activity->stored->trip = $t->stored;
             break;
-        case 5:
-            $p = new Place($activity->source_id);
-            $activity->stored->place = $p->stored;
-            break;
+        case 2:
         case 6:
             $p = new Post($activity->source_id);
-            $activity->stored->comment = $p->stored;
+            $p->convert_nl();
+            $activity->stored->post = $p->stored;
             break;
         case 7:
             break;
@@ -57,7 +47,10 @@ function get_source(&$activity)
         case 9:
             $activity->stored->message = ' changed his bio.';
             break;
+        case 5:
         case 10:
+            $p = new Place($activity->source_id);
+            $activity->stored->place = $p->stored;
             break;
     }
 }

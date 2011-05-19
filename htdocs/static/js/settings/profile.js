@@ -29,7 +29,7 @@ $(function() {
       function(d) {
         var r = $.parseJSON(d);
         url.val(r.url);
-        $('#current-place').val(r.currPlace);
+        bio.val(r.bio);
         $('#save-response').empty().text(r.response).show().delay(10000).fadeOut(250);
       });
     return false;
@@ -86,12 +86,12 @@ $(function() {
   $('.place-input').live('keyup', function(e) {
     var keyCode = e.keyCode || e.which;
     // ignore non-char keys
-    var nonChars = [9, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 45, 91, 93, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 144];
+    var nonChars = [9,13,16,17,18,20,27,33,34,35, 36,37,38,39,40,45,91,93,112,113,114,115,116,117,118,119,120,121,122,123,144];
     var query = $.trim($(this).val());
     if ($.inArray(keyCode, nonChars)==-1 && query.length>2) {
       var input = $(this);
       var f = function () {placeAutocomplete(query, input);};
-      delay(f, 250);
+      delay(f, 200);
     }
   });
   
@@ -126,33 +126,20 @@ delay = (function() {
 
 placeAutocomplete = function(query, input) {
   var spinner = input.siblings('.loading-places');
-  console.log(input);
-  console.log(spinner);
   spinner.show();
-  $.post(baseUrl+'places/ajax_autocomplete', {query:query},
-    function(r) {
-      spinner.hide();
-      var r = $.parseJSON(r);
-      listPlaces(r.places, input);
-    });
-};
-
-
-listPlaces = function(places, input) {
   $('#autocomplete-results').remove();
-  var parent = $('<div id="autocomplete-results" style="display:none; position:absolute; width:310px; border:1px solid #DDD; cursor:pointer; padding:2px; z-index:100; background:white; font-size:13px;"></div>');
-  input.after(parent);
-  for (var id in places) {
-    var div = $('<div></div>');
-    div.html('<a href="#" place_id="'+id+'">'+places[id]+'</a>');
-    div.click(function() {
-      var a = $(this).children('a');
-      autocompleteClick(a.attr('place_id'), a.text(), input);
-      return false;
+  $.post(baseUrl+'places/ajax_autocomplete', {query:query, isSettings:true},
+    function(d) {
+      spinner.hide();
+      input.after(d);
+      $('#autocomplete-results').children().click(function() {
+        var a = $(this).children('a'),
+            id = a.attr('id').match(/^place-(\d+)$/)[1],
+            name = a.text();
+        autocompleteClick(id, name, input);
+        return false;
+      });
     });
-    parent.append(div);
-  }
-  parent.show();
 };
 
 

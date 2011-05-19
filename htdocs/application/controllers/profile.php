@@ -268,13 +268,12 @@ class Profile extends CI_Controller
         $u->get_following($user_id);
         $u->get_following_trips($user_id);
         $u->get_following_places($user_id);
-        $view_data = array(
+        $data = array(
             'user' => $user,
             'profile' => $profile,
         );
 
-        $this->load->view('profile/following', $view_data);
-        //print_r($profile);
+        $this->load->view('profile/following', $data);
     }
     
     
@@ -322,60 +321,14 @@ class Profile extends CI_Controller
         
         $user_id = (isset($this->user->id)) ? $this->user->id : NULL;
         $u->get_followers($user_id);
-        $view_data = array(
+        $data = array(
             'user' => $user,
             'profile' => $profile,
         );
 
-        $this->load->view('profile/followers', $view_data);
+        $this->load->view('profile/followers', $data);
     }
-        
-    
-    public function save_user_places()
-    {
-        $post = $this->input->post('places_dates');
-        $post = $post['places_dates'];
-        
-        $p = new Place();
-        foreach ($post as $key => $value)
-        {
-            //$p->clear();
-            $p->get_by_id($post[$key]['place_id']);
-            $this->user->save($p);
-            
-            // gets each place's date and stores as unix time
-            $date = date_parse_from_format('n/j/Y', $post[$key]['date']);
-            if (checkdate($date['month'], $date['day'], $date['year']))
-            {
-                $this->user->set_join_field($p, 'timestamp', strtotime($date['day'].'-'.$date['month'].'-'.$date['year']));
-            }
-        }
-    }
-    
-    
-    public function ajax_save_user_places()
-    {
-        $places = $this->input->post('places');
-        //$places = json_decode($places);        
-              
-        $p = new Place();
-        foreach ($places as $place)
-        {
-            //$p->clear();
-            $p->get_by_id($place['placeId']);
-            $this->user->save($p);
-            
-            // gets each place's date and stores as unix time
-            $date = date_parse_from_format('n/j/Y', $place['date']);
-            if (checkdate($date['month'], $date['day'], $date['year']))
-            {
-                $this->user->set_join_field($p, 'timestamp', strtotime($date['day'].'-'.$date['month'].'-'.$date['year']));
-            }
-        }
-        json_success(array('places' => $places));
-        //print_r($places);
-    }
-        
+                
     
     public function ajax_save_profile()
     {
@@ -399,27 +352,25 @@ class Profile extends CI_Controller
             $changes_made = TRUE;
         }
         
-        /*
-        $p = new Place($curr_place_id);
-        if ($this->user->save($p))
+        $this->user->get_current_place();
+        if ((!isset($this->user->stored->curr_place->id) AND $curr_place_id) OR
+            (isset($this->user->stored->curr_place->id) AND $curr_place_id AND $this->user->stored->curr_place->id != $curr_place_id))
         {
-            $this->user->set_join_field($p, 'timestamp', time()-72);
-        }
-        
-        if ($curr_place_id)
-        {
+            $p = new Place($curr_place_id);
+            if ($this->user->save($p))
+            {
+                $this->user->set_join_field($p, 'timestamp', time()-72);
+            }
             $this->load->helper('activity');
-            save_activity($this->user->id, 10, TRUE, NULL, NULL, time()-72);
+            save_activity($this->user->id, 10, $p->id, NULL, NULL, time()-72);
             $changes_made = TRUE;
         }
-        */
 
         if ($changes_made)
         {
             if ($this->user->save())
             {
                 json_success(array('bio' => $bio, 'url' => $url, 'response' => 'Saved.'));
-                //json_success(array('bio' => $bio, 'url' => $url, 'currPlace' => $p->name, 'response' => 'Saved.'));
             }
             else
             {
@@ -429,7 +380,6 @@ class Profile extends CI_Controller
         else
         {
             json_success(array('bio' => $bio, 'url' => $url, 'response' => 'Saved.'));
-            //json_success(array('bio' => $bio, 'url' => $url, 'currPlace' => $p->name, 'response' => 'Saved.'));
         }
         
     }
@@ -439,7 +389,6 @@ class Profile extends CI_Controller
     {
         if ( ! empty($_FILES)) {
             $uid = $this->input->post('uid');
-            //$uid = $this->user->id;
           	$tempFile = $_FILES['Filedata']['tmp_name'];
           	list($width, $height, $type, $attr) = getimagesize($_FILES['Filedata']['tmp_name']);
           	
@@ -512,13 +461,59 @@ class Profile extends CI_Controller
     }
     
     
+    public function save_user_places()
+    {
+        $post = $this->input->post('places_dates');
+        $post = $post['places_dates'];
+        
+        $p = new Place();
+        foreach ($post as $key => $value)
+        {
+            //$p->clear();
+            $p->get_by_id($post[$key]['place_id']);
+            $this->user->save($p);
+            
+            // gets each place's date and stores as unix time
+            $date = date_parse_from_format('n/j/Y', $post[$key]['date']);
+            if (checkdate($date['month'], $date['day'], $date['year']))
+            {
+                $this->user->set_join_field($p, 'timestamp', strtotime($date['day'].'-'.$date['month'].'-'.$date['year']));
+            }
+        }
+    }
+    
+    
+    public function ajax_save_user_places()
+    {
+        $places = $this->input->post('places');
+        //$places = json_decode($places);        
+              
+        $p = new Place();
+        foreach ($places as $place)
+        {
+            //$p->clear();
+            $p->get_by_id($place['placeId']);
+            $this->user->save($p);
+            
+            // gets each place's date and stores as unix time
+            $date = date_parse_from_format('n/j/Y', $place['date']);
+            if (checkdate($date['month'], $date['day'], $date['year']))
+            {
+                $this->user->set_join_field($p, 'timestamp', strtotime($date['day'].'-'.$date['month'].'-'.$date['year']));
+            }
+        }
+        json_success(array('places' => $places));
+        //print_r($places);
+    }
+
+
     public function history()
     {
-        $view_data = array(
+        $data = array(
             'user' => $this->user,
         );
 
-        $this->load->view('profile/history', $view_data);
+        $this->load->view('profile/history', $data);
     }
     
     
@@ -577,11 +572,11 @@ class Profile extends CI_Controller
             }
         }
         
-        $view_data = array(
+        $data = array(
             'geodata' => $geodata,
         );
         
-        $this->load->view('twitter_geohist', $view_data);
+        $this->load->view('twitter_geohist', $data);
         
     }
     
