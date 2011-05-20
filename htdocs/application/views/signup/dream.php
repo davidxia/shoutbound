@@ -16,6 +16,10 @@ $this->load->view('core_header', $header_args);
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
+  map.swLat = -50;
+  map.swLng = -180;
+  map.neLat = 50;
+  map.neLng = 180;
 </script>
 </head>
 	
@@ -51,9 +55,7 @@ $this->load->view('core_header', $header_args);
     
     <!--MAP-->
     <div id="map-shell">
-      <div id="map-canvas">
-        <img src="<?=site_url('static/images/map_placeholder.png')?>" width="490" height="390"/>
-      </div>
+      <div id="map-canvas"></div>
     </div>
            
     <div style="clear:both"></div>
