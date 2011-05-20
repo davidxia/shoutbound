@@ -245,6 +245,12 @@ class User extends DataMapper
     }
     
     
+    public function get_num_following_places()
+    {
+        $this->stored->num_following_places = $this->place->where_join_field('user', 'is_following', 1)->count();
+    }
+
+
     public function get_following_places($user_id = NULL)
     {
         $this->stored->following_places = array();

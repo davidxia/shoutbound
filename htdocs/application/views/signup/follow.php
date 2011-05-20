@@ -77,12 +77,12 @@ $this->load->view('core_header', $header_args);
     <!--RIGHT-->
     <div id="onboarding-right">
       <div id="follow-counter" class="right-widget-container">
-        <div class="following-count">13</div>
+        <div class="following-count"><?=$user->num_following+$user->num_following_trips+$user->num_following_places?></div>
         <span class="stat-label">Following</span>
       </div>
     
       <div id="walkthrough-text">
-        We recommend that you follow at least 10 people, places and trips. Revise to explain pulling facebook etc.
+        We recommend that you follow at least 10 people, places, and trips.
       </div>
     
     </div><!--RIGHT ENDS-->    
@@ -93,7 +93,7 @@ $this->load->view('core_header', $header_args);
   <!--PROGRESS BUTTONS-->
   <div id="sticky-bar">  
     <div id="progress-buttons-container">
-      <a href="<?=site_url('signup/onboarding')?>" class="back-button">Back</a>
+      <a href="<?=site_url('signup/dream')?>" class="back-button">Back</a>
       <a href="<?=site_url('signup/profile')?>" class="next-button">Next</a> 
     </div>
   </div>        

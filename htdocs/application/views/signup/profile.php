@@ -17,7 +17,6 @@ $header_args = array(
         'js/jquery/validate.min.js',
     )
 );
-
 $this->load->view('core_header', $header_args);
 ?>
 <!-- JAVASCRIPT CONSTANTS --> 
@@ -52,7 +51,7 @@ $this->load->view('core_header', $header_args);
             <div id="custom-queue"></div>
           </div>        
           <div id="current-profile-pic" class="profile-pic-container">
-            <a href="#" id="profile-pic"><img src="<?=static_sub('chenchen_face_small.jpg')?>" width="125" height="125"/></a>
+            <a href="#" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$user->profile_pic)?>" width="125" height="125"/></a>
           </div>
         </div>
       </div>
@@ -60,7 +59,7 @@ $this->load->view('core_header', $header_args);
       <div class="settings-item">
         <div class="settings-item-name">Web</div>
         <div class="settings-item-content">
-          <input type="text" id="url" style="width:275px; height:20px;" value="#"/><br/>
+          <input type="text" id="url" style="width:275px; height:20px;"/><br/>
           <span class="subtext">Have your own website or blog? Enter the address here.</span>        
         </div>
       </div>        
@@ -106,5 +105,3 @@ $this->load->view('core_header', $header_args);
 
 </body>
 </html>
-  
- 

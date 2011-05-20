@@ -196,6 +196,7 @@ class Signup extends CI_Controller
                 $is_saved = FALSE;
                 if ($this->user->save($p))
                 {
+                    $this->user->set_join_field($p, 'is_following', 1);
                     $is_saved = TRUE;
                 }
             }
@@ -221,6 +222,9 @@ class Signup extends CI_Controller
         
         // we auto followed their friends
         $this->user->get_following();
+        $this->user->get_num_following();
+        $this->user->get_num_following_trips();
+        $this->user->get_num_following_places();
         
         $data = array(
             'user' => $this->user->stored,
@@ -253,6 +257,7 @@ class Signup extends CI_Controller
             redirect('/');
         }
         
+        // we auto followed their bucket list
         $this->user->get_following_places($this->user->id);
         
         $data = array(
@@ -268,7 +273,11 @@ class Signup extends CI_Controller
         {
             redirect('/');
         }
-        $this->load->view('signup/profile');
+
+        $data = array(
+            'user' => $this->user->stored,
+        );
+        $this->load->view('signup/profile', $data);
     }
 }
 
