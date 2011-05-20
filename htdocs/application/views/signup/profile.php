@@ -3,7 +3,7 @@ $header_args = array(
     'title' => 'Getting Started | Shoutbound',
     'css_paths' => array(
         'css/uploadify.css',
-        'css/onboarding.css',
+        'css/dream.css',
     ),
     'js_paths' => array(
         'js/common.js',

@@ -9,10 +9,8 @@ class Settings extends CI_Controller
     {
         parent::__construct();
         $u = new User();
-        $uid = $u->get_logged_in_status();
-        if ($uid)
+        if ($u->get_logged_in_status())
         {
-            $u->get_by_id($uid);
             $this->user = $u;
         }
         else

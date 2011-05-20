@@ -2,19 +2,12 @@
 $header_args = array(
     'title' => 'Getting Started | Shoutbound',
     'css_paths' => array(
-        'css/uploadify.css',
-        'css/onboarding.css',
+        'css/dream.css',
     ),
     'js_paths' => array(
+        'js/jquery/jquery.ba-bbq.min.js',
         'js/common.js',
-        'js/uploadify/swfobject.js',
-        'js/uploadify/jquery.uploadify.v2.1.4.min.js',
-        'js/settings/profile.js',
         'js/follow.js',
-        'js/user/loginSignup.js',
-        'js/jquery/jquery-ui-1.8.11.custom.min.js',
-        'js/jquery/jquery-dynamic-form.js',
-        'js/jquery/validate.min.js',
     )
 );
 
@@ -52,27 +45,29 @@ $this->load->view('core_header', $header_args);
       <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
         <div id="people-tab" class="main-tab-content main-tab-default">
         
-          <!--DAVID FILL IN-->
+          <? if ($user->following):?>
+            We've automatically followed for you these people on Shoutbound whom we think are your friends.
+          <? endif;?>
           
-<!--           <? if ($user->following):?> -->
-            We've automatically followed for you these people on Shoutbound whom we think are your friends and the trips they're planning.
-<!--           <? endif;?> -->
-          
-<!--           <? foreach ($user->following as $following):?> -->
-          <div>
-            <a href="<?=site_url('profile/'.$following->id)?>" target="_blank"><?=$following->name?></a>
+          <? foreach ($user->following as $following):?>
+          <div class="streamitem">
             <a class="unfollow" id="user-<?=$following->id?>" href="#">Unfollow</a>
-<!--             <? foreach ($following->trips as $trip):?> -->
-            <div style="margin-left:20px;">
-              <a href="<?=site_url('trips/'.$trip->id)?>" target="_blank"><?=$trip->name?></a>
-<!--               <? foreach ($trip->goers as $goer):?> -->
-              <a href="<?=site_url('profile/'.$goer->id)?>" target="_blank"><img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" class="tooltip" width="35" height="35" alt="<?=$goer->name?>"/>
-              <? endforeach;?>
-              <a class="unfollow" id="trip-<?=$trip->id?>">Unfollow</a>
+            <div class="streamitem-avatar-container">
+              <a href="<?=site_url('profile/'.$following->id)?>">
+                <img src="<?=static_sub('profile_pics/'.$following->profile_pic)?>" width="25" height="25"/>
+              </a>
             </div>
-<!--             <? endforeach;?> -->
+
+            <div class="narrow streamitem-content-container">
+              <div class="streamitem-name">
+                <a href="<?=site_url('profile/'.$following->id)?>"><?=$following->name?></a>
+              </div>
+              <div class="streamitem-bio"><?=$following->bio?></div>
+              <div style="clear:both"></div>
+            </div>
+            
           </div>
-<!--           <? endforeach;?> -->
+          <? endforeach;?>
                      
         </div>
       </div>

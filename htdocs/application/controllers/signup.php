@@ -2,47 +2,36 @@
 
 class Signup extends CI_Controller
 {
-
+    private $user;
+    
     function __construct()
     {
       	parent::__construct();
+        $u = new User();
+        if ($u->get_logged_in_status())
+        {
+            $this->user = $u;
+        }
     }
 
 
     public function index()
     {
-        $u = new User();
-        if ($u->get_logged_in_status())
+        if ($this->user)
         {
             redirect('/');
         }
         $this->load->view('signup/index');
     }
     
-    public function follow()
-    {
-        /*$u = new User();
-        if ($u->get_logged_in_status())
-        {
-            redirect('/');
-        }*/
-        $this->load->view('signup/follow');
-    }
-
-    public function profile()
-    {
-/*
-        $u = new User();
-        if ($u->get_logged_in_status())
-        {
-            redirect('/');
-        }
-*/
-        $this->load->view('signup/profile');
-    }
         
     public function create_user()
     {
+        if ($this->user OR getenv('REQUEST_METHOD') == 'GET')
+        {
+            redirect('/');
+        }
+
 		    $u = new User();
 		    $u->name = $this->input->post('name');
 		    $u->email = $this->input->post('email');
@@ -125,6 +114,10 @@ class Signup extends CI_Controller
     
     public function ajax_create_user()
     {
+        if ($this->user OR getenv('REQUEST_METHOD') == 'GET')
+        {
+            redirect('/');
+        }
 		    $u = new User();
 		    $u->name = $this->input->post('signupName');
 		    $u->email = $this->input->post('signupEmail');
@@ -147,6 +140,11 @@ class Signup extends CI_Controller
 
     public function ajax_create_fb_user()
     {
+        if ($this->user OR getenv('REQUEST_METHOD') == 'GET')
+        {
+            redirect('/');
+        }
+
         $this->load->library('facebook');
         $fbuser = $this->facebook->api('/me?fields=name,email');
         
@@ -166,35 +164,111 @@ class Signup extends CI_Controller
     }
     
     
-    public function onboarding()
+    public function dream()
     {
-        $u = new User();
-        $uid = $u->get_logged_in_status();
-        if ( ! $uid)
+        if ( ! $this->user)
         {
             redirect('/');
         }
-        $u->get_by_id($uid);
-        // we auto followed their friends
-        $u->get_following();
-        // we auto followed their friends' rsvp yes trips
-        $f = new User();
-        foreach ($u->stored->following as $following)
-        {
-            $f->get_by_id($following->id);
-            $f->get_rsvp_yes_trips();
-            $following->trips = array();
-            foreach ($f->stored->rsvp_yes_trips as $rsvp_yes_trip)
-            {
-                $following->trips[] = $rsvp_yes_trip;
-            }
-        }
 
         $data = array(
-            'user' => $u->stored,
         );
-        $this->load->view('signup/onboarding', $data);
-        //print_r($u->stored);
+        $this->load->view('signup/dream');
+    }
+    
+    
+    public function save_bucket_list()
+    {
+        if ( ! $this->user OR getenv('REQUEST_METHOD') == 'GET')
+        {
+            redirect('/');
+        }
+
+        $post = $this->input->post('place');
+        $post = $post['place'];
+        $p = new Place();
+        foreach ($post as $key => $val)
+        {
+            if (is_array($val))
+            {
+                $p->clear();
+                $p->get_by_id($val['place_id']);
+                $is_saved = FALSE;
+                if ($this->user->save($p))
+                {
+                    $is_saved = TRUE;
+                }
+            }
+        }
+        
+        if ($is_saved)
+        {
+            redirect(site_url('signup/follow'));
+        }
+        else
+        {
+            echo 'something broken, tell David';
+        }
+    }
+
+
+    public function follow()
+    {
+        if ( ! $this->user)
+        {
+            redirect('/');
+        }
+        
+        // we auto followed their friends
+        $this->user->get_following();
+        
+        $data = array(
+            'user' => $this->user->stored,
+        );
+        $this->load->view('signup/follow', $data);
+    }
+    
+    
+    public function trips()
+    {
+        if ( ! $this->user)
+        {
+            redirect('/');
+        }
+        
+        // we auto followed their friends' rsvp yes trips
+        $this->user->get_following_trips();
+        
+        $data = array(
+            'user' => $this->user->stored,
+        );
+        $this->load->view('signup/trips', $data);
+    }
+    
+    
+    public function places()
+    {
+        if ( ! $this->user)
+        {
+            redirect('/');
+        }
+        
+        $this->user->get_following_places($this->user->id);
+        
+        $data = array(
+            'user' => $this->user->stored,
+        );
+        $this->load->view('signup/places', $data);
+    }
+
+
+    public function profile()
+    {
+        if ( ! $this->user)
+        {
+            redirect('/');
+        }
+        $this->load->view('signup/profile');
     }
 }
 

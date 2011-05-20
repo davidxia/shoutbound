@@ -88,12 +88,11 @@ class Login extends CI_Controller
         if ($fbuser)
         {
             $u = new User();
-            $uid = $u->get_logged_in_status();
-            if ( ! $uid)
+            if ( ! $u->get_logged_in_status())
             {
                 redirect('/');            
             }
-            $u->get_by_id($uid);
+            //$u->get_by_id($uid);
             
             // get user's facebook friends from friends & users table and store in array
             $u->friend->get();

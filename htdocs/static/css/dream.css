@@ -3,7 +3,7 @@
   margin:30px auto 0px auto; 
   width:850px; 
   border-bottom:1px solid #CACACA; 
-  padding-bottom:20px;
+  padding-bottom:100px;
 }
 #sticky-bar{
   width:100%; 
@@ -56,7 +56,7 @@
   margin-top:15px;
 }
 
-.destination-input{
+.place-input{
   margin-bottom:5px !important; 
   width:320px;
   border:1px solid #BABABA;

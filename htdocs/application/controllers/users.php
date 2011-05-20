@@ -19,12 +19,10 @@ class Users extends CI_Controller
 
     public function ajax_get_logged_in_status()
     {
-        $u = new User();
-        $uid = $u->get_logged_in_status();
-        
-        if ($uid)
+        $u = new User();        
+        if ($u->get_logged_in_status())
         {
-            json_success(array('loggedin'=>$uid));
+            json_success(array('loggedin'=>$u->id));
         }
         else
         {

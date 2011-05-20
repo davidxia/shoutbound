@@ -70,7 +70,8 @@ class User extends DataMapper
             set_cookie('uid', $uid, 259200);
             set_cookie('key', $key, 259200);
             set_cookie('sig', $sig, 259200);
-            return $uid;
+            $this->get_by_id($uid);
+            return TRUE;
         }
         else
         {

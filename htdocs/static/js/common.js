@@ -35,7 +35,9 @@ $(function() {
         $.get(myUrl, function(d) {
           $('#main-tab-loading').hide();
           $('#main-tab-container').append(d);
-          $('abbr.timeago').timeago();
+          if ($('abbr.timeago').length > 0) {
+            $('abbr.timeago').timeago();
+          }
           cache[tabName] = $(d);
         });
       }
