@@ -59,7 +59,7 @@ $this->load->view('core_header', $header_args);
       <div class="settings-item">
         <div class="settings-item-name">Web</div>
         <div class="settings-item-content">
-          <input type="text" id="url" style="width:275px; height:20px;"/><br/>
+          <input type="text" id="url" style="width:275px; height:20px;" value="<?=$user->url?>"/><br/>
           <span class="subtext">Have your own website or blog? Enter the address here.</span>        
         </div>
       </div>        
@@ -77,7 +77,7 @@ $this->load->view('core_header', $header_args);
       <div class="settings-item">
         <div class="settings-item-name">Bio</div>
         <div class="settings-item-content">
-          <textarea id="bio" style="width:415px; height:125px;"></textarea><br/>
+          <textarea id="bio" style="width:415px; height:125px;"><?=$user->bio?></textarea><br/>
           <span class="subtext">Describe yourself in 250 characters or less. Characters remaining: <span id="chars-remaining"></span></span>
         </div>
       </div> 
@@ -99,9 +99,9 @@ $this->load->view('core_header', $header_args);
   <div id="sticky-bar">  
     <div id="progress-buttons-container">
       <a href="<?=site_url('signup/follow')?>" class="back-button">Back</a>
-      <a href="<?=site_url('home/index')?>" class="next-button finish">Take me to Shoutbound!</a> 
-    </div> 
-  </div>       
+      <a href="<?=site_url('signup/finish')?>" class="next-button finish">Take me to Shoutbound!</a>
+    </div>
+  </div>
 
 </body>
 </html>

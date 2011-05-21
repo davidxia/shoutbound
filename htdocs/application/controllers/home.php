@@ -22,6 +22,11 @@ class Home extends CI_Controller
 
     public function index()
     {
+        if ( ! $this->user->is_onboarded)
+        {
+            redirect(site_url('signup/dream'));
+        }
+        
         $this->user->get_rsvp_yes_trips();
         $this->user->get_rsvp_awaiting_trips();
         $this->user->get_following_trips();
@@ -31,16 +36,16 @@ class Home extends CI_Controller
         $this->user->get_num_following_trips();
         $this->user->get_num_followers();
         
-        $t = new Trip();        
+        $t = new Trip();
         // get suggestions for both user's trips and her friends trips
         $news_feed_items = $this->user->get_news_feed_items();
         
-        $view_data = array(
+        $data = array(
             'user' => $this->user->stored,
             'news_feed_items' => $news_feed_items,
         );
                           
-        $this->load->view('home/index', $view_data);
+        $this->load->view('home/index', $data);
     }
         
     

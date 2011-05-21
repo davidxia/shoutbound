@@ -166,7 +166,7 @@ class Signup extends CI_Controller
     
     public function dream()
     {
-        if ( ! $this->user)
+        if ( ! $this->user OR $this->user->is_onboarded)
         {
             redirect('/');
         }
@@ -215,7 +215,7 @@ class Signup extends CI_Controller
 
     public function follow()
     {
-        if ( ! $this->user)
+        if ( ! $this->user OR $this->user->is_onboarded)
         {
             redirect('/');
         }
@@ -269,15 +269,31 @@ class Signup extends CI_Controller
 
     public function profile()
     {
-        if ( ! $this->user)
+        if ( ! $this->user OR $this->user->is_onboarded)
         {
             redirect('/');
         }
 
+        $this->user->get_current_place();
         $data = array(
             'user' => $this->user->stored,
         );
         $this->load->view('signup/profile', $data);
+    }
+    
+    
+    public function finish()
+    {
+        if ( ! $this->user OR $this->user->is_onboarded)
+        {
+            redirect('/');
+        }
+        
+        $this->user->is_onboarded = 1;
+        if ($this->user->save())
+        {
+            redirect(site_url('home'));
+        }
     }
 }
 
