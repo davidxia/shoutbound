@@ -36,17 +36,15 @@ $this->load->view('core_header', $header_args);
 
 <body>
 <div id="sticky-footer-wrapper">
-
   <? $this->load->view('templates/header')?>
   <? $this->load->view('templates/content')?>
 
   <div id="top-section">
     <div id="top-bar"><!--TOP BAR-->       
       <div id="trip-info">     
-        <div id="tagbar">          
-          <? $prefix=''; foreach ($trip->places as $destination):?>
-            <?=$prefix;?>
-            <a class="destination tag" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></a>
+        <div id="tagbar">
+          <? foreach ($trip->places as $destination):?>
+          <a class="destination tag" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></a>
           <? endforeach;?>
         </div>          
         <div class="top-bar-header"><?=$trip->name?></div>   

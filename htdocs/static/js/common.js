@@ -19,7 +19,7 @@ $(function() {
       }
       $('li.active').removeClass('active');
       $('#main-tab-container').children(':visible').hide();
-  
+      
       if (tabName == '') {
         $('a[href="#'+defaultTab+'"]').parent().addClass('active');
       } else {
@@ -182,4 +182,3 @@ loadPolymap = function() {
     });
   }
 }
-

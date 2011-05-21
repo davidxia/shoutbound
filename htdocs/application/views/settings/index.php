@@ -5,23 +5,19 @@ $header_args = array(
       'css/settings.css'
     ),
     'js_paths'=>array(
-        'js/common.js',
         'js/jquery/validate.min.js',
     )
 );
 
 $this->load->view('core_header', $header_args);
 ?>
-
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
 </script>
-  
 </head>
 
 <body>
-
 <div id="sticky-footer-wrapper">
   <? $this->load->view('templates/header')?>
   <? $this->load->view('templates/content')?>
@@ -34,8 +30,8 @@ $this->load->view('core_header', $header_args);
     
       <div id="left-content-container">
       
-        <ul>
-          <li class="active"><a href="<?=site_url('settings')?>">Account</a></li>
+        <ul id="main-tabs">
+          <li class="active">Account</li>
           <li><a href="<?=site_url('settings/profile')?>">Profile</a></li>
         </ul>
         

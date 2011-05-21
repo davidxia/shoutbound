@@ -39,7 +39,7 @@ $this->load->view('core_header', $header_args);
       
         <ul id="main-tabs">
           <li><a href="<?=site_url('settings')?>">Account</a></li>
-          <li class="active"><a href="<?=site_url('settings/profile')?>">Profile</a></li>
+          <li class="active">Profile</li>
         </ul>
         
         <div style="clear:both"></div>
