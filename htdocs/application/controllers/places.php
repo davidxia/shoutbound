@@ -171,6 +171,8 @@ class Places extends CI_Controller
     {
         $this->load->view('places/dbpedia_query');
     }
+    
+    
 }
 
 /* End of file places.php */

@@ -18,11 +18,18 @@ $this->load->view('core_header', $header_args);
   table.ui-datepicker-calendar{
     display:none;
   }
+  #work{
+    fill:red;
+  }
 </style>
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
   var uid = <?=$user->id?>;
+  map.swLat = -50;
+  map.swLng = -180;
+  map.neLat = 50;
+  map.neLng = 180;
 </script>
 </head>
 
@@ -57,7 +64,9 @@ $this->load->view('core_header', $header_args);
               <? endif;?>
               <? foreach($user->places as $place):?>
               <div>
-                <?=$place->name?><? if($place->admin1){echo ', '.$place->admin1;}if($place->country){echo ', '.$place->country;}?>
+                <span class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>">
+                  <?=$place->name?><? if($place->admin1){echo ', '.$place->admin1;}if($place->country){echo ', '.$place->country;}?>
+                </span>
                 <? if ($place->timestamp):?>
                   <?=date('F Y', $place->timestamp)?>
                 <? endif;?>
@@ -101,8 +110,19 @@ $this->load->view('core_header', $header_args);
           </div><!-- PROFILE TAB ENDS -->
         </div><!-- TAB CONTAINER ENDS -->
       </div><!-- LEFT CONTENT CONTAINER ENDS -->
-  
-  </div><!-- CONTENT ENDS -->
+    </div><!-- CONTENT ENDS -->
+
+    <!-- RIGHT COLUMN -->
+    <div id="col-right">
+      <div id="right-content-container"><!--RIGHT CONTENT-->
+        <!-- MAP -->
+        <div id="map-shell">
+          <div id="map-canvas"></div>
+        </div>
+      </div><!--RIGHT CONTENT ENDS-->   
+    </div><!-- RIGHT COLUMN ENDS -->
+
+    
   </div><!-- WRAPPER ENDS -->
   </div><!--STICKY FOOTER WRAPPER ENDS-->
   <? $this->load->view('footer')?>

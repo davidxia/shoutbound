@@ -1,3 +1,5 @@
+var map = {};
+
 $(function() {
   $('#save-places-been').click(function() {
     //$('#places-been-form').submit();
@@ -81,6 +83,8 @@ $(function() {
       $('#autocomplete-results').remove();
     }
   });
+  
+  loadPolymap();
 });
 
 
@@ -120,3 +124,40 @@ autocompleteClick = function(id, name, input) {
   input.trigger(e);
   return false;
 };
+
+
+loadPolymap = function() {  
+  if ($('#map-canvas').length > 0) {
+    $.getScript(baseUrl+'static/js/polymaps.min.js?2.5.0', function() {
+      map.po = org.polymaps;
+      
+      map.polymap = map.po.map()
+          .container(document.getElementById('map-canvas').appendChild(map.po.svg('svg')))
+          .add(map.po.drag())
+          .add(map.po.wheel())
+          .add(map.po.dblclick());
+      
+      map.polymap.add(map.po.image()
+          .url(map.po.url('http://{S}tile.cloudmade.com'
+          + '/baa414b63d004f45863be327e9145ec4'
+          + '/998/256/{Z}/{X}/{Y}.png')
+          .hosts(['a.', 'b.', 'c.', ''])));
+      
+      map.polymap.extent([{lon:map.swLng, lat:map.swLat}, {lon:map.neLng, lat:map.neLat}]);
+      
+      map.polymap.add(map.po.compass()
+          .pan('none'));
+          
+          
+      var work;
+      $("[class='place']").each(function(i,ele) {
+        work = map.po.geoJson()
+            .features([
+                {geometry: {type:'Point', coordinates:[parseInt(ele.getAttribute('lng')), parseInt(ele.getAttribute('lat'))]}}
+            ]).id('work');
+        map.polymap.add(work);
+      });
+
+    });
+  }   
+}
