@@ -57,7 +57,7 @@ $this->load->view('core_header', $header_args);
               <? endif;?>
               <? foreach($user->places as $place):?>
               <div>
-                <?=$place->name?>
+                <?=$place->name?><? if($place->admin1){echo ', '.$place->admin1;}if($place->country){echo ', '.$place->country;}?>
                 <? if ($place->timestamp):?>
                   <?=date('F Y', $place->timestamp)?>
                 <? endif;?>
@@ -90,8 +90,12 @@ $this->load->view('core_header', $header_args);
                     <input id="date" class="date" name="date" type="text" size="10"/> 
                   </div>
                 </div>
-                <a id="save-places-been" href="#">Save</a>
               </fieldset>
+
+              <div id="save-settings-container">
+                <input type="submit" id="save-places-been" value="Save" class="save-settings-button"/>
+                <span id="save-response" class="response"></span>
+              </div>
             </form>
             
           </div><!-- PROFILE TAB ENDS -->

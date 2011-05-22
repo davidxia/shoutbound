@@ -8,18 +8,13 @@ $(function() {
       var date = $('#date'+i).val();
       placesDates.push({placeId:placeId, date:date});
     }
-    console.log(placesDates);
     
     $.post(baseUrl+'profile/ajax_save_user_places', {placesDates:placesDates},
       function(d) {
-        console.log(d);
-/*
-        var d = $.parseJSON(d);
-        console.log(d);
-        if (d.success) {
-          alert('saved, refresh the page');
+        var r = $.parseJSON(d);
+        if (r.success) {
+          $('#save-response').empty().text(r.response).show().delay(10000).fadeOut(250);
         }
-*/
       });
     return false;
   });

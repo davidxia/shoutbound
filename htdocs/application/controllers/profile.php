@@ -493,6 +493,8 @@ class Profile extends CI_Controller
                 }
             }
         }
+        
+        json_success(array('response' => 'saved'));
     }
 
 
