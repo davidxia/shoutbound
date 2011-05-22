@@ -396,13 +396,13 @@ fieldset {
  clear:both;
 }
 
-#main-tabs, #right-tabs{
+#main-tabs, #right-tabs, #tab-style{
 	list-style: none;
 	height: 36px;
 	border-bottom: 1px solid #BABABA;
 }
 
-#main-tabs li, #right-tabs li{
+#main-tabs li, #right-tabs li, #tab-style li{
   float: left;
 	height: 35px; /*--Subtract 1px from the height of the unordered list--*/
 	line-height: 35px; /*--Vertically aligns the text within the tab--*/
@@ -414,23 +414,23 @@ fieldset {
 	text-align:center;
 }
 
-#main-tabs li a, #right-tabs li a{
+#main-tabs li a, #right-tabs li a, #tab-style li a{
   text-decoration: none;
 	display: block;
 	/*border: 1px solid white;*/
 	outline: none;
 }
 
-#main-tabs li:hover, #right-tabs li:hover{
+#main-tabs li:hover, #right-tabs li:hover, #tab-style li:hover{
 	background-color:#FAFAFA;
 	text-decoration:none;
 }
 
-#main-tabs li a:hover, #right-tabs li a:hover{
+#main-tabs li a:hover, #right-tabs li a:hover, #tab-style li a:hover{
 	background: #FAFAFA;
 }
 
-#main-tabs li.active, #right-tabs li.active{ 
+#main-tabs li.active, #right-tabs li.active, #tab-style li.active{ 
 	border-bottom: 1px solid white; 
 	font-weight:bold;
 	border-left:1px solid #BABABA;
@@ -443,11 +443,11 @@ fieldset {
   width:114px;
 }
 
-#main-tabs li.active a, #right-tabs li.active a{
+#main-tabs li.active a, #right-tabs li.active a, #tab-style li.active{
   color:#333;
 }
 
-#main-tabs li.active a:hover, #right-tabs li.active a:hover{
+#main-tabs li.active a:hover, #right-tabs li.active a:hover, #tab-style li.active a:hover{
   background:white;
 	border-bottom: 1px solid white; 
 	font-weight:bold;

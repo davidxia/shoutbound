@@ -1,4 +1,3 @@
-var map = {};
 var cache = {};
 
 
@@ -161,24 +160,38 @@ jqMultiselect = function() {
 loadPolymap = function() {  
   if ($('#map-canvas').length > 0) {
     $.getScript(baseUrl+'static/js/polymaps.min.js?2.5.0', function() {
-      map.po = org.polymaps;
+      po = org.polymaps;
       
-      map.polymap = map.po.map()
-          .container(document.getElementById('map-canvas').appendChild(map.po.svg('svg')))
-          .add(map.po.drag())
-          .add(map.po.wheel())
-          .add(map.po.dblclick());
+      map = po.map()
+          .container(document.getElementById('map-canvas').appendChild(po.svg('svg')))
+          .add(po.drag())
+          .add(po.wheel())
+          .add(po.dblclick());
       
-      map.polymap.add(map.po.image()
-          .url(map.po.url('http://{S}tile.cloudmade.com'
+      map.add(po.image()
+          .url(po.url('http://{S}tile.cloudmade.com'
           + '/baa414b63d004f45863be327e9145ec4'
           + '/998/256/{Z}/{X}/{Y}.png')
           .hosts(['a.', 'b.', 'c.', ''])));
       
-      map.polymap.extent([{lon:map.swLng, lat:map.swLat}, {lon:map.neLng, lat:map.neLat}]);
+      map.extent([{lon:swLng, lat:swLat}, {lon:neLng, lat:neLat}]);
       
-      map.polymap.add(map.po.compass()
+      map.add(po.compass()
           .pan('none'));
+          
+      addMarkers();
     });
   }
+}
+
+function addMarkers() {
+  $("[class='place']").each(function(i,ele) {
+    var marker = po.geoJson()
+        .features([
+            {geometry: {type:'Point', coordinates:[parseInt(ele.getAttribute('lng')), parseInt(ele.getAttribute('lat'))]}}
+        ])
+        .on('load', po.stylist().attr('fill', 'red')
+        .title($.trim(ele.innerHTML)));
+    map.add(marker);
+  });
 }

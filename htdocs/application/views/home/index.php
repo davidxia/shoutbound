@@ -18,10 +18,10 @@ $this->load->view('core_header', $header_args);
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
   var staticUrl = '<?=static_sub()?>';
-  map.swLat = -50;
-  map.swLng = -180;
-  map.neLat = 50;
-  map.neLng = 180;
+  var swLat = -50;
+  var swLng = -180;
+  var neLat = 50;
+  var neLng = 180;
 </script>
 </head>
 

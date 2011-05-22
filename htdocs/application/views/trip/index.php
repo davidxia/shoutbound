@@ -25,12 +25,12 @@ $this->load->view('core_header', $header_args);
   var staticUrl = '<?=static_sub()?>';
   var tripId = <?=$trip->id?>;
   
-  map.lat = <?=$trip->places[0]->lat?>;
-  map.lng = <?=$trip->places[0]->lng?>;
-  map.swLat = <?=$trip->places[0]->sw_lat?>;
-  map.swLng = <?=$trip->places[0]->sw_lng?>;
-  map.neLat = <?=$trip->places[0]->ne_lat?>;
-  map.neLng = <?=$trip->places[0]->ne_lng?>;
+  var lat = <?=$trip->places[0]->lat?>;
+  var lng = <?=$trip->places[0]->lng?>;
+  var swLat = <?=$trip->places[0]->sw_lat?>;
+  var swLng = <?=$trip->places[0]->sw_lng?>;
+  var neLat = <?=$trip->places[0]->ne_lat?>;
+  var  neLng = <?=$trip->places[0]->ne_lng?>;
 </script>
 </head>
 

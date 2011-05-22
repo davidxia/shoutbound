@@ -5,6 +5,7 @@ $header_args = array(
       'css/settings.css'
     ),
     'js_paths'=>array(
+        'js/common.js',
         'js/jquery/validate.min.js',
     )
 );
@@ -30,7 +31,7 @@ $this->load->view('core_header', $header_args);
     
       <div id="left-content-container">
       
-        <ul id="main-tabs">
+        <ul id="tab-style">
           <li class="active">Account</li>
           <li><a href="<?=site_url('settings/profile')?>">Profile</a></li>
           <li><a href="<?=site_url('settings/trail')?>">Trail</a></li>

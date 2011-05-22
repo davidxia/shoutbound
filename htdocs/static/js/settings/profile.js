@@ -1,18 +1,20 @@
 $(function() {
   // flash/js plugin for uploading profile pic
-  $('#file_upload').uploadify({
-    'uploader'       : baseUrl+'static/js/uploadify/uploadify.swf',
-    'script'         : baseUrl+'profile/profile_pic_uploadify',
-    'scriptData'     : {'uid':uid},
-    'cancelImg'      : baseUrl+'static/images/cancel.png',
-    'queueID'        : 'custom-queue',
-    'removeCompleted': false,
-    'auto'           : true,
-    'sizeLimit'      : 102400,
-    'fileExt'        : '*.jpg;*.gif;*.png',
-    'fileDesc'       : 'Image Files',
-    'buttonText'     : 'Change picture',
-  });
+  if ($('#file_upload').length > 0) {
+    $('#file_upload').uploadify({
+      'uploader'       : baseUrl+'static/js/uploadify/uploadify.swf',
+      'script'         : baseUrl+'profile/profile_pic_uploadify',
+      'scriptData'     : {'uid':uid},
+      'cancelImg'      : baseUrl+'static/images/cancel.png',
+      'queueID'        : 'custom-queue',
+      'removeCompleted': false,
+      'auto'           : true,
+      'sizeLimit'      : 102400,
+      'fileExt'        : '*.jpg;*.gif;*.png',
+      'fileDesc'       : 'Image Files',
+      'buttonText'     : 'Change picture',
+    });
+  } 
 
 
   $('#save-profile').click(function() {
@@ -65,6 +67,71 @@ $(function() {
     }
   });  
   $('#bio').trigger('keyup');
+
+
+  $('#save-places-been').click(function() {
+    //$('#places-been-form').submit();
+    var placesDates = [];
+    var n = $('.places_dates').length;
+    for (var i=0; i<n; i++) {
+      var placeId = $('#place_id'+i).val();
+      var date = $('#date'+i).val();
+      placesDates.push({placeId:placeId, date:date});
+    }
+    
+    $.post(baseUrl+'profile/ajax_save_user_places', {placesDates:placesDates},
+      function(d) {
+        var r = $.parseJSON(d);
+        if (r.success) {
+          $('#save-response').empty().text(r.response).show().delay(10000).fadeOut(250);
+        }
+      });
+    return false;
+  });
+
+
+  // only show month and year
+  $('.date').live('focus', function() {
+    $(this).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        showButtonPanel: true,
+        dateFormat: 'mm/yy',
+        maxDate: 0,
+        onClose: function(dateText, inst) { 
+            var month = $('#ui-datepicker-div .ui-datepicker-month :selected').val();
+            var year = $('#ui-datepicker-div .ui-datepicker-year :selected').val();
+            $(this).datepicker('setDate', new Date(year, month, 1));
+        }
+    });
+  });
+  
+  
+  // dynamic form plugin for multiple destinations
+  if ($('.places_dates').length > 0) {
+    $('.places_dates').dynamicForm('#add-place', '#subtract-place', {limit: 10});
+  }
+
+
+/*
+  $.validator.addMethod(
+      'monthYear',
+      function(val, ele) {
+          return val.match(/^((0[1-9])|(1[0-2]))\/(\d{4})$/);
+      },
+      'Please enter a date in the format mm/yyyy'
+  );
+  $('#places-been-form').validate({
+    rules: {
+      date: {
+        monthDate: true
+      }
+    },
+    errorPlacement: function(error, element) {
+      error.appendTo( element.siblings('.label-and-errors').children('.error-message') );
+    }
+  });
+*/
 });
 
 

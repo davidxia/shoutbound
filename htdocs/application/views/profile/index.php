@@ -21,10 +21,10 @@ $this->load->view('core_header', $header_args);
   var staticUrl = '<?=static_sub()?>';
   var profileId = <?=$profile->id?>;
   var isSelf = <? if ($is_self) echo 1; else echo 0;?>;
-  map.swLat = -50;
-  map.swLng = -180;
-  map.neLat = 50;
-  map.neLng = 180;
+  var swLat = -50;
+  var swLng = -180;
+  var neLat = 50;
+  var neLng = 180;
 </script>
 </head>
 

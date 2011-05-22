@@ -55,12 +55,12 @@ $this->load->view('core_header', $header_args);
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
   var placeId = <?=$place->id?>;
-  map.lat = <?=$place->lat?>;
-  map.lng = <?=$place->lng?>;
-  map.swLat = <?=$place->sw_lat?>;
-  map.swLng = <?=$place->sw_lng?>;
-  map.neLat = <?=$place->ne_lat?>;
-  map.neLng = <?=$place->ne_lng?>;
+  var lat = <?=$place->lat?>;
+  var lng = <?=$place->lng?>;
+  var swLat = <?=$place->sw_lat?>;
+  var swLng = <?=$place->sw_lng?>;
+  var neLat = <?=$place->ne_lat?>;
+  var neLng = <?=$place->ne_lng?>;
 </script>
 </head>
 

@@ -6,6 +6,7 @@ $header_args = array(
         'css/settings.css',
     ),
     'js_paths'=>array(
+        'js/common.js',
         'js/settings/profile.js',
         'js/uploadify/swfobject.js',
         'js/uploadify/jquery.uploadify.v2.1.4.min.js',
@@ -38,7 +39,7 @@ $this->load->view('core_header', $header_args);
     
       <div id="left-content-container">
       
-        <ul id="main-tabs">
+        <ul id="tab-style">
           <li><a href="<?=site_url('settings')?>">Account</a></li>
           <li class="active">Profile</li>
           <li><a href="<?=site_url('settings/trail')?>">Trail</a></li>

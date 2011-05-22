@@ -6,7 +6,8 @@ $header_args = array(
         'css/settings.css',
     ),
     'js_paths'=>array(
-        'js/settings/trail.js',
+        'js/common.js',
+        'js/settings/profile.js',
         'js/jquery/jquery-ui-1.8.11.custom.min.js',
         'js/jquery/jquery-dynamic-form.js',
         'js/jquery/validate.min.js',
@@ -18,18 +19,15 @@ $this->load->view('core_header', $header_args);
   table.ui-datepicker-calendar{
     display:none;
   }
-  #work{
-    fill:red;
-  }
 </style>
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
   var uid = <?=$user->id?>;
-  map.swLat = -50;
-  map.swLng = -180;
-  map.neLat = 50;
-  map.neLng = 180;
+  var swLat = -50;
+  var swLng = -180;
+  var neLat = 50;
+  var neLng = 180;
 </script>
 </head>
 
@@ -46,7 +44,7 @@ $this->load->view('core_header', $header_args);
     
       <div id="left-content-container">
       
-        <ul id="main-tabs">
+        <ul id="tab-style">
           <li><a href="<?=site_url('settings')?>">Account</a></li>
           <li><a href="<?=site_url('settings/profile')?>">Profile</a></li>
           <li class="active">Trail</li>
