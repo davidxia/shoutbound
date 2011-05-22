@@ -3,20 +3,21 @@ $header_args = array(
     'title' => 'Edit profile | Shoutbound',
     'css_paths'=>array(
         'css/uploadify.css',
-        'css/excite-bike/jquery-ui-1.8.11.custom.css',
         'css/settings.css',
     ),
     'js_paths'=>array(
         'js/settings/profile.js',
         'js/uploadify/swfobject.js',
         'js/uploadify/jquery.uploadify.v2.1.4.min.js',
-        'js/jquery/jquery-ui-1.8.11.custom.min.js',
-        'js/jquery/jquery-dynamic-form.js',
-        'js/jquery/validate.min.js',
     )
 );
 $this->load->view('core_header', $header_args);
 ?>
+<style type="text/css">
+  table.ui-datepicker-calendar{
+    display:none;
+  }
+</style>
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
@@ -40,6 +41,7 @@ $this->load->view('core_header', $header_args);
         <ul id="main-tabs">
           <li><a href="<?=site_url('settings')?>">Account</a></li>
           <li class="active">Profile</li>
+          <li><a href="<?=site_url('settings/trail')?>">Trail</a></li>
         </ul>
         
         <div style="clear:both"></div>
@@ -92,64 +94,12 @@ $this->load->view('core_header', $header_args);
             </div>
           </div><!-- PROFILE TAB ENDS -->
       
-      </div><!-- TAB CONTAINER ENDS -->
-      </div><!-- LEFT CONTENT CONTAINER ENDS -->
-  
-    Where I've been
-    <form id="places-been-form">
-      <fieldset>
-        <div style="display:inline-block; margin-bottom:5px;">Places</div>
-        <div style="display:inline-block; margin-left:230px; margin-bottom:5px;">Dates (optional)</div>
-        <div class="places_dates" style="position:relative; margin-bottom:10px;">
-          <a id="add-place" href="#" style="position:absolute; top:15px; left:-15px; font-size:13px;">[+]</a>
-          <a id="subtract-place" href="" style="position:absolute; top:-2px; left:-15px;">[-]</a>
-          <div class="field place" style="margin-bottom:10px; float:left; position:relative; width:312px;">
-            <span class="label-and-errors">
-              <label for="place"></label>
-              <span class="error-message" style="float:right;"></span>
-            </span>
-            <input id="place" class="place-input" name="place" type="text" style="width:300px;" autocomplete="off"/>
-            <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="display:none; position:absolute; right:12px; top:3px;"/>
-            <input id="place_id" class="place_id" name="place_id" type="hidden"/>
-          </div>
-          
-          <div class="field dates" style="width:251px; margin-left:325px;">
-            <span class="label-and-errors">
-              <span class="error-message" style="float:right;"></span>
-            </span>
-            <label for="date">date</label> <input id="date" class="date" name="date" type="text" size="10"/> 
-          </div>
-        </div>
-        <input type="submit" id="save-places-been" value="Save"/>
-      </fieldset>
-    </form>
-    
-    <div>
-      <? foreach($user->places as $place):?>
-      <div>
-        <?=$place->name?> <abbr class="timeago" title="<?=$place->timestamp?>"><?=$place->timestamp?></abbr>
-      </div>
-      <? endforeach;?>
-    </div>
-    
+        </div><!-- TAB CONTAINER ENDS -->
+      </div><!-- LEFT CONTENT CONTAINER ENDS -->    
       
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
   </div><!--STICKY FOOTER WRAPPER ENDS-->
   <? $this->load->view('footer')?>
-  
-<script type="text/javascript">
-/*$(function() {
-  $('.loading-places')
-    .hide()
-    .ajaxStart(function() {
-      $(this).show();
-    })
-    .ajaxStop(function() {
-      $(this).hide();
-    })
-  ;
-});*/
-</script>
 </body>
 </head>

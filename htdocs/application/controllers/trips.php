@@ -204,12 +204,12 @@ class Trips extends CI_Controller
                     $startdate = date_parse_from_format('n/j/Y', $post[$key]['startdate']);
                     if (checkdate($startdate['month'], $startdate['day'], $startdate['year']))
                     {
-                        $t->set_join_field($p, 'startdate', strtotime($startdate['day'].'-'.$startdate['month'].'-'.$startdate['year']));
+                        $t->set_join_field($p, 'startdate', strtotime($startdate['year'].'-'.$startdate['month'].'-'.$startdate['day']));
                     }
                     $enddate = date_parse_from_format('n/j/Y', $post[$key]['enddate']);
                     if (checkdate($enddate['month'], $enddate['day'], $enddate['year']))
                     {
-                        $t->set_join_field($p, 'enddate', strtotime($enddate['day'].'-'.$enddate['month'].'-'.$enddate['year']));
+                        $t->set_join_field($p, 'enddate', strtotime($enddate['year'].'-'.$enddate['month'].'-'.$enddate['day']));
                     }
                 }
             }

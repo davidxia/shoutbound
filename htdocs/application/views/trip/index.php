@@ -108,7 +108,7 @@ $this->load->view('core_header', $header_args);
   </div><!--TOP SECTION END-->
 
     <!-- LEFT COLUMN -->
-    <div id="col-left">    
+    <div id="col-left">
       
       <!--LEFT CONTENT-->      
       <div id="left-content-container">

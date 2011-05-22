@@ -46,6 +46,17 @@ class Settings extends CI_Controller
     }
     
     
+    public function trail()
+    {
+        $this->user->get_places();
+        $data = array(
+            'user' => $this->user->stored,
+        );
+ 			               
+        $this->load->view('settings/trail', $data);
+    }
+
+
     public function ajax_save_settings()
     {
         $this->user->email = $this->input->post('email');

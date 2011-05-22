@@ -36,52 +36,6 @@ $(function() {
   });
   
 
-  $('#save-places-been').click(function() {
-    //$('#places-been-form').submit();
-    var places = [];
-    var n = $('.places_dates').length;
-    for (var i=0; i<n; i++) {
-      var placeId = $('#place_id'+i).val();
-      var date = $('#date'+i).val();
-      places.push({placeId:placeId, date:date});
-    }
-    $.post(baseUrl+'profile/ajax_save_user_places', {places:places},
-      function(d) {
-        var d = $.parseJSON(d);
-        console.log(d);
-        if (d.success) {
-          alert('saved, refresh the page');
-        }
-      });
-    return false;
-  });
-
-
-  // datepicker jquery plugin
-  $('.date').live('focus', function() {
-    $(this).datepicker();
-  });
-  
-  
-  // dynamic form plugin for multiple destinations
-  $('.places_dates').dynamicForm('#add-place', '#subtract-place', {limit: 10});
-
-
-  $('#places-been-form').validate({
-    rules: {
-      startdate: {
-        date: true
-      },
-      enddate: {
-        date: true
-      }
-    },
-    errorPlacement: function(error, element) {
-      error.appendTo( element.siblings('.label-and-errors').children('.error-message') );
-    }
-  });
-
-
   $('.place-input').live('keyup', function(e) {
     var keyCode = e.keyCode || e.which;
     // ignore non-char keys

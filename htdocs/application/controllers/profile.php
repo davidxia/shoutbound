@@ -467,49 +467,32 @@ class Profile extends CI_Controller
     }
     
     
-    public function save_user_places()
-    {
-        $post = $this->input->post('places_dates');
-        $post = $post['places_dates'];
-        
-        $p = new Place();
-        foreach ($post as $key => $value)
-        {
-            //$p->clear();
-            $p->get_by_id($post[$key]['place_id']);
-            $this->user->save($p);
-            
-            // gets each place's date and stores as unix time
-            $date = date_parse_from_format('n/j/Y', $post[$key]['date']);
-            if (checkdate($date['month'], $date['day'], $date['year']))
-            {
-                $this->user->set_join_field($p, 'timestamp', strtotime($date['day'].'-'.$date['month'].'-'.$date['year']));
-            }
-        }
-    }
-    
-    
     public function ajax_save_user_places()
     {
-        $places = $this->input->post('places');
-        //$places = json_decode($places);        
-              
-        $p = new Place();
-        foreach ($places as $place)
+        if ( !$this->user OR !$this->input->post('placesDates'))
         {
-            //$p->clear();
-            $p->get_by_id($place->placeId);
-            $this->user->save($p);
-            
-            // gets each place's date and stores as unix time
-            $date = date_parse_from_format('n/j/Y', $place['date']);
-            if (checkdate($date['month'], $date['day'], $date['year']))
+            return;
+        }
+
+        $places_dates = $this->input->post('placesDates');
+
+        $p = new Place();
+        foreach ($places_dates as $place_date)
+        {
+            if ($place_date['placeId'])
             {
-                $this->user->set_join_field($p, 'timestamp', strtotime($date['day'].'-'.$date['month'].'-'.$date['year']));
+                $p->clear();
+                $p->get_by_id($place_date['placeId']);
+                if ($this->user->save($p))
+                {
+                    $date = date_parse_from_format('m/Y', $place_date['date']);
+                    if (checkdate($date['month'], 1, $date['year']))
+                    {
+                        $this->user->set_join_field($p, 'timestamp', strtotime($date['year'].'-'.$date['month'].'-01'));
+                    }
+                }
             }
         }
-        json_success(array('places' => $places));
-        //print_r($places);
     }
 
 
