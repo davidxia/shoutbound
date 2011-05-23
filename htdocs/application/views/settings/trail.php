@@ -62,8 +62,8 @@ $this->load->view('core_header', $header_args);
               <? endif;?>
               <? foreach($user->places as $place):?>
               <div>
-                <span class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>">
-                  <?=$place->name?><? if($place->admin1){echo ', '.$place->admin1;}if($place->country){echo ', '.$place->country;}?>
+              <span class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" title="<?=$place->name?>">
+                  <a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a><? if($place->admin1){echo ', '.$place->admin1;}if($place->country){echo ', '.$place->country;}?>
                 </span>
                 <? if ($place->timestamp):?>
                   <?=date('F Y', $place->timestamp)?>

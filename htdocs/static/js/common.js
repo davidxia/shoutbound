@@ -191,7 +191,7 @@ function addMarkers() {
             {geometry: {type:'Point', coordinates:[parseInt(ele.getAttribute('lng')), parseInt(ele.getAttribute('lat'))]}}
         ])
         .on('load', po.stylist().attr('fill', 'red')
-        .title($.trim(ele.innerHTML)));
+        .title(ele.getAttribute('title')));
     map.add(marker);
   });
 }
