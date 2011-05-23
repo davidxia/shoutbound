@@ -38,27 +38,32 @@
         <div style="clear:both"></div>
       </div>
       
-      <!--<div class="streamitem-bio">
+      <div class="streamitem-bio">
         <?=$trip->description?>     
-      </div>-->
+      </div>
 
     </div>
   <? endforeach;?>
 
-  <!--<div style="border-top:1px solid #BABABA;">
-    Places <?=$profile->name?> has been:<br/>
-    <? if ($user AND $is_self):?>
+  <div style="border-top:1px solid #BABABA;">
+    Places <?=$profile->first_name?> has been:<br/>
+    <? if ($user AND $is_self AND count($profile->places)<5):?>
       <a href="<?=site_url('settings/profile')?>">Show off</a> where you've been.
     <? elseif ( ! $profile->places):?>
       <?=$profile->name?> hasn't listed any places yet.
     <? endif;?>
     <div>
-    <? $is_current = 'Current location: '; foreach ($profile->places as $place):?>
-      <?=$is_current?><span class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>"><?=$place->name?></span>
-      <br/>
-      <? $is_current = ''?>
+    <? foreach ($profile->places as $place):?>
+     <div>
+       <a href="<?=site_url('places/'.$place->id)?>">
+         <span class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>"><?=$place->name?></span>
+       </a>
+       <? if($place->timestamp):?>
+         <?=date('F Y', $place->timestamp)?>
+       <? endif;?>
+     </div>
     <? endforeach;?>
-    </div>-->
+    </div>
     
   </div>
 </div>

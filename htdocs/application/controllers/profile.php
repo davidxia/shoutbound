@@ -13,7 +13,7 @@ class Profile extends CI_Controller
         {
             $this->user = $u;
         }
-		}
+	}
 		
 
     public function index($pid = FALSE)
@@ -151,6 +151,7 @@ class Profile extends CI_Controller
         $user_id = (isset($this->user->id)) ? $this->user->id : NULL;
         $u->get_rsvp_yes_trips($user_id);
         $u->get_places();
+        $u->get_first_name();
         $data = array(
             'user' => $user,
             'profile' => $profile,
