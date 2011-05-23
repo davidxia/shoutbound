@@ -4,7 +4,7 @@
     <?=$profile->name?> isn't following anyone yet.
   <? endif;?>
   
-  <? $prefix='first-item'; foreach ($profile->following as $following):?>
+  <? $prefix='first-item'; foreach($profile->following as $following):?>
   <div class="<?=$prefix?> streamitem">
     <? $prefix=''?>
     <? if (isset($following->is_following) AND $following->is_following):?>

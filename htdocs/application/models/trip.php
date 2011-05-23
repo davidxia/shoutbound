@@ -214,6 +214,7 @@ class Trip extends DataMapper
     
     public function get_related_trips()
     {
+
         $this->stored->related_trips = array();
     }
 

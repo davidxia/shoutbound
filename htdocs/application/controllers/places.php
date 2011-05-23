@@ -115,7 +115,7 @@ class Places extends CI_Controller
         }
 
         $p = new Place($place_id);
-        $p->get_followers();
+        $p->get_followers($this->user->id);
         $data = array(
             'place' => $p->stored,
         );
