@@ -76,7 +76,6 @@ $this->load->view('core_header', $header_args);
         <div class="top-bar-header"><span id="place-name" class="place-page-header"><?=$place->name?></span></div>
         <? if($place->admin1):?><a class="destination tag" id="admin1"><?=$place->admin1?></a><? endif;?>
         <? if($place->country):?><a href="#" class="destination tag"><?=$place->country?></a><? endif;?>
-  <? if($place->parent):?><a href="<?=site_url('places/'.$place->parent)?>"><?=$place->parent?></a><? endif;?>
         <div id="abstract"></div>  
       </div>
     </div><!--TOP BAR END-->
@@ -118,6 +117,7 @@ $this->load->view('core_header', $header_args);
         <li><a href="#posts">Posts</a></li>
         <li><a href="#trips">Trips</a></li>
         <li><a href="#followers">Followers</a></li>
+        <li><a href="#related_places">Related Places</a></li>
       </ul>
               
       <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->

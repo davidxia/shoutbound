@@ -124,6 +124,18 @@ class Places extends CI_Controller
     }
     
     
+    public function related_places($place_id = FALSE)
+    {
+        $p = new Place($place_id);
+        $p->get_related_places($this->user->id);
+        $data = array(
+            'place' => $p->stored,
+        );
+
+        $this->load->view('places/related_places', $data);
+    }
+
+
     public function ajax_edit_follow()
     {
         $place_id = $this->input->post('placeId');

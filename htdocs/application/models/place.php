@@ -94,6 +94,19 @@ class Place extends DataMapper
             $this->stored->is_following = FALSE;
         }
     }
+
+
+    public function get_related_places($user_id = FALSE)
+    {
+        $this->stored->related_places = array();
+        $p = new Place($this->parent);
+
+        if ($user_id)
+        {
+            $p->get_follow_status_by_user_id($user_id);
+        }
+        $this->stored->related_places[] = $p->stored;
+    }
 }
 
 /* End of file place.php */
