@@ -3,7 +3,19 @@
 class Place extends DataMapper
 {
     
-    public $has_many = array('user', 'trip', 'post');
+    public $has_many = array(
+        'user',
+        'trip',
+        'post',
+        'related_place' => array(
+            'class' => 'place',
+            'other_field' => 'place',
+            'reciprocal' => TRUE,
+        ),
+        'place' => array(
+            'other_field' => 'related_place',
+        )
+    );
 
     function __construct($id = NULL)
     {
@@ -98,14 +110,36 @@ class Place extends DataMapper
 
     public function get_related_places($user_id = FALSE)
     {
-        $this->stored->related_places = array();
-        $p = new Place($this->parent);
+        $CI =& get_instance();
+        $key = 'related_places_by_place_id:'.$this->id;
+        $val = $CI->mc->get($key);
+        $p = new Place();
+        
+        if ($val === FALSE)
+        {
+            $val = array();
+            $p->get_by_id($this->parent);
+            $val[] = clone $p->stored;
+            foreach ($this->related_place->get_iterated() as $place)
+            {
+                $val[] = clone $place->stored;
+            }
+            $CI->mc->set($key, $val);
+        }
 
         if ($user_id)
         {
-            $p->get_follow_status_by_user_id($user_id);
+            foreach ($val as $k => $v)
+            {
+                $p->clear();
+                $p->get_by_id($val[$k]->id);
+                $p->get_follow_status_by_user_id($user_id);
+                
+                $val[$k]->is_following = $p->stored->is_following;
+            }
+            
         }
-        $this->stored->related_places[] = $p->stored;
+        $this->stored->related_places = $val;
     }
 }
 

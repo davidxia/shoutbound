@@ -87,7 +87,7 @@ $this->load->view('core_header', $header_args);
           <? if (!$user OR !$user->is_following):?>
             <a href="#" class="follow left" id="place-<?=$place->id?>">Follow</a>
           <? elseif ($user AND $user->is_following):?>
-            <a href="#" class="unfollow left" id="<?=$place->id?>">Unfollow</a>
+            <a href="#" class="unfollow left" id="place-<?=$place->id?>">Unfollow</a>
           <? endif;?>
         </div>
       </div>

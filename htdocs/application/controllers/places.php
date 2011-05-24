@@ -17,8 +17,6 @@ class Places extends CI_Controller
 
     public function ajax_autocomplete()
     {
-        $this->load->library('Mc');
-
         $query = $this->input->post('query');
         $key = 'places_by_query:'.$query;
         $val = $this->mc->get($key);
@@ -115,7 +113,9 @@ class Places extends CI_Controller
         }
 
         $p = new Place($place_id);
-        $p->get_followers($this->user->id);
+        $user_id = ($this->user) ? $this->user->id : NULL;
+        $p->get_followers($user_id);
+        
         $data = array(
             'place' => $p->stored,
         );
@@ -127,12 +127,22 @@ class Places extends CI_Controller
     public function related_places($place_id = FALSE)
     {
         $p = new Place($place_id);
-        $p->get_related_places($this->user->id);
+        $user_id = ($this->user) ? $this->user->id : NULL;
+        $p->get_related_places($user_id);
+
         $data = array(
             'place' => $p->stored,
         );
 
         $this->load->view('places/related_places', $data);
+    }
+
+
+    public function mytest()
+    {
+        $p = new Place(4);
+        $p->get_related_places(1);
+        print_r($p->stored);
     }
 
 
@@ -184,7 +194,45 @@ class Places extends CI_Controller
         $this->load->view('places/dbpedia_query');
     }
     
+      
     
+    public function successful_clone_and_cache()
+    {
+        $place_id = 4;
+        $user_id = 1;
+        
+        $key = 'mc_test_by_place_id:'.$place_id;
+        $val = $this->mc->get($key);
+
+        if ($val === FALSE)
+        {
+            $p = new Place($place_id);
+            
+            $val = clone $p->stored;
+            $this->mc->set($key, $val);
+
+            if ($user_id)
+            {
+                $p->get_follow_status_by_user_id($user_id);
+            }
+            $val->is_following = $p->stored->is_following;
+
+            $was_cached = 0;
+        }
+        else
+        {
+            $was_cached = 1;
+            if ($user_id)
+            {
+                $p = new Place($val->id);
+                $p->get_follow_status_by_user_id($user_id);
+            }
+            $val->is_following = $p->stored->is_following;
+        }
+        
+        print_r($val);
+        var_dump($was_cached);
+    }
 }
 
 /* End of file places.php */

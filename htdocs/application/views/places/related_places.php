@@ -5,7 +5,7 @@
   <? endif;?>
   
   <? $prefix='first-item'; foreach ($place->related_places as $place):?>
-  	<div id="place-<?=$place->id?>" class="<?=$prefix?> streamitem"><? $prefix=''?>
+  	<div class="<?=$prefix?> streamitem"><? $prefix=''?>
 
       <? if (isset($place->is_following) AND $place->is_following):?>
       <a href="#" class="unfollow" id="place-<?=$place->id?>">Unfollow</a>
@@ -21,6 +21,8 @@
         <div class="streamitem-name">
           <a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
         </div>
+      </div>
+      <div style="clear:both"></div> 
     </div>
   <? endforeach;?>
 </div>
