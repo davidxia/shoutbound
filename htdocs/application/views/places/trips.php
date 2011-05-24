@@ -7,7 +7,7 @@
     
     <div>
     <? foreach ($trip->places as $place):?>
-      <a class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
+      <a class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>" title="<?=$trip->name?>"><?=$place->name?></a>
       <? if ($place->startdate):?>
         <?=date('n/d/y', $place->startdate)?>
       <? else:?>

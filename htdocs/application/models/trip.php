@@ -33,24 +33,51 @@ class Trip extends DataMapper
     
     public function get_creator()
     {
-        $this->user->where_join_field($this, 'rsvp', 9)->where_join_field($this, 'role', 10)->get();
-        $this->stored->creator = $this->user->stored;
+        $key = 'creator_by_trip_id:'.$this->id;
+        $val = $this->mc->get($key);
+        
+        if ($val === FALSE)
+        {
+            $this->user->where_join_field($this, 'rsvp', 9)->where_join_field($this, 'role', 10)->get();
+            $val = $this->user->stored;
+            $this->mc->set($key, $val);
+        }
+
+        $this->stored->creator = $val;
     }
     
     
     public function get_num_goers()
     {
-        $this->stored->num_goers = $this->user->where_in_join_field('trip', 'rsvp', 9)->count();
+        $key = 'num_goers_by_trip_id:'.$this->id;
+        $val = $this->mc->get($key);
+        
+        if ($val === FALSE)
+        {
+             $val = $this->user->where_in_join_field('trip', 'rsvp', 9)->count();
+             $this->mc->set($key, $val);
+        }
+
+        $this->stored->num_goers = $val;
     }
 
 
     public function get_goers()
     {
-        $this->stored->goers = array();
-        foreach ($this->user->where_join_field($this, 'rsvp', 9)->get_iterated() as $goer)
+        $key = 'goers_by_trip_id:'.$this->id;
+        $val = $this->mc->get($key);
+        
+        if ($val === FALSE)
         {
-            $this->stored->goers[] = $goer->stored;
+            $val = array();
+            foreach ($this->user->where_join_field($this, 'rsvp', 9)->get_iterated() as $goer)
+            {
+                $val[] = $goer->stored;
+            }
+            $this->mc->set($key, $val);
         }
+
+        $this->stored->goers = $val;
     }
     
     
@@ -170,6 +197,7 @@ class Trip extends DataMapper
         $num_affected = $this->db->affected_rows();
         if ($num_affected == 1)
         {
+            $this->mc->delete('creator_by_trip_id:'.$this->id);
             foreach ($this->place->get_iterated() as $place)
             {
                 $this->mc->delete('num_trips_by_place_id:'.$place->id);
@@ -215,16 +243,30 @@ class Trip extends DataMapper
         
         $p = new Post($post_id);
         $this->set_join_field($p, 'is_active', 0);
+        $this->mc->delete('post_by_trip_id_post_id:'.$this->id.':'.$p->id);
         return TRUE;
     }
     
     
     public function get_related_trips()
     {
-
         $this->stored->related_trips = array();
+        foreach ($this->place->get_iterated() as $place)
+        {
+            foreach ($place->trip->get_iterated() as $trip)
+            {
+                if ($trip->id != $this->id)
+                {
+                    $trip->get_goers();
+                    $trip->get_places();
+                    $this->stored->related_trips[] = $trip->stored;
+                }
+            }
+        }
+        
     }
-
+    
+    
 }
 
 /* End of file trip.php */

@@ -190,13 +190,6 @@ class Places extends CI_Controller
     }
     
       
-    public function mytest()
-    {
-        $p = new Place(24548840);
-        $was_cached = $p->get_trips();
-        print_r($p->stored);
-        var_dump($was_cached);
-    }
 }
 
 /* End of file places.php */
