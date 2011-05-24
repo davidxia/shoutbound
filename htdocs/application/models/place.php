@@ -60,7 +60,22 @@ class Place extends DataMapper
 
     public function get_num_trips()
     {
-        $this->stored->num_trips = $this->trip->where('is_active', 1)->count();
+        $key = 'num_trips_by_place_id:'.$this->id;
+        $val = $this->mc->get($key);
+        
+        if ($val === FALSE)
+        {
+            $val = $this->trip->where('is_active', 1)->count();
+            $this->mc->set($key, $val);
+            $was_cached = 0;
+        }
+        else
+        {
+            $was_cached = 1;
+        }
+        
+        $this->stored->num_trips = $val;
+        return $was_cached;
     }
     
     

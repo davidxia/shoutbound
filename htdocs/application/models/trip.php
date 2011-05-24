@@ -2,6 +2,7 @@
 
 class Trip extends DataMapper
 {
+    private $mc;
  
     public $has_many = array('user', 'place', 'place', 'post', 'suggestion', 'destination', 'trip_share');
 
@@ -26,6 +27,7 @@ class Trip extends DataMapper
     function __construct($id = NULL)
     {
         parent::__construct($id);
+        $this->mc = new Mc();
     }
     
     
@@ -144,9 +146,9 @@ class Trip extends DataMapper
     }
     
     
-    public function delete($trip_id = FALSE, $user_id = FALSE)
+    public function delete($user_id = FALSE)
     {
-        if ( ! $trip_id OR ! $user_id)
+        if (! $user_id)
         {
             return FALSE;
         }
@@ -163,11 +165,15 @@ class Trip extends DataMapper
         {
             return FALSE;
         }
-
-        $this->where('id', $trip_id)->update('is_active', 0);
+        
+        $this->where('id', $this->id)->update('is_active', 0);
         $num_affected = $this->db->affected_rows();
         if ($num_affected == 1)
         {
+            foreach ($this->place->get_iterated() as $place)
+            {
+                $this->mc->delete('num_trips_by_place_id:'.$place->id);
+            }
             return TRUE;
         }
         else
@@ -175,7 +181,7 @@ class Trip extends DataMapper
             return FALSE;
         }
     }
-    
+        
     
     public function get_rsvp_by_user_id($user_id = NULL)
     {

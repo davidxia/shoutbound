@@ -370,7 +370,7 @@ class Trips extends CI_Controller
         }
         
         $t = new Trip($trip_id);
-        $is_deleted = $t->delete($trip_id, $this->user->id);
+        $is_deleted = $t->delete($this->user->id);
         if ($is_deleted)
         {
             redirect('/');
