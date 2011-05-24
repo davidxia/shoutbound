@@ -83,7 +83,16 @@ class Trip extends DataMapper
     
     public function get_num_followers()
     {
-        $this->stored->num_followers = $this->user->where_in_join_field('trip', 'rsvp', 3)->count();
+        $key = 'num_followers_by_trip_id:'.$this->id;
+        $val = $this->mc->get($key);
+        
+        if ($val === FALSE)
+        {
+            $val = $this->user->where_in_join_field('trip', 'rsvp', 3)->count();
+            $this->mc->set($key, $val);
+        }
+
+        $this->stored->num_followers = $val;
     }
         
     
