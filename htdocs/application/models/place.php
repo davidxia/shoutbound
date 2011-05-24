@@ -176,7 +176,6 @@ class Place extends DataMapper
 
     public function get_related_places($user_id = FALSE)
     {
-        //$CI =& get_instance();
         $key = 'related_places_by_place_id:'.$this->id;
         $val = $this->mc->get($key);
         $p = new Place();

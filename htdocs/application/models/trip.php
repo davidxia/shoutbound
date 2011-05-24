@@ -173,6 +173,7 @@ class Trip extends DataMapper
             foreach ($this->place->get_iterated() as $place)
             {
                 $this->mc->delete('num_trips_by_place_id:'.$place->id);
+                $this->mc->delete('trips_by_place_id:'.$place->id);
             }
             return TRUE;
         }
