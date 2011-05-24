@@ -96,15 +96,25 @@ class Place extends DataMapper
     
     public function get_follow_status_by_user_id($user_id)
     {
-        $this->user->where('id', $user_id)->include_join_fields()->get();
-        if ($this->user->join_is_following == 1)
+        $CI =& get_instance();
+        $key = 'follow_status_by_placeid_userid:'.$this->id.':'.$user_id;
+        $val = $CI->mc->get($key);
+        
+        if ($val === FALSE)
         {
-            $this->stored->is_following = TRUE;
+            $this->user->where('id', $user_id)->include_join_fields()->get();
+            if ($this->user->join_is_following == 1)
+            {
+                $val = 1;
+            }
+            else
+            {
+                $val = 0;
+            }
+            $CI->mc->set($key, $val);
         }
-        else
-        {
-            $this->stored->is_following = FALSE;
-        }
+
+        $this->stored->is_following = $val;
     }
 
 

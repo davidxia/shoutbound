@@ -84,9 +84,9 @@ $this->load->view('core_header', $header_args);
     
       <div class="right-widget-container">
         <div id="actions-container">                   
-          <? if (!$user OR !$user->is_following):?>
+          <? if (!$user OR !$place->is_following):?>
             <a href="#" class="follow left" id="place-<?=$place->id?>">Follow</a>
-          <? elseif ($user AND $user->is_following):?>
+          <? elseif ($user AND $place->is_following):?>
             <a href="#" class="unfollow left" id="place-<?=$place->id?>">Unfollow</a>
           <? endif;?>
         </div>

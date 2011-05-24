@@ -61,30 +61,29 @@ class Places extends CI_Controller
             return;
         }
         
-        $gp = new Place($id);
-        if ( ! $gp->id)
+        $p = new Place($id);
+        if ( ! $p->id)
         {
             custom_404();
             return;
         }
         
-        $gp->get_num_posts();
-        $gp->get_num_trips();
-        $gp->get_num_followers();
-        $gp->get_posts();
+        $p->get_num_posts();
+        $p->get_num_trips();
+        $p->get_num_followers();
+        $p->get_posts();
         
         if (isset($this->user->id))
         {
-            $this->user->get_follow_status_by_place_id($id);
+            $p->get_follow_status_by_user_id($this->user->id);
         }
         $user = (isset($this->user->id)) ? $this->user->stored : NULL;
         
         $data = array(
             'user' => $user,
-            'place' => $gp->stored,
+            'place' => $p->stored,
         );
         $this->load->view('places/index', $data);
-        //print_r($this->user->stored);
     }
     
     
@@ -138,14 +137,6 @@ class Places extends CI_Controller
     }
 
 
-    public function mytest()
-    {
-        $p = new Place(4);
-        $p->get_related_places(1);
-        print_r($p->stored);
-    }
-
-
     public function ajax_edit_follow()
     {
         $place_id = $this->input->post('placeId');
@@ -158,6 +149,7 @@ class Places extends CI_Controller
         if ($p->save($this->user))
         {
             $p->set_join_field($this->user, 'is_following', $follow);
+            $this->mc->delete('follow_status_by_placeid_userid:'.$place_id.':'.$this->user->id);
             json_success(array('type' => 'place', 'id' => $place_id, 'follow' => $follow));
         }
         else
@@ -195,44 +187,12 @@ class Places extends CI_Controller
     }
     
       
-    
-    public function successful_clone_and_cache()
+    public function mytest()
     {
-        $place_id = 4;
-        $user_id = 1;
-        
-        $key = 'mc_test_by_place_id:'.$place_id;
-        $val = $this->mc->get($key);
-
-        if ($val === FALSE)
-        {
-            $p = new Place($place_id);
-            
-            $val = clone $p->stored;
-            $this->mc->set($key, $val);
-
-            if ($user_id)
-            {
-                $p->get_follow_status_by_user_id($user_id);
-            }
-            $val->is_following = $p->stored->is_following;
-
-            $was_cached = 0;
-        }
-        else
-        {
-            $was_cached = 1;
-            if ($user_id)
-            {
-                $p = new Place($val->id);
-                $p->get_follow_status_by_user_id($user_id);
-            }
-            $val->is_following = $p->stored->is_following;
-        }
-        
-        print_r($val);
-        var_dump($was_cached);
-    }
+        $p = new Place(4);
+        $was_cached = $p->get_follow_status_by_user_id(1);
+        print_r($p->stored);
+    }    
 }
 
 /* End of file places.php */
