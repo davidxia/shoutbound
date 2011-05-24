@@ -67,7 +67,6 @@ class Place extends DataMapper
         {
             $val = $this->trip->where('is_active', 1)->count();
             $this->mc->set($key, $val);
-            $was_cached = 0;
         }
         else
         {
@@ -75,19 +74,34 @@ class Place extends DataMapper
         }
         
         $this->stored->num_trips = $val;
-        return $was_cached;
     }
     
     
     public function get_trips()
     {
-        $this->stored->trips = array();
-        foreach ($this->trip->where('is_active', 1)->get_iterated() as $trip)
+        $key = 'trips_by_place_id:'.$this->id;
+        $val = $this->mc->get($key);
+        
+        if ($val === FALSE)
         {
-            $trip->get_goers();
-            $trip->get_places();
-            $this->stored->trips[] = $trip->stored;
+            $val = array();
+            foreach ($this->trip->where('is_active', 1)->get_iterated() as $trip)
+            {
+                $val[] = clone $trip->stored;
+            }
+            $this->mc->set($key, $val);
         }
+        
+        $t = new Trip();
+        foreach ($val as $k => $v)
+        {
+            $t->get_by_id($val[$k]->id);
+            $t->get_goers();
+            $t->get_places();
+            $val[$k] = $t->stored;
+        }
+        
+        $this->stored->trips = $val;
     }
     
 
