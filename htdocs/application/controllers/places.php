@@ -116,6 +116,7 @@ class Places extends CI_Controller
         $p->get_followers($user_id);
         
         $data = array(
+            'user' => $this->user->stored,
             'place' => $p->stored,
         );
 
@@ -150,6 +151,8 @@ class Places extends CI_Controller
         {
             $p->set_join_field($this->user, 'is_following', $follow);
             $this->mc->delete('follow_status_by_placeid_userid:'.$place_id.':'.$this->user->id);
+            $this->mc->delete('num_followers_by_place_id:'.$place_id);
+            $this->mc->delete('followers_by_place_id:'.$place_id);
             json_success(array('type' => 'place', 'id' => $place_id, 'follow' => $follow));
         }
         else
@@ -189,9 +192,10 @@ class Places extends CI_Controller
       
     public function mytest()
     {
-        $p = new Place(4);
-        $was_cached = $p->get_follow_status_by_user_id(1);
+        $p = new Place(24548840);
+        $was_cached = $p->get_followers($this->user->id);
         print_r($p->stored);
+        var_dump($was_cached);
     }    
 }
 

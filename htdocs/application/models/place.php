@@ -2,6 +2,7 @@
 
 class Place extends DataMapper
 {
+    private $mc;
     
     public $has_many = array(
         'user',
@@ -20,6 +21,7 @@ class Place extends DataMapper
     function __construct($id = NULL)
     {
         parent::__construct($id);
+        $this->mc = new Mc();
     }
         
 
@@ -76,29 +78,54 @@ class Place extends DataMapper
 
     public function get_num_followers()
     {
-        $this->stored->num_followers = $this->user->where_join_field($this, 'is_following', 1)->count();
+        $key = 'num_followers_by_place_id:'.$this->id;
+        $val = $this->mc->get($key);
+        
+        if ($val === FALSE)
+        {
+            $val = $this->user->where_join_field($this, 'is_following', 1)->count();
+            $this->mc->set($key, $val);
+        }
+        
+        $this->stored->num_followers = $val;
     }
     
     
     public function get_followers($user_id = FALSE)
     {
-        $this->stored->followers = array();
-        foreach ($this->user->where_join_field($this, 'is_following', 1)->get_iterated() as $follower)
+        $key = 'followers_by_place_id:'.$this->id;
+        $val = $this->mc->get($key);
+        
+        if ($val === FALSE)
         {
-            if ($user_id)
+            $val = array();
+            foreach ($this->user->where_join_field($this, 'is_following', 1)->get_iterated() as $follower)
             {
-                $follower->get_follow_status_by_user_id($user_id);
+                $val[] = clone $follower->stored;
+                $this->mc->set($key, $val);
             }
-            $this->stored->followers[] = $follower->stored;
         }
+
+        if ($user_id)
+        {
+            $u = new User();
+            foreach ($val as $k => $v)
+            {
+                $u->get_by_id($val[$k]->id);
+                $u->get_follow_status_by_user_id($user_id);
+                
+                $val[$k]->is_following = $u->stored->is_following;
+            }
+        }
+
+        $this->stored->followers = $val;
     }
     
     
     public function get_follow_status_by_user_id($user_id)
     {
-        $CI =& get_instance();
         $key = 'follow_status_by_placeid_userid:'.$this->id.':'.$user_id;
-        $val = $CI->mc->get($key);
+        $val = $this->mc->get($key);
         
         if ($val === FALSE)
         {
@@ -111,7 +138,7 @@ class Place extends DataMapper
             {
                 $val = 0;
             }
-            $CI->mc->set($key, $val);
+            $this->mc->set($key, $val);
         }
 
         $this->stored->is_following = $val;
@@ -120,9 +147,9 @@ class Place extends DataMapper
 
     public function get_related_places($user_id = FALSE)
     {
-        $CI =& get_instance();
+        //$CI =& get_instance();
         $key = 'related_places_by_place_id:'.$this->id;
-        $val = $CI->mc->get($key);
+        $val = $this->mc->get($key);
         $p = new Place();
         
         if ($val === FALSE)
@@ -134,7 +161,7 @@ class Place extends DataMapper
             {
                 $val[] = clone $place->stored;
             }
-            $CI->mc->set($key, $val);
+            $this->mc->set($key, $val);
         }
 
         if ($user_id)
@@ -147,8 +174,8 @@ class Place extends DataMapper
                 
                 $val[$k]->is_following = $p->stored->is_following;
             }
-            
         }
+        
         $this->stored->related_places = $val;
     }
 }
