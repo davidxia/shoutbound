@@ -138,7 +138,7 @@ class Trips extends CI_Controller
     
     public function mytest()
     {
-        $t = new Trip(2);
+        $t = new Trip(12);
         $a = $t->get_related_trips();
         print_r($t->stored);
         var_dump($a);
@@ -215,6 +215,15 @@ class Trips extends CI_Controller
                     //$p->get_by_id($matches[1]);
                     $p->get_by_id($post[$key]['place_id']);
                     $t->save($p);
+                    // delete memcached of other trips related by places
+                    foreach ($p->trip->get_iterated() as $related_trip)
+                    {
+                        if ($related_trip->id != $t->id)
+                        {
+                            $this->mc->delete('related_trips_by_tripid:'.$related_trip->id);
+                        }
+                    }
+    
                     // gets each destination's startdate and enddate and stores as unix time
                     // TODO: callback method for better client side validation?
                     $startdate = date_parse_from_format('n/j/Y', $post[$key]['startdate']);
@@ -243,25 +252,6 @@ class Trips extends CI_Controller
             redirect('trips/'.$t->id);
         }
  	  }
-
-
-    public function ajax_trip_create()
-    {
-        if ( ! ($this->user->id AND $this->input->post('tripName')))
-        {
-            custom_404();
-            return;
-        }
-
-        $t = new Trip();
-        $t->name = $this->input->post('tripName');
-        if ($t->save() AND $this->user->save($t)
-            AND $t->set_join_field($this->user, 'role', 10)
-            AND $t->set_join_field($this->user, 'rsvp', 9))
-        {
-            json_success(array('tripId' => $t->id));
-        }        
-    }
 
 
     public function ajax_save_rsvp()

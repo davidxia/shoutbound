@@ -236,6 +236,13 @@ class Trip extends DataMapper
             {
                 $this->mc->delete('num_trips_by_place_id:'.$place->id);
                 $this->mc->delete('trips_by_place_id:'.$place->id);
+                foreach ($place->trip->get_iterated() as $related_trip)
+                {
+                    if ($related_trip->id != $this->id)
+                    {
+                        $this->mc->delete('related_trips_by_tripid:'.$related_trip->id);
+                    }
+                }
             }
             return TRUE;
         }
@@ -312,7 +319,7 @@ class Trip extends DataMapper
             $val = array();
             foreach ($this->place->get_iterated() as $place)
             {
-                foreach ($place->trip->get_iterated() as $trip)
+                foreach ($place->trip->where('is_active', 1)->get_iterated() as $trip)
                 {
                     if ($trip->id != $this->id)
                     {
@@ -321,11 +328,6 @@ class Trip extends DataMapper
                 }
             }
             $this->mc->set($key, $val);
-            $a = 0;
-        }
-        else
-        {
-            $a = 1;
         }
         
         $t = new Trip();
@@ -338,7 +340,6 @@ class Trip extends DataMapper
         }
 
         $this->stored->related_trips = $val;
-        return $a;
     }
     
     
