@@ -136,6 +136,21 @@ class Trips extends CI_Controller
     }
     
     
+    public function mytest()
+    {
+        $t = new Trip(12);
+        $a = $t->get_related_trips();
+        print_r($t->stored);
+        var_dump($a);
+    }
+    
+    
+    public function mcstats()
+    {
+        echo $this->mc->get_stats();
+    }
+
+
     public function create($i=1)
     {        
         $user = ($this->user) ? $this->user->stored : NULL;

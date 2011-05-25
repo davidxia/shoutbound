@@ -2,7 +2,6 @@
 
 class Post extends DataMapper
 {
-    private $mc;
         
     public $has_one = array(
         'user',
@@ -51,23 +50,13 @@ class Post extends DataMapper
     function __construct($id = NULL)
     {
         parent::__construct($id);
-        $this->mc = new Mc();
     }
     
     
     public function get_creator()
     {
-        $key = 'creator_by_post_id:'.$this->id;
-        $val = $this->mc->get($key);
-        
-        if ($val === FALSE)
-        {
-            $u = new User($this->user_id);
-            $val = $u->stored;
-            $this->mc->set($key, $val);
-        }
-
-        $this->stored->user = $val;
+        $u = new User($this->user_id);
+        $this->stored->user = $u->stored;
     }
     
     
