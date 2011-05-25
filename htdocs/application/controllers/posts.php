@@ -18,6 +18,7 @@ class Posts extends CI_Controller
             redirect('/');
         }
 		}
+
 		
 		public function ajax_save()
 		{
@@ -198,6 +199,21 @@ class Posts extends CI_Controller
 		    {
 		        json_error('something broke, tell David');
 		    }
+    }
+    
+    
+    public function mytest()
+    {
+        $p = new Post(2);
+        $a = $p->get_creator();
+        print_r($p->stored);
+        var_dump($a);
+    }
+    
+    
+    public function mcstats()
+    {
+        echo $this->mc->get_stats();
     }
 }
 
