@@ -143,13 +143,6 @@ class Trips extends CI_Controller
         print_r($t->stored);
         var_dump($a);    
     }
-
-
-    public function mytest()
-    {
-        $stats = $this->mc->get_stats();
-        echo $stats;
-    }
     
     
     public function create($i=1)
