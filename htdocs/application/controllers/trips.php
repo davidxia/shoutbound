@@ -136,15 +136,21 @@ class Trips extends CI_Controller
     }
     
     
-    public function mytest2()
+    public function mytest()
     {
-        $t = new Trip(1);
-        $a = $t->get_places();
+        $t = new Trip(2);
+        $a = $t->get_related_trips();
         print_r($t->stored);
-        var_dump($a);    
+        var_dump($a);
     }
     
     
+    public function mcstats()
+    {
+        echo $this->mc->get_stats();
+    }
+
+
     public function create($i=1)
     {        
         $user = ($this->user) ? $this->user->stored : NULL;
@@ -205,8 +211,9 @@ class Trips extends CI_Controller
                 if (is_array($val))
                 {
                     $p->clear();
-                    preg_match('/^place-(\d+)$/', $post[$key]['place_id'], $matches);
-                    $p->get_by_id($matches[1]);
+                    //preg_match('/^place-(\d+)$/', $post[$key]['place_id'], $matches);
+                    //$p->get_by_id($matches[1]);
+                    $p->get_by_id($post[$key]['place_id']);
                     $t->save($p);
                     // gets each destination's startdate and enddate and stores as unix time
                     // TODO: callback method for better client side validation?
@@ -281,6 +288,7 @@ class Trips extends CI_Controller
                 $this->mc->delete('followers_by_trip_id:'.$trip_id);
                 $this->mc->delete('num_goers_by_trip_id:'.$trip_id);
                 $this->mc->delete('goers_by_trip_id:'.$trip_id);
+                $this->mc->delete('rsvp_by_tripid_userid:'.$trip_id.':'.$this->user->id);
                 json_success(array(
                     'type' => 'trip',
                     'id' => $trip_id,
@@ -295,6 +303,7 @@ class Trips extends CI_Controller
                 $t->set_join_field($this->user, 'rsvp', $rsvp);
                 $this->mc->delete('num_goers_by_trip_id:'.$trip_id);
                 $this->mc->delete('goers_by_trip_id:'.$trip_id);
+                $this->mc->delete('rsvp_by_tripid_userid:'.$trip_id.':'.$this->user->id);
                 json_success(array(
                     'type' => 'trip',
                     'id' => $trip_id,
@@ -493,6 +502,7 @@ class Trips extends CI_Controller
             {
                 $t->set_join_field($u, 'role', $share_role);
                 $t->set_join_field($u, 'rsvp', 6);
+                $this->mc->delete('role_by_tripid_userid:'.$trip_id.':'.$uid);
             }
         }
         // not pretty - needed to get rid of empty strings

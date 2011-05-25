@@ -252,8 +252,18 @@ class Trip extends DataMapper
         {
             return FALSE;
         }
-        $this->user->where('id', $user_id)->include_join_fields()->get();
-        $this->stored->rsvp = $this->user->join_rsvp;
+
+        $key = 'rsvp_by_tripid_userid:'.$this->id.':'.$user_id;
+        $val = $this->mc->get($key);
+        
+        if ($val === FALSE)
+        {
+            $this->user->where('id', $user_id)->include_join_fields()->get();
+            $val = $this->user->join_rsvp;
+            $this->mc->set($key, $val);
+        }
+        
+        $this->stored->rsvp = $val;
     }
     
     
@@ -263,8 +273,18 @@ class Trip extends DataMapper
         {
             return FALSE;
         }
-        $this->user->where('id', $user_id)->include_join_fields()->get();
-        $this->stored->role = $this->user->join_role;
+
+        $key = 'role_by_tripid_userid:'.$this->id.':'.$user_id;
+        $val = $this->mc->get($key);
+        
+        if ($val === FALSE)
+        {
+            $this->user->where('id', $user_id)->include_join_fields()->get();
+            $val = $this->user->join_role;
+            $this->mc->set($key, $val);
+        }
+        
+        $this->stored->role = $val;
     }
 
 
@@ -284,20 +304,41 @@ class Trip extends DataMapper
     
     public function get_related_trips()
     {
-        $this->stored->related_trips = array();
-        foreach ($this->place->get_iterated() as $place)
+        $key = 'related_trips_by_tripid:'.$this->id;
+        $val = $this->mc->get($key);
+        
+        if ($val === FALSE)
         {
-            foreach ($place->trip->get_iterated() as $trip)
+            $val = array();
+            foreach ($this->place->get_iterated() as $place)
             {
-                if ($trip->id != $this->id)
+                foreach ($place->trip->get_iterated() as $trip)
                 {
-                    $trip->get_goers();
-                    $trip->get_places();
-                    $this->stored->related_trips[] = $trip->stored;
+                    if ($trip->id != $this->id)
+                    {
+                        $val[] = clone $trip->stored;
+                    }
                 }
             }
+            $this->mc->set($key, $val);
+            $a = 0;
+        }
+        else
+        {
+            $a = 1;
         }
         
+        $t = new Trip();
+        foreach ($val as $k => $v)
+        {
+            $t->get_by_id($val[$k]->id);
+            $t->get_goers();
+            $t->get_places();
+            $val[$k] = $t->stored;
+        }
+
+        $this->stored->related_trips = $val;
+        return $a;
     }
     
     
