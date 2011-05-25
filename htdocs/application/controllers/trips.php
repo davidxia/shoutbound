@@ -136,12 +136,19 @@ class Trips extends CI_Controller
     }
     
     
-    public function mytest()
+    public function mytest2()
     {
         $t = new Trip(1);
-        $a = $t->get_followers($this->user->id);
+        $a = $t->get_places();
         print_r($t->stored);
-        var_dump($a);
+        var_dump($a);    
+    }
+
+
+    public function mytest()
+    {
+        $stats = $this->mc->get_stats();
+        echo $stats;
     }
     
     

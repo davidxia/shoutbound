@@ -128,13 +128,22 @@ class Trip extends DataMapper
 
     public function get_places()
     {
-        $this->stored->places = array();
-        foreach ($this->place->include_join_fields()->get_iterated() as $place)
+        $key = 'places_by_trip_id:'.$this->id;
+        $val = $this->mc->get($key);
+        
+        if ($val === FALSE)
         {
-            $place->stored->startdate = $place->join_startdate;
-            $place->stored->enddate = $place->join_enddate;
-            $this->stored->places[] = $place->stored;
+            $val = array();
+            foreach ($this->place->include_join_fields()->get_iterated() as $place)
+            {
+                $place->stored->startdate = $place->join_startdate;
+                $place->stored->enddate = $place->join_enddate;
+                $val[] = $place->stored;
+            }
+            $this->mc->set($key, $val);
         }
+
+        $this->stored->places = $val;
     }
         
     

@@ -2,7 +2,8 @@
 
 include 'MDB2.php';
 
-class Mdb {
+class Mdb
+{
 
     function _mdb_conn($target='localhost') {
 
