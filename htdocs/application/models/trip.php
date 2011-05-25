@@ -98,15 +98,31 @@ class Trip extends DataMapper
     
     public function get_followers($user_id = FALSE)
     {
-        $this->stored->followers = array();
-        foreach ($this->user->where_join_field($this, 'rsvp', 3)->get_iterated() as $follower)
+        $key = 'followers_by_trip_id:'.$this->id;
+        $val = $this->mc->get($key);
+        
+        if ($val === FALSE)
         {
-            if ($user_id)
+            $val = array();
+            foreach ($this->user->where_join_field($this, 'rsvp', 3)->get_iterated() as $follower)
             {
-                $follower->get_follow_status_by_user_id($user_id);
+                $val[] = clone $follower->stored;
             }
-            $this->stored->followers[] = $follower->stored;
+            $this->mc->set($key, $val);
         }
+        
+        if ($user_id)
+        {
+            $u = new User();
+            foreach ($val as $k => $v)
+            {
+                $u->get_by_id($val[$k]->id);
+                $u->get_follow_status_by_user_id($user_id);
+                $val[$k]->is_following = $u->stored->is_following;
+            }
+        }
+
+        $this->stored->followers = $val;
     }
 
 

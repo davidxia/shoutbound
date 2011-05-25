@@ -139,7 +139,7 @@ class Trips extends CI_Controller
     public function mytest()
     {
         $t = new Trip(1);
-        $a = $t->get_num_followers();
+        $a = $t->get_followers($this->user->id);
         print_r($t->stored);
         var_dump($a);
     }
@@ -278,6 +278,7 @@ class Trips extends CI_Controller
             {
                 $t->set_join_field($this->user, 'rsvp', $rsvp);
                 $this->mc->delete('num_followers_by_trip_id:'.$trip_id);
+                $this->mc->delete('followers_by_trip_id:'.$trip_id);
                 $this->mc->delete('num_goers_by_trip_id:'.$trip_id);
                 $this->mc->delete('goers_by_trip_id:'.$trip_id);
                 json_success(array(
@@ -322,6 +323,8 @@ class Trips extends CI_Controller
         elseif ($t->save($this->user))
         {
             $t->set_join_field($this->user, 'rsvp', 3);
+            $this->mc->delete('num_followers_by_trip_id:'.$trip_id);
+            $this->mc->delete('followers_by_trip_id:'.$trip_id);
 
             $this->load->helper('activity');
             if (save_activity($this->user->id, 4, $t->id, NULL, NULL, time()-72))
