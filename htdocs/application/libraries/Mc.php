@@ -72,6 +72,24 @@ class Mc
     }
 
 
+    public function replace($key, $val, $expire=FALSE, $serialize=TRUE)
+    {
+        if (empty($this->connected_servers))
+        {
+            return FALSE;
+        }
+        if ($serialize)
+        {
+            $val = serialize($val);
+        }
+        if ($expire === FALSE)
+        {
+            $expire = $this->default_expire;
+        }
+        $this->memcache->replace($this->prefix . $key, $val, 0, $expire);
+    }
+
+
     public function delete($key, $when=0)
     {
         if (empty($this->connected_servers))

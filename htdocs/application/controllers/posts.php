@@ -19,20 +19,7 @@ class Posts extends CI_Controller
         }
 		}
 		
-		
-		public function mytest()
-		{
-		    $p = new Post(1);
-		    $a = $p->get_added_by(2);
-		    print_r($p->stored);
-		    print_r($a);
-		}
-		
-		public function mcstats()
-		{
-		    echo $this->mc->get_stats();
-		}
-		
+				
 		public function ajax_save()
 		{
 		    $content = $this->input->post('content');
@@ -58,9 +45,18 @@ class Posts extends CI_Controller
 		    if ($p->save($t->all))
 		    {
 		        $parent_id = ($parent_id) ? $parent_id : 0;
+		        if ($parent_id)
+		        {
+		            $this->mc->delete('replies_by_post_id:'.$parent_id);
+		        }
+		        
 		        if ($is_repost)
 		        {
 		            $p->set_join_field($t, 'added_by', $this->user->id);
+		            foreach ($t as $trip)
+		            {
+		                $this->mc->replace('adder_by_postid_tripid:'.$p->id.':'.$trip->id, $this->user->stored);
+		            }
 		        }
 		        
             $content = nl2br($content);

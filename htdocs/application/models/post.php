@@ -116,8 +116,20 @@ class Post extends DataMapper
 
     public function get_replies()
     {
-        $this->post->where('is_active', 1)->order_by('created', 'asc')->get();
-        return $this->post;
+        $key = 'replies_by_post_id:'.$this->id;
+        $val = $this->mc->get($key);
+        
+        if ($val === FALSE)
+        {
+            $val = array();
+            foreach ($this->post->where('is_active', 1)->order_by('created', 'asc')->get_iterated() as $reply)
+            {
+                $val[] = $reply->stored;
+            }
+            $this->mc->set($key, $val);
+        }
+
+        $this->stored->replies = $val;
     }
     
     
@@ -136,12 +148,21 @@ class Post extends DataMapper
     
     public function get_trips()
     {
-        $this->stored->trips = array();
-        foreach ($this->trips->where('is_active', 1)->where_join_field('post', 'is_active', 1)->get_iterated() as $trip)
+        $key = 'trips_by_post_id:'.$this->id;
+        $val = $this->mc->get($key);
+        
+        if ($val === FALSE)
         {
-            $trip->get_places();
-            $this->stored->trips[] = $trip->stored;
+            $val = array();
+            foreach ($this->trips->where('is_active', 1)->where_join_field('post', 'is_active', 1)->get_iterated() as $trip)
+            {
+                $trip->get_places();
+                $val[] = $trip->stored;
+            }
+            $this->mc->set($key, $val);
         }
+
+        $this->stored->trips = $val;
     }    
     
 }
