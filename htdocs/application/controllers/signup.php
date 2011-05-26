@@ -103,7 +103,7 @@ class Signup extends CI_Controller
                     $u->save();
                 }
             }
-            redirect('signup/onboarding');
+            redirect('signup/dream');
         }
         else
         {
