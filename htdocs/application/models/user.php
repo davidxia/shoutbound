@@ -350,16 +350,18 @@ class User extends DataMapper
                 $post->get_creator();
                 $post->get_trips();
                 $post->get_places();
+                
                 // get replies and attach their places
-                $r = $post->get_replies();
+                $post->get_replies();
                 $replies = array();
-                foreach ($r as $reply)
+                $r = new Post();
+                foreach ($post->stored->replies as $reply)
                 {
-                    $reply->get_creator();
-                    $reply->convert_nl();
-                    $reply->get_places();
-                    $reply->get_likes();
-                    $replies[] = $reply->stored;
+                    $r->get_by_id($reply->id);
+                    $r->get_creator();
+                    $r->convert_nl();
+                    $r->get_places();
+                    $replies[] = $r->stored;
                 }
                 
                 // packages each post with replies into separate array
@@ -405,15 +407,16 @@ class User extends DataMapper
                 $post->get_trips();
                 
                 // get replies and attach their places
-                $r = $post->get_replies();
+                $post->get_replies();
                 $replies = array();
-                foreach ($r as $reply)
+                $r = new Post();
+                foreach ($post->stored->replies as $reply)
                 {
-                    $reply->get_creator();
-                    $reply->convert_nl();
-                    $reply->get_places();
-                    $reply->get_likes();
-                    $replies[] = $reply->stored;
+                    $r->get_by_id($reply->id);
+                    $r->get_creator();
+                    $r->convert_nl();
+                    $r->get_places();
+                    $replies[] = $r->stored;
                 }
                 
                 // packages each post with replies into separate array
