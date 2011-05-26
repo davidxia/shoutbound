@@ -68,10 +68,6 @@ class Place extends DataMapper
             $val = $this->trip->where('is_active', 1)->count();
             $this->mc->set($key, $val);
         }
-        else
-        {
-            $was_cached = 1;
-        }
         
         $this->stored->num_trips = $val;
     }

@@ -19,6 +19,20 @@ class Posts extends CI_Controller
         }
 		}
 		
+		
+		public function mytest()
+		{
+		    $p = new Post(1);
+		    $a = $p->get_added_by(2);
+		    print_r($p->stored);
+		    print_r($a);
+		}
+		
+		public function mcstats()
+		{
+		    echo $this->mc->get_stats();
+		}
+		
 		public function ajax_save()
 		{
 		    $content = $this->input->post('content');

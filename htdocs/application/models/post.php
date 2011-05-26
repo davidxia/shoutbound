@@ -2,7 +2,8 @@
 
 class Post extends DataMapper
 {
-        
+    private $mc;
+    
     public $has_one = array(
         'user',
         'parent' => array(
@@ -50,13 +51,23 @@ class Post extends DataMapper
     function __construct($id = NULL)
     {
         parent::__construct($id);
+        $this->mc = new Mc();
     }
     
     
     public function get_creator()
     {
-        $u = new User($this->user_id);
-        $this->stored->user = $u->stored;
+        $key = 'creator_by_post_id:'.$this->id;
+        $val = $this->mc->get($key);
+        
+        if ($val === FALSE)
+        {
+            $u = new User($this->user_id);
+            $val = $u->stored;
+            $this->mc->set($key, $val);
+        }
+        
+        $this->stored->user = $val;
     }
     
     
@@ -66,12 +77,21 @@ class Post extends DataMapper
         {
             return FALSE;
         }
-        $this->trip->where('id', $trip_id)->include_join_fields()->get();
-        $u = new User($this->trip->join_added_by);
-        if ($u->id)
+        $key = 'adder_by_postid_tripid:'.$this->id.':'.$trip_id;
+        $val = $this->mc->get($key);
+        
+        if ($val === FALSE)
         {
-            $this->stored->added_by = $u->stored;
+            $this->trip->where('id', $trip_id)->include_join_fields()->get();
+            $u = new User($this->trip->join_added_by);
+            if ($u->id)
+            {
+                $val = $u->stored;
+            }
+            $this->mc->set($key, $val);
         }
+        
+        $this->stored->added_by = $val;
     }
     
     
@@ -97,15 +117,7 @@ class Post extends DataMapper
     public function get_replies()
     {
         $this->post->where('is_active', 1)->order_by('created', 'asc')->get();
-        /*
-        $replies = array();
-        foreach ($this->post as $post)
-        {
-            $replies[] = $post->stored;
-        }
-        */
         return $this->post;
-        //return $replies;
     }
     
     

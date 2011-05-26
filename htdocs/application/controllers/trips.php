@@ -86,7 +86,6 @@ class Trips extends CI_Controller
             'user_rsvp' => $user_rsvp,
             'posts' => $t->get_posts(),
         );
-        
         $this->load->view('trip/index', $data);
     }
     
