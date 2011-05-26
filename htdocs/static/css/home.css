@@ -1,23 +1,47 @@
+#col-left{
+  border:none !important;
+}
+
+#left-content-container{
+  padding:0px !important;
+}
+
+#right-content-container{
+  padding-top:0px !important;
+}
+
 #top-section{
 
 }
 
-.save-post-form{
-  /*margin-left:31px;*/
-  margin-bottom:20px;
-}
-
-#post-input, #tag-input{
-  width:482px;
-  margin-bottom:8px;  
-  padding:3px;
-  background-color:white;
-  border:1px solid #ABABAB;
-  z-index:10;
+#right-widgets{
+  float:none !important;
+  margin-top:37px;
 }
 
 #post-input{
-  min-height:65px;
+  background-color:white;
+  z-index:10;
+  border:1px solid #888;
+  padding:5px;
+}
+
+#post-input{
+  min-height:36px;
+  margin-bottom:10px;
+
+}
+
+.nicEdit-panelContain{
+  width:483px !important;
+  display:none;
+  border-bottom:none !important;
+  border-color:#888 !important;
+  padding:3px 0px !important;
+}
+
+.post-input-selected{
+  min-height:85px !important;
 }
 
 #tag-input{
@@ -25,22 +49,38 @@
 }
 
 .input-container{
-  padding:10px 15px;
-  width:490px;
+  width:485px !important;
+}
+
+#new-post-container{
+  padding:15px 28px;
   background-color:#FAFAFA;
-  margin-bottom:20px;
-  /*border:1px solid #999;*/
+  margin-bottom:15px;
 }
 
 .input-header{
-  font-weight:bold;
+  margin-bottom:3px;
 }
 
-.input-instructions{
-  color:#777;
-  font-size:11px;
-  margin-left:5px;
+#instruction-bar{
+  background-color:#efefef;
+  border-top:1px solid #888;  
+  border-left:1px solid #888;  
+  border-right:1px solid #888;  
+  padding:3px 5px;
+  display:none;
 }
+
+#save-post-button-container{
+  display:none;
+  position:relative;
+  top:-27px;
+  left:342px;
+}
+
+#add-to-trip-main{
+}
+
 .ui-widget{
   margin-top:0px;
 }

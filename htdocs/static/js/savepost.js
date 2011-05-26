@@ -51,14 +51,18 @@ $(function() {
 
   var sbEditor = new nicEditor({
     fullPanel:false,
-    buttonList:['bold','italic','underline','ol','ul','link','unlink','image','upload'],
+    buttonList:['bold','italic','underline','ol','ul','link'],
     iconsPath: baseUrl+'static/images/nicEditorIcons.gif',
     uploadURI : 'http://yourdomain.com/nicUpload.php'
   }).panelInstance('post-input');
   
   sbEditor.addEvent('focus', function() {
     $('#add-to-trip-main').show();
-    $('#save-post-button').show();
+    $('#save-post-button-container').show();
+    $('#post-input').addClass('post-input-selected');
+    $('.nicEdit-panelContain').show();
+    $('#instruction-bar').show();
+    
   });
 
   $('#save-post-button').click(function() {

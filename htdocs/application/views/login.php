@@ -2,6 +2,7 @@
 $header_args = array(
     'title' => 'Login | Shoutbound',
     'css_paths' => array(
+      'css/login.css',
     ),
     'js_paths' => array(
     )
@@ -34,20 +35,20 @@ $this->load->view('core_header', $header_args);
     }());
 	</script>
 
-    	<div style="border:1px solid black; background-color:#FAFAFA; margin:0 auto; padding:20px; width:400px; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px;">
-	      <h2>Login</h2>
-	      <form id="login-form" action="" style="margin:20px 0;">
+    	<div>
+        Login
+	      <form id="login-form" action="">
 	        <div>
 	          <fieldset>
 	            <ul>
-	              <li style="margin-bottom:20px;">
+	              <li>
 	                <label for="email" style="display:block; margin-bottom:10px;">Email</label>
 	                <input type="text" name="email" id="email"/>
 	              </li>
-	              <li style="margin-bottom:20px;">
-	                <label for="password" style="display:block; margin-bottom:10px;">Password</label>
+	              <li>
+	                <label for="password">Password</label>
 	                <input type="password" name="password" id="password"/>
-	                <div id="login-error" style="color:red; margin-top:5px; height:18px; line-height:18px;"></div>
+	                <div id="login-error"></div>
 	              </li>
 	            </ul>
 	          </fieldset>
@@ -60,7 +61,7 @@ $this->load->view('core_header', $header_args);
         </a>
       </div>
     
-    <div style="text-align:center; margin-top:15px;">
+    <div>
        Don't have an account? <a href="<?=site_url('signup')?>">Sign up</a>.
     </div>
 

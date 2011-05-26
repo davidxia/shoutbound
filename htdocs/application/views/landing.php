@@ -1,7 +1,9 @@
 <?
 $header_args = array(
-    'title' => 'Shoutbound',
+    'title' => 'Have an adventure | Shoutbound',
     'css_paths'=>array(
+      'css/landing.css',
+
     ),
     'js_paths'=>array(
     )
@@ -10,46 +12,7 @@ $header_args = array(
 $this->load->view('core_header', $header_args);
 ?>
 
-<style type="text/css"> 
-#lets-go {
-  cursor: pointer;
-  display:block;
-  height:45px;
-  line-height:30px;
-  text-align:center;
-  font-size:18px;
-  text-decoration:none;
-	color: white;
-	border: solid 1px #0076a3;
-	background: #0095cd;
-	background: -webkit-gradient(linear, left top, left bottom, from(#44749D), to(##44749D));
-	background: -moz-linear-gradient(top,  #44749D,  #44749D);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#44749D', endColorstr='#navy');
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  position: absolute;
-  right: 0;
-  z-index: 3;
-  margin: 0;
-}
-#lets-go:hover {
-	background: #007ead;
-	background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
-	background: -moz-linear-gradient(top,  #0095cc,  #00678e);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
-}
-#lets-go:active {
-	color: #80bed6;
-	background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
-	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
-}
-#place-autocomplete .selected, #place-autocomplete li:hover {
-  font-weight:bold;
-  background-color: #E0E0FF;
-}
-</style>
+
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
@@ -57,13 +20,29 @@ $this->load->view('core_header', $header_args);
 </head>
 
 <body>
+  <div id="sticky-footer-wrapper">
   <? $this->load->view('templates/header')?>
   <? $this->load->view('templates/content')?>
-  <!--LEFT-->
-	<div style="width:450px; float:left; padding:20px; margin-top:45px;">
-    <h2 style="font-size:52px; line-height:58px; font-weight:bold;">Collaborative travel planning.</h2>
+
+  <div id="landing-page-main">
+    <div id="landing-page-title">Have an adventure</div>
+    <div id="landing-page-subtitle">Discover new travel content for your dream travel destinations. Get travel advice and updates from the people you trust. Collaborate to plan your next trip. </div>
+    
+  </div>
+  
+  <div id="landing-page-bottom">
+  
+  
+  </div>
+
+
+  </div><!-- WRAPPER ENDS -->
+  </div><!-- CONTENT ENDS -->
+  </div><!--STICKY FOOTER WRAPPER ENDS-->
+<? $this->load->view('footer')?>
 
 		<!--BAR-->
+<!--
 		<div style="position:relative; line-height:45px; height:45px; width:400px; margin-top:20px; margin-bottom:20px;">
 		  <form id="place_input-form" action="trips/create" method="post" style="position:relative; height:45px;">
 		    <label for="place_input" style="position:absolute; font-size:20px; color:#007EAD; z-index:1; background-color:white; height:45px; padding-left:12px; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;"><span>Where do you want to go?</span></label>
@@ -72,38 +51,16 @@ $this->load->view('core_header', $header_args);
 			  <button id="lets-go" type="submit">Let&rsquo;s go!</button>
 		  </form>
   		  
-		</div><!--BAR ENDS-->
-
-		<h3 style="font-size:24px; color:gray; font-weight:normal;">Use Shoutbound to organize group travel plans and get travel advice from friends and family.</h3>
-	
-	</div><!--LEFT ENDS-->
+		</div>
+--><!--BAR ENDS-->
 	
 	<!--RIGHT-->
-	<div>
-  	<img src="<?=site_url('static/images/stockphoto.jpg')?>" width="470" height="407"/>
-  </div><!--RIGHT ENDS-->
+<!--   	<img src="<?=site_url('static/images/stockphoto.jpg')?>" width="470" height="407"/> -->
+<!--RIGHT ENDS-->
   
-</div><!-- WRAPPER ENDS -->
-</div><!-- CONTENT ENDS -->
+
 	  	  	 
-<!--BOTTOM-->  		  		 		
-<div id="bottom" style="background-color:#EBE7E0; padding:30px 0; border-top:1px solid #BDB8AD; border-bottom:1px solid #BDB8AD;">
 
-	<div id="panel" style="height:170px; padding:30px 0px 30px 0px; width:914px; margin:auto; background-color:white; -moz-box-shadow: 2px 2px 2px 2px gray; -webkit-box-shadow: 2px 2px 2px 2px gray; box-shadow: 2px 2px 2px 2px gray; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border:1px solid #C8C8C8; text-align:center;">
-	
-		<div style="float:left; margin-left:35px; padding-right:29px; width:240px;"><h2>Create a trip</h2><br/><p>Coming to see New York? Dreaming of exploring Tibet? Create a trip for all your travel plans and dreams!</p>
-		</div>
-	
-		<div style="float:left; padding-left:30px; padding-right:29px; border-right:1px solid #C8C8C8; border-left:1px solid #C8C8C8; width:240px;"><h2>Build your trip</h2><br/><p>Invite friends and family to join you on your trips or give you travel advice. Shoutbound organizes and records their responses all in one place.</p>
-		</div>
-		
-		<div style="float:left; margin-left:30px; padding-right:35px; width:240px;"><h2>Go!</h2><br/><p>Use Shoutbound to remember, discover, and experience all the great places your friends and family recommended for you!</p>
-		</div>
-		
-	</div>	
-</div><!-- BOTTOM ENDS -->
-
-<? $this->load->view('footer')?>
 
 
 <script>

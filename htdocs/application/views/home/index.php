@@ -32,45 +32,8 @@ $this->load->view('core_header', $header_args);
 
     <div id="top-section"><!--TOP SECTION-->  
 
-      <div id="right-widgets">
-        <div class="right-widget-container">                  
-          <div id="stats-container"><!-- STATS -->
-            <ul class="stats-list">
-              <li><a href="#trail" class="trip-count"><?=$user->num_rsvp_yes_trips?><span class="stat-label">Trips</span></a></li>
-              <li class="border-left"><a href="<?=site_url('profile#posts')?>" class="post-count"><?=$user->num_posts?><span class="stat-label">Posts</span></a></li>
-              <li class="border-left"><a href="<?=site_url('profile#following')?>" class="following-count"><?=$user->num_following+$user->num_following_trips?><span class="stat-label">Following</span></a></li>
-              <li class="border-left"><a href="<?=site_url('profile#followers')?>" class="followers-count"><?=$user->num_followers?><span class="stat-label">Followers</span></a></li>
-            </ul>                
-          </div><!--STATS END-->
-          <div style="clear:both"></div>
-        </div>
-      </div><!-- RIGHT WIDGETS --> 
-
-      <!--POST CONTAINER-->
-      <div class="input-container">
-        <form class="save-post-form">
-          <fieldset>
-            <span class="input-header">New post</span>
-            <div contenteditable="true" id="post-input"></div>
-            <div id="add-to-trip-main">
-              <span class="input-header">Trips</span><br>
-              <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
-                <? foreach ($user->rsvp_yes_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
-                <? endforeach;?>
-                <? foreach ($user->rsvp_awaiting_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
-                <? endforeach;?>
-                <? foreach ($user->following_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
-                <? endforeach;?>
-                </select>
-            </div>
-          </fieldset>
-        </form>
-        <a id="save-post-button">Post</a>
-      </div><!--END POST CONTAINER-->
     </div><!--TOP SECTION END-->
+    
     <div id="autocomplete-box" style="background:#222; position:absolute; z-index:99; padding:3px;display:none;">
       <input id="autocomplete-input" type="text" style="width:150px;border:none;border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px; padding:3px;"/>
       <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="position:absolute; right:20px; top:7px;"/>
@@ -95,7 +58,40 @@ $this->load->view('core_header', $header_args);
         <div style="clear:both"></div>
         
         <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
+             
           <div id="feed-tab" class="main-tab-content main-tab-default">
+
+            <div id="new-post-container"><!--POST CONTAINER-->
+              <div class="input-container">
+  <!--               <div class="input-header">New Post</div> -->
+                <form class="save-post-form">
+                  <fieldset>
+                    <div id="instruction-bar">Use the @ key when you refer to a place (e.g., "@Barcelona")</div>                  
+                    <div contenteditable="true" id="post-input"><span style="color:#666">New post.</span></div>
+                    <div id="add-to-trip-main">
+                      <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
+                        <? foreach ($user->rsvp_yes_trips as $trip):?>
+                        <option value="<?=$trip->id?>"><?=$trip->name?>
+                        <? endforeach;?>
+                        <? foreach ($user->rsvp_awaiting_trips as $trip):?>
+                        <option value="<?=$trip->id?>"><?=$trip->name?>
+                        <? endforeach;?>
+                        <? foreach ($user->following_trips as $trip):?>
+                        <option value="<?=$trip->id?>"><?=$trip->name?>
+                        <? endforeach;?>
+                        </select>
+                    </div>
+                  </fieldset>
+                </form>
+                <div id="save-post-button-container">
+                  <a id="save-post-button">Post</a>
+                </div>
+                <div style="clear:both"></div>
+              </div>
+            </div><!--END POST CONTAINER-->
+            
+
+
           <? if ( ! $news_feed_items):?>
             You haven't had any activity yet. Get started by <a href="<?=site_url('trips/create')?>">creating trips</a>, <a href="#">adding posts</a>, and <a href="#">following other people</a>, <a href="#"> trips</a>, and <a href="#"> places</a>.
           <? else:?>
@@ -203,9 +199,28 @@ $this->load->view('core_header', $header_args);
     </div><!--LEFT COLUMN END-->
     
     <!-- RIGHT COLUMN -->
-    <div id="col-right">      
+    <div id="col-right">          
+
+      <div id="right-widgets">
+        <div class="right-widget-container">                  
+          <div id="stats-container"><!-- STATS -->
+            <ul class="stats-list">
+              <li><a href="#trail" class="trip-count"><?=$user->num_rsvp_yes_trips?><span class="stat-label">Trail</span></a></li>
+              <li class="border-left"><a href="<?=site_url('profile#posts')?>" class="post-count"><?=$user->num_posts?><span class="stat-label">Posts</span></a></li>
+              <li class="border-left"><a href="<?=site_url('profile#following')?>" class="following-count"><?=$user->num_following+$user->num_following_trips?><span class="stat-label">Following</span></a></li>
+              <li class="border-left"><a href="<?=site_url('profile#followers')?>" class="followers-count"><?=$user->num_followers?><span class="stat-label">Followers</span></a></li>
+            </ul>                
+          </div><!--STATS END-->
+          <div style="clear:both"></div>
+        </div>
+      </div><!-- RIGHT WIDGETS --> 
+
+
       <!--RIGHT CONTENT-->      
       <div id="right-content-container">
+      
+      
+      
         <!-- MAP -->
         <div id="map-shell">
           <div id="map-canvas"></div>

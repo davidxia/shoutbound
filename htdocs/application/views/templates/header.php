@@ -2,7 +2,7 @@
 <div class="header">
   <div class="wrapper">
     <h1 style="display:inline;">
-      <a href="<?=site_url('/')?>"><img src="<?=site_url('static/images/logo_header.png')?>" alt="Shoutbound" width="52" height="30"/></a>
+      <a href="<?=site_url('/')?>"><img src="<?=site_url('static/images/160x_50_sb_logo.png')?>" alt="Shoutbound" width="160" height="50"/></a>
     </h1>
 
    	<? if ( ! isset($is_landing)):?>
