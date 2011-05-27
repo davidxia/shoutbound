@@ -40,7 +40,8 @@ $this->load->view('core_header', $header_args);
         	<img src="<?=site_url('static/images/fb-login-button.png')?>"/>
       	</a>
         <input type="hidden" name="is_fb_signup" id="is_fb_signup"/>
-      	<span id="fb-tip">Connecting helps get you get the most out of your Shoutbound experience by linking you with your friends. We'll never post to Facebook without your permission.</span>     
+      	<div id="fb-tip">Connecting helps get you get the most out of your Shoutbound experience by linking you with your friends. We'll never post to Facebook without your permission.</div>
+      	<a href="#" id="skip-step-one">I don't have a Facebook account.</a>     
       </div><!--STEP ONE END-->
   	
       <div id="step-two-container" class="step-container"><!--STEP TWO-->

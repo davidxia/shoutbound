@@ -9,16 +9,52 @@ class Altitoid extends CI_Controller
     {
         parent::__construct();
         $u = new User();
-        $uid = $u->get_logged_in_status();
-        if ($uid)
+        if ($u->get_logged_in_status())
         {
-            $u->get_by_id($uid);
             $this->user = $u;
         }
     }
 
-
-    function index()
+    public function mytest()
+    {
+/*
+        $t = new Trip();
+        $t->get_by_id(2);
+        $a = $t->mytest();
+        print_r($a);
+*/
+        
+        //print_r($this->db);
+        $this->db->_where(array('trips.id' => 2), 2, 'AND ', NULL);
+        //$query = $this->db->get('trips', NULL, NULL);
+          $table = 'trips';
+          $limit = NULL;
+          $offset = NULL;
+        
+      		if ($table != '')
+      		{
+      			$this->db->_track_aliases($table);
+      			$this->db->from($table);
+      		}
+      
+      		if ( ! is_null($limit))
+      		{
+      			$this->db->limit($limit, $offset);
+      		}
+      
+      		$sql = $this->db->_compile_select();
+      		//print_r($sql);
+      
+      		$query = $this->db->query($sql);
+      		$this->db->_reset_select();
+      		//return $result;
+      		
+        //print_r($this->db);
+        print_r($query->result());
+    }
+    
+    
+    public function index()
     {
         $up = new Upload();
         $up->get();

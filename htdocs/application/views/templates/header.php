@@ -5,7 +5,7 @@
       <a href="<?=site_url('/')?>"><img src="<?=site_url('static/images/160x_50_sb_logo.png')?>" alt="Shoutbound" width="160" height="50"/></a>
     </h1>
 
-    <? if (isset($user->id)):?>
+    <? if(isset($user->id) AND !isset($is_onboarding)):?>
   		<a href="<?=site_url('trips/create')?>" id="create-trip-button" style="position:absolute; left:595px; top:0;">+ New trip</a>
       <div class="nav" style="position:absolute; right:0; top:0;">    	
         <a href="<?=site_url('home')?>">Home</a>
@@ -13,7 +13,7 @@
         <a href="<?=site_url('settings')?>">Settings</a>
         <a href="<?=site_url('users/logout')?>">Logout</a>        
       </div>      
-    <? else:?>
+    <? elseif(!isset($is_onboarding)):?>
       <div style="float:right; margin-right:5px; font-size:12px;">
         <span id="login-error"></span>
         <form id="login-form" action="">

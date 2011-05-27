@@ -14,7 +14,7 @@ class Places extends CI_Controller
         }
 		}
 		
-
+		
     public function ajax_autocomplete()
     {
         $query = $this->input->post('query');
@@ -165,6 +165,15 @@ class Places extends CI_Controller
             $this->load->helper('activity');
             save_activity($this->user->id, 5, $p->id, NULL, NULL, time()-72);
         }
+    }
+    
+    
+    public function ajax_del_fut_place()
+    {
+        $place_id = $this->input->post('placeId');
+        $this->user->place->where('id', $place_id)->get();
+        $this->user->place->set_join_field($this->user, 'is_future', 0);
+        $this->output->set_output(1);
     }
 
 
