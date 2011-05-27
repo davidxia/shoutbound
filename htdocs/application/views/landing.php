@@ -24,15 +24,25 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('templates/header')?>
   <? $this->load->view('templates/content')?>
 
-  <div id="landing-page-main">
-    <div id="landing-page-title">Have an adventure</div>
-    <div id="landing-page-subtitle">Discover new travel content for your dream travel destinations. Get travel advice and updates from the people you trust. Collaborate to plan your next trip. </div>
-    
+  <div id="landing-page-gallery">
+    <img src="http://www.bulephoto.com/portfolio/Landscape/galeria/originalimages/tanah.jpg" width="490" height="375"/>
   </div>
+
+  <div id="landing-page-left">
+    <div id="landing-page-title">Discover your next travel adventure.</div>    
+    <div id="sign-up-button-container">
+      <a href="#" id="sign-up">Sign up</a>
+    </div>
+  </div>
+
+  <div style="clear:both"></div>
   
   <div id="landing-page-bottom">
-  
-  
+    <div class="landing-page-bottom-item">Find great content related to your dream travel destinations.</div>
+    <div class="landing-page-bottom-item">Get travel advice from people you trust.</div>
+    <div class="landing-page-bottom-item">Collaborate with friends to plan your next trip.</div>  
+    <div class="landing-page-bottom-item last">Share your travel aspirations and experiences.</div>  
+    <div style="clear:both"></div>
   </div>
 
 

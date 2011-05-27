@@ -2,7 +2,7 @@
 $header_args = array(
     'title' => 'Getting Started | Shoutbound',
     'css_paths' => array(
-        'css/dream.css',
+        'css/onboarding.css',
     ),
     'js_paths' => array(
         'js/jquery/jquery.ba-bbq.min.js',
@@ -22,19 +22,25 @@ $this->load->view('core_header', $header_args);
 	
 <body>
 
+<div id="sticky-footer-wrapper">
+  <? $this->load->view('templates/header')?>
+  <? $this->load->view('templates/content')?>
+
   <!--CONTENT-->
   <div class="onboarding-main"> 
     
-    <!--TOP-->
-    <div id="onboarding-top">
-      <div class="onboarding-header">1. Dream</div>
-      <div class="onboarding-header activeheader">2. Follow</div>
-      <div class="onboarding-header">3. Profile</div>    
+    <div id="top-section">    
+      <!--TOP-->
+      <div id="onboarding-top">
+        <div class="onboarding-header">1. Dream</div>
+        <div class="onboarding-header activeheader">2. Follow</div>
+        <div class="onboarding-header">3. Profile</div>    
+      </div>
+      <div class="onboarding-subtitle">Follow people, places and trips that interest you.</div>    
     </div>
-    
+  
     <!--LEFT-->
-    <div id="onboarding-wideleft">
-      <div class="onboarding-subtitle">Follow the people, places and trips that interest you.</div>    
+    <div id="onboarding-left">
       
       <ul id="main-tabs">
         <li class="active"><a href="#people">People</a></li>
@@ -89,8 +95,12 @@ $this->load->view('core_header', $header_args);
         
     <div style="clear:both"></div>   
   </div><!--CONTENT END-->
+
+</div><!-- CONTENT ENDS -->
+</div><!-- WRAPPER ENDS -->
+</div><!--STICK FOOTER WRAPPER ENDS-->
   
-  <!--PROGRESS BUTTONS-->
+  <!--STICKY BAR-->
   <div id="sticky-bar">  
     <div id="progress-buttons-container">
       <a href="<?=site_url('signup/dream')?>" class="back-button">Back</a>

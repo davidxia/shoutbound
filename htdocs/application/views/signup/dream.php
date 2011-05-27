@@ -1,8 +1,8 @@
 <?
 $header_args = array(
-    'title' => 'Dream | Shoutbound',
+    'title' => 'Getting Started | Shoutbound',
     'css_paths' => array(
-        'css/dream.css',
+        'css/onboarding.css',
     ),
     'js_paths' => array(
         'js/common.js',
@@ -25,42 +25,56 @@ $this->load->view('core_header', $header_args);
 	
 <body style="overflow-y: hidden; overflow-x:hidden;">
 
+<div id="sticky-footer-wrapper">
+  <? $this->load->view('templates/header')?>
+  <? $this->load->view('templates/content')?>
+
+
   <!--CONTENT-->
   <div class="onboarding-main"> 
     
-    <!--TOP-->
-    <div id="onboarding-top">
-      <div class="onboarding-header activeheader">1. Dream</div>
-      <div class="onboarding-header">2. Follow</div>
-      <div class="onboarding-header">3. Profile</div>    
-    </div>
-    
-    <!--LEFT-->
-    <div id="onboarding-left">
+    <div id="top-section">
+      <!--TOP-->
+      <div id="onboarding-top">
+        <div class="onboarding-header activeheader">1. Dream</div>
+        <div class="onboarding-header">2. Follow</div>
+        <div class="onboarding-header">3. Profile</div>    
+      </div>
       <div class="onboarding-subtitle">What are your dream travel destinations?</div>
-      <form id="bucket-list" action="<?=site_url('signup/save_bucket_list')?>" method="post">
-      <fieldset>
-        <div id="place" style="position:relative;">
-          <a id="add-place" href="" style="position:absolute;left:-20px;top:15px;">[+]</a><a id="subtract-place" href="" style="position:absolute;left:-20px;top:30px;">[-]</a>
-          <span class="label-and-errors">
-            <label for="place_name0"></label>
-            <span class="error-message" style="float:right;height:19px;"><span style="color:white">a</span></span>
-          </span>
-          <input type="text" id="place_name" class="place-input" name="place_name" autocomplete=off/>
-          <input type="hidden" id="place_id" class="place_ids" name="place_id"/>
-        </div>
-      </fieldset>
-      </form>
+    </div>
+   
+    <!--LEFT-->
+    <div id="col-left">
+      <div id="left-content-container">
+        <form id="bucket-list" action="<?=site_url('signup/save_bucket_list')?>" method="post">
+        <fieldset>
+          <div id="place" style="position:relative;">
+            <a id="add-place" href="" style="position:absolute;left:-20px;top:15px;">[+]</a><a id="subtract-place" href="" style="position:absolute;left:-20px;top:30px;">[-]</a>
+            <span class="label-and-errors">
+              <label for="place_name0"></label>
+              <span class="error-message" style="float:right;height:19px;"><span style="color:white">a</span></span>
+            </span>
+            <input type="text" id="place_name" class="place-input" name="place_name" autocomplete=off/>
+            <input type="hidden" id="place_id" class="place_ids" name="place_id"/>
+          </div>
+        </fieldset>
+        </form>
+      </div>
     </div>
     
-    <!--MAP-->
-    <div id="map-shell">
-      <div id="map-canvas"></div>
+    <div id="col-right">
+      <!--MAP-->
+      <div id="map-shell">
+        <div id="map-canvas"></div>
+      </div>
     </div>
            
     <div style="clear:both"></div>
     
   </div><!--CONTENT END-->
+</div><!-- CONTENT ENDS -->
+</div><!-- WRAPPER ENDS -->
+</div><!--STICK FOOTER WRAPPER ENDS-->
 
   <!--STICKY-BAR-->
   <div id="sticky-bar">  

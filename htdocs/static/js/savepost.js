@@ -51,7 +51,7 @@ $(function() {
 
   var sbEditor = new nicEditor({
     fullPanel:false,
-    buttonList:['bold','italic','underline','ol','ul','link'],
+    buttonList:['bold','italic','underline','ol','ul','link', 'image'],
     iconsPath: baseUrl+'static/images/nicEditorIcons.gif',
     uploadURI : 'http://yourdomain.com/nicUpload.php'
   }).panelInstance('post-input');

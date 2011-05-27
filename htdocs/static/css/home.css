@@ -10,10 +10,6 @@
   padding-top:0px !important;
 }
 
-#top-section{
-
-}
-
 #right-widgets{
   float:none !important;
   margin-top:37px;
@@ -28,8 +24,6 @@
 
 #post-input{
   min-height:36px;
-  margin-bottom:10px;
-
 }
 
 .nicEdit-panelContain{
@@ -79,7 +73,9 @@
 }
 
 #add-to-trip-main{
+  margin-top:15px;
 }
+
 
 .ui-widget{
   margin-top:0px;
