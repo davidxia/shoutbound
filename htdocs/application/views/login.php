@@ -56,9 +56,6 @@ $this->load->view('core_header', $header_args);
           <button type="submit" id="login-submit" class="blue-button">Login</button>
 	      </form>
 
-        <a href="#" id="fb_login_button">
-          <img src="<?=site_url('static/images/fb-login-button.png');?>" />
-        </a>
       </div>
     
     <div>
@@ -70,7 +67,7 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('footer')?>
 </body>
 <script type="text/javascript">
-  $(document).ready(function() {
+  $(function() {
     $('#email').focus();
     
     $('#fb_login_button').click(function() {
@@ -129,7 +126,7 @@ $this->load->view('core_header', $header_args);
 	
 		
   function showAccountCreationDialog() {
-    $.get('<?=site_url('signup/ajax_create_fb_user')?>', function(d) {
+    $.get('<?=site_url('signup/ajax_get_fb_info')?>', function(d) {
       var r = $.parseJSON(d);
       if (!r.error) {
         window.location = r.redirect;

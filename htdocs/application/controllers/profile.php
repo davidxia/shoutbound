@@ -82,7 +82,7 @@ class Profile extends CI_Controller
             }
         }
         
-        // $profile is a reference to $u->stored, so weird!
+        // $profile is a reference to $u->stored
         $u->get_recent_activities();
         $u->get_num_rsvp_yes_trips();
         $u->get_num_posts();
@@ -99,6 +99,7 @@ class Profile extends CI_Controller
         );
 
         $this->load->view('profile/index', $view_data);
+        //echo '<pre>';print_r($profile);echo '</pre>';
     }
             
     

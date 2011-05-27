@@ -124,6 +124,17 @@ class User extends DataMapper
     }
     
     
+    public function get_future_places()
+    {
+        $this->stored->future_places = array();
+        foreach ($this->place->where_join_field($this->user, 'is_future', 1)->order_by_join_field('user', 'timestamp', 'desc')->get_iterated() as $place)
+        {
+            $place->stored->timestamp = $place->join_timestamp;
+            $this->stored->future_places[] = $place->stored;
+        }
+    }
+    
+    
     public function get_current_place()
     {
         $p = new Place();

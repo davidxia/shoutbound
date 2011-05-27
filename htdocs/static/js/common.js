@@ -188,7 +188,7 @@ function addMarkers() {
   $("[class='place']").each(function(i,ele) {
     var marker = po.geoJson()
         .features([
-            {geometry: {type:'Point', coordinates:[parseInt(ele.getAttribute('lng')), parseInt(ele.getAttribute('lat'))]}}
+            {geometry: {type:'Point', coordinates:[parseFloat(ele.getAttribute('lng')), parseFloat(ele.getAttribute('lat'))]}}
         ])
         .on('load', po.stylist().attr('fill', 'red')
         .title(ele.getAttribute('title')));

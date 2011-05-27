@@ -34,7 +34,7 @@ class Signup extends CI_Controller
 
 		    $u = new User();
 		    $u->name = $this->input->post('name');
-		    $u->email = $this->input->post('email');
+		    $u->email = $this->input->post('signup_email');
 		    $u->password = md5('davidxia'.$this->input->post('password').'isgodamongmen');
 		    $u->created = time()-72;
 		    		    
@@ -138,9 +138,9 @@ class Signup extends CI_Controller
     }
     
 
-    public function ajax_create_fb_user()
+    public function ajax_get_fb_info()
     {
-        if ($this->user OR getenv('REQUEST_METHOD') == 'GET')
+        if ($this->user)
         {
             redirect('/');
         }
@@ -170,10 +170,14 @@ class Signup extends CI_Controller
         {
             redirect('/');
         }
+        
+        $this->user->get_future_places();
 
         $data = array(
+            'user' => $this->user->stored,
+            'is_onboarding' => TRUE,
         );
-        $this->load->view('signup/dream');
+        $this->load->view('signup/dream', $data);
     }
     
     
@@ -196,6 +200,7 @@ class Signup extends CI_Controller
                 $is_saved = FALSE;
                 if ($this->user->save($p))
                 {
+                    $this->user->set_join_field($p, 'is_future', 1);
                     $this->user->set_join_field($p, 'is_following', 1);
                     $is_saved = TRUE;
                 }
@@ -228,6 +233,7 @@ class Signup extends CI_Controller
         
         $data = array(
             'user' => $this->user->stored,
+            'is_onboarding' => TRUE,
         );
         $this->load->view('signup/follow', $data);
     }
@@ -277,6 +283,7 @@ class Signup extends CI_Controller
         $this->user->get_current_place();
         $data = array(
             'user' => $this->user->stored,
+            'is_onboarding' => TRUE,
         );
         $this->load->view('signup/profile', $data);
     }

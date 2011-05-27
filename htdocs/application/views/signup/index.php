@@ -49,7 +49,7 @@ $this->load->view('core_header', $header_args);
                 <label for="email">Email</label>
                 <span class="error-message" style="float:right;"></span>
               </div>
-              <input type="text" name="email" id="email" autocomplete="off"/>
+              <input type="text" name="signup_email" id="signup_email" autocomplete="off"/>
             </li>
             <li style="margin-bottom:20px;">
               <div class="label-and-error" style="margin-bottom:10px;">
@@ -100,7 +100,7 @@ $this->load->view('core_header', $header_args);
       if (r.existingUser) {
         updateFBFriends();
       } else {
-        showAccountCreationDialog();
+        getFBInfo();
       }
     });
 	}
@@ -113,12 +113,12 @@ $this->load->view('core_header', $header_args);
 	}
 	
 		
-  function showAccountCreationDialog() {
-    $.get('<?=site_url('signup/ajax_create_fb_user')?>', function(d) {
+  function getFBInfo() {
+    $.get('<?=site_url('signup/ajax_get_fb_info')?>', function(d) {
       var r = $.parseJSON(d);
       if (r.success) {
         $('#name').val(r.name);
-        $('#email').val(r.email);
+        $('#signup_email').val(r.email);
         $('#is_fb_signup').val(1);
         $('#fb_login_button').hide();
         $('#fb-tip').hide();
