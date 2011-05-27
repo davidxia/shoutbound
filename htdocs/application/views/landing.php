@@ -25,13 +25,13 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('templates/content')?>
 
   <div id="landing-page-gallery">
-    <img src="http://www.bulephoto.com/portfolio/Landscape/galeria/originalimages/tanah.jpg" width="490" height="375"/>
+    <img src="http://i.imgur.com/vpuuY.jpg" width="490" height="375"/>
   </div>
 
   <div id="landing-page-left">
     <div id="landing-page-title">Discover your next travel adventure.</div>    
     <div id="sign-up-button-container">
-      <a href="#" id="sign-up">Sign up</a>
+      <a href="<?=site_url('signup/index')?>" id="sign-up">Sign up</a>
     </div>
   </div>
 
@@ -199,6 +199,78 @@ $this->load->view('core_header', $header_args);
         $('#place_input-form').after(d);
       });
   };
+  
+/*   Added by James */
+  
+  $(document).ready(function() {
+    $('#email').focus();
+    
+    $('#fb_login_button').click(function() {
+      FB.login(function(response) {
+        if (response.session) {
+          facebookLogin();
+        } else {
+          alert('you failed to log in');
+        }
+      }, {perms: 'email'});
+      return false;
+    });
+    
+    $('#login-submit').click(function() {
+      var postData = {
+        email: $('#email').val(),
+        password: $('#password').val()
+      };
+      
+      $.ajax({
+        url: '<?=site_url('login/email_login')?>',
+        type: 'POST',
+        data: postData,
+        success: function(response) {
+          var r = $.parseJSON(response);
+          if (r.success) {
+            window.location = "<?=site_url()?>";
+          } else {
+            var text = 'Wrong email or password.';
+            $('#login-error').html(text);
+          }
+        }
+      });
+      return false;
+    });
+  });
+
+
+	function facebookLogin() {
+    $.get('<?=site_url('login/ajax_facebook_login')?>',function(d) {
+      var r = $.parseJSON(d);
+      if (r.existingUser) {
+        updateFBFriends();
+      } else {
+        showAccountCreationDialog();
+      }
+    });
+	}
+	
+	
+	function updateFBFriends() {
+    $.get('<?=site_url('login/ajax_update_fb_friends')?>', function() {
+        window.location = '<?=site_url('/')?>';
+    });
+	}
+	
+		
+  function showAccountCreationDialog() {
+    $.get('<?=site_url('signup/ajax_create_fb_user')?>', function(d) {
+      var r = $.parseJSON(d);
+      if (!r.error) {
+        window.location = r.redirect;
+      } else {
+        alert(r.message);
+      }
+    });
+  
+  
 </script>
 </body>
 </html>
