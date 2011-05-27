@@ -84,6 +84,12 @@ $this->load->view('core_header', $header_args);
   </div>
 
 <script type="text/javascript">
+
+  function formfocus() {
+      document.getElementById('bucket-list').focus();
+   }
+   window.onload = formfocus;
+
   $('.place-input').focus();
   // dynamic form plugin for multiple places
   $('#place').dynamicForm('#add-place', '#subtract-place', {
