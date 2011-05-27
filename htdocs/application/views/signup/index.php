@@ -36,38 +36,42 @@ $this->load->view('core_header', $header_args);
       
       <div id="step-one-container" class="step-container"><!--STEP ONE-->
         <div class="step-header">1. Find your friends.</div>
-      	<a href="#" id="fb_login_button">
-        	<img src="<?=site_url('static/images/fb-login-button.png')?>"/>
-      	</a>
-        <input type="hidden" name="is_fb_signup" id="is_fb_signup"/>
-      	<div id="fb-tip">Connecting helps get you get the most out of your Shoutbound experience by linking you with your friends. We'll never post to Facebook without your permission.</div>
-      	<a href="#" id="skip-step-one">I don't have a Facebook account.</a>     
+        <div class="step-content">
+        	<a href="#" id="fb_login_button">
+          	<img src="<?=site_url('static/images/fb-login-button.png')?>"/>
+        	</a>
+          <input type="hidden" name="is_fb_signup" id="is_fb_signup"/>
+        	<div id="fb-tip">This helps us connect you the most relevant travel content. We'll never post without your permission.</div>
+        	<a href="#" id="skip-step-one">I don't have a Facebook account.</a>
+        </div>     
       </div><!--STEP ONE END-->
   	
       <div id="step-two-container" class="step-container"><!--STEP TWO-->
         <div class="step-header">2. Complete your profile.</div>
-        <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post">
-          <fieldset>    
-            <div class="label-and-error" style="margin-bottom:10px;">
-              <label for="name">Name</label>
-              <span class="error-message" style="float:right;"></span>
-            </div>
-            <input type="text" name="name" id="name" autocomplete="off"/>
-            
-            <div class="label-and-error" style="margin-bottom:10px;">
-              <label for="email">Email</label>
-              <span class="error-message" style="float:right;"></span>
-            </div>
-            <input type="text" name="email" id="email" autocomplete="off"/>
-            
-            <div class="label-and-error" style="margin-bottom:10px;">
-              <label for="password">Password</label>
-              <span class="error-message" style="float:right;"></span>
-            </div>
-            <input type="password" name="password" id="password" autocomplete="off"/>
-          </fieldset>
-          <button type="submit" id="signup-submit">Create Account</button>
-        </form>   
+        <div class="step-content">
+          <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post">
+            <fieldset>    
+              <div class="label-and-error" style="margin-bottom:10px;">
+                <label for="name">Name</label>
+                <span class="error-message" style="float:right;"></span>
+              </div>
+              <input type="text" name="name" id="name" autocomplete="off"/>
+              
+              <div class="label-and-error" style="margin-bottom:10px;">
+                <label for="email">Email</label>
+                <span class="error-message" style="float:right;"></span>
+              </div>
+              <input type="text" name="email" id="email" autocomplete="off"/>
+              
+              <div class="label-and-error" style="margin-bottom:10px;">
+                <label for="password">Password</label>
+                <span class="error-message" style="float:right;"></span>
+              </div>
+              <input type="password" name="password" id="password" autocomplete="off"/>
+            </fieldset>
+            <button type="submit" id="signup-submit">Create Account</button>
+          </form>
+        </div>   
       </div><!--STEP TWO END-->
   	
   	</div><!--SIGN UP CONTAINER END-->
