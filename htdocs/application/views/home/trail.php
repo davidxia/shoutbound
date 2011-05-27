@@ -38,7 +38,7 @@
 
   <!-- RSVP YES TRIPS -->
   <? if (empty($user->rsvp_yes_trips)):?>
-    <div style="padding:20px;">You don't have any trips yet. Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a>.</div>
+    <div class="streamitem first-item">You don't have any trips yet. Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a>.</div>
   <? else:?>
     <? $first=TRUE; foreach ($user->rsvp_yes_trips as $rsvp_yes_trip):?>
       <div "tripitem-<?=$rsvp_yes_trip->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">

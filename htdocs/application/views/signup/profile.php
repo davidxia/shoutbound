@@ -3,7 +3,7 @@ $header_args = array(
     'title' => 'Getting Started | Shoutbound',
     'css_paths' => array(
         'css/uploadify.css',
-        'css/dream.css',
+        'css/onboarding.css',
     ),
     'js_paths' => array(
         'js/common.js',
@@ -28,19 +28,25 @@ $this->load->view('core_header', $header_args);
 	
 <body>
 
+<div id="sticky-footer-wrapper">
+  <? $this->load->view('templates/header')?>
+  <? $this->load->view('templates/content')?>
+
   <!--CONTENT-->
   <div class="onboarding-main"> 
-    
-    <!--TOP-->
-    <div id="onboarding-top">
-      <div class="onboarding-header">1. Dream</div>
-      <div class="onboarding-header">2. Follow</div>
-      <div class="onboarding-header activeheader">3. Profile</div>    
-    </div>
-    
-    <!--LEFT-->
-    <div id="onboarding-wideleft">
+
+    <div id="top-section">    
+      <!--TOP-->
+      <div id="onboarding-top">
+        <div class="onboarding-header">1. Dream</div>
+        <div class="onboarding-header">2. Follow</div>
+        <div class="onboarding-header activeheader">3. Profile</div>    
+      </div>
       <div class="onboarding-subtitle">Complete your profile.</div>    
+    </div>
+  
+    <!--LEFT-->
+    <div id="onboarding-left">
 
       <div class="settings-item">
         <div class="settings-item-name">Picture</div>
@@ -95,7 +101,11 @@ $this->load->view('core_header', $header_args);
     <div style="clear:both"></div>   
   </div><!--CONTENT END-->
   
-  <!--PROGRESS BUTTONS-->
+</div><!-- CONTENT ENDS -->
+</div><!-- WRAPPER ENDS -->
+</div><!--STICK FOOTER WRAPPER ENDS-->
+  
+  <!--STICKY BAR-->
   <div id="sticky-bar">  
     <div id="progress-buttons-container">
       <a href="<?=site_url('signup/follow')?>" class="back-button">Back</a>

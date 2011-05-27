@@ -42,7 +42,6 @@ $this->load->view('core_header', $header_args);
       </a>
       <div id="autocomplete-results" style="display:none; position:absolute; top:28px; width:400px; border:1px solid #DDD; cursor:pointer; padding:2px; z-index:100; background:white; font-size:13px;"></div>
     </div>
-    
 
     <!-- LEFT COLUMN -->
     <div id="col-left">    
@@ -90,8 +89,6 @@ $this->load->view('core_header', $header_args);
               </div>
             </div><!--END POST CONTAINER-->
             
-
-
           <? if ( ! $news_feed_items):?>
             You haven't had any activity yet. Get started by <a href="<?=site_url('trips/create')?>">creating trips</a>, <a href="#">adding posts</a>, and <a href="#">following other people</a>, <a href="#"> trips</a>, and <a href="#"> places</a>.
           <? else:?>
@@ -215,13 +212,10 @@ $this->load->view('core_header', $header_args);
         </div>
       </div><!-- RIGHT WIDGETS --> 
 
-
       <!--RIGHT CONTENT-->      
       <div id="right-content-container">
       
-      
-      
-        <!-- MAP -->
+       <!-- MAP -->
         <div id="map-shell">
           <div id="map-canvas"></div>
         </div><!--MAP ENDS-->

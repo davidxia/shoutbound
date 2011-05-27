@@ -13,6 +13,7 @@ $this->load->view('core_header', $header_args);
 </head>
 	
 <body>
+  <div id="sticky-footer-wrapper">
   <? $this->load->view('templates/header')?>
   <? $this->load->view('templates/content')?>
 
@@ -70,13 +71,10 @@ $this->load->view('core_header', $header_args);
   	</a>
   	<span id="fb-tip">By connecting with Facebook, we'll help you find your friends who are already using Shoutbound.</span>
   </div>
-     
-	<div style="text-align:center; margin-top:15px;">
-    Already have an account? <a href="<?=site_url('login')?>">Login</a>.
-  </div>
       
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
+  </div><!--STICKY FOOTER WRAPPER ENDS-->
   <? $this->load->view('footer')?>
 </body>
 <script type="text/javascript">
