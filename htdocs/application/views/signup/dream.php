@@ -46,9 +46,6 @@ $this->load->view('core_header', $header_args);
     <!--LEFT-->
     <div id="col-left">
       <div id="left-content-container">
-        <? foreach($user->future_places as $future_place):?>
-        <div><span class="place" lat="<?=$future_place->lat?>" lng="<?=$future_place->lng?>"><?=$future_place->name?><? if($future_place->admin1){echo ', '.$future_place->admin1;}if($future_place->country){echo ', '.$future_place->country;}?></span> <a href="#" class="remove-place" id="place-<?=$future_place->id?>">remove</a></div>
-        <? endforeach;?>
         <form id="bucket-list" action="<?=site_url('signup/save_bucket_list')?>" method="post">
         <fieldset>
           <div id="place" style="position:relative;">
@@ -87,6 +84,95 @@ $this->load->view('core_header', $header_args);
   </div>
 
 <script type="text/javascript">
+
+  function formfocus() {
+      document.getElementById('bucket-list').focus();
+   }
+   window.onload = formfocus;
+
+  $('.place-input').focus();
+  // dynamic form plugin for multiple places
+  $('#place').dynamicForm('#add-place', '#subtract-place', {
+    limit: 10,
+    afterClone: function(clone) {
+      clone.find('input').val('');
+    }
+  });
+
+
+  // jquery form validation plugin
+  $('#bucket-list').validate({
+    errorPlacement: function(error, element) {
+      error.appendTo( element.siblings('.label-and-errors').children('.error-message') );
+    }
+  });
+
+
+  // allows user to use up/down arrows to select from autosuggest list
+  $('.place-input').keyup(function(e) {
+    var ele = $(this);
+    var keyCode = e.keyCode || e.which,
+        arrow = {up: 38, down: 40};
+      
+    /*key navigation through elements*/
+    if (keyCode == arrow.up || keyCode == arrow.down) {
+      var results = $('#place-autocomplete li');
+  
+      var current = results.filter('.selected'),
+          next;
+      
+      switch (keyCode) {
+        case arrow.up:
+          next = current.prev();
+          break;
+        case arrow.down:
+          if (!results.hasClass('selected')) {
+            results.first().addClass('selected');
+          }
+          next = current.next();
+          break;
+      }
+  
+      //only check next element if up and down key pressed
+      if (next.is('li')) {
+        current.removeClass('selected');
+        next.addClass('selected');
+      }
+  
+      //update text in searchbar
+      if (results.hasClass('selected')) {
+        var a = $('.selected').children('a'),
+            name = a.text(),
+            id = a.attr('id').match(/^place-(\d+)$/)[1];
+        ele.val(name);
+        ele.siblings('.place_ids').val(id);
+      }
+  
+      //set cursor position
+      if (keyCode === arrow.up) {
+        return false;
+      }
+
+      return;
+    }
+  });
+
+
+  $('.place-input').bind('keydown keypress', function(e) {
+    var keyCode = e.keyCode || e.which,
+      arrow = {up: 38, enter: 13};
+    
+    if (keyCode == arrow.up || keyCode == arrow.enter) {
+      e.preventDefault();
+    }
+    if (keyCode == arrow.enter) {
+      var dates = $(this).parent().next();
+      $('#place-autocomplete').remove();
+      $('#add-place').click();
+    }    
+  });
+
+
   $(function() {
     $('input.place-input').live('keyup', function(e) {
       var keyCode = e.keyCode || e.which,
@@ -107,102 +193,6 @@ $this->load->view('core_header', $header_args);
       $(this).parent().siblings('.place_ids').val(id);
       $('#place-autocomplete').remove();
       $('#add-place').click();
-      addMarker(a.attr('lat'), a.attr('lng'));
-      return false;
-    });
-
-
-    $('.place-input').focus();
-    // dynamic form plugin for multiple places
-    $('#place').dynamicForm('#add-place', '#subtract-place', {
-      limit: 10,
-      afterClone: function(clone) {
-        clone.find('input').val('');
-      }
-    });
-    
-  
-    // allows user to use up/down arrows to select from autosuggest list
-    $('.place-input').live('keyup', function(e) {
-      var ele = $(this);
-      var keyCode = e.keyCode || e.which,
-          arrow = {up: 38, down: 40};
-        
-      /*key navigation through elements*/
-      if (keyCode == arrow.up || keyCode == arrow.down) {
-        var results = $('#place-autocomplete li');
-    
-        var current = results.filter('.selected'),
-            next;
-        
-        switch (keyCode) {
-          case arrow.up:
-            next = current.prev();
-            break;
-          case arrow.down:
-            if (!results.hasClass('selected')) {
-              results.first().addClass('selected');
-            }
-            next = current.next();
-            break;
-        }
-    
-        //only check next element if up and down key pressed
-        if (next.is('li')) {
-          current.removeClass('selected');
-          next.addClass('selected');
-        }
-    
-        //update text in searchbar
-        if (results.hasClass('selected')) {
-          var a = $('.selected').children('a'),
-              name = a.text();
-              //id = a.attr('id').match(/^place-(\d+)$/)[1];
-          ele.val(name);
-          //ele.siblings('.place_ids').val(id);
-        }
-    
-        //set cursor position
-        if (keyCode === arrow.up) {
-          return false;
-        }
-  
-        return;
-      }
-    });
-  
-  
-    $('.place-input').live('keydown keypress', function(e) {
-      var keyCode = e.keyCode || e.which,
-        arrow = {up: 38, enter: 13};
-      
-      if (keyCode == arrow.up || keyCode == arrow.enter) {
-        e.preventDefault();
-      }
-      if (keyCode == arrow.enter) {
-        var list = $('#place-autocomplete');
-        var id = $(list.children('.selected')[0]).children('a').attr('id').match(/^place-(\d+)$/)[1];
-        $(this).siblings('.place_ids').val(id);
-        list.remove();
-        $('#add-place').click();
-        //addMarker(a.attr('lat', a.attr('lng')))
-      }
-    });
-  
-
-    $('.next-button').click(function() {
-      var ids = $('.place_ids').map(function() {return $(this).val();}).get();
-      $('#bucket-list').submit();
-      return false;
-    });
-
-
-    $('.remove-place').click(function() {
-      var placeId = $(this).attr('id').match(/^place-(\d+)$/)[1];
-      $.post(baseUrl+'places/ajax_del_fut_place', {placeId: placeId},
-        function(d) {
-          $('#place-'+placeId).parent().remove();
-        });
       return false;
     });
   });
@@ -225,15 +215,13 @@ $this->load->view('core_header', $header_args);
       });
   };
   
-  
-  addMarker = function(lat, lng) {
-    var marker = po.geoJson()
-        .features([
-            {geometry: {type:'Point', coordinates:[parseFloat(lng), parseFloat(lat)]}}
-        ])
-        .on('load', po.stylist().attr('fill', 'red'));
-    map.add(marker);
-  }
+  $('.next-button').click(function() {
+    if ($('#bucket-list').valid()) {
+      var ids = $('.place_ids').map(function() {return $(this).val();}).get();
+      $('#bucket-list').submit();
+    }
+    return false;
+  });
 </script>
 </body>
 </html>
