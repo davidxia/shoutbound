@@ -40,7 +40,7 @@ class Mdb
         }
         $exec->free();
         $ret = array();
-        while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC)) {
+        while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT)) {
             $ret[] = $row;
         }
         return $ret;
@@ -61,7 +61,8 @@ class Mdb
             show_error($res->getMessage()."\n<br/>".$res->getUserInfo());
             return false;
         }
-        return $conn->lastInsertID();
+        //return $conn->lastInsertID();
+        return $res;
     }
 
 
