@@ -294,10 +294,13 @@ class Signup extends CI_Controller
         }
         
         // we auto followed their bucket list
-        $this->user->get_following_places($this->user->id);
+        //$this->user->get_following_places($this->user->id);
+        $p = new Place();
+        $places = $p->onboarding_places($this->user->id);
         
         $data = array(
             'user' => $this->user->stored,
+            'places' => $places,
         );
         $this->load->view('signup/places', $data);
     }

@@ -7,6 +7,7 @@ $header_args = array(
     'js_paths' => array(
         'js/jquery/jquery.ba-bbq.min.js',
         'js/common.js',
+        'js/user/loginSignup.js',
         'js/follow.js',
     )
 );
@@ -44,8 +45,8 @@ $this->load->view('core_header', $header_args);
       
       <ul id="main-tabs">
         <li class="active"><a href="#people">People</a></li>
-        <li><a href="#places">Places</a></li>
         <li><a href="#trips">Trips</a></li>
+        <li><a href="#places">Places</a></li>
       </ul>
               
       <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->

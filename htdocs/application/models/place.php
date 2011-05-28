@@ -202,6 +202,41 @@ class Place extends DataMapper
         
         $this->stored->related_places = $val;
     }
+    
+    
+    public function onboarding_places($user_id = NULL)
+    {
+        if ( ! $user_id)
+        {
+            return FALSE;
+        }
+        
+        $query = $this->db->query('SELECT place_id FROM `places_users` WHERE user_id = ? AND is_following = 1', $user_id);
+     
+        $sql = 'SELECT place_id FROM `places_trips` WHERE place_id NOT IN (';
+        $prefix = '';
+        foreach ($query->result() as $row)
+        {
+            $sql .= $prefix.$row->place_id;
+            $prefix = ',';
+        }
+        $sql .= ')';
+        $query = $this->db->query($sql);
+
+        $place_ids = array();
+        foreach ($query->result() as $row)
+        {
+            $place_ids[] = $row->place_id;
+        }
+
+        $sql = 'SELECT id, name, admin1, country FROM `places` WHERE id IN (';
+        $in_array = implode(',', $place_ids);
+        $sql .= $in_array.')';        
+        $query = $this->db->query($sql);
+        
+        return $query->result();
+    }
+    
 }
 
 /* End of file place.php */

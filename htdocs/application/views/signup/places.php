@@ -1,19 +1,16 @@
 <div id="places-tab" class="main-tab-content">
-  <? if ($user->following_places):?>
-    We've followed the places you said you wanted to go.
-  <? endif;?>
   
-  <? foreach ($user->following_places as $following_place):?>
+  <? foreach ($places as $place):?>
   <div class="streamitem">
-    <a class="unfollow" id="place-<?=$following_place->id?>">Unfollow</a>
+    <a class="follow" id="place-<?=$place->id?>">Follow</a>
     <div class="streamitem-avatar-container">
-      <a href="<?=site_url('places/'.$following_place->id)?>">
+      <a href="<?=site_url('places/'.$place->id)?>">
         <img src="<?=static_sub('images/place_icon.png')?>" width="25" height="25">
       </a>
     </div>
     <div class="narrow streamitem-content-container">
       <div class="streamitem-name">
-        <a href="<?=site_url('places/'.$following_place->id)?>"><?=$following_place->name?></a>
+        <a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
       </div>
       <div class="streamitem-bio">
       </div>
