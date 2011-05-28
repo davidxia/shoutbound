@@ -35,39 +35,51 @@ $this->load->view('core_header', $header_args);
       <div id="signup-title">Join Shoutbound.</div>
       
       <div id="step-one-container" class="step-container"><!--STEP ONE-->
-        <div class="step-header">1. Find your friends.</div>
+        <div class="step-header">1. Find your friends:</div>
         <div class="step-content">
-        	<a href="#" id="fb_login_button">
-          	<img src="<?=site_url('static/images/fb-login-button.png')?>"/>
+        	<a href="#" id="fb_login_button" onclick="toggle_visibility('step-two-container');">
+          	<img src="<?=site_url('static/images/facebook-connect-button.png')?>" height="23" width="180"/>
         	</a>
           <input type="hidden" name="is_fb_signup" id="is_fb_signup"/>
-        	<div id="fb-tip">This helps us connect you the most relevant travel content. We'll never post without your permission.</div>
-        	<a href="#" id="skip-step-one">I don't have a Facebook account.</a>
+        	<div id="fb-tip">This helps us connect you to the most relevant people and  content. We'll never post without your permission.</div>
+        	<a href="#" id="skip-step-one" onclick="toggle_visibility('step-two-container')">I don't have a Facebook account.</a>
         </div>     
       </div><!--STEP ONE END-->
   	
       <div id="step-two-container" class="step-container"><!--STEP TWO-->
-        <div class="step-header">2. Complete your profile.</div>
+        <div class="step-header">2. Complete your sign-up:</div>
         <div class="step-content">
           <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post">
-            <fieldset>    
-              <div class="label-and-error" style="margin-bottom:10px;">
-                <label for="name">Name</label>
-                <span class="error-message" style="float:right;"></span>
+            <fieldset>         
+              <div class="signup-input-container">
+                <input type="text" name="name" id="name" class="signup-input" autocomplete="off"/>                
+                <div class="label-and-error">
+                  <label for="name" style="color:#555">Full Name</label>
+                  <span class="error-message"></span>
+                </div>
               </div>
-              <input type="text" name="name" id="name" autocomplete="off"/>
+              <div class="signup-input-container">
+                <input type="text" name="signup_email" id="signup_email" class="signup-input" autocomplete="off"/>              
+                <div class="label-and-error">
+                  <label for="email" style="color:#555">E-mail</label>
+                  <span class="error-message"></span>
+                </div>
+              </div>
+              <div class="signup-input-container">
+                <input type="password" name="password" id="password" class="signup-input" autocomplete="off"/>              
+                <div class="label-and-error" style="margin-bottom:10px;">
+                  <label for="password" style="color:#555">Password</label>
+                  <span class="error-message"></span>
+                </div>
+              </div>
+              <div class="signup-input-container">
+                <input type="text" name="invite_code" id="invite_code" class="signup-input" autocomplete="off"/>              
+                <div class="label-and-error" style="margin-bottom:10px;">
+                  <label for="password" style="color:#555">Invite Code</label>
+                  <span class="error-message"></span>
+                </div>
+              </div>
               
-              <div class="label-and-error" style="margin-bottom:10px;">
-                <label for="email">Email</label>
-                <span class="error-message" style="float:right;"></span>
-              </div>
-              <input type="text" name="signup_email" id="signup_email" autocomplete="off"/>
-              
-              <div class="label-and-error" style="margin-bottom:10px;">
-                <label for="password">Password</label>
-                <span class="error-message" style="float:right;"></span>
-              </div>
-              <input type="password" name="password" id="password" autocomplete="off"/>
             </fieldset>
             <button type="submit" id="signup-submit">Create Account</button>
           </form>
@@ -132,6 +144,15 @@ $this->load->view('core_header', $header_args);
         alert(r.message);
       }
     });
+  }
+
+
+  function toggle_visibility(id) {
+     var e = document.getElementById(id);
+     if(e.style.display == 'block')
+        e.style.display = 'none';
+     else
+        e.style.display = 'block';
   }
   
   
