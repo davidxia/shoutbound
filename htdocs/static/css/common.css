@@ -530,6 +530,32 @@ ul.stats-list li a{
   font-weight:normal;
 }
 
+/*Autocomplete*/
+
+#autocomplete-results, #place-autocomplete{
+  background-color:white;
+  z-index:500;
+  width:350px;
+  border:1px solid #D5E2FF;
+}
+
+.autocomplete-item-container{
+  height:18px;
+  line-height:18px;
+  padding:4px 8px;
+}
+
+a.autocomplete-item{
+  text-decoration:none;
+  color:#333;
+}
+
+.autocomplete-item-container:hover{
+  background-color:#D5E2FF;
+  cursor:pointer;
+}
+
+
 /*tooltip*/
 
 .tooltip_container{
