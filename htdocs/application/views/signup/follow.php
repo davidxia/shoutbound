@@ -55,20 +55,20 @@ $this->load->view('core_header', $header_args);
             We've automatically followed for you these people on Shoutbound whom we think are your friends.
           <? endif;?>
           
-          <? foreach ($user->following as $following):?>
+          <? foreach ($other_users as $profile):?>
           <div class="streamitem">
-            <a class="unfollow" id="user-<?=$following->id?>" href="#">Unfollow</a>
+            <a class="unfollow" id="user-<?=$profile->id?>" href="#">Unfollow</a>
             <div class="streamitem-avatar-container">
-              <a href="<?=site_url('profile/'.$following->id)?>">
-                <img src="<?=static_sub('profile_pics/'.$following->profile_pic)?>" width="25" height="25"/>
+              <a href="<?=site_url('profile/'.$profile->id)?>">
+                <img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="25" height="25"/>
               </a>
             </div>
 
             <div class="narrow streamitem-content-container">
               <div class="streamitem-name">
-                <a href="<?=site_url('profile/'.$following->id)?>"><?=$following->name?></a>
+                <a href="<?=site_url('profile/'.$profile->id)?>"><?=$profile->name?></a>
               </div>
-              <div class="streamitem-bio"><?=$following->bio?></div>
+              <div class="streamitem-bio"><?=$profile->bio?></div>
               <div style="clear:both"></div>
             </div>
             

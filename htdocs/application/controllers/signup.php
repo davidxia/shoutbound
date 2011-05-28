@@ -227,12 +227,42 @@ class Signup extends CI_Controller
         
         // we auto followed their friends
         $this->user->get_following();
+        // dump all users this user is not following
+        $user_ids = array();
+        foreach ($this->user->stored->following as $following)
+        {
+            $user_ids[] = $following->id;
+        }
+        $u = new User();
+        $other_users = array();
+        if (empty($user_ids))
+        {
+            foreach ($u->get_iterated() as $other_user)
+            {
+                if ($other_user->id != $this->user->id)
+                {
+                    $other_users[] = $other_user->stored;
+                }
+            }
+        }
+        else
+        {
+            foreach ($u->where_not_in('id', $user_ids)->get_iterated() as $other_user)
+            {
+                if ($other_user->id != $this->user->id)
+                {
+                    $other_users[] = $other_user->stored;
+                }
+            }
+        }
+        
         $this->user->get_num_following();
         $this->user->get_num_following_trips();
         $this->user->get_num_following_places();
         
         $data = array(
             'user' => $this->user->stored,
+            'other_users' => $other_users,
             'is_onboarding' => TRUE,
         );
         $this->load->view('signup/follow', $data);
