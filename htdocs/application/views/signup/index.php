@@ -61,7 +61,7 @@ $this->load->view('core_header', $header_args);
                 <label for="email">Email</label>
                 <span class="error-message" style="float:right;"></span>
               </div>
-              <input type="text" name="email" id="email" autocomplete="off"/>
+              <input type="text" name="signup_email" id="signup_email" autocomplete="off"/>
               
               <div class="label-and-error" style="margin-bottom:10px;">
                 <label for="password">Password</label>
