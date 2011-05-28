@@ -120,11 +120,11 @@ $this->load->view('core_header', $header_args);
 	
 		
   function showAccountCreationDialog() {
-    $.get('<?=site_url('signup/ajax_create_fb_user')?>', function(d) {
+    $.get('<?=site_url('signup/ajax_get_fb_info')?>', function(d) {
       var r = $.parseJSON(d);
       if (r.success) {
         $('#name').val(r.name);
-        $('#email').val(r.email);
+        $('#signup_email').val(r.email);
         $('#is_fb_signup').val(1);
         $('#fb_login_button').hide();
         $('#fb-tip').hide();
