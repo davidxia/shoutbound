@@ -277,12 +277,17 @@ class Signup extends CI_Controller
         }
         
         // we auto followed their friends' rsvp yes trips
-        $this->user->get_following_trips();
+        //$this->user->get_following_trips();
+        $t = new Trip();
+        $trips = $t->onboarding_trips($this->user->id);
         
         $data = array(
             'user' => $this->user->stored,
+            'trips' => $trips,
         );
         $this->load->view('signup/trips', $data);
+        //echo '<pre>';print_r($trips);echo '</pre>';
+        
     }
     
     

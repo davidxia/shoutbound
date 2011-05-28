@@ -344,6 +344,80 @@ class Trip extends DataMapper
     }
     
     
+    public function onboarding_trips($user_id)
+    {
+        $query = $this->db->query('SELECT trip_id FROM `trips_users` WHERE user_id = ? AND rsvp = 3', $user_id);
+        $prefix = '';
+        $in_string = '';
+        foreach ($query->result() as $trip)
+        {
+            $in_string .= $prefix.$trip->trip_id;
+            $prefix = ',';
+        }
+        
+        if ($in_string)
+        {
+            $query = $this->db->query('SELECT id, name, description FROM `trips` WHERE is_active = 1 AND id NOT IN ('.$in_string.')');
+        }
+        else
+        {
+            $query = $this->db->query('SELECT id, name, description FROM `trips` WHERE is_active = 1');
+        }
+
+        
+        foreach ($query->result() as $trip)
+        {
+            $this->db_get_places($trip);
+            $this->db_get_goers($trip);
+        }
+        return $query->result();
+        
+    }
+    
+    
+    public function db_get_places($trip)
+    {
+        $query = $this->db->query('SELECT place_id, startdate, enddate FROM `places_trips` WHERE trip_id = ?', $trip->id);
+        $prefix = '';
+        $in_string = '';
+        $places_dates = array();
+        foreach ($query->result() as $place)
+        {
+            $in_string .= $prefix.$place->place_id;
+            $prefix = ',';
+            $places_dates[$place->place_id]->startdate = $place->startdate;
+            $places_dates[$place->place_id]->enddate = $place->enddate;
+        }
+        
+        $query2 = $this->db->query('SELECT id, name, admin1, country, lat, lng FROM `places` WHERE id IN ('.$in_string.')');
+        $trip->places = array();
+        foreach ($query2->result() as $place)
+        {
+            $place->startdate = $places_dates[$place->id]->startdate;
+            $place->enddate = $places_dates[$place->id]->enddate;
+            $trip->places[] = $place;
+        }
+    }
+    
+    
+    public function db_get_goers($trip)
+    {
+        $query = $this->db->query('SELECT user_id FROM `trips_users` WHERE trip_id = ? AND rsvp = 9', $trip->id);
+        $prefix = '';
+        $in_string = '';
+        foreach ($query->result() as $user)
+        {
+            $in_string .= $prefix.$user->user_id;
+            $prefix = ',';
+        }
+        
+        $query = $this->db->query('SELECT id, name, profile_pic FROM `users` WHERE id IN ('.$in_string.')');
+        $trip->goers = array();
+        foreach ($query->result() as $user)
+        {
+            $trip->goers[] = $user;
+        }
+    }
 }
 
 /* End of file trip.php */

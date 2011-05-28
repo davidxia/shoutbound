@@ -45,7 +45,7 @@ $this->load->view('core_header', $header_args);
       
       <ul id="main-tabs">
         <li class="active"><a href="#people">People</a></li>
-        <li><a href="#trips">Trips</a></li>
+        <li id="asdf"><a href="#trips">Trips</a></li>
         <li><a href="#places">Places</a></li>
       </ul>
               
@@ -105,9 +105,26 @@ $this->load->view('core_header', $header_args);
   <div id="sticky-bar">  
     <div id="progress-buttons-container">
       <a href="<?=site_url('signup/dream')?>" class="back-button">Back</a>
-      <a href="<?=site_url('signup/profile')?>" class="next-button">Next</a> 
+      <a href="#" class="next-button">Next</a> 
     </div>
   </div>        
 
 </body>
+<script type="text/javascript">
+  var tabClicks = 0;
+  $(window).bind('hashchange', function() {
+    tabClicks++;
+  });
+  $('.next-button').click(function() {
+    console.log(tabClicks);
+    if (tabClicks == 1) {
+      window.location = '<?=site_url('signup/follow#trips')?>';
+    } else if (tabClicks == 2) {
+      window.location = '<?=site_url('signup/follow#places')?>';
+    } else {
+      window.location = '<?=site_url('signup/profile')?>';
+    }
+    return false;
+  });
+</script>
 </html>
