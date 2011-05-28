@@ -194,4 +194,14 @@ function addMarkers() {
         .title(ele.getAttribute('title')));
     map.add(marker);
   });
+
+  $("[class='destination']").each(function(i,ele) {
+    var marker = po.geoJson()
+        .features([
+            {geometry: {type:'Point', coordinates:[parseFloat(ele.getAttribute('lng')), parseFloat(ele.getAttribute('lat'))]}}
+        ])
+        .on('load', po.stylist().attr('fill', 'blue')
+        .title(ele.getAttribute('title')));
+    map.add(marker);
+  });
 }

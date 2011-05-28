@@ -13,7 +13,6 @@ $header_args = array(
         'js/follow.js',
         'js/savepost.js',
         'js/common.js',
-        'js/jquery/jquery.color.js',
         'js/actionbar.js',
     )
 );
@@ -306,7 +305,7 @@ $this->load->view('core_header', $header_args);
     
       <!-- GALLERY AND MAP-->
       <ul id="right-tabs">
-        <li class="active" style="cursor:pointer;" tab="map">Map</li>
+        <li style="cursor:pointer;" tab="map">Map</li>
         <li style="cursor:pointer;" tab="itinerary">Itinerary</li>
       </ul>
       
@@ -317,7 +316,7 @@ $this->load->view('core_header', $header_args);
         <div id="itinerary-tab" class="right-tab-content" style="display:none">
           <? $prefix=''; foreach ($trip->places as $destination):?>
           <?=$prefix;?>
-            <span class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></span>  
+            <span class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>" title="<?=$destination->name?>"><?=$destination->name?></span>  
             <? if ($destination->startdate AND $destination->enddate):?>
               <span class="subtext"><?=date('F j, Y', $destination->startdate)?> - <?=date('F j, Y', $destination->enddate)?></span><br>
             <? elseif ($destination->startdate AND ! $destination->enddate):?>
@@ -355,6 +354,8 @@ $this->load->view('core_header', $header_args);
       }
       return false;
     });
+    
+    $('#right-tabs').children(':first').addClass('active');
   });
 </script>
 </body> 

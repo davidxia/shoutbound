@@ -74,8 +74,8 @@ $this->load->view('core_header', $header_args);
     <div id="top-bar"><!--TOP BAR-->
       <div id="place-info">
         <div class="top-bar-header"><span id="place-name" class="place-page-header"><?=$place->name?></span></div>
-        <? if($place->admin1):?><a class="destination tag" id="admin1"><?=$place->admin1?></a><? endif;?>
-        <? if($place->country):?><a href="#" class="destination tag"><?=$place->country?></a><? endif;?>
+        <? if($place->admin1):?><span id="admin1"><?=$place->admin1?></span><? endif;?>
+        <? if($place->country):?><span><?=$place->country?></span><? endif;?>
         <div id="abstract"></div>  
       </div>
     </div><!--TOP BAR END-->
