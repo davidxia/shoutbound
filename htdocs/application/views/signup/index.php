@@ -37,7 +37,7 @@ $this->load->view('core_header', $header_args);
       <div id="step-one-container" class="step-container"><!--STEP ONE-->
         <div class="step-header">1. Find your friends:</div>
         <div class="step-content">
-        	<a href="#" id="fb_login_button" onclick="toggle_visibility('step-two-container');">
+        	<a href="#" id="fb_login_button">
           	<img src="<?=site_url('static/images/facebook-connect-button.png')?>" height="23" width="180"/>
         	</a>
           <input type="hidden" name="is_fb_signup" id="is_fb_signup"/>
@@ -138,8 +138,9 @@ $this->load->view('core_header', $header_args);
         $('#name').val(r.name);
         $('#signup_email').val(r.email);
         $('#is_fb_signup').val(1);
-        $('#fb_login_button').hide();
-        $('#fb-tip').hide();
+        $('#step-one-container').hide();
+        $('#step-two-container').show();
+/*         $('#fb-tip').hide(); */
       } else {
         alert(r.message);
       }
