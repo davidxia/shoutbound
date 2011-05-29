@@ -2,32 +2,28 @@
 
 class Login extends CI_Controller
 {
- 
+
     function __construct()
     {
         parent::__construct();        
+        $u = new User_m();
+        if ($u->get_logged_in_user())
+        {
+            redirect('/home');
+        }
     }
     
  
     public function index()
     {
-        $u = new User();
-        if ($u->get_logged_in_status())
-        {
-            redirect('/');
-        }
-        
         $this->load->view('login');    
     }
     
     
     public function email_login()
     {
-        $u = new User();
-        $u->email = $this->input->post('email');
-        $u->password = $this->input->post('password');
-
-        if ($u->email_login())
+        $u = new User_m();
+        if ($u->verify_email_pw($this->input->post('email'), $this->input->post('password')))
         {
             json_success();
         }
@@ -40,11 +36,8 @@ class Login extends CI_Controller
 
     public function ajax_email_login()
     {
-        $u = new User();
-        $u->email = $this->input->post('email');
-        $u->password = $this->input->post('password');
-
-        if ($u->email_login())
+        $u = new User_m();
+        if ($u->verify_email_pw($this->input->post('email'), $this->input->post('password')))
         {
             json_success(array('loggedin' => TRUE));
         }
@@ -58,7 +51,7 @@ class Login extends CI_Controller
     public function ajax_facebook_login()
     {
         $this->load->library('facebook');
-        $u = new User();
+        $u = new User_m();
         $u->get_by_fid($this->facebook->getUser());
         
         if (empty($u->id))
@@ -67,7 +60,7 @@ class Login extends CI_Controller
         }
         else
         {
-            $u->login($u->id);
+            $u->login();
             json_success(array('redirect' => site_url('home'), 'existingUser' => TRUE));
         }
     }
@@ -75,6 +68,7 @@ class Login extends CI_Controller
     
     public function ajax_change_header()
     {
+        // TODO: fix this
         $user->id = 1;
         $data = array('user' => $user);
         $this->load->view('header', $data);

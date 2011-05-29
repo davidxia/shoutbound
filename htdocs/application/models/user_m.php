@@ -60,9 +60,6 @@ class User_m extends CI_Model
     
     public function verify_email_pw($email, $pw)
     {
-        $email = mysql_real_escape_string($email);
-        $pw = mysql_real_escape_string($pw);
-        
         $sql = 'SELECT id,email,password FROM `users` WHERE email = ? LIMIT 1';
         $v = array($email);
         $rows = $this->mdb->select($sql, $v);
@@ -111,6 +108,23 @@ class User_m extends CI_Model
         if ($user === FALSE)
         {
             $sql = 'SELECT * FROM `users` WHERE id = ?';
+            $v = array($id);
+            $rows = $this->mdb->select($sql, $v);
+            $user = (isset($rows[0])) ? $rows[0] : NULL;
+            $this->mc->set($key, $user);
+        }
+        
+        $this->row2obj($user);
+    }
+
+
+    public function get_by_fid($fid)
+    {
+        $key = 'user_by_user_fid:'.$fid;
+        $user = $this->mc->get($key);
+        if ($user === FALSE)
+        {
+            $sql = 'SELECT * FROM `users` WHERE fid = ?';
             $v = array($id);
             $rows = $this->mdb->select($sql, $v);
             $user = (isset($rows[0])) ? $rows[0] : NULL;
