@@ -37,6 +37,16 @@ class Activity_m extends CI_Model
 
         $this->row2obj($activity);
     }
+    
+    
+    public function set_active($is_active = 1)
+    {
+        $sql = 'UPDATE `activities` SET is_active = ? WHERE id = ?';
+        $v = array($is_active, $this->id);
+        $num_affected = $this->mdb->alter($sql, $v);
+        return $num_affected;
+    }
+
 
 
     public function row2obj($row)

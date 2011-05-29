@@ -25,8 +25,9 @@ class Mdb
         }
         return $conn;
     }
+    
 
-    function select($sql, $values=array(), $target='localhost')
+    public function select($sql, $values=array(), $target='localhost')
     {
         if ( ! isset($sql))
         {
@@ -56,7 +57,7 @@ class Mdb
     }
 
 
-    function alter($sql, $values, $target='localhost')
+    public function alter($sql, $values, $target='localhost')
     {
         if ( !isset($sql))
         {
@@ -68,20 +69,20 @@ class Mdb
         if ( PEAR::isError($exec))
         {
             show_error($exec->getMessage()."\n<br/>".$exec->getUserInfo());
-            return false;
+            return FALSE;
         }
         $res  = $exec->execute($values);
         if (PEAR::isError($res))
         {
             show_error($res->getMessage()."\n<br/>".$res->getUserInfo());
-            return false;
+            return FALSE;
         }
         //return $conn->lastInsertID();
         return $res;
     }
 
 
-    function batch_alter($sql, $batches, $target='localhost') {
+    public function batch_alter($sql, $batches, $target='localhost') {
         if (!isset($sql) || !$batches) { return false; }
 
         $conn = $this->_mdb_conn($target);
@@ -109,7 +110,7 @@ class Mdb
     //////////////////////////////////////////////////////////////
     // Insert/Update string helpers
 
-    function insert_string($table, $values) {
+    public function insert_string($table, $values) {
         $sql = 'INSERT INTO `'.$table.'` (';
         $final_values = array();
         foreach ($values as $col => $val) {
@@ -123,15 +124,19 @@ class Mdb
     }
 
 
-    function update_string($table, $values, $wheres) {
+    public function update_string($table, $values, $wheres) {
         $sql = 'UPDATE `'.$table.'` SET ';
         $final_values = array();
-        foreach ($values as $col => $val) {
+        
+        foreach ($values as $col => $val)
+        {
             $sets[] = '`'.$col.'` = ?';
             $final_values[] = $val;
         }
+        
         $sql .= join(', ', $sets). ' WHERE ';
-        foreach($wheres as $col => $val) {
+        foreach($wheres as $col => $val)
+        {
             $conds[] = '`'.$col.'` = ?';
             $final_values[] = $val;
         }
@@ -142,3 +147,6 @@ class Mdb
 
 }
 
+
+/* End of file Mdb.php */
+/* Location: ./application/models/Mdb.php */

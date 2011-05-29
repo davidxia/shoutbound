@@ -46,37 +46,6 @@ class Home extends CI_Controller
         $this->load->view('home/index', $data);
 		}
 	
-
-/*
-    public function index()
-    {
-        if ( ! $this->user->is_onboarded)
-        {
-            redirect(site_url('signup/dream'));
-        }
-        
-        $this->user->get_rsvp_yes_trips();
-        $this->user->get_rsvp_awaiting_trips();
-        $this->user->get_following_trips();
-        $this->user->get_num_rsvp_yes_trips();
-        $this->user->get_num_posts();
-        $this->user->get_num_following();
-        $this->user->get_num_following_trips();
-        $this->user->get_num_followers();
-        
-        $t = new Trip();
-        // get suggestions for both user's trips and her friends trips
-        $news_feed_items = $this->user->get_news_feed_items();
-        
-        $data = array(
-            'user' => $this->user->stored,
-            'news_feed_items' => $news_feed_items,
-        );
-                          
-        $this->load->view('home/index', $data);
-    }
-        
-*/
     
     public function trail()
     {
@@ -92,18 +61,14 @@ class Home extends CI_Controller
     
     public function ajax_delete_activity()
     {
-        $a = new Activitie($this->input->post('activityId'));
-        if ($a->user_id == $this->user->id)
+        $a = new Activity_m($this->input->post('activityId'));
+        if ($a->user_id == $this->user->id AND $a->set_active(0) == 1)
         {
-            $a->is_active = 0;
-            if ($a->save())
-            {
-                json_success();
-            }
-            else
-            {
-                json_error('something broke, tell David');
-            }
+            json_success();
+        }
+        else
+        {
+            json_error('something broke, tell David');
         }
     }
             
