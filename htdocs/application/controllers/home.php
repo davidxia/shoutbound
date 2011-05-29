@@ -3,13 +3,13 @@
 class Home extends CI_Controller
 {
     
-    public $user;
+    private $user;
     
     function __construct()
     {
         parent::__construct();
-        $u = new User();
-        if ($u->get_logged_in_status())
+        $u = new User_m();
+        if ($u->get_logged_in_user())
         {
             $this->user = $u;
         }
@@ -18,8 +18,36 @@ class Home extends CI_Controller
             redirect('/');
         }
 		}
+		
+		
+		public function index()
+		{
+        if ( ! $this->user->is_onboarded)
+        {
+            redirect(site_url('signup/dream'));
+        }
+        
+        $this->user->get_rsvp_yes_trips();
+        $this->user->get_rsvp_awaiting_trips();
+        $this->user->get_following_trips();
+        $this->user->get_num_rsvp_yes_trips();
+        $this->user->get_num_posts();
+        $this->user->get_num_following_users();
+        $this->user->get_num_following_trips();
+        $this->user->get_num_following_places();
+        $this->user->get_num_followers();
+        
+        $this->user->get_news_feed_items();
+        
+        $data = array(
+            'user' => $this->user,
+        );
+                          
+        $this->load->view('home/index', $data);
+		}
 	
 
+/*
     public function index()
     {
         if ( ! $this->user->is_onboarded)
@@ -48,6 +76,7 @@ class Home extends CI_Controller
         $this->load->view('home/index', $data);
     }
         
+*/
     
     public function trail()
     {
@@ -55,7 +84,7 @@ class Home extends CI_Controller
         $this->user->get_rsvp_awaiting_trips();
         
         $data = array(
-            'user' => $this->user->stored,
+            'user' => $this->user,
         );
         $this->load->view('home/trail', $data);
     }
@@ -79,16 +108,12 @@ class Home extends CI_Controller
     }
             
     
-    public function fb_request_form()
-    {
-        $this->load->view('fb_request_form');
-    }
-    
-    
+/*
     public function simplegeo_test()
     {
         $this->load->view('simplegeo_test');
     }
+*/
 }
 
 /* End of file home.php */

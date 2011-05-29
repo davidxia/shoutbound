@@ -172,6 +172,7 @@ class Post_m extends CI_Model
         foreach ($trip_ids as $trip_id)
         {
             $trip = new Trip_m($trip_id);
+            $trip->get_places();
             $this->trips[] = $trip;
         }
     }    

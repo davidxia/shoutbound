@@ -16,7 +16,7 @@
             <a href="<?=site_url('places/'.$place->id)?>" class="place bar-item" lat="<?=$place->lat?>" lng="<?=$place->lng?>">
               <?=$place->name?>
             </a>
-            <span class="subtext"><? if($place->startdate){echo date('F j, Y',$place->startdate);} if($place->startdate AND $place->enddate){echo ' - ';} if ($place->enddate){echo date('F j, Y', $place->enddate);}?></span>
+            <span class="subtext"><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
             <? $prefix = ' <span class="bullet">&#149</span> '?>
         <? endforeach;?>
         </div>
@@ -52,7 +52,7 @@
             <a href="<?=site_url('places/'.$place->id)?>" class="place bar-item" lat="<?=$place->lat?>" lng="<?=$place->lng?>">
               <?=$place->name?>
             </a>
-            <span class="subtext"><? if($place->startdate){echo date('F j, Y',$place->startdate);} if($place->startdate AND $place->enddate){echo ' - ';} if ($place->enddate){echo date('F j, Y', $place->enddate);}?></span>
+            <span class="subtext"><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
             <? $prefix = ' <span class="bullet">&#149</span> '?>
         <? endforeach;?>
         </div>

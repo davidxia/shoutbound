@@ -169,6 +169,7 @@ class Trip_m extends CI_Model
         foreach ($place_ids as $place_id)
         {
             $place = new Place_m($place_id);
+            $place->get_dates_by_trip_id($this->id);
             $this->places[] = $place;
         }
     }

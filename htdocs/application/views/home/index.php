@@ -89,21 +89,21 @@ $this->load->view('core_header', $header_args);
               </div>
             </div><!--END POST CONTAINER-->
             
-          <? if ( ! $news_feed_items):?>
+          <? if ( ! $user->news_feed_items):?>
             You haven't had any activity yet. Get started by <a href="<?=site_url('trips/create')?>">creating trips</a>, <a href="#">adding posts</a>, and <a href="#">following other people</a>, <a href="#"> trips</a>, and <a href="#"> places</a>.
           <? else:?>
           
-            <? $first=TRUE; foreach($news_feed_items as $news_feed_item):?>
+            <? $first=TRUE; foreach($user->news_feed_items as $news_feed_item):?>
               <div id="post-<?=$news_feed_item->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
                <div class="streamitem-avatar-container">
                   <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>">
-                    <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" height="25" width="25"/>
+                    <img src="<?=static_sub('profile_pics/'.$news_feed_item->author->profile_pic)?>" height="25" width="25"/>
                   </a>
                 </div>                   
                 
                 <div class="streamitem-content-container">
                   <div class="streamitem-name">
-                    <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>"><?=$news_feed_item->user->name?></a>
+                    <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>"><?=$news_feed_item->author->name?></a>
                   </div> 
                   <div class="streamitem-content"><?=$news_feed_item->content?></div>
                   
@@ -128,19 +128,19 @@ $this->load->view('core_header', $header_args);
                   
                   <!--COMMENTS START-->
                   <div class="comments-container" style="display:none;">
-                    <? foreach ($news_feed_item->replies as $comment):?>
+                    <? foreach ($news_feed_item->replies as $reply):?>
                     <div class="comment">
                       <div class="streamitem-avatar-container">
-                        <a href="<?=site_url('profile/'.$comment->user_id)?>">
-                          <img src="<?=static_sub('profile_pics/'.$comment->user->profile_pic)?>" height="25" width="25"/>
+                        <a href="<?=site_url('profile/'.$reply->user_id)?>">
+                          <img src="<?=static_sub('profile_pics/'.$reply->author->profile_pic)?>" height="25" width="25"/>
                         </a>
                       </div>                      
                       <div class="streamitem-content-container">
                         <div class="streamitem-name">
-                          <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->user->name?></a>
+                          <a href="<?=site_url('profile/'.$reply->user_id)?>"><?=$reply->author->name?></a>
                         </div> 
-                        <div class="comment-content"><?=$comment->content?></div>
-                        <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$comment->created?>"><?=$comment->created?></abbr></div>                      
+                        <div class="comment-content"><?=$reply->content?></div>
+                        <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$reply->created?>"><?=$reply->created?></abbr></div>                      
                       </div>
                     </div> 
                     <? endforeach;?>
@@ -204,7 +204,7 @@ $this->load->view('core_header', $header_args);
             <ul class="stats-list">
               <li><a href="#trail" class="trip-count"><?=$user->num_rsvp_yes_trips?><span class="stat-label">Trail</span></a></li>
               <li class="border-left"><a href="<?=site_url('profile#posts')?>" class="post-count"><?=$user->num_posts?><span class="stat-label">Posts</span></a></li>
-              <li class="border-left"><a href="<?=site_url('profile#following')?>" class="following-count"><?=$user->num_following+$user->num_following_trips?><span class="stat-label">Following</span></a></li>
+              <li class="border-left"><a href="<?=site_url('profile#following')?>" class="following-count"><?=$user->num_following_users+$user->num_following_trips+$user->num_following_places?><span class="stat-label">Following</span></a></li>
               <li class="border-left"><a href="<?=site_url('profile#followers')?>" class="followers-count"><?=$user->num_followers?><span class="stat-label">Followers</span></a></li>
             </ul>                
           </div><!--STATS END-->

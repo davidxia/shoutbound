@@ -187,7 +187,6 @@ class Place_m extends CI_Model
     public function get_follow_status_by_user_id($user_id)
     {
         $key = 'follow_status_by_place_id_user_id:'.$this->id.':'.$user_id;
-        $this->mc->delete($key);
         $follow_status = $this->mc->get($key);
         
         if ($follow_status === FALSE)
@@ -239,6 +238,25 @@ class Place_m extends CI_Model
     }
 
 
+    public function get_dates_by_trip_id($trip_id)
+    {
+        $key = 'dates_by_trip_id_place_id:'.$trip_id.':'.$this->id;
+        $this->mc->delete($key);
+        $dates = $this->mc->get($key);
+        
+        if ($dates === FALSE)
+        {
+            $dates = array();
+            $sql = 'SELECT startdate,enddate FROM `places_trips` WHERE trip_id = ? AND place_id = ?';
+            $v = array($trip_id, $this->id);
+            $rows = $this->mdb->select($sql, $v);
+            $dates['startdate'] = (isset($rows[0])) ? (int) $rows[0]->startdate : NULL;
+            $dates['enddate'] = (isset($rows[0])) ? (int) $rows[0]->enddate : NULL;
+            $this->mc->set($key, $dates);
+        }
+
+        $this->dates = $dates;
+    }
 
 
     public function row2obj($row)

@@ -7,6 +7,7 @@ class User_m extends CI_Model
     public $bio;
     public $url;
     public $profile_pic;
+    public $is_onboarded;
     
 
     function __construct($id = NULL)
@@ -128,7 +129,7 @@ class User_m extends CI_Model
         if ($trip_ids === FALSE)
         {
             $trip_ids = array();
-            $sql = 'SELECT tu.trip_id FROM `trips_users` tu, `trips` t WHERE tu.trip_id = t.id AND t.is_active = 1 AND tu.role IN (5,10) AND tu.user_id = ?';
+            $sql = 'SELECT tu.trip_id FROM `trips_users` tu, `trips` t WHERE tu.trip_id = t.id AND t.is_active = 1 AND tu.role IN (5,10) AND tu.rsvp >= 6 AND tu.user_id = ?';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
@@ -187,6 +188,8 @@ class User_m extends CI_Model
         foreach ($rsvp_yes_trip_ids as $rsvp_yes_trip_id)
         {
             $trip = new Trip_m($rsvp_yes_trip_id);
+            $trip->get_goers();
+            $trip->get_places();
             if ($user_id)
             {
                 $trip->get_rsvp_by_user_id($user_id);
@@ -236,6 +239,8 @@ class User_m extends CI_Model
         foreach ($rsvp_awaiting_trip_ids as $rsvp_awaiting_trip_id)
         {
             $trip = new Trip_m($rsvp_awaiting_trip_id);
+            $trip->get_goers();
+            $trip->get_places();
             if ($user_id)
             {
                 $trip->get_rsvp_by_user_id($user_id);
@@ -320,7 +325,7 @@ class User_m extends CI_Model
         if ($following_trip_ids === FALSE)
         {
             $following_trip_ids = array();
-            $sql = 'SELECT tu.trip_id FROM `trips_users` tu, `users` u, `trips` t WHERE tu.trip_id = t.id AND t.is_active = 1 AND u.id = tu.user_id AND tu.user_id = ? AND tu.rsvp = 3';
+            $sql = 'SELECT tu.trip_id FROM `trips_users` tu, `trips` t WHERE tu.trip_id = t.id AND t.is_active = 1 AND tu.user_id = ? AND tu.rsvp = 3';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
@@ -488,12 +493,6 @@ class User_m extends CI_Model
     }
 */
 
-
-    public function get_news_feed_items()
-    {
-
-    }
-    
     
     public function get_follow_status_by_user_id($user_id)
     {
@@ -664,6 +663,51 @@ class User_m extends CI_Model
     {
         $a = explode(' ', $this->name);
         $this->first_name = $a[0];
+    }
+
+
+    public function get_news_feed_items()
+    {
+        $key = 'news_feed_post_ids_by_user_id:'.$this->id;
+        $this->mc->delete($key);
+        $news_feed_post_ids = $this->mc->get($key);
+        
+        if ($news_feed_post_ids === FALSE)
+        {
+            $news_feed_post_ids = array();
+            $sql =
+                // get ids of posts that are not replies from people user follows
+                '(SELECT p.id, p.created FROM `posts` p WHERE p.parent_id IS NULL AND p.user_id IN '.
+                    '(SELECT uu.related_user_id FROM `related_users_users` uu, `users` u WHERE u.id = uu.related_user_id AND u.is_active = 1 AND uu.user_id = ? AND uu.is_following = 1) '.
+                    'ORDER BY p.created DESC) '.
+                'UNION '.
+                // get ids of trips user is following, awaiting rsvp, or rsvp yes
+                // get these trips' most recent posts that aren't replies excluding those posted or added by this user
+                '(SELECT p.id,p.created FROM `posts_trips` pt, `trips` t, `posts` p WHERE pt.trip_id = t.id AND p.id = pt.post_id AND p.parent_id IS NULL AND p.user_id != ? AND t.is_active = 1 AND p.is_active = 1 AND pt.is_active = 1 AND pt.trip_id IN '.
+                    '(SELECT tu.trip_id FROM `trips_users` tu, `trips` t WHERE tu.trip_id = t.id AND t.is_active = 1 AND tu.rsvp >= 3 AND tu.user_id = ?) AND (pt.added_by != ? OR pt.added_by IS NULL) '.
+                'ORDER BY p.created DESC) '.
+                // TODO: get posts from places user is following
+                'ORDER BY created DESC LIMIT 20';
+            $v = array($this->id, $this->id, $this->id, $this->id);
+            $rows = $this->mdb->select($sql, $v);
+            foreach ($rows as $row)
+            {
+                $news_feed_post_ids[] = (int) $row->id;
+            }
+            $this->mc->set($key, $news_feed_post_ids);
+        }
+
+        $this->news_feed_items = array();
+        foreach ($news_feed_post_ids as $news_feed_post_id)
+        {
+            $post = new Post_m($news_feed_post_id);
+            $post->convert_nl();
+            $post->get_author();
+            $post->get_trips();
+            $post->get_places();
+            $post->get_replies();
+            $this->news_feed_items[] = $post;
+        }
     }
 
 
