@@ -99,7 +99,7 @@ $this->load->view('core_header', $header_args);
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
   </div><!--STICKY FOOTER WRAPPER ENDS-->
-  <? $this->load->view('footer')?>
+  <? $this->load->view('templates/footer')?>
 <script type="text/javascript">
   $(function() {
     $('#save-settings').click(function() {

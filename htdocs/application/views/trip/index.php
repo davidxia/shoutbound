@@ -339,7 +339,7 @@ $this->load->view('core_header', $header_args);
   </div><!-- WRAPPER ENDS -->
   			  
 </div><!--END STICKY FOOTER WRAPPER-->
-<? $this->load->view('footer')?>
+<? $this->load->view('templates/footer')?>
 
 <script type="text/javascript">
   // show countdown clock

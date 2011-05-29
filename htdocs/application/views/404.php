@@ -12,7 +12,7 @@ $this->load->view('core_header', $header_args);
 
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
-  var baseUrl = "<?=site_url()?>";
+  var baseUrl = '<?=site_url()?>';
 </script>
   
 </head>

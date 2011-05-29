@@ -225,6 +225,6 @@ $this->load->view('core_header', $header_args);
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
   </div><!--STICK FOOTER WRAPPER ENDS-->
-  <? $this->load->view('footer')?>
+  <? $this->load->view('templates/footer')?>
 </body>
 </html>

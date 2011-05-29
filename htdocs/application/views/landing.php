@@ -81,7 +81,7 @@ $this->load->view('core_header', $header_args);
   </div><!-- WRAPPER ENDS -->
   </div><!-- CONTENT ENDS -->
   </div><!--STICKY FOOTER WRAPPER ENDS-->
-<? $this->load->view('footer')?>
+  <? $this->load->view('templates/footer')?>
 
 		<!--BAR-->
 <!--

@@ -76,9 +76,4 @@
     <? endforeach;?>
   <? endif; ?>
   <!-- RSVP YES TRIPS ENDS -->
-
-
-
-  
-  
 </div>
