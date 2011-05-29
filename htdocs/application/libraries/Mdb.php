@@ -5,59 +5,74 @@ include 'MDB2.php';
 class Mdb
 {
 
-    function _mdb_conn($target='localhost') {
-
-        switch($target) {
+    function _mdb_conn($target='localhost')
+    {
+        switch($target)
+        {
             case 'localhost':
                 $dbhost = 'localhost';
                 $dbuser = 'web';
                 $dbpass = 'moardatatoday';
                 $dbname = 'shoutbound';
                 break;
-            }
+        }
 
         $driver = 'mysqli://'.$dbuser.':'.$dbpass.'@'.$dbhost.'/'.$dbname;
         $conn =& MDB2::singleton($driver);
-        if(PEAR::isError($conn)) {
+        if (PEAR::isError($conn))
+        {
             die('Error connecting to database');
         }
         return $conn;
     }
 
-    function select($sql, $values=array(), $target='localhost') {
-        if(!isset($sql)) { return array(); }
+    function select($sql, $values=array(), $target='localhost')
+    {
+        if ( ! isset($sql))
+        {
+            return array();
+        }
 
         $conn = $this->_mdb_conn($target);
         $exec = $conn->prepare($sql,array(),MDB2_PREPARE_RESULT);
-        if(PEAR::isError($exec)) {
+        if (PEAR::isError($exec))
+        {
             show_error($exec->getMessage()."\n<br/>".$exec->getUserInfo());
             return false;
         }
         $res  = $exec->execute($values);
-        if(PEAR::isError($res)) {
+        if(PEAR::isError($res))
+        {
             show_error($res->getMessage()."\n<br/>".$res->getUserInfo());
             return false;
         }
         $exec->free();
         $ret = array();
-        while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT)) {
+        while($row = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+        {
             $ret[] = $row;
         }
         return $ret;
     }
 
 
-    function alter($sql, $values, $target='localhost') {
-        if(!isset($sql)) { return false; }
+    function alter($sql, $values, $target='localhost')
+    {
+        if ( !isset($sql))
+        {
+            return FALSE;
+        }
 
         $conn = $this->_mdb_conn($target);
         $exec = $conn->prepare($sql,array(),MDB2_PREPARE_MANIP);
-        if(PEAR::isError($exec)) {
+        if ( PEAR::isError($exec))
+        {
             show_error($exec->getMessage()."\n<br/>".$exec->getUserInfo());
             return false;
         }
         $res  = $exec->execute($values);
-        if(PEAR::isError($res)) {
+        if (PEAR::isError($res))
+        {
             show_error($res->getMessage()."\n<br/>".$res->getUserInfo());
             return false;
         }
@@ -67,24 +82,27 @@ class Mdb
 
 
     function batch_alter($sql, $batches, $target='localhost') {
-        if(!isset($sql) || !$batches) { return false; }
+        if (!isset($sql) || !$batches) { return false; }
 
         $conn = $this->_mdb_conn($target);
         $exec = $conn->prepare($sql,array(),MDB2_PREPARE_MANIP);
-        if(PEAR::isError($exec)) {
+        if (PEAR::isError($exec))
+        {
             show_error($exec->getMessage()."\n<br/>".$exec->getUserInfo());
             return false;
         }
-        foreach($batches as $values) {
+        foreach($batches as $values)
+        {
             $res = $exec->execute($values);
-            if(PEAR::isError($res)) {
+            if (PEAR::isError($res))
+            {
                 show_error($res->getMessage()."\n<br/>".$res->getUserInfo());
                 $error = True;
             }
         }
-        if($error)
-            return false;
-        return true;
+        if ($error)
+            return FALSE;
+        return TRUE;
     }
 
 

@@ -27,7 +27,7 @@ class Trip_m extends CI_Model
             $sql = 'SELECT * FROM `trips` WHERE id = ?';
             $v = array($id);
             $rows = $this->mdb->select($sql, $v);
-            $trip = $rows[0];
+            $trip = (isset($rows[0])) ? $rows[0] : NULL;
             $this->mc->set($key, $trip);
         }    
 
