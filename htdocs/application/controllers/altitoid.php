@@ -17,37 +17,9 @@ class Altitoid extends CI_Controller
     
     public function model_test()
     {
-        $trip = new Trip_m(1);
-        $trip->get_related_trips();
-/*
-        $trip->get_rsvp_by_user_id(1);
-        $trip->get_role_by_user_id(1);
-        $trip->get_creator();
-        $trip->get_num_goers();
-        $trip->get_goers();
-        $trip->get_num_followers();
-        $trip->get_followers(1);
-        $trip->get_places();
-        $trip->get_posts();
-*/
-        echo '<pre>';print_r($trip);echo '</pre>';
-
-/*
-        $p = new Place_m(4);
-        $p->get_num_posts();
+        $p = new Setting_m(1);
         echo '<pre>';print_r($p);echo '</pre>';
-*/
 
-/*
-        $p = new Post_m(70);
-        $p->get_author();
-        $p->get_added_by(2);
-        $p->convert_nl();
-        $p->get_places();
-        $p->get_replies();
-        $p->get_trips();
-        echo '<pre>';print_r($p);echo '</pre>';
-*/
     }
 
     public function mytest()

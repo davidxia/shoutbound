@@ -21,17 +21,17 @@ class User_m extends CI_Model
     public function get_by_id($id)
     {
         $key = 'user_by_user_id:'.$id;
-        $val = $this->mc->get($key);
-        if ($val === FALSE)
+        $user = $this->mc->get($key);
+        if ($user === FALSE)
         {
             $sql = 'SELECT * FROM `users` WHERE id = ?';
             $v = array($id);
             $rows = $this->mdb->select($sql, $v);
-            $val = $rows[0];
-            $this->mc->set($key, $val);
+            $user = (isset($rows[0])) ? $rows[0] : NULL;
+            $this->mc->set($key, $user);
         }
         
-        $this->row2obj($val);
+        $this->row2obj($user);
     }
 
 
@@ -51,15 +51,61 @@ class User_m extends CI_Model
         
         $this->is_following = $status;
     }
+    
+
+    public function get_onboarding_trips()
+    {
+        $trip_ids = array();
+        $sql = 'SELECT DISTINCT pt.trip_id FROM `places_trips` pt, `trips` t WHERE t.is_active = 1 AND pt.trip_id = t.id AND pt.trip_id NOT IN (SELECT trip_id FROM `trips_users` WHERE user_id = ? AND rsvp = 3)';
+        $v = array($this->id);
+        $rows = $this->mdb->select($sql, $v);
+        foreach ($rows as $row)
+        {
+            $trip_ids[] = (int) $row->trip_id;
+        }
+        
+        $this->onboarding_trips = array();
+        foreach ($trip_ids as $trip_id)
+        {
+            $trip = new Trip_m($trip_id);
+            $trip->get_goers();
+            $trip->get_places();
+            $this->onboarding_trips[] = $trip;
+        }
+    }
+
+
+    public function get_onboarding_places()
+    {
+        $place_ids = array();
+        $sql = 'SELECT pt.place_id FROM `places_trips` pt WHERE pt.place_id NOT IN (SELECT pu.place_id FROM `places_users` pu WHERE pu.user_id = ? AND pu.is_following = 1)';
+        $v = array($this->id);
+        $rows = $this->mdb->select($sql, $v);
+        foreach ($rows as $row)
+        {
+            $place_ids[] = (int) $row->place_id;
+        }
+
+        $this->onboarding_places = array();
+        foreach ($place_ids as $place_id)
+        {
+            $place = new Place_m($place_id);
+            $this->onboarding_places[] = $place;
+        }
+    }
+
 
     public function row2obj($row)
     {
-        foreach (get_object_vars($this) as $k => $v)
+        if ( ! is_null($row))
         {
-            $this->$k = $row->$k;
-        }    
+            foreach (get_object_vars($this) as $k => $v)
+            {
+                $this->$k = $row->$k;
+            }    
+        }
     }
-
+    
 
 }
 

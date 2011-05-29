@@ -27,7 +27,7 @@ class Post_m extends CI_Model
             $sql = 'SELECT * FROM `posts` WHERE id = ?';
             $v = array($id);
             $rows = $this->mdb->select($sql, $v);
-            $post = $rows[0];
+            $post = (isset($rows[0])) ? $rows[0] : NULL;
             $this->mc->set($key, $post);
         }
         
@@ -50,7 +50,6 @@ class Post_m extends CI_Model
         }
         
         $this->author = new User_m($author_id);
-
     }
 
 
@@ -178,20 +177,23 @@ class Post_m extends CI_Model
     }    
 
 
-    public function row2obj($row)
-    {
-        foreach (get_object_vars($this) as $k => $v)
-        {
-            $this->$k = $row->$k;
-        }    
-    }
-
-
     public function remove_from_trip_by_trip_id($trip_id)
     {
         $sql = 'UPDATE `posts_trips` SET is_active = ? WHERE trip_id = ? AND post_id = ?';
         $v = array(0, $trip_id, $this->id);
         return $this->mdb->alter($sql, $v);
+    }
+
+
+    public function row2obj($row)
+    {
+        if ( ! is_null($row))
+        {
+            foreach (get_object_vars($this) as $k => $v)
+            {
+                $this->$k = $row->$k;
+            }    
+        }
     }
 }
 

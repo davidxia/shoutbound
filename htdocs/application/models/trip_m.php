@@ -12,7 +12,7 @@ class Trip_m extends CI_Model
     function __construct($id = NULL)
     {
         parent::__construct();
-        if (is_int((int) $id))
+        if (is_int($id))
         {
             $this->get_by_id($id);
         }
@@ -32,15 +32,6 @@ class Trip_m extends CI_Model
         }    
 
         $this->row2obj($trip);
-    }
-
-
-    public function row2obj($row)
-    {
-        foreach (get_object_vars($this) as $k => $v)
-        {
-            $this->$k = $row->$k;
-        }    
     }
 
 
@@ -188,7 +179,6 @@ class Trip_m extends CI_Model
         $key = 'post_ids_by_trip_id:'.$this->id;
         $post_ids = $this->mc->get($key);
 
-
         if ($post_ids === FALSE)
         {
             $post_ids = array();
@@ -232,7 +222,7 @@ class Trip_m extends CI_Model
             $sql = 'SELECT rsvp FROM `trips_users` WHERE trip_id = ? AND user_id = ?';
             $v = array($this->id, $user_id);
             $rows = $this->mdb->select($sql, $v);
-            $rsvp = (int) $rows[0]->rsvp;
+            $rsvp = (isset($rows[0])) ? (int) $rows[0]->rsvp : 0;
             $this->mc->set($key, $rsvp);
         }
         
@@ -255,7 +245,7 @@ class Trip_m extends CI_Model
             $sql = 'SELECT role FROM `trips_users` WHERE trip_id = ? AND user_id = ?';
             $v = array($this->id, $user_id);
             $rows = $this->mdb->select($sql, $v);
-            $role = (int) $rows[0]->role;
+            $role = (isset($rows[0])) ? (int) $rows[0]->role : 0;
             $this->mc->set($key, $role);
         }
         
@@ -376,9 +366,9 @@ class Trip_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $post_ids[] = (int) $row->trip_id;
+                $related_trip_ids[] = (int) $row->trip_id;
             }
-            $this->mc->set($key, $post_ids);
+            $this->mc->set($key, $related_trip_ids);
         }
 
         $this->related_trips = array();
@@ -390,6 +380,19 @@ class Trip_m extends CI_Model
             $this->related_trips[] = $related_trip;
         }
     }
+
+
+    public function row2obj($row)
+    {
+        if ( ! is_null($row))
+        {
+            foreach (get_object_vars($this) as $k => $v)
+            {
+                $this->$k = $row->$k;
+            }    
+        }
+    }
+
 }
 
 /* End of file trip_m.php */
