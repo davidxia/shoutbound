@@ -42,6 +42,14 @@ class Users extends CI_Controller
         $render_string = $this->load->view('login_signup', $view_data, true);
         json_success(array('data'=>$render_string));
     }
+    
+    
+    public function mytest()
+    {
+        $this->load->library('facebook');
+        $fbuser = $this->facebook->api('/me?fields=friends');
+        echo '<pre>';print_r($fbuser);echo '</pre>';
+    }
 }
 
 /* End of file users.php */
