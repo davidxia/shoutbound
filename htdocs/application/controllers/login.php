@@ -37,6 +37,18 @@ class Login extends CI_Controller
     public function ajax_facebook_login()
     {
         $this->load->library('facebook');
+        $fbid = $this->facebook->getUser();
+        $u = new User_m('1');
+        $u->get_trips()->get_follow_status_by_user_id(5);
+        //$u->get_by_fid($fbid);
+        echo '<pre>';var_dump($fbid);var_dump($u);echo '</pre>';
+        if ($u->is_following)
+        {
+            echo 'is following';
+        }
+
+
+/*
         $u = new User_m();
         $u->get_by_fid($this->facebook->getUser());
         
@@ -49,6 +61,7 @@ class Login extends CI_Controller
             $u->login();
             json_success(array('redirect' => site_url('home'), 'existingUser' => TRUE));
         }
+*/
     }
     
     

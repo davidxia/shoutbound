@@ -12,7 +12,7 @@ class Trip_m extends CI_Model
     function __construct($id = NULL)
     {
         parent::__construct();
-        if (is_int($id))
+        if (is_numeric($id))
         {
             $this->get_by_id($id);
         }
@@ -45,11 +45,12 @@ class Trip_m extends CI_Model
             $sql = 'SELECT user_id FROM `trips_users` WHERE trip_id = ? AND role = 10';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
-            $user_id = (int) $rows[0]->user_id;
+            $user_id = $rows[0]->user_id;
             $this->mc->set($key, $user_id);
         }
         
         $this->creator = new User_m($user_id);
+        return $this;
     }
 
 
@@ -63,11 +64,12 @@ class Trip_m extends CI_Model
             $sql = 'SELECT COUNT(*) FROM `trips_users` WHERE trip_id = ? AND rsvp = 9';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
-            $num_goers = (int) $rows[0]->{'count(*)'};
+            $num_goers = $rows[0]->{'count(*)'};
             $this->mc->set($key, $num_goers);
         }
 
         $this->num_goers = $num_goers;
+        return $this;
     }
 
 
@@ -84,7 +86,7 @@ class Trip_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $goer_ids[] = (int) $row->user_id;
+                $goer_ids[] = $row->user_id;
             }
             $this->mc->set($key, $goer_ids);
         }
@@ -94,6 +96,7 @@ class Trip_m extends CI_Model
         {
             $this->goers[] = new User_m($goer_id);
         }
+        return $this;
     }
     
 
@@ -107,11 +110,12 @@ class Trip_m extends CI_Model
             $sql = 'SELECT COUNT(*) FROM `trips_users` WHERE trip_id = ? AND rsvp = 3';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
-            $num_followers = (int) $rows[0]->{'count(*)'};
+            $num_followers = $rows[0]->{'count(*)'};
             $this->mc->set($key, $num_followers);
         }
 
         $this->num_followers = $num_followers;
+        return $this;
     }
 
 
@@ -128,7 +132,7 @@ class Trip_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $follower_ids[] = (int) $row->user_id;
+                $follower_ids[] = $row->user_id;
             }
             $this->mc->set($key, $follower_ids);
         }
@@ -144,6 +148,7 @@ class Trip_m extends CI_Model
             $this->followers[] = $follower;
         }
 
+        return $this;
     }
 
 
@@ -160,7 +165,7 @@ class Trip_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $place_ids[] = (int) $row->place_id;
+                $place_ids[] = $row->place_id;
             }
             $this->mc->set($key, $place_ids);
         }
@@ -172,6 +177,7 @@ class Trip_m extends CI_Model
             $place->get_dates_by_trip_id($this->id);
             $this->places[] = $place;
         }
+        return $this;
     }
 
 
@@ -188,7 +194,7 @@ class Trip_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $post_ids[] = (int) $row->post_id;
+                $post_ids[] = $row->post_id;
             }
             $this->mc->set($key, $post_ids);
         }
@@ -205,6 +211,7 @@ class Trip_m extends CI_Model
             $post->get_replies();
             $this->posts[] = $post;
         }
+        return $this;
     }
 
 
@@ -223,11 +230,12 @@ class Trip_m extends CI_Model
             $sql = 'SELECT rsvp FROM `trips_users` WHERE trip_id = ? AND user_id = ?';
             $v = array($this->id, $user_id);
             $rows = $this->mdb->select($sql, $v);
-            $rsvp = (isset($rows[0])) ? (int) $rows[0]->rsvp : 0;
+            $rsvp = (isset($rows[0])) ? $rows[0]->rsvp : 0;
             $this->mc->set($key, $rsvp);
         }
         
         $this->rsvp = $rsvp;
+        return $this;
     }
 
 
@@ -246,11 +254,12 @@ class Trip_m extends CI_Model
             $sql = 'SELECT role FROM `trips_users` WHERE trip_id = ? AND user_id = ?';
             $v = array($this->id, $user_id);
             $rows = $this->mdb->select($sql, $v);
-            $role = (isset($rows[0])) ? (int) $rows[0]->role : 0;
+            $role = (isset($rows[0])) ? $rows[0]->role : 0;
             $this->mc->set($key, $role);
         }
         
         $this->role = $role;
+        return $this;
     }
 
 
@@ -367,7 +376,7 @@ class Trip_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $related_trip_ids[] = (int) $row->trip_id;
+                $related_trip_ids[] = $row->trip_id;
             }
             $this->mc->set($key, $related_trip_ids);
         }
@@ -380,10 +389,11 @@ class Trip_m extends CI_Model
             $related_trip->get_places();
             $this->related_trips[] = $related_trip;
         }
+        return $this;
     }
 
 
-    public function row2obj($row)
+    private function row2obj($row)
     {
         if ( ! is_null($row))
         {
@@ -391,6 +401,19 @@ class Trip_m extends CI_Model
             {
                 $this->$k = $row->$k;
             }    
+        }
+        else
+        {
+            $this->clear();
+        }
+    }
+    
+
+    private function clear()
+    {
+        foreach (get_object_vars($this) as $k => $v)
+        {
+            $this->$k = NULL;
         }
     }
 

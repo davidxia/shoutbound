@@ -9,7 +9,7 @@ class Setting_m extends CI_Model
     function __construct($id = NULL)
     {
         parent::__construct();
-        if (is_int($id))
+        if (is_numeric($id))
         {
             $this->get_by_id($id);
         }
@@ -33,7 +33,7 @@ class Setting_m extends CI_Model
     }
 
 
-    public function row2obj($row)
+    private function row2obj($row)
     {
         if ( ! is_null($row))
         {
@@ -42,8 +42,20 @@ class Setting_m extends CI_Model
                 $this->$k = $row->$k;
             }    
         }
+        else
+        {
+            $this->clear();
+        }
     }
+    
 
+    private function clear()
+    {
+        foreach (get_object_vars($this) as $k => $v)
+        {
+            $this->$k = NULL;
+        }
+    }
 
 }
 

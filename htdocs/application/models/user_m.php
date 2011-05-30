@@ -13,7 +13,7 @@ class User_m extends CI_Model
     function __construct($id = NULL)
     {
         parent::__construct();
-        if (is_int($id))
+        if (is_numeric($id))
         {
             $this->get_by_id($id);
         }
@@ -206,7 +206,7 @@ class User_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $trip_ids[] = (int) $row->trip_id;
+                $trip_ids[] = $row->trip_id;
             }
             $this->mc->set($key, $trip_ids);
         }
@@ -217,6 +217,8 @@ class User_m extends CI_Model
             $trip = new Trip_m($trip_id);
             $this->trips[] = $trip;
         }
+        
+        return $this;
     }
 
 
@@ -230,11 +232,12 @@ class User_m extends CI_Model
             $sql = 'SELECT COUNT(*) FROM `trips_users` tu, `trips` t WHERE t.id = tu.trip_id AND t.is_active = 1 AND tu.user_id = ? AND tu.rsvp = 9';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
-            $num_rsvp_yes_trips = (int) $rows[0]->{'count(*)'};
+            $num_rsvp_yes_trips = $rows[0]->{'count(*)'};
             $this->mc->set($key, $num_rsvp_yes_trips);
         }
 
         $this->num_rsvp_yes_trips = $num_rsvp_yes_trips;
+        return $this;
     }
 
 
@@ -251,7 +254,7 @@ class User_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $rsvp_yes_trip_ids[] = (int) $row->trip_id;
+                $rsvp_yes_trip_ids[] = $row->trip_id;
             }
             $this->mc->set($key, $rsvp_yes_trip_ids);
         }
@@ -268,6 +271,7 @@ class User_m extends CI_Model
             }
             $this->rsvp_yes_trips[] = $trip;
         }
+        return $this;
     }
 
 
@@ -281,11 +285,12 @@ class User_m extends CI_Model
             $sql = 'SELECT COUNT(*) FROM `trips_users` tu, `trips` t WHERE t.id = tu.trip_id AND t.is_active = 1 AND tu.user_id = ? AND tu.rsvp = 6';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
-            $num_rsvp_awaiting_trips = (int) $rows[0]->{'count(*)'};
+            $num_rsvp_awaiting_trips = $rows[0]->{'count(*)'};
             $this->mc->set($key, $num_rsvp_awaiting_trips);
         }
 
         $this->num_rsvp_awaiting_trips = $num_rsvp_awaiting_trips;
+        return $this;
     }
 
 
@@ -302,7 +307,7 @@ class User_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $rsvp_awaiting_trip_ids[] = (int) $row->trip_id;
+                $rsvp_awaiting_trip_ids[] = $row->trip_id;
             }
             $this->mc->set($key, $rsvp_awaiting_trip_ids);
         }
@@ -319,6 +324,7 @@ class User_m extends CI_Model
             }
             $this->rsvp_awaiting_trips[] = $trip;
         }
+        return $this;
     }
 
 
@@ -332,11 +338,12 @@ class User_m extends CI_Model
             $sql = 'SELECT COUNT(*) FROM `related_users_users` uu, `users` u WHERE u.id = uu.related_user_id AND u.is_active = 1 AND uu.user_id = ? AND uu.is_following = 1';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
-            $num_following_users = (int) $rows[0]->{'count(*)'};
+            $num_following_users = $rows[0]->{'count(*)'};
             $this->mc->set($key, $num_following_users);
         }
 
         $this->num_following_users = $num_following_users;
+        return $this;
     }
 
 
@@ -353,7 +360,7 @@ class User_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $following_user_ids[] = (int) $row->related_user_id;
+                $following_user_ids[] = $row->related_user_id;
             }
             $this->mc->set($key, $following_user_ids);
         }
@@ -368,6 +375,7 @@ class User_m extends CI_Model
             }
             $this->following_users[] = $user;
         }
+        return $this;
     }
 
 
@@ -381,11 +389,12 @@ class User_m extends CI_Model
             $sql = 'SELECT COUNT(*) FROM `trips_users` tu, `users` u, `trips` t WHERE tu.trip_id = t.id AND t.is_active = 1 AND u.id = tu.user_id AND tu.user_id = ? AND tu.rsvp = 3';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
-            $num_following_trips = (int) $rows[0]->{'count(*)'};
+            $num_following_trips = $rows[0]->{'count(*)'};
             $this->mc->set($key, $num_following_trips);
         }
 
         $this->num_following_trips = $num_following_trips;
+        return $this;
     }
 
 
@@ -402,7 +411,7 @@ class User_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $following_trip_ids[] = (int) $row->trip_id;
+                $following_trip_ids[] = $row->trip_id;
             }
             $this->mc->set($key, $following_trip_ids);
         }
@@ -418,6 +427,7 @@ class User_m extends CI_Model
             }
             $this->following_trips[] = $trip;
         }
+        return $this;
     }
 
 
@@ -431,11 +441,12 @@ class User_m extends CI_Model
             $sql = 'SELECT COUNT(*) FROM `places_users` pu, `users` u WHERE u.id = pu.user_id AND pu.user_id = ? AND pu.is_following = 1';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
-            $num_following_places = (int) $rows[0]->{'count(*)'};
+            $num_following_places = $rows[0]->{'count(*)'};
             $this->mc->set($key, $num_following_places);
         }
 
         $this->num_following_places = $num_following_places;
+        return $this;
     }
 
 
@@ -452,7 +463,7 @@ class User_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $following_place_ids[] = (int) $row->place_id;
+                $following_place_ids[] = $row->place_id;
             }
             $this->mc->set($key, $following_place_ids);
         }
@@ -467,6 +478,7 @@ class User_m extends CI_Model
             }
             $this->following_places[] = $place;
         }
+        return $this;
     }
 
 
@@ -480,11 +492,12 @@ class User_m extends CI_Model
             $sql = 'SELECT COUNT(*) FROM `related_users_users` uu, `users` u WHERE u.id = uu.user_id AND u.is_active = 1 AND uu.related_user_id = ? AND uu.is_following = 1';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
-            $num_followers = (int) $rows[0]->{'count(*)'};
+            $num_followers = $rows[0]->{'count(*)'};
             $this->mc->set($key, $num_followers);
         }
 
         $this->num_followers = $num_followers;
+        return $this;
     }
 
 
@@ -501,7 +514,7 @@ class User_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $follower_ids[] = (int) $row->user_id;
+                $follower_ids[] = $row->user_id;
             }
             $this->mc->set($key, $follower_ids);
         }
@@ -516,6 +529,7 @@ class User_m extends CI_Model
             }
             $this->followers[] = $user;
         }
+        return $this;
     }
     
     
@@ -529,11 +543,12 @@ class User_m extends CI_Model
             $sql = 'SELECT COUNT(*) FROM `posts` p WHERE p.is_active = 1 AND p.user_id = ?';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
-            $num_posts = (int) $rows[0]->{'count(*)'};
+            $num_posts = $rows[0]->{'count(*)'};
             $this->mc->set($key, $num_posts);
         }
 
         $this->num_posts = $num_posts;
+        return $this;
     }
 
 
@@ -551,7 +566,7 @@ class User_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $post_ids[] = (int) $row->id;
+                $post_ids[] = $row->id;
             }
             $this->mc->set($key, $post_ids);
         }
@@ -562,6 +577,7 @@ class User_m extends CI_Model
             $post = new Post_m($post_id);
             $this->posts[] = $post;
         }
+        return $this;
     }
 */
 
@@ -569,18 +585,20 @@ class User_m extends CI_Model
     public function get_follow_status_by_user_id($user_id)
     {
         $key = 'follow_status_by_user_id:'.$this->id.':'.$user_id;
+        $this->mc->delete($key);
         $status = $this->mc->get($key);
         
         if ($status === FALSE)
         {
             $sql = 'SELECT is_following FROM `related_users_users` WHERE user_id = ? AND related_user_id = ?';
-            $v = array($this->id, $user_id);
+            $v = array($user_id, $this->id);
             $rows = $this->mdb->select($sql, $v);
-            $status = (isset($rows[0])) ? (int) $rows[0]->is_following : 0;
+            $status = (isset($rows[0])) ? $rows[0]->is_following : 0;
             $this->mc->set($key, $status);
         }
         
         $this->is_following = $status;
+        return $this;
     }
     
 
@@ -592,7 +610,7 @@ class User_m extends CI_Model
         $rows = $this->mdb->select($sql, $v);
         foreach ($rows as $row)
         {
-            $trip_ids[] = (int) $row->trip_id;
+            $trip_ids[] = $row->trip_id;
         }
         
         $this->onboarding_trips = array();
@@ -603,6 +621,7 @@ class User_m extends CI_Model
             $trip->get_places();
             $this->onboarding_trips[] = $trip;
         }
+        return $this;
     }
 
 
@@ -614,7 +633,7 @@ class User_m extends CI_Model
         $rows = $this->mdb->select($sql, $v);
         foreach ($rows as $row)
         {
-            $place_ids[] = (int) $row->place_id;
+            $place_ids[] = $row->place_id;
         }
 
         $this->onboarding_places = array();
@@ -623,6 +642,7 @@ class User_m extends CI_Model
             $place = new Place_m($place_id);
             $this->onboarding_places[] = $place;
         }
+        return $this;
     }
 
 
@@ -639,7 +659,7 @@ class User_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $future_place_ids[] = (int) $row->place_id;
+                $future_place_ids[] = $row->place_id;
             }
             $this->mc->set($key, $future_place_ids);
         }
@@ -650,6 +670,7 @@ class User_m extends CI_Model
             $place = new Place_m($future_place_id);
             $this->future_places[] = $place;
         }
+        return $this;
     }
 
 
@@ -666,7 +687,7 @@ class User_m extends CI_Model
                            'WHERE `places_users`.`user_id` = ?)';
             $v = array($this->id, $this->id);
             $rows = $this->mdb->select($sql, $v);
-            $current_place_id = (isset($rows[0])) ? (int) $rows[0]->place_id : NULL;
+            $current_place_id = (isset($rows[0])) ? $rows[0]->place_id : NULL;
             $this->mc->set($key, $current_place_id);
         }
         
@@ -679,6 +700,7 @@ class User_m extends CI_Model
         {
             $this->current_place = NULL;
         }
+        return $this;
     }
 
 
@@ -695,7 +717,7 @@ class User_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $past_place_ids[] = (int) $row->place_id;
+                $past_place_ids[] = $row->place_id;
             }
             $this->mc->set($key, $past_place_ids);
         }
@@ -706,6 +728,7 @@ class User_m extends CI_Model
             $place = new Place_m($past_place_id);
             $this->past_places[] = $place;
         }
+        return $this;
     }
 
 
@@ -722,12 +745,13 @@ class User_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $settings[$row->setting_id] = (int) $row->is_on;
+                $settings[$row->setting_id] = $row->is_on;
             }
             $this->mc->set($key, $settings);
         }
         
         $this->setttings = $settings;
+        return $this;
     }
 
 
@@ -741,7 +765,6 @@ class User_m extends CI_Model
     public function get_news_feed_items()
     {
         $key = 'news_feed_post_ids_by_user_id:'.$this->id;
-        $this->mc->delete($key);
         $news_feed_post_ids = $this->mc->get($key);
         
         if ($news_feed_post_ids === FALSE)
@@ -764,7 +787,7 @@ class User_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $news_feed_post_ids[] = (int) $row->id;
+                $news_feed_post_ids[] = $row->id;
             }
             $this->mc->set($key, $news_feed_post_ids);
         }
@@ -780,6 +803,7 @@ class User_m extends CI_Model
             $post->get_replies();
             $this->news_feed_items[] = $post;
         }
+        return $this;
     }
 
 

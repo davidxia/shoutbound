@@ -10,7 +10,7 @@ class Friend_m extends CI_Model
     function __construct($id = NULL)
     {
         parent::__construct();
-        if (is_int($id))
+        if (is_numeric($id))
         {
             $this->get_by_id($id);
         }
