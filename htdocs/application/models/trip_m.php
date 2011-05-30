@@ -301,8 +301,8 @@ class Trip_m extends CI_Model
         
         $sql = 'UPDATE `trips` SET is_active = ? WHERE id = ?';
         $v = array(0, $this->id);
-        $num_affected = $this->mdb->alter($sql, $v);
-        if ($num_affected == 1)
+        $r = $this->mdb->alter($sql, $v);
+        if ($r['num_affected'] == 1)
         {            
 /*
             $this->get_places();

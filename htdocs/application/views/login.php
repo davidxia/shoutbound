@@ -87,20 +87,16 @@ $this->load->view('core_header', $header_args);
         password: $('#password').val()
       };
       
-      $.ajax({
-        url: '<?=site_url('login/email_login')?>',
-        type: 'POST',
-        data: postData,
-        success: function(response) {
-          var r = $.parseJSON(response);
+      $.ajax('<?=site_url('login/ajax_email_login')?>', postData,
+        function(d) {
+          var r = $.parseJSON(d);
           if (r.success) {
             window.location = "<?=site_url()?>";
           } else {
             var text = 'Wrong email or password.';
             $('#login-error').html(text);
           }
-        }
-      });
+        });
       return false;
     });
   });

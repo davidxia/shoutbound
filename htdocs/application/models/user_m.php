@@ -135,6 +135,64 @@ class User_m extends CI_Model
     }
 
 
+    public function get_by_email($email)
+    {
+        $key = 'user_by_email:'.$email;
+        $user = $this->mc->get($key);
+        
+        if ($user === FALSE)
+        {
+            $sql = 'SELECT * FROM `users` WHERE email = ?';
+            $v = array($email);
+            $rows = $this->mdb->select($sql, $v);
+            $user = (isset($rows[0])) ? $rows[0] : NULL;
+            $this->mc->set($key, $user);
+        }
+
+        $this->row2obj($user);
+    }
+
+
+    public function create($params)
+    {
+        if ( ! is_array($params))
+        {
+           return FALSE;
+        }
+        
+        $name = (isset($params['name'])) ? $params['name'] : NULL;
+        $email = (isset($params['email'])) ? $params['email'] : NULL;
+        $password = (isset($params['password'])) ? md5('davidxia'.$params['password'].'isgodamongmen') : NULL;
+        $profile_pic = (isset($params['profile_pic'])) ? $params['profile_pic'] : 'default_avatar'.mt_rand(1, 8).'.png';
+        $created = time() - 72;
+        $fid = (isset($params['fid'])) ? $params['fid'] : NULL;
+        
+        if (!isset($name) OR !isset($email) OR !isset($password))
+        {
+            return FALSE;
+        }
+        
+        $this->get_by_email($email);
+        if ($this->id)
+        {
+            $this->clear();
+            return array('success' => 0, 'message' => 'duplicate email');
+        }
+        
+        $sql = 'INSERT INTO `users` (`fid`, `name`, `email`, `password`, `profile_pic`, `created`) VALUES (?, ?, ?, ?, ?, ?)';
+        $values = array($fid, $name, $email, $password, $profile_pic, $created);
+        $r = $this->mdb->alter($sql, $values);
+        if ($r['num_affected'] == 1)
+        {
+            $this->id = $r['last_insert_id'];
+            $this->name = $name;
+            $this->email = $email;
+            $this->profile_pic = $profile_pic;
+            return TRUE;
+        }
+    }
+
+
     public function get_trips()
     {
         $key = 'trip_ids_by_user_id:'.$this->id;
@@ -725,6 +783,57 @@ class User_m extends CI_Model
     }
 
 
+    public function update_fb_friends()
+    {
+        $this->load->library('facebook');
+        // get this user's Facebook friends from Facebook
+        $fbdata = $this->facebook->api('/me?fields=friends');
+        if ($fbdata)
+        {
+            $fb_friends = array();
+            foreach ($fbdata['friends']['data'] as $friend)
+            {
+                $fb_friends[$friend['id']] = $friend['name'];
+            }
+        }
+        
+        
+        // get this user's Facebook friends from friends table        
+        $sb_friends = array();
+        $sql = 'SELECT f.facebook_id, f.name FROM `friends` f, `friends_users` fu WHERE fu.friend_id = f.id AND fu.user_id = ?';
+        $v = array($this->id);
+        $rows = $this->mdb->select($sql, $v);
+        foreach ($rows as $row)
+        {
+            $sb_friends[$row->facebook_id] = $row->name;
+        }
+        
+        // get current Facebook friends not in friends table and add them
+        $fb_friends = array_diff($fb_friends, $sb_friends);
+        $this->diff = $fb_friends;
+        
+        $f = new Friend_m();
+        foreach ($fb_friends as $k => $v)
+        {
+            // check if this Facebook user is already in friends table
+            $f->get_by_facebook_id($k);
+            // insert new record if not found
+            if ( ! $f->id)
+            {
+                $f->create(array('facebook_id' => $k, 'name' => $v));
+            }
+            
+            // create new relation in friends_users table
+            if ($f->id)
+            {            
+                $sql = 'INSERT INTO `friends_users` (`user_id`, `friend_id`) VALUES (?, ?)';
+                $values = array($this->id, $f->id);
+                $this->mdb->alter($sql, $values);
+            }
+        }
+    }
+
+
     private function row2obj($row)
     {
         if ( ! is_null($row))
@@ -734,9 +843,20 @@ class User_m extends CI_Model
                 $this->$k = $row->$k;
             }    
         }
+        else
+        {
+            $this->clear();
+        }
     }
     
 
+    private function clear()
+    {
+        foreach (get_object_vars($this) as $k => $v)
+        {
+            $this->$k = NULL;
+        }
+    }
 }
 
 /* End of file user_m.php */

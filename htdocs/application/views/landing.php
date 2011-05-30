@@ -156,7 +156,7 @@ $this->load->view('core_header', $header_args);
         password: $('#password').val()
       };
       
-      $.post('<?=site_url('login/email_login')?>', postData,
+      $.post('<?=site_url('login/ajax_email_login')?>', postData,
         function(d) {
           var r = $.parseJSON(d);
           if (r.success) {

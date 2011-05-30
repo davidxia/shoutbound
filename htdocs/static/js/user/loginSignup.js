@@ -54,5 +54,5 @@ loginSignup.success = function(callback, id, param) {
       break;
   }
   $('#login-signup-popup').remove();
-  $('.header').load(baseUrl+'login/ajax_change_header');
+  $('.header').load(baseUrl+'users/ajax_change_header');
 };

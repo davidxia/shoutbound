@@ -71,39 +71,47 @@ class Mdb
             show_error($exec->getMessage()."\n<br/>".$exec->getUserInfo());
             return FALSE;
         }
-        $res  = $exec->execute($values);
+        $res = $exec->execute($values);
         if (PEAR::isError($res))
         {
             show_error($res->getMessage()."\n<br/>".$res->getUserInfo());
             return FALSE;
         }
-        //return $conn->lastInsertID();
-        return $res;
+        return array('last_insert_id' => (int) $conn->lastInsertID(), 'num_affected' => $res);
     }
 
 
-    public function batch_alter($sql, $batches, $target='localhost') {
-        if (!isset($sql) || !$batches) { return false; }
+    public function batch_alter($sql, $batches, $target='localhost')
+    {
+        if (!isset($sql) || !$batches) { return FALSE; }
 
         $conn = $this->_mdb_conn($target);
         $exec = $conn->prepare($sql,array(),MDB2_PREPARE_MANIP);
         if (PEAR::isError($exec))
         {
             show_error($exec->getMessage()."\n<br/>".$exec->getUserInfo());
-            return false;
+            return FALSE;
         }
+        $error = FALSE;
+        $num_affected = 0;
         foreach($batches as $values)
         {
             $res = $exec->execute($values);
             if (PEAR::isError($res))
             {
                 show_error($res->getMessage()."\n<br/>".$res->getUserInfo());
-                $error = True;
+                $error = TRUE;
+            }
+            else
+            {
+                $num_affected++;
             }
         }
         if ($error)
+        {
             return FALSE;
-        return TRUE;
+        }
+        return $num_affected;
     }
 
 

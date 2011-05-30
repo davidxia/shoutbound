@@ -182,7 +182,8 @@ class Post_m extends CI_Model
     {
         $sql = 'UPDATE `posts_trips` SET is_active = ? WHERE trip_id = ? AND post_id = ?';
         $v = array(0, $trip_id, $this->id);
-        return $this->mdb->alter($sql, $v);
+        $r = $this->mdb->alter($sql, $v);
+        return $r['num_affected'];
     }
 
 

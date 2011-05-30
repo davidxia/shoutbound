@@ -43,8 +43,8 @@ class Activity_m extends CI_Model
     {
         $sql = 'UPDATE `activities` SET is_active = ? WHERE id = ?';
         $v = array($is_active, $this->id);
-        $num_affected = $this->mdb->alter($sql, $v);
-        return $num_affected;
+        $r = $this->mdb->alter($sql, $v);
+        return $r['num_affected'];
     }
 
 

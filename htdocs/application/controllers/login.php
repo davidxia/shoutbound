@@ -13,27 +13,13 @@ class Login extends CI_Controller
         }
     }
     
- 
+
     public function index()
     {
         $this->load->view('login');    
     }
     
     
-    public function email_login()
-    {
-        $u = new User_m();
-        if ($u->verify_email_pw($this->input->post('email'), $this->input->post('password')))
-        {
-            json_success();
-        }
-        else
-        {
-            json_error();
-        }
-    }
-
-
     public function ajax_email_login()
     {
         $u = new User_m();
@@ -66,68 +52,6 @@ class Login extends CI_Controller
     }
     
     
-    public function ajax_change_header()
-    {
-        // TODO: fix this
-        $user->id = 1;
-        $data = array('user' => $user);
-        $this->load->view('header', $data);
-    }
-
-
-    public function ajax_update_fb_friends()
-    {
-        $this->load->library('facebook');
-        $fbuser = $this->facebook->api('/me?fields=name,friends');
-        if ($fbuser)
-        {
-            $u = new User();
-            if ( ! $u->get_logged_in_status())
-            {
-                redirect('/');            
-            }
-            //$u->get_by_id($uid);
-            
-            // get user's facebook friends from friends & users table and store in array
-            $u->friend->get();
-            foreach ($u->friend as $friend)
-            {
-                $db_fb_friends_fids[] = $friend->facebook_id;
-            }
-            $u->related_user->get();
-            foreach ($u->related_user as $user)
-            {
-                if ($user->fid)
-                {
-                    $db_fb_friends_fids[] = $user->fid;
-                }
-            }
-    
-            // get user's current facebook friends' fids and store in array
-            foreach ($fbuser['friends']['data'] as $friend)
-            {
-                $fb_friends_fids[] = $friend['id'];
-            }
-            
-            // get current facebook friends not in the db and add them
-            $diff = array_diff($fb_friends_fids, $db_fb_friends_fids);
-            if (count($diff))
-            {
-                $f = new Friend();
-                foreach ($diff as $key => $val)
-                {
-                    $f->clear();
-                    $f->facebook_id = $val;
-                    $f->name = $fbuser['friends']['data'][$key]['name'];
-                    if ($f->save())
-                    {
-                        $u->save($f);
-                    }
-                }
-            }
-            
-        }
-    }
 
 }
 

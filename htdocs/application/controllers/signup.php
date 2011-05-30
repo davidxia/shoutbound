@@ -46,8 +46,7 @@ class Signup extends CI_Controller
         }
         else
         {
-    		    $n = mt_rand(1, 8);
-    		    $u->profile_pic = 'default_avatar'.$n.'.png';
+    		    $u->profile_pic = 'default_avatar'.mt_rand(1, 8).'.png';
         }
 
         if ($u->save())

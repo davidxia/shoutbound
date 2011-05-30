@@ -47,8 +47,9 @@ class Users extends CI_Controller
     public function mytest()
     {
         $this->load->library('facebook');
-        $fbuser = $this->facebook->api('/me?fields=friends');
-        echo '<pre>';print_r($fbuser);echo '</pre>';
+        // get this user's Facebook friends from Facebook
+        $fbdata = $this->facebook->api('/me?fields=friends');
+        echo '<pre>';print_r($fbdata);echo '</pre>';        
     }
 }
 
