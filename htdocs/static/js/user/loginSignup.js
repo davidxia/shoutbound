@@ -5,7 +5,7 @@ loginSignup.getStatus = function() {
   $.ajax({
     async: false,
     type: 'POST',
-    url: baseUrl+'users/ajax_get_logged_in_status',
+    url: baseUrl+'users/ajax_get_logged_in_user',
     success: function(d) {
       var r = $.parseJSON(d);
       loggedin = r.loggedin;
