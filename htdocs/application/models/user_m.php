@@ -115,6 +115,7 @@ class User_m extends CI_Model
         }
         
         $this->row2obj($user);
+        return $this;
     }
 
 
@@ -125,13 +126,14 @@ class User_m extends CI_Model
         if ($user === FALSE)
         {
             $sql = 'SELECT * FROM `users` WHERE fid = ?';
-            $v = array($id);
+            $v = array($fid);
             $rows = $this->mdb->select($sql, $v);
             $user = (isset($rows[0])) ? $rows[0] : NULL;
             $this->mc->set($key, $user);
         }
         
         $this->row2obj($user);
+        return $this;
     }
 
 
@@ -150,6 +152,7 @@ class User_m extends CI_Model
         }
 
         $this->row2obj($user);
+        return $this;
     }
 
 
@@ -585,7 +588,6 @@ class User_m extends CI_Model
     public function get_follow_status_by_user_id($user_id)
     {
         $key = 'follow_status_by_user_id:'.$this->id.':'.$user_id;
-        $this->mc->delete($key);
         $status = $this->mc->get($key);
         
         if ($status === FALSE)

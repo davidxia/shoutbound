@@ -38,34 +38,23 @@ class Login extends CI_Controller
     {
         $this->load->library('facebook');
         $fbid = $this->facebook->getUser();
-        $u = new User_m('1');
-        $u->get_trips()->get_follow_status_by_user_id(5);
-        //$u->get_by_fid($fbid);
-        echo '<pre>';var_dump($fbid);var_dump($u);echo '</pre>';
-        if ($u->is_following)
+        if ($fbid)
         {
-            echo 'is following';
+            $u = new User_m();
+            $u->get_by_fid($fbid);
+            if ($u->id)
+            {            
+                $u->login();
+                $this->output->set_output(json_success(array('redirect' => site_url('home'), 'existingUser' => TRUE)));
+            }
+            else
+            {
+                $this->output->set_output(json_success(array('existingUser' => FALSE)));
+            }
         }
-
-
-/*
-        $u = new User_m();
-        $u->get_by_fid($this->facebook->getUser());
-        
-        if (empty($u->id))
-        {
-            json_success(array('existingUser' => FALSE));
-        }
-        else
-        {
-            $u->login();
-            json_success(array('redirect' => site_url('home'), 'existingUser' => TRUE));
-        }
-*/
     }
     
     
-
 }
 
 /* End of file login.php */

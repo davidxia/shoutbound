@@ -32,6 +32,7 @@ class Friend_m extends CI_Model
         }
 
         $this->row2obj($friend);
+        return $this;
     }
 
 
@@ -51,6 +52,7 @@ class Friend_m extends CI_Model
         }
 
         $this->row2obj($friend);
+        return $this;
     }
         
     
@@ -81,6 +83,7 @@ class Friend_m extends CI_Model
             $this->name = $name;
             return TRUE;
         }
+        return $this;
     }
 
 

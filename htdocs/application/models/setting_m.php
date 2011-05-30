@@ -30,6 +30,7 @@ class Setting_m extends CI_Model
         }
 
         $this->row2obj($setting);
+        return $this;
     }
 
 

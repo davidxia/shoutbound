@@ -38,6 +38,7 @@ class Place_m extends CI_Model
         }
 
         $this->row2obj($place);
+        return $this;
     }
 
 
@@ -51,11 +52,12 @@ class Place_m extends CI_Model
             $sql = 'SELECT COUNT(*) FROM `places_posts` WHERE place_id = ?';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
-            $num_posts = (int) $rows[0]->{'count(*)'};
+            $num_posts = $rows[0]->{'count(*)'};
             $this->mc->set($key, $num_posts);
         }
 
         $this->num_posts = $num_posts;
+        return $this;
     }
 
 
@@ -72,7 +74,7 @@ class Place_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $post_ids[] = (int) $row->post_id;
+                $post_ids[] = $row->post_id;
             }
             $this->mc->set($key, $post_ids);
         }
@@ -89,6 +91,7 @@ class Place_m extends CI_Model
             $post->get_replies();
             $this->posts[] = $post;
         }
+        return $this;
     }
 
 
@@ -102,11 +105,12 @@ class Place_m extends CI_Model
             $sql = 'SELECT COUNT(*) FROM `places_trips` WHERE place_id = ?';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
-            $num_trips = (int) $rows[0]->{'count(*)'};
+            $num_trips = $rows[0]->{'count(*)'};
             $this->mc->set($key, $num_trips);
         }
 
         $this->num_trips = $num_trips;
+        return $this;
     }
 
 
@@ -123,7 +127,7 @@ class Place_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $trip_ids[] = (int) $row->trip_id;
+                $trip_ids[] = $row->trip_id;
             }
             $this->mc->set($key, $trip_ids);
         }
@@ -136,6 +140,7 @@ class Place_m extends CI_Model
             $trip->get_places();
             $this->trips[] = $trip;
         }
+        return $this;
     }
 
 
@@ -149,11 +154,12 @@ class Place_m extends CI_Model
             $sql = 'SELECT COUNT(*) FROM `places_users` WHERE place_id = ? AND is_following = 1';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
-            $num_followers = (int) $rows[0]->{'count(*)'};
+            $num_followers = $rows[0]->{'count(*)'};
             $this->mc->set($key, $num_followers);
         }
 
         $this->num_followers = $num_followers;
+        return $this;
     }
 
 
@@ -170,7 +176,7 @@ class Place_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $follower_ids[] = (int) $row->user_id;
+                $follower_ids[] = $row->user_id;
             }
             $this->mc->set($key, $follower_ids);
         }
@@ -181,6 +187,7 @@ class Place_m extends CI_Model
             $follower = new User_m($follower_id);
             $this->followers[] = $follower;
         }
+        return $this;
     }
 
 
@@ -194,11 +201,12 @@ class Place_m extends CI_Model
             $sql = 'SELECT is_following FROM `places_users` WHERE place_id = ? AND user_id = ?';
             $v = array($this->id, $user_id);
             $rows = $this->mdb->select($sql, $v);
-            $follow_status = (isset($rows[0])) ? (int) $rows[0]->is_following : 0;
+            $follow_status = (isset($rows[0])) ? $rows[0]->is_following : 0;
             $this->mc->set($key, $follow_status);
         }
 
         $this->is_following = $follow_status;
+        return $this;
     }
     
     
@@ -213,14 +221,14 @@ class Place_m extends CI_Model
             $sql = 'SELECT parent_id FROM `places` WHERE id = ?';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
-            $related_place_ids[] = (int) $rows[0]->parent_id;
+            $related_place_ids[] = $rows[0]->parent_id;
 
             $sql = 'SELECT pp.related_place_id FROM `places_places` pp WHERE pp.place_id = ?';
             $v = array($this->id, $this->id);
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $related_place_ids[] = (int) $row->related_place_id;
+                $related_place_ids[] = $row->related_place_id;
             }
             $this->mc->set($key, $related_place_ids);
         }
@@ -235,6 +243,7 @@ class Place_m extends CI_Model
             }
             $this->related_places[] = $related_place;
         }
+        return $this;
     }
 
 
@@ -250,12 +259,13 @@ class Place_m extends CI_Model
             $sql = 'SELECT startdate,enddate FROM `places_trips` WHERE trip_id = ? AND place_id = ?';
             $v = array($trip_id, $this->id);
             $rows = $this->mdb->select($sql, $v);
-            $dates['startdate'] = (isset($rows[0])) ? (int) $rows[0]->startdate : NULL;
-            $dates['enddate'] = (isset($rows[0])) ? (int) $rows[0]->enddate : NULL;
+            $dates['startdate'] = (isset($rows[0])) ? $rows[0]->startdate : NULL;
+            $dates['enddate'] = (isset($rows[0])) ? $rows[0]->enddate : NULL;
             $this->mc->set($key, $dates);
         }
 
         $this->dates = $dates;
+        return $this;
     }
 
 

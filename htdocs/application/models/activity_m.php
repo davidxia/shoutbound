@@ -36,6 +36,7 @@ class Activity_m extends CI_Model
         }
 
         $this->row2obj($activity);
+        return $this;
     }
     
     
@@ -46,7 +47,6 @@ class Activity_m extends CI_Model
         $r = $this->mdb->alter($sql, $v);
         return $r['num_affected'];
     }
-
 
 
     private function row2obj($row)

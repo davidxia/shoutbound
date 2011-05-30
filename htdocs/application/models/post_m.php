@@ -32,6 +32,7 @@ class Post_m extends CI_Model
         }
         
         $this->row2obj($post);
+        return $this;
     }
 
 
@@ -45,11 +46,12 @@ class Post_m extends CI_Model
             $sql = 'SELECT user_id FROM `posts` WHERE id = ?';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
-            $author_id = (int) $rows[0]->user_id;
+            $author_id = $rows[0]->user_id;
             $this->mc->set($key, $author_id);
         }
         
         $this->author = new User_m($author_id);
+        return $this;
     }
 
 
@@ -68,7 +70,7 @@ class Post_m extends CI_Model
             $sql = 'SELECT added_by FROM `posts_trips` WHERE post_id = ? AND trip_id = ?';
             $v = array($this->id, $trip_id);
             $rows = $this->mdb->select($sql, $v);
-            $adder_id = (isset($rows[0])) ? (int) $rows[0]->added_by : NULL;
+            $adder_id = (isset($rows[0])) ? $rows[0]->added_by : NULL;
             $this->mc->set($key, $adder_id);
         }
         
@@ -76,12 +78,14 @@ class Post_m extends CI_Model
         {
             $this->added_by = new User_m($adder_id);
         }
+        return $this;
     }
 
 
     public function convert_nl()
     {
         $this->content = nl2br($this->content);
+        return $this;
     }
 
 
@@ -94,7 +98,7 @@ class Post_m extends CI_Model
         {
             $content = preg_replace_callback('/<place id="(\d+)">/',
                 create_function('$matches',
-                    '$p = new Place_m((int) $matches[1]);
+                    '$p = new Place_m($matches[1]);
                      return \'<a class="place" href="#" address="\'.$p->name.\'" lat="\'.$p->lat.\'" lng="\'.$p->lng.\'">\';'),
                 $this->content);
             $content = str_replace('</place>', '</a>', $content);
@@ -102,6 +106,7 @@ class Post_m extends CI_Model
         }
         
         $this->content = $content;
+        return $this;
     }
 
 
@@ -118,7 +123,7 @@ class Post_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $reply_ids[] = (int) $row->id;
+                $reply_ids[] = $row->id;
             }
             $this->mc->set($key, $reply_ids);
         }
@@ -132,6 +137,7 @@ class Post_m extends CI_Model
             $reply->get_places();
             $this->replies[] = $reply;
         }
+        return $this;
     }
 
 
@@ -163,7 +169,7 @@ class Post_m extends CI_Model
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
             {
-                $trip_ids[] = (int) $row->trip_id;
+                $trip_ids[] = $row->trip_id;
             }
             $this->mc->set($key, $trip_ids);
         }
@@ -175,6 +181,7 @@ class Post_m extends CI_Model
             $trip->get_places();
             $this->trips[] = $trip;
         }
+        return $this;
     }    
 
 
