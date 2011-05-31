@@ -296,7 +296,7 @@ class Place_m extends CI_Model
         
         if ($r['num_affected'] == 1 OR $r['num_affected'] == 2)
         {
-            $this->mc->replace('follow_status_by_place_id_user_id:'$this->id.':'.$user_id, $is_following);
+            $this->mc->replace('follow_status_by_place_id_user_id:'.$this->id.':'.$user_id, $is_following);
             return $r['num_affected'];
         }
         else

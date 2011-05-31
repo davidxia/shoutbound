@@ -347,8 +347,8 @@ class User_m extends CI_Model
         foreach ($rsvp_yes_trip_ids as $rsvp_yes_trip_id)
         {
             $trip = new Trip_m($rsvp_yes_trip_id);
-            $trip->get_goers();
-            $trip->get_places();
+            $trip->get_goers()
+                 ->get_places();
             if ($user_id)
             {
                 $trip->get_rsvp_by_user_id($user_id);
@@ -530,8 +530,8 @@ class User_m extends CI_Model
         
         if ($r['num_affected'] == 1 OR $r['num_affected'] == 2)
         {
-            $this->mc->replace('role_by_trip_id_user_id:'$trip_id.':'.$this->id, $role);
-            $this->mc->replace('rsvp_by_trip_id_user_id:'$trip_id.':'.$this->id, $rsvp);
+            $this->mc->replace('role_by_trip_id_user_id:'.$trip_id.':'.$this->id, $role);
+            $this->mc->replace('rsvp_by_trip_id_user_id:'.$trip_id.':'.$this->id, $rsvp);
             $this->mc->delete('num_followers_by_trip_id:'.$trip_id);
             $this->mc->delete('follower_ids_by_trip_id:'.$trip_id);
             $this->mc->delete('num_goers_by_trip_id:'.$trip_id);

@@ -25,20 +25,20 @@ class Home extends CI_Controller
 		{
         if ( ! $this->user->is_onboarded)
         {
-            redirect(site_url('signup/dream'));
+            redirect('signup/dream');
         }
         
-        $this->user->get_rsvp_yes_trips();
-        $this->user->get_rsvp_awaiting_trips();
-        $this->user->get_following_trips();
-        $this->user->get_num_rsvp_yes_trips();
-        $this->user->get_num_posts();
-        $this->user->get_num_following_users();
-        $this->user->get_num_following_trips();
-        $this->user->get_num_following_places();
-        $this->user->get_num_followers();
-        
-        $this->user->get_news_feed_items();
+        $this->user
+            ->get_rsvp_yes_trips()
+            ->get_rsvp_awaiting_trips()
+            ->get_following_trips()
+            ->get_num_rsvp_yes_trips()
+            ->get_num_posts()
+            ->get_num_following_users()
+            ->get_num_following_trips()
+            ->get_num_following_places()
+            ->get_num_followers()
+            ->get_news_feed_items();
         
         $data = array(
             'user' => $this->user,
@@ -79,9 +79,8 @@ class Home extends CI_Controller
     public function mytest()
     {
         $b = new User_m(1);
-        $b->set_password('moAvAX7UE9');
-        $b->get_password();
-		    $str = '<pre>'.var_export($b,true).'</pre>';
+        $b->get_rsvp_yes_trips();
+		    $str = '<pre>'.print_r($b,true).'</pre>';
 		    $data = array('str' => $str);
 		    $this->load->view('blank', $data);
     }
