@@ -40,13 +40,8 @@ class Activity_m extends CI_Model
     }
     
     
-    public function create($params)
+    public function create($params = array())
     {
-        if ( ! is_array($params))
-        {
-           return FALSE;
-        }
-        
         $user_id = (isset($params['user_id'])) ? $params['user_id'] : NULL;
         $activity_type = (isset($params['activity_type'])) ? $params['activity_type'] : NULL;
         $source_id = (isset($params['source_id'])) ? $params['source_id'] : NULL;

@@ -65,16 +65,29 @@ class Home extends CI_Controller
         $a = new Activity_m($this->input->post('activityId'));
         if ($a->user_id == $this->user->id AND $a->set_active(0) == 1)
         {
-            json_success();
+            $data = array('str' => json_success());
         }
         else
         {
-            json_error('something broke, tell David');
+            $data = array('str' => json_error());
         }
+        
+        $this->load->view('blank', $data);
+    }
+    
+    
+    public function mytest()
+    {
+        $u = new User_m(1);
+        $a = $u->set_profile_info(array('url' => 'davidxia.com'));
+        print_r($u);var_dump($a);
+/*
+		    $str = '<pre>'.print_r($u, TRUE).'</pre>';
+		    $data = array('str' => $str);
+		    $this->load->view('blank', $data);
+*/
     }
 
-    
-    
 /*
     public function simplegeo_test()
     {

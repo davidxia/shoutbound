@@ -844,6 +844,114 @@ class User_m extends CI_Model
     }
 
 
+    public function set_current_place_by_place_id($place_id = NULL)
+    {
+        $timestamp = time()-72;
+        $sql = 'INSERT INTO `places_users` (`place_id`, `user_id`, `timestamp`) VALUES (?,?,?) ON DUPLICATE KEY UPDATE `timestamp` = ?';
+        $values = array($place_id, $this->id, $timestamp, $timestamp);
+        $r = $this->mdb->alter($sql, $values);
+        
+        if ($r['num_affected'] == 1)
+        {
+            return 1;
+        }
+        elseif ($r['num_affected'] == 2)
+        {
+            return 2;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+
+    public function set_profile_info($params = array())
+    {
+        $bio = (isset($params['bio'])) ? $params['bio'] : $this->bio;
+        $url = (isset($params['url'])) ? $params['url'] : $this->url;
+        
+        if ((!isset($bio) AND !isset($url))
+            OR ($bio==$this->bio AND $url==$this->url))
+        {
+            return FALSE;
+        }
+
+        $sql = 'UPDATE `users` SET `bio`=?, `url`=? WHERE `id` = ?';
+        $values = array($bio, $url, $this->id);
+        $r = $this->mdb->alter($sql, $values);
+        if ($r['num_affected'] == 1)
+        {
+            $this->bio = $bio;
+            $this->url = $url;
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+    
+    
+    public function set_password($password = NULL)
+    {
+        if ( ! $password)
+        {
+            return FALSE;
+        }
+        
+        $sql = 'UPDATE `users` SET `password` = ? WHERE `id` = ?';
+        $values = array(md5('davidxia'.$password.'isgodamongmen'), $this->id);
+        $r = $this->mdb->alter($sql, $values);
+        if ($r['num_affected'] == 1)
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+    
+    
+    public function set_email($email = NULL)
+    {
+        if ( ! $email)
+        {
+            return FALSE;
+        }
+        
+        $sql = 'UPDATE `users` SET `email` = ? WHERE `id` = ?';
+        $values = array($email, $this->id);
+        $r = $this->mdb->alter($sql, $values);
+        if ($r['num_affected'] == 1)
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+    
+    
+    public function rem_fut_place_by_place_id($place_id = NULL)
+    {
+        $sql = 'UPDATE `places_users` SET `is_future` = 0 WHERE `place_id` = ? AND `user_id` = ?';
+        $v = array($place_id, $this->id);
+        $r = $this->mdb->alter($sql, $v);
+        
+        if ($r['num_affected'] == 1)
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+
+
     public function update_fb_friends()
     {
         $this->load->library('facebook');

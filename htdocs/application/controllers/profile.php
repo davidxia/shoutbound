@@ -14,21 +14,7 @@ class Profile extends CI_Controller
             $this->user = $u;
         }
   	}
-  	
-  	
-		public function mytest()
-		{
-		    $user_id = 1;
-		    $p = new User_m(1);
-        $p->get_following_users($user_id);
-        $p->get_following_trips($user_id);
-        $p->get_following_places($user_id);
-        
-		    $str = '<pre>'.print_r($p, TRUE).'</pre>';
-		    $data = array('str' => $str);
-		    $this->load->view('blank', $data);
-		}
-		
+  			
 
     public function index($pid = NULL)
     {
@@ -306,7 +292,6 @@ class Profile extends CI_Controller
     }
 
 
-/*
     public function ajax_save_profile()
     {
         $old_bio = $this->user->bio;
@@ -316,31 +301,27 @@ class Profile extends CI_Controller
         $curr_place_id = $this->input->post('currPlaceId');
         $changes_made = FALSE;
         
+        $a = new Activity_m();
         if ($bio != $old_bio)
         {
-            $this->user->bio = $bio;
-            $this->load->helper('activity');
-            save_activity($this->user->id, 9, TRUE, NULL, NULL, time()-72);
+            //$this->user->bio = $bio;
+            $a->create(array('user_id' => $this->user->id, 'activity_type' => 9, 'source_id' => 1));
             $changes_made = TRUE;
         }
         if ($url != $old_url)
         {
-            $this->user->url = $url;
+            //$this->user->url = $url;
             $changes_made = TRUE;
         }
         
         $this->user->get_current_place();
-        if ((!isset($this->user->stored->curr_place->id) AND $curr_place_id) OR
-            (isset($this->user->stored->curr_place->id) AND $curr_place_id AND $this->user->stored->curr_place->id != $curr_place_id))
+        if ((!isset($this->user->current_place) AND $curr_place_id) OR ($this->user->current_place AND $curr_place_id AND $this->user->current_place->id != $curr_place_id))
         {
-            $p = new Place($curr_place_id);
-            if ($this->user->save($p))
+            $success = $this->user->set_current_place_by_place_id($curr_place_id);
+            if ($success == 1 OR $success == 2)
             {
-                $this->user->set_join_field($p, 'timestamp', time()-72);
+                $a->create(array('user_id' => $this->user->id, 'activity_type' => 10, 'source_id' => $curr_place_id));
             }
-            
-            $this->load->helper('activity');
-            save_activity($this->user->id, 10, $p->id, NULL, NULL, time()-72);
             
             $params = array('setting_id' => 10, 'user' => $this->user);
             $this->load->library('email_notifs', $params);
@@ -353,22 +334,23 @@ class Profile extends CI_Controller
 
         if ($changes_made)
         {
-            if ($this->user->save())
+            if ($this->user->set_profile_info())
             {
-                json_success(array('bio' => $bio, 'url' => $url, 'response' => 'Saved.'));
+                $data = array('str' => json_success(array('bio' => $bio, 'url' => $url, 'response' => 'Saved.')));
             }
             else
             {
-                json_error('something broke, tell David to fix');
+                $data = array('str' => json_error());
             }
         }
         else
         {
-            json_success(array('bio' => $bio, 'url' => $url, 'response' => 'Saved.'));
+            $data = array('str' => json_success(array('bio' => $bio, 'url' => $url, 'response' => 'Saved.')));
         }
         
+        $this->load->view('blank', $data);
+        
     }
-*/
 
 
 
