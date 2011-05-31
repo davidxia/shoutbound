@@ -596,6 +596,25 @@ class User_m extends CI_Model
     }
 
 
+    public function edit_follow_for_place_id($place_id = NULL, $is_following = 1)
+    {
+        $sql = 'INSERT INTO `places_users` (`place_id`, `user_id`, `is_following`) VALUES (?,?,?) ON DUPLICATE KEY UPDATE is_following = ?';
+        $values = array($place_id, $this->id, $is_following, $is_following);
+        $r = $this->mdb->alter($sql, $values);
+        
+        if ($r['num_affected'] == 1 OR $r['num_affected'] == 2)
+        {
+            $this->mc->replace('follow_status_by_place_id_user_id:'.$place_id.':'.$this->id, $is_following);
+            $this->mc->delete('following_place_ids_by_user_id:'.$this->id);
+            return $r['num_affected'];
+        }
+        else
+        {
+            return 0;
+        }
+    }
+        
+    
     public function get_num_followers()
     {
         $key = 'num_followers_by_user_id:'.$this->id;
@@ -748,50 +767,6 @@ class User_m extends CI_Model
     }
     
 
-    public function get_onboarding_trips()
-    {
-        $trip_ids = array();
-        $sql = 'SELECT DISTINCT pt.trip_id FROM `places_trips` pt, `trips` t WHERE t.is_active = 1 AND pt.trip_id = t.id AND pt.trip_id NOT IN (SELECT trip_id FROM `trips_users` WHERE user_id = ? AND rsvp = 3)';
-        $v = array($this->id);
-        $rows = $this->mdb->select($sql, $v);
-        foreach ($rows as $row)
-        {
-            $trip_ids[] = $row->trip_id;
-        }
-        
-        $this->onboarding_trips = array();
-        foreach ($trip_ids as $trip_id)
-        {
-            $trip = new Trip_m($trip_id);
-            $trip->get_goers();
-            $trip->get_places();
-            $this->onboarding_trips[] = $trip;
-        }
-        return $this;
-    }
-
-
-    public function get_onboarding_places()
-    {
-        $place_ids = array();
-        $sql = 'SELECT pt.place_id FROM `places_trips` pt WHERE pt.place_id NOT IN (SELECT pu.place_id FROM `places_users` pu WHERE pu.user_id = ? AND pu.is_following = 1)';
-        $v = array($this->id);
-        $rows = $this->mdb->select($sql, $v);
-        foreach ($rows as $row)
-        {
-            $place_ids[] = $row->place_id;
-        }
-
-        $this->onboarding_places = array();
-        foreach ($place_ids as $place_id)
-        {
-            $place = new Place_m($place_id);
-            $this->onboarding_places[] = $place;
-        }
-        return $this;
-    }
-
-
     public function get_future_places()
     {
         $key = 'future_place_ids_by_user_id:'.$this->id;
@@ -817,6 +792,24 @@ class User_m extends CI_Model
             $this->future_places[] = $place;
         }
         return $this;
+    }
+
+
+    public function edit_future_place_by_place_id($place_id = NULL, $is_future = 1)
+    {
+        $sql = 'INSERT INTO `places_users` (`place_id`, `user_id`, `is_future`) VALUES (?,?,?) ON DUPLICATE KEY UPDATE `is_future` = ?';
+        $values = array($place_id, $this->id, $is_future, $is_future);
+        $r = $this->mdb->alter($sql, $values);
+        
+        if ($r['num_affected'] == 1 OR $r['num_affected'] == 2)
+        {
+            $this->mc->delete('future_place_ids_by_user_id:'.$this->id);
+            return $r['num_affected'];
+        }
+        else
+        {
+            return 0;
+        }
     }
 
 
@@ -1065,23 +1058,6 @@ class User_m extends CI_Model
     }
         
     
-    public function rem_fut_place_by_place_id($place_id = NULL)
-    {
-        $sql = 'UPDATE `places_users` SET `is_future` = 0 WHERE `place_id` = ? AND `user_id` = ?';
-        $v = array($place_id, $this->id);
-        $r = $this->mdb->alter($sql, $v);
-        
-        if ($r['num_affected'] == 1)
-        {
-            return TRUE;
-        }
-        else
-        {
-            return FALSE;
-        }
-    }
-
-
     public function update_fb_friends()
     {
         $this->load->library('facebook');
@@ -1135,6 +1111,71 @@ class User_m extends CI_Model
         $sql = 'INSERT INTO `friends_users` (`user_id`, `friend_id`) VALUES (?,?)';
         $values = array($this->id, $friend_id);
         $this->mdb->alter($sql, $values);
+    }
+
+
+    public function get_onboarding_users()
+    {
+        $user_ids = array();
+        $sql = 'SELECT DISTINCT u.id FROM `related_users_users` ruu, `users` u WHERE u.is_active= 1 AND u.id NOT IN (SELECT related_user_id FROM `related_users_users` WHERE user_id = ? AND is_following = 1) AND u.id != ?';
+        $v = array($this->id, $this->id);
+        $rows = $this->mdb->select($sql, $v);
+        foreach ($rows as $row)
+        {
+            $user_ids[] = $row->id;
+        }
+        
+        $this->onboarding_users = array();
+        foreach ($user_ids as $user_id)
+        {
+            $user = new User_m($user_id);
+            $this->onboarding_users[] = $user;
+        }
+        return $this;
+    }
+
+
+    public function get_onboarding_trips()
+    {
+        $trip_ids = array();
+        $sql = 'SELECT DISTINCT pt.trip_id FROM `places_trips` pt, `trips` t WHERE t.is_active = 1 AND pt.trip_id = t.id AND pt.trip_id NOT IN (SELECT trip_id FROM `trips_users` WHERE user_id = ? AND rsvp = 3)';
+        $v = array($this->id);
+        $rows = $this->mdb->select($sql, $v);
+        foreach ($rows as $row)
+        {
+            $trip_ids[] = $row->trip_id;
+        }
+        
+        $this->onboarding_trips = array();
+        foreach ($trip_ids as $trip_id)
+        {
+            $trip = new Trip_m($trip_id);
+            $trip->get_goers();
+            $trip->get_places();
+            $this->onboarding_trips[] = $trip;
+        }
+        return $this;
+    }
+
+
+    public function get_onboarding_places()
+    {
+        $place_ids = array();
+        $sql = 'SELECT pt.place_id FROM `places_trips` pt WHERE pt.place_id NOT IN (SELECT pu.place_id FROM `places_users` pu WHERE pu.user_id = ? AND pu.is_following = 1)';
+        $v = array($this->id);
+        $rows = $this->mdb->select($sql, $v);
+        foreach ($rows as $row)
+        {
+            $place_ids[] = $row->place_id;
+        }
+
+        $this->onboarding_places = array();
+        foreach ($place_ids as $place_id)
+        {
+            $place = new Place_m($place_id);
+            $this->onboarding_places[] = $place;
+        }
+        return $this;
     }
 
 

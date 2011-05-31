@@ -1,6 +1,6 @@
 <div id="trips-tab" class="main-tab-content">
   
-  <? foreach ($trips as $trip):?>
+  <? foreach ($user->onboarding_trips as $trip):?>
   <div class="streamitem">
     <a class="unfollow" id="place-<?=$trip->id?>">Unfollow</a>
     <div class="streamitem-avatar-container">
@@ -15,7 +15,7 @@
       <div class="destinationbar">
         <? foreach ($trip->places as $place):?>
           <a class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
-          <span class="subtext"><? if ($place->startdate){echo date('F j, Y', $place->startdate);} if($place->startdate AND $place->enddate){echo ' - ';} if ($place->enddate){echo date('F j, Y', $place->enddate);}?></span>
+          <span class="subtext"><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
         <? endforeach;?>
       </div>
       

@@ -52,11 +52,7 @@ $this->load->view('core_header', $header_args);
       <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
         <div id="people-tab" class="main-tab-content main-tab-default">
         
-          <? if ($user->following):?>
-            We've automatically followed for you these people on Shoutbound whom we think are your friends.
-          <? endif;?>
-          
-          <? foreach ($other_users as $profile):?>
+          <? foreach ($user->onboarding_users as $profile):?>
           <div class="streamitem">
             <a class="unfollow" id="user-<?=$profile->id?>" href="#">Unfollow</a>
             <div class="streamitem-avatar-container">
@@ -84,7 +80,7 @@ $this->load->view('core_header', $header_args);
     <!--RIGHT-->
     <div id="onboarding-right">
       <div id="follow-counter" class="right-widget-container">
-        <div class="following-count"><?=$user->num_following+$user->num_following_trips+$user->num_following_places?></div>
+        <div class="following-count"><?=$user->num_following_users+$user->num_following_trips+$user->num_following_places?></div>
         <span class="stat-label">Following</span>
       </div>
     

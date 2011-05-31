@@ -38,7 +38,7 @@ class Places extends CI_Controller
 
         $data = array(
             'places' => $val,
-            'was_cached' => $was_cached,
+            //'was_cached' => $was_cached,
         );
         
         if ($this->input->post('isPost'))
@@ -133,9 +133,7 @@ class Places extends CI_Controller
         $place_id = $this->input->post('placeId');
         $follow = $this->input->post('follow');
         
-        $place = new Place_m($place_id);
-        $num_affected = $place->set_follow_by_user_id($this->user->id, $follow);
-        
+        $num_affected = $this->user->edit_follow_for_place_id($place_id, $follow);        
         $new_follow = ($num_affected == 1) ? TRUE : FALSE;
         
         if ($new_follow)

@@ -189,7 +189,7 @@ class Signup extends CI_Controller
         $this->user->get_future_places();
 
         $data = array(
-            'user' => $this->user->stored,
+            'user' => $this->user,
             'is_onboarding' => TRUE,
         );
         $this->load->view('signup/dream', $data);
@@ -205,31 +205,19 @@ class Signup extends CI_Controller
 
         $post = $this->input->post('place');
         $post = $post['place'];
-        $p = new Place();
         foreach ($post as $key => $val)
         {
-            if (is_array($val))
+            if (is_array($val) AND $val['place_id'])
             {
-                $p->clear();
-                $p->get_by_id($val['place_id']);
-                $is_saved = FALSE;
-                if ($this->user->save($p))
+                $num_affected = $this->user->edit_future_place_by_place_id($val['place_id'], 1);
+                if ($num_affected == 1 OR $num_affected == 2)
                 {
-                    $this->user->set_join_field($p, 'is_future', 1);
-                    $this->user->set_join_field($p, 'is_following', 1);
-                    $is_saved = TRUE;
+                    $this->user->edit_follow_for_place_id($val['place_id'], 1);
                 }
             }
         }
         
-        if ($is_saved)
-        {
-            redirect(site_url('signup/follow'));
-        }
-        else
-        {
-            echo 'something broken, tell David';
-        }
+        redirect('signup/follow');
     }
 
 
@@ -241,43 +229,17 @@ class Signup extends CI_Controller
         }
         
         // we auto followed their friends
-        $this->user->get_following();
-        // dump all users this user is not following
-        $user_ids = array();
-        foreach ($this->user->stored->following as $following)
-        {
-            $user_ids[] = $following->id;
-        }
-        $u = new User();
-        $other_users = array();
-        if (empty($user_ids))
-        {
-            foreach ($u->get_iterated() as $other_user)
-            {
-                if ($other_user->id != $this->user->id)
-                {
-                    $other_users[] = $other_user->stored;
-                }
-            }
-        }
-        else
-        {
-            foreach ($u->where_not_in('id', $user_ids)->get_iterated() as $other_user)
-            {
-                if ($other_user->id != $this->user->id)
-                {
-                    $other_users[] = $other_user->stored;
-                }
-            }
-        }
+        //$this->user->get_following_users();
         
-        $this->user->get_num_following();
-        $this->user->get_num_following_trips();
-        $this->user->get_num_following_places();
+        $this->user->get_onboarding_users();
+        
+        $this->user
+            ->get_num_following_users()
+            ->get_num_following_trips()
+            ->get_num_following_places();
         
         $data = array(
-            'user' => $this->user->stored,
-            'other_users' => $other_users,
+            'user' => $this->user,
             'is_onboarding' => TRUE,
         );
         $this->load->view('signup/follow', $data);
@@ -288,21 +250,18 @@ class Signup extends CI_Controller
     {
         if ( ! $this->user)
         {
-            redirect('/');
+            return;
         }
         
         // we auto followed their friends' rsvp yes trips
         //$this->user->get_following_trips();
-        $t = new Trip();
-        $trips = $t->onboarding_trips($this->user->id);
+        
+        $this->user->get_onboarding_trips();
         
         $data = array(
-            'user' => $this->user->stored,
-            'trips' => $trips,
+            'user' => $this->user,
         );
         $this->load->view('signup/trips', $data);
-        //echo '<pre>';print_r($trips);echo '</pre>';
-        
     }
     
     
@@ -310,17 +269,16 @@ class Signup extends CI_Controller
     {
         if ( ! $this->user)
         {
-            redirect('/');
+            return;
         }
         
         // we auto followed their bucket list
         //$this->user->get_following_places($this->user->id);
-        $p = new Place();
-        $places = $p->onboarding_places($this->user->id);
         
+        $this->user->get_onboarding_places();
+
         $data = array(
-            'user' => $this->user->stored,
-            'places' => $places,
+            'user' => $this->user,
         );
         $this->load->view('signup/places', $data);
     }
@@ -335,7 +293,7 @@ class Signup extends CI_Controller
 
         $this->user->get_current_place();
         $data = array(
-            'user' => $this->user->stored,
+            'user' => $this->user,
             'is_onboarding' => TRUE,
         );
         $this->load->view('signup/profile', $data);

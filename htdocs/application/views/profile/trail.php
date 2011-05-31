@@ -55,7 +55,7 @@
     <div>
     <? foreach ($profile->past_places as $past_place):?>
      <div>
-     <span class="place" lat="<?=$past_place->lat?>" lng="<?=$past_place->lng?>" title="<?=$past_place->name?>">
+       <span class="place" lat="<?=$past_place->lat?>" lng="<?=$past_place->lng?>" title="<?=$past_place->name?>">
          <a href="<?=site_url('places/'.$past_place->id)?>"><?=$past_place->name?></a><? if($past_place->admin1){echo ', '.$past_place->admin1;}if($past_place->country){echo ', '.$past_place->country;}?>
        </span>
        <? if($past_place->timestamp):?>
