@@ -62,12 +62,9 @@ class User_m extends CI_Model
         {
             return FALSE;
         }
-    
-        $sql = 'SELECT password FROM `users` WHERE id = ? LIMIT 1';
-        $v = array($this->id);
-        $rows = $this->mdb->select($sql, $v);
         
-        if ($rows[0]->password != md5('davidxia'.$pw.'isgodamongmen'))
+        $this->get_password();
+        if ($this->password != md5('davidxia'.$pw.'isgodamongmen'))
         {
             $this->clear();
             return FALSE;
@@ -155,8 +152,90 @@ class User_m extends CI_Model
         $this->row2obj($user);
         return $this;
     }
+    
+    
+    public function get_email()
+    {
+        $key = 'email_by_user_id:'.$this->id;
+        $email = $this->mc->get($key);
+        
+        if ($email === FALSE)
+        {
+            $sql = 'SELECT `email` FROM `users` WHERE id = ?';
+            $v = array($this->id);
+            $rows = $this->mdb->select($sql, $v);
+            $email = (isset($rows[0])) ? $rows[0]->email : NULL;
+            $this->mc->set($key, $email);
+        }
+        
+        $this->email = $email;
+        return $this;
+    }
 
 
+    public function set_email($email = NULL)
+    {
+        if ( ! $email)
+        {
+            return FALSE;
+        }
+        
+        $sql = 'UPDATE `users` SET `email` = ? WHERE `id` = ?';
+        $values = array($email, $this->id);
+        $r = $this->mdb->alter($sql, $values);
+        if ($r['num_affected'] == 1)
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+
+
+    public function get_password()
+    {
+        $key = 'password_by_user_id:'.$this->id;
+        $password = $this->mc->get($key);
+        
+        if ($password === FALSE)
+        {
+            $sql = 'SELECT `password` FROM `users` WHERE `id` = ?';
+            $values = array($this->id);
+            $rows = $this->mdb->select($sql, $values);
+            $password = (isset($rows[0])) ? $rows[0]->password : NULL;
+            $this->mc->set($key, $password);
+        }
+        
+        $this->password = $password;
+        return $this;
+    }
+
+
+    public function set_password($password = NULL)
+    {
+        if ( ! $password)
+        {
+            return FALSE;
+        }
+        
+        $password = md5('davidxia'.$password.'isgodamongmen');
+        $sql = 'UPDATE `users` SET `password` = ? WHERE `id` = ?';
+        $values = array($password, $this->id);
+        $r = $this->mdb->alter($sql, $values);
+        if ($r['num_affected'] == 1)
+        {
+            $this->mc->replace('password_by_user_id:'.$this->id, $password);
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+    
+    
     public function create($params)
     {
         if ( ! is_array($params))
@@ -810,8 +889,24 @@ class User_m extends CI_Model
             $this->mc->set($key, $settings);
         }
         
-        $this->setttings = $settings;
+        $this->settings = $settings;
         return $this;
+    }
+    
+    
+    public function set_setting_by_setting_id($setting_id, $is_on = 1)
+    {
+        $sql = 'UPDATE `settings_users` SET `is_on` = ? WHERE `user_id` = ? AND `setting_id` = ?';
+        $values = array($is_on, $this->id, $setting_id);
+        $r = $this->mdb->alter($sql, $values);
+        if ($r['num_affected'] == 1)
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
     }
 
 
@@ -940,49 +1035,7 @@ class User_m extends CI_Model
             return FALSE;
         }
     }
-    
-
-    public function set_password($password = NULL)
-    {
-        if ( ! $password)
-        {
-            return FALSE;
-        }
         
-        $sql = 'UPDATE `users` SET `password` = ? WHERE `id` = ?';
-        $values = array(md5('davidxia'.$password.'isgodamongmen'), $this->id);
-        $r = $this->mdb->alter($sql, $values);
-        if ($r['num_affected'] == 1)
-        {
-            return TRUE;
-        }
-        else
-        {
-            return FALSE;
-        }
-    }
-    
-    
-    public function set_email($email = NULL)
-    {
-        if ( ! $email)
-        {
-            return FALSE;
-        }
-        
-        $sql = 'UPDATE `users` SET `email` = ? WHERE `id` = ?';
-        $values = array($email, $this->id);
-        $r = $this->mdb->alter($sql, $values);
-        if ($r['num_affected'] == 1)
-        {
-            return TRUE;
-        }
-        else
-        {
-            return FALSE;
-        }
-    }
-    
     
     public function rem_fut_place_by_place_id($place_id = NULL)
     {

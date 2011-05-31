@@ -3,71 +3,83 @@
 class Settings extends CI_Controller
 {
 
-    public $user;
+    private $user;
     
     function __construct()
     {
         parent::__construct();
-        $u = new User();
-        if ($u->get_logged_in_status())
+        $u = new User_m();
+        $u->get_logged_in_user();
+        if ($u->id)
         {
             $this->user = $u;
         }
         else
         {
-            redirect('404');
+            redirect('/');
         }
 		}
     
 
     public function index()
     {
-        $this->user->get_settings();
-        $s = new Setting();        
+        $this->user->get_email()
+             ->get_settings();
+        $s = new Setting_m();        
 
         $data = array(
-            'user' => $this->user->stored,
-            'settings' => $s->get_settings(),
+            'user' => $this->user,
+            'settings' => $s->get_all_settings(),
         );
-        
         $this->load->view('settings/index', $data);
     }
     
     
     public function profile()
     {
-        $this->user->get_current_place();
-        $this->user->get_places();
+        $this->user->get_current_place();//->get_past_places();
+        
         $data = array(
-            'user' => $this->user->stored,
+            'user' => $this->user,
         );
- 			               
         $this->load->view('settings/profile', $data);
     }
     
     
     public function trail()
     {
-        $this->user->get_places();
+        $this->user->get_past_places();
+        
         $data = array(
-            'user' => $this->user->stored,
+            'user' => $this->user,
         );
- 			               
         $this->load->view('settings/trail', $data);
     }
 
 
     public function ajax_save_settings()
     {
-        $this->user->email = $this->input->post('email');
+        $new_email = $this->input->post('email');
+        $this->user->get_email();
+        if ($this->user->email != $new_email)
+        {
+            if ( ! $this->user->set_email($new_email))
+            {
+                $error = TRUE;
+            }
+        }
         
         $pw_incorrect = 0;
         if ($this->input->post('oldPw'))
         {
+            $this->user->get_password();
             if (md5('davidxia'.$this->input->post('oldPw').'isgodamongmen') == $this->user->password AND
             $this->input->post('newPw') == $this->input->post('confNewPw'))
             {
-                $this->user->password = md5('davidxia'.$this->input->post('newPw').'isgodamongmen');
+                if ( !$this->user->set_password(md5('davidxia'.$this->input->post('newPw').'isgodamongmen')))
+                {
+                    $error = TRUE;
+                }
             }
             else
             {
@@ -75,31 +87,29 @@ class Settings extends CI_Controller
             }
         }
         
-        if ($this->user->save())
+        $s = new Setting_m();
+        $settings = $s->get_all_settings();
+        foreach ($settings as $setting)
         {
-            $s = new Setting();
-            foreach ($s->get_iterated() as $setting)
+            if ( ! $this->user->set_setting_by_setting_id($setting_id, $this->input->post($setting->name)))
             {
-                if ($this->user->save($setting))
-                {
-                    $this->user->set_join_field($setting, 'is_on', $this->input->post($setting->name));
-                }
-            }
-            
-            json_success(array('response' => 'Saved.', 'pwIncorrect' => $pw_incorrect));
-        }
-        else
-        {
-            if ($this->user->error->email)
-            {
-                json_success(array('response' => '', 'emailTaken' => 1, 'pwIncorrect' => $pw_incorrect));
-            }
-            else
-            {
-                json_success(array('response' => 'Uh oh, something broke. Try again later.'));
+                $error = TRUE;
             }
         }
-
+        $this->mc->delete('settings_by_user_id:'.$this->user->id);
+        
+        if ( !$error AND !$pw_incorrect)
+        {
+            $data = array('str' => json_success(array('response' => 'saved'));
+        }
+        elseif ( !$error AND $pw_incorrect)
+        {
+            $data = array('str' => json_error('incorrect password'));
+        }
+        elseif ( !$error)
+        {
+            $data = array('str' => json_error('something broken'));
+        }
     }
 }
 

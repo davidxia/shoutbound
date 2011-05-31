@@ -82,9 +82,9 @@ $this->load->view('core_header', $header_args);
             <div class="settings-item" style="position:relative;">
               <div class="settings-item-name">Current location</div>
               <div class="settings-item-content">
-                <input type="text" id="current-place" class="place-input" style="width:275px; height:20px;" value="<? if(isset($user->curr_place->name)){echo $user->curr_place->name;if($user->curr_place->admin1){echo ', '.$user->curr_place->admin1;}if($user->curr_place->country){echo ', '.$user->curr_place->country;}}?>"/>
+                <input type="text" id="current-place" class="place-input" style="width:275px; height:20px;" value="<? if(isset($user->current_place->name)){echo $user->current_place->name;if($user->current_place->admin1){echo ', '.$user->current_place->admin1;}if($user->current_place->country){echo ', '.$user->current_place->country;}}?>"/>
                 <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="display:none; position:absolute; right:140px; top:24px;"/>
-                <input id="current-place-id" class="place_id" name="current-place-id" type="hidden" val="<? if(isset($user->curr_place->id)){echo $user->curr_place->id;}?>"/>
+                <input id="current-place-id" class="place_id" name="current-place-id" type="hidden" val="<? if(isset($user->current_place->id)){echo $user->current_place->id;}?>"/>
                 <br/><span class="subtext">Where in the world are you in right now?</span>        
               </div>
             </div>

@@ -32,6 +32,34 @@ class Setting_m extends CI_Model
         $this->row2obj($setting);
         return $this;
     }
+    
+    
+    public function get_all_settings()
+    {
+        $key = 'all_setting_ids';
+        $all_setting_ids = $this->mc->get($key);
+        
+        if ($all_setting_ids === FALSE)
+        {
+            $all_setting_ids = array();
+            $sql = 'SELECT id FROM `settings` ORDER BY `id` ASC';
+            $v = array($id);
+            $rows = $this->mdb->select($sql, $v);
+            foreach ($rows as $row)
+            {
+                $all_setting_ids[] = $row->id;
+            }
+            $this->mc->set($key, $all_setting_ids);
+        }
+        
+        $settings = array();
+        foreach ($all_setting_ids as $setting_id)
+        {
+            $settings[] = new Setting_m($setting_id);
+        }
+        
+        return $settings;
+    }
 
 
     private function row2obj($row)

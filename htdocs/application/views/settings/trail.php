@@ -57,10 +57,10 @@ $this->load->view('core_header', $header_args);
             Where I've been
 
             <div>
-              <? if (!$user->places):?>
+              <? if (!$user->past_places):?>
                 You don't have a history of your awesome travels. Show off where you've been below.
               <? endif;?>
-              <? foreach($user->places as $place):?>
+              <? foreach($user->past_places as $place):?>
               <div>
               <span class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" title="<?=$place->name?>">
                   <a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a><? if($place->admin1){echo ', '.$place->admin1;}if($place->country){echo ', '.$place->country;}?>
