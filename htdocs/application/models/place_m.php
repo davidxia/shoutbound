@@ -270,6 +270,45 @@ class Place_m extends CI_Model
     }
 
 
+    public function set_follow_by_user_id($user_id = NULL, $is_following = 1)
+    {
+
+        $sql = 'INSERT INTO `places_users` (`place_id`, `user_id`, `is_following`) VALUES (?,?,?) ON DUPLICATE KEY UPDATE is_following = ?';
+        $values = array($this->id, $user_id, $is_following, $is_following);
+        $r = $this->mdb->alter($sql, $values);
+        
+        if ($r['num_affected'] == 1)
+        {
+            return 1;
+        }
+        elseif ($r['num_affected'] == 2)
+        {
+            return 2;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    
+    
+    public function rem_fut_place_by_user_id($user_id = NULL)
+    {
+        $sql = 'UPDATE `places_users` SET `is_future` = 0 WHERE `place_id` = ? AND `user_id` = ?';
+        $v = array($this->id, $user_id);
+        $r = $this->mdb->alter($sql, $v);
+        
+        if ($r['num_affected'] == 1)
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+    
+    
     private function row2obj($row)
     {
         if ( ! is_null($row))

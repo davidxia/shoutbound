@@ -27,12 +27,13 @@ class Users extends CI_Controller
     {
         if ($this->user)
         {
-            json_success(array('loggedin' => (int) $this->user->id));
+            $data = array('str' => json_success(array('loggedin' => $this->user->id)));
         }
         else
         {
-            json_success(array('loggedin' => 0));        
+            $data = array('str' => json_success(array('loggedin' => 0)));
         }
+        $this->load->view('blank', $data);
     }
     
     
@@ -45,7 +46,8 @@ class Users extends CI_Controller
         );
 
         $render_string = $this->load->view('login_signup', $data, TRUE);
-        json_success(array('data' => $render_string));
+        $data = array('str' => json_success(array('data' => $render_string)));
+        $this->load->view('blank', $data);
     }
     
     
@@ -56,13 +58,6 @@ class Users extends CI_Controller
     }
 
 
-    public function mytest()
-    {
-        $this->load->library('facebook');
-        // get this user's Facebook friends from Facebook
-        $fbdata = $this->facebook->api('/me?fields=friends');
-        echo '<pre>';print_r($fbdata);echo '</pre>';        
-    }
 }
 
 /* End of file users.php */

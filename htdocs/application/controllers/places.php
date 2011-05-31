@@ -18,11 +18,12 @@ class Places extends CI_Controller
 		
 		public function mytest()
 		{
-		    $p = new Post_m(2);
-		    $p->get_likes();
-		    echo '<pre>';var_dump($p);echo '</pre>';
-		    $a = count(array_keys($p->likes, 1));
-		    var_dump($a);
+		    $p = new Place_m(4);
+		    $a = $p->rem_fut_place_by_user_id(1);
+		    $str = '<pre>'.print_r($p, TRUE).var_export($a, TRUE).'</pre>';
+		    $data = array('str' => $str);
+
+		    $this->load->view('blank', $data);
 		}
 		
 				
@@ -37,12 +38,15 @@ class Places extends CI_Controller
             $this->load->helper('places');
             $val = query_places($query);
             $this->mc->set($key, $val);
-            $was_cached = 0;
+            //$was_cached = 0;
         }
+/*
         else
         {
             $was_cached = 1;
         }
+*/
+
         $data = array(
             'places' => $val,
             'was_cached' => $was_cached,
@@ -121,56 +125,65 @@ class Places extends CI_Controller
     }
     
     
-    public function related_places($place_id = FALSE)
+    public function related_places($place_id = NULL)
     {
-        $p = new Place($place_id);
+        $place = new Place_m($place_id);
         $user_id = ($this->user) ? $this->user->id : NULL;
-        $p->get_related_places($user_id);
+        $place->get_related_places($user_id);
 
         $data = array(
-            'place' => $p->stored,
+            'place' => $place,
         );
 
         $this->load->view('places/related_places', $data);
     }
 
 
-    public function ajax_edit_follow()
+    public function ajax_set_follow()
     {
         $place_id = $this->input->post('placeId');
         $follow = $this->input->post('follow');
         
-        $p = new Place($place_id);
-        $p->user->include_join_fields()->where('user_id', $this->user->id)->get();
-        $new_follow = (isset($p->user->join_is_following)) ? FALSE : TRUE;
+        $place = new Place_m($place_id);
+        $num_affected = $place->set_follow_by_user_id($this->user->id, $follow);
         
-        if ($p->save($this->user))
-        {
-            $p->set_join_field($this->user, 'is_following', $follow);
-            $this->mc->delete('follow_status_by_placeid_userid:'.$place_id.':'.$this->user->id);
-            $this->mc->delete('num_followers_by_place_id:'.$place_id);
-            $this->mc->delete('followers_by_place_id:'.$place_id);
-            json_success(array('type' => 'place', 'id' => $place_id, 'follow' => $follow));
-        }
-        else
-        {
-            json_error('something broken, tell David');
-        }
+        $new_follow = ($num_affected == 1) ? TRUE : FALSE;
         
         if ($new_follow)
         {
             $this->load->helper('activity');
-            save_activity($this->user->id, 5, $p->id, NULL, NULL, time()-72);
+            save_activity($this->user->id, 5, $place_id, NULL, NULL, time()-72);
         }
+
+        if ($num_affected == 1 OR $num_affected == 2)
+        {
+            $this->mc->delete('follow_status_by_place_id_user_id:'.$place_id.':'.$this->user->id);
+            $this->mc->delete('num_followers_by_place_id:'.$place_id);
+            $this->mc->delete('follower_ids_by_place_id:'.$place_id);
+            
+            $data = array('str' => json_success(array('type' => 'place', 'id' => $place_id, 'follow' => $follow)));
+        }
+        else
+        {
+            $data = array('str' => json_error());
+        }
+        $this->load->view('blank', $data);
     }
     
     
-    public function ajax_del_fut_place()
+    public function ajax_rem_fut_place()
     {
         $place_id = $this->input->post('placeId');
-        $this->user->place->where('id', $place_id)->get();
-        $this->user->place->set_join_field($this->user, 'is_future', 0);
-        $this->output->set_output(1);
+        $place = new Place_m($place_id);
+        if ($place->rem_fut_place_by_user_id($this->user->id, 0))
+        {
+            $data = array('str' => json_success());
+        }
+        else
+        {
+            $data = array('str' => json_error());
+        }
+        $this->load->view('blank', $data);
     }
 
 
@@ -186,7 +199,7 @@ class Places extends CI_Controller
         
         $info = fread($handle, 4096);
         pclose($handle);
-        echo $info;
+        $this->output->set_output($info);
     }
     
     
