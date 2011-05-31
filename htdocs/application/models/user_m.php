@@ -336,6 +336,7 @@ class User_m extends CI_Model
     public function get_num_following_users()
     {
         $key = 'num_following_users_by_user_id:'.$this->id;
+        $this->mc->delete($key);
         $num_following_users = $this->mc->get($key);
         
         if ($num_following_users === FALSE)
@@ -600,12 +601,43 @@ class User_m extends CI_Model
             $sql = 'SELECT is_following FROM `related_users_users` WHERE user_id = ? AND related_user_id = ?';
             $v = array($user_id, $this->id);
             $rows = $this->mdb->select($sql, $v);
-            $status = (isset($rows[0])) ? $rows[0]->is_following : 0;
+            $status = (isset($rows[0])) ? $rows[0]->is_following : NULL;
             $this->mc->set($key, $status);
         }
         
         $this->is_following = $status;
         return $this;
+    }
+    
+    
+    public function set_follow_for_user_id($user_id, $is_following)
+    {
+        $sql = 'INSERT INTO `related_users_users` (`user_id`, `related_user_id`, `is_following`) VALUES (?,?,?) ON DUPLICATE KEY UPDATE `is_following` = ?';
+        $v = array($this->id, $user_id, $is_following, $is_following);
+        $r = $this->mdb->alter($sql, $v);
+        
+        if ($r['num_affected'] == 1 OR $r['num_affected'] == 2)
+        {
+            if ($is_following)
+            {
+                $this->mc->delete('num_following_users_by_user_id:'.$this->id);
+                $this->mc->delete('num_followers_by_user_id:'.$user_id);
+            }
+            else
+            {
+                $this->mc->delete('num_following_users_by_user_id:'.$this->id);
+                $this->mc->delete('num_followers_by_user_id:'.$user_id);
+            }
+            $this->mc->delete('following_user_ids_by_user_id:'.$this->id);
+            $this->mc->delete('follower_ids_by_user_id:'.$user_id);
+            $this->mc->delete('follow_status_by_user_id:'.$user_id.':'.$this->id);
+            
+            return $r['num_affected'];
+        }
+        else
+        {
+            return 0;
+        }
     }
     
 
@@ -738,6 +770,26 @@ class User_m extends CI_Model
         }
         return $this;
     }
+    
+    
+    public function set_past_place($place_id, $timestamp = NULL)
+    {
+        $sql = 'INSERT INTO `places_users` (`place_id`, `user_id`, `timestamp`, `is_past`) VALUES (?,?,?,1) ON DUPLICATE KEY UPDATE `timestamp` = ?, `is_past` = 1';
+        $v = array($place_id, $this->id, $timestamp, $timestamp);
+        $r = $this->mdb->alter($sql, $v);
+        
+        if ($r['num_affected'] == 1 OR $r['num_affected'] == 2)
+        {
+            $this->mc->delete('past_place_ids_by_user_id:'.$this->id);
+            $this->mc->delete('timestamp_by_place_id_user_id:'.$place_id.':'.$this->id);
+            
+            return $r['num_affected'];
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
 
     public function get_settings()
@@ -851,13 +903,10 @@ class User_m extends CI_Model
         $values = array($place_id, $this->id, $timestamp, $timestamp);
         $r = $this->mdb->alter($sql, $values);
         
-        if ($r['num_affected'] == 1)
+        if ($r['num_affected'] == 1 OR $r['num_affected'] == 2)
         {
-            return 1;
-        }
-        elseif ($r['num_affected'] == 2)
-        {
-            return 2;
+            $this->mc->delete('current_place_id_by_user_id:'.$this->id);
+            return $r['num_affected'];
         }
         else
         {
@@ -870,9 +919,9 @@ class User_m extends CI_Model
     {
         $bio = (isset($params['bio'])) ? $params['bio'] : $this->bio;
         $url = (isset($params['url'])) ? $params['url'] : $this->url;
+        $profile_pic = (isset($params['profile_pic'])) ? $params['profile_pic'] : $this->profile_pic;
         
-        if ((!isset($bio) AND !isset($url))
-            OR ($bio==$this->bio AND $url==$this->url))
+        if ($bio==$this->bio AND $url==$this->url AND $profile_pic==$this->profile_pic)
         {
             return FALSE;
         }
@@ -892,7 +941,7 @@ class User_m extends CI_Model
         }
     }
     
-    
+
     public function set_password($password = NULL)
     {
         if ( ! $password)
@@ -965,7 +1014,6 @@ class User_m extends CI_Model
                 $fb_friends[$friend['id']] = $friend['name'];
             }
         }
-        
         
         // get this user's Facebook friends from friends table        
         $sb_friends = array();

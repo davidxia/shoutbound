@@ -79,13 +79,20 @@ class Home extends CI_Controller
     public function mytest()
     {
         $u = new User_m(1);
-        $a = $u->set_profile_info(array('url' => 'davidxia.com'));
-        print_r($u);var_dump($a);
-/*
-		    $str = '<pre>'.print_r($u, TRUE).'</pre>';
+        $date = '1/2010';
+        $date = date_parse_from_format('m/Y', $date);
+        if (checkdate($date['month'], 1, $date['year']))
+        {
+            $a = strtotime($date['year'].'-'.$date['month'].'-01');
+        }
+        else
+        {
+            $a = false;
+        }
+        $u->get_past_places();//->set_past_place(4, );
+		    $str = '<pre>'.print_r($u,true).var_export($a,true).'</pre>';
 		    $data = array('str' => $str);
 		    $this->load->view('blank', $data);
-*/
     }
 
 /*

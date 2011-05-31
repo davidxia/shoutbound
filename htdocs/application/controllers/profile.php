@@ -294,23 +294,20 @@ class Profile extends CI_Controller
 
     public function ajax_save_profile()
     {
-        $old_bio = $this->user->bio;
-        $old_url = $this->user->url;
         $bio = trim($this->input->post('bio'));
         $url = trim($this->input->post('url'));
         $curr_place_id = $this->input->post('currPlaceId');
         $changes_made = FALSE;
         
         $a = new Activity_m();
-        if ($bio != $old_bio)
+        if ($bio != $this->user->bio OR $url != $this->user->url)
         {
-            //$this->user->bio = $bio;
-            $a->create(array('user_id' => $this->user->id, 'activity_type' => 9, 'source_id' => 1));
-            $changes_made = TRUE;
-        }
-        if ($url != $old_url)
-        {
-            //$this->user->url = $url;
+            $old_bio = $this->user->bio;
+            $success = $this->user->set_profile_info(array('bio' => $bio, 'url' => $url));
+            if ($success AND $bio != $old_bio)
+            {
+                $a->create(array('user_id' => $this->user->id, 'activity_type' => 9, 'source_id' => 1));
+            }
             $changes_made = TRUE;
         }
         
@@ -320,13 +317,14 @@ class Profile extends CI_Controller
             $success = $this->user->set_current_place_by_place_id($curr_place_id);
             if ($success == 1 OR $success == 2)
             {
+                $this->user->get_current_place();
                 $a->create(array('user_id' => $this->user->id, 'activity_type' => 10, 'source_id' => $curr_place_id));
             }
             
             $params = array('setting_id' => 10, 'user' => $this->user);
             $this->load->library('email_notifs', $params);
             $this->email_notifs->get_emails();
-            $this->email_notifs->compose_email($this->user, $p->stored);
+            $this->email_notifs->compose_email($this->user, $this->user->current_place);
             $this->email_notifs->send_email();
             
             $changes_made = TRUE;
@@ -334,41 +332,27 @@ class Profile extends CI_Controller
 
         if ($changes_made)
         {
-            if ($this->user->set_profile_info())
-            {
-                $data = array('str' => json_success(array('bio' => $bio, 'url' => $url, 'response' => 'Saved.')));
-            }
-            else
-            {
-                $data = array('str' => json_error());
-            }
+            $data = array('str' => json_success(array('changed' => 1, 'bio' => $this->user->bio, 'url' => $this->user->url, 'response' => 'saved')));
         }
         else
         {
-            $data = array('str' => json_success(array('bio' => $bio, 'url' => $url, 'response' => 'Saved.')));
+            $data = array('str' => json_success(array('changed' => 0)));
         }
         
         $this->load->view('blank', $data);
-        
     }
 
 
-
-/*
     public function profile_pic_uploadify()
     {
-        if ( ! empty($_FILES)) {
+        if ( ! empty($_FILES))
+        {
             $uid = $this->input->post('uid');
           	$tempFile = $_FILES['Filedata']['tmp_name'];
           	list($width, $height, $type, $attr) = getimagesize($_FILES['Filedata']['tmp_name']);
           	
           	$targetPath = '/var/www/static/profile_pics/';
-          	$targetFile =  str_replace('//','/',$targetPath) . $uid . '_' . $_FILES['Filedata']['name'];
-    
-        		$u = new User();
-        		$u->get_by_id($uid);
-        		$u->profile_pic = $uid . '_' . $_FILES['Filedata']['name'];
-        		$u->save();
+          	$targetFile =  str_replace('//','/',$targetPath).$uid.'_'.$_FILES['Filedata']['name'];
     
           	$fileTypes  = str_replace('*.','',$_REQUEST['fileext']);
           	$fileTypes  = str_replace(';','|',$fileTypes);
@@ -379,62 +363,68 @@ class Profile extends CI_Controller
           	{
             		// Uncomment the following line if you want to make the directory if it doesn't exist
             		// mkdir(str_replace('//','/',$targetPath), 0755, true);
-            		
             		move_uploaded_file($tempFile,$targetFile);
-            		echo str_replace($_SERVER['DOCUMENT_ROOT'],'',$targetFile);
+            		$data = array('str' => str_replace($_SERVER['DOCUMENT_ROOT'],'',$targetFile));
+            		if ($this->user->set_profile_info(array('profile_pic' => $uid.'_'.$_FILES['Filedata']['name'])))
+            		{
+            		    
+            		}
           	}
           	else
           	{
-              echo 'Invalid file type.';
+                $data = array('str' => 'Invalid file type');
           	}
+          	
+          	$this->load->view('blank', $data);
         }
     }
-*/
 
 
-/*
     public function ajax_edit_following()
     {
-        $id = $this->input->post('profileId');
+        $profile_id = $this->input->post('profileId');
         $follow = $this->input->post('follow');
-        $u = new User($id);
+        $profile = new User_m($profile_id);
         
-        if ($follow AND $u->id != $this->user->id)
+        if ($follow AND $profile->id != $this->user->id)
         {
-            $this->user->related_user->where('id', $u->id)->include_join_fields()->get();
-            $new_follow = ($this->user->related_user->join_is_following == '0') ? FALSE : TRUE;
-            if ($u->save($this->user))
+            $profile->get_follow_status_by_user_id($this->user->id);
+            $new_follow = (isset($profile->is_following)) ? FALSE : TRUE;
+            $num_affected = $this->user->set_follow_for_user_id($profile->id, $follow);
+            
+            if ($num_affected == 1 OR $num_affected == 2)
             {
-                $u->set_join_field($this->user, 'is_following', 1);
                 if ($new_follow)
                 {
-                    $this->load->helper('activity');
-                    save_activity($this->user->id, 3, $id, NULL, NULL, time()-72);
-                    save_activity($u->id, 8, $this->user->id, NULL, NULL, time()-72);
+                    $a = new Activity_m();
+                    if ($a->create(array('user_id' => $this->user->id, 'activity_type' => 3, 'source_id' => $profile->id)))
+                    {
+                        $a->create(array('user_id' => $profile->id, 'activity_type' => 8, 'source_id' => $this->user->id));
+                    }
                     
                     $this->load->library('email_notifs', array('setting_id' => 3, 'profile' => $u));
                     $this->email_notifs->get_emails();
-                    $this->email_notifs->compose_email($this->user, $u->stored);
+                    $this->email_notifs->compose_email($this->user, $profile);
                     $this->email_notifs->send_email();
                 }
                 
-                json_success(array('type' => 'user', 'id' => $id, 'follow' => $follow));
+                $data = array('str' => json_success(array('type' => 'user', 'id' => $id, 'follow' => $follow)));
             }
             else
             {
-                json_error('something broken, tell David');
+                $data = array('str' => json_error('something broken, tell David'));
             }
         }
-        else
+        elseif ( ! $follow)
         {
-            $u->set_join_field($this->user, 'is_following', 0);
-            json_success(array('type' => 'user', 'id' => $id, 'follow' => $follow));
+            $this->user->set_follow_for_user_id($profile->id, $follow);
+            $data = array('str' => json_success(array('type' => 'user', 'id' => $id, 'follow' => $follow)));
         }
+        
+        $this->load->view('blank', $data);
     }
-*/
 
 
-/*
     public function ajax_save_user_places()
     {
         if ( !$this->user OR !$this->input->post('placesDates'))
@@ -443,28 +433,25 @@ class Profile extends CI_Controller
         }
 
         $places_dates = $this->input->post('placesDates');
-
-        $p = new Place();
         foreach ($places_dates as $place_date)
         {
             if ($place_date['placeId'])
             {
-                $p->clear();
-                $p->get_by_id($place_date['placeId']);
-                if ($this->user->save($p))
+                $date = date_parse_from_format('m/Y', $place_date['date']);
+                if (checkdate($date['month'], 1, $date['year']))
                 {
-                    $date = date_parse_from_format('m/Y', $place_date['date']);
-                    if (checkdate($date['month'], 1, $date['year']))
-                    {
-                        $this->user->set_join_field($p, 'timestamp', strtotime($date['year'].'-'.$date['month'].'-01'));
-                    }
+                    $timestamp = strtotime($date['year'].'-'.$date['month'].'-01');
                 }
+                else
+                {
+                    $timestamp = NULL;
+                }
+                $this->user->set_past_place($place_date['placeId'], $timestamp);
             }
         }
         
-        json_success(array('response' => 'saved'));
+        $data = array('str' => json_success(array('response' => 'saved')));
     }
-*/
 
 
     public function history()
