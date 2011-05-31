@@ -48,7 +48,7 @@ class Posts extends CI_Controller
 		    {		        
 		        if ($is_repost)
 		        {
-		            $p->set_join_field($t, 'added_by', $this->user->id);
+		            //$p->set_join_field($t, 'added_by', $this->user->id);
 		            foreach ($t as $trip)
 		            {
 		                $this->mc->replace('adder_by_postid_tripid:'.$p->id.':'.$trip->id, $this->user->stored);

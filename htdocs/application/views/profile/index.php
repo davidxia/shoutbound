@@ -72,7 +72,7 @@ $this->load->view('core_header', $header_args);
           <ul class="stats-list">
             <li><a href="#trail" class="trip-count"><?=$profile->num_rsvp_yes_trips?><span class="stat-label">Trips</span></a></li>
             <li class="border-left"><a href="#posts" class="post-count"><?=$profile->num_posts?><span class="stat-label">Posts</span></a></li>
-            <li class="border-left"><a href="#following" class="following-count"><?=$profile->num_following+$profile->num_following_trips?><span class="stat-label">Following</span></a></li>
+            <li class="border-left"><a href="#following" class="following-count"><?=$profile->num_following_users+$profile->num_following_trips+$profile->num_following_places?><span class="stat-label">Following</span></a></li>
             <li class="border-left"><a href="#followers" class="followers-count"><?=$profile->num_followers?><span class="stat-label">Followers</span></a></li>
           </ul>
           <div style="clear:both"></div>        
@@ -101,7 +101,7 @@ $this->load->view('core_header', $header_args);
       
       <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
         <div id="activity-tab" class="main-tab-content main-tab-default">
-          <? foreach ($profile->activities as $activity):?>
+          <? foreach ($profile->recent_activities as $activity):?>
             <div id="activity-<?=$activity->id?>" class="streamitem <? if($is_self){echo 'deleteable';}?>">
             <? if($is_self):?><div class="delete"></div><? endif;?>
               <?=$profile->first_name?>
@@ -122,7 +122,7 @@ $this->load->view('core_header', $header_args);
                <h3>Follow/unfollow needs to go here</h3>              
             <? elseif ($activity->activity_type==6):?>
                commented: <?=$activity->post->content?>
-               <br/> in response to <?=$activity->post->user->name?>'s post: <?=$activity->post->content?>
+               <br/> in response to <?=$activity->post->author->name?>'s post: <?=$activity->post->content?>
                <h3>Follow/unfollow needs to go here</h3>              
             <? elseif ($activity->activity_type==8):?>
                is being followed by <span class="streamitem-name"><a href="<?=site_url('profile/'.$activity->follower->id)?>"><?=$activity->follower->name?></a></span>

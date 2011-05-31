@@ -251,7 +251,6 @@ class Place_m extends CI_Model
     public function get_dates_by_trip_id($trip_id)
     {
         $key = 'dates_by_trip_id_place_id:'.$trip_id.':'.$this->id;
-        $this->mc->delete($key);
         $dates = $this->mc->get($key);
         
         if ($dates === FALSE)
@@ -266,6 +265,25 @@ class Place_m extends CI_Model
         }
 
         $this->dates = $dates;
+        return $this;
+    }
+    
+    
+    public function get_timestamp_by_user_id($user_id)
+    {
+        $key = 'timestamp_by_place_id_user_id:'.$this->id.':'.$user_id;
+        $timestamp = $this->mc->get($key);
+        
+        if ($timestamp === FALSE)
+        {
+            $sql = 'SELECT `timestamp` FROM `places_users` WHERE `place_id` = ? AND `user_id` = ?';
+            $v = array($this->id, $user_id);
+            $rows = $this->mdb->select($sql, $v);
+            $timestamp = (isset($rows[0])) ? $rows[0]->timestamp : NULL;
+            $this->mc->set($key, $timestamp);
+        }
+
+        $this->timestamp = $timestamp;
         return $this;
     }
 

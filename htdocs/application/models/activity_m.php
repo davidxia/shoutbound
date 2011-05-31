@@ -40,6 +40,105 @@ class Activity_m extends CI_Model
     }
     
     
+    public function create($params)
+    {
+        if ( ! is_array($params))
+        {
+           return FALSE;
+        }
+        
+        $user_id = (isset($params['user_id'])) ? $params['user_id'] : NULL;
+        $activity_type = (isset($params['activity_type'])) ? $params['activity_type'] : NULL;
+        $source_id = (isset($params['source_id'])) ? $params['source_id'] : NULL;
+        $parent_id = (isset($params['parent_id'])) ? $params['parent_id'] : NULL;
+        $parent_type = (isset($params['parent_type'])) ? $params['parent_type'] : NULL;
+        $timestamp = time() - 72;
+        
+        if (!isset($user_id) OR !isset($activity_type) OR !isset($source_id))
+        {
+            return FALSE;
+        }
+                
+        $sql = 'INSERT INTO `activities` (`user_id`, `activity_type`, `source_id`, `parent_id`, `parent_type`, `timestamp`) VALUES (?, ?, ?, ?, ?, ?)';
+        $values = array($user_id, $activity_type, $source_id, $parent_id, $parent_type, $timestamp);
+        $r = $this->mdb->alter($sql, $values);
+        if ($r['num_affected'] == 1)
+        {
+            $this->id = $r['last_insert_id'];
+            $this->user_id = $user_id;
+            $this->activity_type = $activity_type;
+            $this->source_id = $source_id;
+            $this->parent_id = $parent_id;
+            $this->parent_type = $parent_type;
+            $this->timestamp = $timestamp;
+            return TRUE;
+        }
+    }
+    
+    
+    public function get_source()
+    {
+        switch ($this->activity_type)
+        {
+            case 3:
+                $u = new User_m($this->source_id);
+                $this->following = $u;
+                break;
+            case 1:
+            case 4:
+                $t = new Trip_m($this->source_id);
+                $this->trip = $t;
+                break;
+            case 2:
+            case 6:
+                $p = new Post_m($this->source_id);
+                $p->convert_nl();
+                $this->post = $p;
+                break;
+            case 7:
+                break;
+            case 8:
+                $u = new User_m($this->source_id);
+                $this->follower = $u;
+                break;
+            case 9:
+                $activity->message = ' changed his bio.';
+                break;
+            case 5:
+            case 10:
+                $p = new Place_m($this->source_id);
+                $this->place = $p;
+                break;
+        }
+        
+        return $this;
+    }
+    
+    
+    public function get_parent()
+    {
+        switch ($this->parent_type)
+        {
+            case 1:
+                $p = new Place_m($this->parent_id);
+                $this->place = $p;
+                break;
+            case 2:
+                $t = new Trip_m($this->parent_id);
+                $this->trip = $t;
+                break;
+            case 4:
+                $p = new Post_m($this->parent_id);
+                $p->get_author();
+                $this->post = $p;
+                break;
+        }
+
+        return $this;
+    }
+    
+    
+/*
     public function set_active($is_active = 1)
     {
         $sql = 'UPDATE `activities` SET is_active = ? WHERE id = ?';
@@ -47,6 +146,7 @@ class Activity_m extends CI_Model
         $r = $this->mdb->alter($sql, $v);
         return $r['num_affected'];
     }
+*/
 
 
     private function row2obj($row)

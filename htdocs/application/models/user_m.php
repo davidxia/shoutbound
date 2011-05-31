@@ -425,6 +425,7 @@ class User_m extends CI_Model
         foreach ($following_trip_ids as $following_trip_id)
         {
             $trip = new Trip_m($following_trip_id);
+            $trip->get_goers()->get_places();
             if ($user_id)
             {
                 $trip->get_rsvp_by_user_id($user_id);
@@ -557,7 +558,6 @@ class User_m extends CI_Model
     }
 
 
-/*
     public function get_posts()
     {
         $key = 'post_ids_by_user_id:'.$this->id;
@@ -566,7 +566,7 @@ class User_m extends CI_Model
         if ($post_ids === FALSE)
         {
             $post_ids = array();
-            $sql = 'SELECT uu.id FROM `posts` uu, `users` u WHERE u.id = uu.user_id AND u.is_active = 1 AND uu.related_user_id = ? AND uu.is_following = 1';
+            $sql = 'SELECT p.id FROM `posts` p WHERE p.user_id = ? AND p.is_active = 1 ORDER BY p.created DESC LIMIT 20';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
@@ -580,11 +580,14 @@ class User_m extends CI_Model
         foreach ($post_ids as $post_id)
         {
             $post = new Post_m($post_id);
+            $post->convert_nl()
+                 ->get_places()
+                 ->get_replies()
+                 ->get_trips();
             $this->posts[] = $post;
         }
         return $this;
     }
-*/
 
     
     public function get_follow_status_by_user_id($user_id)
@@ -716,7 +719,7 @@ class User_m extends CI_Model
         if ($past_place_ids === FALSE)
         {
             $past_place_ids = array();
-            $sql = 'SELECT place_id FROM `places_users` WHERE user_id = ? AND is_past = 1';
+            $sql = 'SELECT `place_id` FROM `places_users` WHERE `user_id` = ? AND `is_past` = 1';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
@@ -730,6 +733,7 @@ class User_m extends CI_Model
         foreach ($past_place_ids as $past_place_id)
         {
             $place = new Place_m($past_place_id);
+            $place->get_timestamp_by_user_id($this->id);
             $this->past_places[] = $place;
         }
         return $this;
@@ -806,6 +810,35 @@ class User_m extends CI_Model
             $post->get_places();
             $post->get_replies();
             $this->news_feed_items[] = $post;
+        }
+        return $this;
+    }
+    
+    
+    public function get_recent_activity()
+    {
+        $key = 'recent_activity_ids_by_user_id:'.$this->id;
+        $recent_activity_ids = $this->mc->get($key);
+        
+        if ($recent_activity_ids === FALSE)
+        {
+            $recent_activity_ids = array();
+            $sql = 'SELECT `id` FROM `activities` WHERE `user_id` = ? AND `is_active` = 1 ORDER BY `timestamp` DESC LIMIT 20';
+            $v = array($this->id);
+            $rows = $this->mdb->select($sql, $v);
+            foreach ($rows as $row)
+            {
+                $recent_activity_ids[] = $row->id;
+            }
+            $this->mc->set($key, $recent_activity_ids);
+        }
+        
+        $this->recent_activities = array();
+        foreach ($recent_activity_ids as $recent_activity_id)
+        {
+            $activity = new Activity_m($recent_activity_id);
+            $activity->get_source()->get_parent();
+            $this->recent_activities[] = $activity;
         }
         return $this;
     }

@@ -14,19 +14,7 @@ class Places extends CI_Controller
             $this->user = $u;
         }
 		}
-		
-		
-		public function mytest()
-		{
-		    $parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : NULL;
-		    $p = new Post_m();
-    		$a = $p->create(array('user_id' => $this->user->id, 'content' => 'hellooooooooo', 'parent_id' => $parent_id));
-    		
-		    $str = '<pre>'.print_r($p, TRUE).var_export($a, TRUE).'</pre>';
-		    $data = array('str' => $str);
-		    $this->load->view('blank', $data);
-		}
-		
+						
 				
     public function ajax_autocomplete()
     {
