@@ -259,6 +259,51 @@ class Profile extends CI_Controller
 
         $this->load->view('profile/following', $data);
     }
+
+
+    public function followers($pid = NULL)
+    {
+        // if user not logged in and no profile specified, return 404
+        if ( ! ($pid OR isset($this->user)))
+        {
+            return;
+        }
+
+        $profile = new User_m();
+        // if no profile number specified, show user's own profile
+        if ( ! $pid)
+        {
+            $pid = $this->user->id;
+            $profile->get_by_id($pid);
+        }
+        elseif ( ! isset($this->user))
+        {
+            $profile->get_by_id($pid);
+            if ( ! $profile->id)
+            {
+                return;
+            }
+        }
+        // if profile specified and user's logged in
+        else
+        {
+            $profile->get_by_id($pid);
+            if ( ! $profile->id)
+            {
+                return;
+            }
+        }
+        
+        $user_id = (isset($this->user->id)) ? $this->user->id : NULL;
+        $profile->get_followers($user_id);
+        
+        $data = array(
+            'user' => $this->user,
+            'profile' => $profile,
+        );
+
+        $this->load->view('profile/followers', $data);
+    }
 }
 
 /* End of file profile.php */
