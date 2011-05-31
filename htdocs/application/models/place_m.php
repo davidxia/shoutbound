@@ -290,18 +290,14 @@ class Place_m extends CI_Model
 
     public function set_follow_by_user_id($user_id = NULL, $is_following = 1)
     {
-
         $sql = 'INSERT INTO `places_users` (`place_id`, `user_id`, `is_following`) VALUES (?,?,?) ON DUPLICATE KEY UPDATE is_following = ?';
         $values = array($this->id, $user_id, $is_following, $is_following);
         $r = $this->mdb->alter($sql, $values);
         
-        if ($r['num_affected'] == 1)
+        if ($r['num_affected'] == 1 OR $r['num_affected'] == 2)
         {
-            return 1;
-        }
-        elseif ($r['num_affected'] == 2)
-        {
-            return 2;
+            $this->mc->replace('follow_status_by_place_id_user_id:'$this->id.':'.$user_id, $is_following);
+            return $r['num_affected'];
         }
         else
         {

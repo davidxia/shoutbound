@@ -515,6 +515,34 @@ class User_m extends CI_Model
         }
         return $this;
     }
+    
+    
+    public function set_rsvp_role_for_trip_id($trip_id = NULL, $rsvp = NULL, $role = NULL)
+    {
+        if ( ! ($trip_id AND $rsvp AND $role))
+        {
+            return FALSE;
+        }
+        
+        $sql = 'INSERT INTO `trips_users` (`user_id`, `trip_id`, `rsvp`, `role`) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE `rsvp` = ?, `role` = ?';
+        $values = array($this->id, $trip_id, $rsvp, $role, $rsvp, $role);
+        $r = $this->mdb->alter($sql, $values);
+        
+        if ($r['num_affected'] == 1 OR $r['num_affected'] == 2)
+        {
+            $this->mc->replace('role_by_trip_id_user_id:'$trip_id.':'.$this->id, $role);
+            $this->mc->replace('rsvp_by_trip_id_user_id:'$trip_id.':'.$this->id, $rsvp);
+            $this->mc->delete('num_followers_by_trip_id:'.$trip_id);
+            $this->mc->delete('follower_ids_by_trip_id:'.$trip_id);
+            $this->mc->delete('num_goers_by_trip_id:'.$trip_id);
+            $this->mc->delete('goer_ids_by_trip_id:'.$trip_id);
+            return $r['num_affected'];
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
 
     public function get_num_following_places()
@@ -1095,12 +1123,18 @@ class User_m extends CI_Model
             
             // create new relation in friends_users table
             if ($f->id)
-            {            
-                $sql = 'INSERT INTO `friends_users` (`user_id`, `friend_id`) VALUES (?, ?)';
-                $values = array($this->id, $f->id);
-                $this->mdb->alter($sql, $values);
+            {
+                $this->add_friend_by_friend_id($f->id);
             }
         }
+    }
+    
+    
+    public function add_friend_by_friend_id($friend_id)
+    {
+        $sql = 'INSERT INTO `friends_users` (`user_id`, `friend_id`) VALUES (?,?)';
+        $values = array($this->id, $friend_id);
+        $this->mdb->alter($sql, $values);
     }
 
 
