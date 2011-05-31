@@ -204,7 +204,7 @@ class Trip_m extends CI_Model
         {
             $post = new Post_m($post_id);
             $post->get_author();
-            $post->get_added_by();
+            $post->get_adder_by_trip_id($this->id);
             $post->convert_nl();
             $post->get_places();
             $post->get_trips();
@@ -342,7 +342,7 @@ class Trip_m extends CI_Model
 
         // allow removal only if the user is the trip's creator or the post's adder
         $this->get_creator();
-        $p->get_added_by($this->id);
+        $p->get_adder_by_trip_id($this->id);
 
         if ($this->creator->id != $user_id AND (!isset($p->added_by) OR $p->added_by->id != $user_id))
         {

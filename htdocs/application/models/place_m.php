@@ -85,7 +85,7 @@ class Place_m extends CI_Model
         {
             $post = new Post_m($post_id);
             $post->get_author();
-            $post->get_added_by();
+            $post->get_poster_by_place_id($this->id);
             $post->convert_nl();
             $post->get_places();
             $post->get_trips();

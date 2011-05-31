@@ -55,13 +55,8 @@ class Post_m extends CI_Model
     }
 
 
-    public function get_added_by($trip_id = NULL)
+    public function get_adder_by_trip_id($trip_id = NULL)
     {
-        if ( ! $trip_id)
-        {
-            return FALSE;
-        }
-
         $key = 'adder_id_by_post_id_trip_id:'.$this->id.':'.$trip_id;
         $adder_id = $this->mc->get($key);
         
@@ -77,6 +72,28 @@ class Post_m extends CI_Model
         if ($adder_id)
         {
             $this->added_by = new User_m($adder_id);
+        }
+        return $this;
+    }
+
+
+    public function get_poster_by_place_id($place_id = NULL)
+    {
+        $key = 'poster_id_by_post_id_place_id:'.$this->id.':'.$place_id;
+        $poster_id = $this->mc->get($key);
+        
+        if ($poster_id === FALSE)
+        {
+            $sql = 'SELECT `posted_by` FROM `places_posts` WHERE `post_id` = ? AND `place_id` = ?';
+            $v = array($this->id, $trip_id);
+            $rows = $this->mdb->select($sql, $v);
+            $poster_id = (isset($rows[0])) ? $rows[0]->posted_by : NULL;
+            $this->mc->set($key, $poster_id);
+        }
+        
+        if ($poster_id)
+        {
+            $this->posted_by = new User_m($poster_id);
         }
         return $this;
     }
@@ -205,6 +222,58 @@ class Post_m extends CI_Model
             $this->likes[$like->user_id] = $like->is_like;
         }
         return $this;
+    }
+    
+    
+    public function create($params)
+    {
+        if ( ! is_array($params))
+        {
+           return FALSE;
+        }
+        
+        $user_id = (isset($params['user_id'])) ? $params['user_id'] : NULL;
+        $content = (isset($params['content'])) ? $params['content'] : NULL;
+        $parent_id = (isset($params['parent_id'])) ? $params['parent_id'] : NULL;
+        $created = time() - 72;
+        
+        if (!isset($user_id) OR !isset($content))
+        {
+            return FALSE;
+        }
+                
+        $sql = 'INSERT INTO `posts` (`user_id`, `content`, `parent_id`, `created`) VALUES (?, ?, ?, ?)';
+        $values = array($user_id, $content, $parent_id, $created);
+        $r = $this->mdb->alter($sql, $values);
+        if ($r['num_affected'] == 1)
+        {
+            $this->id = $r['last_insert_id'];
+            $this->user_id = $user_id;
+            $this->content = $content;
+            $this->parent_id = $parent_id;
+            if ($parent_id)
+            {
+                $this->mc->delete('reply_ids_by_post_id:'.$parent_id);
+            }
+            return TRUE;
+        }
+    }
+    
+    
+    public function save_to_trip_by_trip_id($trip_id = NULL, $added_by = NULL)
+    {
+        $sql = 'INSERT INTO `posts_trips` (`trip_id`, `post_id`, `added_by`, `created`) VALUES (?, ?, ?, ?)';
+        $values = array($trip_id, $this->id, $added_by, time()-72);
+        $r = $this->mdb->alter($sql, $values);
+        if ($r['num_affected'] == 1)
+        {
+            
+            return $this;
+        }
+        else
+        {
+            return FALSE;
+        }
     }
 
 

@@ -18,11 +18,12 @@ class Places extends CI_Controller
 		
 		public function mytest()
 		{
-		    $p = new Place_m(4);
-		    $a = $p->rem_fut_place_by_user_id(1);
+		    $parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : NULL;
+		    $p = new Post_m();
+    		$a = $p->create(array('user_id' => $this->user->id, 'content' => 'hellooooooooo', 'parent_id' => $parent_id));
+    		
 		    $str = '<pre>'.print_r($p, TRUE).var_export($a, TRUE).'</pre>';
 		    $data = array('str' => $str);
-
 		    $this->load->view('blank', $data);
 		}
 		

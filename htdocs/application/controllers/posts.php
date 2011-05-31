@@ -2,54 +2,50 @@
 
 class Posts extends CI_Controller
 {
-    
-    public $user;
+    private $user;
     
     function __construct()
     {
         parent::__construct();
-        $u = new User();
-        if ($u->get_logged_in_status())
+        $u = new User_m();
+        $u->get_logged_in_user();
+        if ($u->id)
         {
             $this->user = $u;
-        }
-        else
-        {
-            redirect('/');
         }
 		}
 		
 				
 		public function ajax_save()
 		{
+		    $post_id = $this->input->post('postId');
 		    $content = $this->input->post('content');
-		    $parent_id = $this->input->post('parentId');
+		    $parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : NULL;
 		    $trip_ids = $this->input->post('tripIds');
-		    $is_repost = ($this->input->post('isRepost')) ? $this->input->post('isRepost') : FALSE;
-        $t = new Trip();
-        $t->where_in('id', $trip_ids)->get();
-        
-        if ($this->input->post('postId'))
+		    //$is_repost = ($this->input->post('isRepost')) ? $this->input->post('isRepost') : FALSE;
+		    $added_by ($this->input->post('isRepost')) ? $this->user->id : NULL;
+		            
+        $post = new Post_m();
+        if ($post_id)
         {
-            $p = new Post($this->input->post('postId'));
+            $post->get_by_id($post_id);
         }
         else
         {
-    		    $p = new Post();
-    		    $p->user_id = $this->user->id;
-    		    $p->content = $content;
-    		    $p->parent_id = ($parent_id) ? $parent_id : NULL;
-    		    $p->created = time()-72;        
+    		    $success = $post->create(array('user_id' => $this->user->id, 'content' => $content, 'parent_id' => $parent_id));
+    		    if ( ! $success)
+    		    {
+    		        return FALSE;
+    		    }
         }
-		    
+        
+        foreach ($trip_ids as $trip_id)
+        {
+            $post->save_to_trip_by_trip_id($trip_id, $added_by);
+        }
+        
 		    if ($p->save($t->all))
-		    {
-		        $parent_id = ($parent_id) ? $parent_id : 0;
-		        if ($parent_id)
-		        {
-		            $this->mc->delete('replies_by_post_id:'.$parent_id);
-		        }
-		        
+		    {		        
 		        if ($is_repost)
 		        {
 		            $p->set_join_field($t, 'added_by', $this->user->id);
