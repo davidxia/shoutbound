@@ -9,7 +9,8 @@ class Home extends CI_Controller
     {
         parent::__construct();
         $u = new User_m();
-        if ($u->get_logged_in_user())
+        $u->get_logged_in_user();
+        if ($u->id)
         {
             $this->user = $u;
         }

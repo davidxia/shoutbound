@@ -7,7 +7,8 @@ class Login extends CI_Controller
     {
         parent::__construct();        
         $u = new User_m();
-        if ($u->get_logged_in_user())
+        $u->get_logged_in_user();
+        if ($u->id)
         {
             redirect('/home');
         }
@@ -23,13 +24,18 @@ class Login extends CI_Controller
     public function ajax_email_login()
     {
         $u = new User_m();
-        if ($u->verify_email_pw($this->input->post('email'), $this->input->post('password')))
+        $user_id = $u->verify_email_pw($this->input->post('email'), $this->input->post('password'));
+        if ($user_id)
         {
-            json_success(array('loggedin' => TRUE));
+            $u->get_by_id($user_id);
+            if ($u->login())
+            {
+                $this->output->set_output(json_success(array('loggedin' => TRUE)));
+            }
         }
         else
         {
-            json_success(array('loggedin' => FALSE));
+            $this->output->set_output(json_success(array('loggedin' => FALSE)));
         }
     }
 

@@ -8,11 +8,7 @@
     <div>
     <? foreach ($trip->places as $place):?>
       <a class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>" title="<?=$trip->name?>"><?=$place->name?></a>
-      <? if ($place->startdate):?>
-        <?=date('n/d/y', $place->startdate)?>
-      <? else:?>
-        no date set yet
-      <? endif;?>
+      <span class="subtext"><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
     <? endforeach;?>
     </div>
     

@@ -2,19 +2,30 @@
 
 class Places extends CI_Controller
 {
-    public $user;
+    private $user;
     
     function __construct()
     {
         parent::__construct();
-        $u = new User();
-        if ($u->get_logged_in_status())
+        $u = new User_m();
+        $u->get_logged_in_user();
+        if ($u->id)
         {
             $this->user = $u;
         }
 		}
 		
 		
+		public function mytest()
+		{
+		    $p = new Post_m(2);
+		    $p->get_likes();
+		    echo '<pre>';var_dump($p);echo '</pre>';
+		    $a = count(array_keys($p->likes, 1));
+		    var_dump($a);
+		}
+		
+				
     public function ajax_autocomplete()
     {
         $query = $this->input->post('query');
@@ -61,63 +72,49 @@ class Places extends CI_Controller
             return;
         }
         
-        $p = new Place($id);
-        if ( ! $p->id)
+        $place = new Place_m($id);
+        if ( ! $place->id)
         {
             custom_404();
             return;
         }
         
-        $p->get_num_posts();
-        $p->get_num_trips();
-        $p->get_num_followers();
-        $p->get_posts();
+        $place->get_num_posts()->get_num_trips()->get_num_followers()->get_posts();
         
-        if (isset($this->user->id))
+        if ($this->user)
         {
-            $p->get_follow_status_by_user_id($this->user->id);
+            $place->get_follow_status_by_user_id($this->user->id);
         }
-        $user = (isset($this->user->id)) ? $this->user->stored : NULL;
         
         $data = array(
-            'user' => $user,
-            'place' => $p->stored,
+            'user' => $this->user,
+            'place' => $place,
         );
         $this->load->view('places/index', $data);
     }
     
     
-    public function trips($place_id = FALSE)
+    public function trips($place_id = NULL)
     {
-        if ( ! $place_id)
-        {
-            redirect('/');
-        }
-        
-        $p = new Place($place_id);
-        $p->get_trips();
+        $place = new Place_m($place_id);
+        $place->get_trips();
         $data = array(
-            'place' => $p->stored,
+            'place' => $place,
         );
         
         $this->load->view('places/trips', $data);
     }
     
     
-    public function followers($place_id = FALSE)
+    public function followers($place_id = NULL)
     {
-        if ( ! $place_id)
-        {
-            redirect('/');
-        }
-
-        $p = new Place($place_id);
+        $place = new Place_m($place_id);
         $user_id = ($this->user) ? $this->user->id : NULL;
-        $p->get_followers($user_id);
+        $place->get_followers($user_id);
         
         $data = array(
-            'user' => $this->user->stored,
-            'place' => $p->stored,
+            'user' => $this->user,
+            'place' => $place,
         );
 
         $this->load->view('places/followers', $data);

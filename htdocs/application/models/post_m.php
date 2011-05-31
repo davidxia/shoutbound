@@ -141,21 +141,6 @@ class Post_m extends CI_Model
     }
 
 
-/*
-    public function get_likes()
-    {
-        $l = new Like();
-        $l->where('post_id', $this->id)->get();
-        $likes = array();
-        foreach ($l as $like)
-        {
-            $likes[] = $like->stored;
-        }
-        $this->stored->likes = $likes;
-    }
-*/
-
-
     public function get_trips()
     {
         $key = 'trip_ids_by_post_id:'.$this->id;
@@ -191,6 +176,35 @@ class Post_m extends CI_Model
         $v = array(0, $trip_id, $this->id);
         $r = $this->mdb->alter($sql, $v);
         return $r['num_affected'];
+    }
+
+
+    public function get_likes($user_id = NULL)
+    {
+        $key = 'like_ids_by_post_id:'.$this->id;
+        $like_ids = $this->mc->get($key);
+        
+        if ($like_ids === FALSE)
+        {
+            $like_ids = array();
+            $sql = 'SELECT id FROM `likes` WHERE post_id = ?';
+            $v = array($this->id);
+            $rows = $this->mdb->select($sql, $v);
+            foreach ($rows as $row)
+            {
+                $like_ids[] = $row->id;
+            }
+            $this->mc->set($key, $like_ids);
+        }
+
+        $this->likes = array();
+        $like = new Like_m();
+        foreach ($like_ids as $like_id)
+        {
+            $like->get_by_id($like_id);
+            $this->likes[$like->user_id] = $like->is_like;
+        }
+        return $this;
     }
 
 

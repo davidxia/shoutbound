@@ -130,21 +130,18 @@ $this->load->view('core_header', $header_args);
               
               <div class="actionbar">
                 <a class="post-profile-pic" href="<?=site_url('profile/'.$post->user_id)?>">
-                  <img src="<?=static_sub('profile_pics/'.$post->user->profile_pic)?>" height="22" width="22" alt="<?=$post->user->name?>"/>
+                  <img src="<?=static_sub('profile_pics/'.$post->author->profile_pic)?>" height="22" width="22" alt="<?=$post->author->name?>"/>
                 </a>
                 <a href="<?=site_url('profile/'.$post->user_id)?>" class="author">
-                  <?=$post->user->name?>
+                  <?=$post->author->name?>
                 </a> 
                 <a class="reply-button" href="#">Add comment</a>           
-                <? $is_liked = 0; foreach ($post->likes as $like):?><? if (isset($user) AND $like->user_id==$user->id AND $like->is_like==1):?>
-                  <? $is_liked = 1;?>
-                <? endif;?><? endforeach;?>
-                <? if ($is_liked == 0):?>
-                  <a class="like-button" href="#">Like</a>
-                <? else:?>
+                <? if (isset($user->id) AND isset($post->likes[$user->id]) AND $post->likes[$user->id]):?>
                   <a class="unlike-button" href="#">Unlike</a>
+                <? else:?>
+                  <a class="like-button" href="#">Like</a>
                 <? endif;?>
-                <? $num_likes = 0; foreach($post->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><span class="num-likes"><?=$num_likes?> person likes this</span><? elseif ($num_likes > 1):?><span class="num-likes"><?=$num_likes?> people like this</span><? endif;?>
+                <span class="num_likes"><? $num_likes=count(array_keys($post->likes,1)); echo $num_likes?><? if($num_likes ==1):?> person likes this<? else:?> people like this<? endif;?></span>
                 <abbr class="timeago" title="<?=$post->created?>"><?=$post->created?></abbr>            
               </div> 
               <div class="remove-post"></div>

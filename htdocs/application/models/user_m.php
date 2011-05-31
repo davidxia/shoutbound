@@ -19,6 +19,7 @@ class User_m extends CI_Model
         }
     }
     
+    
     public function login()
     {
         if (is_null($this->id))
@@ -49,30 +50,30 @@ class User_m extends CI_Model
         if ($user_id)
         {
             $this->get_by_id($user_id);
-            return TRUE;
         }
-        else
-        {
-            return FALSE;
-        }
+        return $this;
     }
     
     
     public function verify_email_pw($email, $pw)
     {
-        $sql = 'SELECT id,email,password FROM `users` WHERE email = ? LIMIT 1';
-        $v = array($email);
-        $rows = $this->mdb->select($sql, $v);
-        if (isset($rows[0]) AND $rows[0]->password == md5('davidxia'.$pw.'isgodamongmen'))
-        {
-            $this->get_by_id($rows[0]->id);
-            $this->login();
-            return TRUE;
-        }
-        else
+        $this->get_by_email($email);
+        if ( ! $this->id)
         {
             return FALSE;
         }
+    
+        $sql = 'SELECT password FROM `users` WHERE id = ? LIMIT 1';
+        $v = array($this->id);
+        $rows = $this->mdb->select($sql, $v);
+        
+        if ($rows[0]->password != md5('davidxia'.$pw.'isgodamongmen'))
+        {
+            $this->clear();
+            return FALSE;
+        }
+        
+        return $this->id;
     }
     
 
@@ -198,6 +199,7 @@ class User_m extends CI_Model
 
     public function get_trips()
     {
+        if (!$this->id) return FALSE;
         $key = 'trip_ids_by_user_id:'.$this->id;
         $trip_ids = $this->mc->get($key);
         

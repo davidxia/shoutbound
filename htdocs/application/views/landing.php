@@ -150,13 +150,8 @@ $this->load->view('core_header', $header_args);
     });
     
     
-    $('#login-submit').click(function() {
-      var postData = {
-        email: $('#email').val(),
-        password: $('#password').val()
-      };
-      
-      $.post('<?=site_url('login/ajax_email_login')?>', postData,
+    $('#login-submit').click(function() {      
+      $.post('<?=site_url('login/ajax_email_login')?>', {email:$('#email').val(), password:$('#password').val()},
         function(d) {
           var r = $.parseJSON(d);
           if (r.success) {

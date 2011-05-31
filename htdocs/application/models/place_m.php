@@ -24,6 +24,7 @@ class Place_m extends CI_Model
         }
     }
     
+    
     public function get_by_id($id)
     {
         $key = 'place_by_place_id:'.$id;
@@ -88,7 +89,7 @@ class Place_m extends CI_Model
             $post->convert_nl();
             $post->get_places();
             $post->get_trips();
-            $post->get_replies();
+            $post->get_replies()->get_likes();
             $this->posts[] = $post;
         }
         return $this;
