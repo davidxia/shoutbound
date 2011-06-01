@@ -21,8 +21,8 @@ class Posts extends CI_Controller
 		    $post_id = ($this->input->post('postId')) ? $this->input->post('postId') : NULL;
 		    $content = $this->input->post('content');
 		    $parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : NULL;
-		    $trip_ids = $this->input->post('tripIds');
-		    $added_by ($post_id) ? $this->user->id : NULL;
+		    $trip_ids = ($this->input->post('tripIds')) ? $this->input->post('tripIds') : array();
+		    $added_by = ($post_id) ? $this->user->id : NULL;
 		            
         $post = new Post_m();
         if ($post_id)
@@ -42,7 +42,20 @@ class Posts extends CI_Controller
     		    }
         }
         
-        if ($post->save_to_trips_by_trip_ids($trip_ids, $added_by))
+        if ( ! $trip_ids)
+        {
+            $data = array('str' => json_success(array(
+                'id' => $post->id,
+                'userName' => $this->user->name,
+                'userId' => $this->user->id,
+                'userPic' => $this->user->profile_pic,
+                'content' => $content,
+                'parentId' => $parent_id,
+                'tripIds' => $trip_ids,
+                'created' => time()-72,
+            )));
+        }
+        elseif ($post->save_to_trips_by_trip_ids($trip_ids, $added_by))
         {
             foreach ($trip_ids as $trip_id)
             {
@@ -106,7 +119,7 @@ class Posts extends CI_Controller
                 'userPic' => $this->user->profile_pic,
                 'content' => $content,
                 'parentId' => $parent_id,
-                'tripIds' => $this->input->post('tripIds'),
+                'tripIds' => $trip_ids,
                 'created' => time()-72,
             )));
 		    }

@@ -1039,6 +1039,7 @@ class User_m extends CI_Model
         $this->recent_activities = array();
         foreach ($recent_activity_ids as $recent_activity_id)
         {
+            $this->load->model('Activity_m');
             $activity = new Activity_m($recent_activity_id);
             $activity->get_source()->get_parent();
             $this->recent_activities[] = $activity;

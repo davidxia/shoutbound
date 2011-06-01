@@ -75,13 +75,12 @@ class Home extends CI_Controller
         $this->load->view('blank', $data);
     }
     
-    
 /*
+    
     public function mytest()
     {
-        $b = new Post_m(2);
-        $b->get_likes();
-		    $str = '<pre>'.print_r($b,true).'</pre>';
+        $arr = (bool) array();
+		    $str = '<pre>'.var_export($arr,true).'</pre>';
 		    $data = array('str' => $str);
 		    $this->load->view('blank', $data);
     }
