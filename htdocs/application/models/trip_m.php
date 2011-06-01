@@ -300,7 +300,7 @@ class Trip_m extends CI_Model
         $created = time() - 72;
         $updated = $created;
         
-        if ( !isset($name) OR !isset($user_id) OR !isset($places_dates)))
+        if ( !isset($name) OR !isset($user_id) OR !isset($places_dates))
         {
             return FALSE;
         }
