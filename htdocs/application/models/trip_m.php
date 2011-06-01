@@ -5,6 +5,7 @@ class Trip_m extends CI_Model
     public $id;
     public $name;
     public $description;
+    public $response_deadline;
     public $is_private;
     public $is_active;
     
@@ -288,6 +289,60 @@ class Trip_m extends CI_Model
 */
 
 
+    public function create($params = array())
+    {
+        $name = (isset($params['name'])) ? $params['name'] : NULL;
+        $user_id = (isset($params['user_id'])) ? $params['user_id'] : NULL;
+        $description = (isset($params['description'])) ? $params['description'] : NULL;
+        $response_deadline = (isset($params['response_deadline'])) ? $params['response_deadline'] : NULL;
+        $is_private = (isset($params['is_private'])) ? $params['is_private'] : 0;
+        $places_dates = (isset($params['places_dates'])) ? $params['places_dates'] : NULL;
+        $created = time() - 72;
+        $updated = $created;
+        
+        if ( !isset($name) OR !isset($user_id) OR !isset($places_dates)))
+        {
+            return FALSE;
+        }
+        
+        $sql = 'INSERT INTO `trips` (`name`, `description`, `response_deadline`, `is_private`, `created`, `updated`) VALUES (?,?,?,?,?,?)';
+        $values = array($name, $description, $response_deadline, $is_private, $created, $updated);
+        $r = $this->mdb->alter($sql, $values);
+        if ($r['num_affected'] == 1)
+        {
+            $trip_id = $r['last_insert_id'];
+            $sql = 'INSERT INTO `trips_users` (`user_id`, `trip_id`, `rsvp`, `role`) VALUES (?,?,?,?)';
+            $values = array($user_id, $trip_id, 9, 10);
+            $r = $this->mdb->alter($sql, $values);
+            if ($r['num_affected'] == 1)
+            {
+                $error = FALSE;
+                foreach ($places_dates as $k => $v)
+                {
+                    $sql = 'INSERT INTO `places_trips` (`trip_id`, `place_id`, `startdate`, `enddate`) VALUES (?,?,?,?)';
+                    $values = array($tripid, $k, $v['startdate'], $v['enddate']);
+                    $r = $this->mdb->alter($sql, $values);
+                    if ($r['num_affected'] != 1)
+                    {
+                        $error = TRUE;
+                    }
+                }
+                if ( ! $error)
+                {
+                    $this->id = $trip_id;
+                    $this->name = $name;
+                    $this->description = $description;
+                    $this->response_deadline = $response_deadline;
+                    $this->is_private = $is_private;
+                    $this->is_active = 1;
+                    return TRUE;                
+                }
+            }
+        }
+        return FALSE;
+    }
+
+
     public function delete($user_id = NULL)
     {
         if ( ! $user_id)
@@ -341,38 +396,6 @@ class Trip_m extends CI_Model
             return TRUE;
         }
     }
-    
-
-    public function delete_post_by_post_id_user_id($post_id = NULL, $user_id = NULL)
-    {
-        if ( !$post_id OR !$user_id)
-        {
-            return FALSE;
-        }
-
-        $p = new Post_m($post_id);
-
-        // allow removal only if the user is the trip's creator or the post's adder
-        $this->get_creator();
-        $p->get_adder_by_trip_id($this->id);
-
-        if ($this->creator->id != $user_id AND (!isset($p->added_by) OR $p->added_by->id != $user_id))
-        {
-            return FALSE;
-        }
-        
-        $num_affected = $p->remove_from_trip_by_trip_id($this->id);
-        if ($num_affected == 1)
-        {
-            $this->mc->delete('post_ids_by_trip_id:'.$this->id);
-            return TRUE;
-        }
-        else
-        {
-            return FALSE;
-        }
-    }
-
 
 
     public function get_related_trips()

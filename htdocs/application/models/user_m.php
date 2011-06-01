@@ -236,13 +236,8 @@ class User_m extends CI_Model
     }
     
     
-    public function create($params)
+    public function create($params = array())
     {
-        if ( ! is_array($params))
-        {
-           return FALSE;
-        }
-        
         $name = (isset($params['name'])) ? $params['name'] : NULL;
         $email = (isset($params['email'])) ? $params['email'] : NULL;
         $password = (isset($params['password'])) ? md5('davidxia'.$params['password'].'isgodamongmen') : NULL;

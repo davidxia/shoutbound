@@ -185,14 +185,38 @@ class Post_m extends CI_Model
         }
         return $this;
     }    
+    
 
-
-    public function remove_from_trip_by_trip_id($trip_id)
+    public function remove_by_trip_id_user_id($trip_id = NULL, $user_id = NULL)
     {
-        $sql = 'UPDATE `posts_trips` SET is_active = ? WHERE trip_id = ? AND post_id = ?';
+        if ( !$trip_id OR !$user_id)
+        {
+            return FALSE;
+        }
+
+        // allow removal only if the user is the trip's creator or the post's adder
+        $trip = new Trip_m($trip_id);
+        $trip->get_creator();
+        $this->get_adder_by_trip_id($trip_id);
+
+        if ($trip->creator->id != $user_id AND (!isset($this->added_by) OR $this->added_by->id != $user_id))
+        {
+            return FALSE;
+        }
+        
+        $sql = 'UPDATE `posts_trips` SET `is_active` = ? WHERE `trip_id` = ? AND `post_id` = ?';
         $v = array(0, $trip_id, $this->id);
         $r = $this->mdb->alter($sql, $v);
-        return $r['num_affected'];
+
+        if ($r['num_affected'] == 1)
+        {
+            $this->mc->delete('post_ids_by_trip_id:'.$trip_id);
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
     }
 
 

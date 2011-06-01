@@ -78,9 +78,7 @@ class Home extends CI_Controller
     
     public function mytest()
     {
-/*         $b = new Trip_m(2); */
-        $b = new User_m(1);
-        $b->get_rsvp_role_by_trip_id(2);
+        $b = new Trip_m(2);
 		    $str = '<pre>'.print_r($b,true).'</pre>';
 		    $data = array('str' => $str);
 		    $this->load->view('blank', $data);
