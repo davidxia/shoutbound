@@ -307,10 +307,9 @@ class Signup extends CI_Controller
             redirect('/');
         }
         
-        $this->user->is_onboarded = 1;
-        if ($this->user->save())
+        if ($this->user->set_onboarding_status(1))
         {
-            redirect(site_url('home'));
+            redirect('/home');
         }
     }
 }

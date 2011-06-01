@@ -1177,6 +1177,23 @@ class User_m extends CI_Model
         }
         return $this;
     }
+    
+    
+    public function set_onboarding_status($is_onboarded = 0)
+    {
+        $sql = 'UPDATE `users` SET `is_onboarded` = ? WHERE `id` = ?';
+        $v = array($is_onboarded, $this->id);
+        $r = $this->mdb->alter($sql, $v);
+        
+        if ($r['num_affected'] == 1)
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
 
 
     private function row2obj($row)

@@ -54,7 +54,7 @@ $this->load->view('core_header', $header_args);
         
           <? foreach ($user->onboarding_users as $profile):?>
           <div class="streamitem">
-            <a class="unfollow" id="user-<?=$profile->id?>" href="#">Unfollow</a>
+            <a class="follow" id="user-<?=$profile->id?>" href="#">Follow</a>
             <div class="streamitem-avatar-container">
               <a href="<?=site_url('profile/'.$profile->id)?>">
                 <img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="25" height="25"/>

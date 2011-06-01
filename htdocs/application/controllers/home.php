@@ -78,8 +78,7 @@ class Home extends CI_Controller
     
     public function mytest()
     {
-        $b = new User_m(1);
-        $b->get_onboarding_users();
+        $b = new User_m(5);
 		    $str = '<pre>'.print_r($b,true).'</pre>';
 		    $data = array('str' => $str);
 		    $this->load->view('blank', $data);

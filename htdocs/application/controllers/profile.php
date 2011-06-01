@@ -402,13 +402,15 @@ class Profile extends CI_Controller
                         $a->create(array('user_id' => $profile->id, 'activity_type' => 8, 'source_id' => $this->user->id));
                     }
                     
-                    $this->load->library('email_notifs', array('setting_id' => 3, 'profile' => $u));
+/*
+                    $this->load->library('email_notifs', array('setting_id' => 3, 'profile' => $profile));
                     $this->email_notifs->get_emails();
                     $this->email_notifs->compose_email($this->user, $profile);
                     $this->email_notifs->send_email();
+*/
                 }
                 
-                $data = array('str' => json_success(array('type' => 'user', 'id' => $id, 'follow' => $follow)));
+                $data = array('str' => json_success(array('type' => 'user', 'id' => $profile->id, 'follow' => $follow)));
             }
             else
             {
@@ -418,7 +420,7 @@ class Profile extends CI_Controller
         elseif ( ! $follow)
         {
             $this->user->set_follow_for_user_id($profile->id, $follow);
-            $data = array('str' => json_success(array('type' => 'user', 'id' => $id, 'follow' => $follow)));
+            $data = array('str' => json_success(array('type' => 'user', 'id' => $profile->id, 'follow' => $follow)));
         }
         
         $this->load->view('blank', $data);

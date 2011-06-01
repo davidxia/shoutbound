@@ -2,7 +2,7 @@
   
   <? foreach ($user->onboarding_trips as $trip):?>
   <div class="streamitem">
-    <a class="unfollow" id="place-<?=$trip->id?>">Unfollow</a>
+    <a class="follow" id="trip-<?=$trip->id?>">Follow</a>
     <div class="streamitem-avatar-container">
       <a href="<?=site_url('trips/'.$trip->id)?>">
         <img src="<?=static_sub('images/trip_icon.png')?>" width="25" height="25">
