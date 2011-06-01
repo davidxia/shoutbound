@@ -320,7 +320,7 @@ class Trip_m extends CI_Model
                 foreach ($places_dates as $k => $v)
                 {
                     $sql = 'INSERT INTO `places_trips` (`trip_id`, `place_id`, `startdate`, `enddate`) VALUES (?,?,?,?)';
-                    $values = array($tripid, $k, $v['startdate'], $v['enddate']);
+                    $values = array($trip_id, $k, $v['startdate'], $v['enddate']);
                     $r = $this->mdb->alter($sql, $values);
                     if ($r['num_affected'] != 1)
                     {

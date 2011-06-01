@@ -314,17 +314,11 @@ $this->load->view('core_header', $header_args);
           <div id="map-canvas"></div>     
         </div>
         <div id="itinerary-tab" class="right-tab-content" style="display:none">
-          <? $prefix=''; foreach ($trip->places as $destination):?>
-          <?=$prefix;?>
-            <span class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>" title="<?=$destination->name?>"><?=$destination->name?></span>  
-            <? if ($destination->startdate AND $destination->enddate):?>
-              <span class="subtext"><?=date('F j, Y', $destination->startdate)?> - <?=date('F j, Y', $destination->enddate)?></span><br>
-            <? elseif ($destination->startdate AND ! $destination->enddate):?>
-              <span class="subtext"><?=date('F j, Y', $destination->startdate)?></span><br>
-            <? elseif ( ! $destination->startdate AND $destination->enddate):?>
-              <span class="subtext"> - <?=date('F j, Y', $destination->enddate)?></span><br>
-            <? endif;?>
-          <? $prefix = '<span class="bullet" style="margin-left:3px; display:none">&#149</span>'?>   
+          <? foreach ($trip->places as $place):?>
+          <div>
+            <span class="destination" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>" title="<?=$place->name?>"><?=$place->name?></span>  
+            <span class="subtext"><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
+          </div>
           <? endforeach;?>
         </div>
       </div>
