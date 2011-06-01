@@ -536,7 +536,7 @@ class User_m extends CI_Model
     
     public function set_rsvp_role_for_trip_id($trip_id = NULL, $rsvp = NULL, $role = NULL)
     {
-        if ( ! ($trip_id AND $rsvp AND $role))
+        if ( !isset($trip_id) AND !isset($rsvp) AND !isset($role))
         {
             return FALSE;
         }
@@ -547,6 +547,7 @@ class User_m extends CI_Model
         
         if ($r['num_affected'] == 1 OR $r['num_affected'] == 2)
         {
+            $this->mc->replace('rsvp_role_by_user_id_trip_id:'.$this->id.':'.$trip_id, array('rsvp' => $role, 'role' => $role));
             $this->mc->replace('role_by_trip_id_user_id:'.$trip_id.':'.$this->id, $role);
             $this->mc->replace('rsvp_by_trip_id_user_id:'.$trip_id.':'.$this->id, $rsvp);
             $this->mc->delete('num_followers_by_trip_id:'.$trip_id);

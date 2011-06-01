@@ -40,13 +40,13 @@ class Email_notifs
             case 2:
             case 10:
          	      $this->user->get_followers();
-         	      $u = new User();
-                foreach ($this->user->stored->followers as $follower)
+         	      $user = new User_m();
+                foreach ($this->user->followers as $follower)
                 {
-                    $u->get_by_id($follower->id);
-                    if ($u->check_notif_setting($this->setting_id))
+                    $user->get_by_id($follower->id);
+                    if ($user->check_notif_setting($this->setting_id))
                     {
-                        $this->emails[] = $u->email;
+                        $this->emails[] = $user->email;
                     }
                 }
                 break;
@@ -56,13 +56,13 @@ class Email_notifs
                     $this->emails[] = $this->profile->email;
                 }
             case 12:
-                $u = new User();
+                $user = new User_m();
                 foreach ($this->user_ids as $user_id)
                 {
-                    $u->get_by_id($user_id);
-                    if ($u->check_notif_setting($this->setting_id))
+                    $user->get_by_id($user_id);
+                    if ($user->check_notif_setting($this->setting_id))
                     {
-                        $this->emails[] = $u->email;
+                        $this->emails[] = $user->email;
                     }
                 }
                 break;
@@ -70,12 +70,12 @@ class Email_notifs
             case 8:
             case 11:
             case 13:
-                $u = new User();
+                $user = new User_m();
                 $this->trip->get_goers();
                 foreach ($this->trip->stored->goers as $goer)
                 {
-                    $u->get_by_id($goer->id);
-                    if ($u->check_notif_setting($this->setting_id))
+                    $user->get_by_id($goer->id);
+                    if ($user->check_notif_setting($this->setting_id))
                     {
                         $this->emails[] = $goer->email;
                     }

@@ -230,98 +230,72 @@ class Trips extends CI_Controller
     public function ajax_save_rsvp()
     {
         $trip_id = $this->input->post('tripId');
-        if ( ! isset($this->user->id) OR !$trip_id OR getenv('REQUEST_METHOD') == 'GET')
+        $rsvp = $this->input->post('rsvp');
+
+        if ( ! isset($this->user) OR !$trip_id OR getenv('REQUEST_METHOD') == 'GET')
         {
             custom_404();
             return;
         }
         
-        $t = new Trip($trip_id);
-        $t->user->include_join_fields()->where('user_id', $this->user->id)->get();
-        $role = $t->user->join_role;
-        $rsvp = $this->input->post('rsvp');
+        $this->user->get_rsvp_role_by_trip_id($trip_id);
         
-        // if prior record exists in table trips_users
-        if (isset($role))
+        // if no prior relation, make user a follower
+        if ( !isset($this->user->role))
         {
-            if ($rsvp <= 3)
-            {
-                $t->set_join_field($this->user, 'rsvp', $rsvp);
-                $this->mc->delete('num_followers_by_trip_id:'.$trip_id);
-                $this->mc->delete('followers_by_trip_id:'.$trip_id);
-                $this->mc->delete('num_goers_by_trip_id:'.$trip_id);
-                $this->mc->delete('goers_by_trip_id:'.$trip_id);
-                $this->mc->delete('rsvp_by_tripid_userid:'.$trip_id.':'.$this->user->id);
-                json_success(array(
-                    'type' => 'trip',
-                    'id' => $trip_id,
-                    'userId' => $this->user->id,
-                    'profilePic' => $this->user->profile_pic,
-                    'rsvp' => $rsvp,
-                ));
-            }
-            // to be able to rsvp higher than 3, user must be a planner
-            elseif ($rsvp > 3 AND $role == 5)
-            {
-                $t->set_join_field($this->user, 'rsvp', $rsvp);
-                $this->mc->delete('num_goers_by_trip_id:'.$trip_id);
-                $this->mc->delete('goers_by_trip_id:'.$trip_id);
-                $this->mc->delete('rsvp_by_tripid_userid:'.$trip_id.':'.$this->user->id);
-                json_success(array(
-                    'type' => 'trip',
-                    'id' => $trip_id,
-                    'userId' => $this->user->id,
-                    'profilePic' => $this->user->profile_pic,
-                    'rsvp' => $rsvp,
-                ));
-            }
-            else
-            {
-                json_error('something broken, tell David');
-            }
+            $success = $this->user->set_rsvp_role_for_trip_id($trip_id, 3, 0);
             
+            $activity = new Activity_m();
+            $activity->create(array('user_id' => $this->user->id, 'activity_type' => 4, 'source_id' => $trip_id));
+
+/*
+            $trip = new Trip_m($trip_id);
+            $params = array('setting_id' => 4, 'trip' => $trip);
+            $this->load->library('email_notifs', $params);
+            $this->email_notifs->get_emails();
+            $this->email_notifs->compose_email($this->user, $rsvp, $trip);
+            $this->email_notifs->send_email();
+*/
+        }
+        // if prior record exists in table trips_users
+        // to be able to rsvp higher than 3, user must be a planner
+        elseif ($rsvp <= 3 OR ($rsvp > 3 AND $this->user->role == 5))
+        {
+            $success = $this->user->set_rsvp_role_for_trip_id($trip_id, $rsvp, $this->user->role);
             // send email notification if rsvp changed to yes or no
-            if ($role==5 AND ($rsvp==0 OR $rsvp==9))
+            if ($success AND $this->user->role == 5 AND ($rsvp == 0 OR $rsvp == 9))
             {
-                $params = array('setting_id' => 13, 'trip' => $t);
+/*
+                $trip = new Trip_m($trip_id);
+                $params = array('setting_id' => 13, 'trip' => $trip);
                 $this->load->library('email_notifs', $params);
                 $this->email_notifs->get_emails();
                 $this->email_notifs->delete_email($this->user->email);
-                $this->email_notifs->compose_email($this->user, $rsvp, $t->stored);
+                $this->email_notifs->compose_email($this->user, $rsvp, $trip);
                 $this->email_notifs->send_email();
-            }
-        }
-        // if no prior relation, make user a follower
-        elseif ($t->save($this->user))
-        {
-            $t->set_join_field($this->user, 'rsvp', 3);
-            $this->mc->delete('num_followers_by_trip_id:'.$trip_id);
-            $this->mc->delete('followers_by_trip_id:'.$trip_id);
-
-            $this->load->helper('activity');
-            if (save_activity($this->user->id, 4, $t->id, NULL, NULL, time()-72))
-            {
-                json_success(array(
-                    'type' => 'trip',
-                    'id' => $trip_id,
-                    'userId' => $this->user->id,
-                    'profilePic' => $this->user->profile_pic,
-                    'rsvp' => $rsvp,
-                ));
-            }
-            if ($rsvp == 3)
-            {
-                $params = array('setting_id' => 4, 'trip' => $t);
-                $this->load->library('email_notifs', $params);
-                $this->email_notifs->get_emails();
-                $this->email_notifs->compose_email($this->user, $rsvp, $t->stored);
-                $this->email_notifs->send_email();
+*/
             }
         }
         else
         {
-            json_error('something broken, tell David');
+            $success = FALSE;
         }
+        
+        if ($success)
+        {
+            $data = array('str' => json_success(array(
+                'type' => 'trip',
+                'id' => $trip_id,
+                'userId' => $this->user->id,
+                'profilePic' => $this->user->profile_pic,
+                'rsvp' => $rsvp,
+            )));
+        }
+        else
+        {
+            $data = array('str' => json_error('you aren\'t a planner'));
+        }
+        $this->load->view('blank', $data);
     }
         
                 
