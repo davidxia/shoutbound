@@ -309,6 +309,7 @@ class Signup extends CI_Controller
         
         if ($this->user->set_onboarding_status(1))
         {
+            $this->mc->delete('user_by_user_id:'.$this->user->id);
             redirect('/home');
         }
     }
