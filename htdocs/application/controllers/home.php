@@ -64,7 +64,7 @@ class Home extends CI_Controller
     {
         $this->load->model('Activity_m');
         $a = new Activity_m($this->input->post('activityId'));
-        if ($a->user_id == $this->user->id AND $a->set_active(0) == 1)
+        if ($a->user_id == $this->user->id AND $a->set_active_by_user_id($this->user->id, 0) == 1)
         {
             $data = array('str' => json_success());
         }

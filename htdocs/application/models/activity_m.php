@@ -133,15 +133,21 @@ class Activity_m extends CI_Model
     }
     
     
-/*
-    public function set_active($is_active = 1)
+    public function set_active_by_user_id($user_id = NULL, $is_active = 1)
     {
-        $sql = 'UPDATE `activities` SET is_active = ? WHERE id = ?';
-        $v = array($is_active, $this->id);
+        $sql = 'UPDATE `activities` SET is_active = ? WHERE id = ? AND `user_id` = ?';
+        $v = array($is_active, $this->id, $user_id);
         $r = $this->mdb->alter($sql, $v);
-        return $r['num_affected'];
+        if ($r['num_affected'])
+        {
+            $this->mc->delete('recent_activity_ids_by_user_id:'.$user_id);
+            return $r['num_affected'];
+        }
+        else
+        {
+            return FALSE;
+        }
     }
-*/
 
 
     private function row2obj($row)
