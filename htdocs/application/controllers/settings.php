@@ -78,7 +78,7 @@ class Settings extends CI_Controller
             if (md5('davidxia'.$this->input->post('oldPw').'isgodamongmen') == $this->user->password AND
             $this->input->post('newPw') == $this->input->post('confNewPw'))
             {
-                if ( !$this->user->set_password(md5('davidxia'.$this->input->post('newPw').'isgodamongmen')))
+                if ( !$this->user->set_password($this->input->post('newPw')))
                 {
                     $error = TRUE;
                 }
@@ -94,24 +94,17 @@ class Settings extends CI_Controller
         $settings = $s->get_all_settings();
         foreach ($settings as $setting)
         {
-            if ( ! $this->user->set_setting_by_setting_id($setting_id, $this->input->post($setting->name)))
-            {
-                $error = TRUE;
-            }
+            $this->user->set_setting_by_setting_id($setting->id, $this->input->post($setting->name));
         }
         $this->mc->delete('settings_by_user_id:'.$this->user->id);
         
-        if ( !$error AND !$pw_incorrect)
-        {
-            $data = array('str' => json_success(array('response' => 'saved')));
-        }
-        elseif ( !$error AND $pw_incorrect)
+        if ($pw_incorrect)
         {
             $data = array('str' => json_error('incorrect password'));
         }
-        elseif ( !$error)
+        else
         {
-            $data = array('str' => json_error('something broken'));
+            $data = array('str' => json_success(array('response' => 'saved', 'pw' => md5('davidxia'.$this->input->post('newPw').'isgodamongmen'))));
         }
         
         $this->load->view('blank', $data);
