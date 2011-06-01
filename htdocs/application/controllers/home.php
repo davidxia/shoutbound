@@ -78,8 +78,9 @@ class Home extends CI_Controller
     
     public function mytest()
     {
-        $b = new Trip_m(2);
-		    $str = '<pre>'.print_r($b,true).'</pre>';
+        $b = new Post_m(8);
+        $a = $b->save_to_trips_by_trip_ids(array(1,6), 23);
+		    $str = '<pre>'.print_r($b,true).var_export($a,true).'</pre>';
 		    $data = array('str' => $str);
 		    $this->load->view('blank', $data);
     }

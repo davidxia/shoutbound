@@ -83,7 +83,10 @@ class Mdb
 
     public function batch_alter($sql, $batches, $target='localhost')
     {
-        if (!isset($sql) || !$batches) { return FALSE; }
+        if (!isset($sql) || !$batches)
+        {
+            return FALSE;
+        }
 
         $conn = $this->_mdb_conn($target);
         $exec = $conn->prepare($sql,array(),MDB2_PREPARE_MANIP);
@@ -94,6 +97,7 @@ class Mdb
         }
         $error = FALSE;
         $num_affected = 0;
+        $affected_ids = array();
         foreach($batches as $values)
         {
             $res = $exec->execute($values);
@@ -105,13 +109,14 @@ class Mdb
             else
             {
                 $num_affected++;
+                $affected_ids[] = $conn->lastInsertID();
             }
         }
         if ($error)
         {
             return FALSE;
         }
-        return $num_affected;
+        return array('affected_ids' => $affected_ids, 'num_affected' => $num_affected);
     }
 
 

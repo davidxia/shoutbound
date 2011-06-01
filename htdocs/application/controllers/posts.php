@@ -18,12 +18,11 @@ class Posts extends CI_Controller
 				
 		public function ajax_save()
 		{
-		    $post_id = $this->input->post('postId');
+		    $post_id = ($this->input->post('postId')) ? $this->input->post('postId') : NULL;
 		    $content = $this->input->post('content');
 		    $parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : NULL;
 		    $trip_ids = $this->input->post('tripIds');
-		    //$is_repost = ($this->input->post('isRepost')) ? $this->input->post('isRepost') : FALSE;
-		    $added_by ($this->input->post('isRepost')) ? $this->user->id : NULL;
+		    $added_by ($post_id) ? $this->user->id : NULL;
 		            
         $post = new Post_m();
         if ($post_id)
@@ -32,38 +31,33 @@ class Posts extends CI_Controller
         }
         else
         {
-    		    $success = $post->create(array('user_id' => $this->user->id, 'content' => $content, 'parent_id' => $parent_id));
+    		    $success = $post->create(array(
+    		        'user_id' => $this->user->id,
+    		        'content' => $content,
+    		        'parent_id' => $parent_id
+    		    ));
     		    if ( ! $success)
     		    {
     		        return FALSE;
     		    }
         }
         
-        foreach ($trip_ids as $trip_id)
+        if ($post->save_to_trips_by_trip_ids($trip_ids, $added_by))
         {
-            $post->save_to_trip_by_trip_id($trip_id, $added_by);
-        }
-        
-		    if ($p->save($t->all))
-		    {		        
-		        if ($is_repost)
-		        {
-		            //$p->set_join_field($t, 'added_by', $this->user->id);
-		            foreach ($t as $trip)
-		            {
-		                $this->mc->replace('adder_by_postid_tripid:'.$p->id.':'.$trip->id, $this->user->stored);
-		            }
-		        }
-		        
+            foreach ($trip_ids as $trip_id)
+            {
+                $this->mc->replace('adder_id_by_post_id_trip_id:'.$post->id.':'.$trip_id, $this->user->id);
+            }
+
             $content = nl2br($content);
             $content = preg_replace_callback('/<place id="(\d+)">/',
                 create_function('$matches',
-                    '$p = new Place();
+                    '$p = new Place_m();
                      $p->get_by_id($matches[1]);
                      return \'<a class="place" href="#" address="\'.$p->name.\'" lat="\'.$p->lat.\'" lng="\'.$p->lng.\'">\';'),
                 $content);
             $content = str_replace('</place>', '</a>', $content);
-            
+
             $activity_type = ($parent_id) ? 6 : 2;
             if ($parent_id)
             {
@@ -78,26 +72,34 @@ class Posts extends CI_Controller
                 $pid = NULL;
             }
             $parent_type = ($parent_id) ? 4 : 2;
-            $this->load->helper('activity');
-            save_activity($this->user->id, $activity_type, $p->id, $pid, $parent_type, time()-72);
+            $activity = new Activity_m();
+            $activity->create(array(
+                'user_id' => $this->user->id,
+                'activity_type' => $activity_type,
+                'source_id' => $post->id,
+                'parent_id' => $pid,
+                'parent_type' => $parent_type,
+            ));
             
             $this->load->library('email_notifs', array('setting_id' => 11, 'user' => $this->user));
-            foreach ($t as $trip)
+            $trip = new Trip_m();
+            foreach ($trip_ids as $trip_id)
             {
+                $trip->get_by_id($trip_id);
                 $this->email_notifs->set_params(array('trip' => $trip));
                 $this->email_notifs->clear_emails();
                 $this->email_notifs->get_emails();
-                $this->email_notifs->compose_email($this->user->stored, $p->stored, $trip->stored);
+                $this->email_notifs->compose_email($this->user, $post, $trip);
                 $this->email_notifs->send_email();
             }
             $this->email_notifs->set_params(2);
             $this->email_notifs->clear_emails();
             $this->email_notifs->get_emails();
-            $this->email_notifs->compose_email($this->user->stored, $p->stored, $t);
+            $this->email_notifs->compose_email($this->user, $post, $trip);
             $this->email_notifs->send_email();
             
-            json_success(array(
-                'id' => $p->id,
+            $data = array('str' => json_success(array(
+                'id' => $post->id,
                 'userName' => $this->user->name,
                 'userId' => $this->user->id,
                 'userPic' => $this->user->profile_pic,
@@ -105,12 +107,14 @@ class Posts extends CI_Controller
                 'parentId' => $parent_id,
                 'tripIds' => $this->input->post('tripIds'),
                 'created' => time()-72,
-            ));
+            )));
 		    }
 		    else
 		    {
-		        json_error('something broke, tell David');
+		        $data = array('str' => json_error());
 		    }
+		    
+		    $this->load->view('blank', $data);
 		}
 		
     

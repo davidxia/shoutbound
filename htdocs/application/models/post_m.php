@@ -281,15 +281,19 @@ class Post_m extends CI_Model
     }
     
     
-    public function save_to_trip_by_trip_id($trip_id = NULL, $added_by = NULL)
+    public function save_to_trips_by_trip_ids($trip_ids = array(), $added_by = NULL)
     {
-        $sql = 'INSERT INTO `posts_trips` (`trip_id`, `post_id`, `added_by`, `created`) VALUES (?, ?, ?, ?)';
-        $values = array($trip_id, $this->id, $added_by, time()-72);
-        $r = $this->mdb->alter($sql, $values);
-        if ($r['num_affected'] == 1)
+        $sql = 'INSERT IGNORE INTO `posts_trips` (`trip_id`, `post_id`, `added_by`, `created`) VALUES (?,?,?,?)';
+        $values = array();
+        $created = time()-72;
+        foreach ($trip_ids as $trip_id)
         {
-            
-            return $this;
+            $values[] = array($trip_id, $this->id, $added_by, $created);
+        }
+        $r = $this->mdb->batch_alter($sql, $values);
+        if ($r['num_affected'] > 0)
+        {
+            return $r['num_affected'];
         }
         else
         {
