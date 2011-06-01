@@ -194,12 +194,10 @@ class Trips extends CI_Controller
                 }
                 
                 // delete memcache of related trips
-                foreach ($trip->trip->get_iterated() as $related_trip)
+                $trip->get_related_trips();
+                foreach ($trip->related_trips as $related_trip)
                 {
-                    if ($related_trip->id != $t->id)
-                    {
-                        $this->mc->delete('related_trips_by_tripid:'.$related_trip->id);
-                    }
+                    $this->mc->delete('related_trip_ids_by_trip_id:'.$related_trip->id);
                 }
             }
         }
