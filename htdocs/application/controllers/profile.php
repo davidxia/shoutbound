@@ -14,12 +14,18 @@ class Profile extends CI_Controller
             $this->user = $u;
         }
   	}
-  			
+    
+    
+    public function james()
+    {
+        $data = array('str' => 'james is here');
+        $this->load->view('blank', $data);
+    }
 
     public function index($pid = NULL)
     {
         // if user not logged in and no profile specified, return 404
-        if ( ! ($pid OR isset($this->user)))
+        if ( !$pid AND !isset($this->user)))
         {
             custom_404();
             return;
@@ -36,6 +42,7 @@ class Profile extends CI_Controller
         }
         elseif ( ! isset($this->user))
         {
+            if (is_numeric($pid))
             $profile->get_by_id($pid);
             if ( ! $profile->id)
             {
@@ -295,16 +302,16 @@ class Profile extends CI_Controller
     public function ajax_save_profile()
     {
         $bio = trim($this->input->post('bio'));
-        $url = trim($this->input->post('url'));
+        $website = trim($this->input->post('website'));
         $curr_place_id = $this->input->post('currPlaceId');
         $changes_made = FALSE;
         
         $this->load->model('Activity_m');
         $a = new Activity_m();
-        if ($bio != $this->user->bio OR $url != $this->user->url)
+        if ($bio != $this->user->bio OR $website != $this->user->website)
         {
             $old_bio = $this->user->bio;
-            $success = $this->user->set_profile_info(array('bio' => $bio, 'url' => $url));
+            $success = $this->user->set_profile_info(array('bio' => $bio, 'website' => $website));
             if ($success AND $bio != $old_bio)
             {
                 $a->create(array('user_id' => $this->user->id, 'activity_type' => 9, 'source_id' => 1));
@@ -333,7 +340,7 @@ class Profile extends CI_Controller
 
         if ($changes_made)
         {
-            $data = array('str' => json_success(array('changed' => 1, 'bio' => $this->user->bio, 'url' => $this->user->url, 'response' => 'saved')));
+            $data = array('str' => json_success(array('changed' => 1, 'bio' => $this->user->bio, 'website' => $this->user->website, 'response' => 'saved')));
         }
         else
         {

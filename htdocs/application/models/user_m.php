@@ -5,7 +5,7 @@ class User_m extends CI_Model
     public $id;
     public $name;
     public $bio;
-    public $url;
+    public $website;
     public $profile_pic;
     public $is_onboarded;
     
@@ -1070,21 +1070,21 @@ class User_m extends CI_Model
     public function set_profile_info($params = array())
     {
         $bio = (isset($params['bio'])) ? $params['bio'] : $this->bio;
-        $url = (isset($params['url'])) ? $params['url'] : $this->url;
+        $website = (isset($params['website'])) ? $params['website'] : $this->website;
         $profile_pic = (isset($params['profile_pic'])) ? $params['profile_pic'] : $this->profile_pic;
         
-        if ($bio==$this->bio AND $url==$this->url AND $profile_pic==$this->profile_pic)
+        if ($bio==$this->bio AND $website==$this->website AND $profile_pic==$this->profile_pic)
         {
             return FALSE;
         }
 
-        $sql = 'UPDATE `users` SET `bio`=?, `url`=? WHERE `id` = ?';
-        $values = array($bio, $url, $this->id);
+        $sql = 'UPDATE `users` SET `bio`=?, `website`=? WHERE `id` = ?';
+        $values = array($bio, $website, $this->id);
         $r = $this->mdb->alter($sql, $values);
         if ($r['num_affected'] == 1)
         {
             $this->bio = $bio;
-            $this->url = $url;
+            $this->website = $website;
             return TRUE;
         }
         else

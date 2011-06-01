@@ -19,18 +19,18 @@ $(function() {
 
   $('#save-profile').click(function() {
     var bio = $('#bio'),
-        url = $('#url'),
+        website = $('#website'),
         currPlaceId = $('#current-place-id').val();
     
-    var urlVal = url.val();
-    if (url.val() && !urlVal.match(/^[a-zA-Z]+:\/\//)) {
-      urlVal = 'http://' + urlVal;
+    var websiteVal = website.val();
+    if (website.val() && !websiteVal.match(/^[a-zA-Z]+:\/\//)) {
+      websiteVal = 'http://' + websiteVal;
     }
 
-    $.post(baseUrl+'profile/ajax_save_profile', {bio:bio.val(), url:urlVal, currPlaceId:currPlaceId},
+    $.post(baseUrl+'profile/ajax_save_profile', {bio:bio.val(), website:websiteVal, currPlaceId:currPlaceId},
       function(d) {
         var r = $.parseJSON(d);
-        url.val(r.url);
+        website.val(r.website);
         bio.val(r.bio);
         $('#save-response').empty().text(r.response).show().delay(10000).fadeOut(250);
       });

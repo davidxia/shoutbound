@@ -19,10 +19,15 @@ class Posts extends CI_Controller
 		public function ajax_save()
 		{
 		    $post_id = ($this->input->post('postId')) ? $this->input->post('postId') : NULL;
-		    $content = $this->input->post('content');
+		    $content = ($this->input->post('content')) ? $this->input->post('content') : NULL;
 		    $parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : NULL;
 		    $trip_ids = ($this->input->post('tripIds')) ? $this->input->post('tripIds') : array();
 		    $added_by = ($post_id) ? $this->user->id : NULL;
+		    
+		    if ( ! $content)
+		    {
+		        return FALSE;
+		    }
 		            
         $post = new Post_m();
         if ($post_id)

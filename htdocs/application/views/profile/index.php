@@ -41,7 +41,7 @@ $this->load->view('core_header', $header_args);
       <div id="profile-info">
         <div class="top-bar-header"><?=$profile->name?></div>
         <div id="bio"><?=$profile->bio?></div>
-        <div id="personal-url"><a href="<?=$profile->url?>" target="_blank"><?=$profile->url?></a></div>
+        <div id="website"><a href="<?=$profile->website?>" target="_blank"><?=$profile->website?></a></div>
       </div>
     </div><!--TOP BAR END-->
 
