@@ -232,7 +232,7 @@ class Trips extends CI_Controller
         $trip_id = $this->input->post('tripId');
         $rsvp = $this->input->post('rsvp');
 
-        if ( ! isset($this->user) OR !$trip_id OR getenv('REQUEST_METHOD') == 'GET')
+        if ( ! isset($this->user) OR !$trip_id)//OR getenv('REQUEST_METHOD') == 'GET'
         {
             custom_404();
             return;
@@ -248,32 +248,29 @@ class Trips extends CI_Controller
             $activity = new Activity_m();
             $activity->create(array('user_id' => $this->user->id, 'activity_type' => 4, 'source_id' => $trip_id));
 
-/*
             $trip = new Trip_m($trip_id);
             $params = array('setting_id' => 4, 'trip' => $trip);
             $this->load->library('email_notifs', $params);
             $this->email_notifs->get_emails();
             $this->email_notifs->compose_email($this->user, $rsvp, $trip);
             $this->email_notifs->send_email();
-*/
         }
         // if prior record exists in table trips_users
         // to be able to rsvp higher than 3, user must be a planner
-        elseif ($rsvp <= 3 OR ($rsvp > 3 AND $this->user->role == 5))
+        elseif ($rsvp <= 3 OR ($rsvp > 3 AND $this->user->role >= 5))
         {
             $success = $this->user->set_rsvp_role_for_trip_id($trip_id, $rsvp, $this->user->role);
-            // send email notification if rsvp changed to yes or no
+            // send email notification to goers if rsvp changed to yes or no
             if ($success AND $this->user->role == 5 AND ($rsvp == 0 OR $rsvp == 9))
             {
-/*
                 $trip = new Trip_m($trip_id);
                 $params = array('setting_id' => 13, 'trip' => $trip);
                 $this->load->library('email_notifs', $params);
                 $this->email_notifs->get_emails();
+                $this->user->get_email();
                 $this->email_notifs->delete_email($this->user->email);
                 $this->email_notifs->compose_email($this->user, $rsvp, $trip);
                 $this->email_notifs->send_email();
-*/
             }
         }
         else
@@ -293,7 +290,7 @@ class Trips extends CI_Controller
         }
         else
         {
-            $data = array('str' => json_error('you aren\'t a planner'));
+            $data = array('str' => json_error());
         }
         $this->load->view('blank', $data);
     }

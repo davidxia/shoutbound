@@ -40,28 +40,31 @@ class Email_notifs
             case 2:
             case 10:
          	      $this->user->get_followers();
-         	      $user = new User_m();
                 foreach ($this->user->followers as $follower)
                 {
-                    $user->get_by_id($follower->id);
-                    if ($user->check_notif_setting($this->setting_id))
+                    $follower->get_settings();
+                    if ($follower->setting[$this->setting_id])
                     {
-                        $this->emails[] = $user->email;
+                        $follower->get_email();
+                        $this->emails[] = $follower->email;
                     }
                 }
                 break;
             case 3:
-                if ($this->profile->check_notif_setting($this->setting_id))
+                $this->profile->get_settings();
+                if ($this->profile->settings[$this->setting_id])
                 {
+                    $this->profile->get_email();
                     $this->emails[] = $this->profile->email;
                 }
             case 12:
                 $user = new User_m();
                 foreach ($this->user_ids as $user_id)
                 {
-                    $user->get_by_id($user_id);
-                    if ($user->check_notif_setting($this->setting_id))
+                    $user->get_by_id($user_id)->get_settings();
+                    if ($user->settings[$this->setting_id])
                     {
+                        $user->get_email();
                         $this->emails[] = $user->email;
                     }
                 }
@@ -70,13 +73,13 @@ class Email_notifs
             case 8:
             case 11:
             case 13:
-                $user = new User_m();
                 $this->trip->get_goers();
-                foreach ($this->trip->stored->goers as $goer)
+                foreach ($this->trip->goers as $goer)
                 {
-                    $user->get_by_id($goer->id);
-                    if ($user->check_notif_setting($this->setting_id))
+                    $goer->get_settings();
+                    if ($goer->settings[$this->setting_id])
                     {
+                        $goer->get_email();
                         $this->emails[] = $goer->email;
                     }
                 }
