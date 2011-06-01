@@ -33,23 +33,17 @@ class Trips extends CI_Controller
         }
         
         $trip->get_creator()
-             ->get_num_goers();
-        $trip->get_goers();
-        $trip->get_num_followers();
-        $trip->get_places();
-        $trip->get_posts();
+             ->get_num_goers()
+             ->get_goers()
+             ->get_num_followers()
+             ->get_places()
+             ->get_posts();
         
         if (isset($this->user))
         {
             // get user's relation to this trip
             $this->user->get_rsvp_role_by_trip_id($trip_id);
-            
-/*
-            $this->user->get_rsvp_yes_trips();
-            $this->user->get_rsvp_awaiting_trips();
-            $this->user->get_following_trips();
-*/
-            
+                        
             // if no relation, check if user has invite cookie with correct access key
             // redirect to home page if neither
             if ($trip->is_private AND ! $this->user->role AND ! $this->verify_share_cookie($trip_id))
@@ -85,7 +79,7 @@ class Trips extends CI_Controller
             'user' => $this->user,
         );
         $this->load->view('trip/index', $data);
-        //echo '<pre>';print_r($data); echo '</pre>';
+        //echo '<pre>';print_r($trip);echo '</pre>';
     }
     
         
@@ -93,22 +87,22 @@ class Trips extends CI_Controller
     {
         if ( ! $trip_id)
         {
-            redirect('/');
-        }
-        
-        $t = new Trip($trip_id);
-        if ( ! $t->is_active)
-        {
-            custom_404();
             return;
         }
-        $user_id = (isset($this->user->id)) ? $this->user->id : FALSE;
-        $t->get_followers($user_id);
+        
+        $trip = new Trip_m($trip_id);
+        if ( ! $trip->is_active)
+        {
+            return;
+        }
+        
+        $user_id = (isset($this->user)) ? $this->user->id : FALSE;
+        $trip->get_followers($user_id);
+        
         $data = array(
-            'trip' => $t->stored,
+            'trip' => $trip,
             'user' => $this->user,
         );
-        
         $this->load->view('trip/followers', $data);
     }
     
@@ -117,43 +111,28 @@ class Trips extends CI_Controller
     {
         if ( ! $trip_id)
         {
-            redirect('/');
+            return;
         }
-        $t = new Trip($trip_id);
-        if ( ! $t->is_active)
+        
+        $trip = new Trip_m($trip_id);
+        if ( ! $trip->is_active)
         {
-            custom_404();
             return;
         }
 
-        $t->get_related_trips();        
+        $trip->get_related_trips();
+              
         $data = array(
-            'trip' => $t->stored,
+            'trip' => $trip,
         );
         $this->load->view('trip/related_trips', $data);
     }
     
-    
-    public function mytest()
-    {
-        $t = new Trip(12);
-        $a = $t->get_related_trips();
-        print_r($t->stored);
-        var_dump($a);
-    }
-    
-    
-    public function mcstats()
-    {
-        echo $this->mc->get_stats();
-    }
-
-
-    public function create($i=1)
+        
+    public function create($i = 1)
     {        
-        $user = ($this->user) ? $this->user->stored : NULL;
         $data = array(
-            'user' => $user,
+            'user' => $this->user,
             'place' => $this->input->post('place_input'),
             'place_id' => $this->input->post('place_id'),
             'is_landing' => 1,
@@ -384,9 +363,9 @@ class Trips extends CI_Controller
             return;
         }
         
-        $t = new Trip($trip_id);
-        $is_deleted = $t->delete($this->user->id);
-        if ($is_deleted)
+        $trip = new Trip_m($trip_id);
+        $success = $trip->delete($this->user->id);
+        if ($success)
         {
             redirect('/');
         }

@@ -312,9 +312,22 @@ class Trip_m extends CI_Model
         $v = array(0, $this->id);
         $r = $this->mdb->alter($sql, $v);
         if ($r['num_affected'] == 1)
-        {            
-/*
-            $this->get_places();
+        {
+            $this->get_goers()->get_followers()->get_places();
+
+            $this->mc->delete('trip_by_trip_id:'.$this->id);
+            $this->mc->delete('trip_ids_by_user_id:'.$user_id);
+            
+            foreach ($this->goers as $goer)
+            {
+                $this->mc->delete('num_rsvp_yes_trips_by_user_id:'.$goer->id);
+                $this->mc->delete('rsvp_yes_trip_ids_by_user_id:'.$goer->id);
+            }
+            foreach ($this->follower as $follower)
+            {
+                $this->mc->delete('num_following_trips_by_user_id:'.$follower->id);
+                $this->mc->delete('following_trip_ids_by_user_id:'.$follower->id);                
+            }
             foreach ($this->place as $place)
             {
                 $this->mc->delete('num_trips_by_place_id:'.$place->id);
@@ -322,10 +335,9 @@ class Trip_m extends CI_Model
                 $place->get_related_trips();
                 foreach ($place->related_trips as $related_trip)
                 {
-                    $this->mc->delete('related_trip_ids_by_tripid:'.$related_trip->id);
+                    $this->mc->delete('related_trip_ids_by_trip_id:'.$related_trip->id);
                 }
             }
-*/
             return TRUE;
         }
     }
