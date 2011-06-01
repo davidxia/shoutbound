@@ -79,7 +79,6 @@ class Trips extends CI_Controller
             'user' => $this->user,
         );
         $this->load->view('trip/index', $data);
-        //echo '<pre>';print_r($trip);echo '</pre>';
     }
     
         

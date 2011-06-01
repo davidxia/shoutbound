@@ -329,6 +329,8 @@ class Trip_m extends CI_Model
                 }
                 if ( ! $error)
                 {
+                    $this->mc->delete('num_rsvp_yes_trips_by_user_id:'.$user_id);
+                    $this->mc->delete('rsvp_yes_trip_ids_by_user_id:'.$user_id);
                     $this->id = $trip_id;
                     $this->name = $name;
                     $this->description = $description;
