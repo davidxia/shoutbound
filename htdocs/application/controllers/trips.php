@@ -193,16 +193,14 @@ class Trips extends CI_Controller
                     $places_dates[$post[$key]['place_id']]['enddate'] = strtotime($enddate['year'].'-'.$enddate['month'].'-'.$enddate['day']);
                 }
                 
-                // delete memcached of other trips related by places
-/*
-                foreach ($p->trip->get_iterated() as $related_trip)
+                // delete memcache of related trips
+                foreach ($trip->trip->get_iterated() as $related_trip)
                 {
                     if ($related_trip->id != $t->id)
                     {
                         $this->mc->delete('related_trips_by_tripid:'.$related_trip->id);
                     }
                 }
-*/
             }
         }
 
@@ -232,7 +230,7 @@ class Trips extends CI_Controller
         $trip_id = $this->input->post('tripId');
         $rsvp = $this->input->post('rsvp');
 
-        if ( ! isset($this->user) OR !$trip_id)//OR getenv('REQUEST_METHOD') == 'GET'
+        if ( ! isset($this->user) OR !$trip_id OR getenv('REQUEST_METHOD') == 'GET')
         {
             custom_404();
             return;

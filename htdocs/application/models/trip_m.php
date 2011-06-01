@@ -370,7 +370,7 @@ class Trip_m extends CI_Model
         $r = $this->mdb->alter($sql, $v);
         if ($r['num_affected'] == 1)
         {
-            $this->get_goers()->get_followers()->get_places();
+            $this->get_goers()->get_followers()->get_places()->get_related_trips();
 
             $this->mc->delete('trip_by_trip_id:'.$this->id);
             $this->mc->delete('trip_ids_by_user_id:'.$user_id);
@@ -389,11 +389,10 @@ class Trip_m extends CI_Model
             {
                 $this->mc->delete('num_trips_by_place_id:'.$place->id);
                 $this->mc->delete('trip_ids_by_place_id:'.$place->id);
-                $place->get_related_trips();
-                foreach ($place->related_trips as $related_trip)
-                {
-                    $this->mc->delete('related_trip_ids_by_trip_id:'.$related_trip->id);
-                }
+            }
+            foreach ($this->related_trips as $related_trip)
+            {
+                $this->mc->delete('related_trip_ids_by_trip_id:'.$related_trip->id);
             }
             return TRUE;
         }
