@@ -71,12 +71,13 @@ class Trip_share_m extends CI_Model
     }
 
 
+/*
     public function get_tripshare_by_tripid_sharekey($trip_id, $share_key)
     {
-        //$key = 'tripshare_by_idhash:'.$trip_id.':'.$share_key;
-        //$ts = $this->mc->get($key);
-        //if ($ts === FALSE)
-        //{
+        $key = 'tripshare_by_idhash:'.$trip_id.':'.$share_key;
+        $ts = $this->mc->get($key);
+        if ($ts === FALSE)
+        {
             $ts = new Trip_share_m();
             $ts->limit(1)->get_where(array('trip_id' => $trip_id, 'share_key' => $share_key, 'is_claimed' => 0));
             if ($ts->id)
@@ -89,7 +90,7 @@ class Trip_share_m extends CI_Model
                 $ts->limit(1)->get_where(array('trip_id' => $trip_id, 'share_key' => $share_key, 'is_claimed' => -1));
                 if ($ts->id)
                 {
-                    //$this->mc->set($key, $ts->stored);
+                    $this->mc->set($key, $ts->stored);
                     return $ts->stored;
                 }
                 else
@@ -97,9 +98,10 @@ class Trip_share_m extends CI_Model
                     return FALSE;
                 }
             }
-        //}
-        //return $ts;        
+        }
+        return $ts;        
     }
+*/
     
     
     private function row2obj($row)

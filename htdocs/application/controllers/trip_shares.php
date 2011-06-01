@@ -16,12 +16,6 @@ class Trip_shares extends CI_Controller
 		}
 		
 		
-		public function index()
-		{
-		    echo 'asdf';
-		}
-    
-        
     public function ajax_new_share_key()
     {
         $ts = new Trip_share_m();

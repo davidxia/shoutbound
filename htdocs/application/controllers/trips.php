@@ -479,15 +479,6 @@ class Trips extends CI_Controller
         $this->load->view('blank', $data);
     }
     
-    
-    public function mytest()
-    {
-        $ts = new Trip_share_m(3);
-        $a = $ts->create(array('trip_id' => 20, 'share_role' => 5, 'share_medium' => 4, 'target_id' => 'asdfasd'));
-        $data = array('str' => '<pre>'.print_r($ts,true).var_export($a,true).'<pre/>');
-        $this->load->view('blank', $data);
-        
-    }
 }
 
 /* End of file trips.php */
