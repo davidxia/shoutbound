@@ -30,13 +30,15 @@ class Login extends CI_Controller
             $u->get_by_id($user_id);
             if ($u->login())
             {
-                $this->output->set_output(json_success(array('loggedin' => TRUE)));
+                $data = array('str' => json_success(array('loggedin' => TRUE)));
             }
         }
         else
         {
-            $this->output->set_output(json_success(array('loggedin' => FALSE)));
+            $data = array('str' => json_success(array('loggedin' => FALSE)));
         }
+        
+        $this->load->view('blank', $data);
     }
 
 
@@ -51,13 +53,15 @@ class Login extends CI_Controller
             if ($u->id)
             {            
                 $u->login();
-                $this->output->set_output(json_success(array('redirect' => site_url('home'), 'existingUser' => TRUE)));
+                $data = array('str' => json_success(array('redirect' => site_url('home'), 'existingUser' => TRUE)));
             }
             else
             {
-                $this->output->set_output(json_success(array('existingUser' => FALSE)));
+                $data = array('str' => json_success(array('existingUser' => FALSE)));
             }
         }
+        
+        $this->load->view('blank', $data);
     }
     
     

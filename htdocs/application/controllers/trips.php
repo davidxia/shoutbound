@@ -296,32 +296,6 @@ class Trips extends CI_Controller
     }
         
                 
-    public function share($trip_id, $share_key)
-    {        
-        $ts = new Trip_share();
-        $trip_share = $ts->get_tripshare_by_tripid_sharekey($trip_id, $share_key);
-
-        // if cookie is set, append new key value pair, otherwise instantiate new stdclass object
-        
-        if ($trip_share AND $received_invites = get_cookie('received_invites'))
-        {
-            // unserialize from JSON
-            $received_invites = json_decode($received_invites);
-            $received_invites->{$trip_share->trip_id} = md5('alea iacta est'.$share_key);
-        }
-        elseif ($trip_share)
-        {
-            $received_invites = (object)array($trip_share->trip_id => md5('alea iacta est'.$share_key));
-        }
-        // serialize to JSON and set cookie
-        $received_invites = json_encode($received_invites);
-        set_cookie('received_invites', $received_invites, 1209600);
-        
-        redirect('/trips/'.$trip_id);
-        
-    }
-    
-    
     public function delete($trip_id = FALSE)
     {
         if ( ! ($this->user OR $trip_id))
@@ -370,6 +344,32 @@ class Trips extends CI_Controller
 		}
 
 
+    public function share($trip_id, $share_key)
+    {        
+        $ts = new Trip_share();
+        $trip_share = $ts->get_tripshare_by_tripid_sharekey($trip_id, $share_key);
+
+        // if cookie is set, append new key value pair, otherwise instantiate new stdclass object
+        
+        if ($trip_share AND $received_invites = get_cookie('received_invites'))
+        {
+            // unserialize from JSON
+            $received_invites = json_decode($received_invites);
+            $received_invites->{$trip_share->trip_id} = md5('alea iacta est'.$share_key);
+        }
+        elseif ($trip_share)
+        {
+            $received_invites = (object)array($trip_share->trip_id => md5('alea iacta est'.$share_key));
+        }
+        // serialize to JSON and set cookie
+        $received_invites = json_encode($received_invites);
+        set_cookie('received_invites', $received_invites, 1209600);
+        
+        redirect('/trips/'.$trip_id);
+        
+    }
+    
+    
 /*
     private function verify_share_cookie($trip_id)
     {
@@ -465,7 +465,6 @@ class Trips extends CI_Controller
         }
         
         $this->load->view('blank', $data);
-        //json_success(array('tripId' => $trip_id, 'uids'=>$uids, 'emails'=>$emails, 'tripId'=>$trip_id, 'html'=>$html, 'text'=>$text, 'subj'=>$subj, 'resp'=>$resp));
     }
         
         
@@ -483,9 +482,11 @@ class Trips extends CI_Controller
     
     public function mytest()
     {
-        $u = new User_m(37);
-        $a = $u->set_rsvp_role_for_trip_id(2, 6, 5);
-        echo '<pre>';print_r($u);var_dump($a);echo '</pre>';
+        $ts = new Trip_share_m(3);
+        $a = $ts->create(array('trip_id' => 20, 'share_role' => 5, 'share_medium' => 4, 'target_id' => 'asdfasd'));
+        $data = array('str' => '<pre>'.print_r($ts,true).var_export($a,true).'<pre/>');
+        $this->load->view('blank', $data);
+        
     }
 }
 

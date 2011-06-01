@@ -187,7 +187,9 @@ class Places extends CI_Controller
         
         $info = fread($handle, 4096);
         pclose($handle);
-        $this->output->set_output($info);
+        
+        $data = array('str' => $info);
+        $this->load->view('blank', $data);
     }
     
     

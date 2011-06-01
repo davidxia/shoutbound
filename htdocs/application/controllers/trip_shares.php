@@ -2,7 +2,6 @@
 
 class Trip_shares extends CI_Controller
 {
-    
     private $user;
     
     function __construct()
@@ -17,14 +16,16 @@ class Trip_shares extends CI_Controller
 		}
     
     
-    public function generate_share_key($trip_id, $share_role, $share_medium, $target_id, $is_claimed)
+    public function ajax_new_share_key()
     {
-        $ts = new Trip_share();
-        $ts->trip_id = $trip_id;
-        $ts->share_role = $share_role;
-        $ts->share_medium = $share_medium;
-        $ts->target_id = $target_id;
-        $ts->is_claimed = $is_claimed;
+        $ts = new Trip_share_m();
+        $success = $ts->create(array(
+            'trip_id' => $this->input->post('tripId'),
+            'share_role' => $this->input->post('shareRole'),
+            'share_medium' => $this->input->post('shareMedium'),
+            'target_id' => $this->input->post('targetId'),
+        ));
+        
 
         return $ts->generate_share_key();
     }
@@ -32,12 +33,6 @@ class Trip_shares extends CI_Controller
     
     public function ajax_generate_share_key()
     {
-        $ts = new Trip_share();
-        $ts->trip_id = $this->input->post('tripId');
-        $ts->share_role = $this->input->post('shareRole');
-        $ts->share_medium = $this->input->post('shareMedium');
-        $ts->target_id = $this->input->post('targetId');
-        $ts->is_claimed = $this->input->post('isClaimed');
         $share_key = $ts->generate_share_key();
 
         if ($share_key)

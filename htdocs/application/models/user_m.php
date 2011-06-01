@@ -9,7 +9,6 @@ class User_m extends CI_Model
     public $profile_pic;
     public $is_onboarded;
     
-
     function __construct($id = NULL)
     {
         parent::__construct();
@@ -279,6 +278,8 @@ class User_m extends CI_Model
             $this->profile_pic = $profile_pic;
             return TRUE;
         }
+        
+        return FALSE;
     }
 
 
