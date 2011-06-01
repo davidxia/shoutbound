@@ -517,6 +517,27 @@ class User_m extends CI_Model
     }
     
     
+    public function get_rsvp_role_by_trip_id($trip_id = NULL)
+    {
+        $key = 'rsvp_role_by_user_id_trip_id:'.$this->id.':'.$trip_id;
+        $rsvp_role = $this->mc->get($key);
+        
+        if ($rsvp_role === FALSE)
+        {
+            $sql = 'SELECT tu.rsvp,tu.role FROM `trips_users` tu WHERE tu.user_id = ? AND tu.trip_id = ?';
+            $v = array($this->id, $trip_id);
+            $rows = $this->mdb->select($sql, $v);
+            $rsvp = (isset($rows[0])) ? $rows[0]->rsvp : NULL;
+            $role = (isset($rows[0])) ? $rows[0]->role : NULL;
+            $rsvp_role = array('rsvp' => $rsvp, 'role' => $role);
+            $this->mc->set($key, $rsvp_role);
+        }
+        
+        $this->rsvp_role = $rsvp_role;
+        return $this;
+    }
+    
+    
     public function set_rsvp_role_for_trip_id($trip_id = NULL, $rsvp = NULL, $role = NULL)
     {
         if ( ! ($trip_id AND $rsvp AND $role))

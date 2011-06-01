@@ -5,8 +5,8 @@ class Trip_m extends CI_Model
     public $id;
     public $name;
     public $description;
-    private $is_private;
-    private $is_active;
+    public $is_private;
+    public $is_active;
     
 
     function __construct($id = NULL)

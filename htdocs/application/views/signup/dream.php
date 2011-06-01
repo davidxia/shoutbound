@@ -201,7 +201,7 @@ $this->load->view('core_header', $header_args);
 
     $('.remove-place').click(function() {
       var placeId = $(this).attr('id').match(/^place-(\d+)$/)[1];
-      $.post(baseUrl+'places/ajax_del_fut_place', {placeId: placeId},
+      $.post(baseUrl+'places/ajax_set_follow', {placeId:placeId, follow:0},
         function(d) {
           $('#place-'+placeId).parent().remove();
         });

@@ -2,55 +2,57 @@
 
 class Trips extends CI_Controller
 {
-    
     private $user;
     
     function __construct()
     {
         parent::__construct();
-        $u = new User();
-        if ($u->get_logged_in_status())
+        $u = new User_m();
+        $u->get_logged_in_user();
+        if ($u->id)
         {
             $this->user = $u;
         }
-		}
+  	}
  	  
 
-    public function index($trip_id = FALSE)
+    public function index($trip_id = NULL)
     {
         if ( ! $trip_id)
         {
             redirect('/');
         }
         
-        $t = new Trip();
+        $trip = new Trip_m();
         //check if trip exists in trips table and is active
-        $t->get_by_id($trip_id);
-        if ( ! $t->is_active)
+        $trip->get_by_id($trip_id);
+        if ( ! $trip->is_active)
         {
             custom_404();
             return;
         }
         
-        $t->get_creator();
-        $t->get_num_goers();
-        $t->get_goers();
-        $t->get_num_followers();
-        $t->get_places();
+        $trip->get_creator()
+             ->get_num_goers();
+        $trip->get_goers();
+        $trip->get_num_followers();
+        $trip->get_places();
+        $trip->get_posts();
         
-        if (isset($this->user->id))
+        if (isset($this->user))
         {
-            $user = $this->user->stored;
             // get user's relation to this trip
-            $user_role = $this->user->get_role_by_tripid($trip_id);
-            $user_rsvp = $this->user->get_rsvp_by_tripid($trip_id);
+            $this->user->get_rsvp_role_by_trip_id($trip_id);
+            
+/*
             $this->user->get_rsvp_yes_trips();
             $this->user->get_rsvp_awaiting_trips();
             $this->user->get_following_trips();
+*/
             
             // if no relation, check if user has invite cookie with correct access key
             // redirect to home page if neither
-            if ($t->is_private AND ! $user_role AND ! $this->verify_share_cookie($trip_id))
+            if ($trip->is_private AND ! $this->user->role AND ! $this->verify_share_cookie($trip_id))
             {
                 custom_404();
                 return;
@@ -58,35 +60,32 @@ class Trips extends CI_Controller
         }
         else
         {
-            $user = NULL;
             // if user is not logged in and no invite cookie
             if ( ! $this->verify_share_cookie($trip_id))
             {
-                if ($t->is_private)
+                if ($trip->is_private)
                 {
                     custom_404();
                     return;
                 }
                 
-                $user_role = 0;
-                $user_rsvp = 0;
+                $this->user->role = 0;
+                $this->user->rsvp = 0;
             }
             // if user is not logged in but has invite cookie
             else
             {
-                $user_role = 5;
-                $user_rsvp = 6;
+                $this->user->role = 5;
+                $this->user->rsvp = 6;
             }
         }
                 
         $data = array(
-            'trip' => $t->stored,
-            'user' => $user,
-            'user_role' => $user_role,
-            'user_rsvp' => $user_rsvp,
-            'posts' => $t->get_posts(),
+            'trip' => $trip,
+            'user' => $this->user,
         );
-        $this->load->view('trip/index', $data);
+        //$this->load->view('trip/index', $data);
+        echo '<pre>';print_r($data); echo '</pre>';
     }
     
         
