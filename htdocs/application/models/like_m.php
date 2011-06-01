@@ -36,15 +36,6 @@ class Like_m extends CI_Model
         return $this;
     }
     
-    
-    public function set_like($is_like = 1)
-    {
-        $sql = 'UPDATE `likes` SET is_like = ? WHERE id = ?';
-        $v = array($is_like, $this->id);
-        $r = $this->mdb->alter($sql, $v);
-        return $r['num_affected'];
-    }
-
 
     private function row2obj($row)
     {

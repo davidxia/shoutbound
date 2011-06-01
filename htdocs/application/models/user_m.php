@@ -1093,6 +1093,28 @@ class User_m extends CI_Model
     }
         
     
+    public function set_like_for_post_id($post_id = NULL, $is_like = 1)
+    {
+        if ( ! $post_id)
+        {
+            return FALSE;
+        }
+        
+        $sql = 'INSERT INTO `likes` (`user_id`, `post_id`, `is_like`) VALUES (?,?,?) ON DUPLICATE KEY UPDATE `is_like` = ?';
+        $values = array($this->id, $post_id, $is_like, $is_like);
+        $r = $this->mdb->alter($sql, $values);
+        if ($r['num_affected'] == 1 OR $r['num_affected'] == 2)
+        {
+            $this->mc->delete('like_ids_by_post_id:'.$post_id);
+            return $r['num_affected'];
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+
     public function update_fb_friends()
     {
         $this->load->library('facebook');

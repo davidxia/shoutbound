@@ -30,7 +30,7 @@ wall.bindLike = function() {
 
 
 wall.saveLike = function(postId, isLike) {  
-  $.post(baseUrl+'posts/ajax_save_like', {postId:postId, isLike:isLike},
+  $.post(baseUrl+'posts/ajax_set_like', {postId:postId, isLike:isLike},
     function(d) {
       var r = $.parseJSON(d);
       if (r.success) {
