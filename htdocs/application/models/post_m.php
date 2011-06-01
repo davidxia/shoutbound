@@ -236,6 +236,7 @@ class Post_m extends CI_Model
         }
 
         $this->likes = array();
+        $this->load->model('Like_m');
         $like = new Like_m();
         foreach ($like_ids as $like_id)
         {

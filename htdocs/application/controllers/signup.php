@@ -65,7 +65,7 @@ class Signup extends CI_Controller
             if ($this->input->post('is_fb_signup'))
             {
 
-
+                $this->load->model('Friend_m');
                 $friend = new Friend_m();
                 $auto_follow = new User_m();
                 foreach ($fbdata['friends']['data'] as $fb_friend)

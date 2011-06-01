@@ -1143,6 +1143,7 @@ class User_m extends CI_Model
         $fb_friends = array_diff($fb_friends, $sb_friends);
         $this->diff = $fb_friends;
         
+        $this->load->model('Friend_m');
         $f = new Friend_m();
         foreach ($fb_friends as $k => $v)
         {

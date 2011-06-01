@@ -18,6 +18,7 @@ class Trip_shares extends CI_Controller
 		
     public function ajax_new_share_key()
     {
+        $this->load->model('Trip_share_m');
         $ts = new Trip_share_m();
         $success = $ts->create(array(
             'trip_id' => $this->input->post('tripId'),

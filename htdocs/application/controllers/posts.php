@@ -72,6 +72,7 @@ class Posts extends CI_Controller
                 $pid = NULL;
             }
             $parent_type = ($parent_id) ? 4 : 2;
+            $this->load->model('Activity_m');
             $activity = new Activity_m();
             $activity->create(array(
                 'user_id' => $this->user->id,

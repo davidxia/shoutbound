@@ -148,9 +148,10 @@ class Email_notifs
                     '"<a href="'.site_url('trips/'.$parent->id).'">'.$parent->name.'</a>" on Shoutbound:</h4><br/>';
                 $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> invited the following people to your trip'.
                     '"<a href="'.site_url('trips/'.$parent->id).'">'.$parent->name.'</a>" on Shoutbound:<br/>';
-                $u = new User();
-                foreach ($u->where_in('id', $source)->get_iterated() as $user)
+                $user = new User_m();
+                foreach ($source as $user_id)
                 {
+                    $user->get_by_id($user_id);
                     $html .= '<a href="'.site_url('profile/'.$user->id).'">'.
                         '<img src="'.static_sub('profile_pics/'.$user->profile_pic).'"/></a>'.
                         '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a>'.

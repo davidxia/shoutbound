@@ -299,6 +299,7 @@ class Profile extends CI_Controller
         $curr_place_id = $this->input->post('currPlaceId');
         $changes_made = FALSE;
         
+        $this->load->model('Activity_m');
         $a = new Activity_m();
         if ($bio != $this->user->bio OR $url != $this->user->url)
         {
@@ -396,6 +397,7 @@ class Profile extends CI_Controller
             {
                 if ($new_follow)
                 {
+                    $this->load->model('Activity_m');
                     $a = new Activity_m();
                     if ($a->create(array('user_id' => $this->user->id, 'activity_type' => 3, 'source_id' => $profile->id)))
                     {

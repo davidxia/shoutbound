@@ -213,6 +213,7 @@ class Trips extends CI_Controller
             'places_dates' => $places_dates,
             )))
         {
+            $this->load->model('Activity_m');
             $activity = new Activity_m();
             $activity->create(array('user_id' => $this->user->id, 'activity_type' => 1, 'source_id' => $trip->id));
             
@@ -244,7 +245,8 @@ class Trips extends CI_Controller
         if ( !isset($this->user->role))
         {
             $success = $this->user->set_rsvp_role_for_trip_id($trip_id, 3, 0);
-            
+
+            $this->load->model('Activity_m');
             $activity = new Activity_m();
             $activity->create(array('user_id' => $this->user->id, 'activity_type' => 4, 'source_id' => $trip_id));
 
