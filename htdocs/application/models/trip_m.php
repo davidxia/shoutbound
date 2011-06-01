@@ -437,7 +437,7 @@ class Trip_m extends CI_Model
         if ($uninvited_user_ids === FALSE)
         {
             $uninvited_user_ids = array();
-            $sql = 'SELECT ruu.related_user_id FROM `related_users_users` ruu WHERE ruu.user_id = ? AND ruu.related_user_id NOT IN (SELECT user_id FROM `trips_users` WHERE trip_id = ? AND role < 5)';
+            $sql = 'SELECT ruu.related_user_id FROM `related_users_users` ruu WHERE ruu.user_id = ? AND ruu.related_user_id NOT IN (SELECT user_id FROM `trips_users` WHERE trip_id = ? AND role >= 5)';
             $v = array($user_id, $this->id);
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)

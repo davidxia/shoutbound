@@ -262,6 +262,17 @@ class User_m extends CI_Model
         $r = $this->mdb->alter($sql, $values);
         if ($r['num_affected'] == 1)
         {
+            $user_id = $r['last_insert_id'];
+            $values = array();
+            $s = new Setting_m();
+            $settings = $s->get_all_settings();
+            foreach ($settings as $setting)
+            {
+                $values[] = array($setting->id, $user_id);
+            }
+            $sql = 'INSERT INTO `settings_users` (`setting_id`, `user_id`) VALUES (?,?)';
+            $num_affected = $this->mdb->batch_alter($sql, $values);
+            
             $this->id = $r['last_insert_id'];
             $this->name = $name;
             $this->email = $email;

@@ -43,8 +43,7 @@ class Setting_m extends CI_Model
         {
             $all_setting_ids = array();
             $sql = 'SELECT id FROM `settings` ORDER BY `id` ASC';
-            $v = array($id);
-            $rows = $this->mdb->select($sql, $v);
+            $rows = $this->mdb->select($sql);
             foreach ($rows as $row)
             {
                 $all_setting_ids[] = $row->id;

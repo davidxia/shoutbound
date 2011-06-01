@@ -158,11 +158,12 @@ class Places extends CI_Controller
     }
     
     
-    public function ajax_rem_fut_place()
+    public function ajax_edit_fut_place()
     {
         $place_id = $this->input->post('placeId');
-        $place = new Place_m($place_id);
-        if ($place->rem_fut_place_by_user_id($this->user->id, 0))
+        $is_future = $this->input->post('follow');
+        
+        if ($this->user->edit_future_place_by_place_id($place_id, $is_future))
         {
             $data = array('str' => json_success());
         }
