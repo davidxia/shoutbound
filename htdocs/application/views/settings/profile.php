@@ -74,7 +74,7 @@ $this->load->view('core_header', $header_args);
             <div class="settings-item">
               <div class="settings-item-name">Web</div>
               <div class="settings-item-content">
-                <input type="text" id="url" style="width:275px; height:20px;" value="<?=$user->url?>"/><br/>
+                <input type="text" id="website" style="width:275px; height:20px;" value="<?=$user->website?>"/><br/>
                 <span class="subtext">Have your own website or blog? Put the address here.</span>        
               </div>
             </div>        

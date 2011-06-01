@@ -54,7 +54,7 @@ class Users extends CI_Controller
     public function ajax_change_header()
     {
         $data = array('user' => $this->user);
-        $this->load->view('header', $data);
+        $this->load->view('templates/header', $data);
     }
 
 

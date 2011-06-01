@@ -42,8 +42,8 @@
 
 $route['default_controller'] = 'landing';
 $route['scaffolding_trigger'] = '';
-$route['home'] = 'home';
-$route['(profile|trips|places|posts)/(:num)'] = '$1/index/$2';
+$route['(landing|login|signup|home|posts|settings|trip_shares)'] = '$1';
+$route['(profile|trips|places)/(:num)'] = '$1/index/$2';
 $route['(\w+)'] = 'profile/index/$1';
 //$route['profile/(:num)'] = 'profile/index/$1';
 //$route['places/(:num)'] = 'places/index/$1';

@@ -15,7 +15,6 @@ class Posts extends CI_Controller
         }
 		}
 		
-				
 		public function ajax_save()
 		{
 		    $post_id = ($this->input->post('postId')) ? $this->input->post('postId') : NULL;
