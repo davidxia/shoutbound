@@ -787,6 +787,11 @@ class User_m extends CI_Model
             $this->mc->delete('follower_ids_by_user_id:'.$user_id);
             $this->mc->delete('follow_status_by_user_id:'.$user_id.':'.$this->id);
             
+            $this->get_trips();
+            foreach ($this->trips as $trip)
+            {
+                $this->mc->delete('uninvited_user_ids_by_trip_id_user_id:'.$trip->id.':'.$this->id);
+            }
             return $r['num_affected'];
         }
         else

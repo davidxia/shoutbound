@@ -219,7 +219,6 @@ class Email_notifs
         $this->email_subj = $subj;
         $this->email_html = $html;
         $this->email_text = $text;
-        return $html;
     }
         
     
@@ -276,7 +275,7 @@ class Email_notifs
     }
         
     
-    public function set_params($params=NULL)
+    public function set_params($params = NULL)
     {
         if (is_int($params))
         {
@@ -287,6 +286,10 @@ class Email_notifs
             if (isset($params['setting_id']))
             {
                 $this->setting_id = $params['setting_id'];
+            }
+            else
+            {
+                return FALSE;
             }
             
             if (isset($params['user']))

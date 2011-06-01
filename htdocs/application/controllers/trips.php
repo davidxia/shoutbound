@@ -420,7 +420,7 @@ class Trips extends CI_Controller
         $trip_id = $this->input->post('tripId');
         $share_role = $this->input->post('shareRole');
         $rsvp = ($share_role==5) ? 6 : 0;
-        $setting_id = ($share_role==5) ? 12 : 20;
+        $setting_id = ($share_role==5) ? 12 : NULL;
         $uids = ($this->input->post('uids')) ? $this->input->post('uids') : array();
         $nonuser_emails = ($this->input->post('emails')) ? $this->input->post('emails') : array();
         
@@ -431,7 +431,7 @@ class Trips extends CI_Controller
         {
             if ($user->get_by_id($uid)->set_rsvp_role_for_trip_id($trip_id, $rsvp, $share_role))
             {
-                $this->mc->delete('rsvp_role_by_user_id_trip_id:'.$uid.':'.$trip_id);
+                $this->mc->delete('uninvited_user_ids_by_trip_id_user_id:'.$trip_id.':'.$this->user->id);
             }
         }
         // not pretty - needed to get rid of empty strings
@@ -443,23 +443,23 @@ class Trips extends CI_Controller
             }
         }
         
-        // send emails to those who are invited
-        $params = array('setting_id' => $setting_id, 'trip' => $trip, 'user_ids' => $uids, 'emails' => $nonuser_emails);
-        $this->load->library('email_notifs', $params);
-        $this->email_notifs->get_emails();
-        $this->email_notifs->compose_email($this->user, $trip);
-        $this->email_notifs->send_email();
-        // send emails to those who already rsvped yes
-        $this->email_notifs->set_params(array('setting_id' => 8, 'emails' => array()));
-        $this->email_notifs->get_emails();
-        $this->email_notifs->compose_email($this->user, $uids, $trip);
-        $this->email_notifs->send_email();
-
         if ($share_role == 5)
         {
+            // send emails to those who are invited
+            $params = array('setting_id' => $setting_id, 'trip' => $trip, 'user_ids' => $uids, 'emails' => $nonuser_emails);
+            $this->load->library('email_notifs', $params);
+            $this->email_notifs->get_emails();
+            $this->email_notifs->compose_email($this->user, $trip);
+            $this->email_notifs->send_email();
+            // send emails to those who already rsvped yes
+            $this->email_notifs->set_params(array('setting_id' => 8, 'emails' => array()));
+            $this->email_notifs->get_emails();
+            $this->email_notifs->compose_email($this->user, $uids, $trip);
+            $this->email_notifs->send_email();
+
             $data = array('str' => json_success(array('message' => 'Invitations sent.')));
         }
-        elseif ($share_role == 0)
+        else
         {
             $data = array('str' => json_success(array('message' => 'trip shared')));
         }
@@ -483,9 +483,9 @@ class Trips extends CI_Controller
     
     public function mytest()
     {
-        $s = new Setting_m();
-        $all = $s->get_all_settings();
-        echo '<pre>';print_r($all);echo '</pre>';
+        $u = new User_m(37);
+        $a = $u->set_rsvp_role_for_trip_id(2, 6, 5);
+        echo '<pre>';print_r($u);var_dump($a);echo '</pre>';
     }
 }
 
