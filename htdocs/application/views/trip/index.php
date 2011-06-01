@@ -67,25 +67,25 @@ $this->load->view('core_header', $header_args);
     
       <div class="right-widget-container">
         <div id="actions-container"><!--ACTIONS CONTAINER-->                    
-          <? if ($user_role == 5):?>
-            <? if ($user_rsvp == 0):?>
+          <? if ($user->role == 5):?>
+            <? if ($user->rsvp == 0):?>
               <a href="#" id="share" class="share left">Share</a><a href="#" class="follow middle" id="trip-<?=$trip->id?>">Follow</a><a href="#" id="rsvp_yes_button" class="gray_rsvp_yes_button right">I'm in</a>
-            <? elseif ($user_rsvp == 3):?>
+            <? elseif ($user->rsvp == 3):?>
               <a href="#" id="rsvp_yes_button" class="gray_rsvp_yes_button right">I'm in</a><a href="#" class="unfollow right" id="trip-<?=$trip->id?>">Unfollow</a><a href="#" id="share" class="share left">Share</a>
-            <? elseif ($user_rsvp == 6):?>
+            <? elseif ($user->rsvp == 6):?>
               <a href="#" id="rsvp_yes_button" class="rsvp_yes_button left">I'm in</a><a href="#" id="rsvp_no_button" class="gray_rsvp_no_button right">I'm out</a><a href="#" id="share" class="share left">Share</a>
-            <? elseif ($user_rsvp == 9):?>
+            <? elseif ($user->rsvp == 9):?>
               <a href="#" id="rsvp_no_button" class="gray_rsvp_no_button right">I'm out</a><a href="#" id="share" class="share left">Share</a>
             <? endif;?>
-          <? elseif ($user_role == 10):?>
+          <? elseif ($user->role == 10):?>
             <a href="#" id="invite-others-button" class="edit-trip-button">Invite others</a><a href="#" id="share" class="share left">Share</a>
             <a id="delete-trip" href="#">Delete</a>
           <? endif;?> 
-        <? if (!$user_role):?>
-          <? if ($user_rsvp == 0):?>
-            <a href="#" class="follow left" id="trip-<?=$trip->id?>">Follow</a>
-          <? elseif ($user_rsvp == 3):?>
+        <? if (!$user->role):?>
+          <? if ($user->rsvp == 3):?>
             <a href="#" class="unfollow left" id="trip-<?=$trip->id?>">Unfollow</a><a href="#" id="share">Share</a>
+          <? else:?>
+            <a href="#" class="follow left" id="trip-<?=$trip->id?>">Follow</a>
           <? endif;?>
         <? endif;?>               
         </div><!--ACTIONS CONTAINER END-->
@@ -95,7 +95,7 @@ $this->load->view('core_header', $header_args);
         <div id="stats-container" class="right-widget-interior"><!--STATS-->
           <ul class="stats-list">
             <li><a style="cursor:default;" class="goers-count"><?=$trip->num_goers?><span class="stat-label">People</span></a></li>
-            <li class="border-left"><a href="#posts" class="post-count"><?=count($posts)?><span class="stat-label">Posts</span></a></li>
+            <li class="border-left"><a href="#posts" class="post-count"><?=count($trip->posts)?><span class="stat-label">Posts</span></a></li>
             <li class="border-left"><a href="#followers" class="followers-count"><?=$trip->num_followers?><span class="stat-label">Followers</span></a></li>
           </ul>     
           <div style="clear:both"></div>   
@@ -125,21 +125,21 @@ $this->load->view('core_header', $header_args);
           <!-- POSTS TAB -->
           <div id="posts-tab" class="main-tab-content main-tab-default">
             
-            <? $prefix1='first-item'; foreach ($posts as $post):?>
+            <? $prefix1='first-item'; foreach ($trip->posts as $post):?>
               <!--POST START-->
-              <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem <? if($user_role == 10):?>deleteable<? endif;?>">
+              <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem <? if($user->role == 10):?>deleteable<? endif;?>">
                 <? $prefix1=''?>
-                <? if($user_role == 10):?><div class="delete"></div><? endif;?>
+                <? if($user->role == 10):?><div class="delete"></div><? endif;?>
                 <div class="streamitem-avatar-container">
                   <a href="<?=site_url('profile/'.$post->user_id)?>">
-                    <img src="<?=static_sub('profile_pics/'.$post->user->profile_pic)?>" height="25" width="25"/>
+                    <img src="<?=static_sub('profile_pics/'.$post->author->profile_pic)?>" height="25" width="25"/>
                   </a>
                 </div>
                 
                 <!--POST CONTENT CONTAINER-->
                 <div class="streamitem-content-container">                
                   <div class="streamitem-name">
-                    <a href="<?=site_url('profile/'.$post->user_id)?>"><?=$post->user->name?></a>
+                    <a href="<?=site_url('profile/'.$post->user_id)?>"><?=$post->author->name?></a>
                   </div>
                   <? if (isset($post->added_by) AND $post->added_by):?>
                     <div>Added by <a href="<?=site_url('profile/'.$post->added_by->id)?>"><?=$post->added_by->name?></a></div>
@@ -190,12 +190,12 @@ $this->load->view('core_header', $header_args);
                     <div class="comment">
                       <div class="streamitem-avatar-container">
                         <a href="<?=site_url('profile/'.$comment->user_id)?>">
-                          <img src="<?=static_sub('profile_pics/'.$comment->user->profile_pic)?>" height="28" width="28"/>
+                          <img src="<?=static_sub('profile_pics/'.$comment->author->profile_pic)?>" height="28" width="28"/>
                         </a>
                       </div>                      
                       <div class="streamitem-content-container">
                         <div class="streamitem-name">
-                          <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->user->name?></a>
+                          <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->author->name?></a>
                         </div>
                         <div class="comment-content"><?=$comment->content?></div>
                         <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$comment->created?>"><?=$comment->created?></abbr></div>                      
@@ -217,7 +217,7 @@ $this->load->view('core_header', $header_args);
                       <? $prefix=''; foreach ($trip->places as $place):?>
                         <?=$prefix?>
                         <span class="trip-listing-destination"><a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a></span>
-                        <span class="subtext"><? if($place->startdate){echo date('F j, Y',$place->startdate);} if($place->startdate AND $place->enddate){echo ' - ';} if ($place->enddate){echo date('F j, Y', $place->enddate);}?></span>
+                        <span class="subtext"><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
                         <? $prefix = '<span class="bullet">&#149</span>'?>
                       <? endforeach;?>
                       </div>
@@ -343,7 +343,7 @@ $this->load->view('core_header', $header_args);
 
 <script type="text/javascript">
   // show countdown clock
-  //var deadline = new Date(<?=$trip->response_deadline?>*1000);
+  //var deadline = new Date(<?//$trip->response_deadline?>*1000);
   //$('#countdown').countdown({until: deadline});
   
 

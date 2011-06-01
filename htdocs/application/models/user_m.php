@@ -533,7 +533,8 @@ class User_m extends CI_Model
             $this->mc->set($key, $rsvp_role);
         }
         
-        $this->rsvp_role = $rsvp_role;
+        $this->rsvp = $rsvp_role['rsvp'];
+        $this->role = $rsvp_role['role'];
         return $this;
     }
     
