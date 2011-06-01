@@ -70,7 +70,6 @@ class Trip_share_m extends CI_Model
         return FALSE;
     }
 
-/*
 
     public function get_tripshare_by_tripid_sharekey($trip_id, $share_key)
     {
@@ -101,7 +100,6 @@ class Trip_share_m extends CI_Model
         //}
         //return $ts;        
     }
-*/
     
     
     private function row2obj($row)

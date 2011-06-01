@@ -14,8 +14,14 @@ class Trip_shares extends CI_Controller
             $this->user = $u;
         }
 		}
+		
+		
+		public function index()
+		{
+		    echo 'asdf';
+		}
     
-    
+        
     public function ajax_new_share_key()
     {
         $ts = new Trip_share_m();
@@ -27,27 +33,9 @@ class Trip_shares extends CI_Controller
         ));
         
 
-        return $ts->generate_share_key();
-    }
-    
-    
-    public function ajax_generate_share_key()
-    {
-        $share_key = $ts->generate_share_key();
-
-        if ($share_key)
-        {
-            $data = array('str' => json_success(array('shareKey' => $share_key)));
-        }
-        else
-        {
-            $data = array('str' => json_error('something broke, tell David to fix it'));
-        }
-        
+        $data = array('str' => $ts->share_key);
         $this->load->view('blank', $data);
     }
-
-
 }
 
 /* End of file trip_shares.php */
