@@ -25,6 +25,8 @@ class Settings extends CI_Controller
     {
         $this->user->get_email()
              ->get_settings();
+             
+        $this->load->model('Setting_m');
         $s = new Setting_m();        
 
         $data = array(
@@ -44,8 +46,8 @@ class Settings extends CI_Controller
         );
         $this->load->view('settings/profile', $data);
     }
-    
-    
+
+
     public function trail()
     {
         $this->user->get_past_places();
@@ -87,6 +89,7 @@ class Settings extends CI_Controller
             }
         }
         
+        $this->load->model('Setting_m');
         $s = new Setting_m();
         $settings = $s->get_all_settings();
         foreach ($settings as $setting)
@@ -100,7 +103,7 @@ class Settings extends CI_Controller
         
         if ( !$error AND !$pw_incorrect)
         {
-            $data = array('str' => json_success(array('response' => 'saved'));
+            $data = array('str' => json_success(array('response' => 'saved')));
         }
         elseif ( !$error AND $pw_incorrect)
         {
@@ -110,6 +113,8 @@ class Settings extends CI_Controller
         {
             $data = array('str' => json_error('something broken'));
         }
+        
+        $this->load->view('blank', $data);
     }
 }
 

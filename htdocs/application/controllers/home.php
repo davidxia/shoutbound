@@ -62,6 +62,7 @@ class Home extends CI_Controller
     
     public function ajax_delete_activity()
     {
+        $this->load->model('Activity_m');
         $a = new Activity_m($this->input->post('activityId'));
         if ($a->user_id == $this->user->id AND $a->set_active(0) == 1)
         {
@@ -75,12 +76,14 @@ class Home extends CI_Controller
         $this->load->view('blank', $data);
     }
     
-/*
     
+/*
     public function mytest()
     {
-        $arr = (bool) array();
-		    $str = '<pre>'.var_export($arr,true).'</pre>';
+        $this->load->model('Setting_m');
+        $s = new Setting_m();
+        $ss = $s->get_all_settings();
+		    $str = '<pre>'.print_r($s,true).print_r($ss,true).'</pre>';
 		    $data = array('str' => $str);
 		    $this->load->view('blank', $data);
     }
