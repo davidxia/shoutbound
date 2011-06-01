@@ -69,10 +69,7 @@ class Post_m extends CI_Model
             $this->mc->set($key, $adder_id);
         }
         
-        if ($adder_id)
-        {
-            $this->added_by = new User_m($adder_id);
-        }
+        $this->added_by = new User_m($adder_id);
         return $this;
     }
 

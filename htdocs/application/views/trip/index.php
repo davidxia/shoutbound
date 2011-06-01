@@ -127,9 +127,9 @@ $this->load->view('core_header', $header_args);
             
             <? $prefix1='first-item'; foreach ($trip->posts as $post):?>
               <!--POST START-->
-              <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem <? if($user->role == 10):?>deleteable<? endif;?>">
+              <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem <? if($user->role==10 OR ($post->added_by->id==$user->id)):?>deleteable<? endif;?>">
                 <? $prefix1=''?>
-                <? if($user->role == 10):?><div class="delete"></div><? endif;?>
+                <? if($user->role==10 OR ($post->added_by->id==$user->id)):?><div class="delete"></div><? endif;?>
                 <div class="streamitem-avatar-container">
                   <a href="<?=site_url('profile/'.$post->user_id)?>">
                     <img src="<?=static_sub('profile_pics/'.$post->author->profile_pic)?>" height="25" width="25"/>
@@ -141,7 +141,7 @@ $this->load->view('core_header', $header_args);
                   <div class="streamitem-name">
                     <a href="<?=site_url('profile/'.$post->user_id)?>"><?=$post->author->name?></a>
                   </div>
-                  <? if (isset($post->added_by) AND $post->added_by):?>
+                  <? if ($post->added_by->id):?>
                     <div>Added by <a href="<?=site_url('profile/'.$post->added_by->id)?>"><?=$post->added_by->name?></a></div>
                   <? endif;?>
                   <div class="streamitem-content">
@@ -229,29 +229,7 @@ $this->load->view('core_header', $header_args);
                   
               </div><!--POST END-->
             <? endforeach;?> 
-            
-            <!--OLD LIKES/DISLIKES CODE-->                              
-              <!--<? $is_liked = 0; foreach ($post->likes as $like):?><? if (isset($user) AND $like->user_id==$user->id AND $like->is_like==1):?>
-                <? $is_liked = 1;?>
-              <? endif;?><? endforeach;?>
-              <? if ($is_liked == 0):?>
-                <a class="like-button" href="#">Like</a>
-              <? else:?>
-                <a class="unlike-button" href="#">Unlike</a>
-              <? endif;?>
-              <? $num_likes = 0; foreach($post->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><span class="num-likes"><?=$num_likes?> person likes this</span><? elseif ($num_likes > 1):?><span class="num-likes"><?=$num_likes?> people like this</span><? endif;?>-->
-            <!--OLD LIKES/DISLIKES CODE END--> 
-            
-            <!--OLD REMOVE POST COMMENTS START-->                             
-              <!--<div class="remove-post"></div>
-              <? foreach ($post->replies as $reply):?>
-                <div class="post reply" id="post-<?=$reply->id?>">
-                  <div class="postcontent">
-                    <?=$reply->content?>
-                  </div>                     
-              <? endforeach;?>-->
-            <!--OLD REMOVE POST COMMENTS END--> 
-                            
+                                                    
           </div><!--POSTS TAB ENDS-->          
           
         </div><!--TAB CONTAINER END-->
