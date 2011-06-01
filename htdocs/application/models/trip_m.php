@@ -427,6 +427,34 @@ class Trip_m extends CI_Model
         }
         return $this;
     }
+    
+    
+    public function get_uninvited_users_by_user_id($user_id = NULL)
+    {
+        $key = 'uninvited_user_ids_by_trip_id_user_id:'.$this->id.':'.$user_id;
+        $uninvited_user_ids = $this->mc->get($key);
+        
+        if ($uninvited_user_ids === FALSE)
+        {
+            $uninvited_user_ids = array();
+            $sql = 'SELECT ruu.related_user_id FROM `related_users_users` ruu WHERE ruu.user_id = ? AND ruu.related_user_id NOT IN (SELECT user_id FROM `trips_users` WHERE trip_id = ? AND role < 5)';
+            $v = array($user_id, $this->id);
+            $rows = $this->mdb->select($sql, $v);
+            foreach ($rows as $row)
+            {
+                $uninvited_user_ids[] = $row->related_user_id;
+            }
+            $this->mc->set($key, $uninvited_user_ids);
+        }
+
+        $this->uninvited_users = array();
+        foreach ($uninvited_user_ids as $uninvited_user_id)
+        {
+            $user = new User_m($uninvited_user_id);
+            $this->uninvited_users[] = $user;
+        }
+        return $this;
+    }
 
 
     private function row2obj($row)

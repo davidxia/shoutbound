@@ -83,7 +83,6 @@ class Trips extends CI_Controller
             'user' => $this->user,
         );
         $this->load->view('trip/index', $data);
-        //echo '<pre>';print_r($data);echo '</pre>';
     }
     
         
@@ -396,31 +395,23 @@ class Trips extends CI_Controller
     
     public function ajax_share_dialog()
     {
-        // get ids of those user is following
-        $this->user->related_user->get();
+        if ( ! $this->user)
+        {
+            return FALSE;
+        }
         
-        // get users already invited to this trip
-        $t = new Trip($this->input->post('tripId'));
-        foreach ($t->user->where_join_field($t, 'role >', 0)->get_iterated() as $user)
-        {
-            $trip_uids[] = $user->id;
-        }
-        $uninvited_followings = array();
-        foreach ($this->user->related_user as $following)
-        {
-            if ( ! in_array($following->id, $trip_uids))
-            {
-                $uninvited_followings[] = $following->stored;
-            }
-        }
+        // get users this user is following who aren't invited yet to this trip
+        $trip = new Trip_m($this->input->post('tripId'));
+        $trip->get_uninvited_users_by_user_id($this->user->id);
         
         $data = array(
-            'uninvited_followings' => $uninvited_followings,
+            'trip' => $trip,
             'share_role' => $this->input->post('shareRole'),
         );
         
         $r = $this->load->view('trip/share_dialog', $data, TRUE);
-        json_success(array('data' => $r));
+        $data = array('str' => json_success(array('data' => $r)));
+        $this->load->view('blank', $data);
     }
 
 
@@ -468,12 +459,14 @@ class Trips extends CI_Controller
 
         if ($share_role == 5)
         {
-            json_success(array('message' => 'Invitations sent.'));
+            $data = array('str' => json_success(array('message' => 'Invitations sent.')));
         }
         elseif ($share_role == 0)
         {
-            json_success(array('message' => 'trip shared'));
+            $data = array('str' => json_success(array('message' => 'trip shared')));
         }
+        
+        $this->load->view('blank', $data);
         //json_success(array('tripId' => $trip_id, 'uids'=>$uids, 'emails'=>$emails, 'tripId'=>$trip_id, 'html'=>$html, 'text'=>$text, 'subj'=>$subj, 'resp'=>$resp));
     }
         
@@ -485,7 +478,8 @@ class Trips extends CI_Controller
         );
         
         $r = $this->load->view('trip/share_success', $data, TRUE);
-        json_success(array('data' => $r));
+        $data = array('str' => json_success(array('data' => $r)));
+        $this->load->view('blank', $data);
     }
 }
 
