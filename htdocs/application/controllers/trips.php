@@ -350,14 +350,8 @@ class Trips extends CI_Controller
 		        return FALSE;
 		    }
 		    
-        $this->user->get_rsvp_role_by_trip_id($trip_id);
-        if ($this->user->role != 10)
-        {
-            return FALSE;
-        }
-        
-        $post = new Post_m($post_id);
-        $success = $post->remove_by_trip_id_user_id($trip_id, $this->user->id);
+		    $post = new Post_m($post_id);
+		    $success = $post->remove_by_trip_id_user_id($trip_id, $this->user->id);
         
 		    if ($success)
 		    {
