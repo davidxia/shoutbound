@@ -42,7 +42,7 @@ $this->load->view('core_header', $header_args);
         	</a>
           <input type="hidden" name="is_fb_signup" id="is_fb_signup"/>
         	<div id="fb-tip">This helps us connect you to the most relevant people and  content. We'll never post without your permission.</div>
-        	<a href="#" id="skip-step-one" onclick="toggle_visibility('step-two-container')">I don't have a Facebook account.</a>
+        	<a href="#" id="skip-fb-login">I don't have a Facebook account.</a>
         </div>     
       </div><!--STEP ONE END-->
   	
@@ -107,6 +107,11 @@ $this->load->view('core_header', $header_args);
           alert('you failed to log in');
         }
       }, {perms: 'email'});
+      return false;
+    });
+    
+    $('#skip-fb-login').click(function() {
+      $('#step-two-container').show();
       return false;
     });
   });

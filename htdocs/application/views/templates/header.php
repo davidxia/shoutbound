@@ -2,7 +2,9 @@
 <div class="header">
   <div class="wrapper">
     <h1 style="display:inline;">
-      <a href="<?=site_url('/')?>"><img src="<?=site_url('static/images/160x_50_sb_logo.png')?>" alt="Shoutbound" width="160" height="50"/></a>
+      <a href="<?=site_url('/')?>">
+        <img src="<?=site_url('static/images/160x_50_sb_logo.png')?>" alt="Shoutbound" width="160" height="50"/>
+      </a>
     </h1>
 
     <? if(isset($user->id) AND !isset($is_onboarding)):?>
@@ -14,8 +16,8 @@
         <a href="<?=site_url('users/logout')?>">Logout</a>        
       </div>      
     <? elseif(!isset($is_onboarding)):?>
-      <div style="float:right; margin-right:5px; font-size:12px;">
-        <span id="login-error"></span>
+      <div style="float:right; margin-right:5px; font-size:12px;position:relative;">
+        <span id="login-error" style="position:absolute;left:-150px;color:white;"></span>
         <form id="login-form" action="">
           <fieldset>
             <div style="float:left; margin-right:10px;">
@@ -29,7 +31,24 @@
           <fieldset>
           <button type="submit" id="login-submit" class="blue-button">Login</button>
         </form>
-      </div>      
+      </div>
+      
+      <script type="text/javascript">
+        $(function() {
+          $('#login-submit').click(function() {      
+            $.post('<?=site_url('login/ajax_email_login')?>', {email:$('#email').val(), password:$('#password').val()},
+              function(d) {
+                var r = $.parseJSON(d);
+                if (r.success) {
+                  window.location = '<?=site_url()?>';
+                } else {
+                  $('#login-error').empty().text(r.message).show().delay(10000).fadeOut(250);
+                }
+              });
+            return false;
+          });
+        });
+      </script>
     <? endif;?>
         
   </div>
