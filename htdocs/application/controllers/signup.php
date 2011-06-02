@@ -56,7 +56,7 @@ class Signup extends CI_Controller
 		        'email'       => $this->input->post('signup_email'),
 		        'password'    => $this->input->post('password'),
 		        'fid'         => $fid,
-		        'profile_pic' => ($file_name) ? $file_name : NULL,
+		        'profile_pic' => (isset($file_name)) ? $file_name : NULL,
 		    ));
 		    		    
 

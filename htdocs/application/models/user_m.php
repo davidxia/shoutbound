@@ -283,6 +283,7 @@ class User_m extends CI_Model
         {
             $user_id = $r['last_insert_id'];
             $values = array();
+            $this->load->model('Setting_m');
             $s = new Setting_m();
             $settings = $s->get_all_settings();
             foreach ($settings as $setting)

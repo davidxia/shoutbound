@@ -10,11 +10,6 @@ $header_args = array(
         'js/uploadify/swfobject.js',
         'js/uploadify/jquery.uploadify.v2.1.4.min.js',
         'js/settings/profile.js',
-        'js/follow.js',
-        'js/user/loginSignup.js',
-        'js/jquery/jquery-ui-1.8.11.custom.min.js',
-        'js/jquery/jquery-dynamic-form.js',
-        'js/jquery/validate.min.js',
     )
 );
 $this->load->view('core_header', $header_args);
@@ -63,7 +58,7 @@ $this->load->view('core_header', $header_args);
       </div>
     
       <div class="settings-item">
-        <div class="settings-item-name">Web</div>
+        <div class="settings-item-name">Website</div>
         <div class="settings-item-content">
           <input type="text" id="website" style="width:275px; height:20px;" value="<?=$user->website?>"/><br/>
           <span class="subtext">Have your own website or blog? Enter the address here.</span>        
@@ -74,7 +69,7 @@ $this->load->view('core_header', $header_args);
         <div class="settings-item-name">Current location</div>
         <div class="settings-item-content">
           <input type="text" id="current-place" class="place-input" style="width:275px; height:20px;" value="<? if(isset($user->current_place->name)) echo $user->current_place->name?>"/>
-          <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="display:none; position:absolute; right:150px; top:4px;"/>
+          <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="display:none; position:absolute; right:160px; top:25px;"/>
           <input id="current-place-id" class="place_id" name="current-place-id" type="hidden"/>
           <br/><span class="subtext">Where in the world are you in right now?</span>        
         </div>
@@ -109,9 +104,30 @@ $this->load->view('core_header', $header_args);
   <div id="sticky-bar">  
     <div id="progress-buttons-container">
       <a href="<?=site_url('signup/follow')?>" class="back-button">Back</a>
-      <a href="<?=site_url('signup/finish')?>" class="next-button finish">Take me to Shoutbound!</a>
+      <a href="#" id="finish-onboarding" class="next-button finish">Take me to Shoutbound!</a>
     </div>
   </div>
 
+<script type="text/javascript">
+  $('#finish-onboarding').click(function() {
+    var bio = $('#bio'),
+        website = $('#website'),
+        currPlaceId = $('#current-place-id').val();
+    
+    var websiteVal = website.val();
+    if (website.val() && !websiteVal.match(/^[a-zA-Z]+:\/\//)) {
+      websiteVal = 'http://' + websiteVal;
+    }
+
+    $.post(baseUrl+'profile/ajax_save_profile', {bio:bio.val(), website:websiteVal, currPlaceId:currPlaceId},
+      function(d) {
+        var r = $.parseJSON(d);
+        if (r.changed == 1) {
+          window.location = '<?=site_url('signup/finish')?>';
+        }
+      });
+    return false;
+  });
+</script>
 </body>
 </html>
