@@ -19,6 +19,7 @@ class Mdb
 
         $driver = 'mysqli://'.$dbuser.':'.$dbpass.'@'.$dbhost.'/'.$dbname;
         $conn =& MDB2::singleton($driver);
+        $conn->setCharset('utf8');
         if (PEAR::isError($conn))
         {
             die('Error connecting to database');

@@ -18,14 +18,14 @@ class Profile extends CI_Controller
     
     public function james()
     {
-        $data = array('str' => 'james is here');
+        $data = array('str' => print_r($rows[0],true).print_r($rec,true).'géniales 维基百科');
         $this->load->view('blank', $data);
     }
 
     public function index($pid = NULL)
     {
         // if user not logged in and no profile specified, return 404
-        if ( !$pid AND !isset($this->user)))
+        if ( !$pid AND !isset($this->user))
         {
             custom_404();
             return;

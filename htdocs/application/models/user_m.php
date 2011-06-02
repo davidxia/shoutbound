@@ -1262,7 +1262,7 @@ class User_m extends CI_Model
             foreach (get_object_vars($this) as $k => $v)
             {
                 $this->$k = $row->$k;
-            }    
+            }
         }
         else
         {

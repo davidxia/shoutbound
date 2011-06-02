@@ -1,4 +1,4 @@
-<?php
+<?php header("Content-type: text/html; charset=utf-8");
 $header_args = array(
     'title' => $profile->name.' | Shoutbound',
     'css_paths' => array(
