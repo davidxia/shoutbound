@@ -13,6 +13,9 @@ $(function() {
       'fileExt'        : '*.jpg;*.gif;*.png',
       'fileDesc'       : 'Image Files',
       'buttonText'     : 'Change picture',
+      'onComplete'     : function(event, ID, fileObj, response, data) {
+                           $('#profile-pic').attr('src', staticUrl+'profile_pics/'+uid+'_'+fileObj.name);
+                         }
     });
   } 
 

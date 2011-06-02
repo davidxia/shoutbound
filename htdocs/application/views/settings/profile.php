@@ -22,6 +22,7 @@ $this->load->view('core_header', $header_args);
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
+  var staticUrl = '<?=static_sub()?>';
   var uid = <?=$user->id?>;
 </script>
 </head>
@@ -58,7 +59,7 @@ $this->load->view('core_header', $header_args);
                   <div id="custom-queue"></div>
                 </div>        
                 <div id="profile-pic-container">
-                  <a href="<?=static_sub('profile_pics/'.$user->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$user->profile_pic)?>" width="125" height="125"/></a>
+                  <a href="<?=static_sub('profile_pics/'.$user->profile_pic)?>"><img id="profile-pic" src="<?=static_sub('profile_pics/'.$user->profile_pic)?>" width="125" height="125"/></a>
                 </div>
               </div>
             </div>
