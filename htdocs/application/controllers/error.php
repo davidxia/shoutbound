@@ -25,7 +25,12 @@ class Error extends CI_Controller
   	
   	public function bug_report()
   	{
-        $bug_report = $this->input->post('bug-report');
+        $bug_report = trim($this->input->post('bug-report'));
+        if ( ! $bug_report)
+        {
+            redirect('/');
+        }
+        
         if ( ! $this->user)
         {
            $this->user = new User_m();
