@@ -35,7 +35,7 @@ class Login extends CI_Controller
         }
         else
         {
-            $data = array('str' => json_success(array('loggedin' => FALSE)));
+            $data = array('str' => json_error('wrong email or password'));
         }
         
         $this->load->view('blank', $data);

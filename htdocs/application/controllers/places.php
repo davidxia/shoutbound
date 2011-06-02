@@ -130,6 +130,11 @@ class Places extends CI_Controller
 
     public function ajax_set_follow()
     {
+        if ( ! $this->input->post('placeId'))
+        {
+            return;
+        }
+        
         $place_id = $this->input->post('placeId');
         $follow = $this->input->post('follow');
         

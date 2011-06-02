@@ -30,7 +30,8 @@ class Signup extends CI_Controller
     {
         if ($this->user OR getenv('REQUEST_METHOD') == 'GET')
         {
-            redirect('/');
+            custom_404();
+            return;
         }
         
         if ($this->input->post('is_fb_signup'))
@@ -183,7 +184,8 @@ class Signup extends CI_Controller
     {
         if ( ! $this->user OR $this->user->is_onboarded)
         {
-            redirect('/');
+            custom_404();
+            return;
         }
         
         $this->user->get_future_places();
@@ -225,7 +227,8 @@ class Signup extends CI_Controller
     {
         if ( ! $this->user OR $this->user->is_onboarded)
         {
-            redirect('/');
+            custom_404();
+            return;
         }
         
         // we auto followed their friends
@@ -248,8 +251,9 @@ class Signup extends CI_Controller
     
     public function trips()
     {
-        if ( ! $this->user)
+        if ( ! $this->user OR $this->user->is_onboarded)
         {
+            custom_404();
             return;
         }
         
@@ -267,8 +271,9 @@ class Signup extends CI_Controller
     
     public function places()
     {
-        if ( ! $this->user)
+        if ( ! $this->user OR $this->user->is_onboarded)
         {
+            custom_404();
             return;
         }
         
@@ -288,7 +293,8 @@ class Signup extends CI_Controller
     {
         if ( ! $this->user OR $this->user->is_onboarded)
         {
-            redirect('/');
+            custom_404();
+            return;
         }
 
         $this->user->get_current_place();

@@ -9,10 +9,17 @@ class Error extends CI_Controller
     }
 
 
-  	function error_404()
+  	public function error_404()
   	{
         $this->output->set_status_header('404');
         $this->load->view('404');
+  	}
+  	
+  	
+  	public function asdf()
+  	{
+  	   $data = array('str' => 'asdf');
+  	   $this->load->view('blank', $data);
   	}
 }
 

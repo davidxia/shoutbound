@@ -91,7 +91,6 @@ class Profile extends CI_Controller
 
     public function trail($pid = NULL)
     {
-        // if user not logged in and no profile specified, return nothing
         if ( ! $pid)
         {
             return;
@@ -141,7 +140,6 @@ class Profile extends CI_Controller
 
     public function posts($pid = NULL)
     {
-        // if user not logged in and no profile specified, return nothing
         if ( ! $pid)
         {
             return;
@@ -180,7 +178,6 @@ class Profile extends CI_Controller
 
     public function following($pid = NULL)
     {
-        // if user not logged in and no profile specified, return nothing
         if ( ! $pid)
         {
             return;
@@ -217,7 +214,6 @@ class Profile extends CI_Controller
 
     public function followers($pid = NULL)
     {
-        // if user not logged in and no profile specified, return nothing
         if ( ! $pid)
         {
             return;

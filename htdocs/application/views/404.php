@@ -28,10 +28,12 @@ $this->load->view('core_header', $header_args);
       </div>
       <div style="width:360px;">
         My cousin Chen Chen eats web pages when he gets hungry. He might have eaten the one you're looking for.<br><br>If you think you've found something broken with Shoutbound, please tell us what you were trying to do when you ended up on this page so we can fix it ASAP:<br>        
-        <textarea id="bug-report" style="width:350px; margin:8px 0px 0px; height:80px;"></textarea>       
-        <a href="#" class="submit">Submit</a>        
+        <form method="post" action="<?=site_url()?>">
+          <textarea id="bug-report" style="width:350px; margin:8px 0px 0px; height:80px;"></textarea>       
+          <input type="submit" class="submit" value="Submit" style="padding:0;height:30px;"/>
+        </form>
         <div style="margin-top:93px; padding:10px 8px; background-color:#EDEFF4;text-align:center;">
-          <a href="#" class="save-settings-button" style="color:white; height:35px; line-height:35px; padding:10px 8px;">Take me back to Shoutbound!</a>
+          <a href="<?=site_url()?>" class="save-settings-button" style="color:white; height:35px; line-height:35px; padding:10px 8px;">Take me back to Shoutbound!</a>
         </div>       
         <div style="clear:both"></div>
       </div>

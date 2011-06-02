@@ -18,7 +18,10 @@ class Users extends CI_Controller
 
     public function logout()
     {
-        $this->user->logout();
+        if ($this->user)
+        {
+            $this->user->logout();
+        }
         redirect('/');
     }
                 

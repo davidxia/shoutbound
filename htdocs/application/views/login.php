@@ -2,7 +2,6 @@
 $header_args = array(
     'title' => 'Login | Shoutbound',
     'css_paths' => array(
-      'css/login.css',
     ),
     'js_paths' => array(
     )
