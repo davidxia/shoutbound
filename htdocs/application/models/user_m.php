@@ -4,6 +4,7 @@ class User_m extends CI_Model
 {
     public $id;
     public $name;
+    public $url;
     public $bio;
     public $website;
     public $profile_pic;

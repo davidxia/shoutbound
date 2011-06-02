@@ -203,9 +203,9 @@ $this->load->view('core_header', $header_args);
           <div id="stats-container"><!-- STATS -->
             <ul class="stats-list">
               <li><a href="#trail" class="trip-count"><?=$user->num_rsvp_yes_trips?><span class="stat-label">Trail</span></a></li>
-              <li class="border-left"><a href="<?=site_url('profile#posts')?>" class="post-count"><?=$user->num_posts?><span class="stat-label">Posts</span></a></li>
-              <li class="border-left"><a href="<?=site_url('profile#following')?>" class="following-count"><?=$user->num_following_users+$user->num_following_trips+$user->num_following_places?><span class="stat-label">Following</span></a></li>
-              <li class="border-left"><a href="<?=site_url('profile#followers')?>" class="followers-count"><?=$user->num_followers?><span class="stat-label">Followers</span></a></li>
+              <li class="border-left"><a href="<?=site_url('profile/'.$user->id.'#posts')?>" class="post-count"><?=$user->num_posts?><span class="stat-label">Posts</span></a></li>
+              <li class="border-left"><a href="<?=site_url('profile/'.$user->id.'#following')?>" class="following-count"><?=$user->num_following_users+$user->num_following_trips+$user->num_following_places?><span class="stat-label">Following</span></a></li>
+              <li class="border-left"><a href="<?=site_url('profile/'.$user->id.'#followers')?>" class="followers-count"><?=$user->num_followers?><span class="stat-label">Followers</span></a></li>
             </ul>                
           </div><!--STATS END-->
           <div style="clear:both"></div>

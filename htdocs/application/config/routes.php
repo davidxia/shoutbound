@@ -42,13 +42,15 @@
 
 $route['default_controller'] = 'landing';
 $route['scaffolding_trigger'] = '';
-$route['(login|signup|home|posts|users|settings|trip_shares)(/\w+)?'] = '$1$2';
+$route['(login|signup|home|posts|users|settings|trip_shares|error)(/\w+)?'] = '$1$2';
 $route['(profile|trips|places)/(\d+)'] = '$1/index/$2';
-$route['(profile|trips|places)/(\w+)'] = '$1/$2';
+$route['(profile|trips|places)(/(\w+))'] = '$1$2';
+
+/* vanity URL routing rules */
 $route['(\w+)'] = 'profile/index/$1';
 $route['(\w+)/(\w+)'] = 'profile/$2/$1';
-//$route['profile/(:num)'] = 'profile/index/$1';
-//$route['places/(:num)'] = 'places/index/$1';
+
+// does the routing ever even reach this? is this needed?
 $route['404_override']  = 'error/error_404';
 
 /* End of file routes.php */

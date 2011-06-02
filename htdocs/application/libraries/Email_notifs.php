@@ -84,6 +84,10 @@ class Email_notifs
                     }
                 }
                 break;
+            case 99:
+                $this->emails[] = 'david@shoutbound.com';
+                $this->emails[] = 'james@shoutbound.com';
+                break;
         }
     }
     
@@ -212,6 +216,15 @@ class Email_notifs
                     ' to your trip "<a href="'.site_url('trips/'.$parent->id).'">'.$parent->name.'"</a></h4>';
                 $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> RSVP\'d '.$rsvp.
                     ' to your trip "<a href="'.site_url('trips/'.$parent->id).'">'.$parent->name.'"</a>';
+                break;
+            case 99:
+                $subj = 'SHOUTBOUND BUG REPORT';
+                $html = 'Description: '.$source.
+                    '<br/>User ID: '.$user->id.
+                    '<br/>User name: '.$user->name;
+                $text = 'Description: '.$source.
+                    '<br/>User ID: '.$user->id.
+                    '<br/>User name: '.$user->name;
                 break;
             default:
                 break;
@@ -356,6 +369,9 @@ class Email_notifs
                 break;
             case 13:
                 $this->sendgrid_cat = 'got_rsvp';
+                break;
+            case 99:
+                $this->sendgrid_cat = 'bug_report';
                 break;
             default:
                 $this->sendgrid_cat = 'uncategorized';
