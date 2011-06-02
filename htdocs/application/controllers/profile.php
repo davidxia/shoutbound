@@ -14,6 +14,21 @@ class Profile extends CI_Controller
             $this->user = $u;
         }
   	}
+  	
+  	
+  	public function mytest()
+  	{
+  	   $this->user = new User_m(42);
+  	   $success = 'not changed';
+  	   if ($this->user->set_profile_info(array('profile_pic' => 'testing3')))
+  	   {
+  	       $success = 'yay changed';
+  	   }
+  	   
+  	   $data = array('str' => '<pre>'.var_export($this->user,true).var_export($success,true).'</pre>');
+  	   $this->load->view('blank', $data);
+  	   
+  	}
     
 
     public function index($pid = NULL)
@@ -303,6 +318,8 @@ class Profile extends CI_Controller
         if ( ! empty($_FILES))
         {
             $uid = $this->input->post('uid');
+            $this->user = new User_m($uid);
+            
           	$tempFile = $_FILES['Filedata']['tmp_name'];
           	list($width, $height, $type, $attr) = getimagesize($_FILES['Filedata']['tmp_name']);
           	
@@ -319,18 +336,16 @@ class Profile extends CI_Controller
             		// Uncomment the following line if you want to make the directory if it doesn't exist
             		// mkdir(str_replace('//','/',$targetPath), 0755, true);
             		move_uploaded_file($tempFile,$targetFile);
-            		$data = array('str' => str_replace($_SERVER['DOCUMENT_ROOT'],'',$targetFile));
             		if ($this->user->set_profile_info(array('profile_pic' => $uid.'_'.$_FILES['Filedata']['name'])))
             		{
-            		    
+                		echo str_replace($_SERVER['DOCUMENT_ROOT'],'',$targetFile);
             		}
+            		
           	}
           	else
           	{
-                $data = array('str' => 'Invalid file type');
+                echo 'Invalid file type';
           	}
-          	
-          	$this->load->view('blank', $data);
         }
     }
 

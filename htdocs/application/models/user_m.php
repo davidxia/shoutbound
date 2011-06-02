@@ -136,6 +136,25 @@ class User_m extends CI_Model
     }
 
 
+    public function get_fid()
+    {
+        $key = 'fid_by_user_id:'.$this->id;
+        $fid = $this->mc->get($key);
+        
+        if ($fid === FALSE)
+        {
+            $sql = 'SELECT `fid` FROM `users` WHERE id = ?';
+            $v = array($this->id);
+            $rows = $this->mdb->select($sql, $v);
+            $email = (isset($rows[0])) ? $rows[0]->fid : NULL;
+            $this->mc->set($key, $fid);
+        }
+        
+        $this->fid = $fid;
+        return $this;
+    }
+
+
     public function get_by_fid($fid)
     {
         $key = 'user_by_user_fid:'.$fid;
@@ -1099,13 +1118,31 @@ class User_m extends CI_Model
             return FALSE;
         }
 
-        $sql = 'UPDATE `users` SET `bio`=?, `website`=? WHERE `id` = ?';
-        $values = array($bio, $website, $this->id);
+        $sql = 'UPDATE `users` SET `bio`=?, `website`=?, `profile_pic` = ? WHERE `id` = ?';
+        $values = array($bio, $website, $profile_pic, $this->id);
         $r = $this->mdb->alter($sql, $values);
         if ($r['num_affected'] == 1)
         {
             $this->bio = $bio;
             $this->website = $website;
+            $this->profile_pic = $profile_pic;
+
+            $user = new stdClass;
+            $user->id = $this->id;
+            $user->name = $this->name;
+            $user->url = $this->url;
+            $user->bio = $bio;
+            $user->website = $website;
+            $user->profile_pic = $profile_pic;
+            $user->is_onboarded = $this->is_onboarded;
+            
+            $this->mc->replace('user_by_user_id:'.$this->id, $user);
+            $this->mc->replace('user_by_user_url:'.$this->url, $user);
+            $this->get_fid();
+            $this->mc->replace('user_by_user_fid:'.$this->fid, $user);
+            $this->get_email();
+            $this->mc->replace('user_by_email:'.$this->email, $user);
+            
             return TRUE;
         }
         else
