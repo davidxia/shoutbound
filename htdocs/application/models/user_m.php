@@ -114,6 +114,25 @@ class User_m extends CI_Model
         $this->row2obj($user);
         return $this;
     }
+    
+    
+    public function get_by_url($user_url)
+    {
+        $key = 'user_by_user_url:'.$user_url;
+        $user = $this->mc->get($key);
+        
+        if ($user === FALSE)
+        {
+            $sql = 'SELECT * FROM `users` WHERE url = ?';
+            $v = array($user_url);
+            $rows = $this->mdb->select($sql, $v);
+            $user = (isset($rows[0])) ? $rows[0] : NULL;
+            $this->mc->set($key, $user);
+        }
+        
+        $this->row2obj($user);
+        return $this;
+    }
 
 
     public function get_by_fid($fid)

@@ -15,55 +15,41 @@ class Profile extends CI_Controller
         }
   	}
     
-    
-    public function james()
-    {
-        $data = array('str' => print_r($rows[0],true).print_r($rec,true).'géniales 维基百科');
-        $this->load->view('blank', $data);
-    }
 
     public function index($pid = NULL)
     {
-        // if user not logged in and no profile specified, return 404
-        if ( !$pid AND !isset($this->user))
+        // if no profile specified, return 404
+        if ( ! $pid)
         {
             custom_404();
             return;
         }
 
         $profile = new User_m();
-        // if no profile number specified, show user's own profile
-        if ( ! $pid)
+        if (is_numeric($pid))
         {
-            $pid = $this->user->id;
             $profile->get_by_id($pid);
-            $is_self = TRUE;
-            $is_following = FALSE;
         }
-        elseif ( ! isset($this->user))
+        else
         {
-            if (is_numeric($pid))
-            $profile->get_by_id($pid);
-            if ( ! $profile->id)
-            {
-                custom_404();
-                return;
-            }
+            $profile->get_by_url($pid);
+        }
+        
+        if ( ! $profile->id)
+        {
+            custom_404();
+            return;
+        }
+        
+        if ( ! isset($this->user))
+        {
             $is_self = FALSE;
             $is_following = FALSE;
         }
-        // if profile specified and user's logged in
         else
         {
-            $profile->get_by_id($pid);
-            if ( ! $profile->id)
-            {
-                custom_404();
-                return;
-            }
-            
             // if profile is not user's own, check if he's following this other user
-            if ($pid != $this->user->id)
+            if ($profile->id != $this->user->id)
             {
                 $is_self = FALSE;
                 $profile->get_follow_status_by_user_id($this->user->id);
@@ -106,38 +92,33 @@ class Profile extends CI_Controller
     public function trail($pid = NULL)
     {
         // if user not logged in and no profile specified, return nothing
-        if ( ! ($pid OR isset($this->user)))
+        if ( ! $pid)
         {
             return;
         }
 
         $profile = new User_m();
-        // if no profile number specified, show user's own profile
-        if ( ! $pid)
-        {
-            $pid = $this->user->id;
-            $profile->get_by_id($pid);
-            $is_self = TRUE;
-        }
-        elseif ( ! isset($this->user))
+        if (is_numeric($pid))
         {
             $profile->get_by_id($pid);
-            if ( ! $profile->id)
-            {
-                return;
-            }
-            $is_self = FALSE;
         }
-        // if profile specified and user's logged in
         else
         {
-            $profile->get_by_id($pid);
-            if ( ! $profile->id)
-            {
-                return;
-            }
+            $profile->get_by_url($pid);
+        }
+        
+        if ( ! $profile->id)
+        {
+            return;
+        }
 
-            $is_self = ($pid == $this->user->id) ? TRUE : FALSE;
+        if ( ! isset($this->user))
+        {
+            $is_self = FALSE;
+        }
+        else
+        {
+            $is_self = ($profile->id == $this->user->id) ? TRUE : FALSE;
         }
         
         $user_id = (isset($this->user->id)) ? $this->user->id : NULL;
@@ -160,35 +141,25 @@ class Profile extends CI_Controller
 
     public function posts($pid = NULL)
     {
-        // if user not logged in and no profile specified, return 404
-        if ( ! ($pid OR isset($this->user)))
+        // if user not logged in and no profile specified, return nothing
+        if ( ! $pid)
         {
             return;
         }
 
         $profile = new User_m();
-        // if no profile number specified, show user's own profile
-        if ( ! $pid)
-        {
-            $pid = $this->user->id;
-            $profile->get_by_id($pid);
-        }
-        elseif ( ! isset($this->user))
+        if (is_numeric($pid))
         {
             $profile->get_by_id($pid);
-            if ( ! $profile->id)
-            {
-                return;
-            }
         }
-        // if profile specified and user's logged in
         else
         {
-            $profile->get_by_id($pid);
-            if ( ! $profile->id)
-            {
-                return;
-            }
+            $profile->get_by_url($pid);
+        }
+        
+        if ( ! $profile->id)
+        {
+            return;
         }
         
         if (isset($this->user))
@@ -209,37 +180,27 @@ class Profile extends CI_Controller
 
     public function following($pid = NULL)
     {
-        // if user not logged in and no profile specified, return 404
-        if ( ! ($pid OR isset($this->user)))
+        // if user not logged in and no profile specified, return nothing
+        if ( ! $pid)
         {
             return;
         }
 
         $profile = new User_m();
-        // if no profile number specified, show user's own profile
-        if ( ! $pid)
-        {
-            $pid = $this->user->id;
-            $profile->get_by_id($pid);
-        }
-        elseif ( ! isset($this->user))
+        if (is_numeric($pid))
         {
             $profile->get_by_id($pid);
-            if ( ! $profile->id)
-            {
-                return;
-            }
         }
-        // if profile specified and user's logged in
         else
         {
-            $profile->get_by_id($pid);
-            if ( ! $profile->id)
-            {
-                return;
-            }
+            $profile->get_by_url($pid);
         }
         
+        if ( ! $profile->id)
+        {
+            return;
+        }
+
         $user_id = (isset($this->user)) ? $this->user->id : NULL;
         $profile->get_following_users($user_id);
         $profile->get_following_trips($user_id);
@@ -256,37 +217,27 @@ class Profile extends CI_Controller
 
     public function followers($pid = NULL)
     {
-        // if user not logged in and no profile specified, return 404
-        if ( ! ($pid OR isset($this->user)))
+        // if user not logged in and no profile specified, return nothing
+        if ( ! $pid)
         {
             return;
         }
 
         $profile = new User_m();
-        // if no profile number specified, show user's own profile
-        if ( ! $pid)
-        {
-            $pid = $this->user->id;
-            $profile->get_by_id($pid);
-        }
-        elseif ( ! isset($this->user))
+        if (is_numeric($pid))
         {
             $profile->get_by_id($pid);
-            if ( ! $profile->id)
-            {
-                return;
-            }
         }
-        // if profile specified and user's logged in
         else
         {
-            $profile->get_by_id($pid);
-            if ( ! $profile->id)
-            {
-                return;
-            }
+            $profile->get_by_url($pid);
         }
         
+        if ( ! $profile->id)
+        {
+            return;
+        }
+
         $user_id = (isset($this->user->id)) ? $this->user->id : NULL;
         $profile->get_followers($user_id);
         
