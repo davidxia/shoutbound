@@ -30,7 +30,7 @@ class Login extends CI_Controller
             $u->get_by_id($user_id);
             if ($u->login())
             {
-                $data = array('str' => json_success(array('loggedin' => TRUE)));
+                $data = array('str' => json_success(array('loggedin' => 1)));
             }
         }
         else

@@ -22,11 +22,11 @@
           <fieldset>
             <div style="float:left; margin-right:10px;">
               <label for="email" style="float:left; color:white; margin-right:5px;font-size:12px;">Email:</label>        
-              <input type="text" name="email" id="email" style="width:125px; font-size:12px;"/>                    
+              <input type="text" name="login_email" id="login_email" style="width:125px; font-size:12px;"/>                    
             </div>
             <div style="float:left; margin-right:5px;">
               <label for="password" style="float:left; color:white; margin-right:5px;font-size:12px;">Password:</label>
-              <input type="password" name="password" id="password" style="width:125px; font-size:12px;"/>
+              <input type="password" name="login_password" id="login_password" style="width:125px; font-size:12px;"/>
             </div>
           <fieldset>
           <button type="submit" id="login-submit" class="blue-button">Login</button>
@@ -36,13 +36,14 @@
       <script type="text/javascript">
         $(function() {
           $('#login-submit').click(function() {      
-            $.post('<?=site_url('login/ajax_email_login')?>', {email:$('#email').val(), password:$('#password').val()},
+            $.post('<?=site_url('login/ajax_email_login')?>', {email:$('#login_email').val(), password:$('#login_password').val()},
               function(d) {
                 var r = $.parseJSON(d);
                 if (r.success) {
                   window.location = '<?=site_url()?>';
                 } else {
                   $('#login-error').empty().text(r.message).show().delay(10000).fadeOut(250);
+                  $()
                 }
               });
             return false;
