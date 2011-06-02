@@ -127,9 +127,9 @@ $this->load->view('core_header', $header_args);
             
             <? $prefix1='first-item'; foreach ($trip->posts as $post):?>
               <!--POST START-->
-              <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem <? if($user->role==10 OR ($post->added_by->id==$user->id)):?>deleteable<? endif;?>">
+              <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem <? if(isset($user->id) AND ($user->role==10 OR ($post->added_by->id==$user->id))):?>deleteable<? endif;?>">
                 <? $prefix1=''?>
-                <? if($user->role==10 OR ($post->added_by->id==$user->id)):?><div class="delete"></div><? endif;?>
+                <? if(isset($user->id) AND ($user->role==10 OR ($post->added_by->id==$user->id))):?><div class="delete"></div><? endif;?>
                 <div class="streamitem-avatar-container">
                   <a href="<?=site_url('profile/'.$post->user_id)?>">
                     <img src="<?=static_sub('profile_pics/'.$post->author->profile_pic)?>" height="25" width="25"/>
@@ -150,10 +150,12 @@ $this->load->view('core_header', $header_args);
                   
                   <!--ACTIONBAR START-->                 
                   <div class="actionbar">
+                    <? if(isset($user->id)):?>
                     <div id="repost-post" class="bar-item">
                       <a class="add-to-trip" href="#">Add to trip</a>                      
                     </div>
                     <span class="bullet">&#149</span>
+                    <? endif;?>
                     <div class="bar-item">
                       <a class="show-comments" href="#"><? $num_comments=count($post->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
                     </div>
@@ -166,7 +168,8 @@ $this->load->view('core_header', $header_args);
                       <abbr class="timeago subtext" title="<?=$post->created?>"><?=$post->created?></abbr>
                     </div>                        
                   </div><!--ACTIONBAR END-->
-                    
+                  
+                  <? if(isset($user->id)):?>
                   <!-- ADD TO TRIP -->
                   <div class="add-to-trip-cont" style="display:none;">
                     <select multiple="multiple" size=5>
@@ -183,6 +186,7 @@ $this->load->view('core_header', $header_args);
                     <a class="post-to-trip" href="#">Post</a>
                   </div>
                   <!-- ADD TO TRIP END -->
+                  <? endif;?>
             
                   <!--COMMENTS START-->
                   <div class="comments-container" style="display:none;">
@@ -246,6 +250,7 @@ $this->load->view('core_header', $header_args);
               <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
               <div contenteditable="true" class="tag-input"></div>
               <span class="input-header">Trips</span><br>
+              <? if(isset($user->id)):?>
               <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
                 <? foreach ($user->rsvp_yes_trips as $t):?>
                 <option value="<?=$t->id?>"><?=$t->name?>
@@ -256,7 +261,8 @@ $this->load->view('core_header', $header_args);
                 <? foreach ($user->following_trips as $t):?>
                 <option value="<?=$t->id?>"><?=$t->name?>
                 <? endforeach;?>
-                </select>
+              </select>
+              <? endif;?>
             </div>
           </fieldset>
         </form>

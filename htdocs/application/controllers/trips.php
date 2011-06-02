@@ -59,6 +59,7 @@ class Trips extends CI_Controller
         else
         {
             // if user is not logged in and no invite cookie
+/*
             if ( ! $this->verify_share_cookie($trip_id))
             {
                 if ($trip->is_private)
@@ -66,16 +67,19 @@ class Trips extends CI_Controller
                     custom_404();
                     return;
                 }
-                
+*/
+                //$this->user = new User_m();
                 $this->user->role = 0;
                 $this->user->rsvp = 0;
-            }
+/*             } */
             // if user is not logged in but has invite cookie
+/*
             else
             {
                 $this->user->role = 5;
                 $this->user->rsvp = 6;
             }
+*/
         }
                 
         $data = array(
