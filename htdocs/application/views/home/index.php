@@ -66,7 +66,7 @@ $this->load->view('core_header', $header_args);
                 <form class="save-post-form">
                   <fieldset>
                     <div id="instruction-bar">Use the @ key when you refer to a place (e.g., "@Barcelona")</div>                  
-                    <div contenteditable="true" id="post-input"><span style="color:#666">New post.</span></div>
+                    <div contenteditable="true" id="post-input"></div>
                     <div id="add-to-trip-main">
                       <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
                         <? foreach ($user->rsvp_yes_trips as $trip):?>

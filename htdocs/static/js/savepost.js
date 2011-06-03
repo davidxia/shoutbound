@@ -62,7 +62,7 @@ $(function() {
     $('#post-input').addClass('post-input-selected');
     $('.nicEdit-panelContain').show();
     $('#instruction-bar').show();
-    
+    //$('#post-input').empty();
   });
 
   $('#save-post-button').click(function() {
