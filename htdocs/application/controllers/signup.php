@@ -28,10 +28,22 @@ class Signup extends CI_Controller
         
     public function create_user()
     {
+        $name = trim($this->input->post('name'));
+        $email = strtolower(trim($this->input->post('signup_email')));
+        $password = $this->input->post('password');
+        $invite_code = $this->input->post('invite_code');
+        
         if ($this->user OR getenv('REQUEST_METHOD') == 'GET')
         {
             custom_404();
             return;
+        }
+        
+        $u = new User_m();
+        $u->get_by_email($email);
+        if ($u->id)
+        {
+            redirect('signup');
         }
         
         if ($this->input->post('is_fb_signup'))
@@ -52,9 +64,9 @@ class Signup extends CI_Controller
         
 		    $user = new User_m();
 		    $success = $user->create(array(
-		        'name'        => $this->input->post('name'),
-		        'email'       => $this->input->post('signup_email'),
-		        'password'    => $this->input->post('password'),
+		        'name'        => $name,
+		        'email'       => $email,
+		        'password'    => $password,
 		        'fid'         => $fid,
 		        'profile_pic' => (isset($file_name)) ? $file_name : NULL,
 		    ));

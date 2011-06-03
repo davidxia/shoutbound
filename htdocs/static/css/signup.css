@@ -1,6 +1,6 @@
 #signup-container{
   margin:10px 50px;
-  width:350px;
+  width:500px;
 }
 
 #step-one-container{
@@ -32,26 +32,16 @@
   margin-bottom:10px;
 }
 
-.label-and-error{
-  position:relative;
-  width:70px;
-}
-
 .error-message{
-  position:absolute;
-  left:300px;
-  width:150px;
+  margin-left:10px;
 }
-
 .signup-input-container{
   margin-bottom:10px;
   clear:both;
-  width:285px;
 }
 
 .signup-input{
   width:200px !important;
-  float:right;
 }
 
 .step-container{

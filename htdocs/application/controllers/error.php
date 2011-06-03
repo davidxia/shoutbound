@@ -16,14 +16,11 @@ class Error extends CI_Controller
 		}
 		
 
-/*
   	public function error_404()
   	{
-        $CI =& get_instance();
-        $CI->output->set_status_header('404');
-        $CI->load->view('404');
+        custom_404();
+        return;
   	}
-*/
   	
   	
   	public function bug_report()

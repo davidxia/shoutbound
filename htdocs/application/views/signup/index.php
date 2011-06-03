@@ -52,32 +52,24 @@ $this->load->view('core_header', $header_args);
           <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post">
             <fieldset>         
               <div class="signup-input-container">
+                <label for="name" style="color:#555; margin-right:12px;">Full name</label>
                 <input type="text" name="name" id="name" class="signup-input" autocomplete="off"/>                
-                <div class="label-and-error">
-                  <label for="name" style="color:#555">Full Name</label>
-                  <span class="error-message"></span>
-                </div>
+                <span class="error-message" style=""></span>
               </div>
               <div class="signup-input-container">
+                <label for="email" style="color:#555; margin-right:31px;">E-mail</label>
                 <input type="text" name="signup_email" id="signup_email" class="signup-input" autocomplete="off"/>              
-                <div class="label-and-error">
-                  <label for="email" style="color:#555">E-mail</label>
-                  <span class="error-message"></span>
-                </div>
+                <span class="error-message"></span>
               </div>
               <div class="signup-input-container">
+                <label for="password" style="color:#555; margin-right:10px;">Password</label>
                 <input type="password" name="password" id="password" class="signup-input" autocomplete="off"/>              
-                <div class="label-and-error" style="margin-bottom:10px;">
-                  <label for="password" style="color:#555">Password</label>
-                  <span class="error-message"></span>
-                </div>
+                <span class="error-message"></span>
               </div>
               <div class="signup-input-container">
+                <label for="password" style="color:#555; margin-right:4px;">Invite code</label>
                 <input type="text" name="invite_code" id="invite_code" class="signup-input" autocomplete="off"/>              
-                <div class="label-and-error" style="margin-bottom:10px;">
-                  <label for="password" style="color:#555; width:70px;">Invite Code</label>
-                  <span class="error-message"></span>
-                </div>
+                <span class="error-message"></span>
               </div>
               
             </fieldset>
@@ -113,6 +105,37 @@ $this->load->view('core_header', $header_args);
     $('#skip-fb-login').click(function() {
       $('#step-two-container').show();
       return false;
+    });
+
+
+    $('#signup-form').validate({
+      rules: {
+        name: 'required',
+        signup_email: {
+          required: true,
+          email: true
+        },
+        password: {
+          required: true,
+          minlength: 4
+        },
+        invite_code: 'required'
+      },
+      messages: {
+        name: 'You need a name.',
+        signup_email: {
+          required: 'We promise not to spam you.',
+          email: 'Nice try, enter a valid email.'
+        },
+        password: {
+          required: 'Passwords are your friend.',
+          minlength: 'make it at least 4 characters'
+        },
+        invite_code: 'Dude, where\'s your invite code?'
+      },
+      errorPlacement: function(error, element) {
+        error.appendTo(element.siblings('.error-message'));
+      }
     });
   });
   
@@ -160,35 +183,5 @@ $this->load->view('core_header', $header_args);
      else
         e.style.display = 'block';
   }
-  
-  
-  // jquery form validation plugin
-  $('#signup-form').validate({
-    rules: {
-      name: 'required',
-      email: {
-        required: true,
-        email: true
-      },
-      password: {
-        required: true,
-        minlength: 4
-      }
-    },
-    messages: {
-      name: 'We need to know your name!',
-      email: {
-        required: 'We promise not to spam you.',
-        email: 'Nice try, enter a valid email.'
-      },
-      password: {
-        required: 'Passwords are your friend.',
-        minlength: 'make it at least 4 characters'
-      }
-    },
-    errorPlacement: function(error, element) {
-      error.appendTo(element.siblings('.label-and-error').children('.error-message'));
-    }
-  });
 </script>
 </html>
