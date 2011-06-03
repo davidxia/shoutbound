@@ -15,6 +15,7 @@ class Posts extends CI_Controller
         }
 		}
 		
+		
 		public function ajax_save()
 		{
 		    $post_id = ($this->input->post('postId')) ? $this->input->post('postId') : NULL;
@@ -64,6 +65,7 @@ class Posts extends CI_Controller
             foreach ($trip_ids as $trip_id)
             {
                 $this->mc->replace('adder_id_by_post_id_trip_id:'.$post->id.':'.$trip_id, $this->user->id);
+                $this->mc->delete('post_ids_by_trip_id:'.$trip_id);
             }
 
             $content = nl2br($content);
@@ -101,20 +103,26 @@ class Posts extends CI_Controller
             
             $this->load->library('email_notifs', array('setting_id' => 11, 'user' => $this->user));
             $trip = new Trip_m();
+            $trips = array();
             foreach ($trip_ids as $trip_id)
             {
+/*
                 $trip->get_by_id($trip_id);
+                $trips[] = clone $trip;
                 $this->email_notifs->set_params(array('trip' => $trip));
                 $this->email_notifs->clear_emails();
                 $this->email_notifs->get_emails();
                 $this->email_notifs->compose_email($this->user, $post, $trip);
                 $this->email_notifs->send_email();
+*/
             }
+/*
             $this->email_notifs->set_params(2);
             $this->email_notifs->clear_emails();
             $this->email_notifs->get_emails();
-            $this->email_notifs->compose_email($this->user, $post, $trip);
+            $this->email_notifs->compose_email($this->user, $post, $trips);
             $this->email_notifs->send_email();
+*/
             
             $data = array('str' => json_success(array(
                 'id' => $post->id,

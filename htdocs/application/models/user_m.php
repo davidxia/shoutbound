@@ -1124,7 +1124,8 @@ class User_m extends CI_Model
         $r = $this->mdb->alter($sql, $values);
         if ($r['num_affected'] == 1)
         {
-            $user = new stdClass;
+/*
+            $user = new stdClass();
             $user->id = $this->id;
             $user->name = $this->name;
             $user->username = $username;
@@ -1135,10 +1136,20 @@ class User_m extends CI_Model
             
             $this->mc->replace('user_by_user_id:'.$this->id, $user);
             $this->mc->delete('user_by_username:'.$this->username);
+            $this->mc->replace('user_by_username:'.$username, $user);
             $this->get_fid();
             $this->mc->replace('user_by_user_fid:'.$this->fid, $user);
             $this->get_email();
-            $this->mc->replace('user_by_email:'.$this->email, $user);
+            $this->mc->delete('user_by_email:'.$this->email);
+*/
+            
+            $this->mc->delete('user_by_user_id:'.$this->id);
+            $this->mc->delete('user_by_username:'.$this->username);
+            $this->mc->delete('user_by_username:'.$username);
+            $this->get_fid();
+            $this->mc->delete('user_by_user_fid:'.$this->fid);
+            $this->get_email();
+            $this->mc->delete('user_by_email:'.$this->email);
             
             return TRUE;
         }

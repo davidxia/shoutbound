@@ -116,14 +116,14 @@ class Email_notifs
                     'on the following trips:';
                     foreach ($parent as $trip)
                     {
-                        $html .= '<br/><a href="'.site_url('trips/'.$trip->stored->id).'">'.$trip->stored->name.'</a>';
+                        $html .= '<br/><a href="'.site_url('trips/'.$trip->id).'">'.$trip->name.'</a>';
                     }
                 $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> wrote:'.
                     '<br/>'.$source->content.'<br/>'.
                     'on the following trips:';
                     foreach ($parent as $trip)
                     {
-                        $text .= '<br/><a href="'.site_url('trips/'.$trip->stored->id).'">'.$trip->stored->name.'</a>';
+                        $text .= '<br/><a href="'.site_url('trips/'.$trip->id).'">'.$trip->name.'</a>';
                     }
                 break;
             case 3:
