@@ -64,13 +64,23 @@ class Users extends CI_Controller
     public function check_username_avail()
     {
         $username = strtolower($this->input->post('username'));
+        if ( !$username OR !$this->user)
+        {
+            return FALSE;
+        }
+        
         if (preg_match('/^[0-9a-zA-Z]+$/', $username))
         {
             $user = new User_m();
             $user->get_by_username($username);
-            if (isset($user->id))
+            $reserved_urls = array('login','signup','about','press','contact','home','posts','users','settings','trip_shares','error','profile','trips','places','landing','media','follow','followers','following');
+            if (in_array($username, $reserved_urls) OR (isset($user->id) AND $this->user->id != $user->id))
             {
-                $data = array('str' => json_error('Sorry, it\'s been taken :('));
+                $data = array('str' => json_error('Sorry, it\'s taken :('));
+            }
+            elseif (isset($user->id) AND $this->user->id == $user->id)
+            {
+                $data = array('str' => json_success(array('message' => 'That\'s you.')));
             }
             else
             {

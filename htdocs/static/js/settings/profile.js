@@ -34,7 +34,8 @@ $(function() {
 
 
   $('#save-profile').click(function() {
-    var bio = $('#bio'),
+    var username = $('#username'),
+        bio = $('#bio'),
         website = $('#website'),
         currPlaceId = $('#current-place-id').val();
     
@@ -43,12 +44,15 @@ $(function() {
       websiteVal = 'http://' + websiteVal;
     }
 
-    $.post(baseUrl+'profile/ajax_save_profile', {bio:bio.val(), website:websiteVal, currPlaceId:currPlaceId},
+    $.post(baseUrl+'profile/ajax_save_profile', {username:username.val(), bio:bio.val(), website:websiteVal, currPlaceId:currPlaceId},
       function(d) {
         var r = $.parseJSON(d);
-        website.val(r.website);
-        bio.val(r.bio);
-        $('#save-response').empty().text(r.response).show().delay(10000).fadeOut(250);
+        if (r.success) {
+          username.val(r.username);
+          website.val(r.website);
+          bio.val(r.bio);
+          $('#save-response').empty().text(r.response).show().delay(10000).fadeOut(250);
+        }
       });
     return false;
   });

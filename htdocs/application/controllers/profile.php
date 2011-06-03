@@ -263,17 +263,18 @@ class Profile extends CI_Controller
 
     public function ajax_save_profile()
     {
+        $username = trim($this->input->post('username'));
         $bio = trim($this->input->post('bio'));
         $website = trim($this->input->post('website'));
         $curr_place_id = $this->input->post('currPlaceId');
         $changes_made = FALSE;
-        
+                
         $this->load->model('Activity_m');
         $a = new Activity_m();
-        if ($bio != $this->user->bio OR $website != $this->user->website)
+        if ($username != $this->user->username OR $bio != $this->user->bio OR $website != $this->user->website)
         {
             $old_bio = $this->user->bio;
-            $success = $this->user->set_profile_info(array('bio' => $bio, 'website' => $website));
+            $success = $this->user->set_profile_info(array('username' => $username, 'bio' => $bio, 'website' => $website));
             if ($success AND $bio != $old_bio)
             {
                 $a->create(array('user_id' => $this->user->id, 'activity_type' => 9, 'source_id' => 1));
@@ -302,11 +303,17 @@ class Profile extends CI_Controller
 
         if ($changes_made)
         {
-            $data = array('str' => json_success(array('changed' => 1, 'bio' => $this->user->bio, 'website' => $this->user->website, 'response' => 'saved')));
+            $data = array('str' => json_success(array(
+                'changed' => 1,
+                'username' => $username,
+                'bio' => $bio,
+                'website' => $website,
+                'response' => 'saved',
+            )));
         }
         else
         {
-            $data = array('str' => json_success(array('changed' => 0)));
+            $data = array('str' => json_error());
         }
         
         $this->load->view('blank', $data);

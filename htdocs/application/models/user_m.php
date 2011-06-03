@@ -1109,35 +1109,32 @@ class User_m extends CI_Model
 
     public function set_profile_info($params = array())
     {
+        $username = (isset($params['username'])) ? $params['username'] : $this->username;
         $bio = (isset($params['bio'])) ? $params['bio'] : $this->bio;
         $website = (isset($params['website'])) ? $params['website'] : $this->website;
         $profile_pic = (isset($params['profile_pic'])) ? $params['profile_pic'] : $this->profile_pic;
         
-        if ($bio==$this->bio AND $website==$this->website AND $profile_pic==$this->profile_pic)
+        if ($username==$this->username AND $bio==$this->bio AND $website==$this->website AND $profile_pic==$this->profile_pic)
         {
             return FALSE;
         }
 
-        $sql = 'UPDATE `users` SET `bio`=?, `website`=?, `profile_pic` = ? WHERE `id` = ?';
-        $values = array($bio, $website, $profile_pic, $this->id);
+        $sql = 'UPDATE `users` SET `username` = ?, `bio`=?, `website`=?, `profile_pic` = ? WHERE `id` = ?';
+        $values = array($username, $bio, $website, $profile_pic, $this->id);
         $r = $this->mdb->alter($sql, $values);
         if ($r['num_affected'] == 1)
         {
-            $this->bio = $bio;
-            $this->website = $website;
-            $this->profile_pic = $profile_pic;
-
             $user = new stdClass;
             $user->id = $this->id;
             $user->name = $this->name;
-            $user->username = $this->username;
+            $user->username = $username;
             $user->bio = $bio;
             $user->website = $website;
             $user->profile_pic = $profile_pic;
             $user->is_onboarded = $this->is_onboarded;
             
             $this->mc->replace('user_by_user_id:'.$this->id, $user);
-            $this->mc->replace('user_by_username:'.$this->username, $user);
+            $this->mc->delete('user_by_username:'.$this->username);
             $this->get_fid();
             $this->mc->replace('user_by_user_fid:'.$this->fid, $user);
             $this->get_email();
