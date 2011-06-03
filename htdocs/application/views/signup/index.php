@@ -75,7 +75,7 @@ $this->load->view('core_header', $header_args);
               <div class="signup-input-container">
                 <input type="text" name="invite_code" id="invite_code" class="signup-input" autocomplete="off"/>              
                 <div class="label-and-error" style="margin-bottom:10px;">
-                  <label for="password" style="color:#555">Invite Code</label>
+                  <label for="password" style="color:#555; width:70px;">Invite Code</label>
                   <span class="error-message"></span>
                 </div>
               </div>

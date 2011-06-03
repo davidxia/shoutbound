@@ -47,7 +47,7 @@ $this->load->view('core_header', $header_args);
       
     <div class="about-item">
       <div class="about-item-header">Environment</div>
-      <div class="about-item-content">We believe in sustainability and environmental stewardship.  We take active steps to reduce our own carbon footprint, and we offset the balance. <!-- Shoutbound is a certified carbon neutral company by the Bonneville Environmental Foundation, an independent, non-profit organization. --></div>
+      <div class="about-item-content">We believe in sustainability and environmental stewardship, and we take active steps to reduce our own carbon footprint<!-- , and we offset the balance -->. <!-- Shoutbound is a certified carbon neutral company by the Bonneville Environmental Foundation, an independent, non-profit organization. --></div>
       <div class="about-item-img-container">
         <img src="<?=site_url('static/images/environment.jpeg')?>" alt="Shoutbound is environmentally friendly"/>  
       </div>          

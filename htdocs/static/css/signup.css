@@ -1,10 +1,11 @@
 #signup-container{
   margin:10px 50px;
-  width:300px;
+  width:350px;
 }
 
 #step-one-container{
   display:block;
+  width:300px;
 }
 
 #step-two-container{
@@ -33,22 +34,23 @@
 
 .label-and-error{
   position:relative;
+  width:70px;
 }
 
 .error-message{
   position:absolute;
-  left:240px;
+  left:300px;
   width:150px;
 }
 
 .signup-input-container{
   margin-bottom:10px;
   clear:both;
-  width:235px;
+  width:285px;
 }
 
 .signup-input{
-  width:150px !important;
+  width:200px !important;
   float:right;
 }
 
