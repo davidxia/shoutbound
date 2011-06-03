@@ -44,7 +44,7 @@ $(function() {
       websiteVal = 'http://' + websiteVal;
     }
 
-    $.post(baseUrl+'profile/ajax_save_profile', {username:username.val(), bio:bio.val(), website:websiteVal, currPlaceId:currPlaceId},
+    $.post(baseUrl+'users/ajax_save_profile', {username:username.val(), bio:bio.val(), website:websiteVal, currPlaceId:currPlaceId},
       function(d) {
         var r = $.parseJSON(d);
         if (r.success) {
