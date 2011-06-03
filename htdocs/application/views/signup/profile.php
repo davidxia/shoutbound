@@ -121,7 +121,8 @@ $this->load->view('core_header', $header_args);
 
 <script type="text/javascript">
   $('#finish-onboarding').click(function() {
-    var bio = $('#bio'),
+    var username = $('#username'),
+        bio = $('#bio'),
         website = $('#website'),
         currPlaceId = $('#current-place-id').val();
     
@@ -130,7 +131,7 @@ $this->load->view('core_header', $header_args);
       websiteVal = 'http://' + websiteVal;
     }
 
-    $.post(baseUrl+'profile/ajax_save_profile', {bio:bio.val(), website:websiteVal, currPlaceId:currPlaceId},
+    $.post(baseUrl+'users/ajax_save_profile', {username:username.val(), bio:bio.val(), website:websiteVal, currPlaceId:currPlaceId},
       function(d) {
         var r = $.parseJSON(d);
         if (r.changed == 1) {

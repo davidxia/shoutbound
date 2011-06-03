@@ -14,7 +14,7 @@ class Trips extends CI_Controller
             $this->user = $u;
         }
   	}
- 	  
+  	
 
     public function index($trip_id = NULL)
     {
@@ -249,17 +249,19 @@ class Trips extends CI_Controller
         if ( !isset($this->user->role))
         {
             $success = $this->user->set_rsvp_role_for_trip_id($trip_id, 3, 0);
-
-            $this->load->model('Activity_m');
-            $activity = new Activity_m();
-            $activity->create(array('user_id' => $this->user->id, 'activity_type' => 4, 'source_id' => $trip_id));
-
-            $trip = new Trip_m($trip_id);
-            $params = array('setting_id' => 4, 'trip' => $trip);
-            $this->load->library('email_notifs', $params);
-            $this->email_notifs->get_emails();
-            $this->email_notifs->compose_email($this->user, $rsvp, $trip);
-            $this->email_notifs->send_email();
+            if ($success)
+            {
+                $this->load->model('Activity_m');
+                $activity = new Activity_m();
+                $activity->create(array('user_id' => $this->user->id, 'activity_type' => 4, 'source_id' => $trip_id));
+    
+                $trip = new Trip_m($trip_id);
+                $params = array('setting_id' => 4, 'trip' => $trip);
+                $this->load->library('email_notifs', $params);
+                $this->email_notifs->get_emails();
+                $this->email_notifs->compose_email($this->user, $rsvp, $trip);
+                $this->email_notifs->send_email();
+            }
         }
         // if prior record exists in table trips_users
         // to be able to rsvp higher than 3, user must be a planner
