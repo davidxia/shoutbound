@@ -14,22 +14,7 @@ class Profile extends CI_Controller
             $this->user = $u;
         }
   	}
-  	
-  	
-  	public function mytest()
-  	{
-  	   $this->user = new User_m(42);
-  	   $success = 'not changed';
-  	   if ($this->user->set_profile_info(array('profile_pic' => 'testing3')))
-  	   {
-  	       $success = 'yay changed';
-  	   }
-  	   
-  	   $data = array('str' => '<pre>'.var_export($this->user,true).var_export($success,true).'</pre>');
-  	   $this->load->view('blank', $data);
-  	   
-  	}
-    
+  	    
 
     public function index($pid = NULL)
     {
