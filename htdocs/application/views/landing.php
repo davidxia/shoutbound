@@ -54,7 +54,8 @@ $this->load->view('core_header', $header_args);
     <!-- 2nd Bottom Item-->
     <div class="landing-page-bottom-item">
       <div class="bottom-item-title">Collaborate with friends and family to plan your next trip.</div>
-      <div class="bottom-item-img-container"></div>
+      <div class="bottom-item-img-container"><img src="<?=site_url('static/images/collaborate-icon.png')?>"/>
+</div>
       <div class="bottom-item-copy"><!-- Ask your friends and family for travel recommendations. Shoutbound organizes their responses for you.  --><a href="<?=site_url('/about')?>">Learn more</a>.</div>  
     </div>
     
@@ -67,7 +68,7 @@ $this->load->view('core_header', $header_args);
     
     <!-- Last Bottom Item-->    
     <div class="landing-page-bottom-item last">
-      <div class="bottom-item-title">Drive more traffic to your travel blog<br/>or related publication. </div>
+      <div class="bottom-item-title">Drive traffic to your travel blog<br/>or related publication. </div>
       <div class="bottom-item-img-container">
         <img src="<?=site_url('static/images/loudspeaker.png')?>" height="75" width="75"/>
       </div>           
