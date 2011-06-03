@@ -42,7 +42,7 @@
 
 $route['default_controller'] = 'landing';
 $route['scaffolding_trigger'] = '';
-$route['(login|signup|home|posts|users|settings|trip_shares|error)(/\w+)?'] = '$1$2';
+$route['(login|signup|about|press|contact|home|posts|users|settings|trip_shares|error)(/\w+)?'] = '$1$2';
 $route['(profile|trips|places)/(\d+)'] = '$1/index/$2';
 $route['(profile|trips|places)(/(\w+))'] = '$1$2';
 

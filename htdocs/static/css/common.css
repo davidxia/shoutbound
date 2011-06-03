@@ -3,6 +3,8 @@
 .header{
 	background-color: #3a1551;
   border-bottom:1px solid #333;
+  overflow-x:hidden;
+  overflow-y:hidden;
   /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#25398C', endColorstr='#1D2D6E');
 	background: -webkit-gradient(linear, left top, left bottom, from(#25398C), to(#1D2D6E));
 	background: -moz-linear-gradient(top,  #25398C,  #1D2D6E);*/ 
@@ -47,6 +49,7 @@ a:hover{
 .footer{
   background-color:#202026;
   color:white;
+  overflow-x:hidden;
 }
 
 .hoverable-item:hover{
@@ -208,17 +211,20 @@ h3{
 	color:#333;
 }
 
-h4{
-	font-size:50px;
-	font-weight:bold;
-}
-
 .subtext{
   color:#888;
 }
 
 .response{
   font-weight:bold;
+}
+
+.dotted-subtitle{
+  border-top:1px dotted #CACACA;
+  border-bottom:1px dotted #CACACA;
+  padding:8px 0px;
+  font-size:18px;
+  margin-bottom:10px;  
 }
 
 #profile-pic-container{
@@ -535,7 +541,7 @@ ul.stats-list li a{
 #autocomplete-results, #place-autocomplete{
   background-color:white;
   z-index:500;
-  width:350px;
+  width:377px;
   border:1px solid #D5E2FF;
 }
 
