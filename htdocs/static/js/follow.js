@@ -33,7 +33,7 @@ editFollowing = function(type, id, follow) {
           postData = {tripId:id, rsvp:rsvp};
       break;
     case 'place':
-      var url = 'places/ajax_edit_follow',
+      var url = 'places/ajax_set_follow',
           postData = {placeId:id, follow:follow};
       break;
   }

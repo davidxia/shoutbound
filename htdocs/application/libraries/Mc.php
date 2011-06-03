@@ -72,6 +72,24 @@ class Mc
     }
 
 
+    public function replace($key, $val, $expire=FALSE, $serialize=TRUE)
+    {
+        if (empty($this->connected_servers))
+        {
+            return FALSE;
+        }
+        if ($serialize)
+        {
+            $val = serialize($val);
+        }
+        if ($expire === FALSE)
+        {
+            $expire = $this->default_expire;
+        }
+        $this->memcache->replace($this->prefix . $key, $val, 0, $expire);
+    }
+
+
     public function delete($key, $when=0)
     {
         if (empty($this->connected_servers))
@@ -100,6 +118,51 @@ class Mc
         }
         return $this->memcache->decrement($this->prefix . $key);
     }
+    
+    
+    public function get_stats()
+    {
+        $status = $this->memcache->getStats();
+        
+        $table = '<table border="1">'.
+            '<tr><td>Memcache server version:</td><td> '.$status['version'].'</td></tr>'.
+            '<tr><td>Server\'s process id:</td><td>'.$status['pid'].'</td></tr>'.
+            '<tr><td>Time server has been running (s):</td><td>'.$status['uptime'].'</td></tr>'.
+            '<tr><td>Server\'s Unix time:</td><td>'.$status['time'].'</td></tr>'.
+            '<tr><td>Accumulated user time for this process </td><td>'.$status['rusage_user'].' seconds</td></tr>'.
+            '<tr><td>Accumulated system time for this process </td><td>'.$status['rusage_system'].' seconds</td></tr>'.
+            '<tr><td>Total number of items stored by this server ever since it started:</td><td>'.$status['total_items'].'</td></tr>'.
+            '<tr><td>Number of open connections:</td><td>'.$status['curr_connections'].'</td></tr>'.
+            '<tr><td>Number of connection structures allocated by the server </td><td>'.$status['connection_structures'].'</td></tr>'.
+            '<tr><td>Total number of connections opened since the server started running </td><td>'.$status['total_connections'].'</td></tr>'.
+            '<tr><td>Cumulative number of retrieval requests </td><td>'.$status['cmd_get'].'</td></tr>'.
+            '<tr><td>Cumulative number of storage requests </td><td>'.$status['cmd_set'].'</td></tr>';
+
+        $percCacheHit = ((real) $status['get_hits'] / (real) $status['cmd_get'] * 100); 
+        $percCacheHit = round($percCacheHit, 3); 
+        $percCacheMiss = 100 - $percCacheHit; 
+
+        $table .= '<tr><td>Number of keys that have been requested and found present </td><td>'.$status['get_hits'].' ('.$percCacheHit.'%)</td></tr>'.
+            '<tr><td>Number of items that have been requested and not found </td><td>'.$status['get_misses'].'('.$percCacheMiss.'%)</td></tr>';
+
+        $MBRead= (real) $status['bytes_read'] / (1024 * 1024); 
+        $table .= '<tr><td>Total number of bytes read by this server from network </td><td>'.$MBRead.' Mega Bytes</td></tr>';
+        
+        $MBWrite=(real) $status['bytes_written'] / (1024 * 1024);
+        $table .= '<tr><td>Total number of bytes sent by this server to network </td><td>'.$MBWrite.' Mega Bytes</td></tr>';
+
+        $MBSize=(real) $status['bytes'] / (1024 * 1024);
+        $table .= '<tr><td>Current number of bytes used by this server to store items.</td><td>'.$MBSize.' Mega Bytes</td></tr>';
+        
+        $MBSizeLimit=(real) $status['limit_maxbytes'] / (1024 * 1024);
+        $percentMemUsage = $MBSize/$MBSizeLimit*100;
+        $table .= '<tr><td>Number of bytes this server is allowed to use for storage.</td><td>'.$MBSizeLimit.' Mega Bytes</td></tr>'.
+            '<tr><td><strong>Percent of memory limit used:</strong></td><td><strong>'.$percentMemUsage.'%</strong></td></tr>'.
+            '<tr><td>Number of valid items removed from cache to free memory for new items.</td><td>'.$status['evictions'].'</td></tr>'.
+            '</table>';
+            
+        return $table;
+    } 
 }
 
 /* End of file Mc.php */

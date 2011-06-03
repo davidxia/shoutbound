@@ -197,10 +197,10 @@ share.generateShareKey = function(shareRole, shareMedium, targetId) {
   $.ajax({
     async: false,
     type: 'POST',
-    url: baseUrl+'trip_shares/ajax_generate_share_key',
+    url: baseUrl+'trip_shares/ajax_new_share_key',
     data: postData,
-    success: function(response) {
-      r = $.parseJSON(response);
+    success: function(d) {
+      r = $.parseJSON(d);
     }
   });
   

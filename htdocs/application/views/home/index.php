@@ -6,7 +6,7 @@ $header_args = array(
     ),
     'js_paths'=> array(
         'js/jquery/jquery.ba-bbq.min.js',
-        'js/user/home.js',
+        'js/jquery/nicEdit.js',
         'js/savepost.js',
         'js/actionbar.js',
         'js/common.js',
@@ -14,61 +14,34 @@ $header_args = array(
 );
 $this->load->view('core_header', $header_args);
 ?>
-
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
   var staticUrl = '<?=static_sub()?>';
+  var swLat = -50;
+  var swLng = -180;
+  var neLat = 50;
+  var neLng = 180;
 </script>
 </head>
 
 <body>
-  <? $this->load->view('header')?>
-  <? $this->load->view('wrapper_content')?>
+  <div id="sticky-footer-wrapper">
+  <? $this->load->view('templates/header')?>
+  <? $this->load->view('templates/content')?>
 
     <div id="top-section"><!--TOP SECTION-->  
 
-      <div id="right-widgets">
-        <div class="right-widget-container">                  
-          <div id="stats-container"><!-- STATS -->
-            <ul class="stats-list">
-              <li><a href="#trail" class="trip-count"><?=$user->num_rsvp_yes_trips?><span class="stat-label">Trips</span></a></li>
-              <li class="border-left"><a href="<?=site_url('profile#posts')?>" class="post-count"><?=$user->num_posts?><span class="stat-label">Posts</span></a></li>
-              <li class="border-left"><a href="<?=site_url('profile#following')?>" class="following-count"><?=$user->num_following+$user->num_following_trips?><span class="stat-label">Following</span></a></li>
-              <li class="border-left"><a href="<?=site_url('profile#followers')?>" class="followers-count"><?=$user->num_followers?><span class="stat-label">Followers</span></a></li>
-            </ul>                
-          </div><!--STATS END-->
-          <div style="clear:both"></div>
-        </div>
-      </div><!-- RIGHT WIDGETS --> 
-
-      <!--POST CONTAINER-->
-      <div class="input-container">
-        <form class="save-post-form">
-          <fieldset>
-            <span class="input-header">New post</span>
-            <div contenteditable="true" id="post-input"></div>
-            <div style="display:none;">
-              <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
-              <div contenteditable="true" class="tag-input"></div>
-              <span class="input-header">Trips</span><br>
-              <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
-                <? foreach ($user->rsvp_yes_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
-                <? endforeach;?>
-                <? foreach ($user->rsvp_awaiting_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
-                <? endforeach;?>
-                <? foreach ($user->following_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
-                <? endforeach;?>
-                </select>
-            </div>
-          </fieldset>
-        </form>
-        <a id="save-post-button">Post</a>
-      </div><!--END POST CONTAINER-->
     </div><!--TOP SECTION END-->
+    
+    <div id="autocomplete-box" style="background:#222; position:absolute; z-index:99; padding:3px;display:none;">
+      <input id="autocomplete-input" type="text" style="width:150px;border:none;border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px; padding:3px;"/>
+      <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="position:absolute; right:20px; top:7px;"/>
+      <a id="autocomplete-close" href="#">
+        <img alt="close" src="<?=site_url('static/images/white_x.png')?>" width="10" height="9"/>
+      </a>
+      <div id="autocomplete-results" style="display:none; position:absolute; top:28px; width:400px; border:1px solid #DDD; cursor:pointer; padding:2px; z-index:100; background:white; font-size:13px;"></div>
+    </div>
 
     <!-- LEFT COLUMN -->
     <div id="col-left">    
@@ -84,22 +57,53 @@ $this->load->view('core_header', $header_args);
         <div style="clear:both"></div>
         
         <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
+             
           <div id="feed-tab" class="main-tab-content main-tab-default">
-          <? if ( ! $news_feed_items):?>
+
+            <div id="new-post-container"><!--POST CONTAINER-->
+              <div class="input-container">
+  <!--               <div class="input-header">New Post</div> -->
+                <form class="save-post-form">
+                  <fieldset>
+                    <div id="instruction-bar">Use the @ key when you refer to a place (e.g., "@Barcelona")</div>                  
+                    <div contenteditable="true" id="post-input"><span style="color:#666">New post.</span></div>
+                    <div id="add-to-trip-main">
+                      <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
+                        <? foreach ($user->rsvp_yes_trips as $trip):?>
+                        <option value="<?=$trip->id?>"><?=$trip->name?>
+                        <? endforeach;?>
+                        <? foreach ($user->rsvp_awaiting_trips as $trip):?>
+                        <option value="<?=$trip->id?>"><?=$trip->name?>
+                        <? endforeach;?>
+                        <? foreach ($user->following_trips as $trip):?>
+                        <option value="<?=$trip->id?>"><?=$trip->name?>
+                        <? endforeach;?>
+                        </select>
+                    </div>
+                  </fieldset>
+                </form>
+                <div id="save-post-button-container">
+                  <a id="save-post-button">Post</a>
+                </div>
+                <div style="clear:both"></div>
+              </div>
+            </div><!--END POST CONTAINER-->
+            
+          <? if ( ! $user->news_feed_items):?>
             You haven't had any activity yet. Get started by <a href="<?=site_url('trips/create')?>">creating trips</a>, <a href="#">adding posts</a>, and <a href="#">following other people</a>, <a href="#"> trips</a>, and <a href="#"> places</a>.
           <? else:?>
           
-            <? $first=TRUE; foreach($news_feed_items as $news_feed_item):?>
+            <? $first=TRUE; foreach($user->news_feed_items as $news_feed_item):?>
               <div id="post-<?=$news_feed_item->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
                <div class="streamitem-avatar-container">
                   <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>">
-                    <img src="<?=static_sub('profile_pics/'.$news_feed_item->user->profile_pic)?>" height="25" width="25"/>
+                    <img src="<?=static_sub('profile_pics/'.$news_feed_item->author->profile_pic)?>" height="25" width="25"/>
                   </a>
                 </div>                   
                 
                 <div class="streamitem-content-container">
                   <div class="streamitem-name">
-                    <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>"><?=$news_feed_item->user->name?></a>
+                    <a href="<?=site_url('profile/'.$news_feed_item->user_id)?>"><?=$news_feed_item->author->name?></a>
                   </div> 
                   <div class="streamitem-content"><?=$news_feed_item->content?></div>
                   
@@ -124,19 +128,19 @@ $this->load->view('core_header', $header_args);
                   
                   <!--COMMENTS START-->
                   <div class="comments-container" style="display:none;">
-                    <? foreach ($news_feed_item->replies as $comment):?>
+                    <? foreach ($news_feed_item->replies as $reply):?>
                     <div class="comment">
                       <div class="streamitem-avatar-container">
-                        <a href="<?=site_url('profile/'.$comment->user_id)?>">
-                          <img src="<?=static_sub('profile_pics/'.$comment->user->profile_pic)?>" height="25" width="25"/>
+                        <a href="<?=site_url('profile/'.$reply->user_id)?>">
+                          <img src="<?=static_sub('profile_pics/'.$reply->author->profile_pic)?>" height="25" width="25"/>
                         </a>
                       </div>                      
                       <div class="streamitem-content-container">
                         <div class="streamitem-name">
-                          <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->user->name?></a>
+                          <a href="<?=site_url('profile/'.$reply->user_id)?>"><?=$reply->author->name?></a>
                         </div> 
-                        <div class="comment-content"><?=$comment->content?></div>
-                        <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$comment->created?>"><?=$comment->created?></abbr></div>                      
+                        <div class="comment-content"><?=$reply->content?></div>
+                        <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$reply->created?>"><?=$reply->created?></abbr></div>                      
                       </div>
                     </div> 
                     <? endforeach;?>
@@ -192,18 +196,35 @@ $this->load->view('core_header', $header_args);
     </div><!--LEFT COLUMN END-->
     
     <!-- RIGHT COLUMN -->
-    <div id="col-right">      
+    <div id="col-right">          
+
+      <div id="right-widgets">
+        <div class="right-widget-container">                  
+          <div id="stats-container"><!-- STATS -->
+            <ul class="stats-list">
+              <li><a href="#trail" class="trip-count"><?=$user->num_rsvp_yes_trips?><span class="stat-label">Trail</span></a></li>
+              <li class="border-left"><a href="<?=site_url('profile/'.$user->id.'#posts')?>" class="post-count"><?=$user->num_posts?><span class="stat-label">Posts</span></a></li>
+              <li class="border-left"><a href="<?=site_url('profile/'.$user->id.'#following')?>" class="following-count"><?=$user->num_following_users+$user->num_following_trips+$user->num_following_places?><span class="stat-label">Following</span></a></li>
+              <li class="border-left"><a href="<?=site_url('profile/'.$user->id.'#followers')?>" class="followers-count"><?=$user->num_followers?><span class="stat-label">Followers</span></a></li>
+            </ul>                
+          </div><!--STATS END-->
+          <div style="clear:both"></div>
+        </div>
+      </div><!-- RIGHT WIDGETS --> 
+
       <!--RIGHT CONTENT-->      
       <div id="right-content-container">
-        <!-- MAP -->
+      
+       <!-- MAP -->
         <div id="map-shell">
-          <div id="map-canvas" style="height:330px;"></div>
+          <div id="map-canvas"></div>
         </div><!--MAP ENDS-->
       </div>
     </div><!-- RIGHT COLUMN ENDS -->
             
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
-  <? $this->load->view('footer')?>
+  </div><!--STICK FOOTER WRAPPER ENDS-->
+  <? $this->load->view('templates/footer')?>
 </body>
 </html>

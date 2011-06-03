@@ -2,116 +2,55 @@
 
 class Trips extends CI_Controller
 {
-    
     private $user;
     
     function __construct()
     {
         parent::__construct();
-        $u = new User();
-        $uid = $u->get_logged_in_status();
-        if ($uid)
+        $u = new User_m();
+        $u->get_logged_in_user();
+        if ($u->id)
         {
-            $u->get_by_id($uid);
             $this->user = $u;
         }
-		}
-		         	  
- 	  
- 	  public function confirm_create()
- 	  {
-        if ( ! isset($this->user->id) OR getenv('REQUEST_METHOD') == 'GET')
-        {
-            custom_404();
-            return;
-        }
-        
-        $post = $this->input->post('destinations_dates');
-        $post = $post['destinations_dates'];
-
-        $t = new Trip();
-        $t->name = $post['trip_name'];
-        $t->description = $post['description'];
-        $t->created = time()-72;
-        /*
-        $deadline = date_parse_from_format('n/j/Y', $post['deadline']);
-        {
-            $t->response_deadline = mktime(0, 0, 0, $deadline['month'], $deadline['day'], $deadline['year']);
-        }
-        */
-        //$t->is_private = ($post['private'] == 1) ? 1 : 0;
-
-        if ($t->save() AND $this->user->save($t)
-            AND $t->set_join_field($this->user, 'role', 10)
-            AND $t->set_join_field($this->user, 'rsvp', 9))
-        {
-            // save trip's destinations and dates
-            $p = new Place();
-            foreach ($post as $key => $val)
-            {
-                if (is_array($val))
-                {
-                    $p->clear();
-                    $p->get_by_id($post[$key]['place_id']);
-                    $t->save($p);
-                    // gets each destination's startdate and enddate and stores as unix time
-                    // TODO: callback method for better client side validation?
-                    $startdate = date_parse_from_format('n/j/Y', $post[$key]['startdate']);
-                    if (checkdate($startdate['month'], $startdate['day'], $startdate['year']))
-                    {
-                        $t->set_join_field($p, 'startdate', strtotime($startdate['day'].'-'.$startdate['month'].'-'.$startdate['year']));
-                    }
-                    $enddate = date_parse_from_format('n/j/Y', $post[$key]['enddate']);
-                    if (checkdate($enddate['month'], $enddate['day'], $enddate['year']))
-                    {
-                        $t->set_join_field($p, 'enddate', strtotime($enddate['day'].'-'.$enddate['month'].'-'.$enddate['year']));
-                    }
-                }
-            }
-            
-            $this->load->helper('activity');
-            save_activity($this->user->id, 1, $t->id, NULL, NULL, time()-72);
-            // TODO: success callback to ensure all destinations were saved?
-            redirect('trips/'.$t->id);
-        }      
- 	  }
+  	}
  	  
 
-    public function index($trip_id = FALSE)
+    public function index($trip_id = NULL)
     {
         if ( ! $trip_id)
         {
             redirect('/');
         }
         
-        $t = new Trip();
+        $trip = new Trip_m();
         //check if trip exists in trips table and is active
-        $t->get_by_id($trip_id);
-        if ( ! $t->is_active)
+        $trip->get_by_id($trip_id);
+        if ( ! $trip->is_active)
         {
             custom_404();
             return;
         }
         
-        $t->get_creator();
-        $t->get_num_goers();
-        $t->get_goers();
-        $t->get_num_followers();
-        $t->get_places();
+        $trip->get_creator()
+             ->get_num_goers()
+             ->get_goers()
+             ->get_num_followers()
+             ->get_places()
+             ->get_posts();
         
-        if (isset($this->user->id))
+        if (isset($this->user))
         {
-            $user = $this->user->stored;
             // get user's relation to this trip
-            $user_role = $this->user->get_role_by_tripid($trip_id);
-            $user_rsvp = $this->user->get_rsvp_by_tripid($trip_id);
-            $this->user->get_rsvp_yes_trips();
-            $this->user->get_rsvp_awaiting_trips();
-            $this->user->get_following_trips();
-            
+            $this->user
+                ->get_rsvp_role_by_trip_id($trip_id)
+                ->get_rsvp_yes_trips()
+                ->get_rsvp_awaiting_trips()
+                ->get_following_trips();
+                        
             // if no relation, check if user has invite cookie with correct access key
             // redirect to home page if neither
-            if ($t->is_private AND ! $user_role AND ! $this->verify_share_cookie($trip_id))
+            if ($trip->is_private AND ! $this->user->role AND ! $this->verify_share_cookie($trip_id))
             {
                 custom_404();
                 return;
@@ -119,35 +58,34 @@ class Trips extends CI_Controller
         }
         else
         {
-            $user = NULL;
             // if user is not logged in and no invite cookie
+/*
             if ( ! $this->verify_share_cookie($trip_id))
             {
-                if ($t->is_private)
+                if ($trip->is_private)
                 {
                     custom_404();
                     return;
                 }
-                
-                $user_role = 0;
-                $user_rsvp = 0;
-            }
+*/
+                //$this->user = new User_m();
+                $this->user->role = 0;
+                $this->user->rsvp = 0;
+/*             } */
             // if user is not logged in but has invite cookie
+/*
             else
             {
-                $user_role = 5;
-                $user_rsvp = 6;
+                $this->user->role = 5;
+                $this->user->rsvp = 6;
             }
+*/
         }
                 
         $data = array(
-            'trip' => $t->stored,
-            'user' => $user,
-            'user_role' => $user_role,
-            'user_rsvp' => $user_rsvp,
-            'posts' => $t->get_posts(),
+            'trip' => $trip,
+            'user' => $this->user,
         );
-        
         $this->load->view('trip/index', $data);
     }
     
@@ -156,22 +94,22 @@ class Trips extends CI_Controller
     {
         if ( ! $trip_id)
         {
-            redirect('/');
-        }
-        
-        $t = new Trip($trip_id);
-        if ( ! $t->is_active)
-        {
-            custom_404();
             return;
         }
-        $user_id = (isset($this->user->id)) ? $this->user->id : FALSE;
-        $t->get_followers($user_id);
+        
+        $trip = new Trip_m($trip_id);
+        if ( ! $trip->is_active)
+        {
+            return;
+        }
+        
+        $user_id = (isset($this->user)) ? $this->user->id : FALSE;
+        $trip->get_followers($user_id);
+        
         $data = array(
-            'trip' => $t->stored,
+            'trip' => $trip,
             'user' => $this->user,
         );
-        
         $this->load->view('trip/followers', $data);
     }
     
@@ -180,156 +118,238 @@ class Trips extends CI_Controller
     {
         if ( ! $trip_id)
         {
-            redirect('/');
+            return;
         }
-        $t = new Trip($trip_id);
-        if ( ! $t->is_active)
+        
+        $trip = new Trip_m($trip_id);
+        if ( ! $trip->is_active)
         {
-            custom_404();
             return;
         }
 
-        $t->get_related_trips();        
+        $trip->get_related_trips();
+              
         $data = array(
-            'trip' => $t->stored,
+            'trip' => $trip,
         );
         $this->load->view('trip/related_trips', $data);
     }
     
-    
-    public function create($i=1)
+        
+    public function create($i = 1)
     {        
-        $user = ($this->user) ? $this->user->stored : NULL;
-        $view_data = array(
-            'user' => $user,
-            'destination' => $this->input->post('destination'),
-            'destination_lat' => $this->input->post('destination_lat'),
-            'destination_lng' => $this->input->post('destination_lng'),
+        $data = array(
+            'user' => $this->user,
+            'place' => $this->input->post('place_input'),
+            'place_id' => $this->input->post('place_id'),
             'is_landing' => 1,
         );
 
         if ($i == 1)
         {
-            $this->load->view('trip/create_inputs_aligned', $view_data);
+            $this->load->view('trip/create_with_map', $data);
         }
         elseif ($i == 2)
         {
-            $this->load->view('trip/create', $view_data);
+            $this->load->view('trip/create', $data);
         }
         elseif ($i == 3)
         {
-            $this->load->view('trip/create_three_steps', $view_data);
+            $this->load->view('trip/create_three_steps', $data);
         }
         
     }
     
     
-    public function ajax_trip_create()
-    {
-        if ( ! ($this->user->id AND $this->input->post('tripName')))
+ 	  public function confirm_create()
+ 	  {
+        if ( !isset($this->user) OR getenv('REQUEST_METHOD') == 'GET')
         {
             custom_404();
             return;
         }
-
-        $t = new Trip();
-        $t->name = $this->input->post('tripName');
-        if ($t->save() AND $this->user->save($t)
-            AND $t->set_join_field($this->user, 'role', 10)
-            AND $t->set_join_field($this->user, 'rsvp', 9))
+        
+        $post = $this->input->post('place_dates');
+        $post = $post['place_dates'];
+        
+        $trip = new Trip_m();
+        
+        /*
+        $deadline = date_parse_from_format('n/j/Y', $post['deadline']);
         {
-            json_success(array('tripId' => $t->id));
-        }        
-    }
+            $t->response_deadline = mktime(0, 0, 0, $deadline['month'], $deadline['day'], $deadline['year']);
+        }
+        */
+        //$t->is_private = ($post['private'] == 1) ? 1 : 0;
+        
+        // save trip's destinations and dates
+        $places_dates = array();
+        foreach ($post as $key => $val)
+        {
+            if (is_array($val))
+            {
+                $places_dates[$post[$key]['place_id']] = array();
+                // gets each destination's startdate and enddate and stores as unix time
+                $startdate = date_parse_from_format('n/j/Y', $post[$key]['startdate']);
+                if (checkdate($startdate['month'], $startdate['day'], $startdate['year']))
+                {
+                    $places_dates[$post[$key]['place_id']]['startdate'] = strtotime($startdate['year'].'-'.$startdate['month'].'-'.$startdate['day']);
+                }
+                $enddate = date_parse_from_format('n/j/Y', $post[$key]['enddate']);
+                if (checkdate($enddate['month'], $enddate['day'], $enddate['year']))
+                {
+                    $places_dates[$post[$key]['place_id']]['enddate'] = strtotime($enddate['year'].'-'.$enddate['month'].'-'.$enddate['day']);
+                }
+                
+                // delete memcache of related trips
+                $trip->get_related_trips();
+                foreach ($trip->related_trips as $related_trip)
+                {
+                    $this->mc->delete('related_trip_ids_by_trip_id:'.$related_trip->id);
+                }
+            }
+        }
+
+        if ($trip->create(array(
+            'name' => $post['trip_name'],
+            'description' => $post['description'],
+            'user_id' => $this->user->id,
+            'places_dates' => $places_dates,
+            )))
+        {
+            $this->load->model('Activity_m');
+            $activity = new Activity_m();
+            $activity->create(array('user_id' => $this->user->id, 'activity_type' => 1, 'source_id' => $trip->id));
+            
+            $params = array('setting_id' => 1, 'user' => $this->user);
+            $this->load->library('email_notifs', $params);
+            $this->email_notifs->get_emails();
+            $this->email_notifs->compose_email($this->user, $trip);
+            $this->email_notifs->send_email();
+            
+            redirect('trips/'.$trip->id);
+        }
+ 	  }
 
 
     public function ajax_save_rsvp()
     {
         $trip_id = $this->input->post('tripId');
-        if ( ! isset($this->user->id) OR !$trip_id OR getenv('REQUEST_METHOD') == 'GET')
+        $rsvp = $this->input->post('rsvp');
+
+        if ( ! isset($this->user) OR !$trip_id OR getenv('REQUEST_METHOD') == 'GET')
         {
             custom_404();
             return;
         }
         
-        $t = new Trip($trip_id);
-        $t->user->include_join_fields()->where('user_id', $this->user->id)->get();
-        $role = $t->user->join_role;
-        $rsvp = $this->input->post('rsvp');
+        $this->user->get_rsvp_role_by_trip_id($trip_id);
         
-        // if prior record exists in table trips_users
-        if (isset($role))
-        {
-            if ($rsvp <= 3)
-            {
-                $t->set_join_field($this->user, 'rsvp', $rsvp);
-                json_success(array(
-                    'type' => 'trip',
-                    'id' => $trip_id,
-                    'userId' => $this->user->id,
-                    'profilePic' => $this->user->profile_pic,
-                    'rsvp' => $rsvp,
-                ));
-            }
-            // to be able to rsvp higher than 3, user must be a planner
-            elseif ($rsvp > 3 AND $role == 5)
-            {
-                $t->set_join_field($this->user, 'rsvp', $rsvp);
-                json_success(array(
-                    'type' => 'trip',
-                    'id' => $trip_id,
-                    'userId' => $this->user->id,
-                    'profilePic' => $this->user->profile_pic,
-                    'rsvp' => $rsvp,
-                ));
-            }
-            else
-            {
-                json_error('something broken, tell David');
-            }
-            
-            // send email notification if rsvp changed to yes or no
-            if ($role==5 AND ($rsvp==0 OR $rsvp==9))
-            {
-                $params = array('setting_id' => 13, 'trip' => $t);
-                $this->load->library('email_notifs', $params);
-                $this->email_notifs->get_emails();
-                $this->email_notifs->delete_email($this->user->email);
-                $this->email_notifs->compose_email($this->user, $rsvp, $t->stored);
-                $this->email_notifs->send_email();
-            }
-        }
         // if no prior relation, make user a follower
-        elseif ($t->save($this->user))
+        if ( !isset($this->user->role))
         {
-            $t->set_join_field($this->user, 'rsvp', 3);
-            $this->load->helper('activity');
-            if (save_activity($this->user->id, 4, $t->id, NULL, NULL, time()-72))
+            $success = $this->user->set_rsvp_role_for_trip_id($trip_id, 3, 0);
+
+            $this->load->model('Activity_m');
+            $activity = new Activity_m();
+            $activity->create(array('user_id' => $this->user->id, 'activity_type' => 4, 'source_id' => $trip_id));
+
+            $trip = new Trip_m($trip_id);
+            $params = array('setting_id' => 4, 'trip' => $trip);
+            $this->load->library('email_notifs', $params);
+            $this->email_notifs->get_emails();
+            $this->email_notifs->compose_email($this->user, $rsvp, $trip);
+            $this->email_notifs->send_email();
+        }
+        // if prior record exists in table trips_users
+        // to be able to rsvp higher than 3, user must be a planner
+        elseif ($rsvp <= 3 OR ($rsvp > 3 AND $this->user->role >= 5))
+        {
+            $success = $this->user->set_rsvp_role_for_trip_id($trip_id, $rsvp, $this->user->role);
+            // send email notification to goers if rsvp changed to yes or no
+            if ($success AND $this->user->role == 5 AND ($rsvp == 0 OR $rsvp == 9))
             {
-                json_success(array(
-                    'type' => 'trip',
-                    'id' => $trip_id,
-                    'userId' => $this->user->id,
-                    'profilePic' => $this->user->profile_pic,
-                    'rsvp' => $rsvp,
-                ));
-            }
-            if ($rsvp == 3)
-            {
-                $params = array('setting_id' => 4, 'trip' => $t);
+                $trip = new Trip_m($trip_id);
+                $params = array('setting_id' => 13, 'trip' => $trip);
                 $this->load->library('email_notifs', $params);
                 $this->email_notifs->get_emails();
-                $this->email_notifs->compose_email($this->user, $rsvp, $t->stored);
+                $this->user->get_email();
+                $this->email_notifs->delete_email($this->user->email);
+                $this->email_notifs->compose_email($this->user, $rsvp, $trip);
                 $this->email_notifs->send_email();
             }
         }
         else
         {
-            json_error('something broken, tell David');
+            $success = FALSE;
         }
+        
+        if ($success)
+        {
+            $data = array('str' => json_success(array(
+                'type' => 'trip',
+                'id' => $trip_id,
+                'userId' => $this->user->id,
+                'profilePic' => $this->user->profile_pic,
+                'rsvp' => $rsvp,
+            )));
+        }
+        else
+        {
+            $data = array('str' => json_error());
+        }
+        $this->load->view('blank', $data);
     }
         
                 
+    public function delete($trip_id = FALSE)
+    {
+        if ( ! ($this->user OR $trip_id))
+        {
+            custom_404();
+            return;
+        }
+        
+        $trip = new Trip_m($trip_id);
+        $success = $trip->delete($this->user->id);
+        if ($success)
+        {
+            redirect('/');
+        }
+        else
+        {
+            custom_404();
+            return;
+        }
+    }
+        
+
+		public function ajax_delete_post()
+		{
+		    $post_id = $this->input->post('postId');
+		    $trip_id = $this->input->post('tripId');
+		    
+		    if ( ! ($this->user AND $post_id AND $trip_id))
+		    {
+		        return FALSE;
+		    }
+		    
+		    $post = new Post_m($post_id);
+		    $success = $post->remove_by_trip_id_user_id($trip_id, $this->user->id);
+        
+		    if ($success)
+		    {
+            $data = array('str' => json_success(array('id' => $post_id)));
+		    }
+		    else
+		    {
+		        $data = array('str' => json_error('something broke, tell David'));
+		    }
+		    
+		    $this->load->view('blank', $data);
+		}
+
+
     public function share($trip_id, $share_key)
     {        
         $ts = new Trip_share();
@@ -356,51 +376,7 @@ class Trips extends CI_Controller
     }
     
     
-    public function delete($trip_id = FALSE)
-    {
-        if ( ! ($this->user->id OR $trip_id))
-        {
-            custom_404();
-            return;
-        }
-        
-        $t = new Trip($trip_id);
-        $is_deleted = $t->delete($trip_id, $this->user->id);
-        if ($is_deleted)
-        {
-            redirect('/');
-        }
-        else
-        {
-            custom_404();
-            return;
-        }
-    }
-        
-
-		public function ajax_delete_post()
-		{
-		    $post_id = $this->input->post('postId');
-		    $t = new Trip($this->input->post('tripId'));
-		    if (isset($this->user->id))
-		    {
-		        $t->get_role_by_user_id($this->user->id);
-		    }
-		    if ($t->stored->role == 10)
-		    {
-		        $r = $t->delete_post($post_id);
-    		    if ($r)
-    		    {
-                json_success(array('id' => $post_id));
-    		    }
-    		    else
-    		    {
-    		        json_error('something broke, tell David');
-    		    }
-		    }
-		}
-
-
+/*
     private function verify_share_cookie($trip_id)
     {
         $received_invites = json_decode(get_cookie('received_invites'));
@@ -420,35 +396,28 @@ class Trips extends CI_Controller
         }
         return FALSE;
     }
+*/
     
     
     public function ajax_share_dialog()
     {
-        // get ids of those user is following
-        $this->user->related_user->get();
+        if ( ! $this->user)
+        {
+            return FALSE;
+        }
         
-        // get users already invited to this trip
-        $t = new Trip($this->input->post('tripId'));
-        foreach ($t->user->where_join_field($t, 'role >', 0)->get_iterated() as $user)
-        {
-            $trip_uids[] = $user->id;
-        }
-        $uninvited_followings = array();
-        foreach ($this->user->related_user as $following)
-        {
-            if ( ! in_array($following->id, $trip_uids))
-            {
-                $uninvited_followings[] = $following->stored;
-            }
-        }
+        // get users this user is following who aren't invited yet to this trip
+        $trip = new Trip_m($this->input->post('tripId'));
+        $trip->get_uninvited_users_by_user_id($this->user->id);
         
         $data = array(
-            'uninvited_followings' => $uninvited_followings,
+            'trip' => $trip,
             'share_role' => $this->input->post('shareRole'),
         );
         
         $r = $this->load->view('trip/share_dialog', $data, TRUE);
-        json_success(array('data' => $r));
+        $data = array('str' => json_success(array('data' => $r)));
+        $this->load->view('blank', $data);
     }
 
 
@@ -456,20 +425,19 @@ class Trips extends CI_Controller
     {
         $trip_id = $this->input->post('tripId');
         $share_role = $this->input->post('shareRole');
-        $setting_id = ($share_role==5) ? 12 : 20;
+        $rsvp = ($share_role==5) ? 6 : 0;
+        $setting_id = ($share_role==5) ? 12 : NULL;
         $uids = ($this->input->post('uids')) ? $this->input->post('uids') : array();
         $nonuser_emails = ($this->input->post('emails')) ? $this->input->post('emails') : array();
         
-        $t = new Trip($trip_id);
-        $u = new User();
+        $trip = new Trip_m($trip_id);
+        $user = new User_m();
         // save record in trips_users table
         foreach ($uids as $uid)
         {
-            $u->get_by_id($uid);
-            if ($t->save($u))
+            if ($user->get_by_id($uid)->set_rsvp_role_for_trip_id($trip_id, $rsvp, $share_role))
             {
-                $t->set_join_field($u, 'role', $share_role);
-                $t->set_join_field($u, 'rsvp', 6);
+                $this->mc->delete('uninvited_user_ids_by_trip_id_user_id:'.$trip_id.':'.$this->user->id);
             }
         }
         // not pretty - needed to get rid of empty strings
@@ -480,24 +448,31 @@ class Trips extends CI_Controller
                 unset($nonuser_emails[$key]);
             }
         }
-
-        $params = array('setting_id' => $setting_id, 'trip' => $t, 'user_ids' => $uids, 'emails' => $nonuser_emails);
-        $this->load->library('email_notifs', $params);
-        $this->email_notifs->get_emails();
-        $this->email_notifs->compose_email($this->user, $t->stored);
-        $this->email_notifs->send_email();
-
+        
         if ($share_role == 5)
         {
-            json_success(array('message' => 'Invitations sent.'));
+            // send emails to those who are invited
+            $params = array('setting_id' => $setting_id, 'trip' => $trip, 'user_ids' => $uids, 'emails' => $nonuser_emails);
+            $this->load->library('email_notifs', $params);
+            $this->email_notifs->get_emails();
+            $this->email_notifs->compose_email($this->user, $trip);
+            $this->email_notifs->send_email();
+            // send emails to those who already rsvped yes
+            $this->email_notifs->set_params(array('setting_id' => 8, 'emails' => array()));
+            $this->email_notifs->get_emails();
+            $this->email_notifs->compose_email($this->user, $uids, $trip);
+            $this->email_notifs->send_email();
+
+            $data = array('str' => json_success(array('message' => 'Invitations sent.')));
         }
-        elseif ($share_role == 0)
+        else
         {
-            json_success(array('message' => 'trip shared'));
+            $data = array('str' => json_success(array('message' => 'trip shared')));
         }
-        //json_success(array('tripId' => $trip_id, 'uids'=>$uids, 'emails'=>$emails, 'tripId'=>$trip_id, 'html'=>$html, 'text'=>$text, 'subj'=>$subj, 'resp'=>$resp));
+        
+        $this->load->view('blank', $data);
     }
-    
+        
         
     public function ajax_share_success()
     {        
@@ -506,8 +481,10 @@ class Trips extends CI_Controller
         );
         
         $r = $this->load->view('trip/share_success', $data, TRUE);
-        json_success(array('data' => $r));
+        $data = array('str' => json_success(array('data' => $r)));
+        $this->load->view('blank', $data);
     }
+    
 }
 
 /* End of file trips.php */

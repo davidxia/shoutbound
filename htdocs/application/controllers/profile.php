@@ -2,73 +2,58 @@
 
 class Profile extends CI_Controller
 {
-
-    public $user;
+    private $user;
     
     function __construct()
     {
         parent::__construct();
-        $u = new User();
-        $uid = $u->get_logged_in_status();
-        if ($uid)
+        $u = new User_m();
+        $u->get_logged_in_user();
+        if ($u->id)
         {
-            $u->get_by_id($uid);
             $this->user = $u;
         }
-		}
-		
+  	}
+  	    
 
-    public function index($pid = FALSE)
+    public function index($pid = NULL)
     {
-        // if user not logged in and no profile specified, return 404
-        if ( ! ($pid OR isset($this->user->id)))
+        // if no profile specified, return 404
+        if ( ! $pid)
         {
             custom_404();
             return;
         }
 
-        $u = new User();
-        // if no profile number specified, show user's own profile
-        if ( ! $pid)
+        $profile = new User_m();
+        if (is_numeric($pid))
         {
-            $user = $this->user->stored;
-            $pid = $this->user->id;
-            $u->get_by_id($pid);
-            $profile = $u->stored;
-            $is_self = TRUE;
-            $is_following = FALSE;
+            $profile->get_by_id($pid);
         }
-        elseif ( ! isset($this->user->id))
+        else
         {
-            $user = NULL;
-            $u->get_by_id($pid);
-            if ( ! $u->id)
-            {
-                custom_404();
-                return;
-            }
-            $profile = $u->stored;
+            $profile->get_by_username($pid);
+        }
+        
+        if ( ! $profile->id)
+        {
+            custom_404();
+            return;
+        }
+        
+        if ( ! isset($this->user))
+        {
             $is_self = FALSE;
             $is_following = FALSE;
         }
-        // if profile specified and user's logged in
         else
         {
-            $user = $this->user->stored;
-            $u->get_by_id($pid);
-            if ( ! $u->id)
-            {
-                custom_404();
-                return;
-            }
-            $profile = $u->stored;
-            
             // if profile is not user's own, check if he's following this other user
-            if ($pid != $this->user->id)
+            if ($profile->id != $this->user->id)
             {
                 $is_self = FALSE;
-                $this->user->related_user->where('id', $pid)->include_join_fields()->get();
-                if (isset($this->user->related_user->id) AND $this->user->related_user->join_is_following==1)
+                $profile->get_follow_status_by_user_id($this->user->id);
+                if ($profile->is_following == 1)
                 {
                     $is_following = TRUE;
                 }
@@ -84,372 +69,195 @@ class Profile extends CI_Controller
             }
         }
         
-        // $profile is a reference to $u->stored, so weird!
-        $u->get_recent_activities();
-        $u->get_num_rsvp_yes_trips();
-        $u->get_num_posts();
-        $u->get_num_following();
-        $u->get_num_following_trips();
-        $u->get_num_followers();
-        $u->get_first_name();
+        $profile->get_recent_activity()
+          ->get_num_rsvp_yes_trips()
+          ->get_num_posts()
+          ->get_num_following_users()
+          ->get_num_following_trips()
+          ->get_num_following_places()
+          ->get_num_followers()
+          ->get_first_name();
         
-        $view_data = array(
-            'user' => $user,
+        $data = array(
+            'user' => $this->user,
             'profile' => $profile,
             'is_self' => $is_self,
             'is_following' => $is_following,
         );
 
-        $this->load->view('profile/index', $view_data);
+        $this->load->view('profile/index', $data);
     }
-            
-    
-    public function trail($pid = FALSE)
+
+
+    public function trail($pid = NULL)
     {
-        // if user not logged in and no profile specified, return 404
-        if ( ! ($pid OR isset($this->user->id)))
+        if ( ! $pid)
         {
-            custom_404();
             return;
         }
 
-        $u = new User();
-        // if no profile number specified, show user's own profile
-        if ( ! $pid)
+        $profile = new User_m();
+        if (is_numeric($pid))
         {
-            $user = $this->user->stored;
-            $pid = $this->user->id;
-            $u->get_by_id($pid);
-            $profile = $u->stored;
-            $is_self = TRUE;
+            $profile->get_by_id($pid);
         }
-        elseif ( ! isset($this->user->id))
-        {
-            $user = NULL;
-            $u->get_by_id($pid);
-            if ( ! $u->id)
-            {
-                custom_404();
-                return;
-            }
-            $profile = $u->stored;
-            $is_self = FALSE;
-        }
-        // if profile specified and user's logged in
         else
         {
-            $user = $this->user->stored;
-            $u->get_by_id($pid);
-            if ( ! $u->id)
-            {
-                custom_404();
-                return;
-            }
-            $profile = $u->stored;
+            $profile->get_by_username($pid);
+        }
+        
+        if ( ! $profile->id)
+        {
+            return;
+        }
 
-            $is_self = ($pid == $this->user->id) ? TRUE : FALSE;
+        if ( ! isset($this->user))
+        {
+            $is_self = FALSE;
+        }
+        else
+        {
+            $is_self = ($profile->id == $this->user->id) ? TRUE : FALSE;
         }
         
         $user_id = (isset($this->user->id)) ? $this->user->id : NULL;
-        $u->get_rsvp_yes_trips($user_id);
-        $u->get_places();
+        $profile->get_rsvp_yes_trips($user_id)
+          ->get_future_places()
+          ->get_current_place()
+          ->get_past_places()
+          ->get_first_name();
+
+          
         $data = array(
-            'user' => $user,
+            'user' => $this->user,
             'profile' => $profile,
             'is_self' => $is_self,
         );
 
         $this->load->view('profile/trail', $data);
-        //print_r($profile);
     }
-    
-    
-    public function posts($pid = FALSE)
+
+
+    public function posts($pid = NULL)
     {
-        // if user not logged in and no profile specified, return 404
-        if ( ! ($pid OR isset($this->user->id)))
+        if ( ! $pid)
         {
-            custom_404();
             return;
         }
 
-        $u = new User();
-        // if no profile number specified, show user's own profile
-        if ( ! $pid)
+        $profile = new User_m();
+        if (is_numeric($pid))
         {
-            $user = $this->user->stored;
-            $pid = $this->user->id;
-            $u->get_by_id($pid);
-            $profile = $u->stored;
+            $profile->get_by_id($pid);
         }
-        elseif ( ! isset($this->user->id))
-        {
-            $user = NULL;
-            $u->get_by_id($pid);
-            if ( ! $u->id)
-            {
-                custom_404();
-                return;
-            }
-            $profile = $u->stored;
-        }
-        // if profile specified and user's logged in
         else
         {
-            $user = $this->user->stored;
-            $u->get_by_id($pid);
-            if ( ! $u->id)
-            {
-                custom_404();
-                return;
-            }
-            $profile = $u->stored;
+            $profile->get_by_username($pid);
         }
         
-        if (isset($this->user->id))
+        if ( ! $profile->id)
+        {
+            return;
+        }
+        
+        if (isset($this->user))
         {
             $this->user->get_rsvp_yes_trips();
             $this->user->get_rsvp_awaiting_trips();
             $this->user->get_following_trips();
         }
-        $u->get_posts();
+        $profile->get_posts();
+        
         $data = array(
-            'user' => $user,
+            'user' => $this->user,
             'profile' => $profile,
         );
-
         $this->load->view('profile/posts', $data);
     }
     
-    
-    public function following($pid = FALSE)
+
+    public function following($pid = NULL)
     {
-        // if user not logged in and no profile specified, return 404
-        if ( ! ($pid OR isset($this->user->id)))
+        if ( ! $pid)
         {
-            custom_404();
             return;
         }
 
-        $u = new User();
-        // if no profile number specified, show user's own profile
-        if ( ! $pid)
+        $profile = new User_m();
+        if (is_numeric($pid))
         {
-            $user = $this->user->stored;
-            $pid = $this->user->id;
-            $u->get_by_id($pid);
-            $profile = $u->stored;
+            $profile->get_by_id($pid);
         }
-        elseif ( ! isset($this->user->id))
-        {
-            $user = NULL;
-            $u->get_by_id($pid);
-            if ( ! $u->id)
-            {
-                custom_404();
-                return;
-            }
-            $profile = $u->stored;
-        }
-        // if profile specified and user's logged in
         else
         {
-            $user = $this->user->stored;
-            $u->get_by_id($pid);
-            if ( ! $u->id)
-            {
-                custom_404();
-                return;
-            }
-            $profile = $u->stored;
+            $profile->get_by_username($pid);
         }
         
-        $user_id = (isset($this->user->id)) ? $this->user->id : NULL;
-        $u->get_following($user_id);
-        $u->get_following_trips($user_id);
-        $u->get_following_places($user_id);
-        $view_data = array(
-            'user' => $user,
-            'profile' => $profile,
-        );
-
-        $this->load->view('profile/following', $view_data);
-        //print_r($profile);
-    }
-    
-    
-    public function followers($pid = FALSE)
-    {
-        // if user not logged in and no profile specified, return 404
-        if ( ! ($pid OR isset($this->user->id)))
+        if ( ! $profile->id)
         {
-            custom_404();
             return;
         }
 
-        $u = new User();
-        // if no profile number specified, show user's own profile
-        if ( ! $pid)
-        {
-            $user = $this->user->stored;
-            $pid = $this->user->id;
-            $u->get_by_id($pid);
-            $profile = $u->stored;
-        }
-        elseif ( ! isset($this->user->id))
-        {
-            $user = NULL;
-            $u->get_by_id($pid);
-            if ( ! $u->id)
-            {
-                custom_404();
-                return;
-            }
-            $profile = $u->stored;
-        }
-        // if profile specified and user's logged in
-        else
-        {
-            $user = $this->user->stored;
-            $u->get_by_id($pid);
-            if ( ! $u->id)
-            {
-                custom_404();
-                return;
-            }
-            $profile = $u->stored;
-        }
+        $user_id = (isset($this->user)) ? $this->user->id : NULL;
+        $profile->get_following_users($user_id);
+        $profile->get_following_trips($user_id);
+        $profile->get_following_places($user_id);
         
-        $user_id = (isset($this->user->id)) ? $this->user->id : NULL;
-        $u->get_followers($user_id);
-        $view_data = array(
-            'user' => $user,
+        $data = array(
+            'user' => $this->user,
             'profile' => $profile,
         );
 
-        $this->load->view('profile/followers', $view_data);
+        $this->load->view('profile/following', $data);
     }
-        
-    
-    public function save_user_places()
-    {
-        $post = $this->input->post('places_dates');
-        $post = $post['places_dates'];
-        
-        $p = new Place();
-        foreach ($post as $key => $value)
-        {
-            //$p->clear();
-            $p->get_by_id($post[$key]['place_id']);
-            $this->user->save($p);
-            
-            // gets each place's date and stores as unix time
-            $date = date_parse_from_format('n/j/Y', $post[$key]['date']);
-            if (checkdate($date['month'], $date['day'], $date['year']))
-            {
-                $this->user->set_join_field($p, 'timestamp', strtotime($date['day'].'-'.$date['month'].'-'.$date['year']));
-            }
-        }
-    }
-    
-    
-    public function ajax_save_user_places()
-    {
-        $places = $this->input->post('places');
-        //$places = json_decode($places);        
-              
-        $p = new Place();
-        foreach ($places as $place)
-        {
-            //$p->clear();
-            $p->get_by_id($place['placeId']);
-            $this->user->save($p);
-            
-            // gets each place's date and stores as unix time
-            $date = date_parse_from_format('n/j/Y', $place['date']);
-            if (checkdate($date['month'], $date['day'], $date['year']))
-            {
-                $this->user->set_join_field($p, 'timestamp', strtotime($date['day'].'-'.$date['month'].'-'.$date['year']));
-            }
-        }
-        json_success(array('places' => $places));
-        //print_r($places);
-    }
-        
-    
-    public function ajax_save_profile()
-    {
-        $old_bio = $this->user->bio;
-        $old_url = $this->user->url;
-        $bio = trim($this->input->post('bio'));
-        $url = trim($this->input->post('url'));
-        $curr_place_id = $this->input->post('currPlaceId');
-        $changes_made = FALSE;
-        
-        if ($bio != $old_bio)
-        {
-            $this->user->bio = $bio;
-            $this->load->helper('activity');
-            save_activity($this->user->id, 9, TRUE, NULL, NULL, time()-72);
-            $changes_made = TRUE;
-        }
-        if ($url != $old_url)
-        {
-            $this->user->url = $url;
-            $changes_made = TRUE;
-        }
-        
-        /*
-        $p = new Place($curr_place_id);
-        if ($this->user->save($p))
-        {
-            $this->user->set_join_field($p, 'timestamp', time()-72);
-        }
-        
-        if ($curr_place_id)
-        {
-            $this->load->helper('activity');
-            save_activity($this->user->id, 10, TRUE, NULL, NULL, time()-72);
-            $changes_made = TRUE;
-        }
-        */
 
-        if ($changes_made)
+
+    public function followers($pid = NULL)
+    {
+        if ( ! $pid)
         {
-            if ($this->user->save())
-            {
-                json_success(array('bio' => $bio, 'url' => $url, 'response' => 'Saved.'));
-                //json_success(array('bio' => $bio, 'url' => $url, 'currPlace' => $p->name, 'response' => 'Saved.'));
-            }
-            else
-            {
-                json_error('something broke, tell David to fix');
-            }
+            return;
+        }
+
+        $profile = new User_m();
+        if (is_numeric($pid))
+        {
+            $profile->get_by_id($pid);
         }
         else
         {
-            json_success(array('bio' => $bio, 'url' => $url, 'response' => 'Saved.'));
-            //json_success(array('bio' => $bio, 'url' => $url, 'currPlace' => $p->name, 'response' => 'Saved.'));
+            $profile->get_by_username($pid);
         }
         
+        if ( ! $profile->id)
+        {
+            return;
+        }
+
+        $user_id = (isset($this->user->id)) ? $this->user->id : NULL;
+        $profile->get_followers($user_id);
+        
+        $data = array(
+            'user' => $this->user,
+            'profile' => $profile,
+        );
+
+        $this->load->view('profile/followers', $data);
     }
     
-    
+
     public function profile_pic_uploadify()
     {
-        if ( ! empty($_FILES)) {
+        if ( ! empty($_FILES))
+        {
             $uid = $this->input->post('uid');
-            //$uid = $this->user->id;
+            $this->user = new User_m($uid);
+            
           	$tempFile = $_FILES['Filedata']['tmp_name'];
           	list($width, $height, $type, $attr) = getimagesize($_FILES['Filedata']['tmp_name']);
           	
           	$targetPath = '/var/www/static/profile_pics/';
-          	$targetFile =  str_replace('//','/',$targetPath) . $uid . '_' . $_FILES['Filedata']['name'];
-    
-        		$u = new User();
-        		$u->get_by_id($uid);
-        		$u->profile_pic = $uid . '_' . $_FILES['Filedata']['name'];
-        		$u->save();
+          	$targetFile =  str_replace('//','/',$targetPath).$uid.'_'.$_FILES['Filedata']['name'];
     
           	$fileTypes  = str_replace('*.','',$_REQUEST['fileext']);
           	$fileTypes  = str_replace(';','|',$fileTypes);
@@ -460,65 +268,103 @@ class Profile extends CI_Controller
           	{
             		// Uncomment the following line if you want to make the directory if it doesn't exist
             		// mkdir(str_replace('//','/',$targetPath), 0755, true);
-            		
             		move_uploaded_file($tempFile,$targetFile);
-            		echo str_replace($_SERVER['DOCUMENT_ROOT'],'',$targetFile);
+            		if ($this->user->set_profile_info(array('profile_pic' => $uid.'_'.$_FILES['Filedata']['name'])))
+            		{
+                		echo str_replace($_SERVER['DOCUMENT_ROOT'],'',$targetFile);
+            		}
+            		
           	}
           	else
           	{
-              echo 'Invalid file type.';
+                echo 'Invalid file type';
           	}
         }
     }
-    
-    
+
+
     public function ajax_edit_following()
     {
-        $id = $this->input->post('profileId');
+        $profile_id = $this->input->post('profileId');
         $follow = $this->input->post('follow');
-        $u = new User($id);
+        $profile = new User_m($profile_id);
         
-        if ($follow AND $u->id != $this->user->id)
+        if ($follow AND $profile->id != $this->user->id)
         {
-            $this->user->related_user->where('id', $u->id)->include_join_fields()->get();
-            $new_follow = ($this->user->related_user->join_is_following == '0') ? FALSE : TRUE;
-            if ($u->save($this->user))
+            $profile->get_follow_status_by_user_id($this->user->id);
+            $new_follow = (isset($profile->is_following)) ? FALSE : TRUE;
+            $num_affected = $this->user->set_follow_for_user_id($profile->id, $follow);
+            
+            if ($num_affected == 1 OR $num_affected == 2)
             {
-                $u->set_join_field($this->user, 'is_following', 1);
                 if ($new_follow)
                 {
-                    $this->load->helper('activity');
-                    save_activity($this->user->id, 3, $id, NULL, NULL, time()-72);
-                    save_activity($u->id, 8, $this->user->id, NULL, NULL, time()-72);
+                    $this->load->model('Activity_m');
+                    $a = new Activity_m();
+                    if ($a->create(array('user_id' => $this->user->id, 'activity_type' => 3, 'source_id' => $profile->id)))
+                    {
+                        $a->create(array('user_id' => $profile->id, 'activity_type' => 8, 'source_id' => $this->user->id));
+                    }
                     
-                    $this->load->library('email_notifs', array('setting_id' => 3, 'profile' => $u));
+                    $this->load->library('email_notifs', array('setting_id' => 3, 'profile' => $profile));
                     $this->email_notifs->get_emails();
-                    $this->email_notifs->compose_email($this->user, $u->stored);
+                    $this->email_notifs->compose_email($this->user, $profile);
                     $this->email_notifs->send_email();
                 }
                 
-                json_success(array('type' => 'user', 'id' => $id, 'follow' => $follow));
+                $data = array('str' => json_success(array('type' => 'user', 'id' => $profile->id, 'follow' => $follow)));
             }
             else
             {
-                json_error('something broken, tell David');
+                $data = array('str' => json_error('something broken, tell David'));
             }
         }
-        else
+        elseif ( ! $follow)
         {
-            $u->set_join_field($this->user, 'is_following', 0);
-            json_success(array('type' => 'user', 'id' => $id, 'follow' => $follow));
+            $this->user->set_follow_for_user_id($profile->id, $follow);
+            $data = array('str' => json_success(array('type' => 'user', 'id' => $profile->id, 'follow' => $follow)));
         }
+        
+        $this->load->view('blank', $data);
     }
-    
-    
+
+
+    public function ajax_save_user_places()
+    {
+        if ( !$this->user OR !$this->input->post('placesDates'))
+        {
+            return;
+        }
+
+        $places_dates = $this->input->post('placesDates');
+        foreach ($places_dates as $place_date)
+        {
+            if ($place_date['placeId'])
+            {
+                $date = date_parse_from_format('m/Y', $place_date['date']);
+                if (checkdate($date['month'], 1, $date['year']))
+                {
+                    $timestamp = strtotime($date['year'].'-'.$date['month'].'-01');
+                }
+                else
+                {
+                    $timestamp = NULL;
+                }
+                $this->user->set_past_place($place_date['placeId'], $timestamp);
+            }
+        }
+        
+        $data = array('str' => json_success(array('response' => 'saved')));
+    }
+
+
     public function history()
     {
-        $view_data = array(
+        $data = array(
             'user' => $this->user,
         );
 
-        $this->load->view('profile/history', $view_data);
+        $this->load->view('profile/history', $data);
     }
     
     
@@ -577,11 +423,11 @@ class Profile extends CI_Controller
             }
         }
         
-        $view_data = array(
+        $data = array(
             'geodata' => $geodata,
         );
         
-        $this->load->view('twitter_geohist', $view_data);
+        $this->load->view('twitter_geohist', $data);
         
     }
     

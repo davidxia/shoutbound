@@ -2,64 +2,86 @@
 
 class Signup extends CI_Controller
 {
-
+    private $user;
+    
     function __construct()
     {
-      	parent::__construct();
-    }
+        parent::__construct();
+        $u = new User_m();
+        $u->get_logged_in_user();
+        if ($u->id)
+        {
+            $this->user = $u;
+        }
+		}
 
 
     public function index()
     {
-        $u = new User();
-        if ($u->get_logged_in_status())
+        if ($this->user)
         {
-            redirect('/');
+            redirect('/home');
         }
         $this->load->view('signup/index');
     }
     
-    
+        
     public function create_user()
     {
-		    $u = new User();
-		    $u->name = $this->input->post('name');
-		    $u->email = $this->input->post('email');
-		    $u->password = md5('davidxia'.$this->input->post('password').'isgodamongmen');
-		    $u->created = time()-72;
-		    		    
+        if ($this->user OR getenv('REQUEST_METHOD') == 'GET')
+        {
+            custom_404();
+            return;
+        }
+        
         if ($this->input->post('is_fb_signup'))
         {
+            // save Facebook id
             $this->load->library('facebook');
-            $fbuser = $this->facebook->api('/me?fields=name,friends,picture');
-            $u->fid = $fbuser['id'];
+            $fbdata = $this->facebook->api('/me?fields=name,friends,picture');
+            $fid = $fbdata['id'];
+            
+            // save Facebook profile photo
+            $this->load->helper('avatar');
+            $file_name = save_fb_photo($user->id, $fbuser['id'], 'large');
         }
         else
         {
-    		    $n = mt_rand(1, 8);
-    		    $u->profile_pic = 'default_avatar'.$n.'.png';
+            $fid = NULL;
         }
+        
+		    $user = new User_m();
+		    $success = $user->create(array(
+		        'name'        => $this->input->post('name'),
+		        'email'       => $this->input->post('signup_email'),
+		        'password'    => $this->input->post('password'),
+		        'fid'         => $fid,
+		        'profile_pic' => (isset($file_name)) ? $file_name : NULL,
+		    ));
+		    		    
 
-        if ($u->save())
+        if ($success)
         {
-            $u->login($u->id);
+            $user->login($user->id);
             if ($this->input->post('is_fb_signup'))
             {
-                $f = new Friend();
-                $auto_follow = new User();
-                foreach ($fbuser['friends']['data'] as $friend)
+
+                $this->load->model('Friend_m');
+                $friend = new Friend_m();
+                $auto_follow = new User_m();
+                foreach ($fbdata['friends']['data'] as $fb_friend)
                 {
                     // check if friend is already Shoutbound user
                     // if so auto follow them for new user
-                    $auto_follow->get_by_fid($friend['id']);
+                    $auto_follow->get_by_fid($fb_friend['id']);
                     if ($auto_follow->id)
                     {
-                        $auto_follow->save($u);
-                        foreach ($auto_follow->trip->where('is_active', 1)->where_join_field('user', 'role >=', 5)->get_iterated() as $trip)
+                        $user->set_follow_for_user_id($auto_follow->id, 1);
+                        $auto_follow->get_trips();
+                        
+                        foreach ($auto_follow->trips as $trip)
                         {
-                            $u->save($trip);
-                            $u->set_join_field($trip, 'rsvp', 3);
-                            $u->set_join_field($trip, 'role', 0);
+                            $user->set_rsvp_role_for_trip_id($trip->id, 3, 0);
                         }
                     }
                     else
@@ -67,33 +89,16 @@ class Signup extends CI_Controller
                         // check if this friend already exists in friends table
                         // if so, add relation in friends_users table
                         // if not, add new row in friends table
-                        $f->where('facebook_id', $friend['id'])->get();
-                        if ($f->id)
+                        $friend->get_by_facebook_id($fb_friend['id']);
+                        if ( ! $friend->id)
                         {
-                            $u->save($f);
+                            $friend->create(array('facebook_id' => $fb_friend['id'], 'name' => $fb_friend['name']));
                         }
-                        else
-                        {
-                            $f->clear();
-                            $f->facebook_id = $friend['id'];
-                            $f->name = $friend['name'];
-                            if ($f->save())
-                            {
-                                $u->save($f);
-                            }
-                        }
+                        $user->add_friend_by_friend_id($friend->id);
                     }
                 }
-                
-                $this->load->helper('avatar');
-                $file_name = save_fb_photo($u->id, $fbuser['id'], 'large');
-                if ($file_name)
-                {
-                    $u->profile_pic = $file_name;
-                    $u->save();
-                }
             }
-            redirect('signup/onboarding');
+            redirect('signup/dream');
         }
         else
         {
@@ -102,15 +107,39 @@ class Signup extends CI_Controller
     }
     
     
+/*
     public function ajax_create_user()
     {
-		    $u = new User();
-		    $u->name = $this->input->post('signupName');
-		    $u->email = $this->input->post('signupEmail');
-		    $u->password = md5('davidxia'.$this->input->post('signupPw').'isgodamongmen');
-		    $n = mt_rand(1, 8);
-		    $u->profile_pic = 'default_avatar'.$n.'.png';
-		    $u->created = time()-72;        
+        if ($this->user OR getenv('REQUEST_METHOD') == 'GET')
+        {
+            redirect('/');
+        }
+        
+        if ($this->input->post('is_fb_signup'))
+        {
+            // save Facebook id
+            $this->load->library('facebook');
+            $fbdata = $this->facebook->api('/me?fields=name,friends,picture');
+            $fid = $fbdata['id'];
+            
+            // save Facebook profile photo
+            $this->load->helper('avatar');
+            $file_name = save_fb_photo($user->id, $fbuser['id'], 'large');
+        }
+        else
+        {
+            $fid = NULL;
+        }
+        
+		    $user = new User_m();
+		    $success = $user->create(array(
+		        'name'        => $this->input->post('name'),
+		        'email'       => $this->input->post('signup_email'),
+		        'password'    => $this->input->post('password'),
+		        'fid'         => $fid,
+		        'profile_pic' => ($file_name) ? $file_name : NULL,
+		    ));
+
         
         if ($u->save())
         {
@@ -124,8 +153,13 @@ class Signup extends CI_Controller
     }
     
 
-    public function ajax_create_fb_user()
+    public function ajax_get_fb_info()
     {
+        if ($this->user)
+        {
+            redirect('/');
+        }
+
         $this->load->library('facebook');
         $fbuser = $this->facebook->api('/me?fields=name,email');
         
@@ -143,37 +177,147 @@ class Signup extends CI_Controller
             json_success(array('name' => $fbuser['name'], 'email' => $fbuser['email']));
         }
     }
+*/
     
     
-    public function onboarding()
+    public function dream()
     {
-        $u = new User();
-        $uid = $u->get_logged_in_status();
-        if ( ! $uid)
+        if ( ! $this->user OR $this->user->is_onboarded)
+        {
+            custom_404();
+            return;
+        }
+        
+        $this->user->get_future_places();
+
+        $data = array(
+            'user' => $this->user,
+            'is_onboarding' => TRUE,
+        );
+        $this->load->view('signup/dream', $data);
+    }
+    
+    
+    public function save_bucket_list()
+    {
+        if ( ! $this->user OR getenv('REQUEST_METHOD') == 'GET')
         {
             redirect('/');
         }
-        $u->get_by_id($uid);
-        // we auto followed their friends
-        $u->get_following();
-        // we auto followed their friends' rsvp yes trips
-        $f = new User();
-        foreach ($u->stored->following as $following)
+
+        $post = $this->input->post('place');
+        $post = $post['place'];
+        foreach ($post as $key => $val)
         {
-            $f->get_by_id($following->id);
-            $f->get_rsvp_yes_trips();
-            $following->trips = array();
-            foreach ($f->stored->rsvp_yes_trips as $rsvp_yes_trip)
+            if (is_array($val) AND $val['place_id'])
             {
-                $following->trips[] = $rsvp_yes_trip;
+                $num_affected = $this->user->edit_future_place_by_place_id($val['place_id'], 1);
+                if ($num_affected == 1 OR $num_affected == 2)
+                {
+                    $this->user->edit_follow_for_place_id($val['place_id'], 1);
+                }
             }
         }
+        
+        redirect('signup/follow');
+    }
+
+
+    public function follow()
+    {
+        if ( ! $this->user OR $this->user->is_onboarded)
+        {
+            custom_404();
+            return;
+        }
+        
+        // we auto followed their friends
+        //$this->user->get_following_users();
+        
+        $this->user->get_onboarding_users();
+        
+        $this->user
+            ->get_num_following_users()
+            ->get_num_following_trips()
+            ->get_num_following_places();
+        
+        $data = array(
+            'user' => $this->user,
+            'is_onboarding' => TRUE,
+        );
+        $this->load->view('signup/follow', $data);
+    }
+    
+    
+    public function trips()
+    {
+        if ( ! $this->user OR $this->user->is_onboarded)
+        {
+            custom_404();
+            return;
+        }
+        
+        // we auto followed their friends' rsvp yes trips
+        //$this->user->get_following_trips();
+        
+        $this->user->get_onboarding_trips();
+        
+        $data = array(
+            'user' => $this->user,
+        );
+        $this->load->view('signup/trips', $data);
+    }
+    
+    
+    public function places()
+    {
+        if ( ! $this->user OR $this->user->is_onboarded)
+        {
+            custom_404();
+            return;
+        }
+        
+        // we auto followed their bucket list
+        //$this->user->get_following_places($this->user->id);
+        
+        $this->user->get_onboarding_places();
 
         $data = array(
-            'user' => $u->stored,
+            'user' => $this->user,
         );
-        $this->load->view('signup/onboarding', $data);
-        //print_r($u->stored);
+        $this->load->view('signup/places', $data);
+    }
+
+
+    public function profile()
+    {
+        if ( ! $this->user OR $this->user->is_onboarded)
+        {
+            custom_404();
+            return;
+        }
+
+        $this->user->get_current_place();
+        $data = array(
+            'user' => $this->user,
+            'is_onboarding' => TRUE,
+        );
+        $this->load->view('signup/profile', $data);
+    }
+    
+    
+    public function finish()
+    {
+        if ( ! $this->user OR $this->user->is_onboarded)
+        {
+            redirect('/');
+        }
+        
+        if ($this->user->set_onboarding_status(1))
+        {
+            $this->mc->delete('user_by_user_id:'.$this->user->id);
+            redirect('/home');
+        }
     }
 }
 

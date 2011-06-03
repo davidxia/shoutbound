@@ -1,4 +1,4 @@
-<?php
+<?php header("Content-type: text/html; charset=utf-8");
 $header_args = array(
     'title' => $profile->name.' | Shoutbound',
     'css_paths' => array(
@@ -6,7 +6,6 @@ $header_args = array(
     ),
     'js_paths' => array(
         'js/jquery/jquery.ba-bbq.min.js',
-        'js/profile/map.js',
         'js/follow.js',
         'js/common.js',
         'js/actionbar.js',
@@ -22,12 +21,16 @@ $this->load->view('core_header', $header_args);
   var staticUrl = '<?=static_sub()?>';
   var profileId = <?=$profile->id?>;
   var isSelf = <? if ($is_self) echo 1; else echo 0;?>;
+  var swLat = -50;
+  var swLng = -180;
+  var neLat = 50;
+  var neLng = 180;
 </script>
 </head>
 
 <body>
-  <? $this->load->view('header')?>
-  <? $this->load->view('wrapper_content')?>
+  <? $this->load->view('templates/header')?>
+  <? $this->load->view('templates/content')?>
 
   <div id="top-section"><!--TOP SECTION-->
   
@@ -38,7 +41,7 @@ $this->load->view('core_header', $header_args);
       <div id="profile-info">
         <div class="top-bar-header"><?=$profile->name?></div>
         <div id="bio"><?=$profile->bio?></div>
-        <div id="personal-url"><a href="<?=$profile->url?>" target="_blank"><?=$profile->url?></a></div>
+        <div id="website"><a href="<?=$profile->website?>" target="_blank"><?=$profile->website?></a></div>
       </div>
     </div><!--TOP BAR END-->
 
@@ -69,7 +72,7 @@ $this->load->view('core_header', $header_args);
           <ul class="stats-list">
             <li><a href="#trail" class="trip-count"><?=$profile->num_rsvp_yes_trips?><span class="stat-label">Trips</span></a></li>
             <li class="border-left"><a href="#posts" class="post-count"><?=$profile->num_posts?><span class="stat-label">Posts</span></a></li>
-            <li class="border-left"><a href="#following" class="following-count"><?=$profile->num_following+$profile->num_following_trips?><span class="stat-label">Following</span></a></li>
+            <li class="border-left"><a href="#following" class="following-count"><?=$profile->num_following_users+$profile->num_following_trips+$profile->num_following_places?><span class="stat-label">Following</span></a></li>
             <li class="border-left"><a href="#followers" class="followers-count"><?=$profile->num_followers?><span class="stat-label">Followers</span></a></li>
           </ul>
           <div style="clear:both"></div>        
@@ -98,7 +101,7 @@ $this->load->view('core_header', $header_args);
       
       <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
         <div id="activity-tab" class="main-tab-content main-tab-default">
-          <? foreach ($profile->activities as $activity):?>
+          <? foreach ($profile->recent_activities as $activity):?>
             <div id="activity-<?=$activity->id?>" class="streamitem <? if($is_self){echo 'deleteable';}?>">
             <? if($is_self):?><div class="delete"></div><? endif;?>
               <?=$profile->first_name?>
@@ -118,18 +121,16 @@ $this->load->view('core_header', $header_args);
                started following <span class="streamitem-name"><a href="<?=site_url('places/'.$activity->place->id)?>"><? echo $activity->place->name;if($activity->place->admin1){echo ', '.$activity->place->admin1;}if($activity->place->country){echo ', '.$activity->place->country;}?></a></span>
                <h3>Follow/unfollow needs to go here</h3>              
             <? elseif ($activity->activity_type==6):?>
-               commented: <?=$activity->comment->content?>
-               <br/> in response to <?=$activity->post->user->name?>'s post: <?=$activity->post->content?>
+               commented: <?=$activity->post->content?>
+               <br/> in response to <?=$activity->post->author->name?>'s post: <?=$activity->post->content?>
                <h3>Follow/unfollow needs to go here</h3>              
             <? elseif ($activity->activity_type==8):?>
                is being followed by <span class="streamitem-name"><a href="<?=site_url('profile/'.$activity->follower->id)?>"><?=$activity->follower->name?></a></span>
                <h3>Follow/unfollow needs to go here</h3>              
             <? elseif ($activity->activity_type==9):?>
                updated his profile bio.
-<!--
             <? elseif ($activity->activity_type==10):?>
-              is now in <a href="#"><?=$activity->place->name?></a>
--->
+              changed current location to <a href="<?=site_url('places/'.$activity->place->id)?>" class="place" lat="<?=$activity->place->lat?>" lng="<?=$activity->place->lng?>"><?=$activity->place->name?><? if($activity->place->admin1){echo ', '.$activity->place->admin1;}?><? if($activity->place->country){echo ', '.$activity->place->country;}?></a>
             <? endif;?>
 <!--
             <br/>
@@ -149,12 +150,11 @@ $this->load->view('core_header', $header_args);
       <div id="map-shell">
         <div id="map-canvas"></div>
       </div>
-    </div><!--RIGHT CONTENT ENDS-->
-    
+    </div><!--RIGHT CONTENT ENDS-->   
   </div><!-- RIGHT COLUMN ENDS -->
                 
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
-  <? $this->load->view('footer')?>
+  <? $this->load->view('templates/footer')?>
 </body> 
 </html>

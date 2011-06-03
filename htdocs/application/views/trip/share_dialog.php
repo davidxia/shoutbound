@@ -12,11 +12,11 @@
 <div id="friends" style="padding:10px 0px 10px 0px; border-bottom:1px solid #C8C8C8;">
   <span style="font-size:16px;font-weight:bold;">Following on Shoutbound:</span>
   <ul style="overflow-y:auto;">
-    <? foreach ($uninvited_followings as $uninvited_following):?>
-    <li uid="<?=$uninvited_following->id?>" class="friend-capsule" style="height:64px; width:134px; margin:3px; cursor:pointer; float:left;">
+    <? foreach ($trip->uninvited_users as $uninvited_user):?>
+    <li uid="<?=$uninvited_user->id?>" class="friend-capsule" style="height:64px; width:134px; margin:3px; cursor:pointer; float:left;">
       <a href="#" style="display:block; height:56px; padding:4px; border-spacing:0; text-decoration:none;">
-        <img src="<?=static_sub('profile_pics/'.$uninvited_following->profile_pic)?>" width="50" height="50" style="border:1px solid #E0E0E0; margin-right:5px; padding:2px; display:block; height:50px; width:50px; float:left;"/>
-        <span class="friend-name" style="font-size:11px; float:left; display:block; width:65px; margin-top:2px;"><?=$uninvited_following->name?></span>
+        <img src="<?=static_sub('profile_pics/'.$uninvited_user->profile_pic)?>" width="50" height="50" style="border:1px solid #E0E0E0; margin-right:5px; padding:2px; display:block; height:50px; width:50px; float:left;"/>
+        <span class="friend-name" style="font-size:11px; float:left; display:block; width:65px; margin-top:2px;"><?=$uninvited_user->name?></span>
       </a>
     </li>
     <? endforeach;?>

@@ -12,19 +12,16 @@ $header_args = array(
 
 $this->load->view('core_header', $header_args);
 ?>
-
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
 </script>
-  
 </head>
 
 <body>
-
 <div id="sticky-footer-wrapper">
-  <? $this->load->view('header')?>
-  <? $this->load->view('wrapper_content')?>
+  <? $this->load->view('templates/header')?>
+  <? $this->load->view('templates/content')?>
   
     <div id="top-bar">
       <div class="top-bar-header">Manage your Shoutbound account.</div>
@@ -34,9 +31,10 @@ $this->load->view('core_header', $header_args);
     
       <div id="left-content-container">
       
-        <ul id="main-tabs">
-          <li class="active"><a href="<?=site_url('settings')?>">Account</a></li>
+        <ul id="tab-style">
+          <li class="active">Account</li>
           <li><a href="<?=site_url('settings/profile')?>">Profile</a></li>
+          <li><a href="<?=site_url('settings/trail')?>">Trail</a></li>
         </ul>
         
         <div style="clear:both"></div>
@@ -101,7 +99,7 @@ $this->load->view('core_header', $header_args);
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
   </div><!--STICKY FOOTER WRAPPER ENDS-->
-  <? $this->load->view('footer')?>
+  <? $this->load->view('templates/footer')?>
 <script type="text/javascript">
   $(function() {
     $('#save-settings').click(function() {

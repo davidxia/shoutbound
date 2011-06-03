@@ -59,12 +59,12 @@
         <div class="comment">
           <div class="streamitem-avatar-container">
             <a href="<?=site_url('profile/'.$comment->user_id)?>">
-              <img src="<?=static_sub('profile_pics/'.$comment->user->profile_pic)?>" height="28" width="28"/>
+              <img src="<?=static_sub('profile_pics/'.$comment->author->profile_pic)?>" height="28" width="28"/>
             </a>
           </div>                      
           <div class="streamitem-content-container">
             <div class="streamitem-name">
-              <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->user->name?></a>
+              <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->author->name?></a>
             </div> 
             <div class="comment-content"><?=$comment->content?></div>
             <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$comment->created?>"><?=$comment->created?></abbr></div>                      
@@ -86,7 +86,7 @@
           <? $prefix=''; foreach ($trip->places as $place):?>
             <?=$prefix?>
             <span class="trip-listing-destination"><a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a></span>
-            <span class="subtext"><? if($place->startdate){echo date('F j, Y',$place->startdate);} if($place->startdate AND $place->enddate){echo ' - ';} if ($place->enddate){echo date('F j, Y', $place->enddate);}?></span>
+            <span class="subtext"><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
             <? $prefix = '<span class="bullet">&#149</span>'?>
           <? endforeach;?>
           </div>

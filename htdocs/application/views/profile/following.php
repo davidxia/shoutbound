@@ -1,30 +1,30 @@
 <div id="following-tab" class="main-tab-content">
 
-  <? if (!($profile->following OR $profile->following_trips OR $profile->following_places)):?>
+  <? if (!($profile->following_users OR $profile->following_trips OR $profile->following_places)):?>
     <?=$profile->name?> isn't following anyone yet.
   <? endif;?>
   
-  <? $prefix='first-item'; foreach ($profile->following as $following):?>
+  <? $prefix='first-item'; foreach($profile->following_users as $following_user):?>
   <div class="<?=$prefix?> streamitem">
     <? $prefix=''?>
-    <? if (isset($following->is_following) AND $following->is_following):?>
-      <a href="#" class="unfollow" id="user-<?=$following->id?>">Unfollow</a>
-    <? elseif (!isset($user->id) OR $following->id != $user->id):?>
-      <a href="#" class="follow" id="user-<?=$following->id?>">Follow</a>
+    <? if (isset($following_user->is_following) AND $following_user->is_following):?>
+      <a href="#" class="unfollow" id="user-<?=$following_user->id?>">Unfollow</a>
+    <? elseif (!isset($user->id) OR $following_user->id != $user->id):?>
+      <a href="#" class="follow" id="user-<?=$following_user->id?>">Follow</a>
     <? endif;?>
 
     <div class="streamitem-avatar-container">
-      <a href="<?=site_url('profile/'.$following->id)?>"><img src="<?=static_sub('profile_pics/'.$following->profile_pic)?>" width="25" height="25"/></a>
+      <a href="<?=site_url('profile/'.$following_user->id)?>"><img src="<?=static_sub('profile_pics/'.$following_user->profile_pic)?>" width="25" height="25"/></a>
     </div>
     
     <div class="narrow streamitem-content-container">    
       <div class="streamitem-name">
-        <a href="<?=site_url('profile/'.$following->id)?>"><?=$following->name?></a>
+        <a href="<?=site_url('profile/'.$following_user->id)?>"><?=$following_user->name?></a>
       </div>    
   
-      <div class="streamitem-bio"><?=$following->bio?></div>
-      <!--<? if (isset($following->place)):?>
-      Current location: <a class="place" lat="<?=$following->place->lat?>" lng="<?=$following->place->lng?>" href="#"><?=$following->place->name?></a>
+      <div class="streamitem-bio"><?=$following_user->bio?></div>
+      <!--<? if (isset($following_user->current_place)):?>
+      Current location: <a class="place" lat="<?=$following_user->current_place->lat?>" lng="<?=$following_user->current_place->lng?>" href="#"><?=$following_user->current_place->name?></a>
       <? endif;?>-->
     </div>    
 
@@ -51,7 +51,7 @@
       <div class="destinationbar">
         <? foreach ($following_trip->places as $place):?>
           <a class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
-          <span class="subtext"><? if ($place->startdate){echo date('F j, Y', $place->startdate);} if($place->startdate AND $place->enddate){echo ' - ';} if ($place->enddate){echo date('F j, Y', $place->enddate);}?></span>
+          <span class="subtext"><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
         <? endforeach;?>
       </div>
       

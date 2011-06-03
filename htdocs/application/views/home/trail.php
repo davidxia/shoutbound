@@ -16,7 +16,7 @@
             <a href="<?=site_url('places/'.$place->id)?>" class="place bar-item" lat="<?=$place->lat?>" lng="<?=$place->lng?>">
               <?=$place->name?>
             </a>
-            <span class="subtext"><? if($place->startdate){echo date('F j, Y',$place->startdate);} if($place->startdate AND $place->enddate){echo ' - ';} if ($place->enddate){echo date('F j, Y', $place->enddate);}?></span>
+            <span class="subtext"><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
             <? $prefix = ' <span class="bullet">&#149</span> '?>
         <? endforeach;?>
         </div>
@@ -38,7 +38,7 @@
 
   <!-- RSVP YES TRIPS -->
   <? if (empty($user->rsvp_yes_trips)):?>
-    <div style="padding:20px;">You don't have any trips yet. Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a>.</div>
+    <div class="streamitem first-item">You don't have any trips yet. Get started by <a href="<?=site_url('trips/create')?>">creating a trip</a>.</div>
   <? else:?>
     <? $first=TRUE; foreach ($user->rsvp_yes_trips as $rsvp_yes_trip):?>
       <div "tripitem-<?=$rsvp_yes_trip->id?>" class="<? if($first):?><? echo 'first-item'; $first=FALSE;?><? endif;?> streamitem">
@@ -52,7 +52,7 @@
             <a href="<?=site_url('places/'.$place->id)?>" class="place bar-item" lat="<?=$place->lat?>" lng="<?=$place->lng?>">
               <?=$place->name?>
             </a>
-            <span class="subtext"><? if($place->startdate){echo date('F j, Y',$place->startdate);} if($place->startdate AND $place->enddate){echo ' - ';} if ($place->enddate){echo date('F j, Y', $place->enddate);}?></span>
+            <span class="subtext"><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
             <? $prefix = ' <span class="bullet">&#149</span> '?>
         <? endforeach;?>
         </div>
@@ -76,9 +76,4 @@
     <? endforeach;?>
   <? endif; ?>
   <!-- RSVP YES TRIPS ENDS -->
-
-
-
-  
-  
 </div>

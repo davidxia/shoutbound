@@ -2,64 +2,81 @@
 
 class Posts extends CI_Controller
 {
-    
-    public $user;
+    private $user;
     
     function __construct()
     {
         parent::__construct();
-        $u = new User();
-        $uid = $u->get_logged_in_status();
-        if ($uid)
+        $u = new User_m();
+        $u->get_logged_in_user();
+        if ($u->id)
         {
-            $u->get_by_id($uid);
-            $this->user = $u->stored;
-        }
-        else
-        {
-            redirect('/');
+            $this->user = $u;
         }
 		}
 		
+		
 		public function ajax_save()
 		{
-		    $content = $this->input->post('content');
-		    $parent_id = $this->input->post('parentId');
-		    $trip_ids = $this->input->post('tripIds');
-		    $is_repost = ($this->input->post('isRepost')) ? $this->input->post('isRepost') : FALSE;
-        $t = new Trip();
-        $t->where_in('id', $trip_ids)->get();
-        
-        if ($this->input->post('postId'))
+		    $post_id = ($this->input->post('postId')) ? $this->input->post('postId') : NULL;
+		    $content = ($this->input->post('content')) ? $this->input->post('content') : NULL;
+		    $parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : NULL;
+		    $trip_ids = ($this->input->post('tripIds')) ? $this->input->post('tripIds') : array();
+		    $added_by = ($post_id) ? $this->user->id : NULL;
+		    
+		    if ( ! $content)
+		    {
+		        return FALSE;
+		    }
+		            
+        $post = new Post_m();
+        if ($post_id)
         {
-            $p = new Post($this->input->post('postId'));
+            $post->get_by_id($post_id);
         }
         else
         {
-    		    $p = new Post();
-    		    $p->user_id = $this->user->id;
-    		    $p->content = $content;
-    		    $p->parent_id = ($parent_id) ? $parent_id : NULL;
-    		    $p->created = time()-72;        
+    		    $success = $post->create(array(
+    		        'user_id' => $this->user->id,
+    		        'content' => $content,
+    		        'parent_id' => $parent_id
+    		    ));
+    		    if ( ! $success)
+    		    {
+    		        return FALSE;
+    		    }
         }
-		    
-		    if ($p->save($t->all))
-		    {
-		        $parent_id = ($parent_id) ? $parent_id : 0;
-		        if ($is_repost)
-		        {
-		            $p->set_join_field($t, 'added_by', $this->user->id);
-		        }
-		        
+        
+        if ( ! $trip_ids)
+        {
+            $data = array('str' => json_success(array(
+                'id' => $post->id,
+                'userName' => $this->user->name,
+                'userId' => $this->user->id,
+                'userPic' => $this->user->profile_pic,
+                'content' => $content,
+                'parentId' => $parent_id,
+                'tripIds' => $trip_ids,
+                'created' => time()-72,
+            )));
+        }
+        elseif ($post->save_to_trips_by_trip_ids($trip_ids, $added_by))
+        {
+            foreach ($trip_ids as $trip_id)
+            {
+                $this->mc->replace('adder_id_by_post_id_trip_id:'.$post->id.':'.$trip_id, $this->user->id);
+                $this->mc->delete('post_ids_by_trip_id:'.$trip_id);
+            }
+
             $content = nl2br($content);
             $content = preg_replace_callback('/<place id="(\d+)">/',
                 create_function('$matches',
-                    '$p = new Place();
+                    '$p = new Place_m();
                      $p->get_by_id($matches[1]);
                      return \'<a class="place" href="#" address="\'.$p->name.\'" lat="\'.$p->lat.\'" lng="\'.$p->lng.\'">\';'),
                 $content);
             $content = str_replace('</place>', '</a>', $content);
-            
+
             $activity_type = ($parent_id) ? 6 : 2;
             if ($parent_id)
             {
@@ -74,128 +91,81 @@ class Posts extends CI_Controller
                 $pid = NULL;
             }
             $parent_type = ($parent_id) ? 4 : 2;
-            $this->load->helper('activity');
-            save_activity($this->user->id, $activity_type, $p->id, $pid, $parent_type, time()-72);
+            $this->load->model('Activity_m');
+            $activity = new Activity_m();
+            $activity->create(array(
+                'user_id' => $this->user->id,
+                'activity_type' => $activity_type,
+                'source_id' => $post->id,
+                'parent_id' => $pid,
+                'parent_type' => $parent_type,
+            ));
             
-            $this->load->library('email_notifs', array('setting_id' => 11));
-            $u = new User();
-            foreach ($t as $trip)
+            $this->load->library('email_notifs', array('setting_id' => 11, 'user' => $this->user));
+            $trip = new Trip_m();
+            $trips = array();
+            foreach ($trip_ids as $trip_id)
             {
-                $this->email_notifs->set_trip($trip);
+/*
+                $trip->get_by_id($trip_id);
+                $trips[] = clone $trip;
+                $this->email_notifs->set_params(array('trip' => $trip));
                 $this->email_notifs->clear_emails();
                 $this->email_notifs->get_emails();
-                $this->email_notifs->compose_email($this->user, $p->stored, $trip->stored);
+                $this->email_notifs->compose_email($this->user, $post, $trip);
                 $this->email_notifs->send_email();
+*/
             }
-                
-            json_success(array(
-                'id' => $p->id,
+/*
+            $this->email_notifs->set_params(2);
+            $this->email_notifs->clear_emails();
+            $this->email_notifs->get_emails();
+            $this->email_notifs->compose_email($this->user, $post, $trips);
+            $this->email_notifs->send_email();
+*/
+            
+            $data = array('str' => json_success(array(
+                'id' => $post->id,
                 'userName' => $this->user->name,
                 'userId' => $this->user->id,
                 'userPic' => $this->user->profile_pic,
                 'content' => $content,
                 'parentId' => $parent_id,
-                'tripIds' => $this->input->post('tripIds'),
+                'tripIds' => $trip_ids,
                 'created' => time()-72,
-            ));
+            )));
 		    }
 		    else
 		    {
-		        json_error('something broke, tell David');
+		        $data = array('str' => json_error());
 		    }
+		    
+		    $this->load->view('blank', $data);
 		}
 		
     
-    public function ajax_save_like()
+    public function ajax_set_like()
     {
         $post_id = $this->input->post('postId');
         $user_id = $this->user->id;
         $is_like = $this->input->post('isLike');
         
-        $l = new Like();
-        $l->where('post_id', $post_id)->where('user_id', $user_id)->get();
-        if ($l->id)
+        if ($this->user->set_like_for_post_id($post_id, $is_like))
         {
-            $l->is_like = $is_like;
-            if ($l->save())
-            {
-                json_success(array(
-                    'postId' => $post_id,
-                    'isLike' => $is_like,
-                    'userId' => $this->user->id,
-                    'userName' => $this->user->name,
-                ));
-            }
-        }
-        else
-        {
-            $l->clear();
-            $l->post_id = $post_id;
-            $l->user_id = $user_id;
-            $l->is_like = $is_like;
-            $l->created = time()-72;
-                    
-            if ($l->save())
-            {
-                json_success(array(
-                    'postId' => $post_id,
-                    'isLike' => $is_like,
-                    'userId' => $this->user->id,
-                    'userName' => $this->user->name,
-                ));
-            }
-        }
-    }
-    
-
-    public function ajax_add_to_trip()
-    {
-        $t = new Trip();
-        $t->where_in('id', $this->input->post('tripIds'))->get();
-        
-        if ($this->input->post('postId'))
-        {
-            $p = new Post($this->input->post('postId'));
-        }
-        else
-        {
-    		    $p = new Post();
-    		    $p->user_id = $this->user->id;
-    		    $p->content = $this->input->post('content');
-    		    $p->parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : NULL;
-    		    $p->created = time()-72;        
-        }
-		    
-		    if ($p->save($t->all))
-		    {
-		        $parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : 0;
-		        $p->set_join_field($t, 'added_by', $this->user->id);
-		        /*
-		        $content = nl2br($this->input->post('content'));
-            $content = preg_replace_callback('/<place id="(\d+)">/',
-                create_function('$matches',
-                    '$p = new Place();
-                     $p->get_by_id($matches[1]);
-                     return \'<a class="place" href="#" address="\'.$p->name.\'" lat="\'.$p->lat.\'" lng="\'.$p->lng.\'">\';'),
-                $content);
-                
-            $content = str_replace('</place>', '</a>', $content);
-            */
-            json_success(array(
-                'id' => $p->id,
-                'userName' => $this->user->name,
+            $data = array('str' => json_success(array(
+                'postId' => $post_id,
+                'isLike' => $is_like,
                 'userId' => $this->user->id,
-                'userPic' => $this->user->profile_pic,
-                'content' => $this->input->post('content'),
-                'parentId' => $parent_id,
-                'tripIds' => $this->input->post('tripIds'),
-                'created' => time()-72,
-            ));
-		    }
-		    else
-		    {
-		        json_error('something broke, tell David');
-		    }
+                'userName' => $this->user->name,
+            )));
+        }
+        else
+        {
+            $data = array('str' => json_error());
+        }
+        
+        $this->load->view('blank', $data);
+        
     }
 }
 

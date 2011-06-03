@@ -2,54 +2,58 @@
 
 class Places extends CI_Controller
 {
-    public $user;
+    private $user;
     
     function __construct()
     {
         parent::__construct();
-        $u = new User();
-        $uid = $u->get_logged_in_status();
-        if ($uid)
+        $u = new User_m();
+        $u->get_logged_in_user();
+        if ($u->id)
         {
-            $u->get_by_id($uid);
             $this->user = $u;
         }
 		}
-		
-
+						
+				
     public function ajax_autocomplete()
     {
-        $this->load->library('Mc');
-
         $query = $this->input->post('query');
         $key = 'places_by_query:'.$query;
         $val = $this->mc->get($key);
         
         if ($val === FALSE)
         {
-            $p = new Place();
-            $p->ilike('ascii_name', $query, 'after')->limit(10)->get();
-            
-            $val = array();
-            foreach ($p as $place)
-            {
-                $val[$place->id] = $place->ascii_name;
-            }
-
+            $this->load->helper('places');
+            $val = query_places($query);
             $this->mc->set($key, $val);
+            //$was_cached = 0;
+        }
+/*
+        else
+        {
+            $was_cached = 1;
+        }
+*/
 
-            json_success(array(
-                'places' => $val,
-                'cached' => 0
-            ));
+        $data = array(
+            'places' => $val,
+            //'was_cached' => $was_cached,
+        );
+        
+        if ($this->input->post('isPost'))
+        {
+            $this->load->view('templates/omnibar_autocomplete', $data);
+        }
+        elseif ($this->input->post('isSettings'))
+        {
+            $this->load->view('templates/settings_autocomplete', $data);
         }
         else
         {
-            json_success(array(
-                'places' => $val,
-                'cached' => 1
-            ));
+            $this->load->view('templates/autocomplete', $data);
         }
+        
     }
         
     
@@ -61,91 +65,118 @@ class Places extends CI_Controller
             return;
         }
         
-        $gp = new Place($id);
-        if ( ! $gp->id)
+        $place = new Place_m($id);
+        if ( ! $place->id)
         {
             custom_404();
             return;
         }
         
-        $gp->get_num_posts();
-        $gp->get_num_trips();
-        $gp->get_num_followers();
-        $gp->get_posts();
+        $place->get_num_posts()->get_num_trips()->get_num_followers()->get_posts();
         
-        if (isset($this->user->id))
+        if ($this->user)
         {
-            $this->user->get_follow_status_by_place_id($id);
+            $place->get_follow_status_by_user_id($this->user->id);
         }
-        $user = (isset($this->user->id)) ? $this->user->stored : NULL;
         
         $data = array(
-            'user' => $user,
-            'place' => $gp->stored,
+            'user' => $this->user,
+            'place' => $place,
         );
         $this->load->view('places/index', $data);
-        //print_r($this->user->stored);
     }
     
     
-    public function trips($place_id = FALSE)
+    public function trips($place_id = NULL)
     {
-        if ( ! $place_id)
-        {
-            redirect('/');
-        }
-        
-        $p = new Place($place_id);
-        $p->get_trips();
+        $place = new Place_m($place_id);
+        $place->get_trips();
         $data = array(
-            'place' => $p->stored,
+            'place' => $place,
         );
         
         $this->load->view('places/trips', $data);
     }
     
     
-    public function followers($place_id = FALSE)
+    public function followers($place_id = NULL)
     {
-        if ( ! $place_id)
-        {
-            redirect('/');
-        }
-
-        $p = new Place($place_id);
-        $p->get_followers();
+        $place = new Place_m($place_id);
+        $user_id = ($this->user) ? $this->user->id : NULL;
+        $place->get_followers($user_id);
+        
         $data = array(
-            'place' => $p->stored,
+            'user' => $this->user,
+            'place' => $place,
         );
 
         $this->load->view('places/followers', $data);
     }
     
     
-    public function ajax_edit_follow()
+    public function related_places($place_id = NULL)
     {
+        $place = new Place_m($place_id);
+        $user_id = ($this->user) ? $this->user->id : NULL;
+        $place->get_related_places($user_id);
+
+        $data = array(
+            'place' => $place,
+        );
+
+        $this->load->view('places/related_places', $data);
+    }
+
+
+    public function ajax_set_follow()
+    {
+        if ( ! $this->input->post('placeId'))
+        {
+            return;
+        }
+        
         $place_id = $this->input->post('placeId');
         $follow = $this->input->post('follow');
         
-        $p = new Place($place_id);
-        $p->user->include_join_fields()->where('user_id', $this->user->id)->get();
-        $new_follow = (isset($p->user->join_is_following)) ? FALSE : TRUE;
-        
-        if ($p->save($this->user))
-        {
-            $p->set_join_field($this->user, 'is_following', $follow);
-            json_success(array('type' => 'place', 'id' => $place_id, 'follow' => $follow));
-        }
-        else
-        {
-            json_error('something broken, tell David');
-        }
+        $num_affected = $this->user->edit_follow_for_place_id($place_id, $follow);        
+        $new_follow = ($num_affected == 1) ? TRUE : FALSE;
         
         if ($new_follow)
         {
             $this->load->helper('activity');
-            save_activity($this->user->id, 5, $p->id, NULL, NULL, time()-72);
+            save_activity($this->user->id, 5, $place_id, NULL, NULL, time()-72);
         }
+
+        if ($num_affected == 1 OR $num_affected == 2)
+        {
+            $this->mc->delete('follow_status_by_place_id_user_id:'.$place_id.':'.$this->user->id);
+            $this->mc->delete('num_followers_by_place_id:'.$place_id);
+            $this->mc->delete('follower_ids_by_place_id:'.$place_id);
+            
+            $data = array('str' => json_success(array('type' => 'place', 'id' => $place_id, 'follow' => $follow)));
+        }
+        else
+        {
+            $data = array('str' => json_error());
+        }
+        $this->load->view('blank', $data);
+    }
+    
+    
+    public function ajax_edit_fut_place()
+    {
+        $place_id = $this->input->post('placeId');
+        $is_future = $this->input->post('follow');
+        
+        if ($this->user->edit_future_place_by_place_id($place_id, $is_future))
+        {
+            $data = array('str' => json_success());
+        }
+        else
+        {
+            $data = array('str' => json_error());
+        }
+        $this->load->view('blank', $data);
     }
 
 
@@ -161,7 +192,9 @@ class Places extends CI_Controller
         
         $info = fread($handle, 4096);
         pclose($handle);
-        echo $info;
+        
+        $data = array('str' => $info);
+        $this->load->view('blank', $data);
     }
     
     
@@ -169,6 +202,8 @@ class Places extends CI_Controller
     {
         $this->load->view('places/dbpedia_query');
     }
+    
+      
 }
 
 /* End of file places.php */

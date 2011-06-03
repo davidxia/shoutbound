@@ -1,5 +1,6 @@
-<div id="fb-root"></div>
+<!-- <div id="fb-root"></div> -->
 <script>
+/*
   window.fbAsyncInit = function() {
       FB.init({appId: '136139119767617', status: true, cookie: true, xfbml: true});
   };
@@ -9,38 +10,51 @@
           '//connect.facebook.net/en_US/all.js';
       document.getElementById('fb-root').appendChild(e);
   }());
+*/
 </script>
 
 <!-- POPUP CONTAINER -->
-<div style="padding:10px; background:rgba(82, 82, 82, 0.7); border-radius: 8px; -webkit-border-radius:8px; -moz-border-radius:8px;">
-  <div style="background-color:#FAFAFA;padding:10px 10px 10px 10px;">
+<div style="padding:20px; background-color:white; border-radius: 5px; -webkit-border-radius:5px; -moz-border-radius:5px; border:8px solid #666; width:415px; height:120px;">
+
+  <!-- LOGIN CONTAINER -->
+  <div style="width:200px; float:right;">
+    <div style="font-size:15px; font-weight:bold; margin-bottom:15px;">Login</div>
+    <form action="" method="post">
+      <fieldset style="border:0">      
+        <div style="margin-bottom:5px">
+          <input type="text" name="email" id="email" autocomplete="off" style="width:125px; float:right;"/>
+          <label for="email" style="display:inline;">Email</label>
+          <div style="clear:both"></div>
+        </div>        
+        <div style="margin-bottom:5px">       
+          <input type="password" name="password" id="password" autocomplete="off" style="width:125px; float:right;"/>
+          <label for="password" style="display:inline;">Password</label>
+          <div style="clear:both"></div>
+        </div>              
+        <div id="login-error" style="color:red; margin-top:5px; height:18px; line-height:18px;"></div>
+      </fieldset>
+      <button type="submit" id="login-submit" style="position:relative; left:140px; top:-15px;">Login</button>
+    </form>
+  <!--
+    <a href="#" id="fb_login_button">
+      <img src="<?=site_url('static/images/fb-login-button.png');?>" width="154" height="22"/>
+    </a>
+  -->
+  </div><!-- LOGIN CONTAINER ENDS -->
+
+  <!--SIGNUP CONTAINER-->
+  <div style="width:175px;border-right:1px dotted #CACACA; padding-right:15px;height:120px;">
+    <div style="font-size:15px; font-weight:bold; margin-bottom:15px; ">Don't have an account?</div> 
+    <a href="<?=site_url('signup/index')?>">Sign up</a> 
+  </div><!--SIGNUP CONTAINER ENDS-->
+
+  <div style="clear:both"></div>  
+</div><!--POPUP CONTAINER ENDS-->
   
-    <!-- LOGIN CONTAINER -->
-    <div style="width:300px; float:right;">
-      <h3>Login</h3>
-      <form action="" method="post" style="margin:10px 0 20px;">
-        <fieldset style="border:0">
-          <ul>
-            <li style="margin-bottom:10px;">
-              <label for="email" style="display:block; margin-bottom:10px;">Email</label>
-              <input type="text" name="email" id="email" autocomplete="off" style="width:250px;"/>
-            </li>
-            <li style="margin-bottom:10px;">
-              <label for="password" style="display:block; margin-bottom:10px;">Password</label>
-              <input type="password" name="password" id="password" autocomplete="off" style="width:250px;"/>
-              <div id="login-error" style="color:red; margin-top:5px; height:18px; line-height:18px;"></div>
-            </li>
-          </ul>
-        </fieldset>
-        <button type="submit" id="login-submit" class="blue-button">Login</button>
-      </form>
-      <a href="#" id="fb_login_button">
-        <img src="<?=site_url('static/images/fb-login-button.png');?>" width="154" height="22"/>
-      </a>
-    </div><!-- LOGIN CONTAINER ENDS -->
+    
   
-  
-    <!-- SIGNUP CONTAINER -->
+<!-- OLD SIGNUP CONTAINER -->
+<!--
     <div style="width:300px; margin-right:300px;">
       <h3>Sign up</h3>
       <div id="signup-form-container" style="margin-right:40px;">
@@ -73,11 +87,8 @@
         <button type="submit" id="signup-submit" class="blue-button">Sign up</button>
       </form>
       </div>
-    </div><!-- SIGNUP CONTAINER ENDS -->
-  </div>
-</div><!-- POPUP CONTAINER ENDS -->
-
-
+    </div>
+--><!-- SIGNUP CONTAINER ENDS -->
 
 <script type="text/javascript">
   $(function() {
@@ -139,6 +150,7 @@
     });
   
   
+/*
     $('#fb_login_button').click(function() {
       FB.login(function(r) {
         if (r.session) {
@@ -172,7 +184,7 @@
 	
 
   function showAccountCreationDialog() {
-    $.get('<?=site_url('signup/ajax_create_fb_user')?>', function(d) {
+    $.get('<?=site_url('signup/ajax_get_fb_info')?>', function(d) {
       var r = $.parseJSON(d);
       if (r.success) {
         $('#signup_name').val(r.name);
@@ -183,5 +195,6 @@
         alert(r.message);
       }
     });
+*/
   }
 </script>

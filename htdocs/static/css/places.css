@@ -4,6 +4,18 @@
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
-  margin-bottom:6px;
+  margin-bottom:3px;
   display:inline-block;
 }
+
+#abstract{
+  max-height: 114px;
+  overflow-y:hidden;
+  margin-top:6px;
+}
+
+.right-tab-container{
+ border-top:1px solid #BABABA; 
+ margin-top:35px;
+}
+

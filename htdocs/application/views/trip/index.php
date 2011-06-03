@@ -7,13 +7,12 @@ $header_args = array(
     'js_paths'=>array(
         'js/jquery/jquery.ba-bbq.min.js',
         'js/user/loginSignup.js',
-        'js/trip/map.js',
+        'js/jquery/nicEdit.js',
         'js/trip/wall.js',
         'js/trip/share.js',
         'js/follow.js',
         'js/savepost.js',
         'js/common.js',
-        'js/jquery/jquery.color.js',
         'js/actionbar.js',
     )
 );
@@ -25,28 +24,26 @@ $this->load->view('core_header', $header_args);
   var staticUrl = '<?=static_sub()?>';
   var tripId = <?=$trip->id?>;
   
-  map.lat = <?=$trip->places[0]->lat?>;
-  map.lng = <?=$trip->places[0]->lng?>;
-  map.swLat = <?=$trip->places[0]->sw_lat?>;
-  map.swLng = <?=$trip->places[0]->sw_lng?>;
-  map.neLat = <?=$trip->places[0]->ne_lat?>;
-  map.neLng = <?=$trip->places[0]->ne_lng?>;
+  var lat = <?=$trip->places[0]->lat?>;
+  var lng = <?=$trip->places[0]->lng?>;
+  var swLat = <?=$trip->places[0]->sw_lat?>;
+  var swLng = <?=$trip->places[0]->sw_lng?>;
+  var neLat = <?=$trip->places[0]->ne_lat?>;
+  var  neLng = <?=$trip->places[0]->ne_lng?>;
 </script>
 </head>
 
 <body>
 <div id="sticky-footer-wrapper">
-
-  <? $this->load->view('header')?>
-  <? $this->load->view('wrapper_content')?>
+  <? $this->load->view('templates/header')?>
+  <? $this->load->view('templates/content')?>
 
   <div id="top-section">
     <div id="top-bar"><!--TOP BAR-->       
       <div id="trip-info">     
-        <div id="tagbar">          
-          <? $prefix=''; foreach ($trip->places as $destination):?>
-            <?=$prefix;?>
-            <a class="destination tag" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></a>
+        <div id="tagbar">
+          <? foreach ($trip->places as $destination):?>
+          <a class="destination tag" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></a>
           <? endforeach;?>
         </div>          
         <div class="top-bar-header"><?=$trip->name?></div>   
@@ -70,25 +67,25 @@ $this->load->view('core_header', $header_args);
     
       <div class="right-widget-container">
         <div id="actions-container"><!--ACTIONS CONTAINER-->                    
-          <? if ($user_role == 5):?>
-            <? if ($user_rsvp == 0):?>
+          <? if ($user->role == 5):?>
+            <? if ($user->rsvp == 0):?>
               <a href="#" id="share" class="share left">Share</a><a href="#" class="follow middle" id="trip-<?=$trip->id?>">Follow</a><a href="#" id="rsvp_yes_button" class="gray_rsvp_yes_button right">I'm in</a>
-            <? elseif ($user_rsvp == 3):?>
+            <? elseif ($user->rsvp == 3):?>
               <a href="#" id="rsvp_yes_button" class="gray_rsvp_yes_button right">I'm in</a><a href="#" class="unfollow right" id="trip-<?=$trip->id?>">Unfollow</a><a href="#" id="share" class="share left">Share</a>
-            <? elseif ($user_rsvp == 6):?>
+            <? elseif ($user->rsvp == 6):?>
               <a href="#" id="rsvp_yes_button" class="rsvp_yes_button left">I'm in</a><a href="#" id="rsvp_no_button" class="gray_rsvp_no_button right">I'm out</a><a href="#" id="share" class="share left">Share</a>
-            <? elseif ($user_rsvp == 9):?>
+            <? elseif ($user->rsvp == 9):?>
               <a href="#" id="rsvp_no_button" class="gray_rsvp_no_button right">I'm out</a><a href="#" id="share" class="share left">Share</a>
             <? endif;?>
-          <? elseif ($user_role == 10):?>
+          <? elseif ($user->role == 10):?>
             <a href="#" id="invite-others-button" class="edit-trip-button">Invite others</a><a href="#" id="share" class="share left">Share</a>
             <a id="delete-trip" href="#">Delete</a>
           <? endif;?> 
-        <? if (!$user_role):?>
-          <? if ($user_rsvp == 0):?>
-            <a href="#" class="follow left" id="trip-<?=$trip->id?>">Follow</a>
-          <? elseif ($user_rsvp == 3):?>
+        <? if (!$user->role):?>
+          <? if ($user->rsvp == 3):?>
             <a href="#" class="unfollow left" id="trip-<?=$trip->id?>">Unfollow</a><a href="#" id="share">Share</a>
+          <? else:?>
+            <a href="#" class="follow left" id="trip-<?=$trip->id?>">Follow</a>
           <? endif;?>
         <? endif;?>               
         </div><!--ACTIONS CONTAINER END-->
@@ -98,7 +95,7 @@ $this->load->view('core_header', $header_args);
         <div id="stats-container" class="right-widget-interior"><!--STATS-->
           <ul class="stats-list">
             <li><a style="cursor:default;" class="goers-count"><?=$trip->num_goers?><span class="stat-label">People</span></a></li>
-            <li class="border-left"><a href="#posts" class="post-count"><?=count($posts)?><span class="stat-label">Posts</span></a></li>
+            <li class="border-left"><a href="#posts" class="post-count"><?=count($trip->posts)?><span class="stat-label">Posts</span></a></li>
             <li class="border-left"><a href="#followers" class="followers-count"><?=$trip->num_followers?><span class="stat-label">Followers</span></a></li>
           </ul>     
           <div style="clear:both"></div>   
@@ -110,7 +107,7 @@ $this->load->view('core_header', $header_args);
   </div><!--TOP SECTION END-->
 
     <!-- LEFT COLUMN -->
-    <div id="col-left">    
+    <div id="col-left">
       
       <!--LEFT CONTENT-->      
       <div id="left-content-container">
@@ -128,23 +125,23 @@ $this->load->view('core_header', $header_args);
           <!-- POSTS TAB -->
           <div id="posts-tab" class="main-tab-content main-tab-default">
             
-            <? $prefix1='first-item'; foreach ($posts as $post):?>
+            <? $prefix1='first-item'; foreach ($trip->posts as $post):?>
               <!--POST START-->
-              <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem <? if($user_role == 10):?>deleteable<? endif;?>">
+              <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem <? if(isset($user->id) AND ($user->role==10 OR ($post->added_by->id==$user->id))):?>deleteable<? endif;?>">
                 <? $prefix1=''?>
-                <? if($user_role == 10):?><div class="delete"></div><? endif;?>
+                <? if(isset($user->id) AND ($user->role==10 OR ($post->added_by->id==$user->id))):?><div class="delete"></div><? endif;?>
                 <div class="streamitem-avatar-container">
                   <a href="<?=site_url('profile/'.$post->user_id)?>">
-                    <img src="<?=static_sub('profile_pics/'.$post->user->profile_pic)?>" height="25" width="25"/>
+                    <img src="<?=static_sub('profile_pics/'.$post->author->profile_pic)?>" height="25" width="25"/>
                   </a>
                 </div>
                 
                 <!--POST CONTENT CONTAINER-->
                 <div class="streamitem-content-container">                
                   <div class="streamitem-name">
-                    <a href="<?=site_url('profile/'.$post->user_id)?>"><?=$post->user->name?></a>
+                    <a href="<?=site_url('profile/'.$post->user_id)?>"><?=$post->author->name?></a>
                   </div>
-                  <? if (isset($post->added_by)):?>
+                  <? if ($post->added_by->id):?>
                     <div>Added by <a href="<?=site_url('profile/'.$post->added_by->id)?>"><?=$post->added_by->name?></a></div>
                   <? endif;?>
                   <div class="streamitem-content">
@@ -153,10 +150,12 @@ $this->load->view('core_header', $header_args);
                   
                   <!--ACTIONBAR START-->                 
                   <div class="actionbar">
+                    <? if(isset($user->id)):?>
                     <div id="repost-post" class="bar-item">
                       <a class="add-to-trip" href="#">Add to trip</a>                      
                     </div>
                     <span class="bullet">&#149</span>
+                    <? endif;?>
                     <div class="bar-item">
                       <a class="show-comments" href="#"><? $num_comments=count($post->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
                     </div>
@@ -169,7 +168,8 @@ $this->load->view('core_header', $header_args);
                       <abbr class="timeago subtext" title="<?=$post->created?>"><?=$post->created?></abbr>
                     </div>                        
                   </div><!--ACTIONBAR END-->
-                    
+                  
+                  <? if(isset($user->id)):?>
                   <!-- ADD TO TRIP -->
                   <div class="add-to-trip-cont" style="display:none;">
                     <select multiple="multiple" size=5>
@@ -186,6 +186,7 @@ $this->load->view('core_header', $header_args);
                     <a class="post-to-trip" href="#">Post</a>
                   </div>
                   <!-- ADD TO TRIP END -->
+                  <? endif;?>
             
                   <!--COMMENTS START-->
                   <div class="comments-container" style="display:none;">
@@ -193,12 +194,12 @@ $this->load->view('core_header', $header_args);
                     <div class="comment">
                       <div class="streamitem-avatar-container">
                         <a href="<?=site_url('profile/'.$comment->user_id)?>">
-                          <img src="<?=static_sub('profile_pics/'.$comment->user->profile_pic)?>" height="28" width="28"/>
+                          <img src="<?=static_sub('profile_pics/'.$comment->author->profile_pic)?>" height="28" width="28"/>
                         </a>
                       </div>                      
                       <div class="streamitem-content-container">
                         <div class="streamitem-name">
-                          <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->user->name?></a>
+                          <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->author->name?></a>
                         </div>
                         <div class="comment-content"><?=$comment->content?></div>
                         <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$comment->created?>"><?=$comment->created?></abbr></div>                      
@@ -220,7 +221,7 @@ $this->load->view('core_header', $header_args);
                       <? $prefix=''; foreach ($trip->places as $place):?>
                         <?=$prefix?>
                         <span class="trip-listing-destination"><a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a></span>
-                        <span class="subtext"><? if($place->startdate){echo date('F j, Y',$place->startdate);} if($place->startdate AND $place->enddate){echo ' - ';} if ($place->enddate){echo date('F j, Y', $place->enddate);}?></span>
+                        <span class="subtext"><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
                         <? $prefix = '<span class="bullet">&#149</span>'?>
                       <? endforeach;?>
                       </div>
@@ -232,29 +233,7 @@ $this->load->view('core_header', $header_args);
                   
               </div><!--POST END-->
             <? endforeach;?> 
-            
-            <!--OLD LIKES/DISLIKES CODE-->                              
-              <!--<? $is_liked = 0; foreach ($post->likes as $like):?><? if (isset($user) AND $like->user_id==$user->id AND $like->is_like==1):?>
-                <? $is_liked = 1;?>
-              <? endif;?><? endforeach;?>
-              <? if ($is_liked == 0):?>
-                <a class="like-button" href="#">Like</a>
-              <? else:?>
-                <a class="unlike-button" href="#">Unlike</a>
-              <? endif;?>
-              <? $num_likes = 0; foreach($post->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><span class="num-likes"><?=$num_likes?> person likes this</span><? elseif ($num_likes > 1):?><span class="num-likes"><?=$num_likes?> people like this</span><? endif;?>-->
-            <!--OLD LIKES/DISLIKES CODE END--> 
-            
-            <!--OLD REMOVE POST COMMENTS START-->                             
-              <!--<div class="remove-post"></div>
-              <? foreach ($post->replies as $reply):?>
-                <div class="post reply" id="post-<?=$reply->id?>">
-                  <div class="postcontent">
-                    <?=$reply->content?>
-                  </div>                     
-              <? endforeach;?>-->
-            <!--OLD REMOVE POST COMMENTS END--> 
-                            
+                                                    
           </div><!--POSTS TAB ENDS-->          
           
         </div><!--TAB CONTAINER END-->
@@ -271,17 +250,19 @@ $this->load->view('core_header', $header_args);
               <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
               <div contenteditable="true" class="tag-input"></div>
               <span class="input-header">Trips</span><br>
+              <? if(isset($user->id)):?>
               <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
-                <? foreach ($user->rsvp_yes_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? foreach ($user->rsvp_yes_trips as $t):?>
+                <option value="<?=$t->id?>"><?=$t->name?>
                 <? endforeach;?>
-                <? foreach ($user->rsvp_awaiting_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? foreach ($user->rsvp_awaiting_trips as $t):?>
+                <option value="<?=$t->id?>"><?=$t->name?>
                 <? endforeach;?>
-                <? foreach ($user->following_trips as $trip):?>
-                <option value="<?=$trip->id?>"><?=$trip->name?>
+                <? foreach ($user->following_trips as $t):?>
+                <option value="<?=$t->id?>"><?=$t->name?>
                 <? endforeach;?>
-                </select>
+              </select>
+              <? endif;?>
             </div>
           </fieldset>
         </form>
@@ -308,7 +289,7 @@ $this->load->view('core_header', $header_args);
     
       <!-- GALLERY AND MAP-->
       <ul id="right-tabs">
-        <li class="active" style="cursor:pointer;" tab="map">Map</li>
+        <li style="cursor:pointer;" tab="map">Map</li>
         <li style="cursor:pointer;" tab="itinerary">Itinerary</li>
       </ul>
       
@@ -317,17 +298,11 @@ $this->load->view('core_header', $header_args);
           <div id="map-canvas"></div>     
         </div>
         <div id="itinerary-tab" class="right-tab-content" style="display:none">
-          <? $prefix=''; foreach ($trip->places as $destination):?>
-          <?=$prefix;?>
-            <span class="destination" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></span>  
-            <? if ($destination->startdate AND $destination->enddate):?>
-              <span class="subtext"><?=date('F j, Y', $destination->startdate)?> - <?=date('F j, Y', $destination->enddate)?></span><br>
-            <? elseif ($destination->startdate AND ! $destination->enddate):?>
-              <span class="subtext"><?=date('F j, Y', $destination->startdate)?></span><br>
-            <? elseif ( ! $destination->startdate AND $destination->enddate):?>
-              <span class="subtext"> - <?=date('F j, Y', $destination->enddate)?></span><br>
-            <? endif;?>
-          <? $prefix = '<span class="bullet" style="margin-left:3px; display:none">&#149</span>'?>   
+          <? foreach ($trip->places as $place):?>
+          <div>
+            <span class="destination" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>" title="<?=$place->name?>"><?=$place->name?></span>  
+            <span class="subtext"><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
+          </div>
           <? endforeach;?>
         </div>
       </div>
@@ -342,11 +317,11 @@ $this->load->view('core_header', $header_args);
   </div><!-- WRAPPER ENDS -->
   			  
 </div><!--END STICKY FOOTER WRAPPER-->
-<? $this->load->view('footer')?>
+<? $this->load->view('templates/footer')?>
 
 <script type="text/javascript">
   // show countdown clock
-  //var deadline = new Date(<?=$trip->response_deadline?>*1000);
+  //var deadline = new Date(<?//$trip->response_deadline?>*1000);
   //$('#countdown').countdown({until: deadline});
   
 
@@ -357,6 +332,8 @@ $this->load->view('core_header', $header_args);
       }
       return false;
     });
+    
+    $('#right-tabs').children(':first').addClass('active');
   });
 </script>
 </body> 

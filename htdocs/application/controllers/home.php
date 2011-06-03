@@ -3,16 +3,15 @@
 class Home extends CI_Controller
 {
     
-    public $user;
+    private $user;
     
     function __construct()
     {
         parent::__construct();
-        $u = new User();
-        $uid = $u->get_logged_in_status();
-        if ($uid)
+        $u = new User_m();
+        $u->get_logged_in_user();
+        if ($u->id)
         {
-            $u->get_by_id($uid);
             $this->user = $u;
         }
         else
@@ -20,31 +19,34 @@ class Home extends CI_Controller
             redirect('/');
         }
 		}
-	
-
-    function index()
-    {
-        $this->user->get_rsvp_yes_trips();
-        $this->user->get_rsvp_awaiting_trips();
-        $this->user->get_following_trips();
-        $this->user->get_num_rsvp_yes_trips();
-        $this->user->get_num_posts();
-        $this->user->get_num_following();
-        $this->user->get_num_following_trips();
-        $this->user->get_num_followers();
+		
+		
+		public function index()
+		{
+        if ( ! $this->user->is_onboarded)
+        {
+            redirect('signup/dream');
+        }
         
-        $t = new Trip();        
-        // get suggestions for both user's trips and her friends trips
-        $news_feed_items = $this->user->get_news_feed_items();
+        $this->user
+            ->get_rsvp_yes_trips()
+            ->get_rsvp_awaiting_trips()
+            ->get_following_trips()
+            ->get_num_rsvp_yes_trips()
+            ->get_num_posts()
+            ->get_num_following_users()
+            ->get_num_following_trips()
+            ->get_num_following_places()
+            ->get_num_followers()
+            ->get_news_feed_items();
         
-        $view_data = array(
-            'user' => $this->user->stored,
-            'news_feed_items' => $news_feed_items,
+        $data = array(
+            'user' => $this->user,
         );
                           
-        $this->load->view('home/index', $view_data);
-    }
-        
+        $this->load->view('home/index', $data);
+		}
+	
     
     public function trail()
     {
@@ -52,7 +54,7 @@ class Home extends CI_Controller
         $this->user->get_rsvp_awaiting_trips();
         
         $data = array(
-            'user' => $this->user->stored,
+            'user' => $this->user,
         );
         $this->load->view('home/trail', $data);
     }
@@ -60,32 +62,39 @@ class Home extends CI_Controller
     
     public function ajax_delete_activity()
     {
-        $a = new Activitie($this->input->post('activityId'));
-        if ($a->user_id == $this->user->id)
+        $this->load->model('Activity_m');
+        $a = new Activity_m($this->input->post('activityId'));
+        if ($a->user_id == $this->user->id AND $a->set_active_by_user_id($this->user->id, 0) == 1)
         {
-            $a->is_active = 0;
-            if ($a->save())
-            {
-                json_success();
-            }
-            else
-            {
-                json_error('something broke, tell David');
-            }
+            $data = array('str' => json_success());
         }
+        else
+        {
+            $data = array('str' => json_error());
+        }
+        
+        $this->load->view('blank', $data);
     }
-            
     
-    public function fb_request_form()
+    
+/*
+    public function mytest()
     {
-        $this->load->view('fb_request_form');
+        $this->load->model('Setting_m');
+        $s = new Setting_m();
+        $ss = $s->get_all_settings();
+		    $str = '<pre>'.print_r($s,true).print_r($ss,true).'</pre>';
+		    $data = array('str' => $str);
+		    $this->load->view('blank', $data);
     }
-    
-    
+*/
+
+/*
     public function simplegeo_test()
     {
         $this->load->view('simplegeo_test');
     }
+*/
 }
 
 /* End of file home.php */

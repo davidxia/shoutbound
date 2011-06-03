@@ -2,6 +2,7 @@
 <html> 
   <head>
     <title><?=$title?></title>
+    <meta http-equiv="content-type" content="text/html; charset=<?=config_item('charset')?>"/>
     <link rel="shortcut icon" href="<?=site_url('static/images/favicon.ico')?>">
 
     <!-- LIBRARIES -->

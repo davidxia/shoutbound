@@ -18,8 +18,8 @@ $this->load->view('core_header', $header_args);
 </head>
 
 <body>
-  <? $this->load->view('header')?>
-  <? $this->load->view('wrapper_content')?>
+  <? $this->load->view('templates/header')?>
+  <? $this->load->view('templates/content')?>
   
 	<div id="fb-root"></div>
 	<script>
@@ -34,20 +34,20 @@ $this->load->view('core_header', $header_args);
     }());
 	</script>
 
-    	<div style="border:1px solid black; background-color:#FAFAFA; margin:0 auto; padding:20px; width:400px; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px;">
-	      <h2>Login</h2>
-	      <form id="login-form" action="" style="margin:20px 0;">
+    	<div>
+        Login
+	      <form id="login-form" action="">
 	        <div>
 	          <fieldset>
 	            <ul>
-	              <li style="margin-bottom:20px;">
+	              <li>
 	                <label for="email" style="display:block; margin-bottom:10px;">Email</label>
 	                <input type="text" name="email" id="email"/>
 	              </li>
-	              <li style="margin-bottom:20px;">
-	                <label for="password" style="display:block; margin-bottom:10px;">Password</label>
+	              <li>
+	                <label for="password">Password</label>
 	                <input type="password" name="password" id="password"/>
-	                <div id="login-error" style="color:red; margin-top:5px; height:18px; line-height:18px;"></div>
+	                <div id="login-error"></div>
 	              </li>
 	            </ul>
 	          </fieldset>
@@ -55,21 +55,18 @@ $this->load->view('core_header', $header_args);
           <button type="submit" id="login-submit" class="blue-button">Login</button>
 	      </form>
 
-        <a href="#" id="fb_login_button">
-          <img src="<?=site_url('static/images/fb-login-button.png');?>" />
-        </a>
       </div>
     
-    <div style="text-align:center; margin-top:15px;">
+    <div>
        Don't have an account? <a href="<?=site_url('signup')?>">Sign up</a>.
     </div>
 
   </div><!-- CONTENT ENDS -->
   </div><!-- WRAPPER ENDS -->
-  <? $this->load->view('footer')?>
+  <? $this->load->view('templates/footer')?>
 </body>
 <script type="text/javascript">
-  $(document).ready(function() {
+  $(function() {
     $('#email').focus();
     
     $('#fb_login_button').click(function() {
@@ -89,20 +86,16 @@ $this->load->view('core_header', $header_args);
         password: $('#password').val()
       };
       
-      $.ajax({
-        url: '<?=site_url('login/email_login')?>',
-        type: 'POST',
-        data: postData,
-        success: function(response) {
-          var r = $.parseJSON(response);
+      $.ajax('<?=site_url('login/ajax_email_login')?>', postData,
+        function(d) {
+          var r = $.parseJSON(d);
           if (r.success) {
             window.location = "<?=site_url()?>";
           } else {
             var text = 'Wrong email or password.';
             $('#login-error').html(text);
           }
-        }
-      });
+        });
       return false;
     });
   });
@@ -128,7 +121,7 @@ $this->load->view('core_header', $header_args);
 	
 		
   function showAccountCreationDialog() {
-    $.get('<?=site_url('signup/ajax_create_fb_user')?>', function(d) {
+    $.get('<?=site_url('signup/ajax_get_fb_info')?>', function(d) {
       var r = $.parseJSON(d);
       if (!r.error) {
         window.location = r.redirect;
