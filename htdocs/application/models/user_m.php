@@ -4,7 +4,7 @@ class User_m extends CI_Model
 {
     public $id;
     public $name;
-    public $url;
+    public $username;
     public $bio;
     public $website;
     public $profile_pic;
@@ -117,15 +117,15 @@ class User_m extends CI_Model
     }
     
     
-    public function get_by_url($user_url)
+    public function get_by_username($username)
     {
-        $key = 'user_by_user_url:'.$user_url;
+        $key = 'user_by_username:'.$username;
         $user = $this->mc->get($key);
         
         if ($user === FALSE)
         {
-            $sql = 'SELECT * FROM `users` WHERE url = ?';
-            $v = array($user_url);
+            $sql = 'SELECT * FROM `users` WHERE `username` = ?';
+            $v = array($username);
             $rows = $this->mdb->select($sql, $v);
             $user = (isset($rows[0])) ? $rows[0] : NULL;
             $this->mc->set($key, $user);
@@ -1130,14 +1130,14 @@ class User_m extends CI_Model
             $user = new stdClass;
             $user->id = $this->id;
             $user->name = $this->name;
-            $user->url = $this->url;
+            $user->username = $this->username;
             $user->bio = $bio;
             $user->website = $website;
             $user->profile_pic = $profile_pic;
             $user->is_onboarded = $this->is_onboarded;
             
             $this->mc->replace('user_by_user_id:'.$this->id, $user);
-            $this->mc->replace('user_by_user_url:'.$this->url, $user);
+            $this->mc->replace('user_by_username:'.$this->username, $user);
             $this->get_fid();
             $this->mc->replace('user_by_user_fid:'.$this->fid, $user);
             $this->get_email();

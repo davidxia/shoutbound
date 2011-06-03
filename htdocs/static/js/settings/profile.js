@@ -1,4 +1,17 @@
 $(function() {
+  $('#username').keyup(function(e) {
+    var keyCode = e.keyCode || e.which;
+    var nonChars = [9,13,16,17,18,20,27,33,34,35, 36,37,38,39,40,45,91,93,112,113,114,115,116,117,118,119,120,121,122,123,144];
+    var username = $.trim($(this).val());
+    if (!username.match(/^[a-zA-Z0-9_]+$/)) {
+      $('#username-help').empty().css('color', 'red').text('Only use letters, numbers, and \'_\'');
+    } else if ($.inArray(keyCode, nonChars)==-1 && username.length>0) {
+      $(this).siblings('span.subtext').text(baseUrl+username);
+      var f = function() {checkNameAvail(username);};
+      delay(f, 300);
+    }
+  });
+
   // flash/js plugin for uploading profile pic
   if ($('#file_upload').length > 0) {
     $('#file_upload').uploadify({
@@ -173,4 +186,20 @@ autocompleteClick = function(id, name, input) {
   e.keyCode = 27;
   input.trigger(e);
   return false;
+};
+
+
+checkNameAvail = function(username) {
+  var spinner = $('#username').siblings('img.ajax-spinner');
+  spinner.show();
+  $.post(baseUrl+'users/check_username_avail', {username:username},
+    function(d) {
+      spinner.hide();
+      var r = $.parseJSON(d);
+      if (r.success) {
+        $('#username-help').empty().css('color', 'green').text(r.message);
+      } else {
+        $('#username-help').empty().css('color', 'red').text(r.message);
+      }
+    });
 };

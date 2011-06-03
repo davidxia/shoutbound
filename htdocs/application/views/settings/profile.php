@@ -50,6 +50,17 @@ $this->load->view('core_header', $header_args);
         
         <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
           <div id="profile-tab" class="main-tab-content">
+            <div class="settings-item">
+              <div class="settings-item-name">Username</div>
+              <div class="settings-item-content" style="position:relative;">
+                <input type="text" id="username" maxlength="15" style="width:130px; height:20px;" value="<?=$user->username?>"/>
+                <img class="ajax-spinner" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="display:none;position:absolute;left:140px;top:3px;"/>
+                <span id="username-help" style="margin-left:20px;">No spaces, please.</span>
+                <br/>
+                <span class="subtext">Be vain, get a vanity url. You know you wanna...</span>        
+              </div>
+            </div>        
+
             <div id="picture" class="settings-item">
               <div class="settings-item-name">Picture</div>
               <div class="settings-item-content">
@@ -73,9 +84,9 @@ $this->load->view('core_header', $header_args);
             </div> 
             
             <div class="settings-item">
-              <div class="settings-item-name">Web</div>
+              <div class="settings-item-name">Website</div>
               <div class="settings-item-content">
-                <input type="text" id="website" style="width:275px; height:20px;" value="<?=$user->website?>"/><br/>
+                <input type="text" id="website" style="width:375px; height:20px;" value="<?=$user->website?>"/><br/>
                 <span class="subtext">Have your own website or blog? Put the address here.</span>        
               </div>
             </div>        
@@ -83,7 +94,7 @@ $this->load->view('core_header', $header_args);
             <div class="settings-item" style="position:relative;">
               <div class="settings-item-name">Current location</div>
               <div class="settings-item-content">
-                <input type="text" id="current-place" class="place-input" style="width:275px; height:20px;" value="<? if(isset($user->current_place->name)){echo $user->current_place->name;if($user->current_place->admin1){echo ', '.$user->current_place->admin1;}if($user->current_place->country){echo ', '.$user->current_place->country;}}?>"/>
+                <input type="text" id="current-place" class="place-input" style="width:375px; height:20px;" value="<? if(isset($user->current_place->name)){echo $user->current_place->name;if($user->current_place->admin1){echo ', '.$user->current_place->admin1;}if($user->current_place->country){echo ', '.$user->current_place->country;}}?>"/>
                 <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="display:none; position:absolute; right:140px; top:24px;"/>
                 <input id="current-place-id" class="place_id" name="current-place-id" type="hidden" val="<? if(isset($user->current_place->id)){echo $user->current_place->id;}?>"/>
                 <br/><span class="subtext">Where in the world are you in right now?</span>        

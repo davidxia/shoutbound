@@ -60,7 +60,30 @@ class Users extends CI_Controller
         $this->load->view('templates/header', $data);
     }
 
-
+    
+    public function check_username_avail()
+    {
+        $username = strtolower($this->input->post('username'));
+        if (preg_match('/^[0-9a-zA-Z]+$/', $username))
+        {
+            $user = new User_m();
+            $user->get_by_username($username);
+            if (isset($user->id))
+            {
+                $data = array('str' => json_error('Sorry, it\'s been taken :('));
+            }
+            else
+            {
+                $data = array('str' => json_success(array('message' => 'Yay, it\'s available!')));
+            }
+            
+        }
+        else
+        {
+            $data = array('str' => json_error('Only use letter, numbers, and \'_\''));
+        }
+        $this->load->view('blank', $data);
+    }
 }
 
 /* End of file users.php */

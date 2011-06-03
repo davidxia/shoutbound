@@ -47,7 +47,7 @@ class Profile extends CI_Controller
         }
         else
         {
-            $profile->get_by_url($pid);
+            $profile->get_by_username($pid);
         }
         
         if ( ! $profile->id)
@@ -118,7 +118,7 @@ class Profile extends CI_Controller
         }
         else
         {
-            $profile->get_by_url($pid);
+            $profile->get_by_username($pid);
         }
         
         if ( ! $profile->id)
@@ -167,7 +167,7 @@ class Profile extends CI_Controller
         }
         else
         {
-            $profile->get_by_url($pid);
+            $profile->get_by_username($pid);
         }
         
         if ( ! $profile->id)
@@ -205,7 +205,7 @@ class Profile extends CI_Controller
         }
         else
         {
-            $profile->get_by_url($pid);
+            $profile->get_by_username($pid);
         }
         
         if ( ! $profile->id)
@@ -241,7 +241,7 @@ class Profile extends CI_Controller
         }
         else
         {
-            $profile->get_by_url($pid);
+            $profile->get_by_username($pid);
         }
         
         if ( ! $profile->id)

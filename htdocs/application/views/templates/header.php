@@ -11,7 +11,7 @@
   		<a href="<?=site_url('trips/create')?>" id="create-trip-button" style="position:absolute; left:595px; top:0;">+ New trip</a>
       <div class="nav" style="position:absolute; right:0; top:0;">    	
         <a href="<?=site_url('home')?>">Home</a>
-        <a href="<? if($user->url){echo site_url($user->url);}else{echo site_url('profile/'.$user->id);}?>">Profile</a>
+        <a href="<? if($user->username){echo site_url($user->username);}else{echo site_url('profile/'.$user->id);}?>">Profile</a>
         <a href="<?=site_url('settings')?>">Settings</a>
         <a href="<?=site_url('users/logout')?>">Logout</a>        
       </div>      
