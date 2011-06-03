@@ -13,12 +13,12 @@
     <? endif;?>
 
     <div class="streamitem-avatar-container">
-      <a href="<?=site_url('profile/'.$follower->id)?>"><img src="<?=static_sub('profile_pics/'.$follower->profile_pic)?>" width="25" height="25"/></a>
+      <a href="<? if($follower->username){echo site_url($follower->username);}else{echo site_url('profile/'.$follower->id);}?>"><img src="<?=static_sub('profile_pics/'.$follower->profile_pic)?>" width="25" height="25"/></a>
     </div>
     
     <div class="narrow streamitem-content-container">
       <div class="streamitem-name">
-        <a href="<?=site_url('profile/'.$follower->id)?>"><?=$follower->name?></a>
+        <a href="<? if($follower->username){echo site_url($follower->username);}else{echo site_url('profile/'.$follower->id);}?>"><?=$follower->name?></a>
       </div>
       <div class="streamitem-bio"><?=$follower->bio?></div>
       <!--<? if (isset($follower->place)):?>

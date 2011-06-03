@@ -166,7 +166,7 @@ class Profile extends CI_Controller
             $this->user->get_rsvp_awaiting_trips();
             $this->user->get_following_trips();
         }
-        $profile->get_posts();
+        $profile->get_posts()->get_first_name();
         
         $data = array(
             'user' => $this->user,

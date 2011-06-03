@@ -14,12 +14,12 @@
     <? endif;?>
 
     <div class="streamitem-avatar-container">
-      <a href="<?=site_url('profile/'.$following_user->id)?>"><img src="<?=static_sub('profile_pics/'.$following_user->profile_pic)?>" width="25" height="25"/></a>
+      <a href="<? if($following_user->username){echo site_url($following_user->username);}else{echo site_url('profile/'.$following_user->id);}?>"><img src="<?=static_sub('profile_pics/'.$following_user->profile_pic)?>" width="25" height="25"/></a>
     </div>
     
     <div class="narrow streamitem-content-container">    
       <div class="streamitem-name">
-        <a href="<?=site_url('profile/'.$following_user->id)?>"><?=$following_user->name?></a>
+        <a href="<? if($following_user->username){echo site_url($following_user->username);}else{echo site_url('profile/'.$following_user->id);}?>"><?=$following_user->name?></a>
       </div>    
   
       <div class="streamitem-bio"><?=$following_user->bio?></div>
