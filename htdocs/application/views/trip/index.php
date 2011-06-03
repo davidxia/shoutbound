@@ -53,7 +53,7 @@ $this->load->view('core_header', $header_args);
   		  <div id="trip-goers"><!--TRIP GOERS-->      	        		          			                     
           <? foreach ($trip->goers as $trip_goer):?>
         	<div class="goer-avatar" uid="<?=$trip_goer->id?>">
-            <a href="<?=site_url('profile/'.$trip_goer->id)?>">
+            <a href="<? if($trip_goer->username){echo site_url($trip_goer->username);}else{echo site_url('profile/'.$trip_goer->id);}?>">
               <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="48" width="48"/>
             </a>
           </div>
@@ -139,10 +139,10 @@ $this->load->view('core_header', $header_args);
                 <!--POST CONTENT CONTAINER-->
                 <div class="streamitem-content-container">                
                   <div class="streamitem-name">
-                    <a href="<?=site_url('profile/'.$post->user_id)?>"><?=$post->author->name?></a>
+                    <a href="<? if($post->author->username){echo site_url($post->author->username);}else{echo site_url('profile/'.$post->author->id);}?>"><?=$post->author->name?></a>
                   </div>
                   <? if ($post->added_by->id):?>
-                    <div>Added by <a href="<?=site_url('profile/'.$post->added_by->id)?>"><?=$post->added_by->name?></a></div>
+                    <div>Added by <a href="<? if($post->added_by->username){echo site_url($post->added_by->username);}else{echo site_url('profile/'.$post->added_by->id);}?>"><?=$post->added_by->name?></a></div>
                   <? endif;?>
                   <div class="streamitem-content">
                     <?=$post->content?>

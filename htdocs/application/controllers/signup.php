@@ -38,6 +38,11 @@ class Signup extends CI_Controller
             custom_404();
             return;
         }
+        
+        if ($invite_code != 'tbex')
+        {
+            redirect('signup/waitlist');
+        }
                 
         if ($this->input->post('is_fb_signup'))
         {
@@ -350,6 +355,13 @@ class Signup extends CI_Controller
             $this->mc->delete('user_by_user_id:'.$this->user->id);
             redirect('/home');
         }
+    }
+    
+    
+    public function waitlist()
+    {
+        $data = array('str' => 'thanks for your interest, you\'ve been put on the waitlist');
+        $this->load->view('blank', $data);
     }
 }
 
