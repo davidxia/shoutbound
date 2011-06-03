@@ -256,6 +256,6 @@ savePost = function() {
       $('#post-input').text('');
       var r = $.parseJSON(d);
       $('#trip-selection').multiselect('uncheckAll');
-      //console.log(r);
+      console.log(r);
     });
 }
