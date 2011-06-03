@@ -30,19 +30,18 @@
   border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  -moz-box-shadow: 0 0 8px #888;
-  -webkit-box-shadow: 0 0 8px #888;
-  box-shadow: 0 0 8px #888;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);    
 }
 
 #landing-page-bottom{
-  margin:45px 0px 0px 5px;
+  margin:45px 0px 0px 0px;
   background-color:#EEF1DC;
   padding:12px;
 }
 
 .landing-page-bottom-item{
-  height:160px;
   padding:10px;
   width:204px;
   margin-right: 12px;
@@ -64,51 +63,24 @@
 .bottom-item-title{
   text-align:center;
   font-weight:bold;
-  margin-bottom:7px;
+  margin-bottom:10px;
 }
 
 .bottom-item-img-container{
-  height:51px;
-  line-height:51px;
-  margin-bottom:7px;
+  height:75px;
+  line-height:75px;
+  margin-bottom:10px;
   text-align:center;
 }
 
 .bottom-item-copy{
-  height:57px;
+/*   height:57px; */
+  text-align:center;
+  font-weight:bold;
 }
 
 #sign-up {
-  cursor: pointer;
-  display:block;
-  text-align:center;
-  text-decoration:none;
-	color: white;
-	font-weight:bold;
-	padding:10px 20px;
-	width:150px;
-	font-size:15px;
-	border: solid 1px #0076a3;
-	background: #0095cd;
-	background: -webkit-gradient(linear, left top, left bottom, from(#44749D), to(##44749D));
-	background: -moz-linear-gradient(top,  #44749D,  #44749D);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#44749D', endColorstr='#navy');
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
   position:relative;
-  top:25px;
-  left:100px;
-}
-#sign-up:hover {
-	background: #007ead;
-	background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
-	background: -moz-linear-gradient(top,  #0095cc,  #00678e);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
-}
-#sign-up:active {
-	color: #80bed6;
-	background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
-	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
+  top:10px;
+  left:129px;
 }
