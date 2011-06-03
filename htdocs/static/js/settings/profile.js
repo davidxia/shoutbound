@@ -23,7 +23,7 @@ $(function() {
       'removeCompleted': false,
       'auto'           : true,
       'sizeLimit'      : 102400,
-      'fileExt'        : '*.jpg;*.gif;*.png',
+      'fileExt'        : '*.jpg;*.jpeg;*.gif;*.png',
       'fileDesc'       : 'Image Files',
       'buttonText'     : 'Change picture',
       'onComplete'     : function(event, ID, fileObj, response, data) {
