@@ -40,6 +40,19 @@ class Activity_m extends CI_Model
     }
     
     
+/*
+    public function get_by_type_id_source_id($type_id, $source_id)
+    {
+        if ( !$type_id OR !$source_id)
+        {
+            return FALSE;
+        }
+        
+        
+    }
+*/
+    
+    
     public function create($params = array())
     {
         $user_id = (isset($params['user_id'])) ? $params['user_id'] : NULL;
