@@ -285,16 +285,17 @@ class User_m extends CI_Model
         
         if (!isset($name) OR !isset($email) OR !isset($password))
         {
-            return FALSE;
+            return array('success' => FALSE, 'message' => 'missing required parameter');
         }
         
         $this->get_by_email($email);
         if ($this->id)
         {
             $this->clear();
-            return array('success' => 0, 'message' => 'duplicate email');
+            return array('success' => FALSE, 'message' => 'duplicate email');
         }
-        
+
+        $this->mc->delete('user_by_email:'.$email);        
         $sql = 'INSERT INTO `users` (`fid`, `name`, `email`, `password`, `profile_pic`, `created`) VALUES (?, ?, ?, ?, ?, ?)';
         $values = array($fid, $name, $email, $password, $profile_pic, $created);
         $r = $this->mdb->alter($sql, $values);
@@ -316,10 +317,10 @@ class User_m extends CI_Model
             $this->name = $name;
             $this->email = $email;
             $this->profile_pic = $profile_pic;
-            return TRUE;
+            return array('success' => TRUE);
         }
         
-        return FALSE;
+        return array('success' => FALSE, 'message' => 'something broke');
     }
 
 

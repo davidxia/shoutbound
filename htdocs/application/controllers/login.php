@@ -64,7 +64,13 @@ class Login extends CI_Controller
         $this->load->view('blank', $data);
     }
     
-    
+
+    public function ajax_update_fb_friends()
+    {
+        $user = new User_m();
+        $user->get_logged_in_user();
+        $user->update_fb_friends();
+    }   
 }
 
 /* End of file login.php */

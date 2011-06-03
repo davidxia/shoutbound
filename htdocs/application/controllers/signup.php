@@ -14,8 +14,8 @@ class Signup extends CI_Controller
             $this->user = $u;
         }
 		}
-
-
+		
+		
     public function index()
     {
         if ($this->user)
@@ -38,28 +38,13 @@ class Signup extends CI_Controller
             custom_404();
             return;
         }
-        
-        $u = new User_m();
-        $u->get_by_email($email);
-        if ($u->id)
-        {
-            redirect('signup');
-        }
-        else
-        {
-            $this->mc->delete('user_by_email:'.$email);
-        }
-        
+                
         if ($this->input->post('is_fb_signup'))
         {
             // save Facebook id
             $this->load->library('facebook');
             $fbdata = $this->facebook->api('/me?fields=name,friends,picture');
             $fid = $fbdata['id'];
-            
-            // save Facebook profile photo
-            $this->load->helper('avatar');
-            $file_name = save_fb_photo($user->id, $fbuser['id'], 'large');
         }
         else
         {
@@ -67,21 +52,28 @@ class Signup extends CI_Controller
         }
         
 		    $user = new User_m();
-		    $success = $user->create(array(
+		    $r = $user->create(array(
 		        'name'        => $name,
 		        'email'       => $email,
 		        'password'    => $password,
 		        'fid'         => $fid,
-		        'profile_pic' => (isset($file_name)) ? $file_name : NULL,
+		        'profile_pic' => NULL,
 		    ));
 		    		    
 
-        if ($success)
+        if ($r['success'])
         {
             $user->login($user->id);
             if ($this->input->post('is_fb_signup'))
             {
-
+                // save Facebook profile photo
+                $this->load->helper('avatar');
+                $file_name = save_fb_photo($user->id, $fbdata['id'], 'large');
+                if ($file_name)
+                {
+                    $user->set_profile_info(array('profile_pic' => $file_name));
+                }
+                
                 $this->load->model('Friend_m');
                 $friend = new Friend_m();
                 $auto_follow = new User_m();
@@ -118,7 +110,8 @@ class Signup extends CI_Controller
         }
         else
         {
-            $this->load->view('signup/index');
+            $data = array('str' => $r['message']);
+            $this->load->view('blank', $data);
         }
     }
     
@@ -140,7 +133,7 @@ class Signup extends CI_Controller
             
             // save Facebook profile photo
             $this->load->helper('avatar');
-            $file_name = save_fb_photo($user->id, $fbuser['id'], 'large');
+            $file_name = save_fb_photo($user->id, $fbdata['id'], 'large');
         }
         else
         {
@@ -167,7 +160,7 @@ class Signup extends CI_Controller
             json_error();
         }
     }
-    
+*/
 
     public function ajax_get_fb_info()
     {
@@ -177,23 +170,24 @@ class Signup extends CI_Controller
         }
 
         $this->load->library('facebook');
-        $fbuser = $this->facebook->api('/me?fields=name,email');
+        $fbdata = $this->facebook->api('/me?fields=name,email');
         
-        if ( ! $fbuser)
+        if ( ! $fbdata)
         {
-            json_error('We could not get your Facebook data');
+            $data = array('str' => json_error('We could not get your Facebook data'));
         }
-        $u = new User();
-        if ($u->get_by_fid($fbuser['id'])->id)
+        $u = new User_m();
+        if ($u->get_by_fid($fbdata['id'])->id)
         {
-            json_error('You already have an account.');
+            $data = array('str' => json_error('You already have an account.'));
         }
         else
         {
-            json_success(array('name' => $fbuser['name'], 'email' => $fbuser['email']));
+            $data = array('str' => json_success(array('name' => $fbdata['name'], 'email' => $fbdata['email'])));
         }
+        
+        $this->load->view('blank', $data);
     }
-*/
     
     
     public function dream()

@@ -40,7 +40,6 @@ $this->load->view('core_header', $header_args);
         	<a href="#" id="fb_login_button">
           	<img src="<?=site_url('static/images/facebook-connect-button.png')?>" height="23" width="180"/>
         	</a>
-          <input type="hidden" name="is_fb_signup" id="is_fb_signup"/>
         	<div id="fb-tip">This helps us connect you to the most relevant people and  content. We'll never post without your permission.</div>
         	<a href="#" id="skip-fb-login">I don't have a Facebook account.</a>
         </div>     
@@ -71,7 +70,7 @@ $this->load->view('core_header', $header_args);
                 <input type="text" name="invite_code" id="invite_code" class="signup-input" autocomplete="off"/>              
                 <span class="error-message"></span>
               </div>
-              
+              <input type="hidden" name="is_fb_signup" id="is_fb_signup"/>              
             </fieldset>
             <button type="submit" id="signup-submit">Create Account</button>
           </form>
@@ -95,8 +94,6 @@ $this->load->view('core_header', $header_args);
       FB.login(function(d) {
         if (d.session) {
           facebookLogin();
-        } else {
-          alert('you failed to log in');
         }
       }, {perms: 'email'});
       return false;
@@ -168,7 +165,6 @@ $this->load->view('core_header', $header_args);
         $('#is_fb_signup').val(1);
         $('#step-one-container').hide();
         $('#step-two-container').show();
-/*         $('#fb-tip').hide(); */
       } else {
         alert(r.message);
       }
