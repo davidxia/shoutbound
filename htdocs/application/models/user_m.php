@@ -467,7 +467,7 @@ class User_m extends CI_Model
         
         if ($num_following_users === FALSE)
         {
-            $sql = 'SELECT COUNT(*) FROM `related_users_users` uu, `users` u WHERE u.id = uu.related_user_id AND u.is_active = 1 AND uu.user_id = ? AND uu.is_following = 1';
+            $sql = 'SELECT COUNT(*) FROM `users_users` uu, `users` u WHERE u.id = uu.related_user_id AND u.is_active = 1 AND uu.user_id = ? AND uu.is_following = 1';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
             $num_following_users = $rows[0]->{'count(*)'};
@@ -487,7 +487,7 @@ class User_m extends CI_Model
         if ($following_user_ids === FALSE)
         {
             $following_user_ids = array();
-            $sql = 'SELECT uu.related_user_id FROM `related_users_users` uu, `users` u WHERE u.id = uu.related_user_id AND u.is_active = 1 AND uu.user_id = ? AND uu.is_following = 1';
+            $sql = 'SELECT uu.related_user_id FROM `users_users` uu, `users` u WHERE u.id = uu.related_user_id AND u.is_active = 1 AND uu.user_id = ? AND uu.is_following = 1';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
@@ -692,7 +692,7 @@ class User_m extends CI_Model
         
         if ($num_followers === FALSE)
         {
-            $sql = 'SELECT COUNT(*) FROM `related_users_users` uu, `users` u WHERE u.id = uu.user_id AND u.is_active = 1 AND uu.related_user_id = ? AND uu.is_following = 1';
+            $sql = 'SELECT COUNT(*) FROM `users_users` uu, `users` u WHERE u.id = uu.user_id AND u.is_active = 1 AND uu.related_user_id = ? AND uu.is_following = 1';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
             $num_followers = $rows[0]->{'count(*)'};
@@ -712,7 +712,7 @@ class User_m extends CI_Model
         if ($follower_ids === FALSE)
         {
             $follower_ids = array();
-            $sql = 'SELECT uu.user_id FROM `related_users_users` uu, `users` u WHERE u.id = uu.user_id AND u.is_active = 1 AND uu.related_user_id = ? AND uu.is_following = 1';
+            $sql = 'SELECT uu.user_id FROM `users_users` uu, `users` u WHERE u.id = uu.user_id AND u.is_active = 1 AND uu.related_user_id = ? AND uu.is_following = 1';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
@@ -794,7 +794,7 @@ class User_m extends CI_Model
         
         if ($status === FALSE)
         {
-            $sql = 'SELECT is_following FROM `related_users_users` WHERE user_id = ? AND related_user_id = ?';
+            $sql = 'SELECT is_following FROM `users_users` WHERE user_id = ? AND related_user_id = ?';
             $v = array($user_id, $this->id);
             $rows = $this->mdb->select($sql, $v);
             $status = (isset($rows[0])) ? $rows[0]->is_following : NULL;
@@ -808,7 +808,7 @@ class User_m extends CI_Model
     
     public function set_follow_for_user_id($user_id, $is_following)
     {
-        $sql = 'INSERT INTO `related_users_users` (`user_id`, `related_user_id`, `is_following`) VALUES (?,?,?) ON DUPLICATE KEY UPDATE `is_following` = ?';
+        $sql = 'INSERT INTO `users_users` (`user_id`, `related_user_id`, `is_following`) VALUES (?,?,?) ON DUPLICATE KEY UPDATE `is_following` = ?';
         $v = array($this->id, $user_id, $is_following, $is_following);
         $r = $this->mdb->alter($sql, $v);
         
@@ -1024,7 +1024,7 @@ class User_m extends CI_Model
             $sql =
                 // get ids of posts that are not replies from people user follows
                 '(SELECT p.id, p.created FROM `posts` p WHERE p.parent_id IS NULL AND p.user_id IN '.
-                    '(SELECT uu.related_user_id FROM `related_users_users` uu, `users` u WHERE u.id = uu.related_user_id AND u.is_active = 1 AND uu.user_id = ? AND uu.is_following = 1) '.
+                    '(SELECT uu.related_user_id FROM `users_users` uu, `users` u WHERE u.id = uu.related_user_id AND u.is_active = 1 AND uu.user_id = ? AND uu.is_following = 1) '.
                     'ORDER BY p.created DESC) '.
                 'UNION '.
                 // get ids of trips user is following, awaiting rsvp, or rsvp yes
@@ -1242,7 +1242,7 @@ class User_m extends CI_Model
     public function get_onboarding_users()
     {
         $user_ids = array();
-        $sql = 'SELECT DISTINCT u.id FROM `related_users_users` ruu, `users` u WHERE u.is_active= 1 AND u.id NOT IN (SELECT related_user_id FROM `related_users_users` WHERE user_id = ? AND is_following = 1) AND u.id != ?';
+        $sql = 'SELECT DISTINCT u.id FROM `users_users` ruu, `users` u WHERE u.is_active= 1 AND u.id NOT IN (SELECT related_user_id FROM `users_users` WHERE user_id = ? AND is_following = 1) AND u.id != ?';
         $v = array($this->id, $this->id);
         $rows = $this->mdb->select($sql, $v);
         foreach ($rows as $row)

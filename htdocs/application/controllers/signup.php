@@ -45,6 +45,10 @@ class Signup extends CI_Controller
         {
             redirect('signup');
         }
+        else
+        {
+            $this->mc->delete('user_by_email:'.$email);
+        }
         
         if ($this->input->post('is_fb_signup'))
         {
