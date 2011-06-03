@@ -131,7 +131,7 @@ $this->load->view('core_header', $header_args);
                 <? $prefix1=''?>
                 <? if(isset($user->id) AND ($user->role==10 OR ($post->added_by->id==$user->id))):?><div class="delete"></div><? endif;?>
                 <div class="streamitem-avatar-container">
-                  <a href="<?=site_url('profile/'.$post->user_id)?>">
+                  <a href="<? if($post->author->username){echo site_url($post->author->username);}else{echo site_url('profile/'.$post->user_id);}?>">
                     <img src="<?=static_sub('profile_pics/'.$post->author->profile_pic)?>" height="25" width="25"/>
                   </a>
                 </div>

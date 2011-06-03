@@ -22,15 +22,15 @@
         <div id="repost-post" class="bar-item">
           <a class="add-to-trip" href="#">Add to trip</a>
         </div>
-        <span class="bullet">&#149</span>
+        <span class="bullet">&#149;</span>
         <div class="bar-item">
           <a class="show-comments" href="#"><? $num_comments=count($post->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
         </div>
-        <span class="bullet">&#149</span>                    
+        <span class="bullet">&#149;</span>                    
         <div class="bar-item">
           <a class="show-trips" href="#"><? $num_trips=count($post->trips); echo $num_trips.' trip'; if($num_trips!=1){echo 's';}?></a>
         </div>
-        <span class="bullet">&#149</span>                        
+        <span class="bullet">&#149;</span>                        
         <div class="bar-item">
           <abbr class="timeago subtext" title="<?=$post->created?>"><?=$post->created?></abbr>
         </div>                        
