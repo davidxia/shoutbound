@@ -63,7 +63,7 @@ class Users extends CI_Controller
     
     public function check_username_avail()
     {
-        $username = strtolower($this->input->post('username'));
+        $username = strtolower(trim($this->input->post('username')));
         if ( !$username OR !$this->user)
         {
             return FALSE;

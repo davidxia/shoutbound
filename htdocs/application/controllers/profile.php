@@ -263,11 +263,20 @@ class Profile extends CI_Controller
 
     public function ajax_save_profile()
     {
-        $username = trim($this->input->post('username'));
+        $username = strtolower(trim($this->input->post('username')));
         $bio = trim($this->input->post('bio'));
-        $website = trim($this->input->post('website'));
+        $website = strtolower(trim($this->input->post('website')));
         $curr_place_id = $this->input->post('currPlaceId');
         $changes_made = FALSE;
+        
+        $user = new User_m();
+        $user->get_by_username($username);
+        $reserved_urls = array('login','signup','about','press','contact','home','posts','users','settings','trip_shares','error','profile','trips','places','landing','media','follow','followers','following');
+
+        if ($user->id OR in_array($username, $reserved_urls))
+        {
+            $username = $this->user->username;
+        }
                 
         $this->load->model('Activity_m');
         $a = new Activity_m();

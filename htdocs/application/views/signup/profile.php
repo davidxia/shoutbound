@@ -43,6 +43,16 @@ $this->load->view('core_header', $header_args);
   
     <!--LEFT-->
     <div id="onboarding-left">
+      <div class="settings-item">
+        <div class="settings-item-name">Username</div>
+        <div class="settings-item-content" style="position:relative;">
+          <input type="text" id="username" maxlength="15" style="width:130px; height:20px;" value="<?=$user->username?>"/>
+          <img class="ajax-spinner" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="display:none;position:absolute;left:140px;top:3px;"/>
+          <span id="username-help" style="margin-left:20px;">No spaces, please.</span>
+          <br/>
+          <span class="subtext">Be vain, get a vanity url. You know you wanna...</span>        
+        </div>
+      </div>        
 
       <div class="settings-item">
         <div class="settings-item-name">Picture</div>

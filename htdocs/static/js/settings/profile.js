@@ -6,7 +6,7 @@ $(function() {
     if (!username.match(/^[a-zA-Z0-9_]+$/)) {
       $('#username-help').empty().css('color', 'red').text('Only use letters, numbers, and \'_\'');
     } else if ($.inArray(keyCode, nonChars)==-1 && username.length>0) {
-      $(this).siblings('span.subtext').text(baseUrl+username);
+      $(this).siblings('span.subtext').text(baseUrl+username.toLowerCase());
       var f = function() {checkNameAvail(username);};
       delay(f, 300);
     }
