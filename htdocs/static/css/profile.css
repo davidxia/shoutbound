@@ -1,14 +1,37 @@
 #profile-pic-container{
-  margin-right:10px;
   float:left;
 }
 
 #profile-info{
-  margin-left:137px;
+/*   margin:0px 0px 20px 105px; */
+  
 }
 
-.follow, .unfollow{
-  float:right;
+#bio{
+  margin:10px 0px 0px;
+}
+
+#website{
+  overflow-x: hidden;
+  width:300px;
+}
+
+.follow, .unfollow, .edit-profile{
+/*   float:left; */
   width:100px;
-  margin-left:20px;
+  margin-left:10px;
+}
+
+#profile-name{
+  height:25px;
+  line-height:25px;  
+  margin-bottom:8px;
+  margin-left:98px;
+  font-size:20px;
+  font-weight:600;
+  white-space:nowrap;  
+}
+
+.right-widget-container{
+  margin-top:25px;
 }
