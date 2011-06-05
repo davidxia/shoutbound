@@ -43,7 +43,7 @@ class Email_notifs
                 foreach ($this->user->followers as $follower)
                 {
                     $follower->get_settings();
-                    if ($follower->setting[$this->setting_id])
+                    if ($follower->settings[$this->setting_id])
                     {
                         $follower->get_email();
                         $this->emails[] = $follower->email;
@@ -89,6 +89,7 @@ class Email_notifs
                 $this->emails[] = 'james@shoutbound.com';
                 break;
         }
+        return $this->user->followers;
     }
     
     

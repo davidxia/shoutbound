@@ -27,18 +27,10 @@ class Places extends CI_Controller
             $this->load->helper('places');
             $val = query_places($query);
             $this->mc->set($key, $val);
-            //$was_cached = 0;
         }
-/*
-        else
-        {
-            $was_cached = 1;
-        }
-*/
 
         $data = array(
             'places' => $val,
-            //'was_cached' => $was_cached,
         );
         
         if ($this->input->post('isPost'))
