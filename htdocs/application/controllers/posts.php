@@ -54,6 +54,15 @@ class Posts extends CI_Controller
                 'user' => $this->user,
                 'trip_ids' => array(),
             );
+            // if post is reply, notify author of parent post
+            if ($parent_id)
+            {
+                $parent_post = new Post_m($parent_id);
+                $this->load->library('email_notifs', array('setting_id' => 6, 'post' => $parent_post));
+                $this->email_notifs->get_emails();
+                $this->email_notifs->compose_email($this->user, $post, $parent_post);
+                $this->email_notifs->send_email();
+            }
         }
         elseif ($post->save_to_trips_by_trip_ids($trip_ids, $added_by))
         {
@@ -101,24 +110,20 @@ class Posts extends CI_Controller
             $trips = array();
             foreach ($trip_ids as $trip_id)
             {
-/*
                 $trip->get_by_id($trip_id);
-                $trips[] = clone $trip;
-                $this->email_notifs->set_params(array('trip' => $trip));
+                $trips[] = $trip;
+                $r = $this->email_notifs->set_params(array('trip' => $trip));
                 $this->email_notifs->clear_emails();
                 $this->email_notifs->get_emails();
                 $this->email_notifs->compose_email($this->user, $post, $trip);
                 $this->email_notifs->send_email();
-*/
             }
-/*
             $this->email_notifs->set_params(2);
             $this->email_notifs->clear_emails();
             $this->email_notifs->get_emails();
             $this->email_notifs->compose_email($this->user, $post, $trips);
             $this->email_notifs->send_email();
-*/
-            
+
             $data = array(
                 'post' => $post,
                 'user' => $this->user,
@@ -132,7 +137,7 @@ class Posts extends CI_Controller
 		    
 		    $this->load->view('templates/new_post', $data);
 		}
-		
+    
     
     public function ajax_set_like()
     {

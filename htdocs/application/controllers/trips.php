@@ -466,7 +466,7 @@ class Trips extends CI_Controller
             $this->email_notifs->compose_email($this->user, $uids, $trip);
             $this->email_notifs->send_email();
 
-            $data = array('str' => json_success(array('message' => 'Invitations sent.')));
+            $data = array('str' => json_success(array('message' => 'Invitations sent')));
         }
         else
         {
@@ -475,8 +475,8 @@ class Trips extends CI_Controller
         
         $this->load->view('blank', $data);
     }
-        
-        
+    
+            
     public function ajax_share_success()
     {        
         $data = array(
