@@ -30,6 +30,7 @@ function query_places($q=NULL)
     $cl->SetWeights(array(100, 1));
     $cl->SetMatchMode($mode);
     //$cl->SetSelect("*, FROM places WHERE id = 1");
+    //asdfasdfasd
     if ($sortby)
     {
         $cl->SetSortMode(SPH_SORT_EXTENDED, $sortby);
