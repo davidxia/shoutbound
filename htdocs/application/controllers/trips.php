@@ -220,6 +220,7 @@ class Trips extends CI_Controller
             $this->load->model('Activity_m');
             $activity = new Activity_m();
             $activity->create(array('user_id' => $this->user->id, 'activity_type' => 1, 'source_id' => $trip->id));
+            $this->mc->delete('recent_activity_ids_by_user_id:'.$this->user->id);
             
             $params = array('setting_id' => 1, 'user' => $this->user);
             $this->load->library('email_notifs', $params);
@@ -230,7 +231,7 @@ class Trips extends CI_Controller
             redirect('trips/'.$trip->id);
         }
  	  }
-
+ 	  
 
     public function ajax_save_rsvp()
     {
@@ -465,7 +466,7 @@ class Trips extends CI_Controller
             $this->email_notifs->compose_email($this->user, $uids, $trip);
             $this->email_notifs->send_email();
 
-            $data = array('str' => json_success(array('message' => 'Invitations sent.')));
+            $data = array('str' => json_success(array('message' => 'Invitations sent')));
         }
         else
         {
@@ -474,8 +475,8 @@ class Trips extends CI_Controller
         
         $this->load->view('blank', $data);
     }
-        
-        
+    
+            
     public function ajax_share_success()
     {        
         $data = array(

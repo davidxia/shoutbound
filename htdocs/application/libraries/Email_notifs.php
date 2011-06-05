@@ -43,7 +43,7 @@ class Email_notifs
                 foreach ($this->user->followers as $follower)
                 {
                     $follower->get_settings();
-                    if ($follower->setting[$this->setting_id])
+                    if ($follower->settings[$this->setting_id])
                     {
                         $follower->get_email();
                         $this->emails[] = $follower->email;
@@ -58,9 +58,11 @@ class Email_notifs
                     $this->emails[] = $this->profile->email;
                 }
             case 12:
-                $user = new User_m();
                 foreach ($this->user_ids as $user_id)
                 {
+                    // TODO: instantiate one $user and on each loop of get_by_id,
+                    // unset $settings property from last loop
+                    $user = new User_m();
                     $user->get_by_id($user_id)->get_settings();
                     if ($user->settings[$this->setting_id])
                     {
@@ -84,11 +86,21 @@ class Email_notifs
                     }
                 }
                 break;
+            case 6:
+                $user = new User_m($this->post->user_id);
+                $user->get_settings();
+                if ($user->settings[$this->setting_id])
+                {
+                    $user->get_email();
+                    $this->emails[] = $user->email;
+                }
+                break;
             case 99:
                 $this->emails[] = 'david@shoutbound.com';
                 $this->emails[] = 'james@shoutbound.com';
                 break;
         }
+        return $this->emails;
     }
     
     
@@ -145,7 +157,18 @@ class Email_notifs
                     'your trip "<a href="'.site_url('profile/'.$parent->id).'">'.$parent->name.'</a>" on Shoutbound.</h4>';
                 $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> is now following '.
                     'your trip "<a href="'.site_url('profile/'.$parent->id).'">'.$parent->name.'</a>" on Shoutbound.';
-                break;
+                break;    
+            case 6:
+                $subj = $user->name.' commented on your post on Shoutbound';
+                $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> commented:</h4>'.
+                    $source->content.'<br/><br/>'.
+                    'in response to your post:<br/>'.
+                    $parent->content;
+                $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> commented:<br/>'.
+                    $source->content.'<br/><br/>'.
+                    'in response to your post:<br/>'.
+                    $parent->content;
+                break;    
             case 8:
                 $subj = $user->name.' invited more people to your trip "'.$parent->name.'" on Shoutbound';
                 $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> invited the following people to your trip'.
@@ -301,10 +324,6 @@ class Email_notifs
             {
                 $this->setting_id = $params['setting_id'];
             }
-            else
-            {
-                return FALSE;
-            }
             
             if (isset($params['user']))
             {
@@ -338,6 +357,11 @@ class Email_notifs
             {
                 $this->profile = $params['profile'];
             }
+            
+            if (isset($params['post']))
+            {
+                $this->post = $params['post'];
+            }
         }
         
         // specify Sendgrid category
@@ -354,6 +378,9 @@ class Email_notifs
                 break;
             case 4:
                 $this->sendgrid_cat = 'follows_trip';
+                break;
+            case 6:
+                $this->sendgrid_cat = 'post_comment';
                 break;
             case 8:
                 $this->sendgrid_cat = 'sent_invites';

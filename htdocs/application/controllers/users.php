@@ -134,6 +134,7 @@ class Users extends CI_Controller
             {
                 $this->user->get_current_place();
                 $a->create(array('user_id' => $this->user->id, 'activity_type' => 10, 'source_id' => $curr_place_id));
+                $this->mc->delete('recent_activity_ids_by_user_id:'.$this->user->id);
             }
             
             $params = array('setting_id' => 10, 'user' => $this->user);
@@ -160,6 +161,18 @@ class Users extends CI_Controller
             $data = array('str' => json_error());
         }
         
+        $this->load->view('blank', $data);
+    }
+    
+    public function mytest()
+    {
+        $this->user->get_current_place();
+            $params = array('setting_id' => 10, 'user' => $this->user);
+            $this->load->library('email_notifs', $params);
+            $this->email_notifs->get_emails();
+            $this->email_notifs->compose_email($this->user, $this->user->current_place);
+            $r = $this->email_notifs->send_email();
+        $data = array('str' => '<pre>'.var_export($r,true).'</pre>');
         $this->load->view('blank', $data);
     }
 }
