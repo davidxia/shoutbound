@@ -49,16 +49,11 @@ class Posts extends CI_Controller
         
         if ( ! $trip_ids)
         {
-            $data = array('str' => json_success(array(
-                'id' => $post->id,
-                'userName' => $this->user->name,
-                'userId' => $this->user->id,
-                'userPic' => $this->user->profile_pic,
-                'content' => $content,
-                'parentId' => $parent_id,
-                'tripIds' => $trip_ids,
-                'created' => time()-72,
-            )));
+            $data = array(
+                'post' => $post,
+                'user' => $this->user,
+                'trip_ids' => array(),
+            );
         }
         elseif ($post->save_to_trips_by_trip_ids($trip_ids, $added_by))
         {
@@ -124,23 +119,18 @@ class Posts extends CI_Controller
             $this->email_notifs->send_email();
 */
             
-            $data = array('str' => json_success(array(
-                'id' => $post->id,
-                'userName' => $this->user->name,
-                'userId' => $this->user->id,
-                'userPic' => $this->user->profile_pic,
-                'content' => $content,
-                'parentId' => $parent_id,
-                'tripIds' => $trip_ids,
-                'created' => time()-72,
-            )));
+            $data = array(
+                'post' => $post,
+                'user' => $this->user,
+                'trip_ids' => $trip_ids,
+            );
 		    }
 		    else
 		    {
 		        $data = array('str' => json_error());
 		    }
 		    
-		    $this->load->view('blank', $data);
+		    $this->load->view('templates/new_post', $data);
 		}
 		
     

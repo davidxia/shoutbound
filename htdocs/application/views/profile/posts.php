@@ -6,14 +6,14 @@
   <? $prefix1='first-item'; foreach ($profile->posts as $post):?>
   <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem"><? $prefix1=''?>
     <div class="streamitem-avatar-container">
-      <a href="<?=site_url('profile/'.$profile->id)?>">
+      <a href="<? if($profile->username){echo site_url($profile->username);}else{echo site_url('profile/'.$profile->id);}?>">
         <img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" height="25" width="25"/>
       </a>
     </div>
       
     <div class="streamitem-content-container">
       <div class="streamitem-name">
-        <a href="<?=site_url('profile/'.$profile->id)?>"><?=$profile->name?></a>
+        <a href="<? if($profile->username){echo site_url($profile->username);}else{echo site_url('profile/'.$profile->id);}?>"><?=$profile->first_name?></a>
       </div>
       <div class="streamitem-content">
         <?=$post->content?>
@@ -22,15 +22,15 @@
         <div id="repost-post" class="bar-item">
           <a class="add-to-trip" href="#">Add to trip</a>
         </div>
-        <span class="bullet">&#149</span>
+        <span class="bullet">&#149;</span>
         <div class="bar-item">
           <a class="show-comments" href="#"><? $num_comments=count($post->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
         </div>
-        <span class="bullet">&#149</span>                    
+        <span class="bullet">&#149;</span>                    
         <div class="bar-item">
           <a class="show-trips" href="#"><? $num_trips=count($post->trips); echo $num_trips.' trip'; if($num_trips!=1){echo 's';}?></a>
         </div>
-        <span class="bullet">&#149</span>                        
+        <span class="bullet">&#149;</span>                        
         <div class="bar-item">
           <abbr class="timeago subtext" title="<?=$post->created?>"><?=$post->created?></abbr>
         </div>                        

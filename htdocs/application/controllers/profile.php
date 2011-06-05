@@ -166,7 +166,7 @@ class Profile extends CI_Controller
             $this->user->get_rsvp_awaiting_trips();
             $this->user->get_following_trips();
         }
-        $profile->get_posts();
+        $profile->get_posts()->get_first_name();
         
         $data = array(
             'user' => $this->user,
@@ -306,10 +306,12 @@ class Profile extends CI_Controller
                         $a->create(array('user_id' => $profile->id, 'activity_type' => 8, 'source_id' => $this->user->id));
                     }
                     
+/*
                     $this->load->library('email_notifs', array('setting_id' => 3, 'profile' => $profile));
                     $this->email_notifs->get_emails();
                     $this->email_notifs->compose_email($this->user, $profile);
                     $this->email_notifs->send_email();
+*/
                 }
                 
                 $data = array('str' => json_success(array('type' => 'user', 'id' => $profile->id, 'follow' => $follow)));

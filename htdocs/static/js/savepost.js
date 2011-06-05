@@ -62,7 +62,7 @@ $(function() {
     $('#post-input').addClass('post-input-selected');
     $('.nicEdit-panelContain').show();
     $('#instruction-bar').show();
-    
+    //$('#post-input').empty();
   });
 
   $('#save-post-button').click(function() {
@@ -227,7 +227,6 @@ autocompleteClick = function(id, name) {
   e.keyCode = 27;
   $('#autocomplete-input').trigger(e);
   $('#autocomplete-results').data(name, id);
-  //console.log($('#autocomplete-results').data());
   return false;
 };
 
@@ -249,13 +248,18 @@ savePost = function() {
     name = name.replace(/-/g, ' ');
     content = content.replace(matches[i], '<place id="'+id+'">'+name+'</place>');
   }
-  //console.log(content);
 
   $.post(baseUrl+'posts/ajax_save', {content:content, tripIds:tripIds},
     function (d) {
       $('#post-input').text('');
-      var r = $.parseJSON(d);
       $('#trip-selection').multiselect('uncheckAll');
-      console.log(r);
+      if (typeof tripId == 'number') {
+        $('#posts-tab:last-child').after(d);
+        $('#posts-tab:last-child').removeClass('first-item');
+        $('abbr.timeago').timeago();
+      } else {
+        $('.first-item.streamitem').removeClass('first-item').before(d);
+        $('abbr.timeago').timeago();
+      }
     });
 }

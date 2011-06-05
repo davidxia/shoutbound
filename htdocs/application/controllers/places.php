@@ -143,8 +143,9 @@ class Places extends CI_Controller
         
         if ($new_follow)
         {
-            $this->load->helper('activity');
-            save_activity($this->user->id, 5, $place_id, NULL, NULL, time()-72);
+            $this->load->model('Activity_m');
+            $a = new Activity_m();
+            $a->create(array('user_id' => $this->user->id, 'activity_type' => 5, 'source_id' => $place_id));
         }
 
         if ($num_affected == 1 OR $num_affected == 2)

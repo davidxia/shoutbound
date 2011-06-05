@@ -38,6 +38,11 @@ class Signup extends CI_Controller
             custom_404();
             return;
         }
+        
+        if ($invite_code != 'tbex')
+        {
+            redirect('signup/waitlist');
+        }
                 
         if ($this->input->post('is_fb_signup'))
         {
@@ -85,11 +90,33 @@ class Signup extends CI_Controller
                     if ($auto_follow->id)
                     {
                         $user->set_follow_for_user_id($auto_follow->id, 1);
+                        
+                        $this->load->model('Activity_m');
+                        $a = new Activity_m();
+                        if ($a->create(array('user_id' => $user->id, 'activity_type' => 3, 'source_id' => $auto_follow->id)))
+                        {
+                            $a->create(array('user_id' => $auto_follow->id, 'activity_type' => 8, 'source_id' => $user->id));
+                        }
+                        
+                        $this->load->library('email_notifs', array('setting_id' => 3, 'profile' => $auto_follow));
+                        $this->email_notifs->get_emails();
+                        $this->email_notifs->compose_email($user, $auto_follow);
+                        $this->email_notifs->send_email();
+    
                         $auto_follow->get_trips();
                         
                         foreach ($auto_follow->trips as $trip)
                         {
-                            $user->set_rsvp_role_for_trip_id($trip->id, 3, 0);
+                            if ($user->set_rsvp_role_for_trip_id($trip->id, 3, 0))
+                            {
+                                $a->create(array('user_id' => $user->id, 'activity_type' => 4, 'source_id' => $trip->id));
+                    
+                                $params = array('setting_id' => 4, 'trip' => $trip);
+                                $this->load->library('email_notifs', $params);
+                                $this->email_notifs->get_emails();
+                                $this->email_notifs->compose_email($user, 3, $trip);
+                                $this->email_notifs->send_email();
+                            }
                         }
                     }
                     else
@@ -328,6 +355,13 @@ class Signup extends CI_Controller
             $this->mc->delete('user_by_user_id:'.$this->user->id);
             redirect('/home');
         }
+    }
+    
+    
+    public function waitlist()
+    {
+        $data = array('str' => 'thanks for your interest, you\'ve been put on the waitlist');
+        $this->load->view('blank', $data);
     }
 }
 

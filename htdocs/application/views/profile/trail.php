@@ -30,7 +30,7 @@
       <div class="goersbar">      
         <? foreach ($trip->goers as $goer):?>
           <div class="streamitem-avatar-container bar-item">                       	                       
-            <a href="<?=site_url('profile/'.$goer->id)?>">
+            <a href="<? if($goer->username){echo site_url($goer->username);}else{echo site_url('profile/'.$goer->id);}?>">
               <img src="<?=static_sub('profile_pics/'.$goer->profile_pic)?>" class="tooltip" height="25" width="25" alt="<?=$goer->name?>"/>
             </a>
           </div>

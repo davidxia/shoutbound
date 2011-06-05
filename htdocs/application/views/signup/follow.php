@@ -102,7 +102,14 @@ $this->load->view('core_header', $header_args);
 
 </body>
 <script type="text/javascript">
-  var tabClicks = 0;
+  var tabClicks;
+  if (window.location.hash == '#trips') {
+    tabClicks = 1;
+  } else if (window.location.hash == '#places') {
+    tabClicks = 2;
+  } else {
+    tabClicks = 0;
+  }
   $(window).bind('hashchange', function() {
     tabClicks++;
   });

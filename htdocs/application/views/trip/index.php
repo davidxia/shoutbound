@@ -38,11 +38,36 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('templates/header')?>
   <? $this->load->view('templates/content')?>
 
+<<<<<<< HEAD
   <!-- LEFT COLUMN -->
   <div id="col-left">
     <div id="top-section"><!--TOP SECTION-->
       <div id="trip-name"><?=$trip->name?></div>
             <!--<div>This trip was created by <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a></div>-->       
+=======
+  <div id="top-section">
+    <div id="top-bar"><!--TOP BAR-->       
+      <div id="trip-info">     
+        <div id="tagbar">
+          <? foreach ($trip->places as $destination):?>
+          <a class="destination tag" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></a>
+          <? endforeach;?>
+        </div>          
+        <div class="top-bar-header"><?=$trip->name?></div>   
+        <div id="trip-description"><?=$trip->description?></div>          
+       </div><!--TRIP INFO END-->                           			        
+
+  		  <div id="trip-goers"><!--TRIP GOERS-->      	        		          			                     
+          <? foreach ($trip->goers as $trip_goer):?>
+        	<div class="goer-avatar" uid="<?=$trip_goer->id?>">
+            <a href="<? if($trip_goer->username){echo site_url($trip_goer->username);}else{echo site_url('profile/'.$trip_goer->id);}?>">
+              <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="48" width="48"/>
+            </a>
+          </div>
+          <? endforeach;?>       
+          <!--<div>This trip was created by <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a></div>-->       
+        </div><!--TRIP GOERS END-->        	       
+>>>>>>> ef2c4d741cbe178b4ffda8e1e83f6d473b505601
 
       <div id="trip-actions">      
         <? if ($user->role == 5):?>
@@ -142,13 +167,66 @@ $this->load->view('core_header', $header_args);
               <? foreach ($post->replies as $comment):?>
               <div class="comment">
                 <div class="streamitem-avatar-container">
+<<<<<<< HEAD
                   <a href="<?=site_url('profile/'.$comment->user_id)?>">
                     <img src="<?=static_sub('profile_pics/'.$comment->author->profile_pic)?>" height="28" width="28"/>
+=======
+                  <a href="<? if($post->author->username){echo site_url($post->author->username);}else{echo site_url('profile/'.$post->user_id);}?>">
+                    <img src="<?=static_sub('profile_pics/'.$post->author->profile_pic)?>" height="25" width="25"/>
+>>>>>>> ef2c4d741cbe178b4ffda8e1e83f6d473b505601
                   </a>
                 </div>                      
                 <div class="streamitem-content-container">
                   <div class="streamitem-name">
+<<<<<<< HEAD
                     <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->author->name?></a>
+=======
+                    <a href="<? if($post->author->username){echo site_url($post->author->username);}else{echo site_url('profile/'.$post->author->id);}?>"><?=$post->author->name?></a>
+                  </div>
+                  <? if ($post->added_by->id):?>
+                    <div>Added by <a href="<? if($post->added_by->username){echo site_url($post->added_by->username);}else{echo site_url('profile/'.$post->added_by->id);}?>"><?=$post->added_by->name?></a></div>
+                  <? endif;?>
+                  <div class="streamitem-content">
+                    <?=$post->content?>
+                  </div>             
+                  
+                  <!--ACTIONBAR START-->                 
+                  <div class="actionbar">
+                    <? if(isset($user->id)):?>
+                    <div id="repost-post" class="bar-item">
+                      <a class="add-to-trip" href="#">Add to trip</a>                      
+                    </div>
+                    <span class="bullet">&#149</span>
+                    <? endif;?>
+                    <div class="bar-item">
+                      <a class="show-comments" href="#"><? $num_comments=count($post->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
+                    </div>
+                    <span class="bullet">&#149</span>                    
+                    <div class="bar-item">
+                      <a class="show-trips" href="#"><? $num_trips=count($post->trips); echo $num_trips.' trip'; if($num_trips!=1){echo 's';}?></a>
+                    </div>
+                    <span class="bullet">&#149</span>                        
+                    <div class="bar-item">
+                      <abbr class="timeago subtext" title="<?=$post->created?>"><?=$post->created?></abbr>
+                    </div>                        
+                  </div><!--ACTIONBAR END-->
+                  
+                  <? if(isset($user->id)):?>
+                  <!-- ADD TO TRIP -->
+                  <div class="add-to-trip-cont" style="display:none;">
+                    <select multiple="multiple" size=5>
+                      <? foreach ($user->rsvp_yes_trips as $trip):?>
+                      <option value="<?=$trip->id?>"><?=$trip->name?>
+                      <? endforeach;?>
+                      <? foreach ($user->rsvp_awaiting_trips as $trip):?>
+                      <option value="<?=$trip->id?>"><?=$trip->name?>
+                      <? endforeach;?>
+                      <? foreach ($user->following_trips as $trip):?>
+                      <option value="<?=$trip->id?>"><?=$trip->name?>
+                      <? endforeach;?>
+                    </select>
+                    <a class="post-to-trip" href="#">Post</a>
+>>>>>>> ef2c4d741cbe178b4ffda8e1e83f6d473b505601
                   </div>
                   <div class="comment-content"><?=$comment->content?></div>
                   <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$comment->created?>"><?=$comment->created?></abbr></div>                      
