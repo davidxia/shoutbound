@@ -27,22 +27,20 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('templates/header')?>
   <? $this->load->view('templates/content')?>
 
-  <!--CONTENT-->
+  <!--LEFT NAVBAR-->
+  <ul id="onboarding-navbar">
+    <li>Dream</li>
+    <li class="activeheader">Follow</li>
+    <li>Profile</li>
+    <li class="filler"></li>
+  </ul>
+  <!--LEFT NAVBAR END-->
+
   <div class="onboarding-main"> 
-    
-    <div id="top-section">    
-      <!--TOP-->
-      <div id="onboarding-top">
-        <div class="onboarding-header">1. Dream</div>
-        <div class="onboarding-header activeheader">2. Follow</div>
-        <div class="onboarding-header">3. Profile</div>    
-      </div>
-      <div class="onboarding-subtitle">Follow people, places and trips that interest you.</div>    
-    </div>
-  
-    <!--LEFT-->
-    <div id="onboarding-left">
-      
+      <div id="onboarding-subtitle">Follow people, places and trips that interest you.</div>
+      <div id="onboarding-copy">This connects you to content, blah blah lorem ipsum copy is your friend. The more you follow, the better your experience.  Inspire. We recommend that you follow at least 10 people, places, and trips. We pre-followed your facebook friends, dream travel destinations.
+</div>     
+        
       <ul id="main-tabs">
         <li class="active"><a href="#people">People</a></li>
         <li id="asdf"><a href="#trips">Trips</a></li>
@@ -74,24 +72,10 @@ $this->load->view('core_header', $header_args);
                      
         </div>
       </div>
-          
-    </div><!--LEFT END-->
-
-    <!--RIGHT-->
-    <div id="onboarding-right">
-      <div id="follow-counter" class="right-widget-container">
-        <div class="following-count"><?=$user->num_following_users+$user->num_following_trips+$user->num_following_places?></div>
-        <span class="stat-label">Following</span>
-      </div>
-    
-      <div id="walkthrough-text">
-        We recommend that you follow at least 10 people, places, and trips.
-      </div>
-    
-    </div><!--RIGHT ENDS-->    
-        
-    <div style="clear:both"></div>   
-  </div><!--CONTENT END-->
+            
+    <div style="clear:both"></div> 
+      
+  </div><!--ONBOARDING MAIN END-->
 
 </div><!-- CONTENT ENDS -->
 </div><!-- WRAPPER ENDS -->
@@ -105,6 +89,17 @@ $this->load->view('core_header', $header_args);
     </div>
   </div>        
 
+  <!--RIGHT WIDGET-->
+  <div id="follow-counter-container">
+    <div id="follow-counter-content">
+      <div id="follow-counter-second-layer">
+        <div class="following-count"><?=$user->num_following_users+$user->num_following_trips+$user->num_following_places?></div>  
+        <span class="stat-label">Following</span>
+      </div>
+    </div>
+  </div><!--RIGHT WIDGET ENDS-->    
+
+
 </body>
 <script type="text/javascript">
   var tabClicks = 0;
@@ -112,7 +107,6 @@ $this->load->view('core_header', $header_args);
     tabClicks++;
   });
   $('.next-button').click(function() {
-    console.log(tabClicks);
     if (tabClicks == 1) {
       window.location = '<?=site_url('signup/follow#trips')?>';
     } else if (tabClicks == 2) {

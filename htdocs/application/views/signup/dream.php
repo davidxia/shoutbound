@@ -29,62 +29,61 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('templates/header')?>
   <? $this->load->view('templates/content')?>
 
+  <!--LEFT NAVBAR-->
+  <ul id="onboarding-navbar">
+    <li class="activeheader">Dream</li>
+    <li>Follow</li>
+    <li>Profile</li>
+    <li class="filler"></li>
+  </ul>
+  <!--LEFT NAVBAR END-->
+
 
   <!--CONTENT-->
-  <div class="onboarding-main"> 
-    
-    <div id="top-section">
-      <!--TOP-->
-      <div id="onboarding-top">
-        <div class="onboarding-header activeheader">1. Dream</div>
-        <div class="onboarding-header">2. Follow</div>
-        <div class="onboarding-header">3. Profile</div>    
-      </div>
-      <div class="onboarding-subtitle">What are your dream travel destinations?</div>
-    </div>
-   
-    <!--LEFT-->
-    <div id="col-left">
-      <div id="left-content-container">
-        <? foreach($user->future_places as $future_place):?>
-        <div><span class="place" lat="<?=$future_place->lat?>" lng="<?=$future_place->lng?>"><?=$future_place->name?><? if($future_place->admin1){echo ', '.$future_place->admin1;}if($future_place->country){echo ', '.$future_place->country;}?></span> <a href="#" class="remove-place" id="place-<?=$future_place->id?>">remove</a></div>
-        <? endforeach;?>
-        <form id="bucket-list" action="<?=site_url('signup/save_bucket_list')?>" method="post">
-        <fieldset>
-          <div id="place" style="position:relative;">
-            <a id="add-place" href="" style="position:absolute;left:-20px;top:15px;">[+]</a><a id="subtract-place" href="" style="position:absolute;left:-20px;top:30px;">[-]</a>
-            <span class="label-and-errors">
-              <label for="place_name0"></label>
-              <span class="error-message" style="float:right;height:19px;"><span style="color:white">a</span></span>
-            </span>
-            <input type="text" id="place_name" class="place-input" name="place_name" autocomplete=off/>
-            <input type="hidden" id="place_id" class="place_ids" name="place_id"/>
-          </div>
-        </fieldset>
-        </form>
-      </div>
-    </div>
-    
-    <div id="col-right">
-      <!--MAP-->
-      <div id="map-shell">
-        <div id="map-canvas"></div>
-      </div>
-    </div>
-           
-    <div style="clear:both"></div>
-    
-  </div><!--CONTENT END-->
+  <div class="onboarding-main">
+<!--   Welcome to Shoutbound! We're going to ask you to complete three easy steps so we can set up your account. The more you put into these questions, the more you can get out of Shoutbound. Let's get started! -->
+      <div id="onboarding-subtitle">What are your dream travel destinations?</div>
+      <div id="onboarding-copy">Enter the names of each of the destinations you dream of traveling to. We'll connect you to those places on Shoutbound. This will also tell your friends and followers find and get to know you. </div>  
+       
+      <div id="onboarding-left">  
+        <div id="left-content-container">
+          I dream of going to:
+          <? foreach($user->future_places as $future_place):?>
+          <div><span class="place" lat="<?=$future_place->lat?>" lng="<?=$future_place->lng?>"><?=$future_place->name?><? if($future_place->admin1){echo ', '.$future_place->admin1;}if($future_place->country){echo ', '.$future_place->country;}?></span> <a href="#" class="remove-place" id="place-<?=$future_place->id?>">remove</a></div>
+          <? endforeach;?>
+          <form id="bucket-list" action="<?=site_url('signup/save_bucket_list')?>" method="post">
+          <fieldset>
+            <div id="place" style="position:relative;">
+              <a id="add-place" href="" style="position:absolute;left:-20px;top:15px; color:white;">[+]</a><a id="subtract-place" href="" style="position:absolute;left:-20px;top:30px;color:white;">[-]</a>
+              <span class="label-and-errors">
+                <label for="place_name0"></label>
+                <span class="error-message" style="float:right;height:19px;"><span style="color:white">a</span></span>
+              </span>
+              <input type="text" id="place_name" class="place-input" name="place_name" autocomplete=off/>
+              <input type="hidden" id="place_id" class="place_ids" name="place_id"/>
+            </div>
+          </fieldset>
+          </form>
+        </div><!--LEFT CONTENT CONTAINER END-->
+        
+        <div id="map-shell">
+          <div id="map-canvas"></div>
+        </div>
+              
+    </div><!--ONBOARDING LEFT END-->
+  </div><!--ONBOARDING MAIN END-->    
+  
 </div><!-- CONTENT ENDS -->
+
 </div><!-- WRAPPER ENDS -->
 </div><!--STICK FOOTER WRAPPER ENDS-->
 
-  <!--STICKY-BAR-->
-  <div id="sticky-bar">  
-    <div id="progress-buttons-container">
-      <a href="#" class="next-button">Next</a> 
-    </div>        
-  </div>
+<!--STICKY-BAR-->
+<div id="sticky-bar">  
+  <div id="progress-buttons-container">
+    <a href="#" class="next-button">Next</a> 
+  </div>        
+</div>
 
 <script type="text/javascript">
   $(function() {

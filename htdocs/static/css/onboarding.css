@@ -1,12 +1,68 @@
+#onboarding-navbar{
+  float:left;
+  width:170px;
+}
+
+#onboarding-navbar li{
+	list-style: none;
+  display:block;
+  font-size:18px;
+  font-weight:bold;
+  color:white;
+  height:50px;
+  line-height:50px;
+  text-align:center;
+  background-color:#DADADA;
+  margin-bottom:2px;
+}
+
+.filler{
+  height:300px !important;
+  background-color:#FAFAFA !important;
+}
+
 /*Layout*/
 .onboarding-main{
+  margin-left:30px;
+  width:500px;
+  float:left;
 }
+
 #sticky-bar{
   width:100%; 
   background-color:#202026; 
   position:fixed; 
   bottom:0px; 
-  height:57px;
+  height:48px;
+}
+
+#main-tabs{
+  margin-top:20px;
+}
+
+#follow-counter-container{
+  width:100%;
+  height:500px;
+  position:fixed;
+  top:0px;
+  z-index:-1;
+}
+
+#follow-counter-content{
+  position:relative;
+  margin:0px auto 0px auto; 
+  width:960px;
+  z-index:-1;
+}
+
+#follow-counter-second-layer{
+  position:relative;
+  top:285px;
+  left:720px;
+  z-index:100;
+  padding:10px;
+  width:80px;
+  border:1px solid #BABABA;
 }
 
 /*Top*/
@@ -16,39 +72,30 @@
   margin-bottom:5px;
 }
 
-.onboarding-header{
-  display:inline;
-  margin-right:20px;
-  font-size:15px;
-  line-height:20px;
-  font-weight:bold;
-  color:#EAEAEA;
-}
-
-.onboarding-subtitle{
+#onboarding-subtitle{
   padding:15px 0px;
   border-top:1px dotted #CACACA;
   border-bottom:1px dotted #CACACA;
   font-size:24px;
   font-weight:bold;
-  margin-bottom:20px;
-  color: #513260;
-  width:560px;
+  margin-bottom:5px;
+  color: #333;
+  line-height:26px;
+}
+
+#onboarding-copy{
+  margin-bottom:5px;
 }
 
 .activeheader{
-  color:#333;
+  background-color:#007DFA !important;
 }
 
 /*Left*/
 
-#col-left{
-  border:none !important;
-}
 
 #onboarding-left{
-  width:560px;
-  float:left;
+  width:490px;
 }
 
 .place-input{
@@ -61,12 +108,13 @@
 /*Right*/
 
 #map-shell{
-  float:right;
+/*   float:right; */
+  margin-top:0px !important;
 }
 
 #map-canvas{
   height:367px;
-  width:367px;
+/*   width:367px; */
   background-color:white;
 }
 
@@ -104,11 +152,11 @@
 .settings-item-name{
   float:left;
   text-align:right;
-  width:110px;
+  width:100px;
 }
 
 .settings-item-content{
-  margin-left:125px;
+  margin-left:112px;
 }
 
 #e-mail-notification-copy{
@@ -126,17 +174,25 @@
   border:1px solid #DADADA;
   height:125px;
   width:125px;
-  margin-right:55px;
+  margin-right:10px;
+  float:left;
 }
 
 #change-photo{
   margin-top:5px;
-  float:right;
-  width:260px;
+  float:left;
+  width:180px;
 }
 
 input, textarea{
   border:1px solid #DADADA;
+}
+
+/*Inputs*/
+
+#username{
+  width:130px; 
+  height:20px;
 }
 
 /*Buttons*/
@@ -153,13 +209,13 @@ a.next-button, a.back-button{
 
 .back-button{
   position:absolute;
-  top:10px;
-  left:5px;
+  top:8px;
+  left:110px;
   border:solid 1px #999;
   width:75px;
-  height:35px;
+  height:30px;
   text-align:center;
-  line-height:35px;
+  line-height:30px;
   font-size:13px;
   text-decoration:none;
   background: #0095cd;
@@ -191,22 +247,22 @@ a.next-button, a.back-button{
 
 .next-button{
   position:absolute;
-  top:10px;
-  left:425px;
+  top:8px;
+  left:720px;
   border:solid 1px #999;
-  width:140px;
-  height:35px;
+  width:80px;
+  height:30px;
   text-align:center;
-  line-height:35px;
+  line-height:30px;
   font-size:13px;
   text-decoration:none;
   background: #0095cd;
   background: -webkit-gradient(linear, left top, left bottom, from(#00A300), to(#007000));
   background: -moz-linear-gradient(top,  #00A300,  #007000);
   filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00A300', endColorstr='#007000');
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
   cursor: pointer;
   padding:0px;
 }

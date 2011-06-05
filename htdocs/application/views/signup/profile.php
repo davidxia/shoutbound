@@ -28,25 +28,24 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('templates/header')?>
   <? $this->load->view('templates/content')?>
 
-  <!--CONTENT-->
-  <div class="onboarding-main"> 
+  <!--LEFT NAVBAR-->
+  <ul id="onboarding-navbar">
+    <li>Dream</li>
+    <li>Follow</li>
+    <li class="activeheader">Profile</li>
+    <li class="filler"></li>
+  </ul>
+  <!--LEFT NAVBAR END-->
 
-    <div id="top-section">    
-      <!--TOP-->
-      <div id="onboarding-top">
-        <div class="onboarding-header">1. Dream</div>
-        <div class="onboarding-header">2. Follow</div>
-        <div class="onboarding-header activeheader">3. Profile</div>    
-      </div>
-      <div class="onboarding-subtitle">Complete your profile.</div>    
-    </div>
-  
-    <!--LEFT-->
-    <div id="onboarding-left">
+  <!--MAIN-->
+  <div class="onboarding-main">
+    <div id="onboarding-subtitle">Complete your profile.</div>
+    <div id="onboarding-copy">This is where you explain why they should complete their profile, input their vanity url, etc.</div>
+    
       <div class="settings-item">
         <div class="settings-item-name">Username</div>
         <div class="settings-item-content" style="position:relative;">
-          <input type="text" id="username" maxlength="15" style="width:130px; height:20px;" value="<?=$user->username?>"/>
+          <input type="text" id="username" maxlength="15" value="<?=$user->username?>"/>
           <img class="ajax-spinner" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="display:none;position:absolute;left:140px;top:3px;"/>
           <span id="username-help" style="margin-left:20px;">No spaces, please.</span>
           <br/>
@@ -57,14 +56,15 @@ $this->load->view('core_header', $header_args);
       <div class="settings-item">
         <div class="settings-item-name">Picture</div>
         <div class="settings-item-content">
+          <div id="current-profile-pic" class="profile-pic-container">
+            <a href="<?=static_sub('profile_pics/'.$user->profile_pic)?>"><img id="profile-pic" src="<?=static_sub('profile_pics/'.$user->profile_pic)?>" width="125" height="125"/></a>
+          </div>
           <div id="change-photo">
             <a href="#" id="file_upload" name="file_upload" type="file"></a>
             <div class="subtext">Maximum size: 100KB</div>
             <div id="custom-queue"></div>
-          </div>        
-          <div id="current-profile-pic" class="profile-pic-container">
-            <a href="<?=static_sub('profile_pics/'.$user->profile_pic)?>"><img id="profile-pic" src="<?=static_sub('profile_pics/'.$user->profile_pic)?>" width="125" height="125"/></a>
           </div>
+          <div style="clear:both"></div>                  
         </div>
       </div>
     
@@ -94,18 +94,10 @@ $this->load->view('core_header', $header_args);
         </div>
       </div> 
          
-    </div><!--LEFT END-->
-
-    <!--RIGHT-->
-    <div id="onboarding-right">
-      <div id="walkthrough-text">
-<!--         Walkthrough text goes here. -->
-      </div>
-    
-    </div><!--RIGHT ENDS-->    
         
     <div style="clear:both"></div>   
-  </div><!--CONTENT END-->
+    
+  </div><!--MAIN END-->
   
 </div><!-- CONTENT ENDS -->
 </div><!-- WRAPPER ENDS -->
@@ -121,7 +113,8 @@ $this->load->view('core_header', $header_args);
 
 <script type="text/javascript">
   $('#finish-onboarding').click(function() {
-    var bio = $('#bio'),
+    var username = $('#username'),
+        bio = $('#bio'),
         website = $('#website'),
         currPlaceId = $('#current-place-id').val();
     
@@ -130,7 +123,7 @@ $this->load->view('core_header', $header_args);
       websiteVal = 'http://' + websiteVal;
     }
 
-    $.post(baseUrl+'profile/ajax_save_profile', {bio:bio.val(), website:websiteVal, currPlaceId:currPlaceId},
+    $.post(baseUrl+'users/ajax_save_profile', {username:username.val(), bio:bio.val(), website:websiteVal, currPlaceId:currPlaceId},
       function(d) {
         var r = $.parseJSON(d);
         if (r.changed == 1) {
