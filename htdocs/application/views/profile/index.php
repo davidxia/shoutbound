@@ -33,10 +33,6 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('templates/header')?>
   <? $this->load->view('templates/content')?>
 
-  <div id="top-section"><!--TOP SECTION-->
-  
-  </div><!--TOP SECTION END-->
-
   <!-- LEFT COLUMN -->
   <div id="col-left">    
     
@@ -122,8 +118,7 @@ $this->load->view('core_header', $header_args);
         </div>
       <? endif;?>  
 
-          <div style="clear:both"></div>        
-
+      <div style="clear:both"></div>        
 
       <div class="right-widget-container">       
         <div id="stats-container" class="right-widget-interior">
@@ -140,6 +135,7 @@ $this->load->view('core_header', $header_args);
       <div style="clear:both"></div>
       <div id="bio"><?=$profile->bio?></div>
       <div id="website"><a href="<?=$profile->website?>" target="_blank"><?=$profile->website?></a></div>
+      <div id="profile-url">shoutbound.com/vanityurl</div>
     </div>
 
     <!-- MAP -->

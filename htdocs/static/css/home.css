@@ -27,7 +27,7 @@
 }
 
 .nicEdit-panelContain{
-  width:483px !important;
+  width:458px !important;
   display:none;
   border-bottom:none !important;
   border-color:#888 !important;
@@ -43,11 +43,12 @@
 }
 
 .input-container{
-  width:485px !important;
+  width:460px !important;
+  max-width: 460px;
 }
 
 #new-post-container{
-  padding:15px 28px;
+  padding:10px;
   background-color:#FAFAFA;
   margin-bottom:15px;
 }
@@ -69,7 +70,7 @@
   display:none;
   position:relative;
   top:-27px;
-  left:342px;
+  left:319px;
 }
 
 #add-to-trip-main{

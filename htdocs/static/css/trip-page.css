@@ -15,16 +15,27 @@ textarea#post-input{
 	resize:none;
 }
 
-#trip-description{
-  margin-top:-3px;
+#trip-name{
+  font-size:20px;
+  font-weight:600;
+  line-height:22px;
+/*   float:left; */
+  margin-bottom:10px;
 }
 
-#top-bar{
-  padding-bottom:12px;
+#trip-actions{
+  margin-bottom:20px;
 }
+
+#col-right{
+  margin:20px 0px 0px 0px !important;
+}
+
+#trip-description{
+}
+
 
 #trip-goers{
-  margin-top:8px;
 }
 
 .goer-avatar{
