@@ -15,6 +15,10 @@
         <a href="<?=site_url('settings')?>">Settings</a>
         <a href="<?=site_url('users/logout')?>">Logout</a>        
       </div>      
+    <? elseif(isset($user->id) AND isset($is_onboarding)):?>
+      <div class="nav" style="position:absolute; right:0; top:0;">    	
+        <a href="<?=site_url('users/logout')?>">Logout</a>        
+      </div>      
     <? elseif(!isset($is_onboarding)):?>
       <div style="float:right; margin-right:5px; font-size:12px;position:relative;">
         <span id="login-error" style="position:absolute;left:-150px;color:white;"></span>

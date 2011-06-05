@@ -107,12 +107,18 @@ $this->load->view('core_header', $header_args);
 
 </body>
 <script type="text/javascript">
-  var tabClicks = 0;
+  var tabClicks;
+  if (window.location.hash == '#trips') {
+    tabClicks = 1;
+  } else if (window.location.hash == '#places') {
+    tabClicks = 2;
+  } else {
+    tabClicks = 0;
+  }
   $(window).bind('hashchange', function() {
     tabClicks++;
   });
   $('.next-button').click(function() {
-    console.log(tabClicks);
     if (tabClicks == 1) {
       window.location = '<?=site_url('signup/follow#trips')?>';
     } else if (tabClicks == 2) {

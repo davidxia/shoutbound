@@ -1264,12 +1264,12 @@ class User_m extends CI_Model
     public function get_onboarding_trips()
     {
         $trip_ids = array();
-        $sql = 'SELECT DISTINCT pt.trip_id FROM `places_trips` pt, `trips` t WHERE t.is_active = 1 AND pt.trip_id = t.id AND pt.trip_id NOT IN (SELECT trip_id FROM `trips_users` WHERE user_id = ? AND rsvp = 3)';
+        $sql = 'SELECT t.id FROM `trips` t WHERE t.is_active = 1 AND t.id NOT IN (SELECT trip_id FROM `trips_users` WHERE user_id = ? AND rsvp > 0)';
         $v = array($this->id);
         $rows = $this->mdb->select($sql, $v);
         foreach ($rows as $row)
         {
-            $trip_ids[] = $row->trip_id;
+            $trip_ids[] = $row->id;
         }
         
         $this->onboarding_trips = array();
