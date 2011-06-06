@@ -29,11 +29,15 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('templates/header')?>
   <? $this->load->view('templates/content')?>
 
-  <div id="step-one">
-    Welcome to Shoutbound! We're going to ask you to complete three easy steps so we can set up your account. The more you put into these questions, the more you can get out of Shoutbound. <a href="#" id="get-started-button">Let's get started!</a>
+<!--
+  <div id="intro-box">
+    <div id="welcome-line">Welcome to Shoutbound!</div>
+    <div id="welcome-text">To get you started, we're going to ask you to complete a few simple steps and answer some questions.  This will help you get the most of your Shoutbound experience. The whole process should take just a few minutes.</div>
+    <a href="#" id="get-started-button">Let's get started!</a>
   </div>
   
   <div id="hide-wrapper" style="display:none">
+-->
 
   <!--LEFT NAVBAR-->
   <ul id="onboarding-navbar">
@@ -47,11 +51,11 @@ $this->load->view('core_header', $header_args);
   <!--MAIN-->
   <div class="onboarding-main">
       <div id="onboarding-subtitle">What are your dream travel destinations?</div>
-      <div id="onboarding-copy">Enter the names of each of the destinations you dream of traveling to. We'll connect you to those places on Shoutbound. This will also tell your friends and followers find and get to know you. </div>  
+      <div id="onboarding-copy">Enter all of the destinations you dream of traveling to. Be ambitious and list as many as you can! We'll connect you to these places on Shoutbound. This will also help other people find and get to know you. </div>  
        
       <div id="onboarding-left">  
         <div id="left-content-container">
-          I dream of going to:
+          <div id="onboarding-item-subtitle">I dream of going to:</div>
           <? foreach($user->future_places as $future_place):?>
           <div><span class="place" lat="<?=$future_place->lat?>" lng="<?=$future_place->lng?>"><?=$future_place->name?><? if($future_place->admin1){echo ', '.$future_place->admin1;}if($future_place->country){echo ', '.$future_place->country;}?></span> <a href="#" class="remove-place" id="place-<?=$future_place->id?>">remove</a></div>
           <? endforeach;?>
@@ -84,12 +88,12 @@ $this->load->view('core_header', $header_args);
 </div><!--STICK FOOTER WRAPPER ENDS-->
 
 <!--STICKY-BAR-->
-<div id="sticky-bar" style="display:none">  
+<div id="sticky-bar">  
   <div id="progress-buttons-container">
     <a href="#" class="next-button">Next</a> 
   </div>        
 </div>
-</div><!--HIDE WRAPPER ENDS-->
+<!-- </div> --><!--HIDE WRAPPER ENDS-->
 
 <script type="text/javascript">
   $(function() {
@@ -233,10 +237,11 @@ $this->load->view('core_header', $header_args);
   };
 
 
+/*
   $('#get-started-button').click(function() {
     $('#hide-wrapper').show();
     $('#sticky-bar').show();
-    $('#step-one').hide();
+    $('#intro-box').hide();
     return false;
   });
 
@@ -248,6 +253,7 @@ $this->load->view('core_header', $header_args);
      else
         e.style.display = 'block';
   }
+*/
   
   
   addMarker = function(lat, lng) {

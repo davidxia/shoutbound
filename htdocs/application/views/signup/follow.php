@@ -37,8 +37,8 @@ $this->load->view('core_header', $header_args);
   <!--LEFT NAVBAR END-->
 
   <div class="onboarding-main"> 
-      <div id="onboarding-subtitle">Follow people, places and trips that interest you.</div>
-      <div id="onboarding-copy">This connects you to content, blah blah lorem ipsum copy is your friend. The more you follow, the better your experience.  Inspire. We recommend that you follow at least 10 people, places, and trips. We pre-followed your facebook friends, dream travel destinations.
+      <div id="onboarding-subtitle">Follow people, trips and places that interest you.</div>
+      <div id="onboarding-copy"><strong>Following connects you to related content and updates.</strong> We recommend that you follow at least 10 people, places, and trips to get started. We have automatically followed your dream travel destinations for you.  If you connected your Facebook account, we have also followed your Facebook friends for you.
 </div>     
         
       <ul id="main-tabs">
