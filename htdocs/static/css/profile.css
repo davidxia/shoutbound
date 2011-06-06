@@ -1,19 +1,9 @@
 #profile-pic-container{
   float:left;
 }
-
-#profile-info{
-/*   margin:0px 0px 20px 105px; */
-  
-}
-
-#bio{
+.profile-item{
   margin:10px 0px 0px;
-}
-
-#website{
-  overflow-x: hidden;
-  width:300px;
+  position:relative;
 }
 
 .follow, .unfollow, .edit-profile{

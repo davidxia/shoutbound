@@ -51,8 +51,8 @@ $(function() {
           username.val(r.username);
           website.val(r.website);
           bio.val(r.bio);
-          $('#save-response').empty().text(r.response).show().delay(10000).fadeOut(250);
         }
+        $('#save-response').empty().text(r.message).show().delay(10000).fadeOut(250);
       });
     return false;
   });

@@ -1011,6 +1011,7 @@ class User_m extends CI_Model
     {
         $a = explode(' ', $this->name);
         $this->first_name = $a[0];
+        return $this;
     }
 
 

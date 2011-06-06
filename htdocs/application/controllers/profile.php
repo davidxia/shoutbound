@@ -76,7 +76,10 @@ class Profile extends CI_Controller
           ->get_num_following_trips()
           ->get_num_following_places()
           ->get_num_followers()
-          ->get_first_name();
+          ->get_first_name()
+          ->get_current_place()
+          ->get_future_places()
+          ->get_past_places();
         
         $data = array(
             'user' => $this->user,
