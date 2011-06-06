@@ -40,15 +40,15 @@ $this->load->view('core_header', $header_args);
   <!--MAIN-->
   <div class="onboarding-main">
     <div id="onboarding-subtitle">Complete your profile.</div>
-    <div id="onboarding-copy">Pick a memorable username and complete your profile.</div>
+    <div id="onboarding-copy"><strong>Pick a memorable username and complete your profile.</strong> Your profile will be at www.shoutbound.com/yourusername! Your username should be between 3 and 15 characters long. </div>
     
       <div class="settings-item" style="padding-top:10px !important">
         <div class="settings-item-name">Username</div>
-        <div class="settings-item-content" style="position:relative; width:500px !important;">
-          <input style="margin-left:-2px; padding-left:108px; margin-bottom:20px; width:190px;" type="text" id="username" maxlength="15" value="<?=$user->username?>"/>
-          <div id="shoutbound-url" style="position:relative; top:-42px; left:3px; width:75px; font-size:13px; color:#777;">shoutbound.com/</div>
+        <div class="settings-item-content" style="position:relative; width:650px !important;">
+          <input style="margin-left:-2px; padding-left:108px; width:190px;" type="text" id="username" maxlength="15" value="<?=$user->username?>"/>
+          <div id="shoutbound-url" style="display:inline; position:relative; left:-300px; width:75px; font-size:13px; color:#777;">shoutbound.com/</div>
           <img class="ajax-spinner" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="display:none;position:absolute;left:140px;top:3px;"/>
-          <div id="username-help" style="position:relative; top:-15px; color:#777; width:300px; font-weight:bold;"></div>
+          <span id="username-help" style="position:relative; left:-100px; color:#777; width:300px; font-weight:bold;"></span>
           <br/>
         </div>
       </div>        
