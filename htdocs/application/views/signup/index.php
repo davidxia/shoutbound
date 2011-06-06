@@ -146,7 +146,7 @@ $this->load->view('core_header', $header_args);
            invite_code:$('#invite_code').val()},
           function(d) {
             var r = $.parseJSON(d);
-            if (r.inviteCode) {
+            if (r.success && r.inviteCode) {
               window.location = r.redirect;
             } else {
               alert(r.message);
