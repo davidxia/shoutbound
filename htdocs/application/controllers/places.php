@@ -41,6 +41,10 @@ class Places extends CI_Controller
         {
             $this->load->view('templates/settings_autocomplete', $data);
         }
+        elseif ($this->input->post('isSearchbar'))
+        {
+            $this->load->view('templates/searchbar_autocomplete', $data);
+        }
         else
         {
             $this->load->view('templates/autocomplete', $data);

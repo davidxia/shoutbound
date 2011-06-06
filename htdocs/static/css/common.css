@@ -579,14 +579,14 @@ ul.stats-list li a{
 
 /*Autocomplete*/
 
-#autocomplete-results, #place-autocomplete{
+#autocomplete-results, #place-autocomplete,#searchbar-autocomplete{
   background-color:white;
   z-index:500;
   width:377px;
   border:1px solid #D5E2FF;
 }
 
-.autocomplete-item-container{
+.autocomplete-item-container,.search-ac-box{
   height:18px;
   line-height:18px;
   padding:4px 8px;
@@ -597,7 +597,7 @@ a.autocomplete-item{
   color:#333;
 }
 
-.autocomplete-item-container:hover{
+.autocomplete-item-container:hover,.search-ac-box:hover{
   background-color:#D5E2FF;
   cursor:pointer;
 }

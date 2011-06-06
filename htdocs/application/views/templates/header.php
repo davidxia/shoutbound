@@ -8,7 +8,7 @@
     </h1>
     
     <? if(isset($user->id) AND !isset($is_onboarding)):?>
-      <div style="position:absolute;top:0;left:200px;">
+      <div id="search-box" style="position:absolute;top:0;left:200px;">
         <input id="searchbar" type="text" style="height:22px;width:250px;"/>
       </div>
 

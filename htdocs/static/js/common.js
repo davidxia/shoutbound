@@ -7,10 +7,21 @@ $(function() {
         q = $.trim($(this).val());
     // ignore arrow keys
     if (keyCode!==37 && keyCode!==38 && keyCode!==39 && keyCode!==40 && q.length>2) {
-      var f = function() {searchBarQuery(q);};
-      searchBarDelay(f, 700);
+      var f = function() {searchbarQuery(q);};
+      searchbarDelay(f, 700);
     }
   });
+  $('html').click(function() {
+    $('#searchbar-autocomplete').remove();
+  });
+  $('#searchbar').click(function(e) {
+    e.stopPropagation();
+  });
+  $('.search-ac-box').live('click', function() {
+    window.location = $(this).children('a').attr('href');
+    return false;
+  });
+  
 
   if ($('#main-tabs').length > 0) {
     var defaultTab = $('#main-tabs').find('a:first').attr('href').substring(1);
@@ -218,7 +229,7 @@ function addMarkers() {
 }
 
 
-searchBarDelay = (function() {
+searchbarDelay = (function() {
   var timer = 0;
   return function(callback, ms){
     clearTimeout (timer);
@@ -227,10 +238,9 @@ searchBarDelay = (function() {
 })();
 
 
-searchBarQuery = function(q) {
-  $.post(baseUrl+'places/ajax_autocomplete', {query:q},
+searchbarQuery = function(q) {
+  $.post(baseUrl+'places/ajax_autocomplete', {query:q,isSearchbar:1},
     function(d) {
-      console.log(d);
       $('#searchbar-autocomplete').empty();
       $('#searchbar').after(d);
     });
