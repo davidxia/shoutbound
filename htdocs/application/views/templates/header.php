@@ -36,8 +36,8 @@
               <label for="password" style="float:left; color:white; margin-right:5px;font-size:12px;">Password</label>
               <input type="password" name="login_password" id="login_password" style="width:150px;height:22px;"/>
             </div>
+            <input id="login-submit" type="submit" val="submit" style="float:left;height:26px;margin-top:7px;"/>
           </fieldset>
-          <input id="login-submit" type="submit" val="submit"/>
         </form>
       </div>
       
