@@ -16,36 +16,34 @@ textarea#post-input{
 }
 
 #trip-name{
+  min-height:25px;
+  line-height:25px;  
+  margin-bottom:8px;
   font-size:20px;
-  font-weight:600;
-  line-height:22px;
-  margin-bottom:10px;
+  font-weight:bold;
 }
 
-#trip-actions{
-/*   margin-bottom:20px; */
-}
-
-#col-right{
-  margin:20px 0px 0px 0px !important;
+#actions-container{
+  margin-bottom:20px;
 }
 
 .right-item-name{
-  margin-bottom:5px;
-  font-weight:500;
+  margin-bottom:3px;
+  font-weight:bold;
 }
 
-
-#trip-info{
-  margin-bottom:12px;
+.itinerary-entry{
+  margin-bottom:4px;
 }
 
-#trip-description{
-  margin:5px 0px;
-}
-
-#itinerary{
+#trip-description, #itinerary, #share-link-container{
   margin-bottom:10px;
+  padding-bottom:10px;
+  border-bottom:1px dotted #CACACA;
+}
+
+.share, #invite-others-button{
+  font-weight:bold;
 }
 
 .right-widget-container{
@@ -53,7 +51,10 @@ textarea#post-input{
 }
 
 #trip-goers{
-  margin:5px 0px;
+  margin:25px 0px 10px;
+  padding:10px 0px;
+  border-top:1px dotted #CACACA;
+  border-bottom:1px dotted #CACACA;
 }
 
 .goer-avatar{
@@ -233,6 +234,7 @@ textarea#post-input{
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }
 
+/*
 .share{
   display:block;
   height:28px;
@@ -264,9 +266,15 @@ textarea#post-input{
   background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }
+*/
 
+#delete-trip-container{
+  padding:20px 0px 10px;
+}
+
+/*
 #delete-trip{
-  width:85px;
+  width:8px;
   color:white;
   height:20px;
   line-height:20px;
@@ -296,5 +304,6 @@ textarea#post-input{
   background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }
+*/
 
 /*Buttons END*/

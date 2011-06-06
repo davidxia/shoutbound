@@ -40,38 +40,7 @@ $this->load->view('core_header', $header_args);
 
     <!-- LEFT COLUMN -->
     <div id="col-left">
-    
-      <div id="top-section">
-        <div id="trip-info">   
-          <div class="top-bar-header"><?=$trip->name?></div>
-          <div id="actions-container" style="display:none"><!--ACTIONS CONTAINER-->                    
-            <? if ($user->role == 5):?>
-              <? if ($user->rsvp == 0):?>
-                <a href="#" id="share" class="share left">Share</a><a href="#" class="follow middle" id="trip-<?=$trip->id?>">Follow</a><a href="#" id="rsvp_yes_button" class="gray_rsvp_yes_button right">I'm in</a>
-              <? elseif ($user->rsvp == 3):?>
-                <a href="#" id="rsvp_yes_button" class="gray_rsvp_yes_button right">I'm in</a><a href="#" class="unfollow right" id="trip-<?=$trip->id?>">Unfollow</a><a href="#" id="share" class="share left">Share</a>
-              <? elseif ($user->rsvp == 6):?>
-                <a href="#" id="rsvp_yes_button" class="rsvp_yes_button left">I'm in</a><a href="#" id="rsvp_no_button" class="gray_rsvp_no_button right">I'm out</a><a href="#" id="share" class="share left">Share</a>
-              <? elseif ($user->rsvp == 9):?>
-                <a href="#" id="rsvp_no_button" class="gray_rsvp_no_button right">I'm out</a><a href="#" id="share" class="share left">Share</a>
-            <? endif;?>
-            <? elseif ($user->role == 10):?>
-              <a href="#" id="invite-others-button" class="edit-trip-button">Invite others</a><a href="#" id="share" class="share left">Share</a>
-              <a id="delete-trip" href="#">Delete</a>
-            <? endif;?> 
-            <? if (!$user->role):?>
-              <? if ($user->rsvp == 3):?>
-                <a href="#" class="unfollow left" id="trip-<?=$trip->id?>">Unfollow</a><a href="#" id="share">Share</a>
-              <? else:?>
-                <a href="#" class="follow left" id="trip-<?=$trip->id?>">Follow</a>
-              <? endif;?>
-            <? endif;?>               
-          </div><!--ACTIONS CONTAINER END-->
-          
-<!--           <div>This trip was created by <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a></div>          -->
-        </div><!--TRIP INFO END--> 
-      </div><!--TOP SECTION END-->
-          
+              
       <ul id="main-tabs">
         <li><a href="#posts">Posts</a></li>
         <li><a href="#followers">Followers</a></li>
@@ -193,75 +162,129 @@ $this->load->view('core_header', $header_args);
                 
             </div><!--POST END-->
           <? endforeach;?> 
-                                                  
-        </div><!--POSTS TAB ENDS-->          
 
-        <!--POST CONTAINER-->
-        <div class="input-container">
-          <form class="save-post-form">
-            <fieldset>
-              <span class="input-header">New post</span>
-              <div contenteditable="true" id="post-input"></div>
-              <div style="display:none;">
-                <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
-                <div contenteditable="true" class="tag-input"></div>
-                <span class="input-header">Trips</span><br>
-                <? if(isset($user->id)):?>
-                <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
-                  <? foreach ($user->rsvp_yes_trips as $t):?>
-                  <option value="<?=$t->id?>"><?=$t->name?>
-                  <? endforeach;?>
-                  <? foreach ($user->rsvp_awaiting_trips as $t):?>
-                  <option value="<?=$t->id?>"><?=$t->name?>
-                  <? endforeach;?>
-                  <? foreach ($user->following_trips as $t):?>
-                  <option value="<?=$t->id?>"><?=$t->name?>
-                  <? endforeach;?>
-                </select>
-                <? endif;?>
-              </div>
-            </fieldset>
-          </form>
-          <a id="save-post-button">Post</a>
-        </div><!--END POST CONTAINER-->
-  		        	
-        <div id="autocomplete-box" style="background:#222; position:absolute; z-index:99; padding:3px;display:none;">
-          <input id="autocomplete-input" type="text" style="width:150px;border:none;border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px; padding:3px;"/>
-          <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="position:absolute; right:20px; top:7px;"/>
-          <a id="autocomplete-close" href="#">
-            <img alt="close" src="<?=site_url('static/images/white_x.png')?>" width="10" height="9"/>
-          </a>
-          <div id="autocomplete-results" style="display:none; position:absolute; top:28px; width:400px; border:1px solid #DDD; cursor:pointer; padding:2px; z-index:100; background:white; font-size:13px;"></div>
-        </div>
-     
-      </div><!--TAB CONTAINER END-->
+          <!--POST CONTAINER-->
+          <div class="input-container">
+            <form class="save-post-form">
+              <fieldset>
+                <div contenteditable="true" id="post-input"></div>
+                <div style="display:none;">
+                  <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
+                  <div contenteditable="true" class="tag-input"></div>
+                  <span class="input-header">Trips</span><br>
+                  <? if(isset($user->id)):?>
+                  <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
+                    <? foreach ($user->rsvp_yes_trips as $t):?>
+                    <option value="<?=$t->id?>"><?=$t->name?>
+                    <? endforeach;?>
+                    <? foreach ($user->rsvp_awaiting_trips as $t):?>
+                    <option value="<?=$t->id?>"><?=$t->name?>
+                    <? endforeach;?>
+                    <? foreach ($user->following_trips as $t):?>
+                    <option value="<?=$t->id?>"><?=$t->name?>
+                    <? endforeach;?>
+                  </select>
+                  <? endif;?>
+                </div>
+              </fieldset>
+            </form>
+            <a id="save-post-button">Post</a>
+          </div><!--END POST CONTAINER-->
+    		        	
+          <div id="autocomplete-box" style="background:#222; position:absolute; z-index:99; padding:3px;display:none;">
+            <input id="autocomplete-input" type="text" style="width:150px;border:none;border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px; padding:3px;"/>
+            <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="position:absolute; right:20px; top:7px;"/>
+            <a id="autocomplete-close" href="#">
+              <img alt="close" src="<?=site_url('static/images/white_x.png')?>" width="10" height="9"/>
+            </a>
+            <div id="autocomplete-results" style="display:none; position:absolute; top:28px; width:400px; border:1px solid #DDD; cursor:pointer; padding:2px; z-index:100; background:white; font-size:13px;"></div>
+          </div>
+       
+        </div><!--TAB CONTAINER END-->
+
+                                                  
+      </div><!--POSTS TAB ENDS-->          
+
     </div><!--LEFT COLUMN END-->                         			        
           
   <!-- RIGHT COLUMN -->
   <div id="col-right">
+    <div id="top-section">
+      <div id="trip-name"><?=$trip->name?></div>          
+<!--           <div>This trip was created by <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a></div>          -->
+    </div><!--TOP SECTION END-->
+  
+  
+      <? if ($user->role == 5):?>
+        <? if ($user->rsvp == 0):?>
+          <div id="actions-container">
+            <a href="#" id="rsvp_yes_button" class="gray_rsvp_yes_button left">I'm in</a>
+            <a href="#" class="follow left" id="trip-<?=$trip->id?>">Follow</a>
+            <div style="clear:both"></div>
+          </div>
+        <? elseif ($user->rsvp == 3):?>
+          <div id="actions-container">       
+            <a href="#" id="rsvp_yes_button" class="gray_rsvp_yes_button left">I'm in</a>
+            <a href="#" class="unfollow left" id="trip-<?=$trip->id?>">Unfollow</a>
+            <div style="clear:both"></div>
+          </div>
+        <? elseif ($user->rsvp == 6):?>
+          <div id="actions-container">
+            <a href="#" id="rsvp_yes_button" class="rsvp_yes_button left">I'm in</a>
+            <a href="#" id="rsvp_no_button" class="gray_rsvp_no_button left">I'm out</a>
+            <div style="clear:both"></div>
+          </div>
+        <? elseif ($user->rsvp == 9):?>
+          <div id="actions-container">
+            <a href="#" id="rsvp_no_button" class="gray_rsvp_no_button left">I'm out</a>
+            <div style="clear:both"></div>
+          </div>
+      <? endif;?>
+     <? endif;?>
+
+      <? if (!$user->role):?>
+        <? if ($user->rsvp == 3):?>
+          <a href="#" class="unfollow left" id="trip-<?=$trip->id?>">Unfollow</a>
+        <? else:?>
+          <a href="#" class="follow left" id="trip-<?=$trip->id?>">Follow</a>
+        <? endif;?>
+        <div style="clear:both"></div>
+      <? endif;?>               
 
 	  <div id="trip-goers"><!--TRIP GOERS-->
 	    <div class="right-item-name">People going on this trip:</div>     	        		          			                     
       <? foreach ($trip->goers as $trip_goer):?>
     	<div class="goer-avatar" uid="<?=$trip_goer->id?>">
         <a href="<? if($trip_goer->username){echo site_url($trip_goer->username);}else{echo site_url('profile/'.$trip_goer->id);}?>">
-          <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="35" width="35"/>
+          <img src="<?=static_sub('profile_pics/'.$trip_goer->profile_pic)?>" class="tooltip" alt="<?=$trip_goer->name?>" height="35" width="35"/>          
         </a>
       </div>
       <? endforeach;?>
       <div style="clear:both"></div>       
+      <? if ($user->role == 10):?>
+        <a href="#" id="invite-others-button" class="edit-trip-button">Invite more people</a>
+      <? endif;?> 
     </div><!--TRIP GOERS END--> 
            	       
     <div id="itinerary">
       <div class="right-item-name">Itinerary:</div>
       <? foreach ($trip->places as $place):?>
-      <div>
+      <div class="itinerary-entry">
         <a class="destination tag" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>" title="<?=$place->name?>"><?=$place->name?></a>  
-        <span class="subtext"><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
+        <span><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
       </div>
       <? endforeach;?>
     </div>
-    <div class="right-widget-container">
+    <div id="trip-description">
+      <div class="right-item-name">About this trip:</div>
+      <?=$trip->description?>
+    </div>
+    
+    <div id="share-link-container">  
+      <a href="#" id="share" class="share">Share this trip</a>
+    </div>
+    
+    <div class="right-widget-container" style="display:none">
       <div id="stats-container" class="right-widget-interior"><!--STATS-->
         <ul class="stats-list">
           <li><a style="cursor:default;" class="goers-count"><?=$trip->num_goers?><span class="stat-label">People</span></a></li>
@@ -271,12 +294,16 @@ $this->load->view('core_header', $header_args);
         <div style="clear:both"></div>   
       </div><!--STATS END-->
     </div>
-
-    <div id="trip-description"><?=$trip->description?></div>  
                
-    <div id="map-tab" class="right-tab-content">
+    <div id="map-shell">
       <div id="map-canvas"></div>     
     </div>
+    <? if ($user->role == 10):?>
+      <div id="delete-trip-container">
+        <a id="delete-trip" href="#">Delete this trip</a>
+      </div>
+    <? endif;?>               
+
         
 <!--
     <div id="tagbar">

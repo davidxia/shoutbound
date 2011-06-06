@@ -131,7 +131,7 @@ html, body {
 .header .nav a, .header .nav a:visited {
   margin-left:21px;
   float:left;
-  font-size:11px;
+  font-size:12px;
 }
 
 .content {
@@ -285,6 +285,11 @@ fieldset {
 
 /*STREAMITEMS, COMMENTS, TRIP LISTINGS*/ 
 
+.new-post-instructions{
+  margin-bottom:10px;
+  font-weight:800;
+}
+
 #add-to-trip-main, #save-post-button{
   display:none;
 }
@@ -433,7 +438,7 @@ fieldset {
 	list-style: none;
 /* 	height: 26px; */
   height:25px;
-  padding:3px 0px;
+  padding:5px 0px;
 /*
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -442,8 +447,8 @@ fieldset {
   background-color:#EAEAEA;
 
 /* 	border-bottom: 1px solid #888; */
-  border-top:1px solid #888;
-  border-bottom:1px solid #888;
+  border-top:1px solid #777;
+  border-bottom:1px solid #777;
 
 }
 
@@ -469,7 +474,7 @@ fieldset {
 	/*border: 1px solid white;*/
 	outline: none;
 	color:#333;	
-  padding:5px 20px;
+  padding:5px 15px;
   height:15px;
   line-height:15px;
 }
@@ -517,9 +522,9 @@ fieldset {
 /* RIGHT TABS */
 
 .right-tab-container{
- border-left:1px solid #888;
- border-bottom:1px solid #888;
- border-right:1px solid #888;
+ border-left:1px solid #BABABA;
+ border-bottom:1px solid #BABABA;
+ border-right:1px solid #BABABA;
  padding:3px;
 }
 
