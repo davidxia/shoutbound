@@ -153,12 +153,12 @@ class Users extends CI_Controller
                 'username' => $username,
                 'bio' => $bio,
                 'website' => $website,
-                'response' => 'saved',
+                'message' => 'saved',
             )));
         }
         else
         {
-            $data = array('str' => json_error());
+            $data = array('str' => json_error('saved'));
         }
         
         $this->load->view('blank', $data);

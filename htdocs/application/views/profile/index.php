@@ -133,8 +133,50 @@ $this->load->view('core_header', $header_args);
       </div>      
 
       <div style="clear:both"></div>
-      <div id="bio"><?=$profile->bio?></div>
-      <div id="website"><a href="<?=$profile->website?>" target="_blank"><?=$profile->website?></a></div>
+      <div id="bio" class="profile-item">
+        <?=$profile->bio?>
+      </div>
+      <div id="website" class="profile-item">
+        <a href="<?=$profile->website?>" target="_blank"><?=$profile->website?></a>
+      </div>
+      
+      <? if($profile->current_place):?>
+      <div id="current-place" class="profile-item">
+        <? if($is_self):?>
+        <div class="edit-icon edit-curr-place"></div>
+        <? endif;?>
+        <div style="font-size:14px;font-weight:bold;margin-top:10px;">Current Location</div>
+        <a href="<?=site_url('places/'.$profile->current_place->id)?>"><?=$profile->current_place->name?><? if($profile->current_place->admin1){echo ', '.$profile->current_place->admin1;}if($profile->current_place->country){echo ', '.$profile->current_place->country;}?></a>
+      </div>
+      <? endif;?>
+      
+      <? if($profile->future_places):?>
+      <div id="future-places" class="profile-item">
+        <? if($is_self):?>
+        <div class="edit-icon edit-fut-places"></div>
+        <? endif;?>
+        <div style="font-size:14px;font-weight:bold;margin-top:10px;">Bucket List</div>
+        <? foreach($profile->future_places as $future_place):?>
+        <div>
+          <a href="<?=site_url('places/'.$future_place->id)?>"><?=$future_place->name?><? if($future_place->admin1){echo ', '.$future_place->admin1;}if($future_place->country){echo ', '.$future_place->country;}?></a>
+        </div>
+        <? endforeach;?>
+      </div>
+      <? endif;?>
+
+      <? if($profile->past_places):?>
+      <div id="past-places" class="profile-item">
+        <? if($is_self):?>
+        <div class="edit-icon edit-past-places"></div>
+        <? endif;?>
+        <div style="font-size:14px;font-weight:bold;margin-top:10px;">Been To</div>
+        <? foreach($profile->past_places as $past_place):?>
+        <div>
+          <a href="<?=site_url('places/'.$past_place->id)?>"><?=$past_place->name?><? if($past_place->admin1){echo ', '.$past_place->admin1;}if($past_place->country){echo ', '.$past_place->country;}?></a>
+        </div>
+        <? endforeach;?>
+      </div>
+      <? endif;?>
     </div>
 
     <!-- MAP -->
@@ -148,5 +190,27 @@ $this->load->view('core_header', $header_args);
   </div><!-- WRAPPER ENDS -->
   </div><!--STICK FOOTER WRAPPER ENDS-->
   <? $this->load->view('templates/footer')?>
+<script type="text/javascript">
+  $('.profile-item').hover(function() {
+    $(this).children('.edit-icon').show();
+  }, function() {
+    $(this).children('.edit-icon').hide();
+  });
+  
+  
+  $('.edit-icon').click(function() {
+    window.location = 'http://dev.shoutbound.com/david/settings/profile';
+/*
+    var icon = $(this),
+        input = $('<input type="text" style="width:250px"/>');
+    icon.parent().append(input);
+    input.focus();
+    
+    if (icon.hasClass('edit-curr-place')) {
+    } else if (icon.hasClass('edit-fut-places')) {
+    }
+*/
+  });
+</script>
 </body> 
 </html>

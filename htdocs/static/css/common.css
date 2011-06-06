@@ -818,15 +818,24 @@ a.unfollow{
 .deleteable{
   position:relative;
 }
-.delete{
-  background-image: url(/david/static/images/delete_button.png);
-  height: 15px;
-  width: 15px;
-  opacity: 0;
+.edit-icon,.delete{
+  display: none;
   cursor: pointer;
   position: absolute;
   top: 0;
   right: 0;
+}
+.delete{
+  background-image: url(/david/static/images/button_sprites.png);
+  background-position: 0px 15px;
+  height: 15px;
+  width: 15px;
+}
+.edit-icon{
+  background-image: url(/david/static/images/button_sprites.png);
+  background-position: 0px 0px;
+  height: 18px;
+  width: 18px;
 }
 
 .save-settings-button{

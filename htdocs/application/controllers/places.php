@@ -20,17 +20,17 @@ class Places extends CI_Controller
     {
         $query = $this->input->post('query');
         $key = 'places_by_query:'.$query;
-        $val = $this->mc->get($key);
+        $places = $this->mc->get($key);
         
-        if ($val === FALSE)
+        if ($places === FALSE)
         {
             $this->load->helper('places');
-            $val = query_places($query);
-            $this->mc->set($key, $val);
+            $places = query_places($query);
+            $this->mc->set($key, $places);
         }
 
         $data = array(
-            'places' => $val,
+            'places' => $places,
         );
         
         if ($this->input->post('isPost'))
