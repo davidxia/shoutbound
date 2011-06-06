@@ -119,16 +119,15 @@ $this->load->view('core_header', $header_args);
         invite_code: 'required'
       },
       messages: {
-        name: 'You need a name.',
+        name: 'Hi! What\'s your name?',
         signup_email: {
-          required: 'We promise not to spam you.',
-          email: 'Nice try, enter a valid email.'
+          required: 'We promise not to spam you : )',
+          email: 'Oops, was there a typo?'
         },
         password: {
           required: 'Passwords are your friend.',
-          minlength: 'make it at least 4 characters'
-        },
-        invite_code: 'Dude, where\'s your invite code?'
+          minlength: 'Passwords should be at least 4 characters.'
+        }
       },
       errorPlacement: function(error, element) {
         error.appendTo(element.siblings('.error-message'));
