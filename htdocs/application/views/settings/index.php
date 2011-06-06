@@ -22,19 +22,17 @@ $this->load->view('core_header', $header_args);
 <div id="sticky-footer-wrapper">
   <? $this->load->view('templates/header')?>
   <? $this->load->view('templates/content')?>
-  
-    <div id="top-bar">
-      <div class="top-bar-header">Manage your Shoutbound account.</div>
-    </div>
         
     <div id="col-left">
-    
+      <div id="settings-header">
+        Manage your Shoutbound account.
+      </div>    
       <div id="left-content-container">
       
         <ul id="tab-style">
-          <li class="active">Account</li>
+          <li class="active"><a href="#">Account</a></li>
           <li><a href="<?=site_url('settings/profile')?>">Profile</a></li>
-          <li><a href="<?=site_url('settings/trail')?>">Trail</a></li>
+<!--           <li><a href="<?=site_url('settings/trail')?>">Trail</a></li> -->
         </ul>
         
         <div style="clear:both"></div>
@@ -48,7 +46,7 @@ $this->load->view('core_header', $header_args);
                 </div>
                 <div class="settings-item-content">
                   <input id="email" name="email" type="text" value="<?=$user->email?>" style="width:275px;"/>
-                  <div class="error-message" style="height:20px;"></div>
+                  <div class="error-message" style="height:15px;"></div>
                 </div>
               </fieldset>
                    
@@ -58,17 +56,17 @@ $this->load->view('core_header', $header_args);
                   <div class="settings-input-container">
                     <input type="password" id="old_pw" name="old_pw" style="width:275px; height:20px;"/>
                     <label for="old_pw" class="subtext" style="margin-left:10px;">Old password</label>
-                    <div class="error-message" style="height:20px;"></div>
+                    <div class="error-message" style="height:15px;"></div>
                   </div>
                   <div class="settings-input-container">
                     <input type="password" id="new_pw" name="new_pw" style="width:275px; height:20px;"/>
                     <label for="new_pw" class="subtext" style="margin-left:10px;">New password</label>
-                    <div class="error-message" style="height:20px;"></div>
+                    <div class="error-message" style="height:15px;"></div>
                   </div>
                   <div class="settings-input-container">
                     <input type="password" id="conf_new_pw" name="conf_new_pw" style="width:275px; height:20px;"/>
                     <label for="conf_new_pw" class="subtext" style="margin-left:10px;">Confirm new password</label>
-                    <div class="error-message" style="height:20px;"></div>
+                    <div class="error-message" style="height:15px;"></div>
                   </div>
                 </div>
               </fieldset>

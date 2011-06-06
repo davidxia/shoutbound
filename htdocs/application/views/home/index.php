@@ -61,8 +61,8 @@ $this->load->view('core_header', $header_args);
           <div id="feed-tab" class="main-tab-content main-tab-default">
 
             <div id="new-post-container"><!--POST CONTAINER-->
+              <div id="post-input-header">Share a travel experience</div>
               <div class="input-container">
-  <!--               <div class="input-header">New Post</div> -->
                 <form class="save-post-form">
                   <fieldset>
                     <div id="instruction-bar">Use the @ key when you refer to a place (e.g., "@Barcelona")</div>                  

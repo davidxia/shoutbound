@@ -195,6 +195,10 @@ html, body {
   font-weight:bold;
 }
 
+#post-input-header{
+  margin-bottom:3px;
+  font-weight:bold;
+}
 
 h1{
   color:#404040;
@@ -404,7 +408,7 @@ fieldset {
 }
 
 #col-right{
-  padding-left:24px;
+  padding-left: 24px;
   border-left:1px dotted #CACACA;
   margin:10px 0px 0px 0px;
   width:290px;
@@ -439,17 +443,17 @@ fieldset {
 	list-style: none;
 /* 	height: 26px; */
   height:25px;
-  padding:5px 0px;
 /*
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
 */
-  background-color:#EAEAEA;
+/*   background-color:#EAEAEA; */
 
 /* 	border-bottom: 1px solid #888; */
-  border-top:1px solid #777;
-  border-bottom:1px solid #777;
+/*   border-top:1px solid #777; */
+  border-bottom:2px solid #AAAAAA;
+  padding-bottom:10px;
 
 }
 
@@ -462,33 +466,32 @@ fieldset {
 	overflow: hidden;
 	position: relative;
 /* 	width:111px; */
-  margin:0px 0px 0px 5px;
-	text-align:center;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
+  margin-right:12px;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  border-radius: 15px;
+  margin-left:-10px;
 }
+
 
 #main-tabs li a, #right-tabs li a, #tab-style li a{
   text-decoration: none;
 	display: block;
 	/*border: 1px solid white;*/
+	font-weight:bold;
 	outline: none;
-	color:#333;	
-  padding:5px 15px;
-  height:15px;
-  line-height:15px;
+/* 	color:#333;	 */
+  padding:5px 10px;
 }
 
 #main-tabs li:hover, #right-tabs li:hover, #tab-style li:hover{
-/* 	background-color:#FAFAFA; */
-	text-decoration:none;
-	background-color:white;
+	background-color:#DFEAF4;
+/* 	background-color:white; */
 }
 
 #main-tabs li a:hover, #right-tabs li a:hover, #tab-style li a:hover{
 /* 	background: #FAFAFA; */
-  color:#3B5998;  
+  text-decoration: underline !important;  
 }
 
 #main-tabs li.active, #right-tabs li.active, #tab-style li.active{ 
@@ -499,8 +502,7 @@ fieldset {
 	border-right:1px solid #888;
 	border-top:1px solid #888;
 */
-/*   background-color:#CACACA; */
-  background-color:white;
+  background-color:#DADADA;
 /* 	width:111px; */
 }
 
@@ -508,12 +510,12 @@ fieldset {
 /*   width:114px; */
 }
 
-#main-tabs li.active a, #right-tabs li.active a, #tab-style li.active{
+#main-tabs li.active a, #right-tabs li.active a, #tab-style li.active a{
   color:#333;
 }
 
 #main-tabs li.active a:hover, #right-tabs li.active a:hover, #tab-style li.active a:hover{
-  background:white;
+/*   background:white; */
 /* 	border-bottom: 1px solid white;  */
 	font-weight:bold;
 	cursor:default;
@@ -831,7 +833,6 @@ a.unfollow{
 
 .save-settings-button{
   border:solid 1px #999;
-  margin-right:20px;
   color:white;
   width:140px;
   height:35px;

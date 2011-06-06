@@ -29,6 +29,12 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('templates/header')?>
   <? $this->load->view('templates/content')?>
 
+  <div id="step-one">
+    Welcome to Shoutbound! We're going to ask you to complete three easy steps so we can set up your account. The more you put into these questions, the more you can get out of Shoutbound. <a href="#" id="get-started-button">Let's get started!</a>
+  </div>
+  
+  <div id="hide-wrapper" style="display:none">
+
   <!--LEFT NAVBAR-->
   <ul id="onboarding-navbar">
     <li class="activeheader">Dream</li>
@@ -38,10 +44,8 @@ $this->load->view('core_header', $header_args);
   </ul>
   <!--LEFT NAVBAR END-->
 
-
-  <!--CONTENT-->
+  <!--MAIN-->
   <div class="onboarding-main">
-<!--   Welcome to Shoutbound! We're going to ask you to complete three easy steps so we can set up your account. The more you put into these questions, the more you can get out of Shoutbound. Let's get started! -->
       <div id="onboarding-subtitle">What are your dream travel destinations?</div>
       <div id="onboarding-copy">Enter the names of each of the destinations you dream of traveling to. We'll connect you to those places on Shoutbound. This will also tell your friends and followers find and get to know you. </div>  
        
@@ -76,14 +80,16 @@ $this->load->view('core_header', $header_args);
 </div><!-- CONTENT ENDS -->
 
 </div><!-- WRAPPER ENDS -->
+
 </div><!--STICK FOOTER WRAPPER ENDS-->
 
 <!--STICKY-BAR-->
-<div id="sticky-bar">  
+<div id="sticky-bar" style="display:none">  
   <div id="progress-buttons-container">
     <a href="#" class="next-button">Next</a> 
   </div>        
 </div>
+</div><!--HIDE WRAPPER ENDS-->
 
 <script type="text/javascript">
   $(function() {
@@ -225,6 +231,23 @@ $this->load->view('core_header', $header_args);
         ele.after(d);
       });
   };
+
+
+  $('#get-started-button').click(function() {
+    $('#hide-wrapper').show();
+    $('#sticky-bar').show();
+    $('#step-one').hide();
+    return false;
+  });
+
+
+  function toggle_visibility(id) {
+     var e = document.getElementById(id);
+     if(e.style.display == 'block')
+        e.style.display = 'none';
+     else
+        e.style.display = 'block';
+  }
   
   
   addMarker = function(lat, lng) {
@@ -234,6 +257,7 @@ $this->load->view('core_header', $header_args);
         ])
         .on('load', po.stylist().attr('fill', 'red'));
     map.add(marker);
+    
   }
 </script>
 </body>
