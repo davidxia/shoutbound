@@ -82,5 +82,5 @@ sparql.setQuery(mystring)
 sparql.setReturnFormat(JSON)
 resp = sparql.query().convert()
 
-
-print json.dumps(resp['results']['bindings'][0])
+if resp['results']['bindings']:
+    print json.dumps(resp['results']['bindings'][0])

@@ -74,7 +74,7 @@ $this->load->view('core_header', $header_args);
     <div id="top-bar"><!--TOP BAR-->
       <div id="place-info">
         <div class="top-bar-header"><span id="place-name" class="place-page-header"><?=$place->name?></span></div>
-        <? if($place->admin1):?><span id="admin1"><?=$place->admin1?></span><? endif;?>
+        <? if($place->admin1):?><span id="admin1"><?=$place->admin1?></span><? endif;?>,
         <? if($place->country):?><span><?=$place->country?></span><? endif;?>
         <div id="abstract"></div>  
       </div>
@@ -180,20 +180,16 @@ $this->load->view('core_header', $header_args);
     <div id="right-content-container">   
     
       <!-- GALLERY AND MAP-->
-<!--
       <ul id="right-tabs">
-        <li><a href="#gallery">Gallery</a></li>
         <li><a href="#map">Map</a></li>
+        <li style="display:none;"><a href="#gallery">Gallery</a></li>
       </ul>
--->
       
       <div class="right-tab-container">   
-        
-<!--         <div id="gallery-tab" class="right-tab-content"></div> -->
-        
         <div id="map-tab" class="right-tab-content">
           <div id="map-canvas"></div>     
         </div>
+        <div id="gallery-tab" class="right-tab-content"></div>
       </div>
     
     </div><!--RIGHT CONTENT END-->

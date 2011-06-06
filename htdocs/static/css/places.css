@@ -9,13 +9,5 @@
 }
 
 #abstract{
-  max-height: 114px;
-  overflow-y:hidden;
   margin-top:6px;
 }
-
-.right-tab-container{
- border-top:1px solid #BABABA; 
- margin-top:35px;
-}
-
