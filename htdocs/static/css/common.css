@@ -64,7 +64,8 @@ a:hover{
 }
 
 .destination.tag:hover{
-  background:#BBD1E7;
+  background:#19558D;
+  color:white;
 }
 
 .activity.tag{
@@ -189,11 +190,11 @@ html, body {
 /*   margin-right:30px; */
 }
 
-.top-bar-header{
-  font-size:20px;
-  font-weight:600;
-  line-height:22px;
+.right-item-name{
+  margin-bottom:3px;
+  font-weight:bold;
 }
+
 
 h1{
   color:#404040;
@@ -541,7 +542,7 @@ fieldset {
 }
 
 #map-shell{
-  margin-top:35px;
+  margin-top:30px;
   padding:3px;
   border:1px solid #BABABA;
 }

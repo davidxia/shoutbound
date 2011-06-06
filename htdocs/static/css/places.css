@@ -1,19 +1,17 @@
-.place-page-header{
+#place-name{
   background:#DFEAF4;
-  padding:10px;
+  padding:5px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
   margin-bottom:3px;
   display:inline-block;
+  height:25px;
+  line-height:25px;  
+  margin-bottom:8px;
+  font-size:20px;
+  font-weight:bold;
 }
-
-#abstract{
-<<<<<<< HEAD
-  max-height: 114px;
-  overflow-y:hidden;
-}
-
 .right-tab-container{
 /*
  border-top:1px solid #BABABA; 
@@ -21,17 +19,18 @@
 */
 }
 
-#abstract{
-  margin:5px 0px;
-}
-
 .right-widget-container{
   margin-top:25px;
 }
 
-.top-bar-header{
-  margin-bottom:12px;
-=======
-  margin-top:6px;
->>>>>>> 2821d01737fdc4d4325889a551d8384cdbf9611e
+#abstract-container{
+  margin:10px;
+  padding-bottom:10px;
+  border-bottom:1px dotted #CACACA;
+}
+
+#wikipedia-attribution{
+  font-size:11px;
+  color:#888;
+  margin-top:3px;
 }
