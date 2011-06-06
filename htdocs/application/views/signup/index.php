@@ -12,7 +12,9 @@ $header_args = array(
 $this->load->view('core_header', $header_args);
 ?>
 </head>
-	
+<script type="text/javascript">
+  var baseUrl = '<?=site_url()?>';
+</script>
 <body>
   <div id="sticky-footer-wrapper">
   <? $this->load->view('templates/header')?>
@@ -48,21 +50,21 @@ $this->load->view('core_header', $header_args);
       <div id="step-two-container" class="step-container"><!--STEP TWO-->
         <div class="step-header">2. Complete your sign-up:</div>
         <div class="step-content">
-          <form id="signup-form" action="<?=site_url('signup/create_user')?>" method="post">
+          <form id="signup-form" action="" method="post">
             <fieldset>         
               <div class="signup-input-container">
                 <label for="name" style="color:#555; margin-right:12px;">Full name</label>
-                <input type="text" name="name" id="name" class="signup-input" autocomplete="off"/>                
+                <input type="text" name="signup_name" id="signup_name" class="signup-input" autocomplete="off" <? if(isset($signup_name)){echo 'val="'.$signup_name.'"';}?>/>                
                 <span class="error-message" style=""></span>
               </div>
               <div class="signup-input-container">
                 <label for="email" style="color:#555; margin-right:31px;">E-mail</label>
-                <input type="text" name="signup_email" id="signup_email" class="signup-input" autocomplete="off"/>              
+                <input type="text" name="signup_email" id="signup_email" class="signup-input" autocomplete="off" <? if(isset($signup_email)){echo 'val="'.$signup_email.'"';}?>/>              
                 <span class="error-message"></span>
               </div>
               <div class="signup-input-container">
                 <label for="password" style="color:#555; margin-right:10px;">Password</label>
-                <input type="password" name="password" id="password" class="signup-input" autocomplete="off"/>              
+                <input type="password" name="signup_pw" id="signup_pw" class="signup-input" autocomplete="off" <? if(isset($signup_pw)){echo 'val="'.$signup_pw.'"';}?>/>              
                 <span class="error-message"></span>
               </div>
               <div class="signup-input-container">
@@ -107,31 +109,51 @@ $this->load->view('core_header', $header_args);
 
     $('#signup-form').validate({
       rules: {
-        name: 'required',
+        signup_name: 'required',
         signup_email: {
           required: true,
           email: true
         },
-        password: {
+        signup_pw: {
           required: true,
           minlength: 4
         },
         invite_code: 'required'
       },
       messages: {
-        name: 'Hi! What\'s your name?',
+        signup_name: 'Hi! What\'s your name?',
         signup_email: {
           required: 'We promise not to spam you : )',
           email: 'Oops, was there a typo?'
         },
-        password: {
+        signup_pw: {
           required: 'Passwords are your friend.',
           minlength: 'Passwords should be at least 4 characters.'
         }
       },
-      errorPlacement: function(error, element) {
-        error.appendTo(element.siblings('.error-message'));
+      errorPlacement: function(error, ele) {
+        error.appendTo(ele.siblings('.error-message'));
       }
+    });
+    
+    
+    $('#signup-submit').click(function() {
+      if ($('#signup-form').valid()) {
+        $.post(baseUrl+'signup/create_user',
+          {signup_name:$('#signup_name').val(),
+           signup_email:$('#signup_email').val(),
+           signup_pw:$('#signup_pw').val(),
+           invite_code:$('#invite_code').val()},
+          function(d) {
+            var r = $.parseJSON(d);
+            if (r.inviteCode) {
+              window.location = r.redirect;
+            } else {
+              alert(r.message);
+            }
+          });
+      }
+      return false;
     });
   });
   

@@ -285,14 +285,14 @@ class User_m extends CI_Model
         
         if (!isset($name) OR !isset($email) OR !isset($password))
         {
-            return array('success' => FALSE, 'message' => 'missing required parameter');
+            return array('success' => FALSE, 'message' => 'You didn\'t fill in a required field.');
         }
         
         $this->get_by_email($email);
         if ($this->id)
         {
             $this->clear();
-            return array('success' => FALSE, 'message' => 'duplicate email');
+            return array('success' => FALSE, 'message' => 'This email has been taken.');
         }
 
         $this->mc->delete('user_by_email:'.$email);        
@@ -1310,6 +1310,23 @@ class User_m extends CI_Model
     {
         $sql = 'UPDATE `users` SET `is_onboarded` = ? WHERE `id` = ?';
         $v = array($is_onboarded, $this->id);
+        $r = $this->mdb->alter($sql, $v);
+        
+        if ($r['num_affected'] == 1)
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+    
+    
+    public function set_active($is_active = 1)
+    {
+        $sql = 'UPDATE `users` SET `is_active` = ? WHERE `id` = ?';
+        $v = array($is_active, $this->id);
         $r = $this->mdb->alter($sql, $v);
         
         if ($r['num_affected'] == 1)

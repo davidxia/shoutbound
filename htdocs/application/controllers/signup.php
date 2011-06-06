@@ -28,9 +28,9 @@ class Signup extends CI_Controller
         
     public function create_user()
     {
-        $name = trim($this->input->post('name'));
+        $name = trim($this->input->post('signup_name'));
         $email = strtolower(trim($this->input->post('signup_email')));
-        $password = $this->input->post('password');
+        $password = $this->input->post('signup_pw');
         $invite_code = $this->input->post('invite_code');
         
         if ($this->user OR getenv('REQUEST_METHOD') == 'GET')
@@ -38,12 +38,7 @@ class Signup extends CI_Controller
             custom_404();
             return;
         }
-        
-        if ($invite_code != 'tbex')
-        {
-            redirect('signup/waitlist');
-        }
-                
+                        
         if ($this->input->post('is_fb_signup'))
         {
             // save Facebook id
@@ -68,7 +63,6 @@ class Signup extends CI_Controller
 
         if ($r['success'])
         {
-            $user->login($user->id);
             if ($this->input->post('is_fb_signup'))
             {
                 // save Facebook profile photo
@@ -133,11 +127,22 @@ class Signup extends CI_Controller
                     }
                 }
             }
-            redirect('signup/dream');
+            
+            if (strcasecmp($invite_code,'tbex') AND $user->set_active(0))
+            {
+                $data = array('str' => json_success(array('inviteCode' => 0, 'message' => 'Aw, you didn\'t enter a correct invite code. We\'ll contact you when spots open up.')));
+                $this->load->view('blank', $data);
+            }
+            else
+            {
+                $user->login($user->id);
+                $data = array('str' => json_success(array('inviteCode' => 1, 'redirect' => site_url('signup/dream'))));
+                $this->load->view('blank', $data);
+            }
         }
         else
         {
-            $data = array('str' => $r['message']);
+            $data = array('str' => json_error($r['message']));
             $this->load->view('blank', $data);
         }
     }
