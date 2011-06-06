@@ -164,17 +164,6 @@ class Users extends CI_Controller
         $this->load->view('blank', $data);
     }
     
-    public function mytest()
-    {
-        $this->user->get_current_place();
-            $params = array('setting_id' => 10, 'user' => $this->user);
-            $this->load->library('email_notifs', $params);
-            $this->email_notifs->get_emails();
-            $this->email_notifs->compose_email($this->user, $this->user->current_place);
-            $r = $this->email_notifs->send_email();
-        $data = array('str' => '<pre>'.var_export($r,true).'</pre>');
-        $this->load->view('blank', $data);
-    }
 }
 
 /* End of file users.php */

@@ -441,8 +441,9 @@ class Profile extends CI_Controller
         $fsObj = new Epifoursquare($clientId, $clientSecret);
         $redirectUrl = 'http://dev.shoutbound.com/david/profile/foursquare_callback';
         $url = $fsObj->getAuthorizeUrl($redirectUrl);
-        echo "<a href=\"$url\">Click here</a>";
-        echo '<br/><br/>';
+        
+        $data = array('str' => '<a href="'.$url.'">Click here</a>');
+        $this->load->view('blank', $data);
     }
     
     
@@ -479,12 +480,14 @@ class Profile extends CI_Controller
         
         $res = $fsObj->get('/venues/search', $params);
         $places = $res->response->groups[0]->items;
+        $data = array('str' => '');
         foreach ($places as $place)
         {
-            echo 'name: '.$place->name.', address: ', $place->location->address.', '.
+            $data['str'] .= 'name: '.$place->name.', address: '. $place->location->address.', '.
                 $place->location->city.', '.
                 'distance: '.$place->location->distance.'<br/><br/>';
         }
+        $this->load->view('blank', $data);
     }
     
     

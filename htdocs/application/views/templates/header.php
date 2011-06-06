@@ -3,13 +3,17 @@
   <div class="wrapper">
     <h1 style="display:inline;">
       <a href="<?=site_url('/')?>">
-        <img src="<?=site_url('static/images/160x_50_sb_logo.png')?>" alt="Shoutbound" width="128" height="40"/>
+        <img src="<?=site_url('static/images/160x_50_sb_logo.png')?>" alt="Shoutbound" width="160" height="40"/>
       </a>
     </h1>
-
+    
     <? if(isset($user->id) AND !isset($is_onboarding)):?>
-  		<a href="<?=site_url('trips/create')?>" id="create-trip-button" style="position:absolute; left:605px; top:9px;">+ New trip</a>
-      <div class="nav" style="position:absolute; left:675px; top:0px;">    	
+      <div style="position:absolute;top:0;left:200px;">
+        <input id="searchbar" type="text" style="height:22px;width:250px;"/>
+      </div>
+
+  		<a href="<?=site_url('trips/create')?>" id="create-trip-button" style="position:absolute; left:595px; top:0;">+ New trip</a>
+      <div class="nav" style="position:absolute; right:0; top:0;">    	
         <a href="<?=site_url('home')?>">Home</a>
         <a href="<? if($user->username){echo site_url($user->username);}else{echo site_url('profile/'.$user->id);}?>">Profile</a>
         <a href="<?=site_url('settings')?>">Settings</a>
@@ -25,15 +29,15 @@
         <form id="login-form" action="">
           <fieldset>
             <div style="float:left; margin-right:10px;">
-              <label for="email" style="float:left; color:white; margin-right:5px;font-size:12px;">Email:</label>        
-              <input type="text" name="login_email" id="login_email" style="width:125px; font-size:12px;"/>                    
+              <label for="email" style="float:left; color:white; margin-right:5px;font-size:12px;">Email</label>        
+              <input type="text" name="login_email" id="login_email" style="width:150px;height:22px;"/>                    
             </div>
             <div style="float:left; margin-right:5px;">
-              <label for="password" style="float:left; color:white; margin-right:5px;font-size:12px;">Password:</label>
-              <input type="password" name="login_password" id="login_password" style="width:125px; font-size:12px;"/>
+              <label for="password" style="float:left; color:white; margin-right:5px;font-size:12px;">Password</label>
+              <input type="password" name="login_password" id="login_password" style="width:150px;height:22px;"/>
             </div>
-          <fieldset>
-          <button type="submit" id="login-submit" class="blue-button">Login</button>
+          </fieldset>
+          <input id="login-submit" type="submit" val="submit"/>
         </form>
       </div>
       

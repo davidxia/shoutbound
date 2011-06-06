@@ -2,6 +2,16 @@ var cache = {};
 
 
 $(function() {
+  $('#searchbar').keyup(function(e) {
+    var keyCode = e.keyCode || e.which,
+        q = $.trim($(this).val());
+    // ignore arrow keys
+    if (keyCode!==37 && keyCode!==38 && keyCode!==39 && keyCode!==40 && q.length>2) {
+      var f = function() {searchBarQuery(q);};
+      searchBarDelay(f, 700);
+    }
+  });
+
   if ($('#main-tabs').length > 0) {
     var defaultTab = $('#main-tabs').find('a:first').attr('href').substring(1);
     $(window).bind('hashchange', function(e) {
@@ -184,6 +194,7 @@ loadPolymap = function() {
   }
 }
 
+
 function addMarkers() {
   $("[class='place']").each(function(i,ele) {
     var marker = po.geoJson()
@@ -205,3 +216,23 @@ function addMarkers() {
     map.add(marker);
   });
 }
+
+
+searchBarDelay = (function() {
+  var timer = 0;
+  return function(callback, ms){
+    clearTimeout (timer);
+    timer = setTimeout(callback, ms);
+  };
+})();
+
+
+searchBarQuery = function(q) {
+  $.post(baseUrl+'places/ajax_autocomplete', {query:q},
+    function(d) {
+      console.log(d);
+      $('#searchbar-autocomplete').empty();
+      $('#searchbar').after(d);
+    });
+};
+

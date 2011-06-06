@@ -3,8 +3,6 @@
 .header{
 	background-color: #3a1551;
   border-bottom:1px solid #333;
-  overflow-x:hidden;
-  overflow-y:hidden;
   /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#25398C', endColorstr='#1D2D6E');
 	background: -webkit-gradient(linear, left top, left bottom, from(#25398C), to(#1D2D6E));
 	background: -moz-linear-gradient(top,  #25398C,  #1D2D6E);*/ 

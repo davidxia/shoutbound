@@ -135,7 +135,6 @@ $this->load->view('core_header', $header_args);
       <div style="clear:both"></div>
       <div id="bio"><?=$profile->bio?></div>
       <div id="website"><a href="<?=$profile->website?>" target="_blank"><?=$profile->website?></a></div>
-      <div id="profile-url">shoutbound.com/vanityurl</div>
     </div>
 
     <!-- MAP -->
