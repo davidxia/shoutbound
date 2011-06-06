@@ -19,27 +19,45 @@ textarea#post-input{
   font-size:20px;
   font-weight:600;
   line-height:22px;
-/*   float:left; */
   margin-bottom:10px;
 }
 
 #trip-actions{
-  margin-bottom:20px;
+/*   margin-bottom:20px; */
 }
 
 #col-right{
   margin:20px 0px 0px 0px !important;
 }
 
-#trip-description{
+.right-item-name{
+  margin-bottom:5px;
+  font-weight:500;
 }
 
 
+#trip-info{
+  margin-bottom:12px;
+}
+
+#trip-description{
+  margin:5px 0px;
+}
+
+#itinerary{
+  margin-bottom:10px;
+}
+
+.right-widget-container{
+  margin-top:25px;
+}
+
 #trip-goers{
+  margin:5px 0px;
 }
 
 .goer-avatar{
-  margin:0px 8px 8px 0px;
+  margin:0px 3px 0px 0px;
   float:left;
 }
 

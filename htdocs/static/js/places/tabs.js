@@ -28,11 +28,55 @@ function dbpediaQuery(placeName, admin1) {
           abstract += '...';
         }
         $('#abstract').html(abstract);
-        //textShorten($('#abstract'));
-        $('#gallery-tab').append('<img src="'+r.thumbnail.value+'"/>');
-      } else {
-        $('#abstract').html('sorry, we couldn\'t find any info on that');
+        $('#abstract').shorten();
+        var newImg = new Image();
+        newImg.src = r.thumbnail.value;
+        var parentWidth = document.getElementById('gallery-tab').clientWidth;
+        var calcHeight = parentWidth/newImg.width * newImg.height
+        $('#gallery-tab').append('<img src="'+r.thumbnail.value+'" width="'+parentWidth+'" height="'+calcHeight+'"/>');
+        $('a[href="#gallery"]').parent().show();
       }
     });
   return false;
 }
+
+
+$.fn.shorten = function(settings) {
+  var config = {
+    showChars : 300,
+    ellipsesText : '...',
+    moreText : 'more',
+    lessText : 'less'
+  };
+
+  if (settings) {
+    $.extend(config, settings);
+  }
+
+  $('.morelink').live('click', function() {
+    var $this = $(this);
+    if ($this.hasClass('less')) {
+      $this.removeClass('less');
+      $this.html(config.moreText);
+    } else {
+      $this.addClass('less');
+      $this.html(config.lessText);
+    }
+    $this.parent().prev().toggle();
+    $this.prev().toggle();
+    return false;
+  });
+
+  return this.each(function() {
+    var $this = $(this);
+
+    var content = $this.html();
+    if (content.length > config.showChars) {
+      var c = content.substr(0, config.showChars);
+      var h = content.substr(config.showChars , content.length - config.showChars);
+      var html = c + '<span class="moreellipses">' + config.ellipsesText + '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="javascript://nop/" class="morelink">' + config.moreText + '</a></span>';
+      $this.html(html);
+      $('.morecontent span').hide();
+    }
+  });
+};

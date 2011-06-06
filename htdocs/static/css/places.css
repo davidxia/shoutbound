@@ -9,6 +9,7 @@
 }
 
 #abstract{
+<<<<<<< HEAD
   max-height: 114px;
   overflow-y:hidden;
 }
@@ -30,4 +31,7 @@
 
 .top-bar-header{
   margin-bottom:12px;
+=======
+  margin-top:6px;
+>>>>>>> 2821d01737fdc4d4325889a551d8384cdbf9611e
 }
