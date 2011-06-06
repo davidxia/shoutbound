@@ -76,21 +76,21 @@ class Users extends CI_Controller
             $reserved_urls = array('login','signup','about','press','contact','home','posts','users','settings','trip_shares','error','profile','trips','places','landing','media','follow','followers','following','shoutbound');
             if (in_array($username, $reserved_urls) OR (isset($user->id) AND $this->user->id != $user->id) OR strlen($username)<4)
             {
-                $data = array('str' => json_error('Sorry, it\'s taken :('));
+                $data = array('str' => json_error('Sorry, that\'s taken :('));
             }
             elseif (isset($user->id) AND $this->user->id == $user->id)
             {
-                $data = array('str' => json_success(array('message' => 'That\'s you.')));
+                $data = array('str' => json_success(array('message' => 'That\'s you!')));
             }
             else
             {
-                $data = array('str' => json_success(array('message' => 'Yay, it\'s available!')));
+                $data = array('str' => json_success(array('message' => 'Available!')));
             }
             
         }
         else
         {
-            $data = array('str' => json_error('Only use letter, numbers, and \'_\''));
+            $data = array('str' => json_error('Only use letters, numbers, and \'_\''));
         }
         $this->load->view('blank', $data);
     }
