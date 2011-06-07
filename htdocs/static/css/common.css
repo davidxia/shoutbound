@@ -40,6 +40,10 @@ a:hover{
 }
 */
 
+#top-section{
+  margin-bottom:12px;
+}
+
 .streamitem-bio{
   color:#333;
 }

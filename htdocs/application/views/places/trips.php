@@ -1,6 +1,6 @@
 <div id="trips-tab" class="main-tab-content">
 <? if(!$place->trips):?>
-  There are no trips to this place yet.
+  There are no trips to <?=$place->name?> yet. You should <a href="<?=site_url('trips/create')?>">create one</a>!
 <? endif;?>
 <? foreach ($place->trips as $trip):?>
   <div>

@@ -42,6 +42,11 @@ $this->load->view('core_header', $header_args);
 
     <!-- LEFT COLUMN -->
     <div id="col-left">
+
+      <div id="top-section">
+        <div id="trip-name"><?=$trip->name?></div>          
+          <!--<div>This trip was created by <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a></div>-->
+      </div><!--TOP SECTION END-->
               
       <ul id="main-tabs">
         <li><a href="#posts">Posts</a></li>
@@ -236,12 +241,7 @@ $this->load->view('core_header', $header_args);
     </div><!--LEFT COLUMN END-->                         			        
           
   <!-- RIGHT COLUMN -->
-  <div id="col-right">
-    <div id="top-section">
-      <div id="trip-name"><?=$trip->name?></div>          
-<!--           <div>This trip was created by <a href="<?=site_url('profile/'.$trip->creator->id)?>"><?=$trip->creator->name?></a></div>          -->
-    </div><!--TOP SECTION END-->
-  
+  <div id="col-right"> 
   
       <? if ($user->role == 5):?>
         <? if ($user->rsvp == 0):?>
