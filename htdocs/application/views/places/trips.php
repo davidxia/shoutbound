@@ -1,4 +1,7 @@
 <div id="trips-tab" class="main-tab-content">
+<? if(!$place->trips):?>
+  There are no trips to this place yet.
+<? endif;?>
 <? foreach ($place->trips as $trip):?>
   <div>
     <div class="trip-name">

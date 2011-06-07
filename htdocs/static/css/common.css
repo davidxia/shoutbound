@@ -815,18 +815,26 @@ a.unfollow{
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }
 
-.deleteable{
+.deleteable,.editable{
   position:relative;
 }
-.delete{
-  background-image: url(/david/static/images/delete_button.png);
-  height: 15px;
-  width: 15px;
-  opacity: 0;
+.delete,.edit-icon{
+  display: none;
+  background-image: url(/david/static/images/button_sprites.png);
   cursor: pointer;
   position: absolute;
   top: 0;
   right: 0;
+}
+.delete{
+  background-position: 0px 15px;
+  height: 15px;
+  width: 15px;
+}
+.edit-icon{
+  background-position: 0px 0px;
+  height: 18px;
+  width: 18px;
 }
 
 .save-settings-button{

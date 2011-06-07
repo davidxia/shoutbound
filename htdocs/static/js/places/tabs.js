@@ -31,10 +31,9 @@ function dbpediaQuery(placeName, admin1) {
         $('#abstract').shorten();
         var newImg = new Image();
         newImg.src = r.thumbnail.value;
-        var parentWidth = document.getElementById('gallery-tab').clientWidth;
+        var parentWidth = document.getElementById('gallery').clientWidth;
         var calcHeight = parentWidth/newImg.width * newImg.height
-        $('#gallery-tab').append('<img src="'+r.thumbnail.value+'" width="'+parentWidth+'" height="'+calcHeight+'"/>');
-        $('a[href="#gallery"]').parent().show();
+        $('#gallery').append('<img src="'+r.thumbnail.value+'" width="'+parentWidth+'" height="'+calcHeight+'"/>');
       }
     });
   return false;

@@ -141,7 +141,7 @@ $this->load->view('core_header', $header_args);
       </div>
       
       <? if($profile->current_place):?>
-      <div id="current-place" class="profile-item">
+      <div id="current-place" class="profile-item editable">
         <? if($is_self):?>
         <div class="edit-icon edit-curr-place"></div>
         <? endif;?>
@@ -151,7 +151,7 @@ $this->load->view('core_header', $header_args);
       <? endif;?>
       
       <? if($profile->future_places):?>
-      <div id="future-places" class="profile-item">
+      <div id="future-places" class="profile-item editable">
         <? if($is_self):?>
         <div class="edit-icon edit-fut-places"></div>
         <? endif;?>
@@ -165,14 +165,17 @@ $this->load->view('core_header', $header_args);
       <? endif;?>
 
       <? if($profile->past_places):?>
-      <div id="past-places" class="profile-item">
+      <div id="past-places" class="profile-item editable">
         <? if($is_self):?>
         <div class="edit-icon edit-past-places"></div>
         <? endif;?>
         <div style="font-size:14px;font-weight:bold;margin-top:10px;">Been To</div>
         <? foreach($profile->past_places as $past_place):?>
         <div>
-          <a href="<?=site_url('places/'.$past_place->id)?>"><?=$past_place->name?><? if($past_place->admin1){echo ', '.$past_place->admin1;}if($past_place->country){echo ', '.$past_place->country;}?></a>
+          <a href="<?=site_url('places/'.$past_place->id)?>"><?=$past_place->name?><? if($past_place->country){echo ', '.$past_place->country;}?></a>
+         <? if($past_place->timestamp):?>
+           <?=date('n/Y', $past_place->timestamp)?>
+         <? endif;?>
         </div>
         <? endforeach;?>
       </div>
@@ -191,13 +194,6 @@ $this->load->view('core_header', $header_args);
   </div><!--STICK FOOTER WRAPPER ENDS-->
   <? $this->load->view('templates/footer')?>
 <script type="text/javascript">
-  $('.profile-item').hover(function() {
-    $(this).children('.edit-icon').show();
-  }, function() {
-    $(this).children('.edit-icon').hide();
-  });
-  
-  
   $('.edit-icon').click(function() {
     window.location = 'http://dev.shoutbound.com/david/settings/profile';
 /*

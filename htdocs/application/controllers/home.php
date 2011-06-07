@@ -38,7 +38,8 @@ class Home extends CI_Controller
             ->get_num_following_trips()
             ->get_num_following_places()
             ->get_num_followers()
-            ->get_news_feed_items();
+            ->get_news_feed_items()
+            ->get_current_place();
         
         $data = array(
             'user' => $this->user,
