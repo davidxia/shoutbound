@@ -1,7 +1,6 @@
 <div id="related_places-tab" class="main-tab-content">
-
   <? if ( ! $place->related_places):?>
-    we display places related by tags, proximity, related people, etc
+    There are no related places.
   <? endif;?>
   
   <? $prefix='first-item'; foreach ($place->related_places as $place):?>

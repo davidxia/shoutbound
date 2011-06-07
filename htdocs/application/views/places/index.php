@@ -47,6 +47,9 @@ $this->load->view('core_header', $header_args);
             
     <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
       <div id="posts-tab" class="main-tab-content main-tab-default">
+        <? if(!$place->posts):?>
+          This place has no posts yet.
+        <? endif;?>
         <? foreach ($place->posts as $post):?>
           <div class="post" id="post-<?=$post->id?>">
             <div class="postcontent">
@@ -126,22 +129,17 @@ $this->load->view('core_header', $header_args);
       <div style="clear:both"></div>
     </div>
     <div id="abstract-container">
-      <div class="right-item-name">About <?=$place->name?>:</div>
+      <div class="right-item-name">About</div>
       <div id="abstract"></div>
       <div id="wikipedia-attribution">Source: Wikipedia</div>
     </div>
-
-    <!-- GALLERY AND MAP-->
-    <!--
-    <ul id="right-tabs">
-      <li><a href="#gallery">Gallery</a></li>
-      <li><a href="#map">Map</a></li>
-    </ul>
-    -->        
-    <!-- <div id="gallery-tab" class="right-tab-content"></div> -->
-        
+    
     <div id="map-shell">
       <div id="map-canvas"></div>     
+    </div>
+    
+    <div id="gallery">
+      <div class="right-item-name">Gallery</div>
     </div>
   </div><!-- RIGHT COLUMN ENDS -->
      

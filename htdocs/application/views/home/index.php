@@ -210,10 +210,17 @@ $this->load->view('core_header', $header_args);
           </div><!--STATS END-->
           <div style="clear:both"></div>
         </div>
-      </div><!-- RIGHT WIDGETS --> 
+      </div><!-- RIGHT WIDGETS ENDS -->
 
       <!--RIGHT CONTENT-->      
       <div id="right-content-container">
+        <? if($user->current_place):?>
+        <div id="current-place" class="editable">
+          <div class="edit-icon edit-curr-place"></div>
+          <div style="font-size:14px;font-weight:bold;margin-top:10px;">Current Location</div>
+          <a href="<?=site_url('places/'.$user->current_place->id)?>"><?=$user->current_place->name?><? if($user->current_place->country){echo ', '.$user->current_place->country;}?></a>
+        </div>
+        <? endif;?>
       
        <!-- MAP -->
         <div id="map-shell">
@@ -226,5 +233,25 @@ $this->load->view('core_header', $header_args);
   </div><!-- WRAPPER ENDS -->
   </div><!--STICK FOOTER WRAPPER ENDS-->
   <? $this->load->view('templates/footer')?>
+<script type="text/javascript">
+  $('.edit-icon').click(function() {
+    if ($(this).siblings('input').length < 1) {
+      var icon = $(this),
+          input = $('<input id="edit-curr-place" type="text" style="width:250px"/>'),
+          origPlace = icon.siblings('a');
+      input.val(origPlace.text());
+      origPlace.hide();
+      icon.parent().append(input);
+      input.focus();
+    }
+  });
+  $('#current-place').click(function(e) {
+    e.stopPropagation();
+  });
+  $('html').click(function() {
+    $('.edit-icon').siblings('a').show();
+    $('.edit-icon').siblings('input').remove();
+  });
+</script>
 </body>
 </html>

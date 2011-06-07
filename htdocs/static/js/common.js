@@ -136,6 +136,15 @@ $(function() {
     }
   });
 
+
+  $('.editable').hover(function() {
+    $(this).children('.edit-icon').show();
+  }, function() {
+    $(this).children('.edit-icon').hide();
+  });
+
+
+/*
   if ($('#right-content-container').length > 0) {
     var top = $('#right-content-container').offset().top - parseFloat($('#right-content-container').css('marginTop').replace(/auto/, 0));
   }
@@ -154,6 +163,7 @@ $(function() {
       }
     }
   }, 100);
+*/
   
   
   jqMultiselect();

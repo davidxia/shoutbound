@@ -45,25 +45,5 @@
     </div>
   <? endforeach;?>
 
-  <div style="border-top:1px solid #BABABA;">
-    Places <?=$profile->first_name?> has been:<br/>
-    <? if ($user AND $is_self AND count($profile->past_places)<5):?>
-      <a href="<?=site_url('settings/profile')?>">Show off</a> where you've been.
-    <? elseif ( ! $profile->past_places):?>
-      <?=$profile->name?> hasn't listed any places yet.
-    <? endif;?>
-    <div>
-    <? foreach ($profile->past_places as $past_place):?>
-     <div>
-       <span class="place" lat="<?=$past_place->lat?>" lng="<?=$past_place->lng?>" title="<?=$past_place->name?>">
-         <a href="<?=site_url('places/'.$past_place->id)?>"><?=$past_place->name?></a><? if($past_place->admin1){echo ', '.$past_place->admin1;}if($past_place->country){echo ', '.$past_place->country;}?>
-       </span>
-       <? if($past_place->timestamp):?>
-         <?=date('F Y', $past_place->timestamp)?>
-       <? endif;?>
-     </div>
-    <? endforeach;?>
-    </div>
-    
   </div>
 </div>

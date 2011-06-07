@@ -841,6 +841,7 @@ a.unfollow{
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }
 
+<<<<<<< HEAD
 .deleteable, .editable{
   position:relative;
 }
@@ -861,6 +862,28 @@ a.unfollow{
  background-position: 0px 0px;
  height: 18px;
  width: 18px;
+=======
+.deleteable,.editable{
+  position:relative;
+}
+.delete,.edit-icon{
+  display: none;
+  background-image: url(/david/static/images/button_sprites.png);
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+>>>>>>> ad66868cd8a722cd4fabc7a2c289032b29f536a7
+}
+.delete{
+  background-position: 0px 15px;
+  height: 15px;
+  width: 15px;
+}
+.edit-icon{
+  background-position: 0px 0px;
+  height: 18px;
+  width: 18px;
 }
 
 .save-settings-button{

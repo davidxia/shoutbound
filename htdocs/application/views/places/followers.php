@@ -1,6 +1,6 @@
 <div id="followers-tab" class="main-tab-content">
   <? if ( ! $place->followers):?>
-    <?=$place->name?> doesn't have any followers yet. You can be the <a href="#">first</a>.
+    <?=$place->name?> doesn't have any followers yet. You can be the first.
   <? endif;?>
   <? $prefix='first-item'; foreach ($place->followers as $follower):?>
     <div class="<?=$prefix?> streamitem">
