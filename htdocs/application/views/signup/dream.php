@@ -3,9 +3,11 @@ $header_args = array(
     'title' => 'Getting Started | Shoutbound',
     'css_paths' => array(
         'css/onboarding.css',
+        'css/excite-bike/jquery-ui-1.8.13.custom.css',
     ),
     'js_paths' => array(
         'js/common.js',
+        'js/jquery/jquery-ui-1.8.13.custom.min.js',
         'js/jquery/jquery-dynamic-form.js',
         'js/jquery/validate.min.js',
     )
@@ -62,7 +64,8 @@ $this->load->view('core_header', $header_args);
           <form id="bucket-list" action="<?=site_url('signup/save_bucket_list')?>" method="post">
           <fieldset>
             <div id="place" style="position:relative;">
-              <a id="add-place" href="" style="position:absolute;left:-20px;top:15px; color:white;">[+]</a><a id="subtract-place" href="" style="position:absolute;left:-20px;top:30px;color:white;">[-]</a>
+              <a id="add-place" href="#" style="position:absolute;left:-20px;top:15px; color:white;">[+]</a>
+              <a id="subtract-place" href="#" style="position:absolute;left:-20px;top:30px;color:white;">[-]</a>
               <span class="label-and-errors">
                 <label for="place_name0"></label>
                 <span class="error-message" style="float:right;height:19px;"><span style="color:white">a</span></span>
@@ -90,7 +93,7 @@ $this->load->view('core_header', $header_args);
 <!--STICKY-BAR-->
 <div id="sticky-bar">  
   <div id="progress-buttons-container">
-    <a href="#" class="next-button">Next</a> 
+    <a href="<?=site_url('signup/follow')?>" class="next-button">Next</a> 
   </div>        
 </div>
 <!-- </div> --><!--HIDE WRAPPER ENDS-->
@@ -98,119 +101,46 @@ $this->load->view('core_header', $header_args);
 <script type="text/javascript">
   $(function() {
     $('#place_name').focus();
-  
-    $('input.place-input').live('keyup', function(e) {
-      var keyCode = e.keyCode || e.which,
-          q = $.trim($(this).val()),
-          ele = $(this);
-      // ignore arrow keys
-      if (keyCode!==37 && keyCode!==38 && keyCode!==39 && keyCode!==40 && q.length>2) {
-        var f = function () {geocoder(q, ele);};
-        delay(f, 200);
-      }
-    });
-
-    $('#place-autocomplete > li').live('click', function() {
-      var a = $(this).children('a'),
-          name = a.text(),
-          id = a.attr('id').match(/^place-(\d+)$/)[1];
-      $(this).parent().siblings('.place-input').val(name);
-      $(this).parent().siblings('.place_ids').val(id);
-      $('#place-autocomplete').remove();
-      $('#add-place').click();
-      addMarker(a.attr('lat'), a.attr('lng'));
-      return false;
-    });
-
-
-    $('.place-input').focus();
+    
+    $('input.place-input').live('keyup.autocomplete', function(){
+      $(this).autocomplete({
+  			source: function(request,response) {
+          $.post(baseUrl+'places/ajax_autocomplete', {term:request.term},
+            function(data) {var r = $.parseJSON(data); response( $.map(r, function(item) {
+  							return {
+  								label: item.name,
+  								value: item.name,
+  								id: item.id,
+  								lat: item.lat,
+  								lng: item.lng
+  							}
+  						}));
+  					});
+          },
+  			minLength: 2,
+  			delay: 200,
+  			appendTo: '#place',
+  			select: function(event,ui) {
+  				$.post(baseUrl+'places/ajax_edit_fut_place', {placeId:ui.item.id, isFuture:1},
+  				  function(d) {
+  				  }
+  				)
+		      $(this).after('<div><span class="place" lat="'+ui.item.lat+'" lng="'+ui.item.lng+'">'+ui.item.label+'</span> <a href="#" class="remove-place" id="place-'+ui.item.id+'">remove</div>');
+  				$('#add-place').click();
+  				$(this).parent().next().children('input.place-input').focus();
+		      $(this).remove();
+  			}
+  		})
+		});
+		  
+		  
     // dynamic form plugin for multiple places
-    $('#place').dynamicForm('#add-place', '#subtract-place', {
-      limit: 10,
-      afterClone: function(clone) {
-        clone.find('input').val('');
-      }
-    });
+    $('#place').dynamicForm('#add-place', '#subtract-place', {});
     
-  
-    // allows user to use up/down arrows to select from autosuggest list
-    $('.place-input').live('keyup', function(e) {
-      var ele = $(this);
-      var keyCode = e.keyCode || e.which,
-          arrow = {up: 38, down: 40};
-        
-      /*key navigation through elements*/
-      if (keyCode == arrow.up || keyCode == arrow.down) {
-        var results = $('#place-autocomplete li');
-    
-        var current = results.filter('.selected'),
-            next;
-        
-        switch (keyCode) {
-          case arrow.up:
-            next = current.prev();
-            break;
-          case arrow.down:
-            if (!results.hasClass('selected')) {
-              results.first().addClass('selected');
-            }
-            next = current.next();
-            break;
-        }
-    
-        //only check next element if up and down key pressed
-        if (next.is('li')) {
-          current.removeClass('selected');
-          next.addClass('selected');
-        }
-    
-        //update text in searchbar
-        if (results.hasClass('selected')) {
-          var a = $('.selected').children('a'),
-              name = a.text();
-              //id = a.attr('id').match(/^place-(\d+)$/)[1];
-          ele.val(name);
-          //ele.siblings('.place_ids').val(id);
-        }
-    
-        //set cursor position
-        if (keyCode === arrow.up) {
-          return false;
-        }
-  
-        return;
-      }
-    });
-  
-  
-    $('.place-input').live('keydown keypress', function(e) {
-      var keyCode = e.keyCode || e.which,
-        arrow = {up: 38, enter: 13};
-      
-      if (keyCode == arrow.up || keyCode == arrow.enter) {
-        e.preventDefault();
-      }
-      if (keyCode == arrow.enter) {
-        var list = $('#place-autocomplete');
-        var id = $(list.children('.selected')[0]).children('a').attr('id').match(/^place-(\d+)$/)[1];
-        $(this).siblings('.place_ids').val(id);
-        list.remove();
-        $('#add-place').click();
-        //addMarker(a.attr('lat', a.attr('lng')))
-      }
-    });
-  
-
-    $('.next-button').click(function() {
-      var ids = $('.place_ids').map(function() {return $(this).val();}).get();
-      $('#bucket-list').submit();
-      return false;
-    });
-
 
     $('.remove-place').click(function() {
       var placeId = $(this).attr('id').match(/^place-(\d+)$/)[1];
-      $.post(baseUrl+'places/ajax_edit_fut_place', {placeId:placeId, follow:0},
+      $.post(baseUrl+'places/ajax_edit_fut_place', {placeId:placeId, isFuture:0},
         function(d) {
           $('#place-'+placeId).parent().remove();
         });
@@ -218,44 +148,8 @@ $this->load->view('core_header', $header_args);
     });
   });
   
-
-  delay = (function() {
-    var timer = 0;
-    return function(callback, ms){
-      clearTimeout (timer);
-      timer = setTimeout(callback, ms);
-    };
-  })();
-
-
-  geocoder = function(q, ele) {      
-    $.post(baseUrl+'places/ajax_autocomplete', {query:q},
-      function(d) {
-        $('#place-autocomplete').remove();
-        ele.after(d);
-      });
-  };
-
-
+  
 /*
-  $('#get-started-button').click(function() {
-    $('#hide-wrapper').show();
-    $('#sticky-bar').show();
-    $('#intro-box').hide();
-    return false;
-  });
-
-
-  function toggle_visibility(id) {
-     var e = document.getElementById(id);
-     if(e.style.display == 'block')
-        e.style.display = 'none';
-     else
-        e.style.display = 'block';
-  }
-*/
-  
-  
   addMarker = function(lat, lng) {
     var marker = po.geoJson()
         .features([
@@ -265,6 +159,7 @@ $this->load->view('core_header', $header_args);
     map.add(marker);
     
   }
+*/
 </script>
 </body>
 </html>

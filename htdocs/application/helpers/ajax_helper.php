@@ -2,12 +2,12 @@
 
 function json_error($message = NULL)
 {
-    return json_encode(array('success' => 0, 'message' => $message));
+    echo json_encode(array('success' => 0, 'message' => $message));
 }
 
 function json_success($array = array())
 {
-    return json_encode(array_merge(array('success' => 1), $array));
+    echo json_encode(array_merge(array('success' => 1), $array));
 }
 
 /* End of file ajax_helper.php */

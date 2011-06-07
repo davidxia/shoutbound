@@ -30,13 +30,12 @@ class Users extends CI_Controller
     {
         if ($this->user)
         {
-            $data = array('str' => json_success(array('loggedin' => $this->user->id)));
+            json_success(array('loggedin' => $this->user->id));
         }
         else
         {
-            $data = array('str' => json_success(array('loggedin' => 0)));
+            json_success(array('loggedin' => 0));
         }
-        $this->load->view('blank', $data);
     }
     
     
@@ -49,8 +48,7 @@ class Users extends CI_Controller
         );
 
         $render_string = $this->load->view('login_signup', $data, TRUE);
-        $data = array('str' => json_success(array('data' => $render_string)));
-        $this->load->view('blank', $data);
+        json_success(array('data' => $render_string));
     }
     
     
@@ -76,23 +74,22 @@ class Users extends CI_Controller
             $reserved_urls = array('login','signup','about','press','contact','home','posts','users','settings','trip_shares','error','profile','trips','places','landing','media','follow','followers','following','shoutbound');
             if (in_array($username, $reserved_urls) OR (isset($user->id) AND $this->user->id != $user->id) OR strlen($username)<4)
             {
-                $data = array('str' => json_error('Sorry, that\'s taken :('));
+                json_error('Sorry, that\'s taken :(');
             }
             elseif (isset($user->id) AND $this->user->id == $user->id)
             {
-                $data = array('str' => json_success(array('message' => 'That\'s you!')));
+                json_success(array('message' => 'That\'s you!'));
             }
             else
             {
-                $data = array('str' => json_success(array('message' => 'Available!')));
+                json_success(array('message' => 'Available!'));
             }
             
         }
         else
         {
-            $data = array('str' => json_error('Only use letters, numbers, and \'_\''));
+            json_error('Only use letters, numbers, and \'_\'');
         }
-        $this->load->view('blank', $data);
     }
 
 
@@ -148,20 +145,18 @@ class Users extends CI_Controller
 
         if ($changes_made)
         {
-            $data = array('str' => json_success(array(
+            json_success(array(
                 'changed' => 1,
                 'username' => $username,
                 'bio' => $bio,
                 'website' => $website,
                 'message' => 'saved',
-            )));
+            ));
         }
         else
         {
-            $data = array('str' => json_error('saved'));
+            json_error('saved');
         }
-        
-        $this->load->view('blank', $data);
     }
     
 }

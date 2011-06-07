@@ -2,13 +2,13 @@
 $header_args = array(
     'title' => 'Edit trail | Shoutbound',
     'css_paths'=>array(
-        'css/excite-bike/jquery-ui-1.8.11.custom.css',
+        'css/excite-bike/jquery-ui-1.8.13.custom.css',
         'css/settings.css',
     ),
     'js_paths'=>array(
         'js/common.js',
         'js/settings/profile.js',
-        'js/jquery/jquery-ui-1.8.11.custom.min.js',
+        'js/jquery/jquery-ui-1.8.13.custom.min.js',
         'js/jquery/jquery-dynamic-form.js',
         'js/jquery/validate.min.js',
     )

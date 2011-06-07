@@ -18,7 +18,7 @@ class Places extends CI_Controller
 				
     public function ajax_autocomplete()
     {
-        $query = $this->input->post('query');
+        $query = $this->input->post('term');
         $key = 'places_by_query:'.$query;
         $places = $this->mc->get($key);
         
@@ -28,30 +28,10 @@ class Places extends CI_Controller
             $places = query_places($query);
             $this->mc->set($key, $places);
         }
-
-        $data = array(
-            'places' => $places,
-        );
         
-        if ($this->input->post('isPost'))
-        {
-            $this->load->view('templates/omnibar_autocomplete', $data);
-        }
-        elseif ($this->input->post('isSettings'))
-        {
-            $this->load->view('templates/settings_autocomplete', $data);
-        }
-        elseif ($this->input->post('isSearchbar'))
-        {
-            $this->load->view('templates/searchbar_autocomplete', $data);
-        }
-        else
-        {
-            $this->load->view('templates/autocomplete', $data);
-        }
-        
+        echo json_encode($places);        
     }
-        
+    
     
     public function index($id = NULL)
     {
@@ -150,30 +130,29 @@ class Places extends CI_Controller
             $this->mc->delete('num_followers_by_place_id:'.$place_id);
             $this->mc->delete('follower_ids_by_place_id:'.$place_id);
             
-            $data = array('str' => json_success(array('type' => 'place', 'id' => $place_id, 'follow' => $follow)));
+            json_success(array('type' => 'place', 'id' => $place_id, 'follow' => $follow));
         }
         else
         {
-            $data = array('str' => json_error());
+            json_error();
         }
-        $this->load->view('blank', $data);
     }
     
     
     public function ajax_edit_fut_place()
     {
         $place_id = $this->input->post('placeId');
-        $is_future = $this->input->post('follow');
+        $is_future = $this->input->post('isFuture');
         
         if ($this->user->edit_future_place_by_place_id($place_id, $is_future))
         {
-            $data = array('str' => json_success());
+            $this->user->edit_follow_for_place_id($place_id, 1);
+            json_success();
         }
         else
         {
-            $data = array('str' => json_error());
+            json_error();
         }
-        $this->load->view('blank', $data);
     }
 
 

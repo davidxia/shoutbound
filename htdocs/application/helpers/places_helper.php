@@ -57,15 +57,11 @@ function query_places($q=NULL)
             foreach ($res['matches'] as $docinfo)
             {
               	$name = $docinfo['attrs']['name'];
-              	if ($docinfo['attrs']['admin1'])
-              	{
-                    $name .= ', '.$docinfo['attrs']['admin1'];
-              	}
               	if ($docinfo['attrs']['country'])
               	{
                     $name .= ', '.$docinfo['attrs']['country'];
               	}
-              	$places[$docinfo['id']] = array('name' => $name, 'lat' => $docinfo['attrs']['lat'], 'lng' => $docinfo['attrs']['lng']);
+              	$places[] = array('id' => $docinfo['id'], 'name' => $name, 'lat' => $docinfo['attrs']['lat'], 'lng' => $docinfo['attrs']['lng']);
             }
         }
       	return $places;
