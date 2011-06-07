@@ -44,7 +44,7 @@ $this->load->view('core_header', $header_args);
       
     <div class="about-item">
       <div class="about-item-header">Stay in the loop.</div>
-      <div class="about-item-content">ou can read our <a href="http://blog.shoutbound.com" target="_blank">blog</a>, follow us on <a href="http://twitter.com/shoutbound" target="_blank">Twitter</a>, join us on <a href="http://www.facebook.com/pages/Shoutbound/150065021716235" target="_blank">Facebook</a>.</div>
+      <div class="about-item-content">You can read our <a href="http://blog.shoutbound.com" target="_blank">blog</a>, follow us on <a href="http://twitter.com/shoutbound" target="_blank">Twitter</a>, join us on <a href="http://www.facebook.com/pages/Shoutbound/150065021716235" target="_blank">Facebook</a>.</div>
       <div style="clear:both"></div>    
     </div>
     

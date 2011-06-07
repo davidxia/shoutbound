@@ -47,7 +47,7 @@ $this->load->view('core_header', $header_args);
       
     <div class="about-item">
       <div class="about-item-header">For travel bloggers, journalists, and content producers.</div>
-      <div class="about-item-content">Shoutbound is a dedicated travel content syndication platform on steroids.  You can use Shoutbound to get new readers, more comments, and increase the longevity of your content. Post links to your blog, article or content on Shoutbound and tag them with the related destinations using the &#64; key (e.g., &#34;&#64;Bangkok&#34;). Moar here.</div>
+      <div class="about-item-content">Shoutbound is a dedicated travel content syndication platform on steroids.  You can use Shoutbound to drive traffic to your website, get new readers, more comments, and increase the longevity of your content. Post links to your blog, article or content on Shoutbound. In addition to being shared with your followers, your posts are shared with people who follow the destinations mentioned in your post.</div>
       <div class="about-item-img-container">
         <img src="<?=site_url('static/images/loudspeaker.png')?>" alt="Travel content syndication" width="115" height="115"/>           
       </div>            
