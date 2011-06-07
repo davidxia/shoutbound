@@ -31,7 +31,7 @@ $this->load->view('core_header', $header_args);
 
     <div id="col-left">
       <div id="settings-header">
-        Manage your Shoutbound account.f
+        Manage your Shoutbound account.
       </div>    
           
       <ul id="tab-style">

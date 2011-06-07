@@ -18,7 +18,6 @@ textarea#post-input{
 #trip-name{
   min-height:25px;
   line-height:25px;  
-  margin-bottom:8px;
   font-size:20px;
   font-weight:bold;
 }

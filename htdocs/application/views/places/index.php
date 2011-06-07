@@ -38,6 +38,12 @@ $this->load->view('core_header', $header_args);
     
   <!-- LEFT COLUMN -->
   <div id="col-left">    
+    <div id="top-section"><!--TOP SECTION-->
+      <div id="place-info">
+        <div id="place-name"><?=$place->name?><? if($place->admin1):?><span id="admin1" style="display:none;"><?=$place->admin1?></span><? endif;?><? if($place->country):?>, <?=$place->country?><? endif;?>
+        </div>
+      </div>        
+    </div><!--TOP SECTION END-->  
     
     <ul id="main-tabs">
       <li><a href="#posts">Posts</a></li>
@@ -49,7 +55,7 @@ $this->load->view('core_header', $header_args);
     <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
       <div id="posts-tab" class="main-tab-content main-tab-default">
         <? if(!$place->posts):?>
-          This place has no posts yet.
+          Nobody has shared a travel experience about <?=$place->name?> yet. You can be first!
         <? endif;?>
         <? foreach ($place->posts as $post):?>
           <div class="post" id="post-<?=$post->id?>">
@@ -102,14 +108,6 @@ $this->load->view('core_header', $header_args);
 
   <!-- RIGHT COLUMN -->
   <div id="col-right">
-    <div id="top-section"><!--TOP SECTION-->
-      <div id="place-info">
-        <div id="place-name"><?=$place->name?></div>
-        <br/>
-        <? if($place->admin1):?><span id="admin1" style="display:none;"><?=$place->admin1?></span><? endif;?>
-        <? if($place->country):?><span><?=$place->country?></span><? endif;?>
-      </div>    
-    </div>  
         
     <div id="actions-container">                   
       <? if (!$user OR !$place->is_following):?>
