@@ -28,3 +28,18 @@
 #profile-url{
   color:#3B5998;
 }
+
+#past-places, #future-places, #current-place{
+
+  padding-bottom:5px;
+/*   border-bottom:1px dotted #CACACA; */
+}
+
+#current-place{
+  border-top:1px dotted #CACACA;
+  padding-top:10px;
+}
+
+#map-shell{
+  margin-top:20px !important;
+}
