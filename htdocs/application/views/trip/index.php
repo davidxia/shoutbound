@@ -56,138 +56,94 @@ $this->load->view('core_header', $header_args);
         <!-- POSTS TAB -->
         <div id="posts-tab" class="main-tab-content main-tab-default">
 
-          <div class="streamitem">
-            <div class="streamitem-tagbar">
-              <a class="destination tag">Place, Country</a>
-              <a class="destination tag">Place, Country</a>  
-              <a class="tripname tag">Trip name</a>
-            </div>
-            <div class="author-container">
-              <div class="streamitem-name"><a>Authorname</a></div>
-              <div class="streamitem-recommenders"><span style="color:#666; font-weight:bold;">12</span> recommendations by Jack Black, John Gotti, Leighton Meester (more)</div>                          
-            </div>
-            <div class="streamitem-avatar-container">
-              <a href="#">
-                <img src="http://www.hdwallpapers.in/walls/neytiri_female_in_avatar-wide.jpg" height="25" width="25"/>
-              </a>
-            </div>
-            <div style="clear:both"></div>
-            <div class="streamitem-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-            <div class="actionbar">
-              <a class="bar-item">Recommend</a>
-              <span class="bullet">&#149</span>
-              <a class="bar-item">Comment</a>
-              <span class="bullet">&#149</span>
-              <a class="bar-item">Timeago</a>
-            </div>
-          </div>
-          
           <? $prefix1='first-item'; foreach ($trip->posts as $post):?>
             <!--POST START-->           
             <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem <? if(isset($user->id) AND ($user->role==10 OR ($post->added_by->id==$user->id))):?>deleteable<? endif;?>">
               <? $prefix1=''?>
               <? if(isset($user->id) AND ($user->role==10 OR ($post->added_by->id==$user->id))):?><div class="delete"></div><? endif;?>
+
+              <div class="streamitem-tagbar placeleftpull">
+                <? foreach($post->trips as $t):?>
+                <a href="<?=site_url('trips/'.$t->id)?>" class="tripname tag"><?=$t->name?></a>
+                  <? foreach($t->places as $place):?>
+                    <a href="<?=site_url('places/'.$place->id)?>" class="place"><? echo $place->name; if($place->country){echo ', '.$place->country;}?></a>
+                  <? endforeach;?>
+                <? endforeach;?>
+              </div>
+              
+              <div class="author-container">
+                <div class="streamitem-name">
+                  <a href="<? if($post->author->username){echo site_url($post->author->username);}else{echo site_url('profile/'.$post->author->id);}?>"><?=$post->author->name?></a>
+                </div>
+                <? if($post->added_by->username):?>
+                <div class="streamitem-recommenders"><span style="color:#666; font-weight:bold;">100</span> recommendations by <a href="<? if($post->added_by->username){echo site_url($post->added_by->username);}else{echo site_url('profile/'.$post->added_by->id);}?>"><?=$post->added_by->name?></a></div>
+                <? endif;?>
+              </div>
+              
               <div class="streamitem-avatar-container">
                 <a href="<? if($post->author->username){echo site_url($post->author->username);}else{echo site_url('profile/'.$post->user_id);}?>">
                   <img src="<?=static_sub('profile_pics/'.$post->author->profile_pic)?>" height="25" width="25"/>
                 </a>
               </div>
-              
-              <!--POST CONTENT CONTAINER-->
-              <div class="streamitem-content-container">                
-                <div class="streamitem-name">
-                  <a href="<? if($post->author->username){echo site_url($post->author->username);}else{echo site_url('profile/'.$post->author->id);}?>"><?=$post->author->name?></a>
-                </div>
-                <? if ($post->added_by->id):?>
-                  <div>Added by <a href="<? if($post->added_by->username){echo site_url($post->added_by->username);}else{echo site_url('profile/'.$post->added_by->id);}?>"><?=$post->added_by->name?></a></div>
-                <? endif;?>
-                <div class="streamitem-content">
-                  <?=$post->content?>
-                </div>             
-                
-                <!--ACTIONBAR START-->                 
-                <div class="actionbar">
-                  <? if(isset($user->id)):?>
-                  <div id="repost-post" class="bar-item">
-                    <a class="add-to-trip" href="#">Add to trip</a>                      
-                  </div>
-                  <span class="bullet">&#149</span>
-                  <? endif;?>
-                  <div class="bar-item">
-                    <a class="show-comments" href="#"><? $num_comments=count($post->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
-                  </div>
-                  <span class="bullet">&#149</span>                    
-                  <div class="bar-item">
-                    <a class="show-trips" href="#"><? $num_trips=count($post->trips); echo $num_trips.' trip'; if($num_trips!=1){echo 's';}?></a>
-                  </div>
-                  <span class="bullet">&#149</span>                        
-                  <div class="bar-item">
-                    <abbr class="timeago subtext" title="<?=$post->created?>"><?=$post->created?></abbr>
-                  </div>                        
-                </div><!--ACTIONBAR END-->
-                
+              <div style="clear:both"></div>
+  
+              <div class="streamitem-content">
+                <?=$post->content?>
+              </div>             
+
+              <div class="actionbar">
                 <? if(isset($user->id)):?>
-                <!-- ADD TO TRIP -->
-                <div class="add-to-trip-cont" style="display:none;">
-                  <select multiple="multiple" size=5>
-                    <? foreach ($user->rsvp_yes_trips as $t):?>
-                    <option value="<?=$t->id?>"><?=$t->name?>
-                    <? endforeach;?>
-                    <? foreach ($user->rsvp_awaiting_trips as $t):?>
-                    <option value="<?=$t->id?>"><?=$t->name?>
-                    <? endforeach;?>
-                    <? foreach ($user->following_trips as $t):?>
-                    <option value="<?=$t->id?>"><?=$t->name?>
-                    <? endforeach;?>
-                  </select>
-                  <a class="post-to-trip" href="#">Post</a>
-                </div>
-                <!-- ADD TO TRIP END -->
+                <a href="#" class="bar-item">Recommend</a>
+                <span class="bullet">&#149;</span>
                 <? endif;?>
-          
-                <!--COMMENTS START-->
-                <div class="comments-container" style="display:none;">
-                  <? foreach ($post->replies as $comment):?>
-                  <div class="comment">
-                    <div class="streamitem-avatar-container">
-                      <a href="<?=site_url('profile/'.$comment->user_id)?>">
-                        <img src="<?=static_sub('profile_pics/'.$comment->author->profile_pic)?>" height="28" width="28"/>
-                      </a>
-                    </div>                      
-                    <div class="streamitem-content-container">
-                      <div class="streamitem-name">
-                        <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->author->name?></a>
-                      </div>
-                      <div class="comment-content"><?=$comment->content?></div>
-                      <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$comment->created?>"><?=$comment->created?></abbr></div>                      
-                    </div>
-                  </div>
+                <a class="bar-item show-comments" href="#"><? $num_comments=count($post->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
+                <span class="bullet">&#149;</span>
+                <abbr class="bar-item timeago" title="<?=$post->created?>"><?=$post->created?></abbr>
+              </div>
+                
+              <? if(isset($user->id)):?>
+              <!-- ADD TO TRIP -->
+              <div class="add-to-trip-cont" style="display:none;">
+                <select multiple="multiple" size=5>
+                  <? foreach ($user->rsvp_yes_trips as $t):?>
+                  <option value="<?=$t->id?>"><?=$t->name?>
                   <? endforeach;?>
-                  <div class="comment-input-container">
-                    <textarea class="comment-input-area"/></textarea>
-                    <a class="add-comment-button" href="#">Add comment</a>
-                  </div>  
-                </div><!--END COMMENT CONTAINER-->
-            
-                <!--TRIP LISTING CONTAINER START-->
-                <div class="trip-listing-container" style="display:none;">
-                <? foreach ($post->trips as $t):?>
-                  <div class="trip-listing">
-                    <div class="trip-listing-name"><a href="<?=site_url('trips/'.$trip->id)?>"><?=$trip->name?></a></div>
-                    <div class="trip-listing-destination-container">
-                    <? $prefix=''; foreach ($t->places as $place):?>
-                      <?=$prefix?>
-                      <span class="trip-listing-destination"><a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a></span>
-                      <span class="subtext"><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
-                      <? $prefix = '<span class="bullet">&#149</span>'?>
-                    <? endforeach;?>
+                  <? foreach ($user->rsvp_awaiting_trips as $t):?>
+                  <option value="<?=$t->id?>"><?=$t->name?>
+                  <? endforeach;?>
+                  <? foreach ($user->following_trips as $t):?>
+                  <option value="<?=$t->id?>"><?=$t->name?>
+                  <? endforeach;?>
+                </select>
+                <a class="post-to-trip" href="#">Post</a>
+              </div>
+              <!-- ADD TO TRIP END -->
+              <? endif;?>
+        
+              <!--COMMENTS START-->
+              <div class="comments-container" style="display:none;">
+                <? foreach ($post->replies as $comment):?>
+                <div class="comment">
+                  <div class="streamitem-avatar-container">
+                    <a href="<?=site_url('profile/'.$comment->user_id)?>">
+                      <img src="<?=static_sub('profile_pics/'.$comment->author->profile_pic)?>" height="28" width="28"/>
+                    </a>
+                  </div>                      
+                  <div class="streamitem-content-container">
+                    <div class="streamitem-name">
+                      <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->author->name?></a>
                     </div>
+                    <div class="comment-content"><?=$comment->content?></div>
+                    <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$comment->created?>"><?=$comment->created?></abbr></div>                      
                   </div>
+                </div>
                 <? endforeach;?>
-                </div><!--TRIP LISTING CONTAINER END-->
-                
-              </div><!--POST CONTENT CONTAINER END-->
-                
+                <div class="comment-input-container">
+                  <textarea class="comment-input-area"/></textarea>
+                  <a class="add-comment-button" href="#">Add comment</a>
+                </div>  
+              </div><!--END COMMENT CONTAINER-->                
+              
             </div><!--POST END-->
           <? endforeach;?> 
 
