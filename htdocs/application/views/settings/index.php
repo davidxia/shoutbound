@@ -34,7 +34,7 @@ $this->load->view('core_header', $header_args);
         <ul id="tab-style">
           <li class="active"><a href="#">Account</a></li>
           <li><a href="<?=site_url('settings/profile')?>">Profile</a></li>
-<!--           <li><a href="<?=site_url('settings/trail')?>">Trail</a></li> -->
+          <li><a href="<?=site_url('settings/trail')?>">Places</a></li>
         </ul>
         
         <div style="clear:both"></div>

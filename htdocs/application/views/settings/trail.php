@@ -36,18 +36,16 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('templates/header')?>
   <? $this->load->view('templates/content')?>
   
-    <div id="top-bar">
-      <div class="top-bar-header">Manage your Shoutbound account.</div>
-    </div>
-        
     <div id="col-left">
-    
+      <div id="settings-header">
+        Manage your Shoutbound account.
+      </div>    
       <div id="left-content-container">
       
         <ul id="tab-style">
           <li><a href="<?=site_url('settings')?>">Account</a></li>
           <li><a href="<?=site_url('settings/profile')?>">Profile</a></li>
-          <li class="active">Trail</li>
+          <li class="active"><a>Places</a></li>
         </ul>
         
         <div style="clear:both"></div>
@@ -58,18 +56,20 @@ $this->load->view('core_header', $header_args);
 
             <div>
               <? if (!$user->past_places):?>
-                You don't have a history of your awesome travels. Show off where you've been below.
+                Show off where you've been!
               <? endif;?>
+              
               <? foreach($user->past_places as $place):?>
-              <div>
-              <span class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" title="<?=$place->name?>">
-                  <a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a><? if($place->country){echo ', '.$place->country;}?>
-                </span>
+                <div>
+                  <span class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" title="<?=$place->name?>">
+                    <a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a><? if($place->country){echo ', '.$place->country;}?>
+                  </span>
                 <? if ($place->timestamp):?>
                   <?=date('F Y', $place->timestamp)?>
                 <? endif;?>
               </div>
               <? endforeach;?>
+              
             </div>
 
             <form id="places-been-form">
@@ -105,23 +105,21 @@ $this->load->view('core_header', $header_args);
               </div>
             </form>
             
-          </div><!-- PROFILE TAB ENDS -->
+          </div><!-- TAB ENDS -->
         </div><!-- TAB CONTAINER ENDS -->
-      </div><!-- LEFT CONTENT CONTAINER ENDS -->
-    </div><!-- CONTENT ENDS -->
+      </div><!-- CONTENT ENDS -->
+    </div><!--LEFT COL ENDS-->
 
     <!-- RIGHT COLUMN -->
     <div id="col-right">
-      <div id="right-content-container"><!--RIGHT CONTENT-->
-        <!-- MAP -->
-        <div id="map-shell">
-          <div id="map-canvas"></div>
-        </div>
-      </div><!--RIGHT CONTENT ENDS-->   
+      <!-- MAP -->
+      <div id="map-shell">
+        <div id="map-canvas"></div>
+      </div>
     </div><!-- RIGHT COLUMN ENDS -->
-
     
   </div><!-- WRAPPER ENDS -->
+  </div><!--CONTENT ENDS-->  
   </div><!--STICKY FOOTER WRAPPER ENDS-->
   <? $this->load->view('templates/footer')?>
 </body>

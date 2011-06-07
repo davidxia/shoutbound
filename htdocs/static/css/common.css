@@ -57,11 +57,11 @@ a:hover{
   cursor:pointer;
 }
 
-.destination.tag{
+.destination.tag, .place{
   background:#DFEAF4;
 }
 
-.destination.tag:hover{
+.destination.tag:hover, .place:hover{
   background:#19558D;
   color:white;
 }
@@ -222,6 +222,9 @@ h3{
 
 .response{
   font-weight:bold;
+  color:green;
+  font-size:20px;
+  margin-left:20px;
 }
 
 .dotted-subtitle{
@@ -336,12 +339,18 @@ fieldset {
   margin:2px 0px;
 }
 
-.tag{
+.tag, .place{
   padding:3px 3px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
   margin-bottom:3px;
+  line-height:15px;
+  display:inline-block;
+}
+
+.placeleftpull{
+  margin-left:-3px;
 }
 
 .bar-item{
@@ -556,12 +565,13 @@ ul.stats-list{
 
 ul.stats-list li{
   float: left;
-  padding:0px 8px;
+  padding-right:8px;
   margin-right:8px;
 }
 
 li.border-left{
   border-left:1px solid #BABABA;
+  padding-left:8px;
 }
 
 ul.stats-list li a{

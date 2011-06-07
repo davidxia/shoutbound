@@ -218,11 +218,12 @@ $this->load->view('core_header', $header_args);
         <? if($user->current_place):?>
         <div id="current-place" class="editable">
           <div class="edit-icon edit-curr-place"></div>
-          <div style="font-size:14px;font-weight:bold;margin-top:10px;">Current Location</div>
-          <a href="<?=site_url('places/'.$user->current_place->id)?>"><?=$user->current_place->name?><? if($user->current_place->country){echo ', '.$user->current_place->country;}?></a>
+          <div class="right-item-name">Current Location</div>
+          <a class="place placeleftpull" href="<?=site_url('places/'.$user->current_place->id)?>"><?=$user->current_place->name?><? if($user->current_place->country){echo ', '.$user->current_place->country;}?></a>
+          
         </div>
         <? endif;?>
-      
+        <a href="#">Change</a>
        <!-- MAP -->
         <div id="map-shell">
           <div id="map-canvas"></div>
