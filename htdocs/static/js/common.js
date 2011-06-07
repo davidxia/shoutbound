@@ -2,25 +2,27 @@ var cache = {};
 
 
 $(function() {
-  $('#searchbar').keyup(function(e) {
-    var keyCode = e.keyCode || e.which,
-        q = $.trim($(this).val());
-    // ignore arrow keys
-    if (keyCode!==37 && keyCode!==38 && keyCode!==39 && keyCode!==40 && q.length>2) {
-      var f = function() {searchbarQuery(q);};
-      searchbarDelay(f, 700);
-    }
-  });
-  $('html').click(function() {
-    $('#searchbar-autocomplete').remove();
-  });
-  $('#searchbar').click(function(e) {
-    e.stopPropagation();
-  });
-  $('.search-ac-box').live('click', function() {
-    window.location = $(this).children('a').attr('href');
-    return false;
-  });
+  if ($('#searchbar').length > 0) {
+    $('#searchbar').autocomplete({
+  		source: function(req,resp) {
+        $.post(baseUrl+'search/ajax_autocomplete', {query:req.term},
+          function(data) {var r = $.parseJSON(data); resp( $.map(r.places, function(item) {
+  						return {
+  							label: item.name,
+  							value: item.name,
+  							href: baseUrl+'places/'+item.id
+  						}
+  					}));
+  				});
+        },
+  		minLength: 3,
+  		delay: 400,
+  		appendTo: '#search-box',
+  		select: function(event,ui) {
+  		  window.location = ui.item.href;
+  		}
+    });
+  }
   
 
   if ($('#main-tabs').length > 0) {
@@ -237,15 +239,6 @@ function addMarkers() {
     map.add(marker);
   });
 }
-
-
-searchbarDelay = (function() {
-  var timer = 0;
-  return function(callback, ms){
-    clearTimeout (timer);
-    timer = setTimeout(callback, ms);
-  };
-})();
 
 
 searchbarQuery = function(q) {

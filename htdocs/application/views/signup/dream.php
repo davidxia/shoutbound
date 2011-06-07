@@ -9,7 +9,6 @@ $header_args = array(
         'js/common.js',
         'js/jquery/jquery-ui-1.8.13.custom.min.js',
         'js/jquery/jquery-dynamic-form.js',
-        'js/jquery/validate.min.js',
     )
 );
 
@@ -105,7 +104,7 @@ $this->load->view('core_header', $header_args);
     $('input.place-input').live('keyup.autocomplete', function(){
       $(this).autocomplete({
   			source: function(request,response) {
-          $.post(baseUrl+'places/ajax_autocomplete', {term:request.term},
+          $.post(baseUrl+'places/ajax_autocomplete', {query:request.term},
             function(data) {var r = $.parseJSON(data); response( $.map(r, function(item) {
   							return {
   								label: item.name,
@@ -117,14 +116,14 @@ $this->load->view('core_header', $header_args);
   						}));
   					});
           },
-  			minLength: 2,
+  			minLength: 3,
   			delay: 200,
   			appendTo: '#place',
   			select: function(event,ui) {
   				$.post(baseUrl+'places/ajax_edit_fut_place', {placeId:ui.item.id, isFuture:1},
   				  function(d) {
   				  }
-  				)
+  				);
 		      $(this).after('<div><span class="place" lat="'+ui.item.lat+'" lng="'+ui.item.lng+'">'+ui.item.label+'</span> <a href="#" class="remove-place" id="place-'+ui.item.id+'">remove</div>');
   				$('#add-place').click();
   				$(this).parent().next().children('input.place-input').focus();
@@ -147,19 +146,6 @@ $this->load->view('core_header', $header_args);
       return false;
     });
   });
-  
-  
-/*
-  addMarker = function(lat, lng) {
-    var marker = po.geoJson()
-        .features([
-            {geometry: {type:'Point', coordinates:[parseFloat(lng), parseFloat(lat)]}}
-        ])
-        .on('load', po.stylist().attr('fill', 'red'));
-    map.add(marker);
-    
-  }
-*/
 </script>
 </body>
 </html>

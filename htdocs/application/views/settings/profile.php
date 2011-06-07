@@ -4,21 +4,18 @@ $header_args = array(
     'css_paths'=>array(
         'css/uploadify.css',
         'css/settings.css',
+        'css/excite-bike/jquery-ui-1.8.13.custom.css',
     ),
     'js_paths'=>array(
         'js/common.js',
         'js/settings/profile.js',
         'js/uploadify/swfobject.js',
         'js/uploadify/jquery.uploadify.v2.1.4.min.js',
+        'js/jquery/jquery-ui-1.8.13.custom.min.js',
     )
 );
 $this->load->view('core_header', $header_args);
 ?>
-<style type="text/css">
-  table.ui-datepicker-calendar{
-    display:none;
-  }
-</style>
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
@@ -91,10 +88,10 @@ $this->load->view('core_header', $header_args);
     
           <div class="settings-item" style="position:relative;">
             <div class="settings-item-name">Current location</div>
-            <div class="settings-item-content">
-              <input type="text" id="current-place" class="place-input" style="width:320px; height:20px;" value="<? if(isset($user->current_place->name)){echo $user->current_place->name;if($user->current_place->country){echo ', '.$user->current_place->country;}}?>"/>
+            <div class="settings-item-content" id="current-place">
+              <input type="text" id="current-place-input" class="place-input" style="width:320px; height:20px;" value="<? if(isset($user->current_place->name)){echo $user->current_place->name;if($user->current_place->country){echo ', '.$user->current_place->country;}}?>"/>
               <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="display:none; position:absolute; right:40px; top:24px;"/>
-              <input id="current-place-id" class="place_id" name="current-place-id" type="hidden" val="<? if(isset($user->current_place->id)){echo $user->current_place->id;}?>"/>
+              <input id="current-place-id" class="place_id" name="current-place-id" type="hidden" value="<? if(isset($user->current_place->id)){echo $user->current_place->id;}?>"/>
               <br/><span class="subtext">Where in the world are you in right now?</span>        
             </div>
           </div>

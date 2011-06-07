@@ -137,7 +137,8 @@ class Trips extends CI_Controller
     
         
     public function create($i = 1)
-    {        
+    {   
+        $this->user->get_first_name();
         $data = array(
             'user' => $this->user,
             'place' => $this->input->post('place_input'),
@@ -147,17 +148,12 @@ class Trips extends CI_Controller
 
         if ($i == 1)
         {
-            $this->load->view('trip/create_with_map', $data);
+            $this->load->view('trip/create', $data);
         }
         elseif ($i == 2)
         {
-            $this->load->view('trip/create', $data);
+            $this->load->view('trip/create_with_map', $data);
         }
-        elseif ($i == 3)
-        {
-            $this->load->view('trip/create_three_steps', $data);
-        }
-        
     }
     
     
@@ -186,7 +182,7 @@ class Trips extends CI_Controller
         $places_dates = array();
         foreach ($post as $key => $val)
         {
-            if (is_array($val))
+            if (is_array($val) AND $post[$key]['place_id'])
             {
                 $places_dates[$post[$key]['place_id']] = array();
                 // gets each destination's startdate and enddate and stores as unix time
