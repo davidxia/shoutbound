@@ -8,11 +8,11 @@
     </h1>
     
     <? if(isset($user->id) AND !isset($is_onboarding)):?>
-      <div id="search-box" style="position:absolute;top:0;left:200px;">
-        <input id="searchbar" type="text" style="height:22px;width:250px;"/>
+      <div id="search-box" style="position:absolute;top:0;left:240px;">
+        <input id="searchbar" type="text" style="height:19px;width:250px; padding:3px 0px 0px 3px; line-height:19px; overflow-x: hidden;" placeholder="Search for a destination"/>
       </div>
 
-  		<a href="<?=site_url('trips/create')?>" id="create-trip-button" style="position:absolute; left:595px; top:0;">+ New trip</a>
+  		<a href="<?=site_url('trips/create')?>" id="create-trip-button" style="position:absolute; left:625px; top:9px;">+ New trip</a>
       <div class="nav" style="position:absolute; right:0; top:0;">    	
         <a href="<?=site_url('home')?>">Home</a>
         <a href="<? if($user->username){echo site_url($user->username);}else{echo site_url('profile/'.$user->id);}?>">Profile</a>

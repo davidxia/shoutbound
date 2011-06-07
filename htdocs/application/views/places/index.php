@@ -139,9 +139,11 @@ $this->load->view('core_header', $header_args);
       <div id="map-canvas"></div>     
     </div>
     
+<!--
     <div id="gallery">
       <div class="right-item-name">Gallery</div>
     </div>
+-->
   </div><!-- RIGHT COLUMN ENDS -->
      
   </div><!-- WRAPPER ENDS -->

@@ -53,7 +53,7 @@ $this->load->view('core_header', $header_args);
               
         <ul id="main-tabs">
           <li><a href="#feed">Feed</a></li>
-          <li><a href="#trail">Trips</a></li>
+          <li><a href="#trail">Trail</a></li>
         </ul>
         
         <div style="clear:both"></div>
@@ -67,7 +67,7 @@ $this->load->view('core_header', $header_args);
               <div class="input-container">
                 <form class="save-post-form">
                   <fieldset>
-                    <div id="instruction-bar">Use the @ key when you refer to a destination (e.g., "@Barcelona")</div>                  
+                    <div id="instruction-bar">Use the @ key when you refer to a place (e.g., "@Barcelona")</div>                  
                     <div contenteditable="true" id="post-input"></div>
                     <div id="add-to-trip-main">
                       <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
@@ -204,7 +204,7 @@ $this->load->view('core_header', $header_args);
         <div class="right-widget-container">                  
           <div id="stats-container"><!-- STATS -->
             <ul class="stats-list">
-              <li><a href="#trail" class="trip-count"><?=$user->num_rsvp_yes_trips?><span class="stat-label">Trips</span></a></li>
+              <li><a href="#trail" class="trip-count"><?=$user->num_rsvp_yes_trips?><span class="stat-label">Trail</span></a></li>
               <li class="border-left"><a href="<?=site_url('profile/'.$user->id.'#posts')?>" class="post-count"><?=$user->num_posts?><span class="stat-label">Posts</span></a></li>
               <li class="border-left"><a href="<?=site_url('profile/'.$user->id.'#following')?>" class="following-count"><?=$user->num_following_users+$user->num_following_trips+$user->num_following_places?><span class="stat-label">Following</span></a></li>
               <li class="border-left"><a href="<?=site_url('profile/'.$user->id.'#followers')?>" class="followers-count"><?=$user->num_followers?><span class="stat-label">Followers</span></a></li>
@@ -219,11 +219,12 @@ $this->load->view('core_header', $header_args);
         <? if($user->current_place):?>
         <div id="current-place" class="editable">
           <div class="edit-icon edit-curr-place"></div>
-          <div class="right-item-name">Current Location:</div>
-          <a class="place placepullleft" href="<?=site_url('places/'.$user->current_place->id)?>"><?=$user->current_place->name?><? if($user->current_place->country){echo ', '.$user->current_place->country;}?></a>
+          <div class="right-item-name">Current Location</div>
+          <a class="place placeleftpull" href="<?=site_url('places/'.$user->current_place->id)?>"><?=$user->current_place->name?><? if($user->current_place->country){echo ', '.$user->current_place->country;}?></a>
+          
         </div>
         <? endif;?>
-      
+        <a href="#">Change</a>
        <!-- MAP -->
         <div id="map-shell">
           <div id="map-canvas"></div>

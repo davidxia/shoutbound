@@ -222,6 +222,9 @@ h3{
 
 .response{
   font-weight:bold;
+  color:green;
+  font-size:20px;
+  margin-left:20px;
 }
 
 .dotted-subtitle{
@@ -562,12 +565,13 @@ ul.stats-list{
 
 ul.stats-list li{
   float: left;
-  padding:0px 8px;
+  padding-right:8px;
   margin-right:8px;
 }
 
 li.border-left{
   border-left:1px solid #BABABA;
+  padding-left:8px;
 }
 
 ul.stats-list li a{

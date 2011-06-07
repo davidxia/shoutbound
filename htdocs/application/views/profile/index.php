@@ -42,7 +42,7 @@ $this->load->view('core_header', $header_args);
     <div id="left-content-container">
       <ul id="main-tabs">
         <li><a href="#activity">Activity</a></li>
-        <li><a href="#trail">Trips</a></li>
+        <li><a href="#trail">Trail</a></li>
         <li><a href="#posts">Posts</a></li>
         <li><a href="#following">Following</a></li>
         <li class="last"><a href="#followers">Followers</a></li>
@@ -136,7 +136,7 @@ $this->load->view('core_header', $header_args);
 
       <div style="clear:both"></div>
       <div id="bio" class="profile-item">
-        <div class="right-item-name">About:</div>
+        <div class="right-item-name">About</div>
         <?=$profile->bio?>
       </div>
       <div id="website" class="profile-item">
@@ -148,7 +148,7 @@ $this->load->view('core_header', $header_args);
         <? if($is_self):?>
         <div class="edit-icon edit-curr-place"></div>
         <? endif;?>
-        <div class="right-item-name">Current location:</div>
+        <div class="right-item-name">Current location</div>
         <a class="place placeleftpull" href="<?=site_url('places/'.$profile->current_place->id)?>"><?=$profile->current_place->name?><? if($profile->current_place->country){echo ', '.$profile->current_place->country;}?></a>
       </div>
       <? endif;?>
@@ -158,7 +158,7 @@ $this->load->view('core_header', $header_args);
         <? if($is_self):?>
         <div class="edit-icon edit-fut-places"></div>
         <? endif;?>
-        <div class="right-item-name">Dreaming of:</div>
+        <div class="right-item-name">Dreaming of</div>
         <? foreach($profile->future_places as $future_place):?>
         <div>
           <a class="place placeleftpull" href="<?=site_url('places/'.$future_place->id)?>"><?=$future_place->name?><? if($future_place->country){echo ', '.$future_place->country;}?></a>
@@ -172,7 +172,7 @@ $this->load->view('core_header', $header_args);
         <? if($is_self):?>
         <div class="edit-icon edit-past-places"></div>
         <? endif;?>
-        <div class="right-item-name">Been to:</div>
+        <div class="right-item-name">Been to</div>
         <? foreach($profile->past_places as $past_place):?>
         <div>
           <a class="place placeleftpull" href="<?=site_url('places/'.$past_place->id)?>"><?=$past_place->name?><? if($past_place->country){echo ', '.$past_place->country;}?></a>

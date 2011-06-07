@@ -130,7 +130,7 @@ class Signup extends CI_Controller
             
             if (strcasecmp($invite_code,'tbex') AND $user->set_active(0))
             {
-                $data = array('str' => json_success(array('inviteCode' => 0, 'message' => 'Aw, you didn\'t enter a correct invite code. We\'ll contact you when spots open up.')));
+                $data = array('str' => json_success(array('inviteCode' => 0, 'message' => 'Thanks for signing up! Shoutbound is currently in private alpha. If you need an invite code, e-mail us at hello@shoutbound.com.  If you haveWe\'ll contact you when spots open up.')));
                 $this->load->view('blank', $data);
             }
             else

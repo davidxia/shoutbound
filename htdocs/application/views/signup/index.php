@@ -69,7 +69,7 @@ $this->load->view('core_header', $header_args);
               </div>
               <div class="signup-input-container">
                 <label for="password" style="color:#555; margin-right:4px;">Invite code</label>
-                <input type="text" name="invite_code" id="invite_code" class="signup-input" autocomplete="off"/>              
+                <input type="text" name="invite_code" id="invite_code" class="invite-input" autocomplete="off"/>              
                 <span class="error-message"></span>
               </div>
               <input type="hidden" name="is_fb_signup" id="is_fb_signup"/>              
@@ -117,8 +117,7 @@ $this->load->view('core_header', $header_args);
         signup_pw: {
           required: true,
           minlength: 4
-        },
-        invite_code: 'required'
+        }
       },
       messages: {
         signup_name: 'Hi! What\'s your name?',

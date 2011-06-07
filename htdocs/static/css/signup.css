@@ -42,6 +42,13 @@
 
 .signup-input{
   width:200px !important;
+  border:1px solid #888 !important;
+}
+
+.invite-input{
+  width:200px !important;
+  margin-top:25px !important;
+  border:1px solid green !important;
 }
 
 .step-container{

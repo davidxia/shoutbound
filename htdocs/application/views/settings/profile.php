@@ -31,13 +31,13 @@ $this->load->view('core_header', $header_args);
 
     <div id="col-left">
       <div id="settings-header">
-        Manage your Shoutbound account.
+        Manage your Shoutbound account.f
       </div>    
           
       <ul id="tab-style">
         <li><a href="<?=site_url('settings')?>">Account</a></li>
         <li class="active"><a href="#">Profile</a></li>
-<!--           <li><a href="<?=site_url('settings/trail')?>">Trail</a></li> -->
+          <li><a href="<?=site_url('settings/trail')?>">Places</a></li>
       </ul>
       
       <div style="clear:both"></div>
@@ -48,7 +48,7 @@ $this->load->view('core_header', $header_args);
           <div class="settings-item" style="padding-top:10px !important">
             <div class="settings-item-name">Username</div>
             <div class="settings-item-content" style="position:relative; width:650px !important;">
-              <input style="margin-left:-2px; padding-left:108px; width:190px;" type="text" id="username" maxlength="15" value="<?=$user->username?>"/>
+              <input style="margin-left:-2px; z-index:100; padding-left:108px; width:190px;" type="text" id="username" maxlength="15" value="<?=$user->username?>"/>
               <div id="shoutbound-url" style="display:inline; position:relative; left:-300px; width:75px; font-size:13px; color:#777;">shoutbound.com/</div>
               <img class="ajax-spinner" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="display:none;position:absolute;left:140px;top:3px;"/>
               <span id="username-help" style="position:relative; left:-100px; color:#777; width:300px; font-weight:bold;"></span>
