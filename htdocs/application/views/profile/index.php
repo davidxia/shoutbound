@@ -2,7 +2,8 @@
 $header_args = array(
     'title' => $profile->name.' | Shoutbound',
     'css_paths' => array(
-      'css/profile.css',
+        'css/profile.css',
+        'css/excite-bike/jquery-ui-1.8.13.custom.css',
     ),
     'js_paths' => array(
         'js/jquery/jquery.ba-bbq.min.js',
@@ -11,6 +12,7 @@ $header_args = array(
         'js/actionbar.js',
         'js/user/loginSignup.js',
         'js/jquery/popup.js',
+        'js/jquery/jquery-ui-1.8.13.custom.min.js',
     )
 );
 $this->load->view('core_header', $header_args);

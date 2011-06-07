@@ -238,33 +238,6 @@ class Signup extends CI_Controller
         );
         $this->load->view('signup/dream', $data);
     }
-    
-    
-/*
-    public function save_bucket_list()
-    {
-        if ( ! $this->user OR getenv('REQUEST_METHOD') == 'GET')
-        {
-            redirect('/');
-        }
-
-        $post = $this->input->post('place');
-        $post = $post['place'];
-        foreach ($post as $key => $val)
-        {
-            if (is_array($val) AND $val['place_id'])
-            {
-                $num_affected = $this->user->edit_future_place_by_place_id($val['place_id'], 1);
-                if ($num_affected == 1 OR $num_affected == 2)
-                {
-                    $this->user->edit_follow_for_place_id($val['place_id'], 1);
-                }
-            }
-        }
-        
-        redirect('signup/follow');
-    }
-*/
 
 
     public function follow()

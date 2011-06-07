@@ -18,7 +18,7 @@ class Places extends CI_Controller
 				
     public function ajax_autocomplete()
     {
-        $query = $this->input->post('term');
+        $query = $this->input->post('query');
         $key = 'places_by_query:'.$query;
         $places = $this->mc->get($key);
         

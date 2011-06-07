@@ -4,7 +4,8 @@ if ($place->country) $title .= ', '.$place->country;
 $header_args = array(
     'title' => $title.' | Shoutbound',
     'css_paths'=>array(
-      'css/places.css'
+      'css/places.css',
+      'css/excite-bike/jquery-ui-1.8.13.custom.css',
     ),
     'js_paths'=>array(
         'js/common.js',
@@ -12,6 +13,7 @@ $header_args = array(
         'js/places/tabs.js',
         'js/follow.js',
         'js/user/loginSignup.js',
+        'js/jquery/jquery-ui-1.8.13.custom.min.js',
     )
 );
 $this->load->view('core_header', $header_args);

@@ -2,10 +2,12 @@
 $header_args = array(
     'title' => 'Settings | Shoutbound',
     'css_paths'=>array(
-      'css/settings.css'
+        'css/settings.css',
+        'css/excite-bike/jquery-ui-1.8.13.custom.css',
     ),
     'js_paths'=>array(
         'js/common.js',
+        'js/jquery/jquery-ui-1.8.13.custom.min.js',
         'js/jquery/validate.min.js',
     )
 );

@@ -45,19 +45,10 @@ class Search extends CI_Controller
             $this->mc->set($key, $places);
         }
         
-        
-
-        $data = array(
-            'places' => $places,
-            'users' => $users,
-            'trips' => $trips,
-        );
-        
-        $this->load->view('templates/searchbar_autocomplete', $data);
+        echo json_encode(array('users' => $users, 'trips' => $trips, 'places' => $places));
     }
 
 }
 
 /* End of file search.php */
 /* Location: ./application/controllers/search.php */
-

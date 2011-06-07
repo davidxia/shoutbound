@@ -6,6 +6,7 @@ $header_args = array(
         'css/createtrip.css',
     ),
     'js_paths'=>array(
+        'js/common.js',
         'js/user/loginSignup.js',
         'js/jquery/validate.min.js',
         'js/jquery/jquery-ui-1.8.13.custom.min.js',
@@ -20,6 +21,10 @@ $this->load->view('core_header', $header_args);
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
+  var swLat = -50;
+  var swLng = -180;
+  var neLat = 50;
+  var neLng = 180;
 </script>
 
 </head>
@@ -30,83 +35,121 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('templates/header')?>
   <? $this->load->view('templates/content')?>
 		  
-  <!-- TRIP CREATION FORM -->
-  <form id="trip-creation-form" action="<?=site_url('trips/confirm_create')?>" method="post">
-    
-    <!-- PLACE DATES FIELD -->
-    <fieldset>
-      <div>Destinations</div>
-      <div id="dates-header">Dates (optional)</div>
-      <div id="place_dates">
-      
-        <a id="add-place" href="">[+]</a><a id="subtract-place" href="">[-]</a>
-        
-        <div class="field place">
-          <span class="label-and-errors">
-            <label for="place_name0"></label>
-            <span class="error-message" style="float:right;"></span>
-          </span>
-          <input type="text" id="place_name" class="place-input" name="place_name" autocomplete=off
-			     <? if ($place):?>value="<?=$place?>"<? endif;?>
-          />
-          <input type="hidden" id="place_id" class="required place_ids" name="place_id"
-  			    <? if ($place_id):?>value="<?=$place_id?>"<? endif;?>
-          />
-        </div>
-        
-        <div class="field dates" style="visibility:hidden;">
-          <span class="label-and-errors">
-            <span class="error-message"></span>
-            <div class="clear"></div>
-          </span>
-          <label for="startdate">from</label> <input id="startdate" class="startdate" name="startdate" type="text" size="10"/> <label for="enddate">to</label> <input id="enddate" class="enddate" name="enddate" type="text" size="10" />
-        </div>
-        
-      </div>
-    </fieldset><!-- PLACE DATES FIELD ENDS -->
-    
-    <!-- SUMMARY FIELD -->
-    <fieldset id="summary-field">
-      <div class="field trip_name">
-        <span class="label-and-errors">
-          <label for="trip_name">Trip name</label>
-          <span class="error-message"></span>
-          <div class="clear"></div>
-        </span>
-        <input id="trip_name" name="trip_name" class="required" type="text"/>
-      </div>
-       <div class="field">
-        <span class="label-and-errors">
-          <label for="description">Trip description</label>
-          <span class="error-message"></span>
-          <div class="clear"></div>
-        </span>
-        <textarea id="description" name="description"></textarea>
-      </div>
-    </fieldset><!-- SUMMARY  FIELD ENDS -->
-
-
-    <div style="margin-top:10px;">
-      <button id="create-submit" class="blue-button" type="submit">Create</button>
+  <div id="top-section">
+    <div id="top-bar">
+      <div class="top-bar-header" style="font-size:20px;font-weight:bold;">New trip</div>
     </div>
-  </form><!-- TRIP CREATION FORM ENDS -->
+  </div>
+
+  <div id="col-left">
+    <div id="left-content-container">
+      <!-- TRIP CREATION FORM -->
+      <form id="trip-creation-form" action="<?=site_url('trips/confirm_create')?>" method="post">
+        
+        <!-- PLACE DATES FIELD -->
+        <fieldset class="settings-item">
+          <div style="display:inline;">Destinations</div>
+          <div id="dates-header" style="display:inline-block;margin-left:215px;margin-bottom:10px;">Dates (optional)</div>
+          
+          <div id="place_dates" style="position:relative;width:550px;margin-bottom:15px;">
+            <a id="add-place" href="#" style="position:absolute;left:-20px;top:-5px;">[+]</a>
+            <a id="subtract-place" href="#" style="position:absolute;left:-20px;top:10px;">[-]</a>
+            
+            <div class="field place" id="place" style="float:left;">
+              <span class="label-and-errors">
+                <label for="place_name0"></label>
+                <span class="error-message" style="float:right;"></span>
+              </span>
+              <input type="text" id="place_name" class="place-input" name="place_name" autocomplete=off style="width:275px;"/>
+              <input type="hidden" id="place_id" class="place_ids" name="place_id"/>
+            </div>
+            
+            <div class="field dates" style="visibility:hidden;float:left;margin-left:15px;">
+              <span class="label-and-errors">
+                <span class="error-message"></span>
+                <div class="clear"></div>
+              </span>
+              <label for="startdate">from</label> <input id="startdate" class="startdate" name="startdate" type="text" size="10"/> <label for="enddate">to</label> <input id="enddate" class="enddate" name="enddate" type="text" size="10" />
+            </div>
+            <div style="clear:both"></div>
+          </div>
+        </fieldset><!-- PLACE DATES FIELD ENDS -->
+        
+        <!-- SUMMARY FIELD -->
+        <fieldset id="summary-field" style="margin-top:20px;">
+          <div class="field trip_name">
+            <span class="label-and-errors">
+              <label for="trip_name">Trip name</label>
+              <span class="error-message"></span>
+              <div class="clear"></div>
+            </span>
+            <input id="trip_name" name="trip_name" class="required" type="text" style="width:515px;" value="<?=$user->first_name?>'s Trip to"/>
+          </div>
+          <div class="field" style="margin-top:20px;">
+            <span class="label-and-errors">
+              <label for="description">Trip description</label>
+              <span class="error-message"></span>
+              <div class="clear"></div>
+            </span>
+            <textarea id="description" name="description" style="width:515px;"></textarea>
+          </div>
+        </fieldset><!-- SUMMARY  FIELD ENDS -->
+    
+        <div id="save-settings-container">
+          <button id="create-submit" type="submit">Create</button>
+        </div>
+      </form><!-- TRIP CREATION FORM ENDS -->
+    </div><!--LEFT CONTENT CONTAINER--> 
+  </div><!--LEFT COLUMN END-->
+
+  <!-- RIGHT COLUMN -->
+  <div id="col-right">
+    <div id="right-content-container"><!--RIGHT CONTENT-->
+      <!-- MAP -->
+      <div id="map-shell">
+        <div id="map-canvas"></div>
+      </div>
+    </div><!--RIGHT CONTENT ENDS-->   
+  </div><!-- RIGHT COLUMN ENDS -->
 </div><!-- CONTENT ENDS -->
 </div><!-- WRAPPER ENDS -->
 
 </div><!--CLOSE STICKY FOOTER WRAPPER-->
 <? $this->load->view('templates/footer')?>
 </body>
-</html>
-
 <script type="text/javascript">  
   $(function() {
     $('#place_name').focus();
-  
-    // dates for 1st place appear if it's filled in
-    if ($('#place_name').val() != '') {
-      $('#dates-header').css('visibility', 'visible');
-      $('.dates').css('visibility', 'visible');
-    }
+    
+    
+    $('input.place-input').live('keyup.autocomplete', function(){
+      $(this).autocomplete({
+  			source: function(request,response) {
+          $.post(baseUrl+'places/ajax_autocomplete', {query:request.term},
+            function(data) {var r = $.parseJSON(data); response( $.map(r, function(item) {
+  							return {
+  								label: item.name,
+  								value: item.name,
+  								id: item.id,
+  								lat: item.lat,
+  								lng: item.lng
+  							}
+  						}));
+  					});
+          },
+  			minLength: 3,
+  			delay: 200,
+  			appendTo: '#place',
+  			select: function(event,ui) {
+  				$('#add-place').click();
+  				$(this).siblings('.place_ids').val(ui.item.id);
+  				$(this).parent().siblings('.field.dates').css('visibility', 'visible').children('.startdate').focus();
+  				$('#trip_name').val(function(i,v) {
+  				  return v+' '+ui.item.label.split(',')[0]+',';
+  				});
+  			}
+  		})
+		});
   
   
     // dynamic form plugin for multiple places
@@ -166,56 +209,7 @@ $this->load->view('core_header', $header_args);
   });
   
 
-  // allows user to use up/down arrows to select from autosuggest list
-  $('.place-input').keyup(function(e) {
-    var ele = $(this);
-    var keyCode = e.keyCode || e.which,
-        arrow = {up: 38, down: 40};
-      
-    /*key navigation through elements*/
-    if (keyCode == arrow.up || keyCode == arrow.down) {
-      var results = $('#place-autocomplete li');
-  
-      var current = results.filter('.selected'),
-          next;
-      
-      switch (keyCode) {
-        case arrow.up:
-          next = current.prev();
-          break;
-        case arrow.down:
-          if (!results.hasClass('selected')) {
-            results.first().addClass('selected');
-          }
-          next = current.next();
-          break;
-      }
-  
-      //only check next element if up and down key pressed
-      if (next.is('li')) {
-        current.removeClass('selected');
-        next.addClass('selected');
-      }
-  
-      //update text in searchbar
-      if (results.hasClass('selected')) {
-        var a = $('.selected').children('a'),
-            name = a.text(),
-            id = a.attr('id').match(/^place-(\d+)$/)[1];
-        ele.val(name);
-        ele.siblings('.place_ids').val(id);
-      }
-  
-      //set cursor position
-      if (keyCode === arrow.up) {
-        return false;
-      }
-
-      return;
-    }
-  });
-
-
+/*
   $('.place-input').bind('keydown keypress', function(e) {
     var keyCode = e.keyCode || e.which,
       arrow = {up: 38, enter: 13};
@@ -231,8 +225,10 @@ $this->load->view('core_header', $header_args);
       dates.children('.startdate').focus();
     }    
   });
+*/
 
 
+/*
   $(function() {
     $('input.place-input').live('keyup', function(e) {
       var keyCode = e.keyCode || e.which,
@@ -257,22 +253,6 @@ $this->load->view('core_header', $header_args);
       return false;
     });
   });
-  
-
-  delay = (function() {
-    var timer = 0;
-    return function(callback, ms){
-      clearTimeout (timer);
-      timer = setTimeout(callback, ms);
-    };
-  })();
-
-
-  geocoder = function(q, ele) {      
-    $.post(baseUrl+'places/ajax_autocomplete', {query:q},
-      function(d) {
-        $('#place-autocomplete').remove();
-        ele.after(d);
-      });
-  };
+*/
 </script>
+</html>
