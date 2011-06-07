@@ -207,52 +207,5 @@ $this->load->view('core_header', $header_args);
     });
     //$('#deadline').datepicker(); 
   });
-  
-
-/*
-  $('.place-input').bind('keydown keypress', function(e) {
-    var keyCode = e.keyCode || e.which,
-      arrow = {up: 38, enter: 13};
-    
-    if (keyCode == arrow.up || keyCode == arrow.enter) {
-      e.preventDefault();
-    }
-    if (keyCode == arrow.enter) {
-      var dates = $(this).parent().next();
-      $('#dates-header').css('visibility', 'visible');
-      $('#place-autocomplete').remove();
-      dates.css('visibility', 'visible');
-      dates.children('.startdate').focus();
-    }    
-  });
-*/
-
-
-/*
-  $(function() {
-    $('input.place-input').live('keyup', function(e) {
-      var keyCode = e.keyCode || e.which,
-          q = $.trim($(this).val()),
-          ele = $(this);
-      // ignore arrow keys
-      if (keyCode!==37 && keyCode!==38 && keyCode!==39 && keyCode!==40 && q.length>2) {
-        var f = function () {geocoder(q, ele);};
-        delay(f, 200);
-      }
-    });
-
-    $('#place-autocomplete > li').live('click', function() {
-      var a = $(this).children('a'),
-          name = a.text(),
-          id = a.attr('id').match(/^place-(\d+)$/)[1];
-      $(this).parent().siblings('.place-input').val(name);
-      $(this).parent().siblings('.place_ids').val(id);
-      $(this).parent().parent().siblings('.dates').css('visibility', 'visible');
-      $('#place-autocomplete').remove();
-      $('#dates-header').css('visibility', 'visible');
-      return false;
-    });
-  });
-*/
 </script>
 </html>

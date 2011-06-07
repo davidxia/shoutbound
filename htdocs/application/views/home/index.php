@@ -6,12 +6,12 @@ $header_args = array(
         'css/excite-bike/jquery-ui-1.8.13.custom.css',
     ),
     'js_paths'=> array(
+        'js/jquery/jquery-ui-1.8.13.custom.min.js',
         'js/jquery/jquery.ba-bbq.min.js',
         'js/jquery/nicEdit.js',
         'js/savepost.js',
         'js/actionbar.js',
         'js/common.js',
-        'js/jquery/jquery-ui-1.8.13.custom.min.js',
     )
 );
 $this->load->view('core_header', $header_args);
@@ -42,7 +42,6 @@ $this->load->view('core_header', $header_args);
       <a id="autocomplete-close" href="#">
         <img alt="close" src="<?=site_url('static/images/white_x.png')?>" width="10" height="9"/>
       </a>
-      <div id="autocomplete-results" style="display:none; position:absolute; top:28px; width:400px; border:1px solid #DDD; cursor:pointer; padding:2px; z-index:100; background:white; font-size:13px;"></div>
     </div>
 
     <!-- LEFT COLUMN -->

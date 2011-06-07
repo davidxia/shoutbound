@@ -98,7 +98,7 @@ $(function() {
       }).show();
       
       $('#autocomplete-input').data('target', $(this).attr('id')).focus();
-      autocomplete();
+      $('#autocomplete-input').val('');
       isShift = false;
       return false;
     }
@@ -143,36 +143,47 @@ insertTextAtCursor = function(text) {
 }
 
 
-autocomplete = function() {
-  var autocompInput = $('#autocomplete-input');
-  autocompInput.keyup(function(e) {
-    var keyCode = e.keyCode || e.which;
-    // ignore non-char keys
-    var nonChars = [9, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 45, 91, 93, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 144];
-    var query = $.trim($(this).val());
-    if ($.inArray(keyCode, nonChars)==-1 && query.length>2) {
-      var f = function () {placeAutocomplete(query);};
-      delay(f, 250);
-    }
-  }).keydown(function(e) {
+$('#autocomplete-input').live('keyup.autocomplete', function(){
+  $('#autocomplete-input').keydown(function(e) {
     var keyCode = e.keyCode || e.which;
     if (keyCode == 27) {
       placeholder = $('#placeholder');
       putCursorBefore(placeholder[0]);
       placeholder.remove();
+      $('.ui-autocomplete').empty().hide();
       $('#autocomplete-box').hide();
-      autocompInput.val('');
-      $('#autocomplete-results').empty().hide();
     }
   });
-  
-  $('#autocomplete-close').click(function() {
-    var e = $.Event('keydown');
-    e.keyCode = 27;
-    autocompInput.trigger(e);
-    return false;
+
+  $('#autocomplete-input').autocomplete({
+  	source: function(req,resp) {
+      $.post(baseUrl+'places/ajax_autocomplete', {query:req.term},
+        function(data) {var r = $.parseJSON(data); resp( $.map(r, function(item) {
+  					return {
+  						label: item.name,
+  						value: item.name,
+  						id: item.id,
+  						lat: item.lat,
+  						lng: item.lng
+  					}
+  				}));
+  			});
+      },
+  	minLength: 3,
+  	delay: 200,
+  	appendTo: '#autocomplete-box',
+  	select: function(event,ui) {
+      var name = ui.item.label.replace(/ /g, '-');
+      var placeholder = $('#placeholder');
+      placeholder.before('@' + name);
+      putCursorBefore(placeholder[0]);
+      var e = $.Event('keydown');
+      e.keyCode = 27;
+      $('#autocomplete-input').trigger(e);
+      $('#autocomplete-box').data(name, ui.item.id);
+  	}
   });
-};
+});
 
 
 putCursorBefore = function(ele) {
@@ -193,44 +204,6 @@ putCursorBefore = function(ele) {
 };
 
 
-delay = (function() {
-  var timer = 0;
-  return function(callback, ms){
-    clearTimeout (timer);
-    timer = setTimeout(callback, ms);
-  };
-})();
-
-
-placeAutocomplete = function(query) {
-  $.post(baseUrl+'places/ajax_autocomplete', {query:query, isPost:true},
-    function(d) {
-      var parent = $('#autocomplete-results');
-      parent.empty().html(d).show();
-      parent.children().click(function() {
-        var a = $(this).children('a'),
-            id = a.attr('id').match(/^place-(\d+)$/)[1],
-            name = a.text();
-        autocompleteClick(id, name);
-        return false;
-      });
-    });
-};
-
-
-autocompleteClick = function(id, name) {
-  name = name.replace(/ /g, '-');
-  var placeholder = $('#placeholder');
-  placeholder.before('@' + name);
-  putCursorBefore(placeholder[0]);
-  var e = $.Event('keydown');
-  e.keyCode = 27;
-  $('#autocomplete-input').trigger(e);
-  $('#autocomplete-results').data(name, id);
-  return false;
-};
-
-
 savePost = function() {
   var content = convertNewlines(nicEditors.findEditor('post-input').getContent()).trim();
   if (typeof tripId == 'number') {
@@ -244,7 +217,7 @@ savePost = function() {
   var matches = content.match(/@[\w-',]+/g);
   for (i in matches) {
     var name = matches[i].replace(/@/, '');
-    var id = $('#autocomplete-results').data(name);
+    var id = $('#autocomplete-box').data(name);
     name = name.replace(/-/g, ' ');
     content = content.replace(matches[i], '<place id="'+id+'">'+name+'</place>');
   }

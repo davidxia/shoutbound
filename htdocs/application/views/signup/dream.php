@@ -129,7 +129,7 @@ $this->load->view('core_header', $header_args);
   				$(this).parent().next().children('input.place-input').focus();
 		      $(this).remove();
   			}
-  		})
+  		});
 		});
 		  
 		  
