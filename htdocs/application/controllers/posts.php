@@ -63,6 +63,7 @@ class Posts extends CI_Controller
                 $this->email_notifs->compose_email($this->user, $post, $parent_post);
                 $this->email_notifs->send_email();
             }
+            $this->load->view('templates/new_comment', $data);
         }
         elseif ($post->save_to_trips_by_trip_ids($trip_ids, $added_by))
         {
@@ -129,13 +130,13 @@ class Posts extends CI_Controller
                 'user' => $this->user,
                 'trip_ids' => $trip_ids,
             );
+            $this->load->view('templates/new_post', $data);
 		    }
 		    else
 		    {
-		        $data = array('str' => json_error());
+		        json_error();
 		    }
 		    
-		    $this->load->view('templates/new_post', $data);
 		}
     
     
