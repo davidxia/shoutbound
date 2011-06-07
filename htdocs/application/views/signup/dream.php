@@ -57,7 +57,7 @@ $this->load->view('core_header', $header_args);
         <div id="left-content-container">
           <div id="onboarding-item-subtitle">I dream of going to:</div>
           <? foreach($user->future_places as $future_place):?>
-          <div><span class="place" lat="<?=$future_place->lat?>" lng="<?=$future_place->lng?>"><?=$future_place->name?><? if($future_place->admin1){echo ', '.$future_place->admin1;}if($future_place->country){echo ', '.$future_place->country;}?></span> <a href="#" class="remove-place" id="place-<?=$future_place->id?>">remove</a></div>
+          <div><span class="place" lat="<?=$future_place->lat?>" lng="<?=$future_place->lng?>"><?=$future_place->name?><? if($future_place->country){echo ', '.$future_place->country;}?></span> <a href="#" class="remove-place" id="place-<?=$future_place->id?>">remove</a></div>
           <? endforeach;?>
           <form id="bucket-list" action="<?=site_url('signup/save_bucket_list')?>" method="post">
           <fieldset>

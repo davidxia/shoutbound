@@ -1,6 +1,5 @@
 <?php
 $title = $place->name;
-if ($place->admin1) $title .= ', '.$place->admin1;
 if ($place->country) $title .= ', '.$place->country;
 $header_args = array(
     'title' => $title.' | Shoutbound',
@@ -105,7 +104,7 @@ $this->load->view('core_header', $header_args);
       <div id="place-info">
         <div id="place-name"><?=$place->name?></div>
         <br/>
-        <? if($place->admin1):?><span id="admin1"><?=$place->admin1?></span><? endif;?>
+        <? if($place->admin1):?><span id="admin1" style="display:none;"><?=$place->admin1?></span><? endif;?>
         <? if($place->country):?><span><?=$place->country?></span><? endif;?>
       </div>    
     </div>  

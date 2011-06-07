@@ -10,7 +10,7 @@
     </div>
     <div class="narrow streamitem-content-container">
       <div class="streamitem-name">
-        <a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a><? if($place->admin1){echo ', '.$place->admin1;}if($place->country){echo ', '.$place->country;}?>
+        <a href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a><? if($place->country){echo ', '.$place->country;}?>
       </div>
       <div class="streamitem-bio">
       </div>
