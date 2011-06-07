@@ -240,6 +240,7 @@ class Signup extends CI_Controller
     }
     
     
+/*
     public function save_bucket_list()
     {
         if ( ! $this->user OR getenv('REQUEST_METHOD') == 'GET')
@@ -263,6 +264,7 @@ class Signup extends CI_Controller
         
         redirect('signup/follow');
     }
+*/
 
 
     public function follow()

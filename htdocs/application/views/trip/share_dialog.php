@@ -57,8 +57,7 @@
 
 </div><!-- POPUP WRAPPER INNER -->
 </div><!-- POPUP WRAPPER OUTER -->
-<link rel="stylesheet" href="<?=site_url('static/css/excite-bike/jquery-ui-1.8.11.custom.css')?>" type="text/css" media="screen" charset="utf-8"/></script>
-<script type="text/javascript" src="<?=site_url('static/js/jquery/jquery-ui-1.8.11.custom.min.js')?>"></script>
+<script type="text/javascript" src="<?=site_url('static/js/jquery/jquery-ui-1.8.13.custom.min.js')?>"></script>
 
 <script type="text/javascript">
   $('#deadline').datepicker();

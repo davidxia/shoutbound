@@ -2,13 +2,13 @@
 $header_args = array(
     'title' => 'Shoutbound',
     'css_paths'=>array(
-        'css/excite-bike/jquery-ui-1.8.11.custom.css',
+        'css/excite-bike/jquery-ui-1.8.13.custom.css',
         'css/createtrip.css',
     ),
     'js_paths'=>array(
         'js/user/loginSignup.js',
         'js/jquery/validate.min.js',
-        'js/jquery/jquery-ui-1.8.11.custom.min.js',
+        'js/jquery/jquery-ui-1.8.13.custom.min.js',
         'js/jquery/popup.js',
         'js/jquery/jquery-dynamic-form.js'
     )
