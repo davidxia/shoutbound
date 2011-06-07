@@ -53,9 +53,35 @@ $this->load->view('core_header', $header_args);
       
         <!-- POSTS TAB -->
         <div id="posts-tab" class="main-tab-content main-tab-default">
+
+          <div class="streamitem">
+            <div class="streamitem-tagbar">
+              <a class="destination tag">Place, Country</a>
+              <a class="destination tag">Place, Country</a>  
+              <a class="tripname tag">Trip name</a>
+            </div>
+            <div class="author-container">
+              <div class="streamitem-name"><a>Authorname</a></div>
+              <div class="streamitem-recommenders"><span style="color:#666; font-weight:bold;">12</span> recommendations by Jack Black, John Gotti, Leighton Meester (more)</div>                          
+            </div>
+            <div class="streamitem-avatar-container">
+              <a href="#">
+                <img src="http://www.hdwallpapers.in/walls/neytiri_female_in_avatar-wide.jpg" height="25" width="25"/>
+              </a>
+            </div>
+            <div style="clear:both"></div>
+            <div class="streamitem-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+            <div class="actionbar">
+              <a class="bar-item">Recommend</a>
+              <span class="bullet">&#149</span>
+              <a class="bar-item">Comment</a>
+              <span class="bullet">&#149</span>
+              <a class="bar-item">Timeago</a>
+            </div>
+          </div>
           
           <? $prefix1='first-item'; foreach ($trip->posts as $post):?>
-            <!--POST START-->
+            <!--POST START-->           
             <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem <? if(isset($user->id) AND ($user->role==10 OR ($post->added_by->id==$user->id))):?>deleteable<? endif;?>">
               <? $prefix1=''?>
               <? if(isset($user->id) AND ($user->role==10 OR ($post->added_by->id==$user->id))):?><div class="delete"></div><? endif;?>

@@ -90,7 +90,7 @@ $this->load->view('core_header', $header_args);
             </div><!--END POST CONTAINER-->
             
           <? if ( ! $user->news_feed_items):?>
-            You haven't had any activity yet. Get started by <a href="<?=site_url('trips/create')?>">creating trips</a>, <a href="#">adding posts</a>, and <a href="#">following other people</a>, <a href="#"> trips</a>, and <a href="#"> places</a>.
+            You haven't had any activity yet. Get started by <a href="<?=site_url('trips/create')?>">creating trips</a>, sharing travel experiences</a>, and <a href="#">following other people</a>, <a href="#"> trips</a>, and <a href="#"> places</a>.
           <? else:?>
           
             <? $first=TRUE; foreach($user->news_feed_items as $news_feed_item):?>
