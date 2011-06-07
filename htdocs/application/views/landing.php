@@ -26,10 +26,10 @@ $this->load->view('core_header', $header_args);
 
   <div id="landing-page-gallery">
     <div id="slideshowHolder">
-      <img src="http://i.imgur.com/vpuuY.jpg" width="490" height="375"/>
-      <img src="https://lh4.googleusercontent.com/_lgMz7QRk66k/TI40jh7fCfI/AAAAAAAAAh8/qk-rneImY4A/s800/3765705795_f124a87d70.jpg" width="490" height="375"/>
-      <img src="http://i.imgur.com/ttCWR.jpg" width="490" height="375"/>
-      <img src="http://i.imgur.com/l9L1Y.jpg" width="490" height="375"/>
+      <img src="<?=site_url('static/images/puerto_rico.jpeg')?>" alt="Sunset over Vieques, Puerto Rico by Pamela Sam."/>                  
+      <img src="<?=site_url('static/images/taipei.jpeg')?>" alt="Tea Shop in Taipei, Taiwan by Pamela Sam."/>
+      <img src="<?=site_url('static/images/pier.jpeg')?>" alt="Pier in Phuket, Thailand by Pamela Sam."/>    
+      <img src="http://i.imgur.com/vpuuY.jpg" width="490" height="375" alt="Duone Castle, Scotland by Lara Samet."/>
     </div>
   </div>
 
