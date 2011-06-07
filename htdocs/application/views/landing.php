@@ -85,24 +85,6 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('templates/footer')?>
 <script>
   $('#slideshowHolder').jqFancyTransitions({ width: 490, height: 375, effect:'zipper', delay:3500, navigation: false, links: false });
-  
-
-  $.fn.labelFader = function() {
-    var f = function() {
-      var $this = $(this);
-      if ($this.val()) {
-        $this.siblings('label').children('span').hide();
-      } else {
-        $this.siblings('label').children('span').fadeIn('fast');
-      }
-    };
-    this.focus(f);
-    this.blur(f);
-    this.keyup(f);
-    this.change(f);
-    this.each(f);
-    return this;
-  };
 </script>
 </body>
 </html>

@@ -194,12 +194,10 @@ class Email_notifs
                 $subj = $user->name.' changed current location to "'.$source->name.'" on Shoutbound';
                 $html = '<h4><a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> changed current location to '.
                     '<a href="'.site_url('places/'.$source->id).'">'.$source->name;
-                    if ($source->admin1) $html .= ', '.$source->admin1;
                     if ($source->country) $html .= ', '.$source->country;
                     '</a>.</h4>';
                 $text = '<a href="'.site_url('profile/'.$user->id).'">'.$user->name.'</a> wrote on '.
                     '<a href="'.site_url('places/'.$source->id).'">'.$source->name;
-                    if ($source->admin1) $text .= ', '.$source->admin1;
                     if ($source->country) $text .= ', '.$source->country;
                     '</a>.';
                 break;

@@ -67,7 +67,7 @@ $this->load->view('core_header', $header_args);
                started following <span class="streamitem-name"><a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a></span>
                <h3>Follow/unfollow needs to go here</h3>              
             <? elseif ($activity->activity_type==5):?>
-               started following <span class="streamitem-name"><a href="<?=site_url('places/'.$activity->place->id)?>"><? echo $activity->place->name;if($activity->place->admin1){echo ', '.$activity->place->admin1;}if($activity->place->country){echo ', '.$activity->place->country;}?></a></span>
+               started following <span class="streamitem-name"><a href="<?=site_url('places/'.$activity->place->id)?>"><? echo $activity->place->name;if($activity->place->country){echo ', '.$activity->place->country;}?></a></span>
                <h3>Follow/unfollow needs to go here</h3>              
             <? elseif ($activity->activity_type==6):?>
                commented: <?=$activity->post->content?>
@@ -79,7 +79,7 @@ $this->load->view('core_header', $header_args);
             <? elseif ($activity->activity_type==9):?>
                updated his profile bio.
             <? elseif ($activity->activity_type==10):?>
-              changed current location to <a href="<?=site_url('places/'.$activity->place->id)?>" class="place" lat="<?=$activity->place->lat?>" lng="<?=$activity->place->lng?>"><?=$activity->place->name?><? if($activity->place->admin1){echo ', '.$activity->place->admin1;}?><? if($activity->place->country){echo ', '.$activity->place->country;}?></a>
+              changed current location to <a href="<?=site_url('places/'.$activity->place->id)?>" class="place" lat="<?=$activity->place->lat?>" lng="<?=$activity->place->lng?>"><?=$activity->place->name?><? if($activity->place->country){echo ', '.$activity->place->country;}?></a>
             <? endif;?>
 <!--
             <br/>
@@ -146,7 +146,7 @@ $this->load->view('core_header', $header_args);
         <div class="edit-icon edit-curr-place"></div>
         <? endif;?>
         <div style="font-size:14px;font-weight:bold;margin-top:10px;">Current Location</div>
-        <a href="<?=site_url('places/'.$profile->current_place->id)?>"><?=$profile->current_place->name?><? if($profile->current_place->admin1){echo ', '.$profile->current_place->admin1;}if($profile->current_place->country){echo ', '.$profile->current_place->country;}?></a>
+        <a href="<?=site_url('places/'.$profile->current_place->id)?>"><?=$profile->current_place->name?><? if($profile->current_place->country){echo ', '.$profile->current_place->country;}?></a>
       </div>
       <? endif;?>
       
@@ -158,7 +158,7 @@ $this->load->view('core_header', $header_args);
         <div style="font-size:14px;font-weight:bold;margin-top:10px;">Bucket List</div>
         <? foreach($profile->future_places as $future_place):?>
         <div>
-          <a href="<?=site_url('places/'.$future_place->id)?>"><?=$future_place->name?><? if($future_place->admin1){echo ', '.$future_place->admin1;}if($future_place->country){echo ', '.$future_place->country;}?></a>
+          <a href="<?=site_url('places/'.$future_place->id)?>"><?=$future_place->name?><? if($future_place->country){echo ', '.$future_place->country;}?></a>
         </div>
         <? endforeach;?>
       </div>
