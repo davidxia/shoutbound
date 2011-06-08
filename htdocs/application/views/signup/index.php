@@ -53,22 +53,22 @@ $this->load->view('core_header', $header_args);
           <form id="signup-form" action="" method="post">
             <fieldset>         
               <div class="signup-input-container">
-                <label for="name" style="color:#555; margin-right:12px;">Full name</label>
+                <label for="signup_name" style="color:#555; margin-right:12px;">Full name</label>
                 <input type="text" name="signup_name" id="signup_name" class="signup-input" autocomplete="off" <? if(isset($signup_name)){echo 'val="'.$signup_name.'"';}?>/>                
                 <span class="error-message" style=""></span>
               </div>
               <div class="signup-input-container">
-                <label for="email" style="color:#555; margin-right:31px;">E-mail</label>
+                <label for="signup_email" style="color:#555; margin-right:31px;">E-mail</label>
                 <input type="text" name="signup_email" id="signup_email" class="signup-input" autocomplete="off" <? if(isset($signup_email)){echo 'val="'.$signup_email.'"';}?>/>              
                 <span class="error-message"></span>
               </div>
               <div class="signup-input-container">
-                <label for="password" style="color:#555; margin-right:10px;">Password</label>
+                <label for="signup_pw" style="color:#555; margin-right:10px;">Password</label>
                 <input type="password" name="signup_pw" id="signup_pw" class="signup-input" autocomplete="off" <? if(isset($signup_pw)){echo 'val="'.$signup_pw.'"';}?>/>              
                 <span class="error-message"></span>
               </div>
               <div class="signup-input-container">
-                <label for="password" style="color:#555; margin-right:4px;">Invite code</label>
+                <label for="invite_code" style="color:#555; margin-right:4px;">Invite code</label>
                 <input type="text" name="invite_code" id="invite_code" class="invite-input" autocomplete="off"/>              
                 <span class="error-message"></span>
               </div>
@@ -180,7 +180,7 @@ $this->load->view('core_header', $header_args);
     $.get('<?=site_url('signup/ajax_get_fb_info')?>', function(d) {
       var r = $.parseJSON(d);
       if (r.success) {
-        $('#name').val(r.name);
+        $('#signup_name').val(r.name);
         $('#signup_email').val(r.email);
         $('#is_fb_signup').val(1);
         $('#step-one-container').hide();
