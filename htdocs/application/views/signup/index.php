@@ -87,11 +87,8 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('templates/footer')?>
   
 </body>
-
 <script type="text/javascript">
   $(function() {
-    $('#name').focus();
-  
     $('#fb_login_button').click(function() {
       FB.login(function(d) {
         if (d.session) {
@@ -163,7 +160,7 @@ $this->load->view('core_header', $header_args);
       if (r.existingUser) {
         updateFBFriends();
       } else {
-        showAccountCreationDialog();
+        getFBInfo();
       }
     });
 	}
@@ -176,7 +173,7 @@ $this->load->view('core_header', $header_args);
 	}
 	
 		
-  function showAccountCreationDialog() {
+  function getFBInfo() {
     $.get('<?=site_url('signup/ajax_get_fb_info')?>', function(d) {
       var r = $.parseJSON(d);
       if (r.success) {
@@ -185,19 +182,11 @@ $this->load->view('core_header', $header_args);
         $('#is_fb_signup').val(1);
         $('#step-one-container').hide();
         $('#step-two-container').show();
+        $('#signup_pw').focus();
       } else {
         alert(r.message);
       }
     });
-  }
-
-
-  function toggle_visibility(id) {
-     var e = document.getElementById(id);
-     if(e.style.display == 'block')
-        e.style.display = 'none';
-     else
-        e.style.display = 'block';
   }
 </script>
 </html>
