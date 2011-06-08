@@ -65,24 +65,11 @@ $this->load->view('core_header', $header_args);
             <!--POST START-->           
             <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem <? if(isset($user->id) AND ($user->role==10 OR ($post->added_by->id==$user->id))):?>deleteable<? endif;?>">
               <? $prefix1=''?>
-              <? if(isset($user->id) AND ($user->role==10 OR ($post->added_by->id==$user->id))):?><div class="delete"></div><? endif;?>
-
-              <div class="streamitem-tagbar placeleftpull">
-                <? foreach($post->trips as $t):?>
-                <a href="<?=site_url('trips/'.$t->id)?>" class="tripname tag"><?=$t->name?></a>
-                  <? foreach($t->places as $place):?>
-                    <a href="<?=site_url('places/'.$place->id)?>" class="place"><? echo $place->name; if($place->country){echo ', '.$place->country;}?></a>
-                  <? endforeach;?>
-                <? endforeach;?>
-              </div>
-              
+              <? if(isset($user->id) AND ($user->role==10 OR ($post->added_by->id==$user->id))):?><div class="delete"></div><? endif;?>              
               <div class="author-container">
                 <div class="streamitem-name">
                   <a href="<? if($post->author->username){echo site_url($post->author->username);}else{echo site_url('profile/'.$post->author->id);}?>"><?=$post->author->name?></a>
                 </div>
-                <? if($post->added_by->username):?>
-                <div class="streamitem-recommenders"><span style="color:#666; font-weight:bold;">100</span> recommendations by <a href="<? if($post->added_by->username){echo site_url($post->added_by->username);}else{echo site_url('profile/'.$post->added_by->id);}?>"><?=$post->added_by->name?></a></div>
-                <? endif;?>
               </div>
               
               <div class="streamitem-avatar-container">
@@ -96,6 +83,12 @@ $this->load->view('core_header', $header_args);
                 <?=$post->content?>
               </div>             
 
+              <div class="streamitem-tagbar placeleftpull">
+                <? foreach($post->trips as $t):?>
+                <a href="<?=site_url('trips/'.$t->id)?>" class="tripname tag"><?=$t->name?></a>
+                <? endforeach;?>
+              </div>
+
               <div class="actionbar">
                 <? if(isset($user->id)):?>
                 <a href="#" class="bar-item">Recommend</a>
@@ -105,26 +98,7 @@ $this->load->view('core_header', $header_args);
                 <span class="bullet">&#149;</span>
                 <abbr class="bar-item timeago" title="<?=$post->created?>"><?=$post->created?></abbr>
               </div>
-                
-              <? if(isset($user->id)):?>
-              <!-- ADD TO TRIP -->
-              <div class="add-to-trip-cont" style="display:none;">
-                <select multiple="multiple" size=5>
-                  <? foreach ($user->rsvp_yes_trips as $t):?>
-                  <option value="<?=$t->id?>"><?=$t->name?>
-                  <? endforeach;?>
-                  <? foreach ($user->rsvp_awaiting_trips as $t):?>
-                  <option value="<?=$t->id?>"><?=$t->name?>
-                  <? endforeach;?>
-                  <? foreach ($user->following_trips as $t):?>
-                  <option value="<?=$t->id?>"><?=$t->name?>
-                  <? endforeach;?>
-                </select>
-                <a class="post-to-trip" href="#">Post</a>
-              </div>
-              <!-- ADD TO TRIP END -->
-              <? endif;?>
-        
+                        
               <!--COMMENTS START-->
               <div class="comments-container" style="display:none;">
                 <? foreach ($post->replies as $comment):?>

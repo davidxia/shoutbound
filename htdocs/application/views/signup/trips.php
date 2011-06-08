@@ -4,9 +4,7 @@
   <div class="streamitem">
     <a class="follow" id="trip-<?=$trip->id?>">Follow</a>
     <div class="streamitem-avatar-container">
-      <a href="<?=site_url('trips/'.$trip->id)?>">
-        <img src="<?=static_sub('images/trip_icon.png')?>" width="25" height="25">
-      </a>
+      <img src="<?=static_sub('images/trip_icon.png')?>" width="25" height="25">
     </div>
     <div class="narrow streamitem-content-container">
       <div class="streamitem-name">
@@ -14,8 +12,7 @@
       </div>
       <div class="destinationbar">
         <? foreach ($trip->places as $place):?>
-          <a class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></a>
-          <span class="subtext"><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
+          <span class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>"><?=$place->name?></span>
         <? endforeach;?>
       </div>
       
