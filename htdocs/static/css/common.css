@@ -684,14 +684,14 @@ a.autocomplete-item{
 
 .tooltip_container{
   position:absolute;
-  background:url(/david/static/images/dark_arrow.png) 50% 0 no-repeat;
+  background:url(http://static.shoutbound.com/images/dark_arrow.png) 50% 0 no-repeat;
   padding:7px 0 0 0;
   z-index:500;
 }
 
 .tooltip_interior{
   font-size:12px;
-  background:url(/david/static/images/tooltip.png);
+  background:url(http://static.shoutbound.com/images/tooltip.png);
   color:white;
   padding:3px 6px;
 }
@@ -888,7 +888,7 @@ a.add-comment-button:active {
 }
 .delete,.edit-icon{
  display: none;
- background-image: url(/david/static/images/button_sprites.png);
+ background-image: url(http://static.shoutbound.com/images/button_sprites.png);
  cursor: pointer;
  position: absolute;
  top: 0;
@@ -911,7 +911,7 @@ a.add-comment-button:active {
 
 .delete,.edit-icon{
   display: none;
-  background-image: url(/david/static/images/button_sprites.png);
+  background-image: url(http://static.shoutbound.com/images/button_sprites.png);
   cursor: pointer;
   position: absolute;
   top: 0;

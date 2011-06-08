@@ -351,7 +351,7 @@ class Trips extends CI_Controller
 
     public function share($trip_id, $share_key)
     {        
-        $ts = new Trip_share();
+        $ts = new Trip_share_m();
         $trip_share = $ts->get_tripshare_by_tripid_sharekey($trip_id, $share_key);
 
         // if cookie is set, append new key value pair, otherwise instantiate new stdclass object
