@@ -48,29 +48,24 @@ $this->load->view('core_header', $header_args);
       </ul>
               
       <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
-        <div id="people-tab" class="main-tab-content main-tab-default">
-        
+        <div id="people-tab" class="main-tab-content main-tab-default">        
           <? foreach ($user->onboarding_users as $profile):?>
-          <div class="streamitem">
-            <a class="follow" id="user-<?=$profile->id?>" href="#">Follow</a>
-            <div class="streamitem-avatar-container">
-              <img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="25" height="25"/>
-            </div>
-
-            <div class="narrow streamitem-content-container">
-              <div class="streamitem-name">
-                <span style="font-weight:bold;"><?=$profile->name?></span>
+            <div class="streamitem">
+              <div class="big-tab-avatar-container">
+                <img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="50" height="50"/>
               </div>
-              <div class="streamitem-bio"><?=$profile->bio?></div>
+              <div class="pinched streamitem-content-container">
+                <div class="streamitem-name">
+                  <span style="font-weight:bold;"><?=$profile->name?></span>
+                </div>
+                <div class="streamitem-bio"><?=$profile->bio?></div>
+              </div>          
+              <a class="follow" id="user-<?=$profile->id?>" href="#">Follow</a>
               <div style="clear:both"></div>
-            </div>
-            
-          </div>
-          <? endforeach;?>
-                     
+            </div>            
+          <? endforeach;?>                   
         </div>
-      </div>
-            
+      </div>          
     <div style="clear:both"></div> 
       
   </div><!--ONBOARDING MAIN END-->

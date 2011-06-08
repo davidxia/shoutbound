@@ -10,7 +10,7 @@
     <div class="<?=$prefix?> streamitem">
       <? $prefix=''?>
       <div class="big-tab-avatar-container">
-        <a href="<?=site_url('profile/'.$follower->id)?>"><img src="<?=static_sub('profile_pics/'.$follower->profile_pic)?>" width="45" height="45"/></a>
+        <a href="<?=site_url('profile/'.$follower->id)?>"><img src="<?=static_sub('profile_pics/'.$follower->profile_pic)?>" width="50" height="50"/></a>
       </div>
       <div class="pinched streamitem-content-container">
         <div class="streamitem-name">
