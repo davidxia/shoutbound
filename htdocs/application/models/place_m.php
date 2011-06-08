@@ -219,7 +219,7 @@ class Place_m extends CI_Model
         if ($related_place_ids === FALSE)
         {
             $related_place_ids = array();
-            $sql = 'SELECT parent_id FROM `places` WHERE id = ?';
+            $sql = 'SELECT parent_id FROM `places` WHERE id = ? AND parent_id != 1';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
             $related_place_ids[] = $rows[0]->parent_id;
