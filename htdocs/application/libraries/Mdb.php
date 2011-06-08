@@ -5,15 +5,17 @@ include 'MDB2.php';
 class Mdb
 {
 
-    function _mdb_conn($target='localhost')
+    private function _mdb_conn($target='localhost')
     {
+        $CI =& get_instance();
+        $CI->load->database();
         switch($target)
         {
             case 'localhost':
-                $dbhost = 'localhost';
-                $dbuser = 'web';
-                $dbpass = 'moardatatoday';
-                $dbname = 'shoutbound';
+                $dbhost = $CI->db->hostname;
+                $dbuser = $CI->db->username;
+                $dbpass = $CI->db->password;
+                $dbname = $CI->db->database;
                 break;
         }
 

@@ -34,22 +34,22 @@
 | the active record class
 */
 
-$active_group = 'default';
+$active_group = 'dev';
 $active_record = FALSE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'web_dev';
-$db['default']['password'] = 'FBM6euFExDwUBLCH';
-$db['default']['database'] = 'shoutbound';
-$db['default']['dbdriver'] = 'mysql';
-$db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = '';
-$db['default']['char_set'] = 'utf8';
-$db['default']['dbcollat'] = 'utf8_unicode_ci';
+$db['dev']['hostname'] = 'localhost';
+$db['dev']['username'] = 'web_dev';
+$db['dev']['password'] = 'FBM6euFExDwUBLCH';
+$db['dev']['database'] = 'shoutbound';
+$db['dev']['dbdriver'] = 'mysql';
+$db['dev']['dbprefix'] = '';
+$db['dev']['pconnect'] = TRUE;
+$db['dev']['db_debug'] = TRUE;
+$db['dev']['cache_on'] = FALSE;
+$db['dev']['cachedir'] = '';
+$db['dev']['char_set'] = 'utf8';
+$db['dev']['dbcollat'] = 'utf8_unicode_ci';
 
 
 /* End of file database.php */
-/* Location: ./system/application/config/database.php */
+/* Location: ./system/application/config/development/database.php */

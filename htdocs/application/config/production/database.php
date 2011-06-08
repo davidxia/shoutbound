@@ -34,22 +34,22 @@
 | the active record class
 */
 
-$active_group = 'default';
+$active_group = 'prod';
 $active_record = FALSE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'web_dev';
-$db['default']['password'] = 'FBM6euFExDwUBLCH';
-$db['default']['database'] = 'shoutbound';
-$db['default']['dbdriver'] = 'mysql';
-$db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = '';
-$db['default']['char_set'] = 'utf8';
-$db['default']['dbcollat'] = 'utf8_unicode_ci';
+$db['prod']['hostname'] = 'localhost';
+$db['prod']['username'] = 'web_prod';
+$db['prod']['password'] = 'VR58MKhJqPJTASxR';
+$db['prod']['database'] = 'sb_prod';
+$db['prod']['dbdriver'] = 'mysql';
+$db['prod']['dbprefix'] = '';
+$db['prod']['pconnect'] = TRUE;
+$db['prod']['db_debug'] = TRUE;
+$db['prod']['cache_on'] = FALSE;
+$db['prod']['cachedir'] = '';
+$db['prod']['char_set'] = 'utf8';
+$db['prod']['dbcollat'] = 'utf8_unicode_ci';
 
 
 /* End of file database.php */
-/* Location: ./system/application/config/database.php */
+/* Location: ./system/application/config/production/database.php */
