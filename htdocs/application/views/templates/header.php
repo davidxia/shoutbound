@@ -8,7 +8,7 @@
     </h1>
     
     <? if(!isset($user->id)):?>
-      <a href="<?=site_url('discover')?>" style="position:absolute;left:200px;color:white;">Discover</a>
+<!--       <a href="<?=site_url('discover')?>" style="position:absolute;left:200px;color:white;">Discover</a> -->
     <? endif;?>
     
     <? if(isset($user->id) AND !isset($is_onboarding)):?>
