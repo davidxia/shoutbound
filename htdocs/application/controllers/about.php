@@ -15,7 +15,7 @@ class About extends CI_Controller
             $this->user = $u;
         }
 		}
-
+		
 
     public function index()
     {

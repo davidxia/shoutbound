@@ -2,16 +2,22 @@
 
 class Mc
 {
-
+    private $memcache_servers;
+    private $prefix;
+    private $default_expire;
+    private $connected_servers;
+    private $memcache;
+    
     public function __construct()
     {
+        $CI =& get_instance();
+		    $CI->config->load('mc');
+
         // add servers here
-        $this->memcache_servers = array(
-            array('host' => 'localhost', 'port' => 11211),
-        );
-        $this->prefix = 'a0';
+        $this->memcache_servers = $CI->config->item('mc_servers');
+        $this->prefix = $CI->config->item('mc_prefix');
         // expires in a week
-        $this->default_expire = 60*60*24*7;
+        $this->default_expire = $CI->config->item('mc_default_expire');
 
         $this->connected_servers = array();
         $this->memcache = new Memcache();
