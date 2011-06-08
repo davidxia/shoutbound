@@ -96,65 +96,67 @@ $this->load->view('core_header', $header_args);
           
             <? $prefix1='first-item'; foreach($user->news_feed_items as $news_feed_item):?>
               <div id="post-<?=$news_feed_item->id?>" class="<?=$prefix1?> streamitem"><? $prefix1=''?>
-                <div class="author-container">
-                  <div class="streamitem-name">
-                    <a href="<? if($news_feed_item->author->username){echo site_url($news_feed_item->author->username);}else{echo site_url('profile/'.$news_feed_item->author->id);}?>"><?=$news_feed_item->author->name?></a>
-                  </div>
-                </div>
-  
+
                 <div class="streamitem-avatar-container">
                   <a href="<? if($news_feed_item->author->username){echo site_url($news_feed_item->author->username);}else{echo site_url('profile/'.$news_feed_item->user_id);}?>">
                     <img src="<?=static_sub('profile_pics/'.$news_feed_item->author->profile_pic)?>" height="25" width="25"/>
                   </a>
                 </div>
-                <div style="clear:both"></div>
-                
-                <div class="streamitem-content">
-                  <?=$news_feed_item->content?>
-                </div>
-                
-                <div class="streamitem-tagbar placeleftpull">
-                  <? foreach($news_feed_item->trips as $t):?>
-                  <a href="<?=site_url('trips/'.$t->id)?>" class="tripname tag"><?=$t->name?></a>
-                  <? endforeach;?>
-                </div>
 
-                <div class="actionbar">
-                  <? if(isset($user->id)):?>
-                  <a href="#" class="bar-item">Recommend</a>
-                  <span class="bullet">&#149;</span>
-                  <? endif;?>
-                  <a class="bar-item show-comments" href="#"><? $num_comments=count($news_feed_item->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
-                  <span class="bullet">&#149;</span>
-                  <abbr class="bar-item timeago" title="<?=$news_feed_item->created?>"><?=$news_feed_item->created?></abbr>
-                </div>
-                  
-                  
-                <!--COMMENTS START-->
-                <div class="comments-container" style="display:none;">
-                  <? foreach ($news_feed_item->replies as $reply):?>
-                  <div class="comment">
-                    <div class="streamitem-avatar-container">
-                      <a href="<?=site_url('profile/'.$reply->user_id)?>">
-                        <img src="<?=static_sub('profile_pics/'.$reply->author->profile_pic)?>" height="25" width="25"/>
-                      </a>
-                    </div>                      
-                    <div class="streamitem-content-container">
-                      <div class="streamitem-name">
-                        <a href="<?=site_url('profile/'.$reply->user_id)?>"><?=$reply->author->name?></a>
-                      </div> 
-                      <div class="comment-content"><?=$reply->content?></div>
-                      <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$reply->created?>"><?=$reply->created?></abbr></div>                      
+                <div class="streamitem-main-container">
+                  <div class="streamitem-tagbar placeleftpull">
+                    <? foreach($news_feed_item->trips as $t):?>
+                    <a href="<?=site_url('trips/'.$t->id)?>" class="tripname tag"><?=$t->name?></a>
+                    <? endforeach;?>
+                  </div>
+
+                  <div class="author-container">
+                    <div class="streamitem-name">
+                      <a href="<? if($news_feed_item->author->username){echo site_url($news_feed_item->author->username);}else{echo site_url('profile/'.$news_feed_item->author->id);}?>"><?=$news_feed_item->author->name?></a>
                     </div>
-                  </div> 
-                  <? endforeach;?>
-                  <div class="comment-input-container">
-                    <textarea class="comment-input-area"/></textarea>
-                    <a class="add-comment-button" href="#">Add comment</a>
-                  </div>  
-                </div><!--END COMMENT CONTAINER-->
-
-              </div>
+                  </div>
+                  <div style="clear:both"></div>
+                  
+                  <div class="streamitem-content">
+                    <?=$news_feed_item->content?>
+                  </div>                
+  
+                  <div class="actionbar">
+                    <? if(isset($user->id)):?>
+                    <a href="#" class="bar-item">Recommend</a>
+                    <span class="bullet">&#149;</span>
+                    <? endif;?>
+                    <a class="bar-item show-comments" href="#"><? $num_comments=count($news_feed_item->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
+                    <span class="bullet">&#149;</span>
+                    <abbr class="bar-item timeago" title="<?=$news_feed_item->created?>"><?=$news_feed_item->created?></abbr>
+                  </div>                
+                  
+                  <!--COMMENTS START-->
+                  <div class="comments-container" style="display:none;">
+                    <? foreach ($news_feed_item->replies as $reply):?>
+                    <div class="comment">
+                      <div class="comment-avatar-container">
+                        <a href="<?=site_url('profile/'.$reply->user_id)?>">
+                          <img src="<?=static_sub('profile_pics/'.$reply->author->profile_pic)?>" height="25" width="25"/>
+                        </a>
+                      </div>                      
+                      <div class="comment-content-container">
+                        <div class="streamitem-name">
+                          <a href="<?=site_url('profile/'.$reply->user_id)?>"><?=$reply->author->name?></a>
+                        </div> 
+                        <div class="comment-content"><?=$reply->content?></div>
+                        <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$reply->created?>"><?=$reply->created?></abbr></div>                      
+                      </div>
+                      <div style="clear:both"></div>
+                    </div> 
+                    <? endforeach;?>
+                    <div class="comment-input-container">
+                      <textarea class="comment-input-area"/></textarea>
+                      <a class="add-comment-button" href="#">Add comment</a>
+                    </div>  
+                  </div><!--END COMMENT CONTAINER-->
+                </div><!--END MAIN CONTAINER-->
+              </div><!--END STREAMITEM-->
             <? endforeach;?>
             
           <? endif;?>

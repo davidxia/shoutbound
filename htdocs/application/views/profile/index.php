@@ -61,31 +61,38 @@ $this->load->view('core_header', $header_args);
             <? if($is_self):?><div class="delete"></div><? endif;?>
               <?=$profile->first_name?>
             <? if ($activity->activity_type==1):?>
-              created <span class="streamitem-name"><a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a></span>
+              created <span class="streamitem-name"><a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a>, a trip to</span>
             <? elseif ($activity->activity_type==2):?>
-              posted on <span class="streamitem-name"><a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a></span><br/>
-              <?=$activity->post->content?>
-              <h3>Actionbar needs to go here</<h3>
+              posted on <span class="streamitem-name"><a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a>:</span>
+              <div class="streamitem-content activity-indent">
+                <?=$activity->post->content?> 
+              </div>
+              <div class="streamitem-tagbar placeleftpull">
+              
+              </div>
+              
+              <div class="actionbar">
+              
+              </div>
+              
             <? elseif ($activity->activity_type==3):?>
-               started following <span class="streamitem-name"><a href="<?=site_url('profile/'.$activity->following->id)?>"><?=$activity->following->name?></a></span>
-               <h3>Follow/unfollow needs to go here</h3>              
+               followed <span class="streamitem-name"><a href="<?=site_url('profile/'.$activity->following->id)?>"><?=$activity->following->name?></a></span>
             <? elseif ($activity->activity_type==4):?>
-               started following <span class="streamitem-name"><a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a></span>
-               <h3>Follow/unfollow needs to go here</h3>              
+               followed <span class="streamitem-name"><a href="<?=site_url('trips/'.$activity->trip->id)?>"><?=$activity->trip->name?></a></span>
             <? elseif ($activity->activity_type==5):?>
-               started following <span class="streamitem-name"><a href="<?=site_url('places/'.$activity->place->id)?>"><? echo $activity->place->name;if($activity->place->country){echo ', '.$activity->place->country;}?></a></span>
-               <h3>Follow/unfollow needs to go here</h3>              
+               followed <span><a class="place" href="<?=site_url('places/'.$activity->place->id)?>"><? echo $activity->place->name;if($activity->place->country){echo ', '.$activity->place->country;}?></a></span>
+               
             <? elseif ($activity->activity_type==6):?>
-               commented: <?=$activity->post->content?>
-               <br/> in response to <?=$activity->post->author->name?>'s post: <?=$activity->post->content?>
-               <h3>Follow/unfollow needs to go here</h3>              
+               commented on <?=$activity->post->author->name?>'s post: 
+                <?=$activity->post->content?>             
+               /* <?=$activity->post->content?> */
             <? elseif ($activity->activity_type==8):?>
                is being followed by <span class="streamitem-name"><a href="<?=site_url('profile/'.$activity->follower->id)?>"><?=$activity->follower->name?></a></span>
-               <h3>Follow/unfollow needs to go here</h3>              
             <? elseif ($activity->activity_type==9):?>
                updated his profile bio.
+               
             <? elseif ($activity->activity_type==10):?>
-              changed current location to <a href="<?=site_url('places/'.$activity->place->id)?>" class="place" lat="<?=$activity->place->lat?>" lng="<?=$activity->place->lng?>"><?=$activity->place->name?><? if($activity->place->country){echo ', '.$activity->place->country;}?></a>
+              is now in <a href="<?=site_url('places/'.$activity->place->id)?>" class="place" lat="<?=$activity->place->lat?>" lng="<?=$activity->place->lng?>"><?=$activity->place->name?><? if($activity->place->country){echo ', '.$activity->place->country;}?></a>
             <? endif;?>
 <!--
             <br/>

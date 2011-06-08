@@ -233,8 +233,8 @@ h3{
 	color:#333;
 }
 
-.subtext{
-  color:#777;
+.subtext, .timeago{
+  color:#999;
 }
 
 .response{
@@ -326,7 +326,7 @@ fieldset {
 
 .streamitem{
 /*   border-top:1px solid #888; */
-  border-bottom:1px solid #CACACA;
+  border-bottom:1px solid #CCCCCC;
   padding:10px 0px;
 /*   width:480px; */
 }
@@ -336,13 +336,16 @@ fieldset {
   padding-top:10px;
 }
 
-.streamitem-content-container, .comment-input-container{
+.streamitem-main-container{
+  width:450px;
 }
 
 .streamitem-avatar-container{
   float:right;
-  position:relative;
-  left:28px;
+}
+
+.comment-avatar-container{
+  float:left;
 }
 
 .big-tab-avatar-container{
@@ -351,12 +354,12 @@ fieldset {
 }
 
 .author-container{
-  float:left;
+/*   float:left; */
 }
 
 
 .streamitem-tagbar{
-  margin:0px 0px 0px -3px;
+  margin:0px 0px 5px -3px;
 }
 
 .streamitem-recommenders{
@@ -374,9 +377,8 @@ fieldset {
 }
 
 .streamitem-content{
-  margin:0px 0px 2px 0px;
+  margin:0px 0px 5px 0px;
   overflow-x:hidden;
-
 }
 
 .tag, .place{
@@ -393,8 +395,6 @@ fieldset {
   margin-left:-2px;
 }
 
-
-
 .destinationbar, .goersbar{
   margin-top:3px;
 }
@@ -408,32 +408,35 @@ fieldset {
   display:inline;
 }
 
-
 .comments-container{
-  margin-top:10px;
+  padding:8px 0px 1px 0px;
+  width:410px;
 }
 
-.comment, .trip-listing{
+.trip-listing{
  margin-top:5px; 
 }
 
+.comment{
+  margin-bottom:8px;
+}
+
 .comment-content-container{
-  margin-left:40px;
-}
-
-.comment-timestamp{
-  margin-top:-3px;
-}
-
-.comment-input-area{
-  height:50px;
-  width:416px;
+  float:left;
+  margin-left:5px;
 }
 
 .comment-input-container{
-  margin-top:8px;
+  width:380px;
+  margin-left:28px; 
+}
+
+.comment-input-area{
+  min-height:38px;
+  width:375px;
   margin-bottom:3px;
 }
+
 
 .RSVP-required{
   color:green;
@@ -450,6 +453,11 @@ fieldset {
 .pinched{
   float:left;
   width:305px;
+}
+
+.activity-indent{
+  padding-left:25px;
+  padding-top:5px;
 }
 
 .left-indent{
@@ -518,7 +526,7 @@ fieldset {
 
 /* 	border-bottom: 1px solid #888; */
 /*   border-top:1px solid #777; */
-  border-bottom:2px solid #AAAAAA;
+  border-bottom:2px solid #888;
   padding-bottom:10px;
 
 }
@@ -852,36 +860,27 @@ a.unfollow{
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CACACA', endColorstr='#DADADA');
 }
 
-.add-comment-button{
-  color:white;
-  display:block;
-  height:24px;
-  line-height:24px;
-  text-align:center;
-  font-size:14px;
-  text-decoration:none;
-  background:-webkit-gradient(linear, left top, left bottom, from(#32D02F), to(#239121));
-  background:-moz-linear-gradient(top, #32D02F, #239121);
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#32D02F', endColorstr='#239121');
+a.add-comment-button{
+  color:#333 !important;
+  padding:3px 8px;  
+  background:-webkit-gradient(linear, left top, left bottom, from(#EAEAEA), to(#DADADA));
+  background:-moz-linear-gradient(top, #EAEAEA, #DADADA);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#EAEAEA', endColorstr='#DADADA');
   border: 1px solid #555;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
-  width:110px;  
 }
 
-.add-comment-button:hover {
-  background: #ffad32;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
-  background: -moz-linear-gradient(top,  #ffad32,  #ff8132);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');
+a.add-comment-button:hover {
+  background: #DADADA;
 }
 
-.add-comment-button:active {
-  background: #ff8132;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ff8132), to(#ffad32));
-  background: -moz-linear-gradient(top,  #ff8132,  #ffad32);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
+a.add-comment-button:active {
+  background: #BABABA;
+  background: -webkit-gradient(linear, left top, left bottom, from(#BABABA), to(#DADADA));
+  background: -moz-linear-gradient(top,  #BABABA,  #DADADA);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#BABABA', endColorstr='#DADADA');
 }
 
 .deleteable, .editable{
