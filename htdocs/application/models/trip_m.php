@@ -407,7 +407,7 @@ class Trip_m extends CI_Model
         if ($related_trip_ids === FALSE)
         {
             $related_trip_ids = array();
-            $sql = 'SELECT trip_id FROM `places_trips` WHERE place_id IN (SELECT place_id FROM `places_trips` WHERE trip_id = ?) AND trip_id != ?';
+            $sql = 'SELECT pt.`trip_id` FROM `places_trips` pt, `trips` t WHERE pt.`place_id` IN (SELECT place_id FROM `places_trips` WHERE trip_id = ?) AND pt.`trip_id` != ? AND pt.`trip_id` = t.`id` AND t.`is_active` = 1';
             $v = array($this->id, $this->id);
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
