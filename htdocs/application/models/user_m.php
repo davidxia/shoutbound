@@ -748,7 +748,7 @@ class User_m extends CI_Model
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
             $num_posts = $rows[0]->{'count(*)'};
-            $this->mc->set($key, $num_posts);
+            $this->mc->set($key, (int) $num_posts);
         }
 
         $this->num_posts = $num_posts;
@@ -788,8 +788,14 @@ class User_m extends CI_Model
     }
 
     
-    public function get_follow_status_by_user_id($user_id)
+    public function get_follow_status_by_user_id($user_id = NULL)
     {
+        if ( ! $user_id)
+        {
+            $this->is_following = NULL;
+            return $this;
+        }
+        
         $key = 'follow_status_by_user_id:'.$this->id.':'.$user_id;
         $status = $this->mc->get($key);
         
@@ -1338,12 +1344,27 @@ class User_m extends CI_Model
             return FALSE;
         }
     }
+    
+    
+    public function get_all_user_ids()
+    {
+        $user_ids = array();
+        $sql = 'SELECT id FROM `users` WHERE `is_active` = 1';
+        $rows = $this->mdb->select($sql);
+        foreach ($rows as $row)
+        {
+            $user_ids[] = $row->id;
+        }
+        
+        return $user_ids;
+    }
 
 
     private function row2obj($row)
     {
         if ( ! is_null($row))
         {
+            $this->reset_properties();
             foreach (get_object_vars($this) as $k => $v)
             {
                 $this->$k = $row->$k;
@@ -1361,6 +1382,18 @@ class User_m extends CI_Model
         foreach (get_object_vars($this) as $k => $v)
         {
             $this->$k = NULL;
+        }
+    }
+    
+    
+    private function reset_properties()
+    {
+        foreach (get_object_vars($this) as $k => $v)
+        {
+            if ( ! in_array($k, array('id', 'name', 'username', 'bio', 'website', 'website', 'profile_pic', 'is_onboarded')))
+            {
+                unset($this->$k);
+            }
         }
     }
 }
