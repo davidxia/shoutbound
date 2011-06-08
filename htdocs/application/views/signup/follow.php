@@ -54,14 +54,12 @@ $this->load->view('core_header', $header_args);
           <div class="streamitem">
             <a class="follow" id="user-<?=$profile->id?>" href="#">Follow</a>
             <div class="streamitem-avatar-container">
-              <a href="<?=site_url('profile/'.$profile->id)?>">
-                <img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="25" height="25"/>
-              </a>
+              <img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="25" height="25"/>
             </div>
 
             <div class="narrow streamitem-content-container">
               <div class="streamitem-name">
-                <a href="<?=site_url('profile/'.$profile->id)?>"><?=$profile->name?></a>
+                <span style="font-weight:bold;"><?=$profile->name?></span>
               </div>
               <div class="streamitem-bio"><?=$profile->bio?></div>
               <div style="clear:both"></div>
@@ -122,6 +120,12 @@ $this->load->view('core_header', $header_args);
       window.location = '<?=site_url('signup/profile')?>';
     }
     return false;
+  });
+  $('.follow').live('click', function() {
+    $('.following-count').text(parseInt($('.following-count').text())+1);
+  });
+  $('.unfollow').live('click', function() {
+    $('.following-count').text(parseInt($('.following-count').text())-1);
   });
 </script>
 </html>
