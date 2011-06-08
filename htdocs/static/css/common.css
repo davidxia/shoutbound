@@ -9,19 +9,20 @@
 }
 
 .header .nav a, .header .nav a:visited {
-  color:#A9C9DD;
+/*   color:#A9C9DD; */
+  color:white;
 }
 
 .header .nav a:hover, .footer a:hover {
-  color:white;
-  text-decoration:none !important;
+/*   color:white; */
+/*   text-decoration:none !important; */
 }
 
 .footer a, .footer a:visited{
   color:#FAFAFA;
 }
 
-a, a:visited{
+a, a:visited, .fakelink{
   color:#3B5998;
 /*   color:#3B6DAB;   */
 	text-decoration:none;
@@ -63,6 +64,7 @@ a:hover{
 
 .destination.tag, .place{
   background:#DFEAF4;
+/*   color:#3B5998 !important; */
 }
 
 .destination.tag:hover, .place:hover{
