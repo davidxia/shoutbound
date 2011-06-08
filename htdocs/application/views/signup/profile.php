@@ -49,7 +49,7 @@ $this->load->view('core_header', $header_args);
         <div class="settings-item-content" style="position:relative; width:650px !important;">
           <input style="margin-left:-2px; padding-left:108px; width:190px;" type="text" id="username" maxlength="15" value="<?=$user->username?>"/>
           <div id="shoutbound-url" style="display:inline; position:relative; left:-300px; width:75px; font-size:13px; color:#777;">shoutbound.com/</div>
-          <img class="ajax-spinner" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="display:none;position:absolute;left:140px;top:3px;"/>
+          <img class="ajax-spinner" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="display:none;position:absolute;left:280px;top:3px;"/>
           <span id="username-help" style="position:relative; left:-100px; color:#777; width:300px; font-weight:bold;"></span>
           <br/>
         </div>
