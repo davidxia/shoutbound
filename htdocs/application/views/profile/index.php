@@ -36,13 +36,17 @@ $this->load->view('core_header', $header_args);
   <? $this->load->view('templates/content')?>
 
   <!-- LEFT COLUMN -->
-  <div id="col-left">    
+  <div id="col-left">
+  
+    <div id="top-section">    
+      <div id="profile-name"><?=$profile->name?></div>
+    </div>
     
     <!--LEFT CONTENT-->      
     <div id="left-content-container">
       <ul id="main-tabs">
         <li><a href="#activity">Activity</a></li>
-        <li><a href="#trail">Trail</a></li>
+        <li><a href="#trail">Trips</a></li>
         <li><a href="#posts">Posts</a></li>
         <li><a href="#following">Following</a></li>
         <li class="last"><a href="#followers">Followers</a></li>
@@ -100,7 +104,6 @@ $this->load->view('core_header', $header_args);
       <div id="profile-pic-container">
         <a href="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" id="profile-pic"><img src="<?=static_sub('profile_pics/'.$profile->profile_pic)?>" width="88" height="88"/></a>
       </div>
-      <div id="profile-name"><?=$profile->name?></div>
       
       <? if (!$is_self AND !$is_following):?>
         <div id="actions-container">

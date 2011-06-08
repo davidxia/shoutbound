@@ -315,19 +315,17 @@ fieldset {
 
 .streamitem{
 /*   border-top:1px solid #888; */
-  border-bottom:1px solid #DADADA;
+  border-bottom:1px solid #CACACA;
   padding:10px 0px;
-  width:480px;
+/*   width:480px; */
 }
 
 .first-item, .first-item:hover{
   border-top:none;
-  padding-top:0px;
+  padding-top:10px;
 }
 
 .streamitem-content-container, .comment-input-container{
-  margin-left:33px;
-  padding-right:10px;
 }
 
 .streamitem-avatar-container{
@@ -346,7 +344,7 @@ fieldset {
 }
 
 .streamitem-name{
-  margin:3px 0px 0px;
+  margin:0px 0px 3px;
 }
 
 .streamitem-recommenders{
@@ -369,17 +367,25 @@ fieldset {
 }
 
 .tag, .place{
-  padding:3px 3px;
+  padding:0px 2px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
-  margin-bottom:3px;
+  margin-bottom:2px;
   line-height:19px;
   display:inline-block;
 }
 
 .placeleftpull{
-  margin-left:-3px;
+  margin-left:-2px;
+}
+
+.destinationbar, .goersbar{
+  margin-top:3px;
+}
+
+.destinationbar{
+/*   margin-bottom:1px; */
 }
 
 .bar-item{
@@ -472,7 +478,6 @@ fieldset {
  border-bottom:1px solid #888;
  border-right:1px solid #888;
 */
- padding:15px 0px;
  clear:both;
 }
 
