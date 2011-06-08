@@ -214,6 +214,7 @@ class Place_m extends CI_Model
     public function get_related_places($user_id = NULL)
     {
         $key = 'related_place_ids_by_place_id:'.$this->id;
+        $this->mc->delete($key);
         $related_place_ids = $this->mc->get($key);
         
         if ($related_place_ids === FALSE)
@@ -222,7 +223,10 @@ class Place_m extends CI_Model
             $sql = 'SELECT parent_id FROM `places` WHERE id = ? AND parent_id != 1';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
-            $related_place_ids[] = $rows[0]->parent_id;
+            if (isset($rows[0]))
+            {
+                $related_place_ids[] = $rows[0]->parent_id;
+            }
 
             $sql = 'SELECT pp.related_place_id FROM `places_places` pp WHERE pp.place_id = ?';
             $v = array($this->id, $this->id);

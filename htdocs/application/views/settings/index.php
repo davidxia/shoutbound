@@ -17,6 +17,7 @@ $this->load->view('core_header', $header_args);
 <!-- JAVASCRIPT CONSTANTS --> 
 <script type="text/javascript">
   var baseUrl = '<?=site_url()?>';
+  var staticUrl = '<?=static_sub()?>';
 </script>
 </head>
 

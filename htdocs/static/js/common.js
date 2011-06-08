@@ -6,13 +6,18 @@ $(function() {
     $('#searchbar').autocomplete({
   		source: function(req,resp) {
         $.post(baseUrl+'search/ajax_autocomplete', {query:req.term},
-          function(data) {var r = $.parseJSON(data); resp( $.map(r.places, function(item) {
-  						return {
-  							label: item.name,
-  							value: item.name,
-  							href: baseUrl+'places/'+item.id
-  						}
-  					}));
+          function(data) {
+            var r = $.parseJSON(data);
+            resp(
+              $.map(r.results, function(item){
+  						  if (item.type == 'user')
+    						  return {label:item.name, value:item.name, href:baseUrl+'profile/'+item.id, picUrl:'profile_pics/'+item.profile_pic, desc:item.bio}
+                if (item.type == 'trip')
+    						  return {label:item.name, value:item.name, href:baseUrl+'trips/'+item.id, picUrl:'images/trip_icon.png', desc:item.description}
+                if (item.type == 'place')
+    						  return {label:item.name, value:item.name, href:baseUrl+'places/'+item.id, picUrl:'images/place_icon.png', desc:''}
+  						})
+  				  );
   				});
         },
   		minLength: 3,
@@ -21,7 +26,13 @@ $(function() {
   		select: function(event,ui) {
   		  window.location = ui.item.href;
   		}
-    });
+    })
+    .data('autocomplete')._renderItem = function(ul,item){
+			return $('<li></li>')
+				.data('item.autocomplete', item)
+				.append('<a style="min-height:50px;"><img src="'+staticUrl+item.picUrl+'" width="50" height="50" style="position:absolute;"/>' + '<div style="margin-left:60px;">'+item.label+'<br/>'+item.desc+'</div>' + '</a>')
+				.appendTo(ul);
+		};
   }
   
 
@@ -239,20 +250,3 @@ function addMarkers() {
     map.add(marker);
   });
 }
-
-
-searchbarQuery = function(q) {
-  $.post(baseUrl+'search/ajax_autocomplete', {query:q,isSearchbar:1},
-    function(d) {
-      $('#searchbar-autocomplete').empty();
-      $('#searchbar').after(d);
-    });
-/*
-  $.post(baseUrl+'places/ajax_autocomplete', {query:q,isSearchbar:1},
-    function(d) {
-      $('#searchbar-autocomplete').empty();
-      $('#searchbar').after(d);
-    });
-*/
-};
-

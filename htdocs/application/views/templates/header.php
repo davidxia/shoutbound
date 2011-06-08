@@ -12,8 +12,8 @@
     <? endif;?>
     
     <? if(isset($user->id) AND !isset($is_onboarding)):?>
-      <div id="search-box" style="position:absolute;top:0;left:240px;">
-        <input id="searchbar" type="text" style="height:19px;width:250px; padding:3px 0px 0px 3px; line-height:19px; overflow-x: hidden;" placeholder="Search for a destination"/>
+      <div id="search-box" style="position:absolute;top:0;left:175px;">
+        <input id="searchbar" type="text" style="height:19px;width:350px; padding:3px 0px 0px 3px; line-height:19px; overflow-x: hidden;" placeholder="Search people, trips, and places"/>
       </div>
       
   		<a href="<?=site_url('trips/create')?>" id="create-trip-button" style="position:absolute;left:575px; top:9px;">+ New trip</a>

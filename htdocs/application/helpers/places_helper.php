@@ -56,7 +56,7 @@ function query_places($q=NULL)
       	{
             foreach ($res['matches'] as $docinfo)
             {
-              	$name = $docinfo['attrs']['name'];
+              	$name = utf8_encode($docinfo['attrs']['name']);
               	if ($docinfo['attrs']['country'])
               	{
                     $name .= ', '.$docinfo['attrs']['country'];
