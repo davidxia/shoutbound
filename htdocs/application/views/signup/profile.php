@@ -4,8 +4,10 @@ $header_args = array(
     'css_paths' => array(
         'css/uploadify.css',
         'css/onboarding.css',
+        'css/excite-bike/jquery-ui-1.8.13.custom.css',
     ),
     'js_paths' => array(
+        'js/jquery/jquery-ui-1.8.13.custom.min.js',
         'js/common.js',
         'js/uploadify/swfobject.js',
         'js/uploadify/jquery.uploadify.v2.1.4.min.js',
@@ -78,8 +80,8 @@ $this->load->view('core_header', $header_args);
       
       <div class="settings-item" style="position:relative;">
         <div class="settings-item-name">Current location</div>
-        <div class="settings-item-content">
-          <input type="text" id="current-place" class="place-input" style="width:275px; height:20px;" value="<? if(isset($user->current_place->name)) echo $user->current_place->name?>"/>
+        <div id="current-place" class="settings-item-content">
+          <input type="text" id="current-place-input" class="place-input" style="width:275px; height:20px;" value="<? if(isset($user->current_place->name)) echo $user->current_place->name?>"/>
           <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="display:none; position:absolute; right:160px; top:25px;"/>
           <input id="current-place-id" class="place_id" name="current-place-id" type="hidden"/>
           <div class="subtext">Where in the world are you in right now?</div>        
