@@ -82,7 +82,7 @@ class Post_m extends CI_Model
         if ($poster_id === FALSE)
         {
             $sql = 'SELECT `posted_by` FROM `places_posts` WHERE `post_id` = ? AND `place_id` = ?';
-            $v = array($this->id, $trip_id);
+            $v = array($this->id, $place_id);
             $rows = $this->mdb->select($sql, $v);
             $poster_id = (isset($rows[0])) ? $rows[0]->posted_by : NULL;
             $this->mc->set($key, $poster_id);
@@ -279,6 +279,13 @@ class Post_m extends CI_Model
             {
                 $this->mc->delete('reply_ids_by_post_id:'.$parent_id);
             }
+            
+            preg_match_all('/<place id="(\d+)">/', $content, $place_ids);
+            $place_ids = $place_ids[1];
+    		    if ($place_ids)
+    		    {
+    		        $this->save_to_places_by_place_ids($place_ids);
+    		    }
             return TRUE;
         }
     }
@@ -305,10 +312,41 @@ class Post_m extends CI_Model
     }
 
 
+    public function save_to_places_by_place_ids($place_ids = array(), $posted_by = NULL)
+    {
+        if ( ! $place_ids)
+        {
+            return -1;
+        }
+        
+        $sql = 'INSERT INTO `places_posts` (`place_id`, `post_id`, `posted_by`) VALUES (?,?,?)';
+        $values = array();
+        foreach ($place_ids as $place_id)
+        {
+            $values[] = array($place_id, $this->id, $posted_by);
+        }
+        $r = $this->mdb->batch_alter($sql, $values);
+        if ($r['num_affected'] > 0)
+        {
+            foreach ($place_ids as $place_id)
+            {
+                $this->mc->delete('post_ids_by_place_id:'.$place_id);
+                $this->mc->delete('num_posts_by_place_id:'.$place_id);
+            }
+            return $r['num_affected'];
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+
+
     private function row2obj($row)
     {
         if ( ! is_null($row))
         {
+            $this->reset_properties();
             foreach (get_object_vars($this) as $k => $v)
             {
                 $this->$k = $row->$k;
@@ -326,6 +364,18 @@ class Post_m extends CI_Model
         foreach (get_object_vars($this) as $k => $v)
         {
             $this->$k = NULL;
+        }
+    }
+    
+    
+    private function reset_properties()
+    {
+        foreach (get_object_vars($this) as $k => $v)
+        {
+            if ( ! in_array($k, array('id', 'user_id', 'content', 'parent_id', 'created')))
+            {
+                unset($this->$k);
+            }
         }
     }
 }

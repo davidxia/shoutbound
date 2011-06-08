@@ -16,6 +16,18 @@ class Posts extends CI_Controller
 		}
 		
 		
+		public function test()
+		{
+/*
+		    $p = new Post_m(1);
+		    $success = $p->save_to_places_by_place_ids();
+*/
+        $str = 'this example include several places like <place id="4">Advocate Harbor</place> and <place id="28749661">Manhattan</place>. Lets not forget <place id="12589335">Brooklyn</place>.';
+        preg_match_all('/<place id="(\d+)">/', $str, $place_ids);
+        $place_ids = $place_ids[1];
+		    echo '<pre>';print_r($place_ids);echo '</pre>';
+		}
+		
 		public function ajax_save()
 		{
 		    $post_id = ($this->input->post('postId')) ? $this->input->post('postId') : NULL;
@@ -73,6 +85,7 @@ class Posts extends CI_Controller
                 $this->mc->delete('post_ids_by_trip_id:'.$trip_id);
             }
 
+/*
             $content = nl2br($content);
             $content = preg_replace_callback('/<place id="(\d+)">/',
                 create_function('$matches',
@@ -81,6 +94,7 @@ class Posts extends CI_Controller
                      return \'<a class="place" href="#" address="\'.$p->name.\'" lat="\'.$p->lat.\'" lng="\'.$p->lng.\'">\';'),
                 $content);
             $content = str_replace('</place>', '</a>', $content);
+*/
 
             $activity_type = ($parent_id) ? 6 : 2;
             if ($parent_id)

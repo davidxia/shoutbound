@@ -48,7 +48,10 @@ class Places extends CI_Controller
             return;
         }
         
-        $place->get_num_posts()->get_num_trips()->get_num_followers()->get_posts();
+        $place->get_num_posts()
+              ->get_num_trips()
+              ->get_num_followers()
+              ->get_posts();
         
         if ($this->user)
         {
