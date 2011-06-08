@@ -227,8 +227,8 @@ $this->load->view('core_header', $header_args);
     <div id="itinerary">
       <div class="right-item-name">Itinerary:</div>
       <? foreach ($trip->places as $place):?>
-      <div class="itinerary-entry">
-        <a class="destination tag" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>" title="<?=$place->name?>"><?=$place->name?></a>  
+      <div class="right-item-entry">
+        <a class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>" href="<?=site_url('places/'.$place->id)?>" title="<?=$place->name?>"><?=$place->name?></a>  
         <span><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
       </div>
       <? endforeach;?>
@@ -266,7 +266,7 @@ $this->load->view('core_header', $header_args);
 <!--
     <div id="tagbar">
       <? foreach ($trip->places as $destination):?>
-      <a class="destination tag" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></a>
+      <a class="place" lat="<?=$destination->lat?>" lng="<?=$destination->lng?>" href="<?=site_url('places/'.$destination->id)?>"><?=$destination->name?></a>
       <? endforeach;?>
       <div style="clear:both"></div>       
     </div>

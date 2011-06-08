@@ -67,7 +67,7 @@ a:hover{
 
 .destination.tag:hover, .place:hover{
   background:#19558D;
-  color:white;
+  color:white !important;
 }
 
 .tripname.tag{
@@ -206,6 +206,10 @@ html, body {
   font-weight:bold;
 }
 
+.right-item-entry{
+  margin-bottom:3px;
+}
+
 #post-input-header{
   margin-bottom:3px;
   font-weight:bold;
@@ -309,6 +313,13 @@ fieldset {
   font-weight:800;
 }
 
+.nothingyet-copy{
+  padding-top:10px;
+}
+
+.secondary-follow{
+}
+
 #add-to-trip-main, #save-post-button{
   display:none;
 }
@@ -334,6 +345,11 @@ fieldset {
   left:28px;
 }
 
+.big-tab-avatar-container{
+  float:left;
+  margin-right:10px;
+}
+
 .author-container{
   float:left;
 }
@@ -341,10 +357,6 @@ fieldset {
 
 .streamitem-tagbar{
   margin:0px 0px 0px -3px;
-}
-
-.streamitem-name{
-  margin:0px 0px 3px;
 }
 
 .streamitem-recommenders{
@@ -358,6 +370,7 @@ fieldset {
 .streamitem-name a, .streamitem-name a:visited{
   font-weight:bold;
   color:#333;
+  margin:0px 0px 2px;
 }
 
 .streamitem-content{
@@ -371,7 +384,7 @@ fieldset {
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
-  margin-bottom:2px;
+/*   margin-bottom:2px; */
   line-height:19px;
   display:inline-block;
 }
@@ -379,6 +392,8 @@ fieldset {
 .placeleftpull{
   margin-left:-2px;
 }
+
+
 
 .destinationbar, .goersbar{
   margin-top:3px;
@@ -421,11 +436,20 @@ fieldset {
 }
 
 .RSVP-required{
-  color:red;
+  color:green;
+}
+
+.RSVP-no{
+  color:#888;
 }
 
 .narrow{
   padding-right:125px;
+}
+
+.pinched{
+  float:left;
+  width:305px;
 }
 
 .left-indent{

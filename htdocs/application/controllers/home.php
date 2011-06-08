@@ -49,15 +49,17 @@ class Home extends CI_Controller
 		}
 	
     
-    public function trail()
+    public function trips()
     {
-        $this->user->get_rsvp_yes_trips();
-        $this->user->get_rsvp_awaiting_trips();
+        $this->user
+            ->get_rsvp_yes_trips()
+            ->get_rsvp_awaiting_trips()
+            ->get_rsvp_no_trips();
         
         $data = array(
             'user' => $this->user,
         );
-        $this->load->view('home/trail', $data);
+        $this->load->view('home/trips', $data);
     }
     
     

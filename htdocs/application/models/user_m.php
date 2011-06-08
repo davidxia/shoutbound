@@ -460,6 +460,40 @@ class User_m extends CI_Model
     }
 
 
+    public function get_rsvp_no_trips($user_id = NULL)
+    {
+        $key = 'rsvp_no_trip_ids_by_user_id:'.$this->id;
+        $rsvp_no_trip_ids = $this->mc->get($key);
+        
+        if ($rsvp_no_trip_ids === FALSE)
+        {
+            $rsvp_no_trip_ids = array();
+            $sql = 'SELECT tu.trip_id FROM `trips_users` tu, `trips` t WHERE t.id = tu.trip_id AND t.is_active = 1 AND tu.user_id = ? AND (tu.rsvp = 0 OR tu.rsvp = 3) AND tu.role = 5';
+            $v = array($this->id);
+            $rows = $this->mdb->select($sql, $v);
+            foreach ($rows as $row)
+            {
+                $rsvp_no_trip_ids[] = $row->trip_id;
+            }
+            $this->mc->set($key, $rsvp_no_trip_ids);
+        }
+        
+        $this->rsvp_no_trips = array();
+        foreach ($rsvp_no_trip_ids as $rsvp_no_trip_id)
+        {
+            $trip = new Trip_m($rsvp_no_trip_id);
+            $trip->get_goers();
+            $trip->get_places();
+            if ($user_id)
+            {
+                $trip->get_rsvp_by_user_id($user_id);
+            }
+            $this->rsvp_no_trips[] = $trip;
+        }
+        return $this;
+    }
+
+
     public function get_num_following_users()
     {
         $key = 'num_following_users_by_user_id:'.$this->id;
@@ -607,6 +641,9 @@ class User_m extends CI_Model
             $this->mc->delete('follower_ids_by_trip_id:'.$trip_id);
             $this->mc->delete('num_goers_by_trip_id:'.$trip_id);
             $this->mc->delete('goer_ids_by_trip_id:'.$trip_id);
+            $this->mc->delete('rsvp_yes_trip_ids_by_user_id:'.$trip_id);
+            $this->mc->delete('rsvp_awaiting_trip_ids_by_user_id:'.$trip_id);
+            $this->mc->delete('rsvp_no_trip_ids_by_user_id:'.$trip_id);
             return $r['num_affected'];
         }
         else

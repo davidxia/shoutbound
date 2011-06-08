@@ -1,6 +1,6 @@
 <div id="posts-tab" class="main-tab-content">
   <? if ( ! $profile->posts):?>
-    <?=$profile->name?> hasn't posted anything yet.
+    <div class="nothingyet-copy"><?=$profile->name?> hasn't posted anything yet.</div>
   <? endif;?>
     
   <? $prefix1='first-item'; foreach ($profile->posts as $post):?>

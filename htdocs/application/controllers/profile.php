@@ -92,7 +92,7 @@ class Profile extends CI_Controller
     }
 
 
-    public function trail($pid = NULL)
+    public function trips($pid = NULL)
     {
         if ( ! $pid)
         {
@@ -137,7 +137,7 @@ class Profile extends CI_Controller
             'is_self' => $is_self,
         );
 
-        $this->load->view('profile/trail', $data);
+        $this->load->view('profile/trips', $data);
     }
 
 

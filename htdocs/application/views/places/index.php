@@ -55,7 +55,7 @@ $this->load->view('core_header', $header_args);
     <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
       <div id="posts-tab" class="main-tab-content main-tab-default">
         <? if(!$place->posts):?>
-          Nobody has shared a travel experience about <?=$place->name?> yet. You can be first!
+          <div class="nothingyet-copy">Nobody has shared a travel experience about <?=$place->name?> yet. You can be first!</div>
         <? endif;?>
         <? foreach ($place->posts as $post):?>
           <div class="post" id="post-<?=$post->id?>">
