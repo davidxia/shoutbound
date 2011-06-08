@@ -227,8 +227,8 @@ savePost = function() {
       $('#post-input').text('');
       $('#trip-selection').multiselect('uncheckAll');
       if (typeof tripId == 'number') {
-        $('#posts-tab:last-child').after(d);
-        $('#posts-tab:last-child').removeClass('first-item');
+        $('.input-container').next().removeClass('first-item');
+        $('.input-container').after(d);
         $('abbr.timeago').timeago();
       } else {
         $('.first-item.streamitem').removeClass('first-item').before(d);

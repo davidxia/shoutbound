@@ -190,7 +190,7 @@ class Trip_m extends CI_Model
         if ($post_ids === FALSE)
         {
             $post_ids = array();
-            $sql = 'SELECT pt.post_id FROM `posts_trips` pt, `posts` p WHERE pt.trip_id = ? AND p.parent_id IS NULL AND pt.is_active = 1 AND pt.post_id = p.id';
+            $sql = 'SELECT pt.post_id FROM `posts_trips` pt, `posts` p WHERE pt.trip_id = ? AND p.parent_id IS NULL AND pt.is_active = 1 AND pt.post_id = p.id ORDER BY p.created DESC';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)

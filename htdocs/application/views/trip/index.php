@@ -61,6 +61,42 @@ $this->load->view('core_header', $header_args);
         <!-- POSTS TAB -->
         <div id="posts-tab" class="main-tab-content main-tab-default">
 
+          <div id="autocomplete-box" style="background:#222; position:absolute; z-index:99; padding:3px;display:none;">
+            <input id="autocomplete-input" type="text" style="width:150px;border:none;border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px; padding:3px;"/>
+            <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="position:absolute; right:20px; top:7px;"/>
+            <a id="autocomplete-close" href="#">
+              <img alt="close" src="<?=site_url('static/images/white_x.png')?>" width="10" height="9"/>
+            </a>
+            <div id="autocomplete-results" style="display:none; position:absolute; top:28px; width:400px; border:1px solid #DDD; cursor:pointer; padding:2px; z-index:100; background:white; font-size:13px;"></div>
+          </div>
+          <!--POST CONTAINER-->
+          <div class="input-container">
+            <form class="save-post-form">
+              <fieldset>
+                <div contenteditable="true" id="post-input"></div>
+                <div style="display:none;">
+                  <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
+                  <div contenteditable="true" class="tag-input"></div>
+                  <span class="input-header">Trips</span><br>
+                  <? if(isset($user->id)):?>
+                  <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
+                    <? foreach ($user->rsvp_yes_trips as $t):?>
+                    <option value="<?=$t->id?>"><?=$t->name?>
+                    <? endforeach;?>
+                    <? foreach ($user->rsvp_awaiting_trips as $t):?>
+                    <option value="<?=$t->id?>"><?=$t->name?>
+                    <? endforeach;?>
+                    <? foreach ($user->following_trips as $t):?>
+                    <option value="<?=$t->id?>"><?=$t->name?>
+                    <? endforeach;?>
+                  </select>
+                  <? endif;?>
+                </div>
+              </fieldset>
+            </form>
+            <a id="save-post-button">Post</a>
+          </div><!--END POST CONTAINER-->
+    		        	
           <? $prefix1='first-item'; foreach ($trip->posts as $post):?>
             <!--POST START-->           
             <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem <? if(isset($user->id) AND ($user->role==10 OR ($post->added_by->id==$user->id))):?>deleteable<? endif;?>">
@@ -125,43 +161,6 @@ $this->load->view('core_header', $header_args);
               
             </div><!--POST END-->
           <? endforeach;?> 
-
-          <!--POST CONTAINER-->
-          <div class="input-container">
-            <form class="save-post-form">
-              <fieldset>
-                <div contenteditable="true" id="post-input"></div>
-                <div style="display:none;">
-                  <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
-                  <div contenteditable="true" class="tag-input"></div>
-                  <span class="input-header">Trips</span><br>
-                  <? if(isset($user->id)):?>
-                  <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
-                    <? foreach ($user->rsvp_yes_trips as $t):?>
-                    <option value="<?=$t->id?>"><?=$t->name?>
-                    <? endforeach;?>
-                    <? foreach ($user->rsvp_awaiting_trips as $t):?>
-                    <option value="<?=$t->id?>"><?=$t->name?>
-                    <? endforeach;?>
-                    <? foreach ($user->following_trips as $t):?>
-                    <option value="<?=$t->id?>"><?=$t->name?>
-                    <? endforeach;?>
-                  </select>
-                  <? endif;?>
-                </div>
-              </fieldset>
-            </form>
-            <a id="save-post-button">Post</a>
-          </div><!--END POST CONTAINER-->
-    		        	
-          <div id="autocomplete-box" style="background:#222; position:absolute; z-index:99; padding:3px;display:none;">
-            <input id="autocomplete-input" type="text" style="width:150px;border:none;border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px; padding:3px;"/>
-            <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="position:absolute; right:20px; top:7px;"/>
-            <a id="autocomplete-close" href="#">
-              <img alt="close" src="<?=site_url('static/images/white_x.png')?>" width="10" height="9"/>
-            </a>
-            <div id="autocomplete-results" style="display:none; position:absolute; top:28px; width:400px; border:1px solid #DDD; cursor:pointer; padding:2px; z-index:100; background:white; font-size:13px;"></div>
-          </div>
        
         </div><!--TAB CONTAINER END-->
 

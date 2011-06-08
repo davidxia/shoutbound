@@ -270,6 +270,7 @@ class Post_m extends CI_Model
         if ($r['num_affected'] == 1)
         {
             $this->mc->delete('post_ids_by_user_id:'.$user_id);
+            $this->mc->delete('num_posts_by_user_id:'.$user_id);
             $this->id = $r['last_insert_id'];
             $this->user_id = $user_id;
             $this->content = $content;
