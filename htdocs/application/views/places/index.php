@@ -44,7 +44,7 @@ $this->load->view('core_header', $header_args);
   <div id="col-left">    
     <div id="top-section"><!--TOP SECTION-->
       <div id="place-title">
-        <span id="place-name"><?=$place->name?></span><? if($place->country):?>, <?=$place->country?><? endif;?>
+        <span id="place-name"><?=$place->name?></span><? if($place->country AND $place->country!=$place->name):?>, <?=$place->country?><? endif;?>
       </div>
       <? if($place->admin1):?><span id="admin1" style="display:none;"><?=$place->admin1?></span><? endif;?>
     </div><!--TOP SECTION END-->  
