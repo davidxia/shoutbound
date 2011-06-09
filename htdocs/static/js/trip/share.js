@@ -103,8 +103,7 @@ share.showShareDialog = function(shareRole) {
   
 
 share.fbShare = function(shareRole) {
-  var shareKey = share.generateShareKey(shareRole, 2, 'fb');
-  var url = 'http://www.facebook.com/sharer.php?u='+baseUrl+'trips/share/'+tripId+'/'+shareKey;
+  var url = 'http://www.facebook.com/sharer.php?u='+baseUrl+'trips/'+tripId;
   var window_specs = 'toolbar=0, status=0, width=626, height=436';
   
   var x = Math.ceil((window.screen.availHeight/2)-100);
@@ -119,15 +118,14 @@ share.fbShare = function(shareRole) {
 
 
 share.twShare = function(shareRole) {
-  var shareKey = share.generateShareKey(shareRole, 2, 'tw');
-  if (shareRole == 2) {
-    var message = 'Come with me on this trip I\'m planning: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
-  } else if (shareRole == 1) {
-    var message = 'Help me plan my trip: '+baseUrl+'trips/share/'+tripId+'/'+shareKey;
+  if (shareRole == 5) {
+    var message = 'Come with me on my trip I\'m planning on Shoutbound: '+baseUrl+'trips/'+tripId;
+  } else if (shareRole == 0) {
+    var message = 'Check out my awesome trip I\'m planning on Shoutbound: '+baseUrl+'trips/'+tripId;
   }
   message = encodeURIComponent(encodeURIComponent(message));
   
-  var url = 'http://twitter.com/login?redirect_after_login=%2Fhome%3Fstatus%3D'+message;
+  var url = 'http://twitter.com/intent/session?return_to=%2Fintent%2Ftweet%3Ftext%3D'+message;
   window.open(url);
   
   var ele = (shareRole == 5) ? 'invite' : 'share';
@@ -182,32 +180,4 @@ share.showShareSuccess = function(m) {
       $('body').append(popup);
       popup.append(r.data).bPopup({follow:false, opacity:0});
     });
-};
-
-
-share.generateShareKey = function(shareRole, shareMedium, targetId) {
-  var postData = {
-    tripId: tripId,
-    shareRole: shareRole,
-    shareMedium: shareMedium,
-    targetId: targetId,
-    isClaimed: -1
-  };
-  
-  var r = '';
-  $.ajax({
-    async: false,
-    type: 'POST',
-    url: baseUrl+'trip_shares/ajax_new_share_key',
-    data: postData,
-    success: function(d) {
-      r = $.parseJSON(d);
-    }
-  });
-  
-  if (r.success) {
-    return r.shareKey;
-  } else {
-    alert(r.message);
-  }
 };
