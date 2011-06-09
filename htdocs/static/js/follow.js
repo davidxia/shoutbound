@@ -18,6 +18,11 @@ $(function () {
     editFollowing(type, id, 0);
     return false;
   });
+  $('.secondary-follow').live('click', function() {
+    $('.follow.left').trigger('click');
+    $(this).remove();
+    return false;
+  });
 });
 
 

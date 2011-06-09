@@ -10,7 +10,7 @@ $header_args = array(
     'js_paths'=>array(
         'js/common.js',
         'js/jquery/jquery.ba-bbq.min.js',
-        'js/places/tabs.js',
+        'js/places.js',
         'js/follow.js',
         'js/user/loginSignup.js',
         'js/jquery/jquery-ui-1.8.13.custom.min.js',
@@ -57,7 +57,7 @@ $this->load->view('core_header', $header_args);
     <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
       <div id="posts-tab" class="main-tab-content main-tab-default">
         <? if(!$place->posts):?>
-          <div class="nothingyet-copy">Nobody has shared a travel experience about <?=$place->name?> yet. You can be first!</div>
+          <div class="nothingyet-copy">Nobody has shared a travel experience about <?=$place->name?> yet. You can be the first!</div>
         <? endif;?>
         
         <? $prefix='first-item'; foreach ($place->posts as $post):?>

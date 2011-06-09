@@ -760,7 +760,7 @@ a.autocomplete-item{
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff8132', endColorstr='#ffad32');
 }
 
-.follow, .unfollow{
+.follow, .unfollow, .secondary-follow{
   float:right;
 }
 
@@ -779,11 +779,11 @@ a.autocomplete-item{
   float:right;
 }
 
-.follow, .edit-profile, .submit{
+.follow, .secondary-follow, .edit-profile, .submit{
   display:block;
 }
 
-.follow, .edit-profile, .submit{
+.follow, .secondary-follow, .edit-profile, .submit{
   height:28px;
   line-height:28px;
   text-align:center;
@@ -801,11 +801,11 @@ a.autocomplete-item{
   width:75px;
 }
 
-a.follow, a.edit-profile, a.submit{
+a.follow, a.secondary-follow, a.edit-profile, a.submit{
   color:#333;
 }
 
-.follow:hover, .edit-profile:hover, .submit:hover{
+.follow:hover, .secondary-follow:hover, .edit-profile:hover, .submit:hover{
   background: #DADADA;
   border: 1px solid #888;
   /*background: -webkit-gradient(linear, left top, left bottom, from(#ffad32), to(#ff8132));
@@ -813,7 +813,7 @@ a.follow, a.edit-profile, a.submit{
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffad32', endColorstr='#ff8132');*/
 }
 
-.follow:active, .edit-profile:active, .submit:active{
+.follow:active, .secondary-follow:active, .edit-profile:active, .submit:active{
   background: #BABABA;
   border: 1px solid #888;
   background: -webkit-gradient(linear, left top, left bottom, from(#BABABA), to(#DADADA));

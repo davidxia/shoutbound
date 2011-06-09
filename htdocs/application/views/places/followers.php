@@ -2,7 +2,7 @@
   <? if ( ! $place->followers):?>
     <div class="nothingyet-copy">
       <?=$place->name?> doesn't have any followers yet. You can be first! 
-      <a href="#" class="follow secondary-follow">Follow</a>
+      <a href="#" class="secondary-follow">Follow</a>
     </div>
   <? endif;?>
   
