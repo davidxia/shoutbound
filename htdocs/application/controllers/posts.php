@@ -15,7 +15,7 @@ class Posts extends CI_Controller
         }
 		}
 		
-		
+				
 		public function ajax_save()
 		{
 		    $post_id = ($this->input->post('postId')) ? $this->input->post('postId') : NULL;
@@ -73,6 +73,7 @@ class Posts extends CI_Controller
                 $this->mc->delete('post_ids_by_trip_id:'.$trip_id);
             }
 
+/*
             $content = nl2br($content);
             $content = preg_replace_callback('/<place id="(\d+)">/',
                 create_function('$matches',
@@ -81,6 +82,7 @@ class Posts extends CI_Controller
                      return \'<a class="place" href="#" address="\'.$p->name.\'" lat="\'.$p->lat.\'" lng="\'.$p->lng.\'">\';'),
                 $content);
             $content = str_replace('</place>', '</a>', $content);
+*/
 
             $activity_type = ($parent_id) ? 6 : 2;
             if ($parent_id)
