@@ -139,7 +139,8 @@ $this->load->view('core_header', $header_args);
           {signup_name:$('#signup_name').val(),
            signup_email:$('#signup_email').val(),
            signup_pw:$('#signup_pw').val(),
-           invite_code:$('#invite_code').val()},
+           invite_code:$('#invite_code').val(),
+           is_fb_signup:$('#is_fb_signup').val()},
           function(d) {
             var r = $.parseJSON(d);
             if (r.success && r.inviteCode) {
