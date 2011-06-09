@@ -105,6 +105,7 @@ class Post_m extends CI_Model
 
     public function get_places()
     {
+/*
         $key = 'content_by_post_id:'.$this->id;
         $content = $this->mc->get($key);
         
@@ -120,6 +121,28 @@ class Post_m extends CI_Model
         }
         
         $this->content = $content;
+        return $this;
+*/
+
+        $key = 'place_ids_by_post_id:'.$this->id;
+        $place_ids = $this->mc->get($key);
+        
+        if ($place_ids === FALSE)
+        {
+            preg_match_all('/<place id="(\d+)">/', $this->content, $place_ids);
+            $place_ids = $place_ids[1];
+            $this->mc->set($key, $place_ids);
+        }
+        
+        $places = array();
+        foreach ($place_ids as $place_id)
+        {
+            $place = new Place_m();
+            $place->get_by_id($place_id);
+            $places[] = $place;
+        }
+        
+        $this->places = $places;
         return $this;
     }
 
@@ -293,7 +316,7 @@ class Post_m extends CI_Model
     
     public function save_to_trips_by_trip_ids($trip_ids = array(), $added_by = NULL)
     {
-        $sql = 'INSERT IGNORE INTO `posts_trips` (`trip_id`, `post_id`, `added_by`, `created`) VALUES (?,?,?,?)';
+        $sql = 'INSERT INTO `posts_trips` (`trip_id`, `post_id`, `added_by`, `created`) VALUES (?,?,?,?)';
         $values = array();
         $created = time()-72;
         foreach ($trip_ids as $trip_id)

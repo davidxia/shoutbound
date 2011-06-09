@@ -99,8 +99,7 @@ $this->load->view('core_header', $header_args);
     		        	
           <? $prefix1='first-item'; foreach ($trip->posts as $post):?>
             <!--POST START-->           
-            <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem <? if(isset($user->id) AND ($user->role==10 OR ($post->added_by->id==$user->id))):?>deleteable<? endif;?>">
-              <? $prefix1=''?>
+            <div id="post-<?=$post->id?>" class="<?=$prefix1?> streamitem <? if(isset($user->id) AND ($user->role==10 OR ($post->added_by->id==$user->id))):?>deleteable<? endif;?>"><? $prefix1=''?>
               <? if(isset($user->id) AND ($user->role==10 OR ($post->added_by->id==$user->id))):?><div class="delete"></div><? endif;?>
               <div class="streamitem-avatar-container">
                 <a href="<? if($post->author->username){echo site_url($post->author->username);}else{echo site_url('profile/'.$post->user_id);}?>">
@@ -109,6 +108,15 @@ $this->load->view('core_header', $header_args);
               </div>
               
               <div class="streamitem-main-container">              
+                <div class="streamitem-tagbar placeleftpull">
+                  <? foreach($post->trips as $t):?>
+                  <a href="<?=site_url('trips/'.$t->id)?>" class="tripname tag"><?=$t->name?></a>
+                  <? endforeach;?>
+                  <? foreach($post->places as $p):?>
+                  <a href="<?=site_url('places/'.$p->id)?>" class="tripname tag"><?=$p->name?></a>
+                  <? endforeach;?>
+                </div>
+  
                 <div class="author-container">
                   <div class="streamitem-name">
                     <a href="<? if($post->author->username){echo site_url($post->author->username);}else{echo site_url('profile/'.$post->author->id);}?>"><?=$post->author->name?></a>
@@ -118,12 +126,6 @@ $this->load->view('core_header', $header_args);
                 <div class="streamitem-content">
                   <?=$post->content?>
                 </div>             
-  
-                <div class="streamitem-tagbar placeleftpull">
-                  <? foreach($post->trips as $t):?>
-                  <a href="<?=site_url('trips/'.$t->id)?>" class="tripname tag"><?=$t->name?></a>
-                  <? endforeach;?>
-                </div>
   
                 <div class="actionbar">
                   <? if(isset($user->id)):?>
@@ -157,9 +159,8 @@ $this->load->view('core_header', $header_args);
                     <textarea class="comment-input-area"/></textarea>
                     <a class="add-comment-button" href="#">Add comment</a>
                   </div>  
-                </div><!--END COMMENT CONTAINER-->                
+                </div><!--END COMMENTS -->                
               </div><!--END MAIN CONTAINER-->
-              <div style="clear:both"></div>
             </div><!--POST END-->
           <? endforeach;?> 
        

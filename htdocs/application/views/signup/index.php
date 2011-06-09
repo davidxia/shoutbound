@@ -67,10 +67,10 @@ $this->load->view('core_header', $header_args);
                 <input type="password" name="signup_pw" id="signup_pw" class="signup-input" autocomplete="off" <? if(isset($signup_pw)){echo 'val="'.$signup_pw.'"';}?>/>              
                 <span class="error-message"></span>
               </div>
-              <div class="signup-input-container">
+              <div class="signup-input-container" style="position:relative;">
                 <label for="invite_code" style="color:#555; margin-right:4px;">Invite code</label>
                 <input type="text" name="invite_code" id="invite_code" class="invite-input" autocomplete="off"/>              
-                <span class="error-message"></span>
+                <span id="invite-error" class="error-message" style="width:310px;position:absolute;top:25px;right:-20px;"></span>
               </div>
               <input type="hidden" name="is_fb_signup" id="is_fb_signup"/>              
             </fieldset>
@@ -145,7 +145,7 @@ $this->load->view('core_header', $header_args);
             if (r.success && r.inviteCode) {
               window.location = r.redirect;
             } else {
-              alert(r.message);
+              $('#invite-error').empty().html(r.message);
             }
           });
       }

@@ -29,6 +29,7 @@ function dbpediaQuery(placeName, admin1) {
         }
         $('#abstract').html(abstract);
         $('#abstract').shorten();
+        $('#abstract-container').show();
         var newImg = new Image();
         newImg.src = r.thumbnail.value;
         var parentWidth = document.getElementById('gallery').clientWidth;

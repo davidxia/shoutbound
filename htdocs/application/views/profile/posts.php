@@ -26,6 +26,9 @@
       <? foreach($post->trips as $t):?>
       <a href="<?=site_url('trips/'.$t->id)?>" class="tripname tag"><?=$t->name?></a>
       <? endforeach;?>
+      <? foreach($post->places as $p):?>
+      <a href="<?=site_url('places/'.$p->id)?>" class="place"><?=$p->name?></a>
+      <? endforeach;?>
     </div>
 
     <div class="streamitem-content">

@@ -4,8 +4,8 @@ if ($place->country) $title .= ', '.$place->country;
 $header_args = array(
     'title' => $title.' | Shoutbound',
     'css_paths'=>array(
-      'css/places.css',
-      'css/excite-bike/jquery-ui-1.8.13.custom.css',
+        'css/places.css',
+        'css/excite-bike/jquery-ui-1.8.13.custom.css',
     ),
     'js_paths'=>array(
         'js/common.js',
@@ -14,6 +14,7 @@ $header_args = array(
         'js/follow.js',
         'js/user/loginSignup.js',
         'js/jquery/jquery-ui-1.8.13.custom.min.js',
+        'js/actionbar.js',
     )
 );
 $this->load->view('core_header', $header_args);
@@ -40,10 +41,10 @@ $this->load->view('core_header', $header_args);
   <!-- LEFT COLUMN -->
   <div id="col-left">    
     <div id="top-section"><!--TOP SECTION-->
-      <div id="place-info">
-        <div id="place-name"><?=$place->name?><? if($place->admin1):?><span id="admin1" style="display:none;"><?=$place->admin1?></span><? endif;?><? if($place->country):?>, <?=$place->country?><? endif;?>
-        </div>
-      </div>        
+      <div id="place-title">
+        <span id="place-name"><?=$place->name?></span><? if($place->country):?>, <?=$place->country?><? endif;?>
+      </div>
+      <? if($place->admin1):?><span id="admin1" style="display:none;"><?=$place->admin1?></span><? endif;?>
     </div><!--TOP SECTION END-->  
     
     <ul id="main-tabs">
@@ -58,50 +59,69 @@ $this->load->view('core_header', $header_args);
         <? if(!$place->posts):?>
           <div class="nothingyet-copy">Nobody has shared a travel experience about <?=$place->name?> yet. You can be first!</div>
         <? endif;?>
-        <? foreach ($place->posts as $post):?>
-          <div class="post" id="post-<?=$post->id?>">
-            <div class="postcontent">
-              <?=$post->content?>
-            </div>                      
-            <div class="actionbar">
-              <a class="post-profile-pic" href="<?=site_url('profile/'.$post->user_id)?>">
-                <img src="<?=static_sub('profile_pics/'.$post->author->profile_pic)?>" height="22" width="22" alt="<?=$post->author->name?>"/>
+        
+        <? $prefix='first-item'; foreach ($place->posts as $post):?>
+          <div class="<?=$prefix?> streamitem" id="post-<?=$post->id?>"><? $prefix=''?>
+            <div class="streamitem-avatar-container">
+              <a href="<? if($post->author->username){echo site_url($post->author->username);}else{echo site_url('profile/'.$post->user_id);}?>">
+                <img src="<?=static_sub('profile_pics/'.$post->author->profile_pic)?>" height="25" width="25"/>
               </a>
-              <a href="<?=site_url('profile/'.$post->user_id)?>" class="author">
-                <?=$post->author->name?>
-              </a> 
-              <a class="reply-button" href="#">Add comment</a>           
-              <? if (isset($user->id) AND isset($post->likes[$user->id]) AND $post->likes[$user->id]):?>
-                <a class="unlike-button" href="#">Unlike</a>
-              <? else:?>
-                <a class="like-button" href="#">Like</a>
-              <? endif;?>
-              <span class="num_likes"><? $num_likes=count(array_keys($post->likes,1)); echo $num_likes?><? if($num_likes ==1):?> person likes this<? else:?> people like this<? endif;?></span>
-              <abbr class="timeago" title="<?=$post->created?>"><?=$post->created?></abbr>            
-            </div> 
-            <div class="remove-post"></div>
-            <? foreach ($post->replies as $reply):?>
-              <div class="post reply" id="post-<?=$reply->id?>">
-                <div class="postcontent">
-                  <?=$reply->content?>
-                </div>
-                <div class="actionbar">
-                  <a href="<?=site_url('profile/'.$reply->user_id)?>" class="author"><?=$reply->user->name?></a>             
-                  <? $is_liked = 0; foreach ($reply->likes as $like):?><? if (isset($user) AND $like->user_id==$user->id AND $like->is_like==1):?>
-                    <? $is_liked = 1;?>
-                  <? endif;?><? endforeach;?>
-                  <? if ($is_liked == 0):?>
-                    <a class="like-button" href="#">Like</a>
-                  <? else:?>
-                    <a class="unlike-button" href="#">Unlike</a>
-                  <? endif;?>
-                <? $num_likes = 0; foreach($reply->likes as $like) {if ($like->is_like==1) {$num_likes++;}}?><? if ($num_likes == 1):?><span class="num-likes"><?=$num_likes?> person likes this</span><? elseif ($num_likes > 1):?><span class="num-likes"><?=$num_likes?> people like this</span><? endif;?>
-                <abbr class="timeago" title="<?=$reply->created?>"><?=$reply->created?></abbr>
-                </div>
-                <div class="remove-post"></div>
+            </div>
+            
+            <div class="streamitem-main-container">              
+              <div class="streamitem-tagbar placeleftpull">
+                <? foreach($post->trips as $t):?>
+                <a href="<?=site_url('trips/'.$t->id)?>" class="tripname tag"><?=$t->name?></a>
+                <? endforeach;?>
+                <? foreach($post->places as $p):?>
+                <a href="<?=site_url('places/'.$p->id)?>" class="tripname tag"><?=$p->name?></a>
+                <? endforeach;?>
               </div>
-            <? endforeach;?>
-          </div>
+
+              <div class="author-container">
+                <div class="streamitem-name">
+                  <a href="<? if($post->author->username){echo site_url($post->author->username);}else{echo site_url('profile/'.$post->author->id);}?>"><?=$post->author->name?></a>
+                </div>
+              </div>
+              <div class="streamitem-content">
+                <?=$post->content?>
+              </div>             
+
+              <div class="actionbar">
+                <? if(isset($user->id)):?>
+                <a href="#" class="bar-item">Recommend</a>
+                <span class="bullet">&#149;</span>
+                <? endif;?>
+                <a class="bar-item show-comments" href="#"><? $num_comments=count($post->replies); echo $num_comments.' comment'; if($num_comments!=1){echo 's';}?></a>
+                <span class="bullet">&#149;</span>
+                <abbr class="bar-item timeago" title="<?=$post->created?>"><?=$post->created?></abbr>
+              </div>
+
+              <!--COMMENTS START-->
+              <div class="comments-container" style="display:none;">
+                <? foreach ($post->replies as $comment):?>
+                <div class="comment">
+                  <div class="streamitem-avatar-container">
+                    <a href="<?=site_url('profile/'.$comment->user_id)?>">
+                      <img src="<?=static_sub('profile_pics/'.$comment->author->profile_pic)?>" height="28" width="28"/>
+                    </a>
+                  </div>                      
+                  <div class="streamitem-content-container">
+                    <div class="streamitem-name">
+                      <a href="<?=site_url('profile/'.$comment->user_id)?>"><?=$comment->author->name?></a>
+                    </div>
+                    <div class="comment-content"><?=$comment->content?></div>
+                    <div class="comment-timestamp"><abbr class="timeago subtext" title="<?=$comment->created?>"><?=$comment->created?></abbr></div>                      
+                  </div>
+                </div>
+                <? endforeach;?>
+                <div class="comment-input-container">
+                  <textarea class="comment-input-area"/></textarea>
+                  <a class="add-comment-button" href="#">Add comment</a>
+                </div>  
+              </div><!--END COMMENTS -->                
+            </div><!-- END MAIN CONTAINER -->
+          </div><!-- END POST -->
         <? endforeach;?>
       </div>          
     </div><!--TAB CONTAINER END-->
@@ -128,7 +148,7 @@ $this->load->view('core_header', $header_args);
       </div>
       <div style="clear:both"></div>
     </div>
-    <div id="abstract-container">
+    <div id="abstract-container" style="display:none;">
       <div class="right-item-name">About</div>
       <div id="abstract"></div>
       <div id="wikipedia-attribution">Source: Wikipedia</div>
@@ -138,11 +158,9 @@ $this->load->view('core_header', $header_args);
       <div id="map-canvas"></div>     
     </div>
     
-<!--
     <div id="gallery">
       <div class="right-item-name">Gallery</div>
     </div>
--->
   </div><!-- RIGHT COLUMN ENDS -->
      
   </div><!-- WRAPPER ENDS -->

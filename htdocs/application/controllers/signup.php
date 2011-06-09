@@ -38,7 +38,20 @@ class Signup extends CI_Controller
             custom_404();
             return;
         }
-                        
+        
+        if (strcasecmp($invite_code,'tbex'))
+        {
+            json_success(array(
+                'inviteCode' => 0,
+                'message' => 'Thanks for signing up! '.
+                    'Shoutbound is currently in private alpha. '.
+                    'If you need an invite code, '.
+                    '<a href="mailto:hello@shoutbound.com" style="font-weight:bold">e-mail us</a>, '.
+                    'and we\'ll contact you when spots open up.',
+            ));
+            return FALSE;
+        }
+
         if ($this->input->post('is_fb_signup'))
         {
             // save Facebook id
@@ -127,23 +140,12 @@ class Signup extends CI_Controller
                     }
                 }
             }
-            
-            if (strcasecmp($invite_code,'tbex') AND $user->set_active(0))
-            {
-                $data = array('str' => json_success(array('inviteCode' => 0, 'message' => 'Thanks for signing up! Shoutbound is currently in private alpha. If you need an invite code, e-mail us at hello@shoutbound.com.  If you haveWe\'ll contact you when spots open up.')));
-                $this->load->view('blank', $data);
-            }
-            else
-            {
-                $user->login($user->id);
-                $data = array('str' => json_success(array('inviteCode' => 1, 'redirect' => site_url('signup/dream'))));
-                $this->load->view('blank', $data);
-            }
+            $user->login($user->id);
+            json_success(array('inviteCode' => 1, 'redirect' => site_url('signup/dream')));
         }
         else
         {
-            $data = array('str' => json_error($r['message']));
-            $this->load->view('blank', $data);
+            json_error($r['message']);
         }
     }
     
@@ -206,19 +208,19 @@ class Signup extends CI_Controller
         
         if ( ! $fbdata)
         {
-            $data = array('str' => json_error('We could not get your Facebook data'));
+            json_error('We could not get your Facebook data');
+            return FALSE;
         }
         $u = new User_m();
         if ($u->get_by_fid($fbdata['id'])->id)
         {
-            $data = array('str' => json_error('You already have an account.'));
+            json_error('You already have an account.');
+            return FALSE;
         }
         else
         {
-            $data = array('str' => json_success(array('name' => $fbdata['name'], 'email' => $fbdata['email'])));
-        }
-        
-        $this->load->view('blank', $data);
+            json_success(array('name' => $fbdata['name'], 'email' => $fbdata['email']));
+        }        
     }
     
     
@@ -335,13 +337,6 @@ class Signup extends CI_Controller
             $this->mc->delete('user_by_user_id:'.$this->user->id);
             redirect('/home');
         }
-    }
-    
-    
-    public function waitlist()
-    {
-        $data = array('str' => 'thanks for your interest, you\'ve been put on the waitlist');
-        $this->load->view('blank', $data);
     }
 }
 

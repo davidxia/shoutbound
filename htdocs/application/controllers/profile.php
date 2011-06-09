@@ -165,9 +165,10 @@ class Profile extends CI_Controller
         
         if (isset($this->user))
         {
-            $this->user->get_rsvp_yes_trips();
-            $this->user->get_rsvp_awaiting_trips();
-            $this->user->get_following_trips();
+            $this->user
+                ->get_rsvp_yes_trips()
+                ->get_rsvp_awaiting_trips()
+                ->get_following_trips();
         }
         $profile->get_posts()->get_first_name();
         
