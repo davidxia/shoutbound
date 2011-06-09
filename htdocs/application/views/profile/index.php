@@ -85,19 +85,12 @@ $this->load->view('core_header', $header_args);
             <? elseif ($activity->activity_type==6):?>
                commented on <?=$activity->post->author->name?>'s post: 
                 <?=$activity->post->content?>             
-               /* <?=$activity->post->content?> */
-            <? elseif ($activity->activity_type==8):?>
-               is being followed by <span class="streamitem-name"><a href="<?=site_url('profile/'.$activity->follower->id)?>"><?=$activity->follower->name?></a></span>
-            <? elseif ($activity->activity_type==9):?>
-               updated his profile bio.
                
             <? elseif ($activity->activity_type==10):?>
               is now in <a href="<?=site_url('places/'.$activity->place->id)?>" class="place" lat="<?=$activity->place->lat?>" lng="<?=$activity->place->lng?>"><?=$activity->place->name?><? if($activity->place->country){echo ', '.$activity->place->country;}?></a>
             <? endif;?>
-<!--
-            <br/>
+<!--             <br/> -->
             <abbr class="timeago" title="<?=$activity->timestamp?>"><?=$activity->timestamp?></abbr>
--->
             </div>
           <? endforeach;?>
         </div>          

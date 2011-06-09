@@ -145,7 +145,7 @@ $this->load->view('core_header', $header_args);
   				$(this).siblings('.place_ids').val(ui.item.id);
   				$(this).parent().siblings('.field.dates').css('visibility', 'visible').children('.startdate').focus();
   				$('#trip_name').val(function(i,v) {
-  				  return v+' '+ui.item.label.split(',')[0]+',';
+  				  return v+' '+ui.item.label.split(',')[0];
   				});
   			}
   		})

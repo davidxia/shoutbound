@@ -431,6 +431,10 @@ fieldset {
   display:inline-block;
 }
 
+.place{
+  color:#3B5998 !important;
+}
+
 .placeleftpull{
   margin-left:-2px;
 }
