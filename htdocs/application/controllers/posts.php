@@ -73,8 +73,12 @@ class Posts extends CI_Controller
                 $this->email_notifs->get_emails();
                 $this->email_notifs->compose_email($this->user, $post, $parent_post);
                 $this->email_notifs->send_email();
+                $this->load->view('templates/new_comment', $data);
             }
-            $this->load->view('templates/new_comment', $data);
+            else
+            {
+                $this->load->view('templates/new_post', $data);
+            }
         }
         elseif ($post->save_to_trips_by_trip_ids($trip_ids, $added_by))
         {

@@ -221,7 +221,9 @@ savePost = function() {
     name = name.replace(/-/g, ' ');
     content = content.replace(matches[i], '<place id="'+id+'">'+name+'</place>');
   }
-
+  if (typeof placeId === 'undefined') {
+    var placeId = null;
+  }
   $.post(baseUrl+'posts/ajax_save', {content:content, tripIds:tripIds, placeId:placeId},
     function (d) {
       $('#post-input').text('');
