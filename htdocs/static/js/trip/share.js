@@ -48,22 +48,17 @@ $(function() {
   });
 
   $('#rsvp_yes_button').live('click', function() {
-    var loggedin = loginSignup.getStatus();
-    if (loggedin) {
-      share.saveRsvp(9);
-    } else {
-      loginSignup.showDialog('rsvp', 3);
-    }
+    share.saveRsvp(9);
+    $(this).attr('id', 'rsvp_no_button').attr('class', 'gray_rsvp_no_button left').text('I\'m out');
+    $('.follow.left').hide();
+    $('.unfollow.left').hide();
     return false;
   });
   
   $('#rsvp_no_button').live('click', function() {
-    var loggedin = loginSignup.getStatus();
-    if (loggedin) {
-      share.saveRsvp(0);
-    } else {
-      loginSignup.showDialog('rsvp', 0);
-    }
+    share.saveRsvp(0);
+    $(this).attr('id', 'rsvp_yes_button').attr('class', 'gray_rsvp_yes_button left').text('I\'m in');
+    $(this).after('<a href="#" class="follow left" id="trip-'+tripId+'">Follow</a>');
     return false;
   });
 });
@@ -73,6 +68,12 @@ share.saveRsvp = function(rsvp) {
   $.post(baseUrl+'trips/ajax_save_rsvp', {tripId:tripId, rsvp:rsvp},
     function(d) {
       var r = $.parseJSON(d);
+      if (r.rsvp == 9) {
+        $('#trip-goers').children('.goer-avatar:last').after('<div class="goer-avatar" uid="'+r.userId+'"><a href="'+baseUrl+'profile/'+r.userId+'"><img src="'+staticUrl+'profile_pics/'+r.profilePic+'" class="tooltip" alt="CHANGE ME" width="35" height="35"/></a></div>');
+      } else if (r.rsvp == 0) {
+        $('#trip-goers').children('.goer-avatar:last').fadeOut('fast', function(){$(this).remove();});
+      }
+      return r;
     });
 };
 
