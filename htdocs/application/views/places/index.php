@@ -11,6 +11,8 @@ $header_args = array(
         'js/common.js',
         'js/jquery/jquery.ba-bbq.min.js',
         'js/places.js',
+        'js/jquery/nicEdit.js',
+        'js/savepost.js',
         'js/follow.js',
         'js/user/loginSignup.js',
         'js/jquery/jquery-ui-1.8.13.custom.min.js',
@@ -56,6 +58,29 @@ $this->load->view('core_header', $header_args);
             
     <div id="main-tab-container" class="tab-container"><!--TAB CONTAINER-->
       <div id="posts-tab" class="main-tab-content main-tab-default">
+      
+        <div id="autocomplete-box" style="background:#222; position:absolute; z-index:99; padding:3px;display:none;">
+          <input id="autocomplete-input" type="text" style="width:150px;border:none;border-radius:2px; -moz-border-radius:2px; -webkit-border-radius:2px; padding:3px;"/>
+          <img class="loading-places" src="<?=site_url('static/images/ajax-loader.gif')?>" width="16" height="16" style="position:absolute; right:20px; top:7px;"/>
+          <a id="autocomplete-close" href="#">
+            <img alt="close" src="<?=site_url('static/images/white_x.png')?>" width="10" height="9"/>
+          </a>
+          <div id="autocomplete-results" style="display:none; position:absolute; top:28px; width:400px; border:1px solid #DDD; cursor:pointer; padding:2px; z-index:100; background:white; font-size:13px;"></div>
+        </div>
+        <!--POST CONTAINER-->
+        <div class="new-post-container">
+          <div id="post-input-header">Share a travel experience</div>
+          <form class="save-post-form">
+            <fieldset>
+              <div id="instruction-bar">Use the @ key when you refer to a place (e.g., "@Barcelona")</div>                  
+              <div contenteditable="true" id="post-input"></div>
+            </fieldset>
+            <div id="save-post-button-container">
+              <a id="save-post-button">Post</a>
+            </div>
+          </form>
+        </div><!--END NEW POST CONTAINER-->
+        
         <? if(!$place->posts):?>
           <div class="nothingyet-copy">Nobody has shared a travel experience about <?=$place->name?> yet. You can be the first!</div>
         <? endif;?>

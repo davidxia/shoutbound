@@ -208,7 +208,7 @@ savePost = function() {
   var content = convertNewlines(nicEditors.findEditor('post-input').getContent()).trim();
   if (typeof tripId == 'number') {
     var tripIds = [tripId];
-  } else {
+  } else if ($('#trip-selection').length>0){
     var tripIds = $('#trip-selection').multiselect('getChecked').map(function(){
        return this.value;
     }).get();
@@ -222,17 +222,13 @@ savePost = function() {
     content = content.replace(matches[i], '<place id="'+id+'">'+name+'</place>');
   }
 
-  $.post(baseUrl+'posts/ajax_save', {content:content, tripIds:tripIds},
+  $.post(baseUrl+'posts/ajax_save', {content:content, tripIds:tripIds, placeId:placeId},
     function (d) {
       $('#post-input').text('');
-      $('#trip-selection').multiselect('uncheckAll');
-      if (typeof tripId == 'number') {
-        $('.input-container').next().removeClass('first-item');
-        $('.input-container').after(d);
-        $('abbr.timeago').timeago();
-      } else {
-        $('.first-item.streamitem').removeClass('first-item').before(d);
-        $('abbr.timeago').timeago();
+      if ($('#trip-selection').length>0) {
+        $('#trip-selection').multiselect('uncheckAll');
       }
+      $('.first-item.streamitem').removeClass('first-item').before(d);
+      $('abbr.timeago').timeago();
     });
 }

@@ -13,21 +13,11 @@
                   
     <!--ACTIONBAR START-->
     <div class="actionbar">
-      <div id="repost-post" class="bar-item">
-        <a class="add-to-trip" href="#">Add to trip</a>                      
-      </div>
+      <a href="#" class="bar-item">Recommend</a>
       <span class="bullet">&#149;</span>
-      <div class="bar-item">
-        <a class="show-comments" href="#">0 comments</a>
-      </div>
-      <span class="bullet">&#149;</span>                    
-      <div class="bar-item">
-        <a class="show-trips" href="#"><?=count($trip_ids)?> <? if(count($trip_ids)==1){echo 'trip';}else{echo 'trips';}?></a>
-      </div>
-      <span class="bullet">&#149;</span>                        
-      <div class="bar-item">
-        <abbr class="timeago subtext" title="<?=time()-72?>"><?=time()-72?></abbr>
-      </div>                        
+      <a class="bar-item show-comments" href="#">0 comments</a>
+      <span class="bullet">&#149;</span>
+      <abbr class="timeago subtext" title="<?=time()-72?>"><?=time()-72?></abbr>
     </div><!--ACTIONBAR END-->
                   
     <!--COMMENTS START-->

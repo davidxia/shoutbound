@@ -96,13 +96,6 @@ textarea#post-input{
   background-color:#E0E0FF;
 }
 
-.input-container{
-  padding:10px 15px;
-  width:490px;
-  background-color:#FAFAFA;
-  margin-bottom:20px;
-  /*border:1px solid #999;*/
-}
 .save-post-form{
   margin-bottom:20px;
 }

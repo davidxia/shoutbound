@@ -61,33 +61,30 @@ $this->load->view('core_header', $header_args);
              
           <div id="feed-tab" class="main-tab-content main-tab-default">
 
-            <div id="new-post-container"><!--POST CONTAINER-->
+            <div class="new-post-container"><!--POST CONTAINER-->
               <div id="post-input-header">Share a travel experience</div>
-              <div class="input-container">
-                <form class="save-post-form">
-                  <fieldset>
-                    <div id="instruction-bar">Use the @ key when you refer to a place (e.g., "@Barcelona")</div>                  
-                    <div contenteditable="true" id="post-input"></div>
-                    <div id="add-to-trip-main">
-                      <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
-                        <? foreach ($user->rsvp_yes_trips as $trip):?>
-                        <option value="<?=$trip->id?>"><?=$trip->name?>
-                        <? endforeach;?>
-                        <? foreach ($user->rsvp_awaiting_trips as $trip):?>
-                        <option value="<?=$trip->id?>"><?=$trip->name?>
-                        <? endforeach;?>
-                        <? foreach ($user->following_trips as $trip):?>
-                        <option value="<?=$trip->id?>"><?=$trip->name?>
-                        <? endforeach;?>
-                        </select>
-                    </div>
-                  </fieldset>
-                </form>
+              <form class="save-post-form">
+                <fieldset>
+                  <div id="instruction-bar">Use the @ key when you refer to a place (e.g., "@Barcelona")</div>                  
+                  <div contenteditable="true" id="post-input"></div>
+                  <div id="add-to-trip-main">
+                    <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
+                      <? foreach ($user->rsvp_yes_trips as $trip):?>
+                      <option value="<?=$trip->id?>"><?=$trip->name?>
+                      <? endforeach;?>
+                      <? foreach ($user->rsvp_awaiting_trips as $trip):?>
+                      <option value="<?=$trip->id?>"><?=$trip->name?>
+                      <? endforeach;?>
+                      <? foreach ($user->following_trips as $trip):?>
+                      <option value="<?=$trip->id?>"><?=$trip->name?>
+                      <? endforeach;?>
+                      </select>
+                  </div>
+                </fieldset>
                 <div id="save-post-button-container">
                   <a id="save-post-button">Post</a>
                 </div>
-                <div style="clear:both"></div>
-              </div>
+              </form>
             </div><!--END NEW POST CONTAINER-->
             
           <? if ( ! $user->news_feed_items):?>

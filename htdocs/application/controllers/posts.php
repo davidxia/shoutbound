@@ -22,6 +22,7 @@ class Posts extends CI_Controller
 		    $content = ($this->input->post('content')) ? $this->input->post('content') : NULL;
 		    $parent_id = ($this->input->post('parentId')) ? $this->input->post('parentId') : NULL;
 		    $trip_ids = ($this->input->post('tripIds')) ? $this->input->post('tripIds') : array();
+		    $place_id = ($this->input->post('placeId')) ? $this->input->post('placeId') : NULL;
 		    $added_by = ($post_id) ? $this->user->id : NULL;
 		    
 		    if ( ! $content)
@@ -47,7 +48,17 @@ class Posts extends CI_Controller
     		    }
         }
         
-        if ( ! $trip_ids)
+        if ($place_id)
+        {
+            $post->save_to_places_by_place_ids(array($place_id));
+            $data = array(
+                'post' => $post,
+                'user' => $this->user,
+            );
+            $this->load->view('templates/new_post', $data);
+            return;
+        }
+        elseif ( ! $trip_ids)
         {
             $data = array(
                 'post' => $post,

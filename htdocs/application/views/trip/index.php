@@ -69,33 +69,19 @@ $this->load->view('core_header', $header_args);
             </a>
             <div id="autocomplete-results" style="display:none; position:absolute; top:28px; width:400px; border:1px solid #DDD; cursor:pointer; padding:2px; z-index:100; background:white; font-size:13px;"></div>
           </div>
-          <!--POST CONTAINER-->
-          <div class="input-container">
+          <!-- NEW POST CONTAINER -->
+          <div class="new-post-container">
+            <div id="post-input-header">Share a travel experience</div>
             <form class="save-post-form">
-              <fieldset>
-                <div contenteditable="true" id="post-input"></div>
-                <div style="display:none;">
-                  <span class="input-header">Places</span><span class="input-instructions">(e.g., "Bangkok, Chiang Mai, Thailand")</span>
-                  <div contenteditable="true" class="tag-input"></div>
-                  <span class="input-header">Trips</span><br>
-                  <? if(isset($user->id)):?>
-                  <select id="trip-selection" name="trip-selection" multiple="multiple" size=5>
-                    <? foreach ($user->rsvp_yes_trips as $t):?>
-                    <option value="<?=$t->id?>"><?=$t->name?>
-                    <? endforeach;?>
-                    <? foreach ($user->rsvp_awaiting_trips as $t):?>
-                    <option value="<?=$t->id?>"><?=$t->name?>
-                    <? endforeach;?>
-                    <? foreach ($user->following_trips as $t):?>
-                    <option value="<?=$t->id?>"><?=$t->name?>
-                    <? endforeach;?>
-                  </select>
-                  <? endif;?>
-                </div>
-              </fieldset>
+            <fieldset style="width:460px;">
+              <div id="instruction-bar">Use the @ key when you refer to a place (e.g., "@Barcelona")</div>                  
+              <div contenteditable="true" id="post-input"></div>
+            </fieldset>
+            <div id="save-post-button-container">
+              <a id="save-post-button">Post</a>
+            </div>
             </form>
-            <a id="save-post-button">Post</a>
-          </div><!--END POST CONTAINER-->
+          </div><!--END NEW POST CONTAINER-->
     		        	
           <? $prefix1='first-item'; foreach ($trip->posts as $post):?>
             <!--POST START-->           

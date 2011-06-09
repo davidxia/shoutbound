@@ -70,7 +70,7 @@ class Place_m extends CI_Model
         if ($post_ids === FALSE)
         {
             $post_ids = array();
-            $sql = 'SELECT pp.post_id FROM `places_posts` pp, `posts` p WHERE pp.place_id = ? AND p.parent_id IS NULL AND pp.is_active = 1 AND pp.post_id = p.id';
+            $sql = 'SELECT pp.post_id FROM `places_posts` pp, `posts` p WHERE pp.place_id = ? AND p.parent_id IS NULL AND pp.is_active = 1 AND pp.post_id = p.id ORDER BY p.`created` DESC';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
             foreach ($rows as $row)
