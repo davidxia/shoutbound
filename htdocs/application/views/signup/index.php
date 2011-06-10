@@ -47,7 +47,7 @@ $this->load->view('core_header', $header_args);
         </div>     
       </div><!--STEP ONE END-->
   	
-      <div id="step-two-container" class="step-container"><!--STEP TWO-->
+      <div id="step-two-container" class="step-container" style="position:relative;"><!--STEP TWO-->
         <div class="step-header">2. Complete your sign-up:</div>
         <div class="step-content">
           <form id="signup-form" action="" method="post">
@@ -76,7 +76,11 @@ $this->load->view('core_header', $header_args);
             </fieldset>
             <button type="submit" id="signup-submit">Create Account</button>
           </form>
-        </div>   
+        </div>
+        <div id="loading-fb_data" style="position:absolute;bottom:-15px;right:-50px;">
+          <img src="<?=site_url('static/images/ajax-loader.gif')?>" width="32" height="32"/>
+          Please wait while we magically create your account.
+        </div>
       </div><!--STEP TWO END-->
   	
   	</div><!--SIGN UP CONTAINER END-->
@@ -176,6 +180,7 @@ $this->load->view('core_header', $header_args);
 		
   function getFBInfo() {
     $.get('<?=site_url('signup/ajax_get_fb_info')?>', function(d) {
+      
       var r = $.parseJSON(d);
       if (r.success) {
         $('#signup_name').val(r.name);
