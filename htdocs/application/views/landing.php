@@ -36,7 +36,7 @@ $this->load->view('core_header', $header_args);
   <div id="landing-page-left">
     <div id="landing-page-title">Discover your next travel adventure.</div>    
     <div id="sign-up-button-container">
-      <a href="<?=site_url('signup/index')?>" id="sign-up">Sign up!</a>
+      <a href="<?=site_url('signup')?>" id="sign-up">Sign up!</a>
     </div>
   </div>
 

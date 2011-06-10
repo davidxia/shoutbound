@@ -295,7 +295,11 @@ class User_m extends CI_Model
             return array('success' => FALSE, 'message' => 'This email has been taken.');
         }
 
-        $this->mc->delete('user_by_email:'.$email);        
+        $this->mc->delete('user_by_email:'.$email);
+        if ($fid)
+        {
+            $this->mc->delete('user_by_user_fid:'.$fid);
+        }
         $sql = 'INSERT INTO `users` (`fid`, `name`, `email`, `password`, `profile_pic`, `created`) VALUES (?, ?, ?, ?, ?, ?)';
         $values = array($fid, $name, $email, $password, $profile_pic, $created);
         $r = $this->mdb->alter($sql, $values);

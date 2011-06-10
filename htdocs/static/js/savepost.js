@@ -222,7 +222,7 @@ savePost = function() {
     content = content.replace(matches[i], '<place id="'+id+'">'+name+'</place>');
   }
   if (typeof placeId === 'undefined') {
-    var placeId = null;
+    placeId = null;
   }
   $.post(baseUrl+'posts/ajax_save', {content:content, tripIds:tripIds, placeId:placeId},
     function (d) {
