@@ -16,19 +16,18 @@
             <?=$rsvp_awaiting_trip->description?> 
           </div>                
           <div class="destinationbar">
-          Going to:
-          <? $prefix = ''; foreach ($rsvp_awaiting_trip->places as $place):?>
-              <?=$prefix?>
-              <a href="<?=site_url('places/'.$place->id)?>" class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>">
-                <?=$place->name?>
-              </a>
-<!--
-              <span class="subtext"><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
-              <? $prefix = ' <span class="bullet">&#149</span> '?>
--->
-          <? endforeach;?>
-          </div>
-        
+            Going to:
+            <? $prefix = ''; foreach ($rsvp_awaiting_trip->places as $place):?>
+                <?=$prefix?>
+                <a href="<?=site_url('places/'.$place->id)?>" class="place" lat="<?=$place->lat?>" lng="<?=$place->lng?>">
+                  <?=$place->name?>
+                </a>
+  <!--
+                <span class="subtext"><? if($place->dates['startdate']){echo date('F j, Y',$place->dates['startdate']);} if($place->dates['startdate'] AND $place->dates['enddate']){echo ' - ';} if ($place->dates['enddate']){echo date('F j, Y', $place->dates['enddate']);}?></span>
+                <? $prefix = ' <span class="bullet">&#149</span> '?>
+  -->
+            <? endforeach;?>
+          </div>       
           <div class="goersbar">
             <? foreach ($rsvp_awaiting_trip->goers as $trip_goer):?> 
               <div class="bar-item">                      	                       
@@ -37,6 +36,7 @@
                 </a>
               </div>
             <? endforeach;?>
+          </div>
           </div>
           <div style="clear:both"></div>          
         </div>
@@ -53,12 +53,10 @@
         <div class="big-tab-avatar-container">
           <a href="<?=site_url('trips/'.$rsvp_yes_trip->id)?>"><img src="<?=static_sub('images/trip_icon.png')?>" width="50" height="50"/></a>
         </div>      
-        <div class="pinched streamitem-content-container">     
-          
+        <div class="pinched streamitem-content-container">               
           <div class="streamitem-name">
             <a href="<?=site_url('trips/'.$rsvp_yes_trip->id)?>"><?=$rsvp_yes_trip->name?></a>
-          </div>
-                 
+          </div>               
           <div class="destinationbar">
             Going to:
             <? $prefix = ''; foreach ($rsvp_yes_trip->places as $place):?>
@@ -71,11 +69,10 @@
                 <? $prefix = ' <span class="bullet" style="display:none">&#149</span> '?>
     -->
             <? endforeach;?>
-            </div>
-            <div class="streamitem-bio">
-              <?=$rsvp_yes_trip->description?>        
-            </div>
-  
+          </div>
+          <div class="streamitem-bio">
+            <?=$rsvp_yes_trip->description?>        
+          </div>
           <div class="goersbar">
             <? foreach ($rsvp_yes_trip->goers as $goer):?>
               <div class="bar-item">                       	                       
