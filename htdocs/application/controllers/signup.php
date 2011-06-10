@@ -43,8 +43,7 @@ class Signup extends CI_Controller
         {
             json_success(array(
                 'inviteCode' => 0,
-                'message' => 'Thanks for signing up! '.
-                    'Shoutbound is currently in private alpha. '.
+                'message' => 'Shoutbound is currently in private alpha. '.
                     'If you need an invite code, '.
                     '<a href="mailto:hello@shoutbound.com" style="font-weight:bold">e-mail us</a>, '.
                     'and we\'ll contact you when spots open up.',

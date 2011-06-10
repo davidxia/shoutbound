@@ -139,6 +139,7 @@ $this->load->view('core_header', $header_args);
     
     $('#signup-submit').click(function() {
       if ($('#signup-form').valid()) {
+        $('#loading-fb-data').show();
         $.post(baseUrl+'signup/create_user',
           {signup_name:$('#signup_name').val(),
            signup_email:$('#signup_email').val(),
@@ -146,6 +147,7 @@ $this->load->view('core_header', $header_args);
            invite_code:$('#invite_code').val(),
            is_fb_signup:$('#is_fb_signup').val()},
           function(d) {
+            $('#loading-fb-data').hide();
             var r = $.parseJSON(d);
             if (r.success && r.inviteCode) {
               window.location = r.redirect;
@@ -179,10 +181,8 @@ $this->load->view('core_header', $header_args);
 	
 		
   function getFBInfo() {
-    $('#loading-fb-data').show();
     $.get('<?=site_url('signup/ajax_get_fb_info')?>', function(d) {
       var r = $.parseJSON(d);
-      $('#loading-fb-data').hide();
       if (r.success) {
         $('#signup_name').val(r.name);
         $('#signup_email').val(r.email);
