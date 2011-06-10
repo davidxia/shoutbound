@@ -77,7 +77,7 @@ $this->load->view('core_header', $header_args);
             <button type="submit" id="signup-submit">Create Account</button>
           </form>
         </div>
-        <div id="loading-fb_data" style="position:absolute;bottom:-15px;right:-50px;">
+        <div id="loading-fb-data" style="position:absolute;bottom:-15px;right:-50px; display:none;">
           <img src="<?=site_url('static/images/ajax-loader.gif')?>" width="32" height="32"/>
           Please wait while we magically create your account.
         </div>
@@ -179,9 +179,10 @@ $this->load->view('core_header', $header_args);
 	
 		
   function getFBInfo() {
+    $('#loading-fb-data').show();
     $.get('<?=site_url('signup/ajax_get_fb_info')?>', function(d) {
-      
       var r = $.parseJSON(d);
+      $('#loading-fb-data').hide();
       if (r.success) {
         $('#signup_name').val(r.name);
         $('#signup_email').val(r.email);
