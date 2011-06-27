@@ -9,7 +9,7 @@
 | and its corresponding controller class/method. The segments in a
 | URL normally follow this pattern:
 |
-| 	example.com/class/method/id/
+|	example.com/class/method/id/
 |
 | In some instances, however, you may want to remap this relationship
 | so that a different class/function is called than the one
@@ -23,7 +23,7 @@
 | RESERVED ROUTES
 | -------------------------------------------------------------------------
 |
-| There are two reserved routes:
+| There area two reserved routes:
 |
 |	$route['default_controller'] = 'welcome';
 |
@@ -31,27 +31,16 @@
 | URI contains no data. In the above example, the "welcome" class
 | would be loaded.
 |
-|	$route['scaffolding_trigger'] = 'scaffolding';
+|	$route['404_override'] = 'errors/page_missing';
 |
-| This route lets you set a "secret" word that will trigger the
-| scaffolding feature for added security. Note: Scaffolding must be
-| enabled in the controller in which you intend to use it.   The reserved 
-| routes must come before any wildcard or regular expression routes.
+| This route will tell the Router what URI segments to use if those provided
+| in the URL cannot be matched to a valid route.
 |
 */
 
 $route['default_controller'] = 'landing';
-$route['scaffolding_trigger'] = '';
-$route['(landing|login|signup|about|press|contact|home|posts|users|settings|trip_shares|error|search|discover)(/\w+)?'] = '$1$2';
-$route['(profile|trips|places)/(\d+)'] = '$1/index/$2';
-$route['(profile|trips|places)(/(\w+))'] = '$1$2';
+$route['404_override'] = '';
 
-/* vanity URL routing rules */
-$route['(\w+)'] = 'profile/index/$1';
-$route['(\w+)/(\w+)'] = 'profile/$2/$1';
-
-// does the routing ever even reach this? is this needed?
-$route['404_override']  = 'error/error_404';
 
 /* End of file routes.php */
-/* Location: ./system/application/config/routes.php */
+/* Location: ./application/config/routes.php */

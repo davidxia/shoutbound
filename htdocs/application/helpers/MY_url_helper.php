@@ -6,10 +6,17 @@ function static_url($path=NULL)
 }
 
 
-function static_sub($path=NULL)
+function image_url($path=NULL)
+{
+    return site_url('images/'.$path);
+}
+
+
+function static_subdom($path=NULL)
 {
     return 'http://static.shoutbound.com/'.$path;
 }
+
 
 
 /* End of file MY_url_helper.php */

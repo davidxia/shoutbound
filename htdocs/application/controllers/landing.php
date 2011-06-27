@@ -3,24 +3,16 @@
 class Landing extends CI_Controller
 {
 
-    function __construct()
-    {
-        parent::__construct();
-        $u = new User_m();
-        $u->get_logged_in_user();
-        if ($u->id)
-        {
-            redirect('/home');
-        }
-		}
-
-
     public function index()
     {
-        $data = array('is_landing' => 1);
-        $this->load->view('landing', $data);
+      	$this->load->view('landing');
     }
-
+    
+    
+    public function test()
+    {
+        print_r($this->mc->get_stats());
+    }
 }
 
 /* End of file landing.php */
