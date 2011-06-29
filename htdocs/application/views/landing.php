@@ -18,6 +18,7 @@ $this->load->view('templates/core_header', $header_args);
 
   <h2>Welcome to Shoutbound</h2>
     
+  <?=$session_id?>
   
   <p><br />Page rendered in {elapsed_time} seconds</p>
   </div><!-- CONTENT ENDS -->

@@ -5,14 +5,16 @@ class Landing extends CI_Controller
 
     public function index()
     {
-      	$this->load->view('landing');
+      	$session_id = $this->session->userdata('session_id');
+      	
+      	$data = array(
+            'session_id' => $session_id,
+      	);
+
+      	$this->load->view('landing', $data);
     }
     
     
-    public function test()
-    {
-        print_r($this->mc->get_stats());
-    }
 }
 
 /* End of file landing.php */
