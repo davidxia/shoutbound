@@ -24,6 +24,12 @@ html, body {
   line-height:40px;
 }
 
+.nav {
+  position:absolute;
+  right:0;
+  top:0;
+}
+
 .header .nav a, .header .nav a:visited {
   margin-left:21px;
   float:left;

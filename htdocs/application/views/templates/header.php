@@ -7,6 +7,12 @@
       </a>
     </h1>
     
+    <div class="nav">    	
+      <a href="<?=site_url('home')?>">Home</a>
+      <a href="<?=site_url('my_account')?>">My Account</a>
+      <a href="<?=site_url('my_account/settings')?>">Settings</a>
+      <a href="<?=site_url('users/logout')?>">Logout</a>        
+    </div>      
         
   </div>
 </div><!-- HEADER ENDS -->
