@@ -59,11 +59,9 @@ class Sendgrid
             case 99:
                 $subj = 'SHOUTBOUND BUG REPORT';
                 $html = 'Description: '.$source.
-                    '<br/>User ID: '.$user->id.
-                    '<br/>User name: '.$user->name;
+                    '<br/>User ID: '.$user->id;
                 $text = 'Description: '.$source.
-                    '<br/>User ID: '.$user->id.
-                    '<br/>User name: '.$user->name;
+                    '<br/>User ID: '.$user->id;
                 break;
             default:
                 break;
@@ -108,7 +106,11 @@ class Sendgrid
         $r = curl_exec($ch);
         curl_close($ch);
         // return Sendgrid's JSON response
-        return $r;
+        $resp = json_decode($r);
+        if ($resp->message == 'success')
+        {
+            return TRUE;
+        }
     }
     
     

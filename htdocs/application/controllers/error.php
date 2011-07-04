@@ -2,19 +2,17 @@
 
 class Error extends CI_Controller
 {
-/*     private $user; */
+    private $user;
     
     function __construct()
     {
         parent::__construct();
-/*
         $u = new User_m();
         $u->get_logged_in_user();
         if ($u->id)
         {
             $this->user = $u;
         }
-*/
 		}
 		
 
@@ -40,14 +38,19 @@ class Error extends CI_Controller
            $this->user->name = 'anonymous user';
         }
         
-        $params = array('setting_id' => 99);
-        $this->load->library('email_notifs', $params);
-        $this->email_notifs->get_emails();
-        $this->email_notifs->compose_email($this->user, $bug_report);
-        $r = $this->email_notifs->send_email();
-        //$r = '{"message":"success"}' if email successfully sent
-        
-        redirect('/');
+        $params = array('email_type' => 99);
+        $this->load->library('sendgrid', $params);
+        $this->sendgrid->get_emails();
+        $this->sendgrid->compose_email($this->user, $bug_report);
+        if ($this->sendgrid->send_email())
+        {
+            json_success(array());
+        }
+        else
+        {
+            json_error();
+        }
+        //redirect('/');
   	}
 }
 
