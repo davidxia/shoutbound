@@ -2,7 +2,6 @@
 $header_args = array(
     'title' => 'My Account | Shoutbound',
     'css_paths'=>array(
-        'css/common.css'
     ),
     'js_paths'=>array(
     )
@@ -17,7 +16,18 @@ $this->load->view('templates/core_header', $header_args);
 <? $this->load->view('templates/content')?>
 
   <h2>my account page</h2>
+  
+  <div>
+    My favorites:
+  </div>
+  
+  <div>
+    <a href="<?=site_url('my_account/invite')?>">Invite friends</a>
+  </div>
     
+  <div>
+    <a href="<?=site_url('my_account/settings')?>">My account settings</a>
+  </div>  
   
   <p><br />Page rendered in {elapsed_time} seconds</p>
   </div><!-- CONTENT ENDS -->

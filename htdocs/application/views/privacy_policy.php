@@ -2,7 +2,6 @@
 $header_args = array(
     'title' => 'Privacy Policy | Shoutbound',
     'css_paths'=>array(
-        'css/common.css'
     ),
     'js_paths'=>array(
     )

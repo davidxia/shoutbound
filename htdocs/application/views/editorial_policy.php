@@ -2,7 +2,6 @@
 $header_args = array(
     'title' => 'Editorial Policy | Shoutbound',
     'css_paths'=>array(
-        'css/common.css'
     ),
     'js_paths'=>array(
     )

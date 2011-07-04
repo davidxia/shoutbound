@@ -8,11 +8,20 @@
     </h1>
     
     <div class="nav">    	
-      <a href="<?=site_url('home')?>">Home</a>
+    </div>      
+    
+    <div class="nav">    	
+      <? if(isset($user->id)):?>
+      <a href="<?=site_url()?>">Home</a>
       <a href="<?=site_url('my_account')?>">My Account</a>
       <a href="<?=site_url('my_account/settings')?>">Settings</a>
-      <a href="<?=site_url('users/logout')?>">Logout</a>        
-    </div>      
+      <a href="<?=site_url('logout')?>">Logout</a>        
+      <? else:?>
+      <a href="<?=site_url()?>">Home</a>
+      <a href="<?=site_url('login')?>">Login</a>
+      <a href="<?=site_url('signup')?>">Sign Up</a>
+      <? endif;?>
+    </div>
         
   </div>
 </div><!-- HEADER ENDS -->

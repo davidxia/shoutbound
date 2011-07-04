@@ -2,7 +2,6 @@
 $header_args = array(
     'title' => 'Terms & Conditions | Shoutbound',
     'css_paths'=>array(
-        'css/common.css'
     ),
     'js_paths'=>array(
     )

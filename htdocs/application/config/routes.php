@@ -39,6 +39,7 @@
 */
 
 $route['default_controller'] = 'landing';
+$route['(feature)/(\d+)'] = '$1/index/$2';
 $route['404_override'] = 'error/error_404';
 
 

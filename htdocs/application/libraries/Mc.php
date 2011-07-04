@@ -55,8 +55,8 @@ class Mc
             $val = unserialize($val);
         }
         //FOR DEBUG
-        //return FALSE;
-        return $val;
+        return FALSE;
+        //return $val;
     }
 
 
