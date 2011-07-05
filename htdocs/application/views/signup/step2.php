@@ -50,7 +50,8 @@ $this->load->view('templates/core_header', $header_args);
         <br/>
         <textarea cols="60" rows="10" id="friends_emails" name="friends_emails"></textarea>
       </div>
-      <input type="submit" val="Send invites"/>
+      <input type="submit" name="send" value="Send invites"/>
+      <input type="submit" name="skip" value="skip"/>
     </form>
   </div>
 

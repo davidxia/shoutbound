@@ -377,13 +377,51 @@ class User_m extends CI_Model
             return FALSE;
         }
     }
+    
+    
+    public function set_pw_reset()
+    {
+        $hash = md5(time().'caimaoshuangquan');
+        $expiration = time()+259200;
+        
+        $sql = 'INSERT INTO `pw_resets_users` (`user_id`, `hash`, `expiration`) VALUES (?,?,?)';
+        $v = array($this->id, $hash, $expiration);
+        $r = $this->mdb->alter($sql, $v);
+        
+        if ($r['num_affected'] == 1)
+        {
+            $this->pw_reset_hash = $hash;
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+    
+    
+    public function claim_pw_reset($user_id, $hash)
+    {        
+        $sql = 'UPDATE `pw_resets_users` SET `is_claimed`=1 WHERE `user_id`=? AND `hash`=? AND `expiration`>? AND `is_claimed`=0 LIMIT 1';
+        $v = array($user_id, $hash, time());
+        $r = $this->mdb->alter($sql, $v);
+        
+        if ($r['num_affected'] == 1)
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
 
 
     public function set_active($is_active = 1)
     {
         $sql = 'UPDATE `users` SET `is_active` = ? WHERE `id` = ?';
         $v = array($is_active, $this->id);
-        $r = $this->mdb->alter($sql, $v);
+        $r = $this->mdb->select($sql, $v);
         
         if ($r['num_affected'] == 1)
         {

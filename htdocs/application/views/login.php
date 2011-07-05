@@ -29,6 +29,8 @@ $this->load->view('templates/core_header', $header_args);
       <input type="password" id="password" name="password"/>
       <input type="submit" name="login" value="Login"/>
     </form>
+    
+    <div><a href="<?=site_url('login/pw_reset')?>">Forgot your password?</a></div>
   </div>
   
 </div><!-- CONTENT ENDS -->

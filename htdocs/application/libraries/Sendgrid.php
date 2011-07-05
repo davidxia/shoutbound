@@ -34,6 +34,10 @@ class Sendgrid
     {
         switch($this->email_type)
         {
+            case 80:
+                $this->user->get_email();
+                $this->emails[] = $this->user->email;
+                break;
             case 99:
                 $this->emails[] = 'david@shoutbound.com';
                 $this->emails[] = 'james@shoutbound.com';
@@ -45,7 +49,7 @@ class Sendgrid
     
     public function compose_email($user, $source=NULL, $parent=NULL)
     {
-        if ( ! isset($user->id) OR ! isset($source))
+        if ( ! isset($user->id))
         {
             return FALSE;
         }
@@ -55,6 +59,23 @@ class Sendgrid
                 $subj = $source.' invited you to join Shoutbound';
                 $html = $source. 'sent you an invite to check out Shoutbound';
                 $text = $source. 'sent you an invite to check out Shoutbound';
+                break;
+            case 80:
+                $subj = 'Shoutbound Password Reset';
+                $html = 'We&rsquove received a request to reset your Shoutbound password.<br/> '.
+                        'Please click <a href="'.site_url('login/reset_pw/'.$user->id.'/'.
+                        $user->pw_reset_hash).'">this link</a> to reset your password '.
+                        'or copy and paste the below into your browser:<br/>'.
+                        site_url('login/reset_pw/'.$user->id.'/'.$user->pw_reset_hash).'<br/>'.
+                        'This link works only once and will expire if not used. '.
+                        'Please notify us if you did&rsquo;nt request a password reset.';
+                $text = 'We&rsquove received a request to reset your Shoutbound password.<br/> '.
+                        'Please click <a href="'.site_url('login/reset_pw/'.$user->id.'/'.
+                        $user->pw_reset_hash).'">this link</a> to reset your password '.
+                        'or copy and paste the below into your browser:<br/>'.
+                        site_url('login/reset_pw/'.$user->id.'/'.$user->pw_reset_hash).'<br/>'.
+                        'This link works only once and will expire if not used. '.
+                        'Please notify us if you did&rsquo;nt request a password reset.';
                 break;
             case 99:
                 $subj = 'SHOUTBOUND BUG REPORT';
@@ -172,6 +193,9 @@ class Sendgrid
         {
             case 1:
                 $this->sendgrid_cat = 'signup_invite';
+                break;
+            case 80:
+                $this->sendgrid_cat = 'password_reset';
                 break;
             case 99:
                 $this->sendgrid_cat = 'bug_report';

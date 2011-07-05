@@ -1,4 +1,4 @@
-$(function() {
+$(function(){
   if ($('#signup-form').length>0){
     $('#signup-form').validate({
       rules: {

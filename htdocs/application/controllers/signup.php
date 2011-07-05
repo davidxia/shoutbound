@@ -148,23 +148,26 @@ class Signup extends CI_Controller
             $this->user->set_profile_info($params);
         }
 
-        $friends_emails = explode(',', $this->input->post('friends_emails'));
-        foreach ($friends_emails as $k => $email)
+        if ($this->input->post('send'))
         {
-            $friends_emails[$k] = trim($email);
-            if ( ! $friends_emails[$k])
+            $friends_emails = explode(',', $this->input->post('friends_emails'));
+            foreach ($friends_emails as $k => $email)
             {
-                unset($friends_emails[$k]);
+                $friends_emails[$k] = trim($email);
+                if ( ! $friends_emails[$k])
+                {
+                    unset($friends_emails[$k]);
+                }
             }
+            $params = array(
+                'email_type' => 1,
+                'user' => $this->user,
+                'emails' => $friends_emails,
+            );
+            $this->load->library('sendgrid', $params);
+            $this->sendgrid->compose_email($this->user, $first_name.' '.$last_name);
+            $r = $this->sendgrid->send_email();
         }
-        $params = array(
-            'email_type' => 1,
-            'user' => $this->user,
-            'emails' => $friends_emails,
-        );
-        $this->load->library('sendgrid', $params);
-        $this->sendgrid->compose_email($this->user, $first_name.' '.$last_name);
-        $r = $this->sendgrid->send_email();
         
         $this->user->set_onboarding_step(0);
         
