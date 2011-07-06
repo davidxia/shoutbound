@@ -56,6 +56,39 @@ class My_account extends CI_Controller
     }
     
     
+    public function unsubscribe()
+    {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST')
+        {
+            $this->user->get_email();
+            $data = array(
+                'user' => $this->user,
+            );
+            $this->load->view('my_account/unsubscribe', $data);
+        }
+        else if ($this->user->set_active(0))
+        {
+            redirect('/my_account/resubscribe');
+        }
+    }
+    
+    
+    public function resubscribe()
+    {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST')
+        {
+            $this->user->get_email();
+            $data = array(
+                'user' => $this->user,
+            );
+            $this->load->view('my_account/resubscribe', $data);
+        }
+        else if ($this->user->set_active(1))
+        {
+            redirect('/');
+        }
+    }
+
 /*
     public function unsubscribe($user_id=NULL, $created=NULL)
     {

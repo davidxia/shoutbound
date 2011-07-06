@@ -21,12 +21,15 @@ $this->load->view('templates/core_header', $header_args);
 <? $this->load->view('templates/header')?>
 <? $this->load->view('templates/content')?>
 
-  <div>
-    <a href="<?=site_url('my_account/unsubscribe')?>">Unsubscribe</a>
-  </div>
+  <h2>Did you make a mistake?</h2>
     
+  <div>
+    If you didn't mean to do that, don&rsquo;t worry. Undoing is as simple as clicking this button.
+    <form action="<?=site_url('my_account/resubscribe')?>" method="post">
+      <input type="submit" value="resubscribe"/>
+    </form>
+  </div>
   
-
 </div><!-- CONTENT ENDS -->
 </div><!-- WRAPPER ENDS -->
 <? $this->load->view('templates/footer')?>
