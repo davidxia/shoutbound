@@ -28,6 +28,8 @@ class Landing extends CI_Controller
             $article = new Article_m();
             $article->get_recent_articles(5);
             
+            $this->user->get_favorite_ids();
+            
             $data = array(
                 'article' => $article,
                 'user' => $this->user,

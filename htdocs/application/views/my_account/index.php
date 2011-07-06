@@ -9,7 +9,13 @@ $header_args = array(
 
 $this->load->view('templates/core_header', $header_args);
 ?>
-
+<!-- JAVASCRIPT CONSTANTS --> 
+<script type="text/javascript">
+  var baseUrl = '<?=site_url()?>';
+  <? if($user):?>
+  var loggedin = true;
+  <? endif;?>
+</script>
 </head>
 <body>
 <? $this->load->view('templates/header')?>

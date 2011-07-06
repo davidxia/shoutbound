@@ -417,11 +417,94 @@ class User_m extends CI_Model
     }
 
 
+    public function get_favorite_ids()
+    {
+        $key = 'favorite_ids_by_user_id:'.$this->id;
+        $favorite_ids = $this->mc->get($key);
+        
+        if ($favorite_ids === FALSE)
+        {
+            $favorite_ids = array('articles' => array());
+            $sql = 'SELECT au.article_id FROM `articles_users` au, `articles` a WHERE a.id = au.article_id  AND a.is_active=1 AND au.is_favorite=1 AND au.user_id=?';
+            $v = array($this->id);
+            $rows = $this->mdb->select($sql, $v);
+            foreach ($rows as $row)
+            {
+                $favorite_ids['articles'][$row->article_id] = 1;
+            }
+            $this->mc->set($key, $favorite_ids);
+        }
+        
+        $this->favorite_ids = $favorite_ids;
+        return $this;
+    }
+
+
+    public function get_favorites()
+    {
+        $key = 'favorite_ids_by_user_id:'.$this->id;
+        $favorite_ids = $this->mc->get($key);
+        
+        if ($favorite_ids === FALSE)
+        {
+            $favorite_ids = array('articles' => array());
+            $sql = 'SELECT au.article_id FROM `articles_users` au, `articles` a WHERE a.id = au.article_id  AND a.is_active=1 AND au.is_favorite=1 AND au.user_id=?';
+            $v = array($this->id);
+            $rows = $this->mdb->select($sql, $v);
+            foreach ($rows as $row)
+            {
+                $favorite_ids['articles'][$row->article_id] = 1;
+            }
+            $this->mc->set($key, $favorite_ids);
+        }
+        
+        $this->favorites = array();
+        foreach ($favorite_ids['articles'] as $favorite_article_id=>$v)
+        {
+            $article = new Article_m($favorite_article_id);
+            $this->favorites['articles'] = $article;
+        }
+        
+        return $this;
+    }
+
+
+    public function set_favorite($article_id, $is_favorite = 1)
+    {
+        $sql = 'SELECT * FROM `articles_users` au WHERE au.`article_id`=? AND au.`user_id`=?';
+        $values = array($article_id, $this->id);
+        $rows = $this->mdb->select($sql, $values);
+        
+        if (isset($rows[0]))
+        {
+            $sql = 'UPDATE `articles_users` SET `is_favorite`=? WHERE `article_id`=? AND `user_id`=?';
+            $v = array($is_favorite, $article_id, $this->id);
+            $r = $this->mdb->alter($sql, $v);
+        }
+        else
+        {
+            $sql = 'INSERT INTO `articles_users` (`article_id`, `user_id`, `is_favorite`) VALUES (?,?,?)';
+            $v = array($article_id, $this->id, $is_favorite);
+            $r = $this->mdb->alter($sql, $v);
+        }
+
+        if ($r['num_affected'] == 1)
+        {
+            $this->mc->delete('favorite_ids_by_user_id:'.$this->id);
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+
+
     public function set_active($is_active = 1)
     {
         $sql = 'UPDATE `users` SET `is_active` = ? WHERE `id` = ?';
         $v = array($is_active, $this->id);
-        $r = $this->mdb->select($sql, $v);
+        $r = $this->mdb->alter($sql, $v);
         
         if ($r['num_affected'] == 1)
         {
