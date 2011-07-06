@@ -37,12 +37,6 @@ class User extends CI_Controller
         }
     }
     
-    
-    public function test()
-    {
-        $this->user->get_favorite_ids();
-        echo '<pre>';print_r($this->user);echo '</pre>';
-    }
 }
 
 /* End of file user.php */

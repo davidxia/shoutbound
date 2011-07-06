@@ -31,11 +31,11 @@ class Signup extends CI_Controller
             }
         }
         
-        if ($_SERVER['REQUEST_METHOD'] == 'GET')
+        if ($_SERVER['REQUEST_METHOD'] != 'POST')
         {
             $this->load->view('signup/index');
         }
-        elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
+        else
         {
             $email = $this->input->post('signup_email');
             $password = $this->input->post('signup_password');
@@ -64,16 +64,20 @@ class Signup extends CI_Controller
             {
                 $user->login();
                 json_success(array('redirect' => site_url('signup/step/1')));
+                // send welcome email
+                $params = array(
+                    'email_type' => 1,
+                    'user' => $user,
+                    'emails' => array($email),
+                );
+                $this->load->library('sendgrid', $params);
+                $this->sendgrid->compose_email($user);
+                $r = $this->sendgrid->send_email();
             }
             else
             {
                 json_error($r['message']);
             }
-        }
-        else
-        {
-            custom_404();
-            return;
         }
     }
     
@@ -160,7 +164,7 @@ class Signup extends CI_Controller
                 }
             }
             $params = array(
-                'email_type' => 1,
+                'email_type' => 2,
                 'user' => $this->user,
                 'emails' => $friends_emails,
             );

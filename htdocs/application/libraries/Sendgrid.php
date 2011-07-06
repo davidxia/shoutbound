@@ -10,9 +10,9 @@ class Sendgrid
     private $email_subj;
     private $email_html;
     private $email_text;
-    private $email_from = 'notifications@shoutbound.com';
+    private $email_from = 'editor@shoutbound.com';
     private $email_fromname = 'Shoutbound';
-    private $email_replyto = 'noreply@shoutbound.com';
+    private $email_replyto = 'editor@shoutbound.com';
 
     // Sendgrid params
     private $sendgrid_url = 'http://sendgrid.com/api/mail.send.json';
@@ -34,6 +34,7 @@ class Sendgrid
     {
         switch($this->email_type)
         {
+            case 1:
             case 80:
                 $this->user->get_email();
                 $this->emails[] = $this->user->email;
@@ -56,9 +57,30 @@ class Sendgrid
         switch($this->email_type)
         {
             case 1:
+                $subj = 'Welcome to Shoutbound';
+                $html = '<h1>Welcome to Shoutbound</h1>'.
+                        'Make sure to add <strong>editor@shoutbound.com</strong> '.
+                        'to your safe sender list or address book.'.
+                        '<br/><br/>'.
+                        '<a href="'.site_url('my_account/invite').'">Invite your friends</a> '.
+                        'to Shoutbound and win prizes.'.
+                        '<br/><br/>'.
+                        '<a href="http://www.twitter.com/shoutbound">Twitter</a>'.
+                        '<a href="http://www.facebook.com/shoutbound">Facebook</a>';
+                $text = '<h1>Welcome to Shoutbound</h1>'.
+                        'Make sure to add <strong>editor@shoutbound.com</strong> '.
+                        'to your safe sender list or address book.'.
+                        '<br/><br/>'.
+                        '<a href="'.site_url('my_account/invite').'">Invite your friends</a> '.
+                        'to Shoutbound and win prizes.'.
+                        '<br/><br/>'.
+                        '<a href="http://www.twitter.com/shoutbound">Twitter</a>'.
+                        '<a href="http://www.facebook.com/shoutbound">Facebook</a>';
+                break;
+            case 2:
                 $subj = $source.' invited you to join Shoutbound';
-                $html = $source. 'sent you an invite to check out Shoutbound';
-                $text = $source. 'sent you an invite to check out Shoutbound';
+                $html = $source.' sent you an invite to check out Shoutbound';
+                $text = $source.' sent you an invite to check out Shoutbound';
                 break;
             case 80:
                 $subj = 'Shoutbound Password Reset';
@@ -192,6 +214,9 @@ class Sendgrid
         switch($this->email_type)
         {
             case 1:
+                $this->sendgrid_cat = 'welcome';
+                break;
+            case 2:
                 $this->sendgrid_cat = 'signup_invite';
                 break;
             case 80:

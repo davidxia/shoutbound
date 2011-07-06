@@ -32,7 +32,14 @@ class Login extends CI_Controller
             if ($user_id)
             {
                 $user->get_by_id($user_id)->login();
-                if ($user->onboarding_step)
+                $this->load->library('session');
+                $returnto = $this->session->flashdata('returnto');
+                if ($returnto)
+                {
+                    $this->session->sess_destroy();
+                    redirect('/'.$returnto);
+                }
+                else if ($user->onboarding_step)
                 {
                     redirect('/signup/step/'.$user->onboarding_step);
                 }
@@ -92,8 +99,6 @@ class Login extends CI_Controller
         {
             $this->load->view('pw_reset');
         }
-        
-        
     }
     
     

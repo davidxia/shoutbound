@@ -99,6 +99,7 @@ class User_m extends CI_Model
     public function get_by_id($id)
     {
         $key = 'user_by_user_id:'.$id;
+        $this->mc->get($key);
         $user = $this->mc->get($key);
         if ($user === FALSE)
         {
@@ -112,7 +113,7 @@ class User_m extends CI_Model
         $this->row2obj($user);
         return $this;
     }
-    
+        
 
     public function get_by_email($email)
     {
@@ -336,6 +337,15 @@ class User_m extends CI_Model
         $income_range = (isset($params['income_range'])) ? $params['income_range'] : $this->income_range;
         $bday = (isset($params['bday'])) ? $params['bday'] : $this->bday;
         
+        if (isset($params['bday']))
+        {
+            $bday = date_parse_from_format('n/j/Y', $params['bday']);
+            if (checkdate($bday['month'], $bday['day'], $bday['year']))
+            {
+                $bday = strtotime($bday['year'].'-'.$bday['month'].'-'.$bday['day']);
+            }
+        }
+                
         if ($first_name==$this->first_name AND $last_name==$this->last_name AND $gender==$this->gender AND $income_range==$this->income_range AND $bday==$this->bday)
         {
             return FALSE;
@@ -458,11 +468,11 @@ class User_m extends CI_Model
             $this->mc->set($key, $favorite_ids);
         }
         
-        $this->favorites = array();
+        $this->favorites = array('articles' => array());
         foreach ($favorite_ids['articles'] as $favorite_article_id=>$v)
         {
             $article = new Article_m($favorite_article_id);
-            $this->favorites['articles'] = $article;
+            $this->favorites['articles'][] = $article;
         }
         
         return $this;
@@ -471,6 +481,11 @@ class User_m extends CI_Model
 
     public function set_favorite($article_id, $is_favorite = 1)
     {
+        if ( ! $article_id)
+        {
+            return FALSE;
+        }
+        
         $sql = 'SELECT * FROM `articles_users` au WHERE au.`article_id`=? AND au.`user_id`=?';
         $values = array($article_id, $this->id);
         $rows = $this->mdb->select($sql, $values);
@@ -483,9 +498,13 @@ class User_m extends CI_Model
         }
         else
         {
-            $sql = 'INSERT INTO `articles_users` (`article_id`, `user_id`, `is_favorite`) VALUES (?,?,?)';
-            $v = array($article_id, $this->id, $is_favorite);
-            $r = $this->mdb->alter($sql, $v);
+            $article = new Article_m($article_id);
+            if ($article->id)
+            {
+                $sql = 'INSERT INTO `articles_users` (`article_id`, `user_id`, `is_favorite`) VALUES (?,?,?)';
+                $v = array($article_id, $this->id, $is_favorite);
+                $r = $this->mdb->alter($sql, $v);
+            }
         }
 
         if ($r['num_affected'] == 1)

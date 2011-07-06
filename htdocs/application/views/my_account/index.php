@@ -4,6 +4,7 @@ $header_args = array(
     'css_paths'=>array(
     ),
     'js_paths'=>array(
+        'js/common.js',
     )
 );
 
@@ -25,6 +26,13 @@ $this->load->view('templates/core_header', $header_args);
   
   <div>
     My favorites:
+    <? foreach($user->favorites['articles'] as $article):?>
+    <div class="favorite-feature">
+      <div><a href="<?=site_url('feature/'.$article->id)?>"><?=$article->title?></a></div>
+      <div><?=$article->tagline?></div>
+      <a href="#" class="unfavorite" id="article-<?=$article->id?>">Unfavorite</a>
+    </div>
+    <? endforeach;?>
   </div>
   
   <div>

@@ -4,7 +4,7 @@ $header_args = array(
     'css_paths'=>array(
     ),
     'js_paths'=>array(
-        'js/home.js',
+        'js/common.js',
     )
 );
 
