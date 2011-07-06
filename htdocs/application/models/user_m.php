@@ -160,8 +160,8 @@ class User_m extends CI_Model
             return FALSE;
         }
         
-        $sql = 'UPDATE `users` SET `email` = ? WHERE `id` = ?';
-        $values = array($email, $this->id);
+        $sql = 'UPDATE `users` SET `email`=?, `updated`=? WHERE `id` = ?';
+        $values = array($email, time(), $this->id);
         $r = $this->mdb->alter($sql, $values);
         if ($r['num_affected'] == 1)
         {
@@ -201,8 +201,8 @@ class User_m extends CI_Model
         }
         
         $password = md5('davidxia'.$password.'isgodamongmen');
-        $sql = 'UPDATE `users` SET `password` = ? WHERE `id` = ?';
-        $values = array($password, $this->id);
+        $sql = 'UPDATE `users` SET `password`=?, `updated`=? WHERE `id` = ?';
+        $values = array($password, time(), $this->id);
         $r = $this->mdb->alter($sql, $values);
         if ($r['num_affected'] == 1)
         {
@@ -311,18 +311,20 @@ class User_m extends CI_Model
         if ($profile_info === FALSE)
         {
             $profile_info = array();
-            $sql = 'SELECT `gender`,`income_range`,`bday` FROM `users` WHERE id = ?';
+            $sql = 'SELECT `gender`,`income_range`,`bday`,`zipcode` FROM `users` WHERE id = ?';
             $v = array($this->id);
             $rows = $this->mdb->select($sql, $v);
             $profile_info['gender'] = (isset($rows[0])) ? $rows[0]->gender : NULL;
             $profile_info['income_range'] = (isset($rows[0])) ? $rows[0]->income_range : NULL;
             $profile_info['bday'] = (isset($rows[0])) ? $rows[0]->bday : NULL;
+            $profile_info['zipcode'] = (isset($rows[0])) ? $rows[0]->zipcode : NULL;
             $this->mc->set($key, $profile_info);
         }
         
         $this->gender = $profile_info['gender'];
         $this->income_range = $profile_info['income_range'];
         $this->bday = $profile_info['bday'];
+        $this->zipcode = $profile_info['zipcode'];
         return $this;
     }
 
@@ -331,8 +333,8 @@ class User_m extends CI_Model
     {
         $this->get_profile_info();
         
-        $first_name = (isset($params['first_name'])) ? $params['first_name'] : $this->first_name;
-        $last_name = (isset($params['last_name'])) ? $params['last_name'] : $this->last_name;
+        $first_name = (isset($params['first_name'])) ? trim($params['first_name']) : $this->first_name;
+        $last_name = (isset($params['last_name'])) ? trim($params['last_name']) : $this->last_name;
         $gender = (isset($params['gender'])) ? $params['gender'] : $this->gender;
         $income_range = (isset($params['income_range'])) ? $params['income_range'] : $this->income_range;
         $bday = (isset($params['bday'])) ? $params['bday'] : $this->bday;
@@ -348,7 +350,7 @@ class User_m extends CI_Model
                 
         if ($first_name==$this->first_name AND $last_name==$this->last_name AND $gender==$this->gender AND $income_range==$this->income_range AND $bday==$this->bday)
         {
-            return FALSE;
+            return TRUE;
         }
 
         $sql = 'UPDATE `users` SET `first_name`=?, `last_name`=?, `gender`=?, `income_range`=?, `bday`=?, `updated`=? WHERE `id`=?';
