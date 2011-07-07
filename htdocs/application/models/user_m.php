@@ -519,6 +519,23 @@ class User_m extends CI_Model
             return FALSE;
         }
     }
+    
+    
+    public function increment_invites_clicked()
+    {
+        $sql = 'UPDATE `users` SET `invites_clicked` = `invites_clicked`+1 WHERE `id` = ?';
+        $v = array($this->id);
+        $r = $this->mdb->alter($sql, $v);
+        
+        if ($r['num_affected'] == 1)
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
 
 
     public function set_active($is_active = 1)

@@ -38,12 +38,9 @@ $this->load->view('templates/core_header', $header_args);
     </div>
   </div>
   <? endforeach;?>
-      
-  <p><br />Page rendered in {elapsed_time} seconds</p>
-  
+        
 </div><!-- CONTENT ENDS -->
 </div><!-- WRAPPER ENDS -->
 <? $this->load->view('templates/footer')?>
-
 </body>
 </html>

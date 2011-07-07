@@ -114,10 +114,42 @@ class My_account extends CI_Controller
 
     public function invite()
     {
-        $data = array(
-            'user' => $this->user,
-        );
-        $this->load->view('my_account/invite', $data);
+        if ($_SERVER['REQUEST_METHOD'] != 'POST')
+        {
+            $data = array(
+                'user' => $this->user,
+            );
+            $this->load->view('my_account/invite', $data);
+        }
+        else
+        {
+            $first_name = $this->input->post('first_name');
+            $last_name = $this->input->post('last_name');
+            
+            $friends_emails = explode(',', $this->input->post('friends_emails'));
+            foreach ($friends_emails as $k => $email)
+            {
+                $friends_emails[$k] = trim($email);
+                if ( ! $friends_emails[$k])
+                {
+                    unset($friends_emails[$k]);
+                }
+            }
+            $params = array(
+                'email_type' => 2,
+                'user' => $this->user,
+                'emails' => $friends_emails,
+            );
+            $this->load->library('sendgrid', $params);
+            $this->sendgrid->compose_email($this->user, $first_name.' '.$last_name);
+            $r = $this->sendgrid->send_email();
+            
+            $data = array(
+                'user' => $this->user,
+                'message' => 'Invites sent',
+            );
+            $this->load->view('my_account/invite', $data);
+        }
     }
     
     

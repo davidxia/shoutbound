@@ -4,6 +4,7 @@ $header_args = array(
     'css_paths'=>array(
     ),
     'js_paths'=>array(
+        'js/common.js',
     )
 );
 
@@ -55,7 +56,21 @@ $this->load->view('templates/core_header', $header_args);
       <? endforeach;?>
     </div>
   </div>
-    
+  
+  <div>
+    <? if(array_key_exists($article->id, $user->favorite_ids['articles'])):?>
+    <a href="#" class="unfavorite" id="article-<?=$article->id?>">Unfavorite</a>
+    <? else:?>
+    <a href="#" class="favorite" id="article-<?=$article->id?>">Favorite</a>
+    <? endif;?>
+  </div>
+  
+  <div>
+    <div>Share</div>
+    <a href="http://www.facebook.com/sharer/sharer.php?t=<?=$article->title?>&u=<?=urlencode(current_url())?>" target="_blank">Facebook</a>
+    <a href="http://twitter.com/intent/tweet?url=<?=urlencode(current_url())?>&text=Check+out+this+place+on+Shoutbound!&via=shoutbound" target="_blank">Twitter</a> 
+  </div>
+  
   <? if($article->prev_article_id):?>
   <div><a href="<?=site_url('feature/'.$article->prev_article_id)?>">Previous</a></div>
   <? endif;?>
@@ -66,6 +81,5 @@ $this->load->view('templates/core_header', $header_args);
 </div><!-- CONTENT ENDS -->
 </div><!-- WRAPPER ENDS -->
 <? $this->load->view('templates/footer')?>
-
 </body>
 </html>
