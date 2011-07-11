@@ -3,10 +3,10 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
   padding: 0;
   border: 0;
   outline: 0;
-  font-size: 100%;
+  font-size: 14px;
   vertical-align: baseline;
   background: transparent;
-  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-family: georgia, serif;
 }
 
 html, body {
@@ -16,6 +16,10 @@ html, body {
 	line-height:19px;
   color:#333;
   height:100%;
+}
+
+body {
+  background-color: #F7F8ED;
 }
 
 .header{
@@ -65,9 +69,59 @@ html, body {
 
 .wrapper {
   margin: 0 auto;
-  width: 960px;
+  width: 900px;
+  padding: 9px;
 }
 
 .header .wrapper {
   position: relative;
+}
+
+.content .wrapper {
+  border: 1px solid #d2d3cb;
+  background-color: white;
+}
+
+
+/* landing */
+/* ///////////////////// */
+body.landing {
+  padding:50px 0;
+}
+.landing .photospread {
+  background: #ffffff url(http://static.shoutbound.com/images/landing_bg.jpg) no-repeat;
+  height:557px;
+}
+.landing .greetingcard {
+  background-color:#3ba; 
+  width:469px; height:340px; 
+  margin:121px 0 0 322px;
+  border: 1px solid #A0D1C9
+}
+.landing .logo {
+  margin:0 auto; width:420px; padding:42px 0 33px;
+}
+.landing h1 {
+  background:url(http://static.shoutbound.com/images/landing-text.png) no-repeat; width:420px; height:50px; text-indent:-9999px;
+}
+.landing h2 {
+  background:url(http://static.shoutbound.com/images/landing-text.png) no-repeat 0 -55px; width:420px; height:30px; text-indent:-9999px;
+}
+.landing .greeting-content{
+  width:373px; height:100px; background:#F7F8ED url(http://static.shoutbound.com/images/landing-ornament.png) no-repeat 10px 10px; margin:0 auto; padding:35px; position:relative; box-shadow:1px 1px 1px 1px #3C877B; -webkit-box-shadow:1px 1px 1px 1px #3C877B; -moz-box-shadow:1px 1px 1px 1px #3C877B;
+}
+.greetingcard span {
+  color:#188991; font-size:16px;
+}
+.greetingcard .buttons {
+  width:350px; margin:15px auto;
+}
+.greetingcard .button {
+  display:inline-block; vertical-align:middle; border:1px solid #f9a72a; background:#ffd038; color:#333; line-height:40px; text-align:center; cursor:pointer; font-size:16px; font-weight:bold; font-family:georgia, serif; padding:0; border-radius:5px; -webkit-border-radius:5px; text-decoration:none; box-shadow: 1px 1px #6C8481; -webkit-box-shadow: 1px 1px #6C8481; -moz-box-shadow: 1px 1px #6C8481;
+}
+.greetingcard .signup {
+  width:200px; height:40px;
+}
+.greetingcard .login {
+  width:100px; height:40px;
 }

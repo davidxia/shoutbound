@@ -79,8 +79,10 @@ class Sendgrid
                 break;
             case 2:
                 $subj = $source.' invited you to sign up for Shoutbound';
-                $html = $source.' sent you an invite to check out <a href="'.site_url('share/email_invite/'.$user->id).'">Shoutbound</a>';
-                $text = $source.' sent you an invite to check out <a href="'.site_url('share/email_invite/'.$user->id).'">Shoutbound</a>';
+                $html = $source.' sent you an invite to check out '.
+                        '<a href="'.site_url('share/email_invite/'.$user->id).'">Shoutbound</a>';
+                $text = $source.' sent you an invite to check out '.
+                        '<a href="'.site_url('share/email_invite/'.$user->id).'">Shoutbound</a>';
                 break;
             case 80:
                 $subj = 'Shoutbound Password Reset';
