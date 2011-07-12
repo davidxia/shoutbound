@@ -17,8 +17,6 @@ $this->load->view('templates/core_header', $header_args);
 <body>
 <? $this->load->view('templates/header')?>
 <? $this->load->view('templates/content')?>
-
-  <h2>Signup page</h2>
     
   <div>
     <h2>Sign Up</h2>
@@ -27,7 +25,7 @@ $this->load->view('templates/core_header', $header_args);
       <input type="text" id="signup_email" name="signup_email"/>
       <label for="signup_password">Password</label>
       <input type="password" id="signup_password" name="signup_password"/>
-      <input type="submit" name="signup" value="Sign Up"/>
+      <input type="submit" name="signup" value="SIGN UP" class="button signup"/>
     </form>  
   </div>
 
