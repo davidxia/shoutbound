@@ -21,14 +21,15 @@ class Feature extends CI_Controller
 		}
 		
 
-    public function index($article_id = NULL)
+    public function index($uri_seg = NULL)
     {
-        if ( ! $article_id)
+        if ( ! $uri_seg)
         {
             redirect('/');
         }
         
-        $article = new Article_m($article_id);
+        $article = new Article_m();
+        $article->get_by_uri_seg($uri_seg);
         //check if article exists is active
         if ( ! $article->is_active)
         {
@@ -36,8 +37,8 @@ class Feature extends CI_Controller
             return;
         }
         
-        $article->get_prev_article_id()
-                ->get_next_article_id()
+        $article->get_prev_article_uri_seg()
+                ->get_next_article_uri_seg()
                 ->get_venues()
                 ->get_num_wishers()
                 ->get_tags();

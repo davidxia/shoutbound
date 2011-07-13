@@ -104,11 +104,11 @@ $this->load->view('templates/core_header', $header_args);
     <a href="http://twitter.com/intent/tweet?url=<?=urlencode(current_url())?>&text=Check+out+this+place+on+Shoutbound!&via=shoutbound" target="_blank">Twitter</a> 
   </div>
   
-  <? if($article->prev_article_id):?>
-  <div><a href="<?=site_url('feature/'.$article->prev_article_id)?>">Previous</a></div>
+  <? if($article->prev_article_uri_seg):?>
+  <div><a href="<?=site_url('feature/'.$article->prev_article_uri_seg)?>">Previous</a></div>
   <? endif;?>
-  <? if($article->next_article_id):?>
-  <div><a href="<?=site_url('feature/'.$article->next_article_id)?>">Next</a></div>
+  <? if($article->next_article_uri_seg):?>
+  <div><a href="<?=site_url('feature/'.$article->next_article_uri_seg)?>">Next</a></div>
   <? endif;?>
   
 </div><!-- CONTENT ENDS -->

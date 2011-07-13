@@ -28,7 +28,7 @@ $this->load->view('templates/core_header', $header_args);
     My favorites:
     <? foreach($user->favorites['articles'] as $article):?>
     <div class="favorite-feature">
-      <div><a href="<?=site_url('feature/'.$article->id)?>"><?=$article->title?></a></div>
+      <div><a href="<?=site_url('feature/'.$article->uri_seg)?>"><?=$article->title?></a></div>
       <div><?=$article->tagline?></div>
       <a href="#" class="unfavorite" id="article-<?=$article->id?>">Unfavorite</a>
     </div>
@@ -42,11 +42,9 @@ $this->load->view('templates/core_header', $header_args);
   <div>
     <a href="<?=site_url('my_account/settings')?>">My account settings</a>
   </div>  
-  
-  <p><br />Page rendered in {elapsed_time} seconds</p>
-  </div><!-- CONTENT ENDS -->
-  </div><!-- WRAPPER ENDS -->
 
+</div><!-- CONTENT ENDS -->
+</div><!-- WRAPPER ENDS -->
 <? $this->load->view('templates/footer')?>
 
 </body>

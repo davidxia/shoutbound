@@ -25,7 +25,7 @@ $this->load->view('templates/core_header', $header_args);
 
   <? foreach($article->recent_articles as $article):?>
   <div>
-    <div><a href="<?=site_url('feature/'.$article->id)?>"><?=$article->title?></a></div>
+    <div><a href="<?=site_url('feature/'.$article->uri_seg)?>"><?=$article->title?></a></div>
     <div><?=$article->tagline?></div>
     <div><?=date('F j, Y', $article->created)?></div>
     <div><?=$article->content?></div>

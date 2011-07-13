@@ -7,6 +7,7 @@ class Article_m extends CI_Model
     public $title;
     public $tagline;
     public $content;
+    public $uri_seg;
     public $created;
     public $is_active;
     
@@ -28,6 +29,25 @@ class Article_m extends CI_Model
         {
             $sql = 'SELECT * FROM `articles` WHERE id = ?';
             $v = array($id);
+            $rows = $this->mdb->select($sql, $v);
+            $article = (isset($rows[0])) ? $rows[0] : NULL;
+            $this->mc->set($key, $article);
+        }
+        
+        $this->row2obj($article);
+        //$this->convert_nl();
+        return $this;
+    }
+    
+    
+    public function get_by_uri_seg($uri_seg)
+    {
+        $key = 'article_by_uri_seg:'.$uri_seg;
+        $article = $this->mc->get($key);
+        if ($article === FALSE)
+        {
+            $sql = 'SELECT * FROM `articles` WHERE uri_seg=?';
+            $v = array($uri_seg);
             $rows = $this->mdb->select($sql, $v);
             $article = (isset($rows[0])) ? $rows[0] : NULL;
             $this->mc->set($key, $article);
@@ -106,6 +126,42 @@ class Article_m extends CI_Model
         }
         
         $this->next_article_id = $next_article_id;
+        return $this;
+    }
+
+
+    public function get_prev_article_uri_seg()
+    {
+        $key = 'prev_article_uri_seg_by_article_id:'.$this->id;
+        $prev_article_uri_seg = $this->mc->get($key);
+        if ($prev_article_uri_seg === FALSE)
+        {
+            $sql = 'SELECT `uri_seg` FROM `articles` WHERE `is_active` = 1 AND `created` < ? LIMIT 1';
+            $v = array($this->created);
+            $rows = $this->mdb->select($sql, $v);
+            $prev_article_uri_seg = (isset($rows[0])) ? $rows[0]->uri_seg : NULL;
+            $this->mc->set($key, $prev_article_uri_seg);
+        }
+        
+        $this->prev_article_uri_seg = $prev_article_uri_seg;
+        return $this;
+    }
+    
+
+    public function get_next_article_uri_seg()
+    {
+        $key = 'next_article_uri_seg_by_article_id:'.$this->id;
+        $next_article_uri_seg = $this->mc->get($key);
+        if ($next_article_uri_seg === FALSE)
+        {
+            $sql = 'SELECT `uri_seg` FROM `articles` WHERE `is_active` = 1 AND `created` > ? LIMIT 1';
+            $v = array($this->created);
+            $rows = $this->mdb->select($sql, $v);
+            $next_article_uri_seg = (isset($rows[0])) ? $rows[0]->uri_seg : NULL;
+            $this->mc->set($key, $next_article_uri_seg);
+        }
+        
+        $this->next_article_uri_seg = $next_article_uri_seg;
         return $this;
     }
 
@@ -222,7 +278,7 @@ class Article_m extends CI_Model
     {
         foreach (get_object_vars($this) as $k => $v)
         {
-            if ( ! in_array($k, array('id', 'author_id', 'title', 'tagline', 'content', 'created', 'is_active')))
+            if ( ! in_array($k, array('id', 'author_id', 'title', 'tagline', 'content', 'uri_seg', 'created', 'is_active')))
             {
                 unset($this->$k);
             }
