@@ -47,6 +47,34 @@ class Feature extends CI_Controller
         );
         $this->load->view('feature', $data);
     }
+    
+    
+    public function alt($article_id = NULL)
+    {
+        if ( ! $article_id)
+        {
+            redirect('/');
+        }
+        
+        $article = new Article_m($article_id);
+        //check if article exists is active
+        if ( ! $article->is_active)
+        {
+            custom_404();
+            return;
+        }
+        
+        $article->get_prev_article_id()
+                ->get_next_article_id()
+                ->get_venues();
+        $this->user->get_favorite_ids();
+
+        $data = array(
+            'article' => $article,
+            'user' => $this->user,
+        );
+        $this->load->view('feature2', $data);
+    }
 }
 
 /* End of file feature.php */

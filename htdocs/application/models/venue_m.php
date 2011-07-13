@@ -43,6 +43,34 @@ class Venue_m extends CI_Model
         return $this;
     }
     
+    
+    public function get_photos()
+    {
+        $key = 'photo_ids_by_venue_id:'.$this->id;
+        $photo_ids = $this->mc->get($key);
+        if ($photo_ids === FALSE)
+        {
+            $photo_ids = array();
+            $sql = 'SELECT `id` FROM `photos` WHERE `venue_id`=? AND `is_active`=1';
+            $v = array($this->id);
+            $rows = $this->mdb->select($sql, $v);
+            foreach ($rows as $row)
+            {
+                $photo_ids[] = $row->id;
+            }
+            $this->mc->set($key, $photo_ids);
+        }
+        
+        $this->photos = array();
+        $this->load->model('Photo_m');
+        foreach ($photo_ids as $photo_id)
+        {
+            $photo = new Photo_m($photo_id);
+            $this->photos[] = $photo;
+        }
+        return $this;
+    }
+    
 
     private function row2obj($row)
     {

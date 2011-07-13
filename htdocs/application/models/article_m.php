@@ -139,6 +139,7 @@ class Article_m extends CI_Model
         foreach ($venue_ids as $venue_id)
         {
             $venue = new Venue_m($venue_id);
+            $venue->get_photos();
             $this->venues[] = $venue;
         }
         return $this;
