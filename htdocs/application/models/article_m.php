@@ -146,6 +146,52 @@ class Article_m extends CI_Model
     }
 
 
+    public function get_num_wishers()
+    {
+        $key = 'num_wishers_by_article_id:'.$this->id;
+        $num_wishers = $this->mc->get($key);
+        if ($num_wishers === FALSE)
+        {
+            $sql = 'SELECT COUNT(*) FROM `articles_users` au, `users` u WHERE u.id = au.user_id AND u.is_active=1 AND au.article_id=? AND au.is_favorite=1';
+            $v = array($this->id);
+            $rows = $this->mdb->select($sql, $v);
+            $num_wishers = $rows[0]->{'count(*)'};
+            $this->mc->set($key, $num_wishers);
+        }
+        
+        $this->num_wishers = $num_wishers;
+        return $this;
+    }
+
+
+    public function get_tags()
+    {
+        $key = 'tag_ids_by_article_id:'.$this->id;
+        $tag_ids = $this->mc->get($key);
+        if ($tag_ids === FALSE)
+        {
+            $tag_ids = array();
+            $sql = 'SELECT at.tag_id FROM `articles_tags` at WHERE at.article_id=?';
+            $v = array($this->id);
+            $rows = $this->mdb->select($sql, $v);
+            foreach ($rows as $row)
+            {
+                $tag_ids[] = $row->tag_id;
+            }
+            $this->mc->set($key, $tag_ids);
+        }
+        
+        $this->tags = array();
+        $this->load->model('Tag_m');
+        foreach ($tag_ids as $tag_id)
+        {
+            $tag = new Tag_m($tag_id);
+            $this->tags[] = $tag;
+        }
+        return $this;
+    }
+
+
     private function row2obj($row)
     {
         if ( ! is_null($row))

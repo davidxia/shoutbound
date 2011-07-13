@@ -25,7 +25,9 @@ $this->load->view('templates/core_header', $header_args);
 <? $this->load->view('templates/content')?>
 
   <div class="article" style="position:relative;">
-    <h1><?=$article->title?></h1>
+    <h1 style="display:inline-block;margin-right:20px;"><?=$article->title?></h1>
+    <div class="icon" style="background: url(http://static.shoutbound.com/images/sprites.png) no-repeat 0px -23px;display:inline-block;padding-left:25px;vertical-align:2px;margin-right:10px;font-size:18px;color:#F93;"><?=$article->num_wishers?></div>
+    <br/>
     <h2 style="width:640px;margin-right:320px;"><?=$article->tagline?></h2>
 
     <div style="position:absolute;left:660px;top:40px;">
@@ -84,6 +86,13 @@ $this->load->view('templates/core_header', $header_args);
       </div>
       <div class="photo-caption" style="margin-top:20px;position:absolute;top:263px;background-color:rgba(0,0,0,.5);z-index:10;color:#EEE;width:598px;padding:10px 16px;height:20px;"></div>
       <div style="margin-top:30px;"><?=$article->content?></div>
+      <div class="tags">
+        <div class="icon" style="background: url(http://static.shoutbound.com/images/sprites.png) no-repeat 0px -84px;display:inline-block;padding-left:40px;vertical-align:bottom;margin-right:7px;height:22px;"></div>
+        <? $prefix=''?><? foreach($article->tags as $tag):?>
+        <a href="<?=site_url('tag/'.$tag->uri_seg)?>"><?=$prefix.$tag->name?></a>
+        <? $prefix=', '?>
+        <? endforeach;?>
+      </div>
     </div>
     
 <!--     <div><?=date('F j, Y', $article->created)?></div> -->

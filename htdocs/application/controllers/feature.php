@@ -38,7 +38,9 @@ class Feature extends CI_Controller
         
         $article->get_prev_article_id()
                 ->get_next_article_id()
-                ->get_venues();
+                ->get_venues()
+                ->get_num_wishers()
+                ->get_tags();
         $this->user->get_favorite_ids();
 
         $data = array(
