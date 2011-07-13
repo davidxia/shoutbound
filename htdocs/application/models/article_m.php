@@ -34,7 +34,7 @@ class Article_m extends CI_Model
         }
         
         $this->row2obj($article);
-        $this->convert_nl();
+        //$this->convert_nl();
         return $this;
     }
     
