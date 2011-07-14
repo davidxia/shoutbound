@@ -227,5 +227,53 @@ body.landing {
   color:#3BA;
 }
 .tags a:hover, .tags a:active{
-  color:#366;
+  color:#388;
+}
+#carousel li{
+  width:260px;
+}
+#carousel li.pager{
+  margin-right:20px;
+}
+#carousel li.pager a{
+  display: inline-block;
+  color:#3BA;
+}
+#carousel li.pager a:hover{
+  color: #388;
+}
+.bx-prev, .bx-next{
+display: inline;
+position: absolute;
+top: 40%;
+z-index: 999;
+width: 35px;
+height: 35px;
+text-indent: -9999px;
+background: url(http://dev.shoutbound.com/david/static/css/galleria/themes/classic/classic-map.png) no-repeat;
+}
+.bx-prev{
+left: -50px;
+background-position:  0px 0px;
+}
+.bx-next{
+right: -50px;
+background-position:  -288px 0px;
+}
+.bx-pager {
+text-align: center;
+padding-top: 7px;
+font-size: 12px;
+color: #666;
+}
+.bx-pager a {
+  width:15px;
+  height:15px;
+  display: inline-block;
+  margin-right: 5px;
+  background: url(http://static.shoutbound.com/images/sprites.png) no-repeat 0px -106px;
+  text-indent:-9999px;
+}
+.bx-pager .pager-active, .bx-pager a:hover {
+  background-position-x: -17px; 
 }

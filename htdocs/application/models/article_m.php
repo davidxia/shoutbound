@@ -271,8 +271,27 @@ class Article_m extends CI_Model
         foreach ($related_article_ids as $article_id)
         {
             $article = new Article_m($article_id);
+            $article->get_thumbnail();
             $this->related_articles[] = $article;
         }
+        return $this;
+    }
+
+
+    public function get_thumbnail()
+    {
+        $key = 'thumbnail_by_article_id:'.$this->id;
+        $thumbnail = $this->mc->get($key);
+        if ($thumbnail === FALSE)
+        {
+            $sql = 'SELECT p.* FROM `articles_venues` av, `photos` p WHERE av.article_id=? AND av.is_main=1 AND av.venue_id=p.venue_id AND p.is_thumbnail=1';
+            $v = array($this->id);
+            $rows = $this->mdb->select($sql, $v);
+            $thumbnail = (isset($rows[0])) ? $rows[0] : NULL;
+            $this->mc->set($key, $thumbnail);
+        }
+        
+        $this->thumbnail = $thumbnail;
         return $this;
     }
 

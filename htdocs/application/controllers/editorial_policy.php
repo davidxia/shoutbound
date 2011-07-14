@@ -22,7 +22,7 @@ class Editorial_policy extends CI_Controller
         $data = array(
             'user' => $this->user,
         );
-        $this->load->view('editorial_policy');
+        $this->load->view('editorial_policy', $data);
     }
 }
 

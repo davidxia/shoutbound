@@ -7,6 +7,7 @@ $header_args = array(
         'js/common.js',
         'js/jquery/galleria-1.2.4.min.js',
         'css/galleria/themes/classic/galleria.classic.min.js',
+        'js/jquery/jquery.bxSlider.min.js',
     )
 );
 
@@ -84,53 +85,61 @@ $this->load->view('templates/core_header', $header_args);
             <? endforeach;?>
           <? endforeach;?>
         </div>
-        <div class="photo-caption" style="margin-top:20px;position:absolute;top:378px;background-color:rgba(0,0,0,.5);z-index:10;color:#EEE;width:606px;padding:10px 16px;height:20px;"></div>
+        <div class="photo-caption" style="display:none;margin-top:20px;position:absolute;top:378px;background-color:rgba(0,0,0,.5);z-index:10;color:#EEE;width:606px;padding:10px 16px;height:20px;"></div>
       </div>
       <div style="margin-top:30px;"><?=$article->content?></div>
       <div class="tags">
         <div class="icon" style="background: url(http://static.shoutbound.com/images/sprites.png) no-repeat 0px -84px;display:inline-block;padding-left:40px;vertical-align:bottom;margin-right:7px;height:22px;"></div>
         <? $prefix=''?><? foreach($article->tags as $tag):?>
-        <a href="<?=site_url('tag/'.$tag->uri_seg)?>"><?=$prefix.$tag->name?></a>
+        <?=$prefix?><a href="<?=site_url('tag/'.$tag->uri_seg)?>"><?=$tag->name?></a>
         <? $prefix=', '?>
         <? endforeach;?>
       </div>
     </div>
     
 <!--     <div><?=date('F j, Y', $article->created)?></div> -->
+  </div> 
+
+
+  <div style="border:1px solid #DDD;background-color:#EEE;padding:10px;">
+    <div style="margin-left:-10px;margin-top:10px;background: url(http://static.shoutbound.com/images/triangle.png) no-repeat 165px 0px;width:180px;">
+      <div style="padding:5px 5px 5px 10px;width:150px;font-weight:bold;background-color:#CCC;">You may also like...</div>
+    </div>
+    
+    <div style="margin:30px 50px;position:relative;">
+      <ul id="carousel">
+        <? foreach($article->related_articles as $related_article):?>
+        <li><a href="<?=site_url('feature/'.$related_article->uri_seg)?>">
+          <img src="<?=static_subdom('images/venues/'.$related_article->thumbnail->venue_id.'_'.$related_article->thumbnail->name)?>" width="260" height="130"/>
+          <h3><?=$related_article->title?></h3>
+          <h4><?=$related_article->tagline?></h4>
+        </a></li>
+        <? endforeach;?>
+      </ul>
+    </div>
   </div>
-  
-  
+
+
+<!--
   <div>
     <a href="http://www.facebook.com/sharer/sharer.php?t=<?=$article->title?>&u=<?=urlencode(current_url())?>" target="_blank">Facebook</a>
     <a href="http://twitter.com/intent/tweet?url=<?=urlencode(current_url())?>&text=Check+out+this+place+on+Shoutbound!&via=shoutbound" target="_blank">Twitter</a> 
   </div>
+-->
   
-  <div style="border:1px solid #DDD;background-color:#EEE;padding:10px;">
-    <div style="margin-left:-10px;margin-top:10px;background: url(http://static.shoutbound.com/images/triangle.png) no-repeat 160px 0px;width: 180px;">
-      <div style="padding:5px;width:150px;font-weight:bold;background-color:#CCC;">You may also like...</div>
-    </div>
-    <div style="margin:30px 20px;">
-    <? foreach($article->related_articles as $related_article):?>
-    <div>
-      <div><?=$related_article->title?></div>
-      <div><?=$related_article->tagline?></div>
-    </div>
-    <? endforeach;?>
-    </div>
-  </div>
-  
+    
+<!--
   <? if($article->prev_article_uri_seg):?>
   <div><a href="<?=site_url('feature/'.$article->prev_article_uri_seg)?>">Previous</a></div>
   <? endif;?>
   <? if($article->next_article_uri_seg):?>
   <div><a href="<?=site_url('feature/'.$article->next_article_uri_seg)?>">Next</a></div>
   <? endif;?>
+-->
   
 </div><!-- CONTENT ENDS -->
 <div class="push"></div>
 </div><!-- WRAPPER ENDS -->
 <? $this->load->view('templates/footer')?>
-<script>
-</script>
 </body>
 </html>

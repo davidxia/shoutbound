@@ -50,6 +50,7 @@ class Feature extends CI_Controller
             'user' => $this->user,
         );
         $this->load->view('feature', $data);
+/*         echo '<pre>';print_r($article);echo '</pre>'; */
     }
     
     
@@ -73,7 +74,8 @@ class Feature extends CI_Controller
                 ->get_next_article_uri_seg()
                 ->get_venues()
                 ->get_num_wishers()
-                ->get_tags();
+                ->get_tags()
+                ->get_related_articles();
         $this->user->get_favorite_ids();
 
         $data = array(
