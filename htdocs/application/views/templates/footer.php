@@ -16,16 +16,15 @@
       <div><a href="<?=site_url('write_for_us')?>">Write for Us</a></div>
     </div>
     <div class="block">
+      <h4>Businesses</h4>
+      <div><a href="<?=site_url('advertise')?>">Advertise</a></div>
+      <div><a href="<?=site_url('advertise')?>">Partnerships</a></div>
+    </div>
+    <div class="block">
       <h4>Connect</h4>
       <div><a href="http://blog.shoutbound.com/">Blog</a></div>
       <div><a href="http://www.facebook.com/shoutbound">Facebook</a></div>
       <div><a href="http://twitter.com/shoutbound">Twitter</a></div>
-    </div>
-    <div class="block">
-      <h4>Help</h4>
-      <div>FAQs</div>
-      <div>Customer Service</div>
-      <div><a href="<?=site_url('advertise')?>">Advertise</a></div>
     </div>
     <div class="block">
       <h4>Legal</h4>

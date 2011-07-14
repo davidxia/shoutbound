@@ -51,8 +51,8 @@ $this->load->view('templates/core_header', $header_args);
     <input type="submit" name="skip" value="skip"/>
   </form>
   
-
 </div><!-- CONTENT ENDS -->
+<div class="push"></div>
 </div><!-- WRAPPER ENDS -->
 <? $this->load->view('templates/footer')?>
 </body>

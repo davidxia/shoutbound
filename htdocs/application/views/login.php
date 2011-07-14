@@ -34,8 +34,8 @@ $this->load->view('templates/core_header', $header_args);
   </div>
   
 </div><!-- CONTENT ENDS -->
+<div class="push"></div>
 </div><!-- WRAPPER ENDS -->
 <? $this->load->view('templates/footer')?>
-
 </body>
 </html>

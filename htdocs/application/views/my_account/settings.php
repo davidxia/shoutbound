@@ -125,9 +125,8 @@ $this->load->view('templates/core_header', $header_args);
     <a href="<?=site_url('my_account/unsubscribe')?>">Unsubscribe</a>
   </div>
     
-  
-
 </div><!-- CONTENT ENDS -->
+<div class="push"></div>
 </div><!-- WRAPPER ENDS -->
 <? $this->load->view('templates/footer')?>
 </body>

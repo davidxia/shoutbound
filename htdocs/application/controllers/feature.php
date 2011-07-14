@@ -41,7 +41,8 @@ class Feature extends CI_Controller
                 ->get_next_article_uri_seg()
                 ->get_venues()
                 ->get_num_wishers()
-                ->get_tags();
+                ->get_tags()
+                ->get_related_articles();
         $this->user->get_favorite_ids();
 
         $data = array(
@@ -52,14 +53,15 @@ class Feature extends CI_Controller
     }
     
     
-    public function alt($article_id = NULL)
+    public function alt($uri_seg = NULL)
     {
-        if ( ! $article_id)
+        if ( ! $uri_seg)
         {
             redirect('/');
         }
         
-        $article = new Article_m($article_id);
+        $article = new Article_m();
+        $article->get_by_uri_seg($uri_seg);
         //check if article exists is active
         if ( ! $article->is_active)
         {
@@ -67,9 +69,11 @@ class Feature extends CI_Controller
             return;
         }
         
-        $article->get_prev_article_id()
-                ->get_next_article_id()
-                ->get_venues();
+        $article->get_prev_article_uri_seg()
+                ->get_next_article_uri_seg()
+                ->get_venues()
+                ->get_num_wishers()
+                ->get_tags();
         $this->user->get_favorite_ids();
 
         $data = array(

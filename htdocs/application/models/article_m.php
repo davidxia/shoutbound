@@ -87,7 +87,9 @@ class Article_m extends CI_Model
         $this->recent_articles = array();
         foreach ($this->recent_article_ids as $article_id)
         {
-            $this->recent_articles[] = new Article_m($article_id);
+            $article = new Article_m($article_id);
+            $article->get_num_wishers();
+            $this->recent_articles[] = $article;
         }
         
         return $this;
@@ -243,6 +245,33 @@ class Article_m extends CI_Model
         {
             $tag = new Tag_m($tag_id);
             $this->tags[] = $tag;
+        }
+        return $this;
+    }
+
+
+    public function get_related_articles()
+    {
+        $key = 'related_article_ids_by_article_id:'.$this->id;
+        $related_article_ids = $this->mc->get($key);
+        if ($related_article_ids === FALSE)
+        {
+            $related_article_ids = array();
+            $sql = 'SELECT aa.related_article_id FROM `articles_articles` aa WHERE aa.article_id=?';
+            $v = array($this->id);
+            $rows = $this->mdb->select($sql, $v);
+            foreach ($rows as $row)
+            {
+                $related_article_ids[] = $row->related_article_id;
+            }
+            $this->mc->set($key, $related_article_ids);
+        }
+        
+        $this->related_articles = array();
+        foreach ($related_article_ids as $article_id)
+        {
+            $article = new Article_m($article_id);
+            $this->related_articles[] = $article;
         }
         return $this;
     }

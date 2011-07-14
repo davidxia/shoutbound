@@ -26,15 +26,14 @@ $this->load->view('templates/core_header', $header_args);
   
   <? foreach($tag->articles as $article):?>
   <div>
-    <h2><a href="<?=site_url('feature/'.$article->id)?>"><?=$article->title?></h2></a>
+    <h2><a href="<?=site_url('feature/'.$article->uri_seg)?>"><?=$article->title?></h2></a>
     <h3 style="font-weight:normal;"><?=$article->tagline?></h3>
   </div>
   <? endforeach;?>
   
 </div><!-- CONTENT ENDS -->
+<div class="push"></div>
 </div><!-- WRAPPER ENDS -->
 <? $this->load->view('templates/footer')?>
-<script>
-</script>
 </body>
 </html>

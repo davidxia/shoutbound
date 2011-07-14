@@ -39,6 +39,7 @@
 */
 
 $route['default_controller'] = 'landing';
+$route['feature/alt/(:any)'] = 'feature/alt/$1';
 $route['(feature|tag)/(:any)'] = '$1/index/$2';
 $route['404_override'] = 'error/error_404';
 
