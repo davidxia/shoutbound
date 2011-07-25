@@ -82,7 +82,7 @@ class Feature extends CI_Controller
             'article' => $article,
             'user' => $this->user,
         );
-        $this->load->view('feature2', $data);
+        $this->load->view('feature3', $data);
     }
 }
 
