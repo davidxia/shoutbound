@@ -38,7 +38,7 @@ $active_group = 'dev';
 $active_record = FALSE;
 
 $db['dev']['hostname'] = 'localhost';
-$db['dev']['username'] = 'web_dev';
+$db['dev']['username'] = 'sb_dev';
 $db['dev']['password'] = 'FBM6euFExDwUBLCH';
 $db['dev']['database'] = 'sb_dev';
 $db['dev']['dbdriver'] = 'mysql';

@@ -38,7 +38,7 @@ $active_group = 'prod';
 $active_record = FALSE;
 
 $db['prod']['hostname'] = 'localhost';
-$db['prod']['username'] = 'web_prod';
+$db['prod']['username'] = 'sb_prod';
 $db['prod']['password'] = 'VR58MKhJqPJTASxR';
 $db['prod']['database'] = 'sb_prod';
 $db['prod']['dbdriver'] = 'mysql';

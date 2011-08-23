@@ -16,7 +16,7 @@
 */
 $path = explode('/',__FILE__);
 $developer = $path[2];
-$config['base_url']	= 'http://'.$_SERVER['HTTP_HOST'].'/'.$developer.'/';
+$config['base_url']	= 'http://'.$_SERVER['HTTP_HOST'].'/';
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ $config['base_url']	= 'http://'.$_SERVER['HTTP_HOST'].'/'.$developer.'/';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = "";
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------

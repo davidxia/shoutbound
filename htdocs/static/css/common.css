@@ -92,7 +92,7 @@ ol,ul {
   float:left;color:#fff;margin-left:44px;
 }
 .footer .logo a{
-  background:#3BA url(http://static.shoutbound.com/images/footer-logo.png) no-repeat 12px 9px; display:block; text-indent:-9999px; width:161px;height:36px; border-bottom: 1px solid #366; border-right: 1px solid #366; border-left: 1px solid #366;
+  background:#3BA url(http://s.shoutbound.com/images/footer-logo.png) no-repeat 12px 9px; display:block; text-indent:-9999px; width:161px;height:36px; border-bottom: 1px solid #366; border-right: 1px solid #366; border-left: 1px solid #366;
 }
 .footer .copy {
   color: #fff;
@@ -115,7 +115,7 @@ ol,ul {
   display:inline-block
 }
 .header h1 a {
-  display:block; background:url(http://static.shoutbound.com/images/header-logo.png) no-repeat; width:258px; height:30px; text-indent:-9999px;
+  display:block; background:url(http://s.shoutbound.com/images/header-logo.png) no-repeat; width:258px; height:30px; text-indent:-9999px;
 }
 
 .landing .content .wrapper {
@@ -135,7 +135,7 @@ body.landing {
   width:900px;
 }
 .landing .photospread {
-  background: #ffffff url(http://static.shoutbound.com/images/landing_bg.jpg) no-repeat;
+  background: #ffffff url(http://s.shoutbound.com/images/landing_bg.jpg) no-repeat;
   height:557px;
 }
 .landing .greetingcard {
@@ -148,13 +148,13 @@ body.landing {
   margin:0 auto; width:420px; padding:42px 0 33px;
 }
 .landing h1 {
-  background:url(http://static.shoutbound.com/images/landing-text.png) no-repeat; width:420px; height:50px; text-indent:-9999px;
+  background:url(http://s.shoutbound.com/images/landing-text.png) no-repeat; width:420px; height:50px; text-indent:-9999px;
 }
 .landing h2 {
-  background:url(http://static.shoutbound.com/images/landing-text.png) no-repeat 0 -55px; width:420px; height:30px; text-indent:-9999px;
+  background:url(http://s.shoutbound.com/images/landing-text.png) no-repeat 0 -55px; width:420px; height:30px; text-indent:-9999px;
 }
 .landing .greeting-content{
-  width:373px; height:100px; background:#F7F8ED url(http://static.shoutbound.com/images/landing-ornament.png) no-repeat 10px 10px; margin:0 auto; padding:35px; position:relative; box-shadow:1px 1px 1px 1px #3C877B; -webkit-box-shadow:1px 1px 1px 1px #3C877B; -moz-box-shadow:1px 1px 1px 1px #3C877B;
+  width:373px; height:100px; background:#F7F8ED url(http://s.shoutbound.com/images/landing-ornament.png) no-repeat 10px 10px; margin:0 auto; padding:35px; position:relative; box-shadow:1px 1px 1px 1px #3C877B; -webkit-box-shadow:1px 1px 1px 1px #3C877B; -moz-box-shadow:1px 1px 1px 1px #3C877B;
 }
 .greetingcard span {
   color:#188991; font-size:16px;
@@ -271,7 +271,7 @@ color: #666;
   height:15px;
   display: inline-block;
   margin-right: 5px;
-  background: url(http://static.shoutbound.com/images/sprites.png) no-repeat 0px -106px;
+  background: url(http://s.shoutbound.com/images/sprites.png) no-repeat 0px -106px;
   text-indent:-9999px;
 }
 .bx-pager .pager-active, .bx-pager a:hover {

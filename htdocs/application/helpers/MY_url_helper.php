@@ -14,7 +14,7 @@ function image_url($path=NULL)
 
 function static_subdom($path=NULL)
 {
-    return 'http://static.shoutbound.com/'.$path;
+    return 'http://s.shoutbound.com/'.$path;
 }
 
 
