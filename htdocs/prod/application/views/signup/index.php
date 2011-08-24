@@ -19,13 +19,23 @@ $this->load->view('templates/core_header', $header_args);
 <? $this->load->view('templates/content')?>
     
   <div>
-    <h2>Sign Up</h2>
-    <form id="signup-form" action="<?=site_url('signup')?>" method="post">
-      <label for="signup_email">Email</label>
-      <input type="text" id="signup_email" name="signup_email"/>
-      <label for="signup_password">Password</label>
-      <input type="password" id="signup_password" name="signup_password"/>
-      <input type="submit" name="signup" value="SIGN UP" class="button signup"/>
+    <h2 style="font-size:24px;">Sign Up</h2>
+    <form id="signup-form" action="<?=site_url('signup')?>" method="post" style="margin-top:30px">
+      <div style="margin:10px 0;">
+        <label style="font-size:18px;" for="signup_email">Email</label>
+      </div>
+      <div>
+        <input type="text" id="signup_email" name="signup_email" style="width:250px;"/>
+      </div>
+      <div style="margin:10px 0;">
+        <label style="font-size:18px;" for="signup_password">Password</label>
+      </div>
+      <div>
+        <input type="password" id="signup_password" name="signup_password" style="width:250px;"/>
+      </div>
+      <div style="margin:10px 0;">
+        <input type="submit" name="signup" value="SIGN UP" class="button signup"/>
+      </div>
     </form>  
   </div>
 

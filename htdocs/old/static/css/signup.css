@@ -1,0 +1,66 @@
+#signup-container{
+  margin:10px 50px;
+  width:600px;
+}
+
+#step-one-container{
+  display:block;
+  width:300px;
+}
+
+#step-two-container{
+  display:none;
+}
+
+#signup-title{
+  border-top:1px dotted #CACACA;
+  border-bottom:1px dotted #CACACA;
+  padding:8px 0px;
+  font-size:18px;
+  margin-bottom:10px;
+}
+
+#fb-tip{
+  margin:5px 0px 3px;
+  line-height:17px;
+  color:#555;
+}
+
+.step-header{
+  font-weight:bold;
+  font-size:15px;
+  margin-bottom:10px;
+}
+
+.error-message{
+  margin-left:10px;
+}
+.signup-input-container{
+  margin-bottom:10px;
+  clear:both;
+}
+
+.signup-input{
+  width:200px !important;
+  border:1px solid #888 !important;
+}
+
+.invite-input{
+  width:200px !important;
+  margin-top:25px !important;
+  border:1px solid green !important;
+}
+
+.step-container{
+  margin:20px 0px 0px;
+}
+
+.step-content{
+  margin-left:20px;
+}
+
+#signup-submit{
+  position:relative;
+  left:170px;
+  top:5px;
+}

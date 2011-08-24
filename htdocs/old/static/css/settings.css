@@ -1,0 +1,60 @@
+#account-settings-form{
+  width:580px !important;
+}
+
+.tab-container{
+  min-height:0px;
+}
+
+.settings-item{
+  padding-top:20px;
+}
+
+.settings-input-container{
+  margin-bottom:3px;
+}
+
+.settings-item-name{
+  float:left;
+  text-align:right;
+  width:105px;
+  font-weight:bold;
+}
+
+.settings-item-content{
+  margin-left:120px;
+  margin-top:-2px;
+}
+
+#e-mail-notification-copy{
+  float:left;
+}
+
+#save-settings-container{
+  margin-top:20px;
+  padding:10px;
+  background-color:#EFEFEF;
+  width:460px;
+}
+
+#settings-header{
+  height:25px;
+  line-height:25px;  
+  margin-bottom:8px;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.profile-pic-container{
+  padding:2px;
+  border:1px solid #BABABA;
+  height:88px;
+  width:88px;
+  margin-right:55px;
+}
+
+#change-photo{
+  margin-top:5px;
+  float:right;
+  width:260px;
+}

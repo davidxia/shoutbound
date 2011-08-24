@@ -16,18 +16,28 @@ $this->load->view('templates/core_header', $header_args);
 <? $this->load->view('templates/content')?>
   
   <div>
-    <h2>Login</h2>
+    <h2 style="font-size:24px;">Login</h2>
     <? if(isset($invalid_login)):?>
       <div>
         invalid email or password
       </div>
     <? endif;?>
-    <form action="<?=site_url('login')?>" method="post">
-      <label for="email">Email</label>
-      <input type="text" id="email" name="email"/>
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password"/>
-      <input type="submit" name="login" value="Login"/>
+    <form id="login-form" action="<?=site_url('login')?>" method="post" style="margin-top:30px">
+      <div style="margin:10px 0;">
+        <label style="font-size:18px;" for="email">Email</label>
+      </div>
+      <div>
+        <input type="text" id="email" name="email" style="width:250px;"/>
+      </div>
+      <div style="margin:10px 0;">
+        <label style="font-size:18px;" for="password">Password</label>
+      </div>
+      <div>
+        <input type="password" id="password" name="password" style="width:250px;"/>
+      </div>
+      <div style="margin:10px 0;">
+        <input type="submit" name="login" value="Login" class="button"/>
+      </div>
     </form>
     
     <div><a href="<?=site_url('login/pw_reset')?>">Forgot your password?</a></div>

@@ -1,0 +1,48 @@
+Activity Types
+1. created trip
+2. posted on a trip
+3. followed a user
+4. followed a trip
+5. followed a place
+6. replied to a post
+7. liked a post
+8. followed by a user
+9. changed bio
+10. changed current location
+
+Parent Types
+1. place
+2. trip
+3. user
+4. post
+
+User-user relations
+These are from perspective of user A.
+user not logged in: $user = NULL; $is_self = FALSE; $is_following = FALSE;
+user A looking at his/her own profile: $is_self = TRUE; $is_following = FALSE;
+user A no relation with user B: $is_self = FALSE; $is_following = FALSE;
+user A following user B: $is_self = FALSE; $is_following = TRUE;
+
+User-trip relations
+rsvp/role	  0 = a nobody	5 = planner                                               10 = creator
+0	          no relation   not going, not following	                                X
+3	          follower      not going but following	                                  X
+6	          X             default: awaiting rsvp, get notifications as if following	X
+9           X             going                                                     default
+
+
+Settings and Email Notification Codes
+1	someone I follow creates a trip
+2	someone I follow makes a post
+3	someone follows me for the first time
+4	someone follows one of my trips for the first time
+6	I receive a comment on a post I made
+10	someone I follow changed current location
+11	someone posts on a trip for which I rsvpd yes
+12	I am invited to join a trip
+13	people rsvp to a trip to which I rsvpd yes
+
+Share Medium Codes
+1 = sendgrid + adding SB user to that trip
+2 = facebook message
+3 = twitter
