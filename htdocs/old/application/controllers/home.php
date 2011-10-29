@@ -44,6 +44,8 @@ class Home extends CI_Controller
         $data = array(
             'user' => $this->user,
         );
+        
+        //echo '<pre>';print_r($this->user); echo '</pre>';
                           
         $this->load->view('home/index', $data);
 		}

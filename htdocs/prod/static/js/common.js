@@ -24,14 +24,15 @@ $(function(){
   }
 
 
-  $('#carousel').bxSlider({
-    infiniteLoop: false,
-    hideControlOnEnd: true,
-    pager: true,
-    displaySlideQty: 3,
-    moveSlideQty: 3
-  });
-
+  if ($('#carousel').length>0){
+    $('#carousel').bxSlider({
+      infiniteLoop: false,
+      hideControlOnEnd: true,
+      pager: true,
+      displaySlideQty: 3,
+      moveSlideQty: 3
+    });
+  }
 
   $('.favorite, .unfavorite').live('click', function(){
     if (loggedin) {
