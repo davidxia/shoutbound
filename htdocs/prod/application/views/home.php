@@ -37,9 +37,9 @@ $this->load->view('templates/core_header', $header_args);
         </div>
         <div class="icon" style="background: url(http://s.shoutbound.com/images/sprites.png) no-repeat 0px -43px;display:inline-block;padding-left:28px;vertical-align:middle;height:21px">
           <? if(array_key_exists($article->id, $user->favorite_ids['articles'])):?>
-          <a href="#" class="unfavorite" id="article-<?=$article->id?>">Remove from wishlist</a>
+          <a href="#" class="unfavorite" id="article-<?=$article->id?>" style="color:#F93;font-weight:bold;">Remove from wishlist</a>
           <? else:?>
-          <a href="#" class="favorite" id="article-<?=$article->id?>">Add to wishlist</a>
+          <a href="#" class="favorite" id="article-<?=$article->id?>" style="color:#F93;font-weight:bold;">Add to wishlist</a>
           <? endif;?>
         </div>
       </div>

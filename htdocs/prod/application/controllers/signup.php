@@ -2,9 +2,9 @@
 
 class Signup extends CI_Controller
 {
-    
+
     private $user;
-    
+
     function __construct()
     {
         parent::__construct();
@@ -14,8 +14,8 @@ class Signup extends CI_Controller
         {
             $this->user = $u;
         }
-		}
-		
+    }
+
 
     public function index()
     {
@@ -30,7 +30,7 @@ class Signup extends CI_Controller
                 redirect('/');
             }
         }
-        
+
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
         {
             $this->load->view('signup/index');
@@ -39,21 +39,21 @@ class Signup extends CI_Controller
         {
             $email = $this->input->post('signup_email');
             $password = $this->input->post('signup_password');
-            
+
             if (!$email OR !$password)
             {
                 json_error('Please enter both e-mail and password.');
                 return;
             }
-            
+
             $pattern = '/^([a-z0-9])(([-a-z0-9._])*([a-z0-9]))*\@([a-z0-9])*(\.([a-z0-9])([-a-z0-9_-])([a-z0-9])+)*$/i';
-            
+
             if ( ! preg_match($pattern, $email))
             {
                 json_error('This is not a valid email.');
                 return;
             }
-            
+
             $user = new User_m();
             $params = array(
                 'email' => $email,
@@ -80,45 +80,46 @@ class Signup extends CI_Controller
             }
         }
     }
-    
-    
+
+
     public function step($n = 1)
     {
+        if (!$this->user) redirect('/');
         $this->user->get_email();
-        
+
         switch($n)
         {
-            case 1:
-                if ($this->user->onboarding_step != 1)
+        case 1:
+            if ($this->user->onboarding_step != 1)
+            {
+                redirect('/signup/step/'.$this->user->onboarding_step);
+            }
+            break;
+        case 2:
+            if ($_SERVER['REQUEST_METHOD'] != 'POST' AND $this->user->onboarding_step != $n)
+            {
+                redirect('/signup/step/'.$this->user->onboarding_step);
+            }
+            elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
+            {
+                if ($this->input->post('save'))
                 {
-                    redirect('/signup/step/'.$this->user->onboarding_step);
+                    $params = array(
+                        'first_name' => $this->input->post('first_name'),
+                        'last_name' => $this->input->post('last_name'),
+                        'gender' => $this->input->post('gender'),
+                        'income_range' => $this->input->post('income_range'),
+                        'bday' => $this->input->post('bday'),
+                    );
+                    $this->user->set_profile_info($params);
                 }
-                break;
-            case 2:
-                if ($_SERVER['REQUEST_METHOD'] != 'POST' AND $this->user->onboarding_step != $n)
-                {
-                    redirect('/signup/step/'.$this->user->onboarding_step);
-                }
-                elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
-                {
-                    if ($this->input->post('save'))
-                    {
-                        $params = array(
-                            'first_name' => $this->input->post('first_name'),
-                            'last_name' => $this->input->post('last_name'),
-                            'gender' => $this->input->post('gender'),
-                            'income_range' => $this->input->post('income_range'),
-                            'bday' => $this->input->post('bday'),
-                        );
-                        $this->user->set_profile_info($params);
-                    }
-                    
-                    $this->user->set_onboarding_step(2);
-                }
-                break;
-            default:
-                custom_404();
-                return;
+
+                $this->user->set_onboarding_step(2);
+            }
+            break;
+        default:
+            custom_404();
+            return;
         }
 
         $data = array(
@@ -126,8 +127,8 @@ class Signup extends CI_Controller
         );        
         $this->load->view('signup/step'.$n, $data);
     }
-    
-    
+
+
     public function finish()
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST' OR !$this->user->onboarding_step)
@@ -135,10 +136,10 @@ class Signup extends CI_Controller
             custom_404();
             return;
         }
-        
+
         $first_name = $this->input->post('first_name');
         $last_name = $this->input->post('last_name');
-        
+
         if ( !$this->user->first_name OR !$this->user->last_name)
         {
             $this->user->get_profile_info();
@@ -172,9 +173,9 @@ class Signup extends CI_Controller
             $this->sendgrid->compose_email($this->user, $first_name.' '.$last_name);
             $r = $this->sendgrid->send_email();
         }
-        
+
         $this->user->set_onboarding_step(0);
-        
+
         redirect('/');
     }
 }
